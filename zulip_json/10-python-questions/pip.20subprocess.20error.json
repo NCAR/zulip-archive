@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>I just got this error updating my conda environment. </p>\n<p>Pip subprocess error:<br>\n  Running command git clone -q <a href=\"https://github.com/NCAR/pop-tools.git\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools.git\">https://github.com/NCAR/pop-tools.git</a> /glade/scratch/mclong/tmp/pip-req-build-m_8ip_fb<br>\n  Running command git clone -q <a href=\"https://github.com/matt-long/xpersist.git\" target=\"_blank\" title=\"https://github.com/matt-long/xpersist.git\">https://github.com/matt-long/xpersist.git</a> /glade/scratch/mclong/tmp/pip-req-build-09r3i96y<br>\nERROR: Cannot uninstall 'llvmlite'. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.</p>\n<p>What should I do?</p>",
+        "id": 3075,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1584129167
+    },
+    {
+        "content": "<p>Do you have <code>numba</code> installed in that environment?</p>",
+        "id": 3078,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584129600
+    },
+    {
+        "content": "<p>and <code>llvmlite</code>?</p>",
+        "id": 3079,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584129615
+    },
+    {
+        "content": "<p>Were they installed via conda or pip?</p>",
+        "id": 3080,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584129624
+    },
+    {
+        "content": "<p>one more question <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>",
+        "id": 3081,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584129948
+    },
+    {
+        "content": "<p>How are you updating the conda environment???</p>\n<div class=\"codehilite\"><pre><span></span>conda update --all\n</pre></div>\n\n\n<p>or </p>\n<div class=\"codehilite\"><pre><span></span>conda env  update -f ENVIRONMENT_FILE.yaml\n</pre></div>",
+        "id": 3082,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584129992
+    },
+    {
+        "content": "<p>numba: yes<br>\nllvmlite: not explicitly</p>\n<p>I used </p>\n<div class=\"codehilite\"><pre><span></span>conda env update -f environment.yml\n</pre></div>\n\n\n<p>I just deleted the environment and will rebuild. Should I add anything else?</p>",
+        "id": 3090,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1584130864
+    },
+    {
+        "content": "<p>Okay.. <code>llmvite</code> comes with <code>numba</code>. I don't really know what is happening, but the only time I ran into this issue was when I tried installing numba from source (GitHub)</p>",
+        "id": 3094,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584131132
+    },
+    {
+        "content": "<p>blowing the environment away and recreating seems to have worked.</p>",
+        "id": 3095,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1584131163
+    },
+    {
+        "content": "<p>thanks for your help!</p>",
+        "id": 3096,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1584131185
+    },
+    {
+        "content": "<blockquote>\n<p>I just deleted the environment and will rebuild. Should I add anything else? </p>\n</blockquote>\n<p>I suspect that at some point in the past, the dependency graph in your environment got corrupted</p>",
+        "id": 3097,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584131189
+    }
+]

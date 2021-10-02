@@ -1,0 +1,45 @@
+<html>
+<head><meta charset="utf-8"><title>scatter plots · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plots.html">scatter plots</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="38925"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plots/near/38925" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plots.html#38925">(Aug 03 2021 at 23:17)</a>:</h4>
+<p>Probably a dumb question, but has anyone been able to easily control lines connecting points without having to restructure their plotting call.<br>
+e.g., <br>
+<code>ds['T'].plot()</code>  plots a line<br>
+<code>ds['T'].plot(marker='o')</code> plots markers connected by a line<br>
+but to get just markers you must use the scatter method<br>
+<code>ds.plot.scatter('time', 'T')</code><br>
+there's no <code>linestyle = 'none'</code> option to plot.</p>
+
+
+
+<a name="38926"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plots/near/38926" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plots.html#38926">(Aug 03 2021 at 23:22)</a>:</h4>
+<p><code>linestyle='none'</code> should work.</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="p">(</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">tutorial</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">"air_temperature"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">air</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"none"</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><a href="/user_uploads/2/a1/tGinhYzQms9SvceBCnQDiiGM/image.png">image.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/a1/tGinhYzQms9SvceBCnQDiiGM/image.png" title="image.png"><img src="/user_uploads/2/a1/tGinhYzQms9SvceBCnQDiiGM/image.png"></a></div>
+
+
+
+<a name="38927"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plots/near/38927" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plots.html#38927">(Aug 03 2021 at 23:28)</a>:</h4>
+<p>See, I said it was a dumb question. I swear I couldn't get it to work before <span aria-label="rolling eyes" class="emoji emoji-1f644" role="img" title="rolling eyes">:rolling_eyes:</span> Thanks!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

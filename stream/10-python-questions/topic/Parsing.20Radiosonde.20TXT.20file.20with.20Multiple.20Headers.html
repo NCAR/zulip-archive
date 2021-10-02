@@ -1,0 +1,166 @@
+<html>
+<head><meta charset="utf-8"><title>Parsing Radiosonde TXT file with Multiple Headers · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html">Parsing Radiosonde TXT file with Multiple Headers</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="27928"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/27928" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#27928">(Mar 29 2021 at 20:28)</a>:</h4>
+<p><a href="/user_uploads/2/de/RVdrv06WexNXz4Q-gXA8lBHK/Data.PNG" target="_blank" title="Data.PNG">Data.PNG</a> <a href="/user_uploads/2/29/5H5KHGdKe_vQp6ZO7YJmvbT8/Sample.PNG" target="_blank" title="Sample.PNG">Sample.PNG</a> <br>
+Hello everyone! I'm currently working to injest radiosonde data into a python dataframe, and while I've got my code working for a sub-sample of my radiosonde file, its time to try and apply my code to the full length file. I was wondering if anyone here knew how I could code up something which splits the data below each header into an array of arrays. I'm assuming I'll need to use some kind of regex parsing but I'm unfamiliar with the correct way to go about this. I've attached two images below. Data is an image of sample radiosonde data (Headers repeat a few times per txt file), and Sample is an image of what I want in terms of parsing. I want it to parse each header and the data below it into a List of Lists if that makes sense. How am I able to do this with multiple headers? Any guidance or help would be appreciated!</p>
+<div class="message_inline_image"><a href="/user_uploads/2/de/RVdrv06WexNXz4Q-gXA8lBHK/Data.PNG" target="_blank" title="Data.PNG"><img src="/user_uploads/2/de/RVdrv06WexNXz4Q-gXA8lBHK/Data.PNG"></a></div><div class="message_inline_image"><a href="/user_uploads/2/29/5H5KHGdKe_vQp6ZO7YJmvbT8/Sample.PNG" target="_blank" title="Sample.PNG"><img src="/user_uploads/2/29/5H5KHGdKe_vQp6ZO7YJmvbT8/Sample.PNG"></a></div>
+
+
+
+<a name="27943"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/27943" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#27943">(Mar 29 2021 at 22:13)</a>:</h4>
+<p><span class="user-mention" data-user-id="121">@Muntaha Pasha</span> , Could you share here a few (first 20 ) rows of the contents in <code>textData.txt</code>?</p>
+
+
+
+<a name="27945"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/27945" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#27945">(Mar 29 2021 at 22:30)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> Hey Anderson! textData.txt is just one header. I copy and pasted one header section from that data image I sent above. That's all it is. If you'd like to see the Radiosonde data though, I can resend it! <a href="/user_uploads/2/d/3on0bmXXe-Z6LI6bcm4vdBJs/Data.PNG" target="_blank" title="Data.PNG">Data.PNG</a><br>
+So text data is again, just the first 32 lines of this file ^ the first header and its contents, stopping right above the second header.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/d/3on0bmXXe-Z6LI6bcm4vdBJs/Data.PNG" target="_blank" title="Data.PNG"><img src="/user_uploads/2/d/3on0bmXXe-Z6LI6bcm4vdBJs/Data.PNG"></a></div>
+
+
+
+<a name="27998"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/27998" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#27998">(Mar 30 2021 at 17:04)</a>:</h4>
+<p>Could you actually paste the raw values (I can then copy and paste them locally without having to write them by hand <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span> ) or point me to the actual Radiosonde data text file?</p>
+
+
+
+<a name="28004"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28004" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28004">(Mar 30 2021 at 18:14)</a>:</h4>
+<p>Yes! I'll attach a link to the file here. I'll also modify my question a bit. In essence, I already know how to create a List of Lists using the file, but what I think I'm looking for is a way to create different list of lists everytime it reads a new header. So it will read Header 1, all the lines below it, and store it into a list of lists (line by line comma seperated as shown by the sample image above), but as soon as it hits the next header, it will store that information in a another list of lists (Can I create some kind of loop which automatically does this?)<br>
+Here is the link!<br>
+<a href="https://drive.google.com/file/d/1DCarav6CLCXV7MT7N4AolqeiNX1RFv9W/view?usp=sharing" target="_blank" title="https://drive.google.com/file/d/1DCarav6CLCXV7MT7N4AolqeiNX1RFv9W/view?usp=sharing">https://drive.google.com/file/d/1DCarav6CLCXV7MT7N4AolqeiNX1RFv9W/view?usp=sharing</a></p>
+
+
+
+<a name="28031"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28031" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28031">(Mar 30 2021 at 20:04)</a>:</h4>
+<p>Thank you for sending this over, <span class="user-mention" data-user-id="121">@Muntaha Pasha</span> ! What's the connection between the entries starting with <code>H</code> and the other entries?</p>
+<div class="codehilite"><pre><span></span><span class="p">[</span><span class="s1">&#39;H      5140261  72476  1   1  2.40  2 1962  3  3 2300  4    39.1200   251.4700   1474  3   36    3.1.0</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;   2   1000.0    140.0 -999.0 -999.0    260   10.3</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;   2    850.0   1475.0    2.5   55.4    280    6.2</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;   3    749.0 -99999.0   -7.2   32.7   -999 -999.0</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;   2    700.0   3002.0  -12.5   49.7    280   11.8</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+</pre></div>
+
+
+<p>I am noticing that they have different number of rows</p>
+
+
+
+<a name="28032"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28032" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28032">(Mar 30 2021 at 20:12)</a>:</h4>
+<p>So H is a Header, it shows what date the radiosonde was sent up in the atmosphere to collect data, elevation of the station, a bunch of things like version # and status, and other useful information that researches might need. Underneath the H is rows corresponding to measurements the radiosonde actually took that day. For instance, line 2 is..<br>
+2,  1000.0, 140.0, -999.0, -999.0, 260, 10.3<br>
+Not sure what the 2 variable stands for, but 1000.0 is pressure, 140.0 is altitude in meters, then temperature in deg C (in this case i guess its missing data because of -999.0, then it's another -999.0 corresponding to Relative Humidity, 260 is wind direction, and 10.3 is wind speed in m/s. <br>
+Each column below the header is the same format.<br>
+some variable, pressure, altitude, temperature, relative humidity, wind dir, wind spd, <br>
+and then the next header starts and the same thing repeats. Hope that helps!</p>
+
+
+
+<a name="28041"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28041" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28041">(Mar 30 2021 at 21:14)</a>:</h4>
+<p>Great.. </p>
+<blockquote>
+<p>So H is a Header, it shows what date the radiosonde was sent up in the atmosphere to collect data, elevation of the station, a bunch of things like version # and status, and other useful information that researches might need. </p>
+</blockquote>
+<p>How do you want to encode this header information in the resulting dataframe? One approach is to have 18 additional columns (which can be used to create a multi-index)</p>
+
+
+
+<a name="28043"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28043" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28043">(Mar 30 2021 at 21:17)</a>:</h4>
+<p>Could you send me the description for all 18 values in the header row?</p>
+<div class="codehilite"><pre><span></span><span class="p">[</span><span class="s1">&#39;H      5140261  72476  1   1  2.40  2 1962  3  3 2300  4    39.1200   251.4700   1474  3   36    3.1.0</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+</pre></div>
+
+
+
+<a name="28047"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28047" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28047">(Mar 30 2021 at 21:21)</a>:</h4>
+<p>So my idea is to only take certain parts of the header and use them. <br>
+Here's an image of my dataframe. <a href="/user_uploads/2/c0/6K9cmugIK_UOoYt0ZJDRO2yk/df.PNG" target="_blank" title="df.PNG">df.PNG</a> <br>
+I want it to repeat station ID, Year, Month, Day, Latitude, Longitude, and Elevation for as long as the record spans. Then the next header starts, and the year, month, day might be different, but it would need to repeat for however long that header section is.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/c0/6K9cmugIK_UOoYt0ZJDRO2yk/df.PNG" target="_blank" title="df.PNG"><img src="/user_uploads/2/c0/6K9cmugIK_UOoYt0ZJDRO2yk/df.PNG"></a></div><p><a href="https://rda.ucar.edu/datasets/ds370.1/docs/uadb-format-ascii.pdf" target="_blank" title="https://rda.ucar.edu/datasets/ds370.1/docs/uadb-format-ascii.pdf">https://rda.ucar.edu/datasets/ds370.1/docs/uadb-format-ascii.pdf</a></p>
+<p>Here's a link to reading the header information. Incase you want a quick guide though, heres an image of a header I already decoded. <br>
+<a href="/user_uploads/2/bd/sHg1oevXrXnQa5QfNyTF9SZ5/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/bd/sHg1oevXrXnQa5QfNyTF9SZ5/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/bd/sHg1oevXrXnQa5QfNyTF9SZ5/Capture.PNG"></a></div>
+
+
+
+<a name="28051"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28051" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28051">(Mar 30 2021 at 22:11)</a>:</h4>
+<p><span class="user-mention" data-user-id="121">@Muntaha Pasha</span>, here's what I came up with. It takes <code>~4min 30s</code> to parse the entire file and construct the final dataframe:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/tmp/uadb_trh_72476_GJ,CO.txt&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">file</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+<span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dtypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;unknown_column&#39;</span><span class="p">:</span> <span class="s1">&#39;int32&#39;</span><span class="p">,</span> <span class="s1">&#39;pressure&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="s1">&#39;altitude&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;relative_humidity&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="s1">&#39;wind_direction&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">,</span> <span class="s1">&#39;wind_speed&#39;</span><span class="p">:</span> <span class="s1">&#39;float32&#39;</span><span class="p">}</span>
+
+<span class="n">header_row_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;station_id&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;elevation&#39;</span><span class="p">]</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">entry</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="o">==</span> <span class="mi">18</span> <span class="ow">and</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">station_id</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">7</span><span class="p">])</span>
+        <span class="n">month</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">8</span><span class="p">])</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+        <span class="n">hour</span> <span class="o">=</span> <span class="n">entry</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+        <span class="c1">#time = f&quot;{year}-{month}-{day}T{hour}&quot;</span>
+        <span class="n">latitude</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">12</span><span class="p">])</span>
+        <span class="n">longitude</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">13</span><span class="p">])</span>
+        <span class="n">elevation</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">entry</span><span class="p">[</span><span class="mi">14</span><span class="p">])</span>
+        <span class="n">temp_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">dtypes</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtypes</span><span class="p">)</span>
+        <span class="n">header_df</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="n">station_id</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span>  <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">elevation</span><span class="p">]]</span><span class="o">*</span><span class="n">temp_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                  <span class="n">columns</span> <span class="o">=</span> <span class="n">header_row_cols</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">header_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_df</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+
+<p><a href="/user_uploads/2/f9/P939VJUqK06DxDsj3CW9adGj/Screen-Shot-2021-03-30-at-4.10.39-PM.png" target="_blank" title="Screen-Shot-2021-03-30-at-4.10.39-PM.png">Screen-Shot-2021-03-30-at-4.10.39-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/f9/P939VJUqK06DxDsj3CW9adGj/Screen-Shot-2021-03-30-at-4.10.39-PM.png" target="_blank" title="Screen-Shot-2021-03-30-at-4.10.39-PM.png"><img src="/user_uploads/2/f9/P939VJUqK06DxDsj3CW9adGj/Screen-Shot-2021-03-30-at-4.10.39-PM.png"></a></div>
+
+
+
+<a name="28055"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/28055" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#28055">(Mar 30 2021 at 22:25)</a>:</h4>
+<p>Hi Anderson, this looks great! :) I think I'll be able to take pieces of this code and add it to my function! Thanks for all your help, I really appreciate it.</p>
+
+
+
+<a name="29464"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Parsing%20Radiosonde%20TXT%20file%20with%20Multiple%20Headers/near/29464" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Parsing.20Radiosonde.20TXT.20file.20with.20Multiple.20Headers.html#29464">(Apr 13 2021 at 21:34)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> ! So I was testing your code and functions, which do the same thing as what I wrote, however, for some reason, it's not changing the date time even though you've allocated it to change with the header. Do you know why this is? The rest of the information does change but the header date/time stays the same throughout the record even though ideally it should change as well.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

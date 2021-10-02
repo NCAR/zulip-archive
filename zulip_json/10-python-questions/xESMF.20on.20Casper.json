@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Is anyone using xESMF successfully  on Casper? I have installed following the instruction on its website (<a href=\"https://xesmf.readthedocs.io/en/latest/installation.html\" target=\"_blank\" title=\"https://xesmf.readthedocs.io/en/latest/installation.html\">https://xesmf.readthedocs.io/en/latest/installation.html</a>), but I failed to load the package:</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>import xesmf as xe<br>\nModuleNotFoundError: No module named 'xesmf'</p>\n</blockquote>\n</blockquote>\n</blockquote>",
+        "id": 12242,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1592865580
+    },
+    {
+        "content": "<p>are you in the right environment? i.e. the one you installed xesmf in?</p>",
+        "id": 12244,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1592865858
+    },
+    {
+        "content": "<p>I generated a new environment and install it along with dash and netcdf4 as recommended in the website</p>",
+        "id": 12245,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1592865933
+    },
+    {
+        "content": "<p>but is your notebook \"in\" that environment?</p>",
+        "id": 12246,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1592866784
+    },
+    {
+        "content": "<p>I believe so. I also tried from the command line and didn't work from there too.</p>",
+        "id": 12247,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1592867239
+    },
+    {
+        "content": "<p>hmmm... i don;t know then. cc <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span></p>",
+        "id": 12248,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1592867474
+    },
+    {
+        "content": "<p>I just created a new environment again. I didn't specify python version before because I know the version is 3.7 (in the example on the website python version is specified as 3.7, ie., conda create -n xesmf_env python=3.7). With this specification the version of python bumped up to 3.7.6 from 3.7.3 and xESMF seems working (or at least I can load it).</p>",
+        "id": 12249,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1592867926
+    },
+    {
+        "content": "<blockquote>\n<p>Is anyone using xESMF successfully  on Casper? I have installed following the instruction on its website (<a href=\"https://xesmf.readthedocs.io/en/latest/installation.html\" target=\"_blank\" title=\"https://xesmf.readthedocs.io/en/latest/installation.html\">https://xesmf.readthedocs.io/en/latest/installation.html</a>), but I failed to load the package:</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>import xesmf as xe<br>\nModuleNotFoundError: No module named 'xesmf'</p>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n<p>Another way to diagnose this issue is to look at the path of the Python executable used within your kernel:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">sys</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">sys</span><span class=\"o\">.</span><span class=\"n\">executable</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 12253,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1592922086
+    }
+]

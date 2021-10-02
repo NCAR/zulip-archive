@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I am dealing with ocean data missing values, I have to replace missing values to some values, then I can compress them. Afterwards I have to convert them back to missing values after I decompress them. How do ocean scientists usually process missing values, using which masks or combination of mask values to process different level of data? For example, I am looking at /glade/p/cisl/asap/abaker/compression_samples/pop-lens/orig/b.e11.B20TRC5CNBDRD.f09_g16.030.pop.h.WVEL.192001-200512.nc, it has different count of missing values on different z_w_top level. How do scientists process them case by case?</p>",
+        "id": 22582,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1607357752
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"38\">@Haiying Xu</span> <code>z_w_top</code> is the dimension in the vertical direction; as it increases, we expect more missing values in <code>WVEL</code> because the variable value should be missing under the bottom of the ocean. E.g. if one cell is 50 m deep and another is 100 m deep, then the first cell will have missing values below the 5th level  and the second will have missing values below the 10th level (the first 15 levels are all 10 m thick)</p>",
+        "id": 22583,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607358553
+    },
+    {
+        "content": "<p>for variables on the t-grid (<code>TLAT</code> and <code>TLONG</code>), the variable <code>KMT</code> tells you how many levels have non-missing values. So <code>WVEL(i,j,k)</code> is a missing value if <code>k &gt; KMT(i,j)</code> [using fortran counting, i.e. the top level is <code>k=1</code>]</p>",
+        "id": 22584,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607358657
+    },
+    {
+        "content": "<p>variables on the u-grid (<code>ULAT</code> and <code>ULONG</code>), use the variable <code>KMU</code> instead</p>",
+        "id": 22585,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607358696
+    },
+    {
+        "content": "<p>note that <code>KMT(i,j) = 0</code> if <code>(i,j)</code> refers to a land cell so you don't need to have separate logic for land / ocean cells</p>",
+        "id": 22586,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607358719
+    },
+    {
+        "content": "<p>Great, thank you Michael for your explanation. So do scientists check on missing values directly such as \"if v == nan\" or not? If not, is it matter if the value is not nan?</p>",
+        "id": 22588,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1607360095
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Probably a dumb question, but has anyone been able to easily control lines connecting points without having to restructure their plotting call.<br>\ne.g., <br>\n<code>ds['T'].plot()</code>  plots a line<br>\n<code>ds['T'].plot(marker='o')</code> plots markers connected by a line<br>\nbut to get just markers you must use the scatter method<br>\n<code>ds.plot.scatter('time', 'T')</code><br>\nthere's no <code>linestyle = 'none'</code> option to plot.</p>",
+        "id": 38925,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1628032648
+    },
+    {
+        "content": "<p><code>linestyle='none'</code> should work.</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"p\">(</span>\n    <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">tutorial</span><span class=\"o\">.</span><span class=\"n\">load_dataset</span><span class=\"p\">(</span><span class=\"s2\">\"air_temperature\"</span><span class=\"p\">)</span>\n    <span class=\"o\">.</span><span class=\"n\">air</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">time</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">lat</span><span class=\"o\">=</span><span class=\"mi\">0</span><span class=\"p\">)</span>\n    <span class=\"o\">.</span><span class=\"n\">plot</span><span class=\"p\">(</span><span class=\"n\">marker</span><span class=\"o\">=</span><span class=\"s2\">\"o\"</span><span class=\"p\">,</span> <span class=\"n\">linestyle</span><span class=\"o\">=</span><span class=\"s2\">\"none\"</span><span class=\"p\">)</span>\n<span class=\"p\">)</span>\n</code></pre></div>\n<p><a href=\"/user_uploads/2/a1/tGinhYzQms9SvceBCnQDiiGM/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/a1/tGinhYzQms9SvceBCnQDiiGM/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/a1/tGinhYzQms9SvceBCnQDiiGM/image.png\"></a></div>",
+        "id": 38926,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628032921
+    },
+    {
+        "content": "<p>See, I said it was a dumb question. I swear I couldn't get it to work before <span aria-label=\"rolling eyes\" class=\"emoji emoji-1f644\" role=\"img\" title=\"rolling eyes\">:rolling_eyes:</span> Thanks!</p>",
+        "id": 38927,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1628033328
+    }
+]

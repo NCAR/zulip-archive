@@ -1,0 +1,82 @@
+<html>
+<head><meta charset="utf-8"><title>summing up fields in a xarray · general · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html">summing up fields in a xarray</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30563"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30563" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30563">(Apr 29 2021 at 20:29)</a>:</h4>
+<p>Is there a way to sum up fields within a single xarray? Like all the 3-d fields in this.  And I want to just add the fields without knowing their names</p>
+<p>&lt;xarray.Dataset&gt;<br>
+Dimensions:       (lat: 96, lon: 144, time: 324)<br>
+Coordinates:</p>
+<p>* lon           (lon) float32 0.0 2.5 5.0 7.5 10.0 ... 350.0 352.5 355.0 357.5<br>
+  * lat           (lat) float32 -90.0 -88.10526 -86.210526 ... 88.10526 90.0<br>
+  * time          (time) datetime64[ns] 1850-01-15 1850-02-15 ... 2100-12-15<br>
+Data variables:<br>
+    bb            (time, lat, lon) float32 ...<br>
+    anthro        (time, lat, lon) float32 ...<br>
+    date          (time) int32 ...<br>
+    gridbox_area  (lat, lon) float32 ...<br>
+    volcano       (time, lat, lon) float32 ..</p>
+
+
+
+<a name="30564"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30564" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30564">(Apr 29 2021 at 20:36)</a>:</h4>
+<p>here's a toy example</p>
+<div class="codehilite"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span>
+    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)),</span>
+    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)),</span>
+    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)),</span>
+<span class="p">})</span>
+
+<span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,)]</span>
+
+<span class="n">total</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">varnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">varnames</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">+=</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+</pre></div>
+
+
+
+<a name="30565"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30565" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30565">(Apr 29 2021 at 20:37)</a>:</h4>
+<p>in your case, <code>ds.data_vars</code> will include <code>gridbox_area</code>, so you want to filter out the variables that don't have the right dims</p>
+
+
+
+<a name="30566"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30566" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30566">(Apr 29 2021 at 20:44)</a>:</h4>
+<p>Looks like what I need.  Thanks!</p>
+
+
+
+<a name="30571"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30571" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30571">(Apr 29 2021 at 21:32)</a>:</h4>
+<p>If you get rid of <code>date</code> and <code>gridbox_area</code>, then <code>ds.to_array("variable").sum("variable")</code> will do what you want. It will stack all "data variables" into a new array along a new dimension named "variable". Then sum along the "variable" dimension</p>
+
+
+
+<a name="30584"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30584" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30584">(Apr 29 2021 at 21:55)</a>:</h4>
+<p>That's interesting approach, Deepak.  Not all files have those fields so it is a little bit of a mess and therefore querying has to happen, either to remove or to sum them.</p>
+
+
+
+<a name="30585"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/summing%20up%20fields%20in%20a%20xarray/near/30585" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/summing.20up.20fields.20in.20a.20xarray.html#30585">(Apr 29 2021 at 22:36)</a>:</h4>
+<p>you could combine the solutions:</p>
+<div class="codehilite"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,)]</span>
+<span class="n">ds</span><span class="p">[</span><span class="n">varnames</span><span class="p">]</span><span class="o">.</span><span class="n">to_array</span><span class="p">(</span><span class="s1">&#39;variable&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">&#39;variable&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

@@ -1,0 +1,35 @@
+<html>
+<head><meta charset="utf-8"><title>xarray DataSet dimensions · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20DataSet.20dimensions.html">xarray DataSet dimensions</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="41942"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20DataSet%20dimensions/near/41942" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20DataSet.20dimensions.html#41942">(Sep 07 2021 at 17:29)</a>:</h4>
+<p>Why are xarray Dataset dimensions not transposable?  xarray.Dataset.transpose changes the dimension order for each array, but not for the dataset itself. I don't see any way to re-order dataset dimensions, which is sometimes desirable.</p>
+
+
+
+<a name="41947"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20DataSet%20dimensions/near/41947" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20DataSet.20dimensions.html#41947">(Sep 07 2021 at 19:11)</a>:</h4>
+<p>The dimension order for a dataset is meaningless because the DataArrays in a Dataset can have a different dimension order.</p>
+<blockquote>
+<p>dataset dimensions, which is sometimes desirable.</p>
+</blockquote>
+<p>What are you trying to do?</p>
+
+
+
+<a name="41953"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20DataSet%20dimensions/near/41953" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20DataSet.20dimensions.html#41953">(Sep 07 2021 at 21:49)</a>:</h4>
+<p>Turns out that what I was trying can be accomplished using DataArray dimensions, but I still find it aesthetically unpleasing that when I transpose a Dataset to convert DataArray dimensions to have a certain order (Y,L,M,ncol), the Dataset dimensions won't necessarily reflect my preference (Y,L,ncol,M).</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

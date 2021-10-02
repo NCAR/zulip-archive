@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>Is anyone else having trouble accessing the CMIP6 catalog? Did the location move? Code that I had been successfully using to pull data from the catalog no longer works</p>\n<div class=\"codehilite\"><pre><span></span>catalog = intake.open_esm_datastore(&quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&quot;)\ncatalog.df.head()\n</pre></div>\n\n\n<p>Error message: <code>FileNotFoundError: [Errno 2] No such file or directory: 'glade-cmip6.csv.gz'</code></p>",
+        "id": 8681,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1589832385
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span></p>",
+        "id": 8682,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589832424
+    },
+    {
+        "content": "<p>I think I know what the issue is</p>",
+        "id": 8683,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589832428
+    },
+    {
+        "content": "<p>Do you know which version of intake-esm you are using?</p>",
+        "id": 8684,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589832448
+    },
+    {
+        "content": "<p>You can check it as follows:</p>\n<div class=\"codehilite\"><pre><span></span>$ conda list intake\n</pre></div>\n\n\n<p>or </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">intake_esm</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">intake_esm</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 8685,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589832491
+    },
+    {
+        "content": "<p>From <code>conda list intake</code>:</p>\n<div class=\"codehilite\"><pre><span></span># packages in environment at /ncar/usr/jupyterhub/envs/cmip6-201910a:\n#\n# Name                    Version                   Build  Channel\nintake                    0.5.3                      py_0    conda-forge\nintake-esm                2019.10.15               pypi_0    pypi\nintake-stac               0.2.0                      py_0    conda-forge\nintake-xarray             0.3.1                      py_0    conda-forge\n\nNote: you may need to restart the kernel to use updated packages.\n</pre></div>",
+        "id": 8686,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1589832557
+    },
+    {
+        "content": "<p>Thanks. </p>\n<p><code> intake-esm    2019.10.15 </code> is the culprit... Since you don't own <code> /ncar/usr/jupyterhub/envs/cmip6-201910a</code> environment, let me see if I can update this environment to use the last version of <code>intake-esm 2020.5.1</code></p>",
+        "id": 8687,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589832658
+    },
+    {
+        "content": "<p>It turns out that I don't have admin permissions for <code>cmip6-201910a</code> environment, but I do have admin permissions  for <code>cmip6-201910</code>. So, I updated the <code>cmip6-201910</code> environment instead of <code>cmip6-201910a</code>. </p>\n<div class=\"codehilite\"><pre><span></span>$ conda list intake\n<span class=\"c1\"># packages in environment at /ncar/usr/jupyterhub/envs/cmip6-201910:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\nintake                    <span class=\"m\">0</span>.5.5                      py_0    conda-forge\nintake-esm                <span class=\"m\">2020</span>.5.1                   py_0    conda-forge\n</pre></div>",
+        "id": 8689,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589833219
+    },
+    {
+        "content": "<p>You will need to refresh your browser's tab, and choose the <code>cmip6-201910</code> kernel instead of <code>cmip6-201910a</code></p>",
+        "id": 8690,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589833256
+    },
+    {
+        "content": "<p>Thanks! That seemed to do the trick! I'm not sure what the difference is between the <code>CMIP6 2019.10</code> and the <code>CMIP5 2019.10a</code> is, so I was just using the one that popped up.</p>",
+        "id": 8694,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1589833555
+    },
+    {
+        "content": "<blockquote>\n<p>I'm not sure what the difference is between the CMIP6 2019.10 and the CMIP6 2019.10a </p>\n</blockquote>\n<p>Both environments were created last year during CMIP6 Hackathon. At beginning of the hackathon <code>CMIP6 2019.10</code> was the only environment. At some point during the hackathon it was reported that some packages were missing from it. Instead of updating the <code>CMIP6 2019.10</code> environment,  a new environment <code>CMIP6 2019.10a</code> was created so as to not break other people's code.</p>",
+        "id": 8695,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589833852
+    },
+    {
+        "content": "<p>As of today, <strong>apart from package version differences</strong>, both environments contain almost same packages</p>",
+        "id": 8696,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1589833937
+    }
+]

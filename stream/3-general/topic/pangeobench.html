@@ -1,0 +1,67 @@
+<html>
+<head><meta charset="utf-8"><title>pangeobench · general · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html">pangeobench</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="5765"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/pangeobench/near/5765" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html#5765">(Apr 01 2020 at 23:00)</a>:</h4>
+<p>I have pangeobench, the first three line are: <br>
+#!/usr/bin/env python3</p>
+<p>import click</p>
+<p>from benchmarks.utils import Runner</p>
+<p>This cannot pass the isort test. After I removed the first line and the following bland line, it passed the isort test. How can I have the first line and still pass the isort test?</p>
+
+
+
+<a name="5767"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/pangeobench/near/5767" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html#5767">(Apr 01 2020 at 23:08)</a>:</h4>
+<p>This post should go in the <a class="stream" data-stream-id="17" href="/#narrow/stream/19-python-dev">#python-dev</a> Stream, not in <a class="stream" data-stream-id="3" href="/#narrow/stream/4-general">#general</a>.  </p>
+<p>As for the question you posed, if you are referring to the file here:</p>
+<p><a href="https://github.com/pangeo-data/benchmarking/blob/master/pangeobench" target="_blank" title="https://github.com/pangeo-data/benchmarking/blob/master/pangeobench">https://github.com/pangeo-data/benchmarking/blob/master/pangeobench</a></p>
+<p>Then it passes the isort test for me.  What is your isort configuration?</p>
+
+
+
+<a name="5770"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/pangeobench/near/5770" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html#5770">(Apr 02 2020 at 00:31)</a>:</h4>
+<p>But click is third party, benchmarks is belong to benchmarking package. So should be import click placed before from benchmarks?</p>
+<p>Here is isort configuration:<br>
+[isort]<br>
+known_first_party=benchmarking<br>
+known_third_party=dask,distributed,numpy,pandas,pkg_resources,setuptools,xarray<br>
+multi_line_output=3<br>
+include_trailing_comma=True<br>
+force_grid_wrap=0<br>
+combine_as_imports=True<br>
+line_length=100<br>
+skip=<br>
+    setup.py</p>
+
+
+
+<a name="5774"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/pangeobench/near/5774" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html#5774">(Apr 02 2020 at 12:51)</a>:</h4>
+<p>Yes. I’m sorry. After you reorder those lines and separate them by a blank line, it should pass isort.</p>
+
+
+
+<a name="5784"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/pangeobench/near/5784" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html#5784">(Apr 02 2020 at 16:39)</a>:</h4>
+<p>The order that I showed can pass isort from pre-commit-config, but it cannot pass the actions that I setup in main.yaml.</p>
+
+
+
+<a name="5785"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/pangeobench/near/5785" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/pangeobench.html#5785">(Apr 02 2020 at 16:40)</a>:</h4>
+<p>Let's move this to a private conversation...</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

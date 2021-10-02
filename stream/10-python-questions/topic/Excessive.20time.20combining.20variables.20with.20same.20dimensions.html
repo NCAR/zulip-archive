@@ -1,0 +1,65 @@
+<html>
+<head><meta charset="utf-8"><title>Excessive time combining variables with same dimensions · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Excessive.20time.20combining.20variables.20with.20same.20dimensions.html">Excessive time combining variables with same dimensions</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="42922"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Excessive%20time%20combining%20variables%20with%20same%20dimensions/near/42922" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Excessive.20time.20combining.20variables.20with.20same.20dimensions.html#42922">(Sep 16 2021 at 16:07)</a>:</h4>
+<p>This is more a question about if the problem is with me or if others have experienced this problem as well.</p>
+<p>Basically, in some combinations of versions of <code>intake</code>, <code>intake-esm</code>, and <code>xarray</code>, I run into problems when combining variables with all the same dimensions/coordinates. What it looks like it's doing is that it for some reason thinks that the coords aren't exactly identical and so starts broadcasting like crazy. Anyone run into this problem before and/or know if this is a known bug that has since been resolved?</p>
+<p>For example this problem occurs with</p>
+<div class="codehilite"><pre><span></span><code>intake                        0.5.5
+intake-esm              2020.3.16.2
+xarray                        0.16
+</code></pre></div>
+<p>but not</p>
+<div class="codehilite"><pre><span></span><code>intake                       0.6.3
+intake-esm             2021.8.17
+xarray                       0.19.0
+</code></pre></div>
+
+
+
+<a name="42923"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Excessive%20time%20combining%20variables%20with%20same%20dimensions/near/42923" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Excessive.20time.20combining.20variables.20with.20same.20dimensions.html#42923">(Sep 16 2021 at 16:08)</a>:</h4>
+<p>Here's a quick code snippet:</p>
+<div class="codehilite"><pre><span></span><code>import intake
+import xarray as xr
+
+cat_url = &quot;/space/hall4/sitestore/eccc/crd/CMIP6/final/canesm_final.json&quot;
+
+col = intake.open_esm_datastore(cat_url)
+
+query = dict(variable_id=[&#39;tas&#39;, &#39;pr&#39;, &#39;psl&#39;], table_id=&#39;Amon&#39;, source_id=&#39;CanESM5&#39;, experiment_id=&#39;historical&#39;, member_id=&#39;r1i1p2f1&#39;)
+cat = col.search(**query)
+dset_dict = cat.to_dataset_dict()
+</code></pre></div>
+
+
+
+<a name="42925"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Excessive%20time%20combining%20variables%20with%20same%20dimensions/near/42925" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Excessive.20time.20combining.20variables.20with.20same.20dimensions.html#42925">(Sep 16 2021 at 16:10)</a>:</h4>
+<p>Note: you can point <code>cat_url</code> to whatever your favorite CMIP6 catalogue is.</p>
+
+
+
+<a name="42936"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Excessive%20time%20combining%20variables%20with%20same%20dimensions/near/42936" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Excessive.20time.20combining.20variables.20with.20same.20dimensions.html#42936">(Sep 16 2021 at 16:42)</a>:</h4>
+<p>Not sure how to explain the version dependencies, but sometimes there are roundoff level differences in coordinates that can trip up the <code>xarray</code> combine.</p>
+
+
+
+<a name="42958"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Excessive%20time%20combining%20variables%20with%20same%20dimensions/near/42958" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Excessive.20time.20combining.20variables.20with.20same.20dimensions.html#42958">(Sep 16 2021 at 18:02)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span>  Thanks. I do suspect that you're right about that. If I use <code>preprocess</code> to overwrite the coordinates, it works as expected</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

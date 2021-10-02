@@ -1,0 +1,500 @@
+[
+    {
+        "content": "<p>@all I worked with @<strong>Anderson Banihirwe</strong> and @<strong>Michael Levy</strong> to put together an example of an interactive dashboard workflow as the first post. Looking forward to collaborating with more people throughout CGD/more generally NCAR to put relevant content together. <a href=\"https://ncar.github.io/esds/posts/Interactive_Dashboard/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/Interactive_Dashboard/\">https://ncar.github.io/esds/posts/Interactive_Dashboard/</a></p>",
+        "id": 27365,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616184651
+    },
+    {
+        "content": "<p>@all last week's discussion at the town hall has now been summarized/posted on the ESDS blog, removing names and condensing into more defined topics <a href=\"https://ncar.github.io/esds/posts/esds-blog/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/esds-blog/\">https://ncar.github.io/esds/posts/esds-blog/</a>. Be sure to take a look! Also, this a reminder that we will hold a work-in-progress meeting Monday afternoon, where there will be more open discussion/small presentations.</p>",
+        "id": 27735,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616793355
+    },
+    {
+        "content": "<p>Idea for a post based on a conversation with <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>: <br>\nWhat is the best approach for developing new functionality in a Python package (e.g., <code>pop-tools</code>) in the context of developing an application of that functionality?</p>",
+        "id": 28063,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617147097
+    },
+    {
+        "content": "<p>What do you mean?</p>",
+        "id": 28064,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1617150647
+    },
+    {
+        "content": "<p>Could you expand on this?</p>",
+        "id": 28067,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617203851
+    },
+    {
+        "content": "<p>I wasn't part of the conversation yesterday, but I have had similar conversations... say I want to add a feature to <code>pop-tools</code> to use in the high-res analysis tools. There are several possible ways to do this, but here are just two examples:</p>\n<ol>\n<li><code>pip install -e $LOCALDIR/pop-tools</code>, and try to develop directly in <code>pop-tools</code> PRO: when my feature is ready, it's already in the right place to submit a PR to add it to <code>pop-tools</code>; CON: it might takes weeks or months for the full process (develop feature, go through review process, have PR merged, get new release) during which time I'm stuck using an older version of <code>pop-tools</code>; also, it's a lot to ask of users who aren't familiar with the development process for the tool they want to improve</li>\n<li>In the high-res repo, create a <code>pop_tools_future</code> directory and develop directly there. Then, when the feature is complete, start the review / PR / release process in a separate sandbox. PRO: once feature is available in <code>pop-tools</code>, it's just a change from <code>pop_tools_future</code> to <code>pop_tools</code> in your call (and maybe commenting out the <code>import pop_tools_future</code> line). CON: it's pretty kludgy during the development stage; if the new feature depends on other (existing) <code>pop-tools</code> features it might not be as easy as copying directly into the <code>pop-tools</code> sandbox</li>\n</ol>",
+        "id": 28068,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1617204513
+    },
+    {
+        "content": "<p>But I think the main point is that python's modularity at the package level is a new paradigm for most of CGD. The idea that you could be developing an application that depends on a dozen independent (or intertwined) packages, and some of the features in your application are really improvements to those existing packages, is not something we've dealt with in the past and a blog post providing guidance would be very helpful.</p>",
+        "id": 28070,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1617204749
+    },
+    {
+        "content": "<p>(If that's not what <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> had in mind, then it's an idea for a different post :)</p>",
+        "id": 28071,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1617204796
+    },
+    {
+        "content": "<p>you got it</p>",
+        "id": 28074,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617204919
+    },
+    {
+        "content": "<p>Ok.  Thanks, <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, for the specification.  I was thinking in much more general terms, such as the actual creation of a <em>new package</em> for the purpose of performing a particular scientific analysis (i.e., for a paper).  If that is in any way part of the original intent of <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>'s post, then there are more philosophical and practical considerations that go beyond just how to contribute to an existing package.</p>",
+        "id": 28076,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1617205976
+    },
+    {
+        "content": "<p>...But, <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, the things you just wrote up would be great for a blog...but they could/should <em>also</em> be added to the <code>CONTRIBUTING.md</code> document of <code>pop-tools</code>, right?</p>",
+        "id": 28078,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1617206049
+    },
+    {
+        "content": "<blockquote>\n<p>...But, <span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span>, the things you just wrote up would be great for a blog...but they could/should <em>also</em> be added to the <code>CONTRIBUTING.md</code> document of <code>pop-tools</code>, right?</p>\n</blockquote>\n<p>I'm not sure if it belongs there or not -- from the <code>pop-tools</code> viewpoint, the only way a feature is added to <code>pop-tools</code> is via the fork / branch / PR route... but it doesn't really matter if the origin of the feature was done in situ or if it was originally a function in a notebook that eventually got copied into a branch on a fork and submitted as a PR. On the other hand, it could be useful information so potential developers know where to begin the process</p>",
+        "id": 28080,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1617206244
+    },
+    {
+        "content": "<p>Yeah.  That's a fair viewpoint.  Perhaps you could just include a simple link to the external blog post in the <code>CONTRIBUTING.md</code> document.  Anything that helps people get over the barrier to contributing is good.</p>",
+        "id": 28081,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1617206401
+    },
+    {
+        "content": "<p>Maybe something similar to this <a href=\"https://unidata.github.io/MetPy/latest/devel/CONTRIBUTING.html#setting-up-your-development-environment\" target=\"_blank\" title=\"https://unidata.github.io/MetPy/latest/devel/CONTRIBUTING.html#setting-up-your-development-environment\">https://unidata.github.io/MetPy/latest/devel/CONTRIBUTING.html#setting-up-your-development-environment</a><br>\nit explicitly states that at the end of that setup, you can use the functionality</p>",
+        "id": 28082,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617206467
+    },
+    {
+        "content": "<p>I think (1) is the way to go. </p>\n<blockquote>\n<p>takes weeks or months for the full process (develop feature, go through review process, have PR merged, get new release)</p>\n</blockquote>\n<p>we should fix this.</p>",
+        "id": 28083,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1617206766
+    },
+    {
+        "content": "<blockquote>\n<p>I think (1) is the way to go. </p>\n<blockquote>\n<p>takes weeks or months for the full process (develop feature, go through review process, have PR merged, get new release)</p>\n</blockquote>\n<p>we should fix this.</p>\n</blockquote>\n<p>I wasn't very clear about it, but in my experience the majority of that time is spent in the \"develop feature\" step so I don't think there is much we can do to help. (I'm thinking specifically of <a href=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis/tree/master/notebooks/utils\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis/tree/master/notebooks/utils\">https://github.com/marbl-ecosys/HiRes-CESM-analysis/tree/master/notebooks/utils</a>; on my to-do list for this week is to make a concrete list of features in that directory that actually belong elsewhere, and then I can give a more concrete example)</p>",
+        "id": 28086,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1617207673
+    },
+    {
+        "content": "<p>Yeah.  I think I agree with <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> on this.  At first, I wholeheartedly agreed with you, <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>.  This is anathema to agile developers and advocates of the continuous delivery (CD) paradigm.  </p>\n<p>However, after thinking about it a bit, I think there is a difference between the \"scientist first, then developer\" mode of work and the \"developer first, then scientist\" mode of work.  With the former I think the priority is the scientific result, and with the later the priority is the published software feature.  Unfortunately, the two priorities do not always align perfectly.  Prioritizing the scientific result can sometimes require pushing on many simultaneous features at once, leading to a new scientific result but not \"ready for release\" software features.  This is what I think <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> was implying.  On the other hand, prioritizing the development usually means pushing on individual features <em>one at a time</em> (in sequence, if working alone, or in parallel, if working as a team) and continually releasing along the way, but this can lead to significant delays in achieving the scientific result while you wait for all the required pieces to be put in place.  </p>\n<p>I'm not sure there is a \"fix\" to this.  In the early days of discussion on ESDS (before ESDS was a \"thing\"), <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and I talked about \"scientists first\" folks pushing toward the scientific result while \"developers first\" folks simultaneously focused on cleaning up, finishing, and releasing the proto-features that the scientists developed.  But I've come to see that this approach tends to be very inefficient and doesn't work well in practice.</p>",
+        "id": 28087,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1617207977
+    },
+    {
+        "content": "<p>Thanks for clarifying <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> .</p>\n<p><span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> I mostly agree that there is no \"fix\". I think the real fix is to write modular code rather than one giant function that does everything. That leaves open the possibility of sending it upstream, as well as reusing the function in many projects. Even if you don't have time for a PR you can always put it in an issue for someone else to use / modify. See here for example haha: <a href=\"https://github.com/NCAR/mom6-tools/issues/25\" target=\"_blank\" title=\"https://github.com/NCAR/mom6-tools/issues/25\">https://github.com/NCAR/mom6-tools/issues/25</a> . This function does exactly one thing and is quite useful <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>",
+        "id": 28092,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1617208957
+    },
+    {
+        "content": "<blockquote>\n<p>I think the real fix is to write modular code rather than one giant function that does everything. That leaves open the possibility of sending it upstream, as well as reusing the function in many projects.</p>\n</blockquote>\n<p>I agree 100%. I think the blog post that Matt requested to start this conversation would basically be focused on (a) writing modular code, and (b) moving that modular function to the proper repository when the author is happy with the results</p>",
+        "id": 28094,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1617209139
+    },
+    {
+        "content": "<p>This week's ESDS post is focused around the topic of software citation! Be sure to check it out <a href=\"https://ncar.github.io/esds/posts/software-citation/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/software-citation/\">https://ncar.github.io/esds/posts/software-citation/</a></p>",
+        "id": 28439,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617401632
+    },
+    {
+        "content": "<p>@all Here is a post detailing how to get started using Dask with PBSCluster on Casper through the new Jupyterhub which launches tomorrow <a href=\"https://ncar.github.io/esds/posts/casper_pbs_dask/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/casper_pbs_dask/\">https://ncar.github.io/esds/posts/casper_pbs_dask/</a></p>",
+        "id": 28787,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617751478
+    },
+    {
+        "content": "<p>nice work <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>!</p>",
+        "id": 28788,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617751507
+    },
+    {
+        "content": "<p>see also <a href=\"https://github.com/NCAR/ncar-jobqueue/issues/40\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue/issues/40\">https://github.com/NCAR/ncar-jobqueue/issues/40</a></p>",
+        "id": 28789,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617751569
+    },
+    {
+        "content": "<p>Interested in learning how to use intake-esm with dask? Check out the newest ESDS blog post! <a href=\"https://ncar.github.io/esds/posts/intake_esm_dask/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/intake_esm_dask/\">https://ncar.github.io/esds/posts/intake_esm_dask/</a></p>",
+        "id": 29252,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1618005301
+    },
+    {
+        "content": "<p>Does anyone recommend a blog or tutorial on how to create a reproducible workflow for a project (preferably for python-based workflows in the geosciences), e.g. what files/folders (at minimum) should be included in a github repo, how to create an environment.yml file, best practices, etc...</p>",
+        "id": 29497,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1618355843
+    },
+    {
+        "content": "<p>Here's a list:</p>\n<ol>\n<li><a href=\"https://github.com/jbusecke/cookiecutter-science-project\" target=\"_blank\" title=\"https://github.com/jbusecke/cookiecutter-science-project\">https://github.com/jbusecke/cookiecutter-science-project</a> has some docs</li>\n<li>There may be something useful here: <a href=\"https://the-turing-way.netlify.app/welcome.html\" target=\"_blank\" title=\"https://the-turing-way.netlify.app/welcome.html\">https://the-turing-way.netlify.app/welcome.html</a></li>\n</ol>",
+        "id": 29498,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1618356008
+    },
+    {
+        "content": "<blockquote>\n<p>Here's a list:</p>\n<ol>\n<li><a href=\"https://github.com/jbusecke/cookiecutter-science-project\" target=\"_blank\" title=\"https://github.com/jbusecke/cookiecutter-science-project\">https://github.com/jbusecke/cookiecutter-science-project</a> has some docs</li>\n<li>There may be something useful here: <a href=\"https://the-turing-way.netlify.app/welcome.html\" target=\"_blank\" title=\"https://the-turing-way.netlify.app/welcome.html\">https://the-turing-way.netlify.app/welcome.html</a></li>\n</ol>\n</blockquote>\n<p>This is perfect, thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> !</p>",
+        "id": 29499,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1618356739
+    },
+    {
+        "content": "<blockquote>\n<p>@_all Here is a post detailing how to get started using Dask with PBSCluster on Casper through the new Jupyterhub which launches tomorrow <a href=\"https://ncar.github.io/esds/posts/casper_pbs_dask/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/casper_pbs_dask/\">https://ncar.github.io/esds/posts/casper_pbs_dask/</a></p>\n</blockquote>\n<p>Interested in how one can use <code>ncar-jobqueue</code> to make this process even easier? Check out this walk through of the difference between <code>ncar-jobqueue</code> and <code>dask-jobqueue</code>, and how to use this in your workflow! <a href=\"https://ncar.github.io/esds/posts/ncar-jobqueue-example/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/ncar-jobqueue-example/\">https://ncar.github.io/esds/posts/ncar-jobqueue-example/</a> </p>\n<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> for the recent updates/all your work on <code>ncar-jobqueue</code>!</p>",
+        "id": 29788,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1618585133
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> and <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> for contributing to this blog post regarding indexing data on unstructured grids using Xoak <a href=\"https://ncar.github.io/esds/posts/multiple_index_xarray_xoak/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/multiple_index_xarray_xoak/\">https://ncar.github.io/esds/posts/multiple_index_xarray_xoak/</a></p>",
+        "id": 30204,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619211427
+    },
+    {
+        "content": "<p>This post isn't from our blog, but it still worth checking out! The team at Coiled put together a post detailing \"Distributed Data Science and Oceanography with Dask\" with a focus on observational data stored in the cloud! <a href=\"https://coiled.io/blog/distributed-data-science-and-oceanography-with-dask-2/\" target=\"_blank\" title=\"https://coiled.io/blog/distributed-data-science-and-oceanography-with-dask-2/\">https://coiled.io/blog/distributed-data-science-and-oceanography-with-dask-2/</a></p>",
+        "id": 30548,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619709717
+    },
+    {
+        "content": "<p>Interested in performing calculations in <code>xarray</code>, + <code>dask</code>, requiring operations within columns in a 3D field? Check out this post detailing how to use <code>xarray.map_blocks</code> <a href=\"https://ncar.github.io/esds/posts/map_blocks_example/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/map_blocks_example/\">https://ncar.github.io/esds/posts/map_blocks_example/</a></p>",
+        "id": 30712,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619812339
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> Per a conversation this morning, <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> suggested adding a case/example for interpolating POP2 variables unto density surfaces using <code>xgcm</code>'s <code>transform</code> function, maybe as an ESDS blog or a case for <code>pop-tools</code>? <br>\nHere is a simple case plotting O2 on the 26.5 density surface from an ensemble member from the CESM LE archive:  <a href=\"https://hub.gke2.mybinder.org/user/eddebbar-zulip_notebooks-etekfion/notebooks/O2_along_Isopycnals.ipynb\" target=\"_blank\" title=\"https://hub.gke2.mybinder.org/user/eddebbar-zulip_notebooks-etekfion/notebooks/O2_along_Isopycnals.ipynb\">https://hub.gke2.mybinder.org/user/eddebbar-zulip_notebooks-etekfion/notebooks/O2_along_Isopycnals.ipynb</a></p>",
+        "id": 30911,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1620163056
+    },
+    {
+        "content": "<p>Interested in paired programming? Visual Studio code has some helpful tools for collaborating and remotely accessing Casper/Cheyenne - here is a post detailing this process! <a href=\"https://ncar.github.io/esds/posts/paired_programming_vs/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/paired_programming_vs/\">https://ncar.github.io/esds/posts/paired_programming_vs/</a></p>",
+        "id": 31051,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1620653236
+    },
+    {
+        "content": "<p>Here is a detailed walkthough of debugging and finding a workaround for the issue that <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> brought up earlier this week while working with intake-esm <a href=\"https://ncar.github.io/esds/posts/intake_cmip6_debug/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/intake_cmip6_debug/\">https://ncar.github.io/esds/posts/intake_cmip6_debug/</a></p>",
+        "id": 31549,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1621024520
+    },
+    {
+        "content": "<p>We put together some thoughts on discussions from the <a href=\"https://summit.dask.org/\" target=\"_blank\" title=\"https://summit.dask.org/\">Dask Distributed Summit</a> - <a href=\"https://ncar.github.io/esds/posts/dask-summit-takeaway/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/dask-summit-takeaway/\">here is a blog post</a> detailing some of the key sessions, along with relevant links to the talks/slides! Also included is how we can tie this back to ESDS and NCAR as a whole.</p>",
+        "id": 33026,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1622236990
+    },
+    {
+        "content": "<blockquote>\n<p>We put together some thoughts on discussions from the <a href=\"https://summit.dask.org/\" target=\"_blank\" title=\"https://summit.dask.org/\">Dask Distributed Summit</a> - <a href=\"https://ncar.github.io/esds/posts/dask-summit-takeaway/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/dask-summit-takeaway/\">here is a blog post</a> detailing some of the key sessions, along with relevant links to the talks/slides! Also included is how we can tie this back to ESDS and NCAR as a whole.</p>\n</blockquote>\n<p>Thank you for putting together such a great summary!</p>",
+        "id": 33027,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1622237182
+    },
+    {
+        "content": "<p>Interested in creating intake-esm catalogs from CESM history files? Check out this week's ESDS blog post! While the package has not been released yet, we hope this is helpful to those working with CESM data! <a href=\"https://ncar.github.io/esds/posts/ecgtools-history-files-example/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/ecgtools-history-files-example/\">https://ncar.github.io/esds/posts/ecgtools-history-files-example/</a></p>",
+        "id": 33517,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1622839986
+    },
+    {
+        "content": "<p>Ever wanted to visualize items in data catalog? Check out this post detailing how to use the graphviz library and intake-esm to visualize assets within your catalog (using CESM-LE data as an example)! <a href=\"https://ncar.github.io/esds/posts/graphviz_example/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/graphviz_example/\">https://ncar.github.io/esds/posts/graphviz_example/</a></p>",
+        "id": 34268,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1623448210
+    },
+    {
+        "content": "<p>During the CESM workshop this week, at the Software Engineering Working Group meeting, we had a discussion about diagnostics  related to CESM! I put together a blog post summarizing discussions, as well as a word cloud from all the notes from the small group discussions. Check it out! <a href=\"https://ncar.github.io/esds/posts/cesm-workshop-2021-diagnostics/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/cesm-workshop-2021-diagnostics/\">https://ncar.github.io/esds/posts/cesm-workshop-2021-diagnostics/</a><br>\n<a href=\"/user_uploads/2/8/-dsrP0Ipb4znI5bEWQego6Qv/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/8/-dsrP0Ipb4znI5bEWQego6Qv/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/8/-dsrP0Ipb4znI5bEWQego6Qv/pasted_image.png\"></a></div>",
+        "id": 34904,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624025563
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>  Thanks for the blog on creating intake-esm catalogs from CESM history files. I tried it out on a development run. It worked, but I had to move the parsing_func argument to the b.build() call. Is that correct?</p>",
+        "id": 35019,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624286844
+    },
+    {
+        "content": "<p>Yes! We recentuly updated the API, and included these changes within <a href=\"https://ecgtools.readthedocs.io/en/latest/\" target=\"_blank\" title=\"https://ecgtools.readthedocs.io/en/latest/\">the ecgtools documentation</a> and the  <a href=\"https://ncar.github.io/esds/posts/ecgtools-history-files-example/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/ecgtools-history-files-example/\">ESDS ecgtools blog post</a>.. thanks for pointing this out!</p>",
+        "id": 35020,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624287106
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , Looking at the documentation, I think you are using \"history file\" to mean what typically we would put into the h0 history files which hold a single monthly mean. However, history files are not limited to holding one time and most of the other history files (h1, h2, ...) contain multiple time entries.</p>",
+        "id": 35080,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624300929
+    },
+    {
+        "content": "<p>So the defnition of \"history\" in this case is a file with several variables at a single time slice; whereas timeseries files are a single variable with multiple time entries. Is there a case where history files (time slice) coming out of the model has mutliple time steps?</p>",
+        "id": 35083,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624301114
+    },
+    {
+        "content": "<p>History files (at least for the atmosphere) <em>typically</em> contain both multiple variables and time entries. History output here is what is specified in the fincl1, fincl2, ... entries in the namelist. The h0s are the odd case in which it is chosen to have one time entry. The script that creates timeseries pulls apart by variable and concatenates the various history files. For example if the U, V, &amp; T fields are put out on a daily basis they may be found in one of history file outputs (h1, h2, etc.) that might each have 30 time steps.</p>",
+        "id": 35085,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624301487
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> if you'd like to see an example of what <span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span> is referring to,  you can look at this file<br>\n/glade/work/cmip6/cases/DECK/b.e21.BHIST.f09_g17.CMIP6-historical.011/user_nl_cam<br>\nAt the top, nhtfrq indicates the time frequency of the the writes for each stream and mfilt indicates how many slices should be in each file for each stream.  All of it is configurable and can change based on what the user would like.</p>",
+        "id": 35086,
+        "sender_full_name": "Sheri Mickelson",
+        "timestamp": 1624302015
+    },
+    {
+        "content": "<p>Ahh okay - I will take a look at this use case... what would be a better way of differentiating between timeseries and history files?</p>",
+        "id": 35087,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624302074
+    },
+    {
+        "content": "<p>Ideally the code that creates a catalog and intake-esm would not care if a file had more than one variable or more than one time step. Is that possible? To me, a timeseries file is just a history file that has just one field in it.</p>",
+        "id": 35089,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624302344
+    },
+    {
+        "content": "<blockquote>\n<p>Ideally the code that creates a catalog and intake-esm would not care if a file had more than one variable or more than one time step. Is that possible?</p>\n</blockquote>\n<p>The short answer is yes <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>. As long as the catalog records the \"variable\" column appropriately, everything should work fine i.e. for files with more than one variables, the \"variable\" column should contain rows with a list of variables. For \"time-series\" files, this column should contain rows with single entry (string) referring to the variable in the \"time-series\" file.</p>",
+        "id": 35091,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624303016
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span> coming back to this... would it better to state that \"timeseries\" files have a single variable for a series of times, whereas history files contain multiple variables in a single file and could have either a single time step or multiple, depending on the stream?</p>",
+        "id": 35182,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624370708
+    },
+    {
+        "content": "<p>Perhaps someone who creates the timeseries files can comment, but it seems to me that timeseries files are a subset of history files. I could easily specify a history file with one variable and 100's of time entries using the CAM namelist - I think that would be the equivalent of timeseries file.</p>",
+        "id": 35224,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624381679
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span>:  Yes.  That would be the equivalent of a timeseries.  I didn't realize that the CAM namelist gave you that option.  However, that would mean only outputting 1 variable, right?  There is no option to generate multiple timeseries files directly from CAM, right?</p>",
+        "id": 35241,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1624384860
+    },
+    {
+        "content": "<blockquote>\n<p>However, that would mean only outputting 1 variable, right?  There is no option to generate multiple timeseries files directly from CAM, right?</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> I can't speak for CAM directly, but most of the CESM components have a hard limit on the number of streams a user can write. Raising the cap would require source mods (or possibly just updating a namelist variable in some cases). E.g. POP has a Fortran parameter named <code>max_avail_tavg_streams</code> that is 9 by default</p>",
+        "id": 35243,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1624385171
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>:  I see.  Thanks for the clarification.</p>",
+        "id": 35244,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1624385211
+    },
+    {
+        "content": "<p>Unfortunately, the number of history files is limited (about a dozen, I think) so it's not practical create all the timeseries this way.  Mainly it was a terminology point - history vs timeseries (latter being a special case of the former).</p>",
+        "id": 35245,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624385246
+    },
+    {
+        "content": "<p>In this week's <a href=\"https://ncar.github.io/esds/posts/model_documentation_jupyterbook/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/model_documentation_jupyterbook/\">ESDS blog post</a> , we look into using a Jupyterbook for documenting CESM model output. This builds a bit off of the past few posts, and provides an example of where Jupyterbooks can be helpful for documentation and sharing your work with others!</p>\n<p><a href=\"https://ncar.github.io/esds/posts/model_documentation_jupyterbook/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/model_documentation_jupyterbook/\">Blog Post</a></p>",
+        "id": 35719,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624653548
+    },
+    {
+        "content": "<p>With the merge of the ESDS and Xdev blogs, all of the previous links to the Xdev blog are broken. Is there a way to make these addresses automatically forward to the new page location? I am getting lots of concerned messages from tutorial seminar series participants about it.</p>",
+        "id": 35973,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1625001326
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"12\">@Julia Kent</span> where are the links located? Is through email or github repos?</p>",
+        "id": 35974,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1625001979
+    },
+    {
+        "content": "<p>Could you send an email to everyone on the list stating that the previous tutorial content can be found here?<br>\n<a href=\"https://ncar.github.io/esds/blog/tag/python-tutorial-series/\" target=\"_blank\" title=\"https://ncar.github.io/esds/blog/tag/python-tutorial-series/\">https://ncar.github.io/esds/blog/tag/python-tutorial-series/</a></p>",
+        "id": 35975,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1625002085
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"12\">@Julia Kent</span>,</p>\n<blockquote>\n<p>all of the previous links to the Xdev blog are broken. Is there a way to make these addresses automatically forward to the new page location?</p>\n</blockquote>\n<p>I set up the redirect for the top-level domain. I thought this was enough at the time. I am going to set up redirects for individual posts shortly</p>",
+        "id": 35979,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1625002715
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"12\">@Julia Kent</span>, could you try those (old) links that were broken when you get a moment? They should redirect you to the corresponding links on ESDS blog... Let me know if I missed any link</p>",
+        "id": 35985,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1625003848
+    },
+    {
+        "content": "<p>The links are from past emails, so I can't edit them. Sending a group email is a good idea! Thanks <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span></p>",
+        "id": 35993,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1625011372
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> It works now! Thanks for doing that. I also sent out an email.</p>",
+        "id": 35994,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1625011608
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>!</p>",
+        "id": 35995,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1625012468
+    },
+    {
+        "content": "<p>Hi All! I had an opportunity to attend a \"Scaling Python with Dask\" class this week and put together a blog post detailing some of the main takeways + information helpful to the NCAR community! Feel free to check it out, and reach out if you have any questions</p>\n<p><a href=\"https://ncar.github.io/esds/posts/scaling-with-dask-class-takeaways/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/scaling-with-dask-class-takeaways/\">https://ncar.github.io/esds/posts/scaling-with-dask-class-takeaways/</a></p>",
+        "id": 36351,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1625261657
+    },
+    {
+        "content": "<p>Happy Friday All!</p>\n<p>This week, we have two ESDS blog posts, including one detailing the main takeaways from the Scientific Python (SciPy) conference, and the other a detailed overview of the Project Pythia Portal, which is a fantastic resource for getting started with Python, especially within the geosciences.</p>\n<p>Be sure to check out these posts!</p>\n<p>Blog Post Links</p>\n<p><a href=\"https://ncar.github.io/esds/posts/scipy-2021-takeaways/\">SciPy Conference 2021 Takeaways</a></p>\n<p><a href=\"https://ncar.github.io/esds/posts/project-pythia-overview/\">Project Pythia Portal Overview</a></p>\n<p>Also, as a reminder, Xdev will be hosting virtual office hours on Monday from 3-5 PM - details can be found on the <a href=\"https://ncar.github.io/esds/calendar/\">ESDS calendar page</a>.</p>",
+        "id": 38634,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1627665348
+    },
+    {
+        "content": "<p>Interested in using the CESM2-Large Ensemble? Check out the latest <a href=\"https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/\">ESDS blog post</a> detailing how to access that dataset on GLADE using intake-esm</p>",
+        "id": 39332,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628287549
+    },
+    {
+        "content": "<p>Hi All! Happy Friday! I put together a post using data provided by <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> , using interactive visualization libraries in Python to plot CESM data on an unstructured grid. Check it out! <a href=\"https://ncar.github.io/esds/posts/cesm-datashader/\">https://ncar.github.io/esds/posts/cesm-datashader/</a></p>",
+        "id": 39815,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628891541
+    },
+    {
+        "content": "<p>This week's ESDS blog post details how to use various Python tools to plot interactive CESM diagnostic plots. We walk through everything from data access, setting up your plot, to putting together the final multi-panel visualizations. </p>\n<p><a href=\"https://ncar.github.io/esds/posts/2021/intake-esm-holoviews-diagnostics/\">https://ncar.github.io/esds/posts/2021/intake-esm-holoviews-diagnostics/</a></p>\n<p>Have a great weekend!</p>",
+        "id": 40358,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629498611
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"134\">Max Grover</span> <a href=\"#narrow/stream/41-ESDS/topic/Blog.20Posts/near/39332\">said</a>:</p>\n<blockquote>\n<p>Interested in using the CESM2-Large Ensemble? Check out the latest <a href=\"https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/\">ESDS blog post</a> detailing how to access that dataset on GLADE using intake-esm</p>\n</blockquote>\n<p>I have been following this example and am finding today that at the \"import dask\" and getting a cluster going the notebook is just hanging. Any suggestions here? I've been waiting about 15 minutes and have tried restarting before that.</p>",
+        "id": 40722,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629817607
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> what machine are you on? I'm having trouble running <code>qsub</code> from the command line on casper so I wonder if there's a PBS issue? I'm going to submit a ticket to CISL.</p>\n<p>Has anyone else been able to launch a job on casper this morning?</p>",
+        "id": 40724,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1629817889
+    },
+    {
+        "content": "<p>It looks like even accessing a compute node is slow this morning... looks like someone is running a large job using NCL which is using quite a few resources</p>",
+        "id": 40725,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629817903
+    },
+    {
+        "content": "<p>The queue is pretty full.. there are quite a few more jobs lined up. Dask is interfacing with the compute nodes, so if there are not any resources available, it won't spin up... one option is to use the <code>LocalCluster</code>, but that might have limited resources depending on what you requested when accessing the JupyterHub or if you are on the login node</p>",
+        "id": 40726,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629818029
+    },
+    {
+        "content": "<p>I can't get a get a casper job started on jupyterhub this morning .. just keeps timing out</p>",
+        "id": 40727,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1629818078
+    },
+    {
+        "content": "<p>I was finally able to get <code>qsub</code> to run, but it took a while. I think Max is right about resources on the log-in nodes being in short supply (and the cluster being in heavy use would also add to the wait times)... I don't think it makes sense to ask CISL-help about it, so I'm not going to email them just yet</p>",
+        "id": 40729,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1629818221
+    },
+    {
+        "content": "<p>I am on casper also.</p>",
+        "id": 40730,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629818517
+    },
+    {
+        "content": "<p>CISL is aware of the problem</p>",
+        "id": 40732,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629819300
+    },
+    {
+        "content": "<p>Thanks! So just hold on? My notebook is still just hanging. Should I stop it and restart my  kernel or just restart the whole session?</p>",
+        "id": 40734,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629819972
+    },
+    {
+        "content": "<p>If you restart the whole session you might not be able to get back in... I would wait... I'd imagine they will send out a notification once this issue is resolved.</p>",
+        "id": 40735,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629820322
+    },
+    {
+        "content": "<p>Not sure if you all saw, but the system is back to normal</p>",
+        "id": 40792,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629830607
+    },
+    {
+        "content": "<p>Interested in creating a data catalog from observational datasets already on GLADE? Check out this week's blog post walking through building a catalog from the AMWG diagnostic package observational datasets, comparing against the CESM2-Large Ensemble!</p>\n<p><a href=\"https://ncar.github.io/esds/posts/2021/intake-obs-cesm2le-comparison/\">https://ncar.github.io/esds/posts/2021/intake-obs-cesm2le-comparison/</a></p>",
+        "id": 41309,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1630102746
+    },
+    {
+        "content": "<p>Happy Friday!</p>\n<p>In this week's <a href=\"https://ncar.github.io/esds/posts/2021/jupyter-based-diagnostics-overview/\">ESDS blog post</a>, we detail how to build a model diagnostics package using the Jupyter ecosystem! This workflow produces <a href=\"https://marbl-ecosys.github.io/marbl-bgc-diagnostics/intro.html\">an interactive webpage</a> which can be shared with others, parametrizable via a configuration file which allows the flexibility to use on a variety of use cases.</p>\n<p>Check it out using <a href=\"https://ncar.github.io/esds/posts/2021/jupyter-based-diagnostics-overview/\">this link</a>!</p>",
+        "id": 43559,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1632514554
+    },
+    {
+        "content": "<p>Happy Friday!</p>\n<p>Interested in what progress has been made related to ESDS over the past few months? We put together a blog post detailing some key highlights, including Work in Progress Talks, Xdev Office Hour statistics, and links to various Python tutorial sessions which have been taught so far!</p>\n<p>This is definitely worth a read <span aria-label=\"grinning face with smiling eyes\" class=\"emoji emoji-1f601\" role=\"img\" title=\"grinning face with smiling eyes\">:grinning_face_with_smiling_eyes:</span></p>\n<p><a href=\"https://ncar.github.io/esds/posts/2021/esds-update-september-2021/\">Link to the post</a></p>",
+        "id": 44087,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1633090670
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>, thanks for putting this together, it's really great to see!</p>",
+        "id": 44088,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1633090877
+    }
+]

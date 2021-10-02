@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>I just figured out that one can write a single variable with Xarray to an existing netCDF file and not have to write the whole dataset. This is much much faster! Maybe you gurus knew this already, but I found DataArray.to_netcdf. This works as follows:</p>\n<p>ds = open_dataset('<a href=\"http://file.nc\" target=\"_blank\" title=\"http://file.nc\">file.nc</a>')</p>\n<p>... some operation on a variable like time ...</p>\n<p>ds['time'].to_netcdf('file.nc',mode='a')</p>\n<p>You need the mode='a' to make sure you only replace the existing variable on the file and leave the rest of the data intact.</p>",
+        "id": 36015,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1625072692
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/4e/rIBoqGX7eI3AQqsVqTpGrOmy/timeaxis.py\" target=\"_blank\" title=\"timeaxis.py\">timeaxis.py</a></p>",
+        "id": 36016,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1625072930
+    },
+    {
+        "content": "<p>Basically I am resetting the time axis to days since 2035-01-01 00:00:00.</p>",
+        "id": 36017,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1625072995
+    },
+    {
+        "content": "<p>Nice! The <code>append</code> mode isn't described in the docs: <a href=\"https://xarray.pydata.org/en/stable/user-guide/io.html#writing-encoded-data\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/user-guide/io.html#writing-encoded-data\">https://xarray.pydata.org/en/stable/user-guide/io.html#writing-encoded-data</a> so that would be a nice contribution. Could highlight this trick in there</p>",
+        "id": 36018,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625073037
+    },
+    {
+        "content": "<p>It is described under Dataset.to_netcdf.</p>",
+        "id": 36020,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1625073114
+    },
+    {
+        "content": "<p>More on this. I am finding that sometimes this operation is very slow. When the time axis and time bounds axis are \"small\" it goes quickly. However, when there are 30 (or 30x2) slices in time (time_bounds), then it is much slower. <span class=\"user-mention\" data-user-id=\"37\">@Sheri Mickelson</span> mentioned that sometimes for an xarray netcdf write operation, that dask is actually operational behind the scenes. I read some stuff online about changing the chunking and so forth. There was some online discussion here.</p>\n<p><a href=\"https://github.com/pydata/xarray/issues/2912\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2912\">https://github.com/pydata/xarray/issues/2912</a></p>\n<p>Has anyone had experience with to_netcdf performance? I am just writing a modified time axis to the file.</p>",
+        "id": 37982,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1626728828
+    },
+    {
+        "content": "<p>This discussion suggests trying <code>.load().to_netcdf(...)</code>.  </p>\n<p><a href=\"https://github.com/pydata/xarray/issues/2912\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2912\">https://github.com/pydata/xarray/issues/2912</a></p>",
+        "id": 37984,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1626729460
+    },
+    {
+        "content": "<p>Hmm.. if you're only writing time is <code>ds[[\"time\"]].to_netcdf(..., mode=\"a\")</code> faster?</p>",
+        "id": 37985,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1626729536
+    },
+    {
+        "content": "<p>If time points are added or deleted, that will take some computation.</p>",
+        "id": 37986,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1626729605
+    },
+    {
+        "content": "<p>Interesting. What does the extra set of square brackets do? This is much faster!</p>",
+        "id": 38705,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1627913787
+    }
+]

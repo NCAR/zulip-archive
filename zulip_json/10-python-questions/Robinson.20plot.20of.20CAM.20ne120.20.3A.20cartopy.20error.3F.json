@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I am using matplotlib to plot CAM ne120 data. This CAM grid is unstructured, so surface temperature (TS) and lat/lon all have dimensions (ncol: 777602). The tricontourf method works fine for cartopy's crs.PlateCaree() projection, but has a problem with crs.Robinson (see below).  I don't know if it's a cyclic point issue, but add_cyclic_point from cartopy.util chokes on ne120 data.  Any ideas how to fix this?</p>\n<p><a href=\"/user_uploads/2/6b/tc4b37bRqKVGc_AESSGG7Vqt/Screen-Shot-2021-08-06-at-5.24.14-PM.png\">Screen-Shot-2021-08-06-at-5.24.14-PM.png</a> <a href=\"/user_uploads/2/d5/mIG-EFu3dftZN2x5z4W_8poH/Screen-Shot-2021-08-06-at-5.24.33-PM.png\">Screen-Shot-2021-08-06-at-5.24.33-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/6b/tc4b37bRqKVGc_AESSGG7Vqt/Screen-Shot-2021-08-06-at-5.24.14-PM.png\" title=\"Screen-Shot-2021-08-06-at-5.24.14-PM.png\"><img src=\"/user_uploads/2/6b/tc4b37bRqKVGc_AESSGG7Vqt/Screen-Shot-2021-08-06-at-5.24.14-PM.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/d5/mIG-EFu3dftZN2x5z4W_8poH/Screen-Shot-2021-08-06-at-5.24.33-PM.png\" title=\"Screen-Shot-2021-08-06-at-5.24.33-PM.png\"><img src=\"/user_uploads/2/d5/mIG-EFu3dftZN2x5z4W_8poH/Screen-Shot-2021-08-06-at-5.24.33-PM.png\"></a></div>",
+        "id": 39333,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628292460
+    },
+    {
+        "content": "<p>Is it an issue with the number of points or in general? I was able to get crs.Robinson to work with the tripcolor method on 48600 points. See last plot here: /glade/u/home/marsh/demo/se_plot.ipynb<br>\nIt is slow - can't imagine how much slower it will get with 777K points.</p>",
+        "id": 39335,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1628345137
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> could you share the path to that notebook?</p>",
+        "id": 39360,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628527283
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>  Here's a short, simple notebook that illustrates the issue by comparing global contour maps for 3 different CAM grids:<br>\n/glade/u/home/yeager/analysis/python/Robinson.ipynb</p>\n<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span> Thanks for the pointer to your notebook. Mine computes a Triangulation object via the tricontourf method and doesn't take long at all for NE120 (see above notebook). But the result is flawed...</p>",
+        "id": 39362,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628528359
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>  If I understand your code, it's having to calculate a triangulation on each call to tricontourf(), whereas I do it once ahead of calling tripcolor().  So you'd think my code might be faster in the end.</p>",
+        "id": 39367,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1628530273
+    },
+    {
+        "content": "<p>I added a cell to my notebook that uses tripcolor() instead of tricontourf(). It takes much longer (~11 minutes as opposed to ~8s), but it does generate a reasonable-looking Robinson plot.</p>",
+        "id": 39370,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628531924
+    }
+]

@@ -1,0 +1,92 @@
+<html>
+<head><meta charset="utf-8"><title>How to contribute to geocat-comp · python-dev · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html">How to contribute to geocat-comp</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="6438"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6438" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6438">(Apr 10 2020 at 20:42)</a>:</h4>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span>   I'm interested in adding python code that mimics the NCL functions <code>month_to_season()</code> and <code>getind_latlon2d()</code>.   I have some questions about how to do this.   Do I put these functions in separate python source files (one function per file), or a single file?   What should these files be called?   How much in the way of unit tests are you looking for, and do these go in a single file, or separate files for each function?</p>
+
+
+
+<a name="6439"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6439" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6439">(Apr 10 2020 at 20:46)</a>:</h4>
+<p>Are there perhaps unit tests for the original NCL functions, that could be ported over to python?</p>
+
+
+
+<a name="6444"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6444" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6444">(Apr 10 2020 at 21:15)</a>:</h4>
+<blockquote>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span>   I'm interested in adding python code that mimics the NCL functions <code>month_to_season()</code> and <code>getind_latlon2d()</code>.   I have some questions about how to do this.   Do I put these functions in separate python source files (one function per file), or a single file?   What should these files be called?   How much in the way of unit tests are you looking for, and do these go in a single file, or separate files for each function?</p>
+</blockquote>
+<p>re: month_to_season; it should be fairly straightforward to add a custom season-start-month to our current <code>da.time.dt.season</code>. (<a href="https://xarray.pydata.org/en/stable/time-series.html#datetime-components" target="_blank" title="https://xarray.pydata.org/en/stable/time-series.html#datetime-components">https://xarray.pydata.org/en/stable/time-series.html#datetime-components</a>) and then that could plugged into <code>da.resample</code> to build <code>month_to_season</code> or really <code>anything_to_season</code>.</p>
+
+
+
+<a name="6445"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6445" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6445">(Apr 10 2020 at 21:19)</a>:</h4>
+<p>So, the NCL version takes the simple mean of three months' worth of data, which some have pointed out is not the best way to compute the seasonal mean.   So I was originally thinking of duplicating this behavior, ignoring the number of days in each month.    I'm assuming this is incompatible with how xarray wants to handle this.</p>
+
+
+
+<a name="6447"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6447" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6447">(Apr 10 2020 at 21:25)</a>:</h4>
+<p>xarray now has <code>dt.days_in_month</code> for CFTime indexes so you can get the weights easily: <a href="https://github.com/pydata/xarray/pull/3935" target="_blank" title="https://github.com/pydata/xarray/pull/3935">https://github.com/pydata/xarray/pull/3935</a> </p>
+<p>Also see updated example: <a href="https://xarray.pydata.org/en/latest/examples/monthly-means.html#Now-for-the-heavy-lifting" target="_blank" title="https://xarray.pydata.org/en/latest/examples/monthly-means.html#Now-for-the-heavy-lifting">https://xarray.pydata.org/en/latest/examples/monthly-means.html#Now-for-the-heavy-lifting</a>:</p>
+
+
+
+<a name="6455"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6455" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6455">(Apr 10 2020 at 21:50)</a>:</h4>
+<p>yeah so <code>month_to_season</code> is just <code>da.resample(time="QS-Feb").mean()</code>with syntax from <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects" target="_blank" title="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects">https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#dateoffset-objects</a>  (QS-Feb = calendar <em>Q</em>uarter, labelled with <em>S</em>tart-date and starting in <em>Feb</em></p>
+<p>Once this (<a href="https://github.com/pydata/xarray/issues/3937" target="_blank" title="https://github.com/pydata/xarray/issues/3937">https://github.com/pydata/xarray/issues/3937</a>) is implemented</p>
+<p>it could be<br>
+<code>da.weighted(da.time.dt.days_in_month).resample(time="QS-Feb").mean()</code> or other weights as appropriate.</p>
+
+
+
+<a name="6456"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6456" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6456">(Apr 10 2020 at 21:54)</a>:</h4>
+<blockquote>
+<blockquote>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span>   I'm interested in adding python code that mimics the NCL functions <code>month_to_season()</code> and <code>getind_latlon2d()</code>.   I have some questions about how to do this.   Do I put these functions in separate python source files (one function per file), or a single file?   What should these files be called?   How much in the way of unit tests are you looking for, and do these go in a single file, or separate files for each function?</p>
+</blockquote>
+<p>re: month_to_season; it should be fairly straightforward to add a custom season-start-month to our current <code>da.time.dt.season</code>. (<a href="https://xarray.pydata.org/en/stable/time-series.html#datetime-components" target="_blank" title="https://xarray.pydata.org/en/stable/time-series.html#datetime-components">https://xarray.pydata.org/en/stable/time-series.html#datetime-components</a>) and then that could plugged into <code>da.resample</code> to build <code>month_to_season</code> or really <code>anything_to_season</code>.</p>
+</blockquote>
+<p>Hey <span class="user-mention" data-user-id="9">@Brian Bonnlander</span>  , thanks a lot for your interest in contributing to <strong>geocat-comp</strong>. I can have a few suggestions here:</p>
+<p>Pure Python functions are implemented within their own files each in <strong>geocat-comp</strong>. So, it would be good for you to add your functions as separate files for each, too. For an example, you can see the following pure Python function: <a href="https://github.com/NCAR/geocat-comp/blob/develop/src/geocat/comp/polynomial.py" target="_blank" title="https://github.com/NCAR/geocat-comp/blob/develop/src/geocat/comp/polynomial.py">https://github.com/NCAR/geocat-comp/blob/develop/src/geocat/comp/polynomial.py</a>. Just FYI: We are in the beginning of a structural modification to our geocat-comp in order to separate pure Python and Fortran-dependent codes from each other as separate repo's. I believe that it shouldn't affect your current contribution as here; however, alternative thoughts would welcome from our other <span class="user-group-mention" data-user-group-id="1">@geocat</span> members.</p>
+
+
+
+<a name="6459"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6459" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6459">(Apr 10 2020 at 22:04)</a>:</h4>
+<blockquote>
+<p>Are there perhaps unit tests for the original NCL functions, that could be ported over to python?</p>
+</blockquote>
+<p>Hey <span class="user-mention" data-user-id="9">@Brian Bonnlander</span> , in regards to your questions about test cases:</p>
+<p>First, you can find a bunch of test cases for several functions under here: <a href="https://github.com/NCAR/geocat-comp/tree/develop/test" target="_blank" title="https://github.com/NCAR/geocat-comp/tree/develop/test">https://github.com/NCAR/geocat-comp/tree/develop/test</a></p>
+<p>Second, as a more precise example, you may want to have a look at this: <a href="https://github.com/NCAR/geocat-comp/blob/develop/test/test_linint2points.py" target="_blank" title="https://github.com/NCAR/geocat-comp/blob/develop/test/test_linint2points.py">https://github.com/NCAR/geocat-comp/blob/develop/test/test_linint2points.py</a>. In this case, test cases are written for the sake of acquiring outputs identical to NCL outputs regarding not only dimensions etc. but also content. When you read throughout the code, you can see input arrays and ground-truth (or expected) output arrays. These input and output arrays are generated by running NCL scripts first then using them in these Python cases. You can see those NCL test scripts (written by us for the python test) attached here: <a href="/user_uploads/2/AYs01fIO0okefsy_vg_R8Zu8/test_linint2_points_msg.ncl" target="_blank" title="test_linint2_points_msg.ncl">test_linint2_points_msg.ncl</a> <a href="/user_uploads/2/FoFLcMp_7ztVzp-q3pacypLt/test_linint2_points.ncl" target="_blank" title="test_linint2_points.ncl">test_linint2_points.ncl</a></p>
+
+
+
+<a name="6461"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6461" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6461">(Apr 10 2020 at 22:14)</a>:</h4>
+<p>OK, but if I want to see existing tests written in NCL for some other function I want to submit, where can I look to see if there are unit tests written in NCL for that function?  In other words, can I confirm that my python version of a function will pass the original units tests for the NCL version?</p>
+
+
+
+<a name="6463"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/How%20to%20contribute%20to%20geocat-comp/near/6463" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/How.20to.20contribute.20to.20geocat-comp.html#6463">(Apr 11 2020 at 09:19)</a>:</h4>
+<p>We haven't conducted any investigations with respect to the original NCL unit tests, and it is beyond my knowledge if there is a source where we can find original NCL unit tests. Any thoughts from <span class="user-group-mention" data-user-group-id="1">@geocat</span> team?</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

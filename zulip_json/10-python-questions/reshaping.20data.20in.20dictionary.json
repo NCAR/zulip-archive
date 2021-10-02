@@ -1,0 +1,170 @@
+[
+    {
+        "content": "<p>A question from a new python convert: I have a dictionary of 4 CMIP6 models and I'm trying to reshape the time dimension into year x month. I've done this successfully in the past, but using similar code I'm getting an error that I can't figure out. </p>\n<div class=\"codehilite\"><pre><span></span>for sim_name, data in dict.items():\n    num_years = data.values.shape[0]//12\n    reshaped = data.values.reshape(num_years, 12, *data.values.shape[1:])\n</pre></div>\n\n\n<p>The error message I get is related to the \"num_years\": \"'function' object has no attribute 'shape'\".  Any idea why I'm getting this error message and how to fix the problem? Thanks!</p>",
+        "id": 6925,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587486350
+    },
+    {
+        "content": "<p>It thinks <code>data</code> is a <code>function</code> object which does not have shape. What does <code>data</code> look like? <br>\nAlso using <code>dict</code> as variable name is really weird. You will overwrite pythons built-in <code>dict</code> → the consequences are probably quite bad.</p>",
+        "id": 6926,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587487385
+    },
+    {
+        "content": "<p>I'm not sure how to tell what <code>data</code> looks like. It is a dictionary with 4 keys and 4 groups (each for a different model).  I'm new to python and haven't used dictionaries much. How do I find out this information? </p>\n<p>Note that I don't actually use <code>dict</code> as the name of the dictionary -- I just used this in the example so that it was more obvious. I will make a note to never use <code>dict</code> as a name. </p>\n<p>I've been trying to get the script onto my GitHub repository, but still having some trouble with that. If you'd like to look at it in the meantime, you can find it on cheyenne here: <code>/glade/work/dll/CTSM_py/notebooks/CMIP6_CO2.ipynb</code>. All I've done so far is read the catalog and put the data into a dictionary. Reshaping the data is the first step I need to start my analysis.</p>\n<p>Thanks so much for your help!</p>",
+        "id": 6928,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587493571
+    },
+    {
+        "content": "<p>Hi Danica<br>\nI'm not sure if you were aware of the locally (Cheyenne glade/cloud also works) hosted CMIP6 catalog, and intakeesm a python-based platform we use to interact with the data.<br>\nBelow is a GitHub repo example we wrote as part of the CMIP6 hackathon;  it shows how to access the data and do basic operations including reshaping year x month.  hope this helps</p>\n<p><a href=\"https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb\" target=\"_blank\" title=\"https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb\">https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb</a></p>",
+        "id": 6929,
+        "sender_full_name": "Precious Mongwe",
+        "timestamp": 1587495074
+    },
+    {
+        "content": "<p>ah so <code>data</code> is a <code>Dataset</code>. Each of the <code>DataArray</code>s in a <code>Dataset</code> have a shape attribute but because all DataArrays in a Dataset need not have the same shape, <code>Dataset.shape</code> does not exist.</p>",
+        "id": 6955,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587498416
+    },
+    {
+        "content": "<p>changing data to <code>data.co2</code> should do what you want</p>",
+        "id": 6956,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587498430
+    },
+    {
+        "content": "<blockquote>\n<p>I'm not sure how to tell what data looks like. </p>\n</blockquote>\n<p>Sticking <code>print(data)</code> in the loop is what I did :D</p>",
+        "id": 6962,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587499586
+    },
+    {
+        "content": "<blockquote>\n<p>Hi Danica<br>\nI'm not sure if you were aware of the locally (Cheyenne glade/cloud also works) hosted CMIP6 catalog, and intakeesm a python-based platform we use to interact with the data.<br>\nBelow is a GitHub repo example we wrote as part of the CMIP6 hackathon;  it shows how to access the data and do basic operations including reshaping year x month.  hope this helps</p>\n<p><a href=\"https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb\" target=\"_blank\" title=\"https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb\">https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb</a></p>\n</blockquote>\n<p>Thanks for sharing this example Precious! I have been using the CMIP6 catalog, although it seems quite incomplete (only a few models have CO2 data for the historical simulation, and some of these don't have the associated area and land fraction variables required for analysis. It looks like the script you pointed me to might have examples of more powerful ways of searching the catalog than I was previously aware of, so I will play around with some of those!</p>",
+        "id": 6970,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587505521
+    },
+    {
+        "content": "<blockquote>\n<p>changing data to <code>data.co2</code> should do what you want</p>\n</blockquote>\n<p>Looks like this did the trick! It hasn't actually finished yet (it's taking a long time!), but didn't immediately exit with an error. I didn't have to do this in my other script, but I did create the dictionary in a different way. I think I still have to figure out the difference between a <code>Dataset</code> and a dictionary, and when to use each. It seems that a dictionary can actually be a <code>Dataset</code>, at least in this case it is. Thanks for your help!</p>",
+        "id": 6971,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587505880
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>I'm not sure how to tell what data looks like. </p>\n</blockquote>\n<p>Sticking <code>print(data)</code> in the loop is what I did :D</p>\n</blockquote>\n<p>Thanks! This helped me realize that the time dimension is actually the last dimension, not the first. Will save me a headache later on!</p>",
+        "id": 6972,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587505946
+    },
+    {
+        "content": "<p>Well <code>Dataset</code> mimics a dictionary mapping variable names to <code>DataArrays</code>. This makes it both confusing and convenient. In your case you have a dictionary mapping a simulation name to a Dataset containing simulation output (this dataset is in turn a mapping from variable name to actual values).</p>",
+        "id": 6974,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587507104
+    },
+    {
+        "content": "<blockquote>\n<p>Well <code>Dataset</code> mimics a dictionary mapping variable names to <code>DataArrays</code>. This makes it both confusing and convenient. In your case you have a dictionary mapping a simulation name to a Dataset containing simulation output (this dataset is in turn a mapping from variable name to actual values).</p>\n</blockquote>\n<p>Thanks Deepak! I appreciate this explanation! I think it will take a bit for me to fully wrap my head around this, and this is a great start!</p>",
+        "id": 6977,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587507553
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span>, I wonder: are your intentions with reshaping the data to ultimately compute annual means? Here's gist that demonstrates how one might do this in xarray:<br/>\n<a href=\"https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c\" target=\"_blank\" title=\"https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c\">https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c</a></p>\n<p>I expect this capability will be available in GeoCAT.<br/>\ncc <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span>, <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span></p>",
+        "id": 6991,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1587569887
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"74\">Danica Lombardozzi</span>, I wonder: are your intentions with reshaping the data to ultimately compute annual means? Here's gist that demonstrates how one might do this in xarray:<br/>\n<a href=\"https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c\" target=\"_blank\" title=\"https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c\">https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c</a></p>\n<p>I expect this capability will be available in GeoCAT.<br/>\ncc <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span>, <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span></p>\n</blockquote>\n<p>Thanks Matt! I will take a look to see if it gives me some ideas. I'm actually trying to difference the max and min value for each year, so a bit different from annual means.</p>",
+        "id": 6992,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587570641
+    },
+    {
+        "content": "<p>That's even easier. You should be able to apply <code>min</code> and <code>max</code> functions to the <code>xarray.groupby</code> objects. <br>\n<a href=\"http://xarray.pydata.org/en/stable/groupby.html\" target=\"_blank\" title=\"http://xarray.pydata.org/en/stable/groupby.html\">http://xarray.pydata.org/en/stable/groupby.html</a></p>",
+        "id": 6993,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1587570829
+    },
+    {
+        "content": "<p>since you want 'each year' I'd look at resample instead (<a href=\"https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations\">https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations</a>) and do .. <code>data.resample(time=\"Y\").max() - data.resample(time=\"Y\").min()</code></p>",
+        "id": 7000,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587574773
+    },
+    {
+        "content": "<blockquote>\n<p>since you want 'each year' I'd look at resample instead (<a href=\"https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations\">https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations</a>) and do .. <code>data.resample(time=\"Y\").max() - data.resample(time=\"Y\").min()</code></p>\n</blockquote>\n<p>Thanks for all these great suggestions! Looking forward to trying them out this afternoon!</p>",
+        "id": 7009,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587579643
+    },
+    {
+        "content": "<p>Sorry!  I spaced the time!  Be right there.</p>",
+        "id": 7030,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1587589564
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> I've successfully figured out the use of <code>resample</code> (thanks!), but I'm getting an error with the subtraction that I can't seem to figure out. I'm wondering if there is something basic that I'm missing here. </p>\n<div class=\"codehilite\"><pre><span></span>for sim_name, data in co2_ds.items():\n    datamax = data.resample(time=\"Y\").max()\n    datamin = data.resample(time=\"Y\").min()\n    amp     = datamax - datamin\n</pre></div>\n<p>I printed both <code>datamax</code> and <code>datamin</code> to ensure they are the same size, but I still get an error pointing to <code>amp = datamax - datamin</code><br/>\n<code>TypeError: unsupported operand type(s) for -: 'Array' and 'Array'</code><br/>\nI can't figure out why I can't subtract two arrays that are the same size. Any thoughts why this might be happening? Note that I also tried<br/>\n<code>amp = data.resample(time=\"Y\").max() - data.resample(time=\"Y\").min()</code> with the same error message. </p>\n<p>Thank you!</p>",
+        "id": 7203,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587764064
+    },
+    {
+        "content": "<p>what does <code>print(datamax)</code> show?</p>",
+        "id": 7204,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587764128
+    },
+    {
+        "content": "<blockquote>\n<p>what does <code>print(datamax)</code> show?</p>\n</blockquote>\n<p>Here is the output:</p>\n<div class=\"codehilite\"><pre><span></span>&lt;xarray.Dataset&gt;\nDimensions:    (bnds: 2, lat: 64, lon: 128, member_id: 1, plev: 19, time: 165)\nCoordinates:\n  * time       (time) object 1850-12-31 00:00:00 ... 2014-12-31 00:00:00\n  * plev       (plev) float64 1e+05 9.25e+04 8.5e+04 7e+04 ... 1e+03 500.0 100.0\n  * lon        (lon) float64 0.0 2.812 5.625 8.438 ... 348.8 351.6 354.4 357.2\n  * lat        (lat) float64 -87.86 -85.1 -82.31 -79.53 ... 82.31 85.1 87.86\n  * member_id  (member_id) &lt;U8 &#39;r1i1p1f1&#39;\nDimensions without coordinates: bnds\nData variables:\n    lon_bnds   (time, lon, bnds) float64 dask.array&lt;chunksize=(1, 128, 2), meta=np.ndarray&gt;\n    lat_bnds   (time, lat, bnds) float64 dask.array&lt;chunksize=(1, 64, 2), meta=np.ndarray&gt;\n    time_bnds  (time, bnds) object dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;\n    co2        (time, member_id, plev, lat, lon) float32 dask.array&lt;chunksize=(1, 1, 19, 64, 128), meta=np.ndarray&gt;\n</pre></div>",
+        "id": 7205,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587764163
+    },
+    {
+        "content": "<p>hmm... I think <code>time_bnds</code> is the culprit. Notice it says <code>object</code> instead of <code>float64</code>. Can you try with <code>amp = datamax.co2 - datamin.co2</code></p>",
+        "id": 7206,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587764281
+    },
+    {
+        "content": "<blockquote>\n<p>what does <code>print(datamax)</code> show?</p>\n</blockquote>\n<p>Oh, is this because it's a Dataset? So I have to use <code>amp = datamax.co2 - datamin.co2</code>. </p>\n<p>Looks like this works. Since I only have one variable here, is there a way to convert these to DataArrays?</p>",
+        "id": 7207,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587764283
+    },
+    {
+        "content": "<p>You can subtract datasets... it will subtract corresponding arrays.</p>",
+        "id": 7208,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587764309
+    },
+    {
+        "content": "<blockquote>\n<p>You can subtract datasets... it will subtract corresponding arrays.</p>\n</blockquote>\n<p>Oh, I see! I'm not sure why the time_bnds are an object, but knowing the solution works. Thanks for your help!</p>",
+        "id": 7209,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1587764364
+    },
+    {
+        "content": "<p>Hopefully this is right, but these days I think of Xarray objects as logically equivalent to NetCDF files.   You could conceptually subtract one file from another, but rarely is that what you want.</p>",
+        "id": 7210,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1587764407
+    },
+    {
+        "content": "<p><code>time_bnds</code> is an object because time has been decoded.  You could do something like</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">set_coords</span><span class=\"p\">([</span><span class=\"s1\">'time_bnds'</span><span class=\"p\">,</span> <span class=\"s1\">'lat_bnds'</span><span class=\"p\">,</span> <span class=\"s1\">'lon_bnds'</span><span class=\"p\">])</span>\n</pre></div>\n<p>xarray will not apply the subtraction to the coordinate variables.  <span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span>, actually it's quite convenient and common to do math on datasets.</p>",
+        "id": 7225,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1587823167
+    },
+    {
+        "content": "<p>Thanks Matt! It's helpful to know how to set the coordinate variables.</p>",
+        "id": 7259,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1588005187
+    }
+]

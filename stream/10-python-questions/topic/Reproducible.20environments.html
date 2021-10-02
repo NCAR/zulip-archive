@@ -1,0 +1,159 @@
+<html>
+<head><meta charset="utf-8"><title>Reproducible environments · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html">Reproducible environments</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="19496"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19496" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19496">(Oct 15 2020 at 20:25)</a>:</h4>
+<p>What is the best way to ensure reproducible environments?</p>
+<p>Many of us have been curating environment.yaml files in our repos; these are handy for defining environments, but resolve to a particular environment depending on when they are invoked. In some cases, it is important to ensure that environments can be reproduced exactly. </p>
+<p>For example, I am working on a calculation, it's taken months to develop my code and during that time, I've only updated my conda environment occasionally. If a collaborator clones my repo and builds an environment from the environment.yaml file therein, they will likely get newer package versions, which could break my code.</p>
+<p>One thing I've come across is <code>conda-lock</code>. This seems like a very nice utility to curate platform-specific files for curating exact replicates of an environment:<br>
+<a href="https://github.com/brl0/conda-lock" target="_blank" title="https://github.com/brl0/conda-lock">https://github.com/brl0/conda-lock</a></p>
+<p>The workflow seems to be something like </p>
+<div class="codehilite"><pre><span></span><span class="c1"># generate the lockfiles</span>
+conda-lock -f environment.yml -p osx-64 -p linux-64
+
+<span class="c1"># create an environment from the lockfile</span>
+conda create -n my-locked-env --file conda-linux-64.lock
+</pre></div>
+
+
+<p>I think I should be curating these conda lock files in my repos. </p>
+<p>Is this the best way to solve this problem? Are there other tools/approaches to consider?</p>
+<p>cc <span class="user-group-mention" data-user-group-id="4">@xdev</span>, <span class="user-group-mention" data-user-group-id="1">@geocat</span>, <span class="user-mention" data-user-id="10">@Michael Levy</span>, <span class="user-mention" data-user-id="31">@Keith Lindsay</span></p>
+
+
+
+<a name="19498"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19498" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19498">(Oct 15 2020 at 20:36)</a>:</h4>
+<p><code>conda-lock</code> is a great tool for this... It's worth noting that if you have packages that are installed from pypi via <code>pip</code> or from GitHub via <code>pip</code>, locking environment <strong>fails</strong></p>
+<p>E.g.: Locking this environment results in failure:</p>
+<div class="codehilite"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-env</span>
+<span class="nt">channels</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">conda-forge</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">....</span>
+  <span class="p p-Indicator">-</span> <span class="nt">pip</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">dummy-pkg</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">git+https://github.com/foo/bar.git@some-hash</span>
+</pre></div>
+
+
+<p>If all packages in your environment are <code>conda</code> installable, everything should work just fine...</p>
+
+
+
+<a name="19499"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19499" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19499">(Oct 15 2020 at 20:38)</a>:</h4>
+<p>Good point. Some packages are only available via <code>pip</code>.  Does <code>docker</code> provide a solution? Not viable on HPC, though?</p>
+
+
+
+<a name="19501"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19501" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19501">(Oct 15 2020 at 20:49)</a>:</h4>
+<p><code>docker</code> is a solution, but its a bit more of a lift to get it working.  While <code>docker</code> doesn't work on HPC, <code>singularity</code> does, and you can pretty easily convert a <code>docker</code> image to a <code>singularity</code> image.  I think the process goes like this.</p>
+<ol>
+<li>
+<p>On your local machine (with <code>docker</code>) save your image to a tarball:<br>
+<code>bash
+   $ docker save IMAGEID -o IMAGENAME.tar
+   </code></p>
+</li>
+<li>
+<p>Copy the tarball to Cheyenne or Casper.</p>
+</li>
+<li>
+<p><code>module load singularity</code> ...I think</p>
+</li>
+<li>
+<p>Use Singularity to convert the image:<br>
+<code>bash
+   $ singularity build --sandbox IMAGENAME docker-archive:///path/to/IMAGENAME.tar
+   </code></p>
+</li>
+</ol>
+<p>Or you can pull directly from DockerHub with just one command:</p>
+<div class="codehilite"><pre><span></span>singularity build --sandbox IMAGENAME docker://OWNER/IMAGENAME
+</pre></div>
+
+
+<p>Never tried it myself, but it's worth trying.</p>
+
+
+
+<a name="19502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19502" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19502">(Oct 15 2020 at 20:51)</a>:</h4>
+<p>Also, note that there is a Visual Studio (VS) Code extension that lets you run and dev inside a docker container, so you can actually do your development in the exact same environment.</p>
+
+
+
+<a name="19506"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19506" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19506">(Oct 15 2020 at 20:57)</a>:</h4>
+<blockquote>
+<p>Good point. Some packages are only available via <code>pip</code>.  Does <code>docker</code> provide a solution? Not viable on HPC, though?</p>
+</blockquote>
+<p>It turns out that docker images are just a <code>tarball</code> collection of files.  So, if one could emit a tarball for the environment, it's likely that you can get an environment that is as reproducible as Docker's or Singularity's (without the Operating  system bits though) .</p>
+
+
+
+<a name="19507"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19507" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19507">(Oct 15 2020 at 20:57)</a>:</h4>
+<p>There's an existing tool for this: <a href="https://conda.github.io/conda-pack/" target="_blank" title="https://conda.github.io/conda-pack/">https://conda.github.io/conda-pack/</a></p>
+
+
+
+<a name="19508"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19508" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19508">(Oct 15 2020 at 20:57)</a>:</h4>
+<p>I haven't used it though</p>
+
+
+
+<a name="19509"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19509" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19509">(Oct 15 2020 at 21:07)</a>:</h4>
+<p>One piece that is missing is something equivalent to <code>Docker Hub</code> or similar to serve as an environment registry...  With an environment registry, one would be able to</p>
+<ul>
+<li>(from source system): pack an environment into a tarball.   --&gt; equivalent to  <code>docker build </code></li>
+<li>push the tarball to some remote registry --&gt; equivalent to <code>docker push</code></li>
+<li>(from the target system) pull the tarball and you are good to go....  --&gt; equivalent to<code>docker pull &amp;&amp; docker run</code></li>
+</ul>
+<p>One caveat is that this workflow is going to be Operating system dependent (because we are not shipping the operating system)..</p>
+
+
+
+<a name="19510"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19510" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19510">(Oct 15 2020 at 21:10)</a>:</h4>
+<p>This actually sounds like a fun, prototype project worth exploring if time permits.... <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span></p>
+
+
+
+<a name="19513"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19513" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19513">(Oct 15 2020 at 21:46)</a>:</h4>
+<p>We are actively dealing with these issues in our work related to the <a class="stream" data-stream-id="20" href="/#narrow/stream/20-0.2E1.C2.B0-JRA-BGC-Run">#0.1° JRA BGC Run</a>.  Perhaps we can prototype a solution there?</p>
+
+
+
+<a name="20545"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/20545" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#20545">(Oct 28 2020 at 12:07)</a>:</h4>
+<p>cc <span class="user-mention" data-user-id="65">@Brian Dobbins</span></p>
+
+
+
+<a name="20546"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/20546" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#20546">(Oct 28 2020 at 14:26)</a>:</h4>
+<p>Thanks for pinging me, Matt - I hadn't known about this discussion, but I'm definitely interested in it.</p>
+<p>Two quick questions/comments:</p>
+<p>1) As Anderson said, Docker (and other containers) use the 'OCI' [Open Container Initiative] API, so all have compatible / convertible formats of their file systems.  So on Cheyenne, I've converted Docker containers to Charliecloud ones and run them fine.   In terms of HPC use, it really depends on what you're trying to do - running a single-node image on a (single) HPC node is a piece of cake, and something we do often (and applicable to any system).  Running a multi-node HPC code, and taking advantage of the high-speed interconnect, is harder.  Doable on Cheyenne, but not exactly portable.  If you want to run a Docker container for some analysis on a single node on Cheyenne, though, I'm happy to help.</p>
+<p>2) My admittedly limited understanding of environment.yml files is that they can track the actual build of a package, ensuring reproducibility across similar systems (eg, Linux on x86/64).  For example, if I have a dependency of 'liblapack', then I'm going to get different versions depending on when I build the environment.  If I have a dependency of 'liblapack=3.8.0=17_openblas', I'm ensuring I get THAT build, but can't (necessarily) build the same environment across OS and architecture.  The OS issue can be handled by containers, and the architecture issue... probably isn't portable anyway.  Eg, I'm <em>guessing</em> a numPy matrix-multiply of significant size on x86 will give different results than on Arm.  Just a guess, but an educated one, given how floating-point is handled on these systems.</p>
+<p>Conda-pack looks great and has some extra features, but I'm not sure it's needed on the same platform?  Regardless, I'm interested in this topic, and in helping.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

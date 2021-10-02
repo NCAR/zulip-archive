@@ -1,0 +1,83 @@
+<html>
+<head><meta charset="utf-8"><title>xESMF on Casper · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html">xESMF on Casper</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="12242"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12242" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12242">(Jun 22 2020 at 22:39)</a>:</h4>
+<p>Is anyone using xESMF successfully  on Casper? I have installed following the instruction on its website (<a href="https://xesmf.readthedocs.io/en/latest/installation.html" target="_blank" title="https://xesmf.readthedocs.io/en/latest/installation.html">https://xesmf.readthedocs.io/en/latest/installation.html</a>), but I failed to load the package:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import xesmf as xe<br>
+ModuleNotFoundError: No module named 'xesmf'</p>
+</blockquote>
+</blockquote>
+</blockquote>
+
+
+
+<a name="12244"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12244" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12244">(Jun 22 2020 at 22:44)</a>:</h4>
+<p>are you in the right environment? i.e. the one you installed xesmf in?</p>
+
+
+
+<a name="12245"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12245" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12245">(Jun 22 2020 at 22:45)</a>:</h4>
+<p>I generated a new environment and install it along with dash and netcdf4 as recommended in the website</p>
+
+
+
+<a name="12246"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12246" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12246">(Jun 22 2020 at 22:59)</a>:</h4>
+<p>but is your notebook "in" that environment?</p>
+
+
+
+<a name="12247"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12247" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12247">(Jun 22 2020 at 23:07)</a>:</h4>
+<p>I believe so. I also tried from the command line and didn't work from there too.</p>
+
+
+
+<a name="12248"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12248" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12248">(Jun 22 2020 at 23:11)</a>:</h4>
+<p>hmmm... i don;t know then. cc <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span></p>
+
+
+
+<a name="12249"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12249" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12249">(Jun 22 2020 at 23:18)</a>:</h4>
+<p>I just created a new environment again. I didn't specify python version before because I know the version is 3.7 (in the example on the website python version is specified as 3.7, ie., conda create -n xesmf_env python=3.7). With this specification the version of python bumped up to 3.7.6 from 3.7.3 and xESMF seems working (or at least I can load it).</p>
+
+
+
+<a name="12253"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xESMF%20on%20Casper/near/12253" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xESMF.20on.20Casper.html#12253">(Jun 23 2020 at 14:21)</a>:</h4>
+<blockquote>
+<p>Is anyone using xESMF successfully  on Casper? I have installed following the instruction on its website (<a href="https://xesmf.readthedocs.io/en/latest/installation.html" target="_blank" title="https://xesmf.readthedocs.io/en/latest/installation.html">https://xesmf.readthedocs.io/en/latest/installation.html</a>), but I failed to load the package:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import xesmf as xe<br>
+ModuleNotFoundError: No module named 'xesmf'</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Another way to diagnose this issue is to look at the path of the Python executable used within your kernel:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

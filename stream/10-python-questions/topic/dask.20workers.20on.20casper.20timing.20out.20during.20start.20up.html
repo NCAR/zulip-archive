@@ -1,0 +1,148 @@
+<html>
+<head><meta charset="utf-8"><title>dask workers on casper timing out during start up · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html">dask workers on casper timing out during start up</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="867"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/867" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#867">(Jan 25 2020 at 14:24)</a>:</h4>
+<p>I'm trying to do some dask-enabled computations on casper/dav, which I'm using because the input files are on campaign storage. I recently realized that my scripts have been consistently slower than they used to be. After digging in, I realized that the computations are essentially serial, because the dask workers are being canceled shortly after they start up. The slurm job standard error files for the workers all contain</p>
+<div class="codehilite"><pre><span></span>distributed.dask_worker - INFO - Timed out starting worker
+distributed.dask_worker - INFO - End worker
+</pre></div>
+
+
+<p>I'm trying to figure out if this is being caused by a change in the system or from change in my environment and/or scripts. I'm not sure how long this has been going on. Have others seen this behavior on casper?</p>
+
+
+
+<a name="871"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/871" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#871">(Jan 25 2020 at 18:18)</a>:</h4>
+<blockquote>
+<p>Have others seen this behavior on casper?</p>
+</blockquote>
+<p>I haven't encountered this behavior myself, but I've seen similar reports online before. Can you point me to the location of  the log file?</p>
+
+
+
+<a name="872"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/872" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#872">(Jan 25 2020 at 19:39)</a>:</h4>
+<blockquote>
+<p>I haven't encountered this behavior myself</p>
+</blockquote>
+<p>Scratch that <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>  I just started seeing this behavior myself. I don't know what's going on yet:</p>
+<div class="codehilite"><pre><span></span>distributed.worker - INFO -       Start worker at:   tcp://10.12.205.25:36228
+distributed.worker - INFO -          Listening to:   tcp://10.12.205.25:36228
+distributed.worker - INFO -          dashboard at:         <span class="m">10</span>.12.205.25:40625
+distributed.worker - INFO - Waiting to connect to: tcp://128.117.181.206:36764
+distributed.worker - INFO - -------------------------------------------------
+distributed.worker - INFO -               Threads:                          <span class="m">1</span>
+distributed.worker - INFO -                Memory:                   <span class="m">50</span>.00 GB
+distributed.worker - INFO -       Local Directory: /glade/scratch/abanihi/worker-nww69z_s
+distributed.worker - INFO - -------------------------------------------------
+distributed.nanny - INFO - Closing Nanny at <span class="s1">&#39;tcp://10.12.205.25:44881&#39;</span>
+distributed.worker - INFO - Stopping worker at tcp://10.12.205.25:36228
+distributed.worker - INFO - Closed worker has not yet started: None
+distributed.dask_worker - INFO - Timed out starting worker
+distributed.dask_worker - INFO - End worker
+</pre></div>
+
+
+
+<a name="879"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/879" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#879">(Jan 25 2020 at 23:46)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span></p>
+
+
+
+<a name="880"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/880" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#880">(Jan 25 2020 at 23:46)</a>:</h4>
+<p>Were you using <code>cluster.adapt()</code> or <code>cluster.scale()</code> ??</p>
+
+
+
+<a name="881"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/881" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#881">(Jan 25 2020 at 23:49)</a>:</h4>
+<p><code>cluster.scale()</code><br>
+The client is being instantiated in function <code>_tseries_gen</code> of <code>/glade/work/klindsay/analysis/CESM2_coup_carb_cycle_JAMES/src/tseries_mod.py</code></p>
+
+
+
+<a name="882"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/882" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#882">(Jan 25 2020 at 23:49)</a>:</h4>
+<p>I used cluster.scale()</p>
+
+
+
+<a name="883"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/883" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#883">(Jan 25 2020 at 23:50)</a>:</h4>
+<p>Sorry, "this is a different conversation"</p>
+
+
+
+<a name="884"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/884" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#884">(Jan 26 2020 at 00:25)</a>:</h4>
+<blockquote>
+<p><code>cluster.scale()</code><br>
+The client is being instantiated in function <code>_tseries_gen</code> of <code>/glade/work/klindsay/analysis/CESM2_coup_carb_cycle_JAMES/src/tseries_mod.py</code></p>
+</blockquote>
+<p>After some digging and looking at <code>tseries_mod.py</code>, <strong>my speculation so far  is that this happens just when a worker comes online</strong>. The error is logged by <a href="https://github.com/dask/distributed/blob/4081a0e09febd9099f04a1db9772f6cd95203b2e/distributed/cli/dask_worker.py#L426" target="_blank" title="https://github.com/dask/distributed/blob/4081a0e09febd9099f04a1db9772f6cd95203b2e/distributed/cli/dask_worker.py#L426">this line</a>. Throughout <code>tseries_mod.py</code>, the cluster is scaled up and down in a few places, and it's likely that in some cases the following is happening:</p>
+<ul>
+<li><code>cluster.scale_up(num_workers)</code> is called, </li>
+<li>xarray and dask go on to do the computation with number of workers less than the requested<code>num_workers</code>.  This leaves a few workers in the queue ( Slurm or PBS hasn't provisioned the resources for some of the workers yet)</li>
+<li>The computation finishes, and then <code>cluster.scale_down(num_workers)</code> is called. A <code>signal</code> is then sent to some workers to shut down. The workers which are still in the PBS/SLURM queue receive the shut down signal before  <em>getting a chance to start</em>, which could explain the logs:</li>
+</ul>
+<div class="codehilite"><pre><span></span>distributed.nanny - INFO - Closing Nanny at <span class="s1">&#39;tcp://10.12.205.25:44881&#39;</span>
+distributed.worker - INFO - Stopping worker at tcp://10.12.205.25:36228
+distributed.worker - INFO - Closed worker has not yet started: None
+distributed.dask_worker - INFO - Timed out starting worker
+distributed.dask_worker - INFO - End worker
+</pre></div>
+
+
+<p><code>scaling</code> the cluster once (i.e. calling <code>cluster.scale()</code> once) throughout the computation may provide more insights.</p>
+<p>I will do more digging, and will let you know if I find anything</p>
+
+
+
+<a name="885"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/885" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#885">(Jan 26 2020 at 01:24)</a>:</h4>
+<p>Thanks for taking a look <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> </p>
+<p>While <code>tseries_mod.py</code> can end up calling <code>cluster.scale()</code> multiple times with different arguments, the problems that I'm currently encountering are occurring with <code>cluster.scale()</code> having been called just once. I just added a <code>print</code> statement to <code>tseries_mod.py</code> to confirm this and reran one of my notebooks. Now I'm getting an error from <code>distributed</code> that I don't recall encountering previously:</p>
+<div class="codehilite"><pre><span></span>distributed.utils - ERROR - addresses should be strings or tuples, got None
+Traceback (most recent call last):
+  File "/glade/work/klindsay/miniconda3/envs/CESM2_coup_carb_cycle_JAMES/lib/python3.7/site-packages/distributed/utils.py", line 662, in log_errors
+    yield
+  File "/glade/work/klindsay/miniconda3/envs/CESM2_coup_carb_cycle_JAMES/lib/python3.7/site-packages/distributed/scheduler.py", line 2122, in remove_worker
+    address = self.coerce_address(address)
+  File "/glade/work/klindsay/miniconda3/envs/CESM2_coup_carb_cycle_JAMES/lib/python3.7/site-packages/distributed/scheduler.py", line 4831, in coerce_address
+    raise TypeError("addresses should be strings or tuples, got %r" % (addr,))
+TypeError: addresses should be strings or tuples, got None
+</pre></div>
+<p>I see some github issues on this <a href="https://github.com/dask/distributed/issues/3374" target="_blank" title="https://github.com/dask/distributed/issues/3374">GH #3374</a> and <a href="https://github.com/dask/distributed/issues/3386" target="_blank" title="https://github.com/dask/distributed/issues/3386">GH #3386</a> that I'll take a look at.<br/>
+Perhaps I got some incompatibilities in a recent environment update.</p>
+
+
+
+<a name="886"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/886" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#886">(Jan 26 2020 at 05:08)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , I tried using various earlier versions of distributed, which also led to me using earlier versions of dask. These attempts didn't pan out.</p>
+<p>However, I realized that my script was working on some datasets, the workers didn't fail for all datasets. The datasets that are leading to failed workers are 4D (3D space+time), while the ones that work are 3D (2D space+time). For 4D datasets, I'm using smaller chunk sizes in time, in an attempt to keep memory per chunk from getting too big. I tried using small time chunks for 3D datasets and this led to failed workers, telling me that I was on to something. So I tried increasing the time chunksize for 4D datasets. This worked, and I'm now up and running.</p>
+<p>I have to admit that I don't understand why the small time chunk sizes are a problem now, while they previously wasn't.</p>
+<p>I don't know if this is related at all to why you are seeing the symptom of failed workers.</p>
+
+
+
+<a name="887"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/dask%20workers%20on%20casper%20timing%20out%20during%20start%20up/near/887" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/dask.20workers.20on.20casper.20timing.20out.20during.20start.20up.html#887">(Jan 26 2020 at 05:24)</a>:</h4>
+<p>With the larger chunks, I did find it necessary to increase memory per worker in <code>~/.dask/jobqueue.yaml</code>.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

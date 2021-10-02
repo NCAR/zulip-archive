@@ -1,0 +1,171 @@
+<html>
+<head><meta charset="utf-8"><title>casper execdav · jupyter · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/index.html">jupyter</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html">casper execdav</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="3859"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3859" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3859">(Mar 19 2020 at 14:25)</a>:</h4>
+<p>Hi everyone, JupyterHub appears down for Casper right now.   Just checking if anyone is able to start JupyterLab on Casper DAV.</p>
+
+
+
+<a name="3860"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3860" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3860">(Mar 19 2020 at 14:30)</a>:</h4>
+<p>it works for me.</p>
+
+
+
+<a name="3861"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3861" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3861">(Mar 19 2020 at 14:31)</a>:</h4>
+<p>Thanks! Are you using ssh-tunneling?</p>
+
+
+
+<a name="3862"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3862" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3862">(Mar 19 2020 at 14:31)</a>:</h4>
+<p>yes</p>
+
+
+
+<a name="3863"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3863" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3863">(Mar 19 2020 at 14:32)</a>:</h4>
+<p>using execdav and then start-jupyter</p>
+
+
+
+<a name="3864"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3864" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3864">(Mar 19 2020 at 14:39)</a>:</h4>
+<p>I cannot connect to the browser when I ssh-tunnel.   do not have "start-jupyter".   Instead I am running:</p>
+<div class="codehilite"><pre><span></span>(base) casper01:~$ execdav --account=STDD0003
+Submitting interactive job to slurm ...
+Setting display for X forwarding ...
+
+Running command:
+salloc --time 6:00:00 --partition dav --ntasks 1  --account=STDD0003 srun --pty --mem 0  --export=PATH=/bin:/usr/bin,SHELL,TERM,HOME,DISPLAY,XAUTHORITY /bin/bash -l
+
+salloc: Pending job allocation 4590150
+salloc: job 4590150 queued and waiting for resources
+salloc: job 4590150 has been allocated resources
+salloc: Granted job allocation 4590150
+salloc: Waiting for resource configuration
+salloc: Nodes casper10 are ready for job
+Resetting modules to system default
+(base) casper10:~$ jupyter lab --no-browser --ip=$(hostname)
+[I 08:30:38.006 LabApp] [nb_conda_kernels] enabled, 7 kernels found
+[I 08:30:40.904 LabApp] The port 8888 is already in use, trying another port.
+[I 08:30:42.764 LabApp] [jupyter_nbextensions_configurator] enabled 0.4.1
+[I 08:30:42.873 LabApp] JupyterLab extension loaded from /glade/u/home/bonnland/miniconda3/lib/python3.7/site-packages/jupyterlab
+[I 08:30:42.873 LabApp] JupyterLab application directory is /glade/u/home/bonnland/miniconda3/share/jupyter/lab
+[I 08:30:42.875 LabApp] Serving notebooks from local directory: /glade/u/home/bonnland
+[I 08:30:42.875 LabApp] The Jupyter Notebook is running at:
+[I 08:30:42.875 LabApp] http://casper10:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5
+[I 08:30:42.875 LabApp]  or http://127.0.0.1:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5
+[I 08:30:42.875 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 08:30:42.884 LabApp]
+
+    To access the notebook, open this file in a browser:
+        file:///glade/u/home/bonnland/.local/share/jupyter/runtime/nbserver-194264-open.html
+    Or copy and paste one of these URLs:
+        http://casper10:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5
+     or http://127.0.0.1:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5
+</pre></div>
+
+
+<p>Then I am giving this command in another local window:  </p>
+<div class="codehilite"><pre><span></span>ssh -N -L 8889:casper10:8889 casper10.ucar.edu
+</pre></div>
+
+
+<p>Does this look correct?   Should my browser then be able to reach "<a href="http://casper10:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5" target="_blank" title="http://casper10:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5">http://casper10:8889/?token=dade741a8c9b67a8310943df559170eb36eb4531027876e5</a>" ?</p>
+
+
+
+<a name="3865"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3865" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3865">(Mar 19 2020 at 14:40)</a>:</h4>
+<p><span class="user-mention" data-user-id="9">@Brian Bonnlander</span> you should go to <a href="http://localhost:8889" target="_blank" title="http://localhost:8889">http://localhost:8889</a></p>
+
+
+
+<a name="3866"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3866" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3866">(Mar 19 2020 at 14:40)</a>:</h4>
+<p>(including the token string is fine)</p>
+
+
+
+<a name="3867"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3867" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3867">(Mar 19 2020 at 14:42)</a>:</h4>
+<p>Thank you everyone, I try....</p>
+
+
+
+<a name="3868"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3868" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3868">(Mar 19 2020 at 14:43)</a>:</h4>
+<p>If that doesn't work, try changing the <code>casper10.ucar.edu</code> to <code>casper01.ucar.edu</code> in your <code>ssh -N -L</code> step.</p>
+
+
+
+<a name="3869"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3869" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3869">(Mar 19 2020 at 14:44)</a>:</h4>
+<p>I was thinking that the casper compute nodes are only accessible through the login nodes, but if you can ssh directly to <code>casper10.ucar.edu</code> then that is not the case</p>
+
+
+
+<a name="3871"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3871" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3871">(Mar 19 2020 at 14:45)</a>:</h4>
+<p>Your suggestion of <a href="http://localhost:8889" target="_blank" title="http://localhost:8889">http://localhost:8889</a> works for me.   Thank you again.</p>
+
+
+
+<a name="3873"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3873" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3873">(Mar 19 2020 at 15:06)</a>:</h4>
+<p>One more question (hopefully):  My ssh-tunnel session is working, but my Dask dashboard URL is apparently not working.  It assigned a random port to me, but it seems problematic that "<a href="http://jupyterhub.ucar.edu/dav" target="_blank" title="http://jupyterhub.ucar.edu/dav">jupyterhub.ucar.edu/dav</a>" is part of the URL.   If <a href="http://jupyterhub.ucar.edu/dav" target="_blank" title="http://jupyterhub.ucar.edu/dav">http://jupyterhub.ucar.edu/dav</a> is not resolving in my browser, should I expect my Dask dashboard URL to work?   The full URL is "<a href="https://jupyterhub.ucar.edu/dav/user/bonnland/proxy/44116/status" target="_blank" title="https://jupyterhub.ucar.edu/dav/user/bonnland/proxy/44116/status">https://jupyterhub.ucar.edu/dav/user/bonnland/proxy/44116/status</a>".</p>
+
+
+
+<a name="3874"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3874" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3874">(Mar 19 2020 at 15:16)</a>:</h4>
+<p>Use <code>proxy/44116</code> in the dask lab extension</p>
+
+
+
+<a name="3875"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/3875" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#3875">(Mar 19 2020 at 15:17)</a>:</h4>
+<p>Thank you!  That works.</p>
+
+
+
+<a name="5384"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/5384" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#5384">(Mar 27 2020 at 19:07)</a>:</h4>
+<p>Currently my attempts to run execdav are not working.   Has anyone else had trouble with this in the past?   Does this happen if you exceed your core hour allocation?   This same command was working for me before.</p>
+<div class="codehilite"><pre><span></span><span class="o">(</span>base<span class="o">)</span> casper26:~$ execdav --account<span class="o">=</span>STDD0003
+Submitting interactive job to slurm ...
+No display<span class="p">;</span> X forwarding disabled ...
+
+Running command:
+salloc --time <span class="m">6</span>:00:00 --partition dav --ntasks <span class="m">1</span>  --account<span class="o">=</span>STDD0003 srun --pty --mem <span class="m">0</span>  --export<span class="o">=</span><span class="nv">PATH</span><span class="o">=</span>/bin:/usr/bin,SHELL,TERM,HOME /bin/bash -l
+
+salloc: error: Job submit/allocate failed: Invalid account or account/partition combination specified
+</pre></div>
+
+
+
+<a name="5386"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/5386" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#5386">(Mar 27 2020 at 19:15)</a>:</h4>
+<p>I see now that I forgot to ssh with X11 forwarding, but I still get the same error when using "ssh -Y" to login.</p>
+
+
+
+<a name="5390"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/casper%20execdav/near/5390" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/casper.20execdav.html#5390">(Mar 27 2020 at 19:31)</a>:</h4>
+<p>OK, I finally worked my way around <a href="http://sam.ucar.edu" target="_blank" title="http://sam.ucar.edu">sam.ucar.edu</a> and discovered that my core hour usage has gone over quota.  So this is probably the source of the error message.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

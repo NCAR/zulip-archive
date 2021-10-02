@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I'm trying to use xarray &amp; matplotlib to generate a timeseries plot of model data (POP) along with observational data (OSNAP). The model data time axis is of type <code>cftime.DatetimeNoLeap</code> and the observational data has time axis of type <code>datetime64</code>. If I just plot model data, everything works and I get a nice plot:<br>\n<a href=\"/user_uploads/2/e4/7TVsX0-Emf_vEXer4WP9MOVB/Screen-Shot-2020-08-26-at-1.01.47-PM.png\" target=\"_blank\" title=\"Screen-Shot-2020-08-26-at-1.01.47-PM.png\">Screen-Shot-2020-08-26-at-1.01.47-PM.png</a> <br>\nWhen I uncomment the additional plot commands to plot OSNAP data, I get an error that says</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/e4/7TVsX0-Emf_vEXer4WP9MOVB/Screen-Shot-2020-08-26-at-1.01.47-PM.png\" target=\"_blank\" title=\"Screen-Shot-2020-08-26-at-1.01.47-PM.png\"><img src=\"/user_uploads/2/e4/7TVsX0-Emf_vEXer4WP9MOVB/Screen-Shot-2020-08-26-at-1.01.47-PM.png\"></a></div><div class=\"codehilite\"><pre><span></span>ValueError: view limit minimum -52881.950000000004 is less than 1 and is an invalid Matplotlib date value. This often happens if you pass a non-datetime value to an axis that has datetime units\n</pre></div>\n\n\n<p>What do I do to make the different time axes compatible for plotting together?</p>",
+        "id": 16175,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1598469258
+    },
+    {
+        "content": "<p>I discovered a workaround which is to use cftime to convert the observational time axis to <code>cftime.DatetimeNoLeap</code> as follows:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">ds_os1</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_dataset</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s1\">&#39;</span><span class=\"si\">{dir_osnap}</span><span class=\"s1\">/OSNAP_Transports_201408_201604_2018.nc&#39;</span><span class=\"p\">,</span><span class=\"n\">decode_times</span><span class=\"o\">=</span><span class=\"kc\">False</span><span class=\"p\">)</span>\n<span class=\"n\">osn_cftime</span> <span class=\"o\">=</span> <span class=\"n\">cftime</span><span class=\"o\">.</span><span class=\"n\">num2date</span><span class=\"p\">(</span><span class=\"n\">ds_os1</span><span class=\"o\">.</span><span class=\"n\">TIME</span><span class=\"p\">,</span> <span class=\"n\">ds_os1</span><span class=\"o\">.</span><span class=\"n\">TIME</span><span class=\"o\">.</span><span class=\"n\">units</span><span class=\"p\">,</span> <span class=\"n\">calendar</span><span class=\"o\">=</span><span class=\"s1\">&#39;noleap&#39;</span><span class=\"p\">,</span> <span class=\"n\">only_use_cftime_datetimes</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>I still be interested to hear how others handle such issues.</p>",
+        "id": 16181,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1598471469
+    },
+    {
+        "content": "<ol>\n<li>\n<p>you can use the <code>use_cftime</code> option in <code>open_dataset</code> to specifically ask for CFTime (<code>use_cftime=True</code>). The default is None which tries <code>numpy.datetime64</code> and if that fails uses CFtime. I don;t know if plotting two cftime variables with different calendars on the same axis works...</p>\n</li>\n<li>\n<p>You can convert an existing CFTime thing to a numpy thing using <code>ds.indexes[\"time\"] = ds.indexes[\"time\"].to_datetimeindex()</code>https://xarray.pydata.org/en/stable/weather-climate.html#non-standard-calendars-and-dates-outside-the-timestamp-valid-range</p>\n</li>\n</ol>",
+        "id": 16193,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1598477650
+    },
+    {
+        "content": "<p>I tried your suggestion #1 (which returned <code>cftime.DatetimeGregorian</code>) which plotted fine together with <code>cftime.DatetimeNoLeap</code>. Thanks.</p>",
+        "id": 16226,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1598481210
+    }
+]

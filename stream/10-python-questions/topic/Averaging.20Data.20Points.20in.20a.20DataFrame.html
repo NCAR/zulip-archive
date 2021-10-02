@@ -1,0 +1,206 @@
+<html>
+<head><meta charset="utf-8"><title>Averaging Data Points in a DataFrame · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html">Averaging Data Points in a DataFrame</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="21776"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21776" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21776">(Nov 19 2020 at 18:43)</a>:</h4>
+<p>Hello all! I had a question in regards to averaging data from a dataframe. Right now, I am trying to plot a running mean of Anemometer wind speed data from the WXT. There are a total of 281391 entries in my WXT dataframe. These points are 5 minutes apart. Because I want to graph the data day by day, I need to take the average wind speed for every 288th data points. (Since there are 288 5-minute intervals in one day). So I want to average every 288 points. However, I am running into some errors with the way I'm doing it now. I've attached the image below of the error I'm getting using a method I found online. I am not sure what I should be doing instead or if there's an easier way to do this? <a href="/user_uploads/2/76/EvnBvDd719L00gnoIBwxbEpj/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/76/EvnBvDd719L00gnoIBwxbEpj/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/76/EvnBvDd719L00gnoIBwxbEpj/Capture.PNG"></a></div>
+
+
+
+<a name="21777"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21777" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21777">(Nov 19 2020 at 18:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="121">@Muntaha Pasha</span>, it sounds like the <code>rolling</code> window operation with a <code>window size of 288</code>  is what you want... <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html" target="_blank" title="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html</a></p>
+
+
+
+<a name="21778"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21778" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21778">(Nov 19 2020 at 18:48)</a>:</h4>
+<p>Is my interpretation correct?</p>
+
+
+
+<a name="21779"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21779" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21779">(Nov 19 2020 at 18:50)</a>:</h4>
+<p>I believe so, yes. I haven't seen this documentation before, do you by any chance know how I'd set it up in my case?</p>
+
+
+
+<a name="21781"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21781" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21781">(Nov 19 2020 at 18:53)</a>:</h4>
+<p>What do you get when run <code>dfWXT.index.dtype</code>?</p>
+
+
+
+<a name="21782"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21782" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21782">(Nov 19 2020 at 18:54)</a>:</h4>
+<p>I get dtype('int64')</p>
+
+
+
+<a name="21783"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21783" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21783">(Nov 19 2020 at 18:55)</a>:</h4>
+<p>I'd recommend setting your pandas.DataFrame indexes to consist of datetime objects... What is the data type of the <code>datetime</code> column?</p>
+
+
+
+<a name="21784"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21784" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21784">(Nov 19 2020 at 18:57)</a>:</h4>
+<p><a href="/user_uploads/2/d9/8ZMBTcOPP6u_bmwmZKaRHimm/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a> <br>
+This is what I have for the types. It looks like datetime is an object</p>
+<div class="message_inline_image"><a href="/user_uploads/2/d9/8ZMBTcOPP6u_bmwmZKaRHimm/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/d9/8ZMBTcOPP6u_bmwmZKaRHimm/Capture.PNG"></a></div>
+
+
+
+<a name="21785"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21785" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21785">(Nov 19 2020 at 18:59)</a>:</h4>
+<p>Try the following:</p>
+<div class="codehilite"><pre><span></span><span class="n">dfWXT</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dfWXT</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+<span class="n">dfWXT</span> <span class="o">=</span> <span class="n">dfWXT</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;datetime&#39;</span><span class="p">)</span>
+<span class="n">dfWXT</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="s1">&#39;5D&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+
+
+
+<a name="21788"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21788" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21788">(Nov 19 2020 at 19:01)</a>:</h4>
+<p><a href="/user_uploads/2/66/yhKam8I0PIi4sbYNOBu-TD21/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a>  So this is what I got. It just gave me this and no data points.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/66/yhKam8I0PIi4sbYNOBu-TD21/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/66/yhKam8I0PIi4sbYNOBu-TD21/Capture.PNG"></a></div>
+
+
+
+<a name="21789"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21789" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21789">(Nov 19 2020 at 19:02)</a>:</h4>
+<p>hmmm... <span aria-label="thinking" class="emoji emoji-1f914" role="img" title="thinking">:thinking:</span> something went wrong..... What is the output of <code>dfWXT.head()</code>?</p>
+
+
+
+<a name="21791"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21791" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21791">(Nov 19 2020 at 19:03)</a>:</h4>
+<p>So dfWXT.head() shows the same thing as the image I sent above</p>
+
+
+
+<a name="21792"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21792" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21792">(Nov 19 2020 at 19:04)</a>:</h4>
+<p>And if I do dfWXT.info() the datetime is no longer a column in my DF</p>
+
+
+
+<a name="21793"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21793" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21793">(Nov 19 2020 at 19:05)</a>:</h4>
+<p>It sounds like I broke your code.... Try re-running everything up to the <code>pd.to_datetime(....)</code> invocation...</p>
+
+
+
+<a name="21794"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21794" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21794">(Nov 19 2020 at 19:06)</a>:</h4>
+<p>And then let me know what <code>dfWXT.head()</code> gives you</p>
+
+
+
+<a name="21795"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21795" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21795">(Nov 19 2020 at 19:07)</a>:</h4>
+<p><a href="/user_uploads/2/15/oJPns1msYTDxCrcbghYuZt1-/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a> <br>
+Alright! after re-running, this is the head of my dataframe.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/15/oJPns1msYTDxCrcbghYuZt1-/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/15/oJPns1msYTDxCrcbghYuZt1-/Capture.PNG"></a></div>
+
+
+
+<a name="21796"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21796" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21796">(Nov 19 2020 at 19:08)</a>:</h4>
+<p>this doesnt include your commands you sent earlier. I havent run those yet.</p>
+
+
+
+<a name="21798"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21798" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21798">(Nov 19 2020 at 19:15)</a>:</h4>
+<p>does <code>dfWXT.rolling(288).mean()</code> return anything?</p>
+
+
+
+<a name="21799"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21799" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21799">(Nov 19 2020 at 19:17)</a>:</h4>
+<blockquote>
+<p>And if I do dfWXT.info() the datetime is no longer a column in my DF</p>
+</blockquote>
+<p>This is expected because  after <code>dfWXT = dfWXT.set_inde('datetime')</code>, <code>datetime</code> is no longer a column but an index...</p>
+
+
+
+<a name="21800"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21800" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21800">(Nov 19 2020 at 19:17)</a>:</h4>
+<p><a href="/user_uploads/2/b0/1AxiWBDIivj7Yb_CIQinqVCR/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a> This is the results from rolling</p>
+<div class="message_inline_image"><a href="/user_uploads/2/b0/1AxiWBDIivj7Yb_CIQinqVCR/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/b0/1AxiWBDIivj7Yb_CIQinqVCR/Capture.PNG"></a></div>
+
+
+
+<a name="21801"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21801" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21801">(Nov 19 2020 at 19:29)</a>:</h4>
+<blockquote>
+<p>Because I want to graph the data day by day, I need to take the average wind speed for every 288th data points. (Since there are 288 5-minute intervals in one day).</p>
+</blockquote>
+<p>Is it the case that you actually want to compute an average for each day, and not a daily running average?</p>
+
+
+
+<a name="21802"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21802" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21802">(Nov 19 2020 at 19:30)</a>:</h4>
+<p>I am asking because I just realized that I may have misinterpreted your original question <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span></p>
+
+
+
+<a name="21803"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21803" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21803">(Nov 19 2020 at 19:31)</a>:</h4>
+<p>If you want to compute daily average, you can try this: </p>
+<div class="codehilite"><pre><span></span><span class="n">dfWXT</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dfWXT</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+<span class="n">dfWXT</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">dfWXT</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+
+
+
+<a name="21805"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21805" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21805">(Nov 19 2020 at 19:39)</a>:</h4>
+<p>Yes! This is perfect! Sorry for the confusion. This is what I want. The average of wind speed by each day. <br>
+My only question now is when I want to graph it, what should I set "x" as? Since datetime is no longer a column but <a href="/user_uploads/2/50/ta-k8EWZLLqr9fvQ3Dl8sFIP/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a> an index.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/50/ta-k8EWZLLqr9fvQ3Dl8sFIP/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/50/ta-k8EWZLLqr9fvQ3Dl8sFIP/Capture.PNG"></a></div>
+
+
+
+<a name="21806"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21806" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21806">(Nov 19 2020 at 19:41)</a>:</h4>
+<p>Ah, nevermind. I will leave x out. It will automatically do it by datetime.<br>
+Thank you for your help!!</p>
+
+
+
+<a name="21807"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21807" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21807">(Nov 19 2020 at 19:44)</a>:</h4>
+<blockquote>
+<p>My only question now is when I want to graph it, what should I set "x" as? Since datetime is no longer a column but</p>
+</blockquote>
+<p>You can reset the index to turn <code>datetime</code> into a column again:</p>
+<div class="codehilite"><pre><span></span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+</pre></div>
+
+
+
+<a name="21808"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Averaging%20Data%20Points%20in%20a%20DataFrame/near/21808" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Averaging.20Data.20Points.20in.20a.20DataFrame.html#21808">(Nov 19 2020 at 19:45)</a>:</h4>
+<blockquote>
+<p>Yes! This is perfect! Sorry for the confusion.  </p>
+</blockquote>
+<p>Of course! Glad we got it to work as expected</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

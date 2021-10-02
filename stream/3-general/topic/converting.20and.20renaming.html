@@ -1,0 +1,106 @@
+<html>
+<head><meta charset="utf-8"><title>converting and renaming · general · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html">converting and renaming</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30233"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30233" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30233">(Apr 25 2021 at 21:22)</a>:</h4>
+<p>Hi I am trying to read standard CESM output and extract single variables for CMIP6-style output.  I might also have to do unit conversion.  <br>
+Script is ~lamar/Python/H2/rw_h0.ipynb</p>
+<p>I am reading the files using </p>
+<p>ds=xr.open_mfdataset(files[0:3], concat_dim="time", combine='nested')</p>
+<p>then extracting a specific variable</p>
+<p>var = ds["H2"]</p>
+<p>I tried</p>
+<p>var.rename({"H2": "h2"})</p>
+<p>but this does not work.  The error message is</p>
+<p>"cannot rename 'H2' because it is not a variable or dimension in this dataset"</p>
+<p>Thoughts?</p>
+
+
+
+<a name="30234"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30234" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30234">(Apr 25 2021 at 21:32)</a>:</h4>
+<p>Use:  <br>
+var.rename('h2')   <br>
+For some reason, the dict construct is only for coordinates?</p>
+
+
+
+<a name="30235"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30235" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30235">(Apr 25 2021 at 21:34)</a>:</h4>
+<p>Thanks. Steve.  It "works" in that it does not complain, but the output netcdf file still has "H2", not "h2"</p>
+<p>/glade/scratch/lamar/tmp/H2/h2_Amon_WACCM6-fr_hydrogen_c1_r1_gn_201001-201412.nc</p>
+
+
+
+<a name="30236"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30236" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30236">(Apr 25 2021 at 21:35)</a>:</h4>
+<p>You need to overwrite var by doing:<br>
+var = var.rename('h2')</p>
+
+
+
+<a name="30237"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30237" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30237">(Apr 25 2021 at 22:24)</a>:</h4>
+<p>Making progress :-)</p>
+<p>Now it crashes writing the netcdf file</p>
+<p>TypeError: unhashable type: 'set'</p>
+
+
+
+<a name="30238"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30238" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30238">(Apr 25 2021 at 23:10)</a>:</h4>
+<p>Found a way around it.  Not pretty but it works.  Since I have a lot of variables, is<br>
+there a way to create a function that would do that?</p>
+<p>var = ds["H2"]</p>
+<h1>dsout = xr.Dataset(</h1>
+<div class="codehilite"><pre><span></span>data_vars=dict(
+    h2=([&quot;time&quot;, &quot;lev&quot;, &quot;lat&quot;, &quot;lon&quot;], var),
+),
+coords=dict(
+    lon=([&quot;lon&quot;], lon),
+    lat=([&quot;lat&quot;], lat),
+    lev=([&quot;lev&quot;], lev),
+    time=date,
+),
+attrs=dict(description=&quot;Hydrogen MIP&quot;),
+</pre></div>
+
+
+<p>)<br>
+dsout['h2'].attrs["units"] = "mol/mol"</p>
+
+
+
+<a name="30239"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30239" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30239">(Apr 25 2021 at 23:33)</a>:</h4>
+<p>I would do something like</p>
+<div class="codehilite"><pre><span></span><span class="n">ds</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">)</span>
+<span class="n">renamer</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;H2&quot;</span><span class="p">:</span> <span class="s2">&quot;h2&quot;</span><span class="p">,}</span>  <span class="c1"># could add other variables here</span>
+
+<span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;h2&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;mol/mol&quot;</span><span class="p">,</span> <span class="s2">&quot;description=&quot;</span><span class="n">Hydrogen</span> <span class="n">MIP</span><span class="s2">&quot;}}</span>
+
+<span class="n">ds_renamed</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">rename_vars</span><span class="p">(</span><span class="n">rename</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">ds_renamed</span><span class="p">:</span>
+    <span class="c1"># alternatively, ds_renamed[var].attrs = attrs[var]</span>
+    <span class="n">ds_renamed</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">attrs</span><span class="p">[</span><span class="n">var</span><span class="p">])</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{var}</span><span class="s2">.nc&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="30240"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/converting%20and%20renaming/near/30240" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/converting.20and.20renaming.html#30240">(Apr 25 2021 at 23:56)</a>:</h4>
+<p>Thanks, Deepak.  I'll try that!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

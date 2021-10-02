@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>Hi All, </p>\n<p>This is my first post to list and i am exciting about it. I am trying to learn dask and xarray by trying following operation  </p>\n<div class=\"codehilite\"><pre><span></span>import xarray as xr\nimport dask.array as da\nimport numpy as np\n\ndef box_average(x):\n    return np.average(x+np.roll(x, -1)+np.roll(x, -1, axis=0)+np.roll(x, -1, axis=1)+np.roll(x, [-1,-1], axis=(0, 1)))\n\ntmp = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\narr = da.from_array(tmp, chunks=5)\nprint(arr.compute())\narr2 = arr.map_overlap(box_average, depth=1, boundary=0)\nprint(arr2.compute())\n</pre></div>\n\n\n<p>i am aiming to calculate average over 2d field by using its neighbors. I found map_overlap function to do it but it won't produce that i want . Do you know any good example about it. Actually, this is just demo code that i try something but eventually this will be used in very high resolution dataset and i am not sure about its performance at this point. Any comments could be helpful since i am beginer</p>",
+        "id": 21815,
+        "sender_full_name": "Ufuk Turuncoglu",
+        "timestamp": 1605825907
+    },
+    {
+        "content": "<p>i think i solved the problem. thanks</p>",
+        "id": 21821,
+        "sender_full_name": "Ufuk Turuncoglu",
+        "timestamp": 1605889855
+    }
+]

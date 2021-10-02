@@ -1,0 +1,76 @@
+<html>
+<head><meta charset="utf-8"><title>DataArrary accessor · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/DataArrary.20accessor.html">DataArrary accessor</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="12023"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/DataArrary%20accessor/near/12023" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/DataArrary.20accessor.html#12023">(Jun 19 2020 at 03:07)</a>:</h4>
+<p>I am working on an EOF analysis. I find it convenient to write the following "accessor"</p>
+<div class="codehilite"><pre><span></span><span class="nd">@xr</span><span class="o">.</span><span class="n">register_dataarray_accessor</span><span class="p">(</span><span class="s1">&#39;eofs&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">eof_analysis</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;perform EOF analysis&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eof_da</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_da</span> <span class="o">=</span> <span class="n">eof_da</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constituent</span> <span class="o">=</span> <span class="n">eof_da</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">coslat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_da</span><span class="o">.</span><span class="n">lat</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+        <span class="n">wgts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">coslat</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">Eof</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_da</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">wgts</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">((</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">eofs</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">pcs</span><span class="p">(</span><span class="n">pcscaling</span><span class="o">=</span><span class="n">pcscaling</span><span class="p">[</span><span class="s1">&#39;unit_variance&#39;</span><span class="p">]),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">varianceFraction</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;vf&#39;</span><span class="p">),</span>
+        <span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">add_reconstruction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eof_list</span><span class="p">):</span>
+        <span class="n">recon_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{self.constituent}</span><span class="s1">_&#39;</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">eof_list</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="n">recon_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span><span class="o">.</span><span class="n">reconstructedField</span><span class="p">(</span><span class="n">eof_list</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ds</span>
+</pre></div>
+
+
+<p>However, in a notebook, I get the following error if this definition is executed more than once:</p>
+<div class="codehilite"><pre><span></span><span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">mclong</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">co2</span><span class="o">-</span><span class="n">hole</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">ipykernel_launcher</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">8</span><span class="p">:</span> <span class="n">AccessorRegistrationWarning</span><span class="p">:</span> <span class="n">registration</span> <span class="n">of</span> <span class="n">accessor</span> <span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">__main__</span><span class="o">.</span><span class="n">eof_analysis</span><span class="s1">&#39;&gt; under name &#39;</span><span class="n">eofs</span><span class="s1">&#39; for type &lt;class &#39;</span><span class="n">xarray</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">dataarray</span><span class="o">.</span><span class="n">DataArray</span><span class="s1">&#39;&gt; is overriding a preexisting attribute with the same name.</span>
+</pre></div>
+
+
+<p>and the object definition is not updated with edits I might have made. There could be an interaction with "autoload" magic.</p>
+<p>Is there a way to "unregister" an accessor?</p>
+
+
+
+<a name="12027"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/DataArrary%20accessor/near/12027" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/DataArrary.20accessor.html#12027">(Jun 19 2020 at 12:45)</a>:</h4>
+<blockquote>
+<p>Is there a way to "unregister" an accessor?</p>
+</blockquote>
+<p>You can use <code>delattr</code> on the<code>xr.DataArray</code> class:</p>
+<div class="codehilite"><pre><span></span><span class="k">try</span><span class="p">:</span>
+     <span class="nb">delattr</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span> <span class="s1">&#39;eofs&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+
+
+<a name="12193"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/DataArrary%20accessor/near/12193" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/DataArrary.20accessor.html#12193">(Jun 22 2020 at 17:14)</a>:</h4>
+<p>Sure Deepak, but your link does not work, can you send me the content?, perhaps by email</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

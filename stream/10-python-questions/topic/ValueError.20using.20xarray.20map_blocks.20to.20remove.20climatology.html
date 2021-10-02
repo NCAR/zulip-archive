@@ -1,0 +1,98 @@
+<html>
+<head><meta charset="utf-8"><title>ValueError using xarray map_blocks to remove climatology · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/ValueError.20using.20xarray.20map_blocks.20to.20remove.20climatology.html">ValueError using xarray map_blocks to remove climatology</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="40927"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/ValueError%20using%20xarray%20map_blocks%20to%20remove%20climatology/near/40927" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/ValueError.20using.20xarray.20map_blocks.20to.20remove.20climatology.html#40927">(Aug 25 2021 at 18:45)</a>:</h4>
+<p>Hi all, <br>
+I'm trying to calculate anomalies from a daily climatology using xarray's <code>groupby</code>, but without rechunking, which is apparently something xarray struggles with. A workaround suggested by Ryan Abernathey here <a href="https://nbviewer.jupyter.org/gist/rabernat/30e7b747f0e3583b5b776e4093266114">https://nbviewer.jupyter.org/gist/rabernat/30e7b747f0e3583b5b776e4093266114</a> uses <code>map_blocks</code> to feed the DataArray to a function which calculates the climatology. My own (near-identical) implementation of this fails, as (I think) within the function a new DataArray is created by <code>groupby</code> with an additional dimension that is not in the input DA. I've created a short example just using random data:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+
+<span class="n">times</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1992</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">lats</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mf">1.875</span><span class="p">)</span>
+<span class="n">lons</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mf">3.75</span><span class="p">)</span>
+
+<span class="n">X</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>\
+               <span class="n">da</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">),</span><span class="mi">96</span><span class="p">,</span><span class="mi">96</span><span class="p">),</span><span class="n">chunks</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">),</span><span class="mi">48</span><span class="p">,</span><span class="mi">32</span><span class="p">)),</span>\
+               <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">'time'</span><span class="p">,</span><span class="s1">'lat'</span><span class="p">,</span><span class="s1">'lon'</span><span class="p">],</span>\
+               <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">'time'</span><span class="p">:</span><span class="n">times</span><span class="p">,</span><span class="s1">'lat'</span><span class="p">:</span><span class="n">lats</span><span class="p">,</span><span class="s1">'lon'</span><span class="p">:</span><span class="n">lons</span><span class="p">},</span>\
+               <span class="n">name</span><span class="o">=</span><span class="s1">'variable'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calculate_anomaly</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="c1"># from https://nbviewer.jupyter.org/gist/rabernat/30e7b747f0e3583b5b776e4093266114</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">'time'</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span>
+    <span class="n">gb</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'time.dayofyear'</span><span class="p">)</span>
+    <span class="n">clim</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gb</span> <span class="o">-</span> <span class="n">clim</span>
+
+<span class="n">ANOM</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">calculate_anomaly</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
+<span class="n">ANOM_std</span> <span class="o">=</span> <span class="n">ANOM</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</code></pre></div>
+<p>For me, running this (but only with the final line included, triggering the compute) results in:</p>
+<p><code>ValueError: Result from applying user function has unexpected coordinate variables {'dayofyear'}.</code></p>
+<p>I have tried supplying a "template" DA with the extra dimension to <code>map_blocks</code> but this for some reason grinds everything to  a halt.<br>
+If anybody has run into this before I'd really appreciate a hand! Thanks</p>
+
+
+
+<a name="41843"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/ValueError%20using%20xarray%20map_blocks%20to%20remove%20climatology/near/41843" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/ValueError.20using.20xarray.20map_blocks.20to.20remove.20climatology.html#41843">(Sep 03 2021 at 15:44)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="184">@Dafydd Stephenson</span> </p>
+<p>This works for me. I wrote out the anomaly computation to understand what the output looked. like and made minor changes. (<code>drop_vars</code> and <code>template=X</code>)</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+
+<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1992</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2021</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mf">1.875</span><span class="p">)</span>
+<span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mf">3.75</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">da</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">96</span><span class="p">),</span> <span class="n">chunks</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">),</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">32</span><span class="p">)),</span>
+    <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"time"</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">],</span>
+    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="n">times</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">:</span> <span class="n">lats</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="n">lons</span><span class="p">},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"variable"</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">calculate_anomaly</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="c1"># from https://nbviewer.jupyter.org/gist/rabernat/30e7b747f0e3583b5b776e4093266114</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">"time"</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ds</span>
+    <span class="n">gb</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.dayofyear"</span><span class="p">)</span>
+    <span class="n">clim</span> <span class="o">=</span> <span class="n">gb</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
+    <span class="c1"># drop this extra dayofyear because it seems useless</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">gb</span> <span class="o">-</span> <span class="n">clim</span><span class="p">)</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">"dayofyear"</span><span class="p">)</span>
+
+
+<span class="c1">#  used this to understand the expected output</span>
+<span class="c1">#template = (X.groupby("time.dayofyear") - X.groupby("time.dayofyear").mean()).chunk(</span>
+<span class="c1">#    {"time": -1}</span>
+<span class="c1">#)</span>
+
+<span class="n">ANOM</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">map_blocks</span><span class="p">(</span><span class="n">calculate_anomaly</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">X</span><span class="p">)</span>
+<span class="n">ANOM_std</span> <span class="o">=</span> <span class="n">ANOM</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">)</span>
+<span class="n">ANOM_std</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

@@ -1,0 +1,116 @@
+[
+    {
+        "content": "<p>I'm trying to explore using hvPlot for interactive graphics in jupyter notebooks, using the JupyterLab interface. The <a href=\"https://hvplot.holoviz.org/getting_started/index.html\" target=\"_blank\" title=\"https://hvplot.holoviz.org/getting_started/index.html\">hvPlot docs</a> instruct one to run the command</p>\n<blockquote>\n<p>jupyter labextension install @pyviz/jupyterlab_pyviz</p>\n</blockquote>\n<p>in order to use hvPlot with JupyterLab. When I run this command, I get the error message</p>\n<blockquote>\n<p>An error occured.<br>\nValueError: The extension \"@pyviz/jupyterlab_pyviz\" does not yet support the current version of JupyterLab.<br>\nConflicting Dependencies:<br>\nJupyterLab                        Extension       Package<br>\n=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/application<br>\n=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/apputils<br>\n=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/notebook<br>\n=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/rendermime-interfaces<br>\n=6.0.8 &lt;6.1.0                    &gt;=5.0.0 &lt;6.0.0  @jupyterlab/services<br>\nSee the log file for details:  /glade/scratch/klindsay/tmp/jupyterlab-debug-hwnqf8_b.log</p>\n</blockquote>\n<p>My conda environment has jupyterlab version 3.0.15.  I don't understand this error message, so I don't see what I can do to work around this problem. Suggestions?</p>\n<p>The yaml file for my conda environment is at<br>\n<code>/glade/work/klindsay/analysis/notebooks/environment.yml</code>.</p>",
+        "id": 31419,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621000483
+    },
+    {
+        "content": "<p>I see now that zulip munged my cut-n-paste error message. It is</p>\n<div class=\"codehilite\"><pre><span></span>Conflicting Dependencies:\nJupyterLab                        Extension       Package\n&gt;=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/application\n&gt;=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/apputils\n&gt;=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/notebook\n&gt;=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/rendermime-interfaces\n&gt;=6.0.8 &lt;6.1.0                    &gt;=5.0.0 &lt;6.0.0  @jupyterlab/services\n</pre></div>",
+        "id": 31421,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621003030
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> have you tried using holoviews without the extension? Are you accessing this through the JupyterHub?</p>",
+        "id": 31434,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1621007388
+    },
+    {
+        "content": "<p>Here is an example of the imports I used, the only additional package you will need is pooch to get the sample dataset</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">xarray</span> <span class=\"k\">as</span> <span class=\"nn\">xr</span>\n<span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"k\">as</span> <span class=\"nn\">np</span>\n<span class=\"kn\">import</span> <span class=\"nn\">holoviews</span> <span class=\"k\">as</span> <span class=\"nn\">hv</span>\n<span class=\"kn\">from</span> <span class=\"nn\">holoviews</span> <span class=\"kn\">import</span> <span class=\"n\">opts</span>\n<span class=\"n\">hv</span><span class=\"o\">.</span><span class=\"n\">extension</span><span class=\"p\">(</span><span class=\"s1\">&#39;matplotlib&#39;</span><span class=\"p\">)</span>\n\n<span class=\"n\">xr_ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">tutorial</span><span class=\"o\">.</span><span class=\"n\">open_dataset</span><span class=\"p\">(</span><span class=\"s2\">&quot;air_temperature&quot;</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span>\n\n<span class=\"n\">hv_ds</span> <span class=\"o\">=</span> <span class=\"n\">hv</span><span class=\"o\">.</span><span class=\"n\">Dataset</span><span class=\"p\">(</span><span class=\"n\">xr_ds</span><span class=\"p\">)[:,</span> <span class=\"p\">:,</span> <span class=\"s2\">&quot;2013-01-01&quot;</span><span class=\"p\">]</span>\n\n<span class=\"n\">airtemp</span> <span class=\"o\">=</span> <span class=\"n\">hv_ds</span><span class=\"o\">.</span><span class=\"n\">to</span><span class=\"p\">(</span><span class=\"n\">hv</span><span class=\"o\">.</span><span class=\"n\">Image</span><span class=\"p\">,</span> <span class=\"n\">kdims</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s2\">&quot;lon&quot;</span><span class=\"p\">,</span> <span class=\"s2\">&quot;lat&quot;</span><span class=\"p\">],</span> <span class=\"n\">dynamic</span><span class=\"o\">=</span><span class=\"kc\">False</span><span class=\"p\">)</span>\n<span class=\"n\">airtemp</span><span class=\"p\">[:,</span> <span class=\"mi\">220</span><span class=\"p\">:</span><span class=\"mi\">320</span><span class=\"p\">,</span> <span class=\"p\">:]</span><span class=\"o\">.</span><span class=\"n\">opts</span><span class=\"p\">(</span><span class=\"n\">colorbar</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span> <span class=\"n\">fig_size</span><span class=\"o\">=</span><span class=\"mi\">200</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>This should return a plot inline which has an interactive slider</p>",
+        "id": 31435,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1621007536
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> I don't think you need install jupyterlab_pyviz if you had jupyterlab in your environment already. You can run pip install holoviews and hvplot based on your existing environment.</p>",
+        "id": 31436,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1621007646
+    },
+    {
+        "content": "<p>I have to admit that I'm a bit confused about how hvPlot, holoviews, and bokeh fit together, and what part of that puzzle is providing the interactive framework.</p>\n<p>I hadn't tried using hvPlot yet. I was taking their word for it that I needed to install the extension before proceeding. I'll give it a try.</p>",
+        "id": 31442,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621008109
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , I'm able to run your example and get a plot with a time slider.<br>\nWhat I'm really interested in the ability to zoom.<br>\nIt appears like the examples at <a href=\"https://hvplot.holoviz.org/\" target=\"_blank\" title=\"https://hvplot.holoviz.org/\">https://hvplot.holoviz.org/</a> have this functionality,<br>\nthough I might be misunderstanding what the icons mean.<br>\nI think, but am not certain that these icons are from the bokeh interface.<br>\nUnfortunately, I've been unable to get their example that includes an xr dataset to work in my notebook.<br>\nWhen I cut-n-paste their example, I get the error</p>\n<div class=\"codehilite\"><pre><span></span>...\n/glade/work/klindsay/miniconda3/envs/analysis_notebooks/lib/python3.7/site-packages/holoviews/core/data/grid.py in init(cls, eltype, data, kdims, vdims)\n    146                 raise error(&#39;Key dimension values and value array %s &#39;\n    147                             &#39;shapes do not match. Expected shape %s, &#39;\n--&gt; 148                             &#39;actual shape: %s&#39; % (vdim, valid_shape, shape), cls)\n    149         return data, {&#39;kdims&#39;:kdims, &#39;vdims&#39;:vdims}, {}\n    150\n\nDataError: Key dimension values and value array air shapes do not match. Expected shape (1325, 1325), actual shape: (53, 25)\n\nGridInterface expects gridded data, for more information on supported datatypes see http://holoviews.org/user_guide/Gridded_Datasets.html\n</pre></div>\n\n\n<p>So I'm kinda stumped on that front.</p>\n<p>Any suggestions for creating interactive plots with zoom capability?</p>",
+        "id": 31443,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621009655
+    },
+    {
+        "content": "<p>Can you share what dataset you working with?</p>",
+        "id": 31444,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1621009751
+    },
+    {
+        "content": "<p>Try this</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">xarray</span> <span class=\"k\">as</span> <span class=\"nn\">xr</span>\n<span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"k\">as</span> <span class=\"nn\">np</span>\n<span class=\"kn\">import</span> <span class=\"nn\">holoviews</span> <span class=\"k\">as</span> <span class=\"nn\">hv</span>\n<span class=\"kn\">from</span> <span class=\"nn\">holoviews</span> <span class=\"kn\">import</span> <span class=\"n\">opts</span>\n<span class=\"n\">hv</span><span class=\"o\">.</span><span class=\"n\">extension</span><span class=\"p\">(</span><span class=\"s1\">&#39;bokeh&#39;</span><span class=\"p\">)</span>\n\n<span class=\"kn\">import</span> <span class=\"nn\">xarray</span> <span class=\"k\">as</span> <span class=\"nn\">xr</span><span class=\"o\">,</span> <span class=\"nn\">cartopy.crs</span> <span class=\"k\">as</span> <span class=\"nn\">crs</span>\n<span class=\"kn\">import</span> <span class=\"nn\">hvplot.xarray</span>  <span class=\"c1\"># noqa</span>\n\n<span class=\"n\">air_ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">tutorial</span><span class=\"o\">.</span><span class=\"n\">open_dataset</span><span class=\"p\">(</span><span class=\"s1\">&#39;air_temperature&#39;</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span>\n<span class=\"n\">proj</span> <span class=\"o\">=</span> <span class=\"n\">crs</span><span class=\"o\">.</span><span class=\"n\">Orthographic</span><span class=\"p\">(</span><span class=\"o\">-</span><span class=\"mi\">90</span><span class=\"p\">,</span> <span class=\"mi\">30</span><span class=\"p\">)</span>\n\n<span class=\"n\">air_ds</span><span class=\"o\">.</span><span class=\"n\">air</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">time</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mi\">9</span><span class=\"p\">,</span> <span class=\"mi\">3</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">hvplot</span><span class=\"o\">.</span><span class=\"n\">quadmesh</span><span class=\"p\">(</span>\n    <span class=\"s1\">&#39;lon&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;lat&#39;</span><span class=\"p\">,</span> <span class=\"n\">projection</span><span class=\"o\">=</span><span class=\"n\">proj</span><span class=\"p\">,</span> <span class=\"n\">project</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span> <span class=\"n\">global_extent</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span>\n    <span class=\"n\">cmap</span><span class=\"o\">=</span><span class=\"s1\">&#39;viridis&#39;</span><span class=\"p\">,</span> <span class=\"n\">rasterize</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span> <span class=\"n\">dynamic</span><span class=\"o\">=</span><span class=\"kc\">False</span><span class=\"p\">,</span> <span class=\"n\">coastline</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span>\n    <span class=\"n\">frame_width</span><span class=\"o\">=</span><span class=\"mi\">500</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>the key is replacing matplotlib with bokeh since bokeh allows the zooming ability</p>",
+        "id": 31445,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1621009944
+    },
+    {
+        "content": "<p>I found out this: \"You no longer require the extension for JupyterLab 3.0, it'll be automatically installed if you have pyviz_comms&gt;=2.0 installed. The docs have been updated but the website hasn't been rebuilt since\".</p>",
+        "id": 31446,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1621009969
+    },
+    {
+        "content": "<p>I cut-n-pasted their example code</p>\n<div class=\"codehilite\"><pre><span></span>import xarray as xr, cartopy.crs as crs\nimport hvplot.xarray  # noqa\n\nair_ds = xr.tutorial.open_dataset(&#39;air_temperature&#39;).load()\nproj = crs.Orthographic(-90, 30)\n\nair_ds.air.isel(time=slice(0, 9, 3)).hvplot.quadmesh(\n    &#39;lon&#39;, &#39;lat&#39;, projection=proj, project=True, global_extent=True,\n    cmap=&#39;viridis&#39;, rasterize=True, dynamic=False, coastline=True,\n    frame_width=500)\n</pre></div>\n\n\n<p>I'm generating my conda environment from <code>/glade/work/klindsay/analysis/notebooks/environment.yml</code>.</p>",
+        "id": 31447,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621009995
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> You have to set active_tools in plotting as this example:<br>\n  self.plot = self.df.hvplot.scatter(x='x',y='y',c=self.color_val).opts(active_tools=['pan','wheel_zoom'])</p>",
+        "id": 31449,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1621010316
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , when I cut-n-paste your code into a notebook, I still get the error</p>\n<div class=\"codehilite\"><pre><span></span>...\n/glade/work/klindsay/miniconda3/envs/analysis_notebooks/lib/python3.7/site-packages/holoviews/core/data/grid.py in init(cls, eltype, data, kdims, vdims)\n    146                 raise error(&#39;Key dimension values and value array %s &#39;\n    147                             &#39;shapes do not match. Expected shape %s, &#39;\n--&gt; 148                             &#39;actual shape: %s&#39; % (vdim, valid_shape, shape), cls)\n    149         return data, {&#39;kdims&#39;:kdims, &#39;vdims&#39;:vdims}, {}\n    150\n\nDataError: Key dimension values and value array air shapes do not match. Expected shape (1325, 1325), actual shape: (53, 25)\n\nGridInterface expects gridded data, for more information on supported datatypes see http://holoviews.org/user_guide/Gridded_Datasets.html\n</pre></div>",
+        "id": 31450,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621010927
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"38\">@Haiying Xu</span> , I don't understand what I need to do to set <code>active_tools</code>. I don't see how to relate <code>self</code> and <code>self.df</code> in your example to the code that I've posted.</p>",
+        "id": 31451,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621011103
+    },
+    {
+        "content": "<p>update: If I drop all of the arguments to <code>quadmesh</code> in the hvPlot example, I get a <code>bokeh</code> interface with zoom capability. This gives me something to start with to modify their example to apply it to my dataset. Thanks <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> and <span class=\"user-mention\" data-user-id=\"38\">@Haiying Xu</span> for your assistance.</p>",
+        "id": 31452,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621011609
+    },
+    {
+        "content": "<p>Yes, that's what I get to pan, wheel_zoom and box_zoom as well.</p>",
+        "id": 31453,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1621011933
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> I would kindly encourage you to consider contributing your results (once they're working :-) to the GeoCAT-examples repo. We're presently lacking interactive content and would love to have some. I'm sure it would benefit others in the community.</p>\n<p>cc <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span></p>",
+        "id": 31454,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1621012146
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> I agree with <span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> . We could help include this example under GeoCAT-examples if you would be interested. </p>\n<p>In addition, your last message sounds like you figured out some workaround for the time, I'd be happy to help if any further help is needed.</p>",
+        "id": 32011,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1621529386
+    },
+    {
+        "content": "<p>I replied Keith Lindsay before: I found out this online: \"You no longer require the extension for JupyterLab 3.0, it'll be automatically installed if you have pyviz_comms&gt;=2.0 installed. The docs have been updated but the website hasn't been rebuilt since\".</p>",
+        "id": 37027,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1626126088
+    }
+]

@@ -1,0 +1,176 @@
+[
+    {
+        "content": "<p>Hi all, I am currently trying to process 4D data, i.e. performing a roll operation and cutting a smaller piece out of it, and then saving it to netcdf. This has worked in the past but is not working currently. <br>\nI am trying </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dscut</span><span class=\"o\">.</span><span class=\"n\">chunk</span><span class=\"p\">(</span><span class=\"n\">chunks</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;nlat&#39;</span><span class=\"p\">:</span><span class=\"mi\">50</span><span class=\"p\">,</span> <span class=\"s1\">&#39;nlon&#39;</span><span class=\"p\">:</span><span class=\"mi\">50</span><span class=\"p\">,</span> <span class=\"s1\">&#39;time&#39;</span><span class=\"p\">:</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span><span class=\"mi\">1</span><span class=\"p\">})</span><span class=\"o\">.</span><span class=\"n\">to_netcdf</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"o\">=</span><span class=\"s1\">&#39;/glade/scratch/deppenme/C-HIRES/Pacific/iHESP_Pac_CESM_0.1_008301-008312_TEND_TEMP.nc&#39;</span><span class=\"p\">,</span>\n                                                                           <span class=\"n\">mode</span><span class=\"o\">=</span><span class=\"s1\">&#39;w&#39;</span><span class=\"p\">,</span> <span class=\"n\">format</span><span class=\"o\">=</span><span class=\"s1\">&#39;NETCDF4&#39;</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>and have specified </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">ncar_jobqueue</span><span class=\"o\">.</span><span class=\"n\">NCARCluster</span><span class=\"p\">(</span><span class=\"n\">memory</span> <span class=\"o\">=</span> <span class=\"s1\">&#39;50GB&#39;</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>Everytime, one of my multiple workers starts accruing memory load up to ~26GB, and then the cell stops working with the <br>\nKilledWorker: (\"('open_dataset-5004937b0b94363a0162fe759f5e3597TEND_TEMP-7bdebbf2a030fe15400fc074b2b9ae8f', 0, 0, 0, 0)\", &lt;Worker 'tcp://10.12.205.34:40041', memory: 0, processing: 1&gt;)<br>\nerror.<br>\nThe size of the dataset dscut is 1.25GB</p>",
+        "id": 3024,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1584118932
+    },
+    {
+        "content": "<blockquote>\n<p>The size of the dataset dscut is 1.25GB </p>\n</blockquote>\n<p>Since the dataset seems to be relatively small <code>(~1.3GB)</code>, can you write it directly by bypassing dask's chunking:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dscut</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">to_netcdf</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"o\">=</span><span class=\"s1\">&#39;/glade/scratch/deppenme/C-HIRES/Pacific/iHESP_Pac_CESM_0.1_008301-008312_TEND_TEMP.nc&#39;</span><span class=\"p\">,</span>\n                                                                           <span class=\"n\">mode</span><span class=\"o\">=</span><span class=\"s1\">&#39;w&#39;</span><span class=\"p\">,</span> <span class=\"n\">format</span><span class=\"o\">=</span><span class=\"s1\">&#39;NETCDF4&#39;</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 3059,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584124759
+    },
+    {
+        "content": "<blockquote>\n<p>Everytime, one of my multiple workers starts accruing memory load up to ~26GB, and then the cell stops working with the <br>\nKilledWorker: (\"('open_dataset-5004937b0b94363a0162fe759f5e3597TEND_TEMP-7bdebbf2a030fe15400fc074b2b9ae8f', 0, 0, 0, 0)\", &lt;Worker 'tcp://10.12.205.34:40041', memory: 0, processing: 1&gt;)<br>\nerror.<br>\nThe size of the dataset dscut is 1.25GB</p>\n</blockquote>\n<p>If you can put together a reproducible example or provide a link to a notebook/script, I am happy to look into the dask killedWorker issue</p>",
+        "id": 3060,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584124928
+    },
+    {
+        "content": "<p>I am having the same issue as <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span>. Here is a reproducible example: <br/>\n<a href=\"https://nbviewer.jupyter.org/gist/gustavo-marques/2a8ab5a0f6135bb1cfa6c91c16bddbe6\" target=\"_blank\" title=\"https://nbviewer.jupyter.org/gist/gustavo-marques/2a8ab5a0f6135bb1cfa6c91c16bddbe6\">https://nbviewer.jupyter.org/gist/gustavo-marques/2a8ab5a0f6135bb1cfa6c91c16bddbe6</a></p>",
+        "id": 3427,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584455949
+    },
+    {
+        "content": "<p>Gustavo, can you add this after creating <code>ds1</code>?</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"kn\">as</span> <span class=\"nn\">np</span>\n<span class=\"k\">for</span> <span class=\"n\">var</span> <span class=\"ow\">in</span> <span class=\"n\">ds1</span><span class=\"o\">.</span><span class=\"n\">variables</span><span class=\"p\">:</span>\n    <span class=\"k\">if</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">is_dask_collection</span><span class=\"p\">(</span><span class=\"n\">ds1</span><span class=\"p\">[</span><span class=\"n\">var</span><span class=\"p\">]):</span>\n        <span class=\"n\">ds1</span><span class=\"p\">[</span><span class=\"n\">var</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">data</span> <span class=\"o\">=</span> <span class=\"n\">ds1</span><span class=\"p\">[</span><span class=\"n\">var</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">data</span><span class=\"o\">.</span><span class=\"n\">map_blocks</span><span class=\"p\">(</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">copy</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>adapted from <a href=\"https://github.com/dask/dask/issues/3595#issuecomment-449546228\" target=\"_blank\" title=\"https://github.com/dask/dask/issues/3595#issuecomment-449546228\">https://github.com/dask/dask/issues/3595#issuecomment-449546228</a></p>",
+        "id": 3430,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584456760
+    },
+    {
+        "content": "<p>Thanks for the suggestion Deepak. I am still getting the same error.</p>",
+        "id": 3431,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584457474
+    },
+    {
+        "content": "<p>Does it look like memory is blowing up?</p>",
+        "id": 3434,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584461398
+    },
+    {
+        "content": "<p>(I assumed that was the issue)</p>",
+        "id": 3435,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584461410
+    },
+    {
+        "content": "<p>Yes, it does. Here is the error message:<br>\nKilledWorker: (\"('open_dataset-concatenate-9db462417b1d809952e026b98a806c0a', 1, 0, 0, 0)\", &lt;Worker 'tcp://10.12.205.13:40577', name: 9, memory: 0, processing: 1&gt;)</p>",
+        "id": 3436,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584462365
+    },
+    {
+        "content": "<p>That <code>memory</code> is the number of tasks in the worker's memory waiting to be run. So you'll have to look  at the memory usage dashboard plot.</p>",
+        "id": 3437,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584462471
+    },
+    {
+        "content": "<p>The memory usage dashboard keeps \"blinking\". I cannot see the values. I do see that many of the bars become orange before the error message appears.</p>",
+        "id": 3440,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584463418
+    },
+    {
+        "content": "<p>hmmm... OK I'll take a look this afternoon. This seems to be a common issue, it'd be nice to find a workaround.</p>",
+        "id": 3441,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584463611
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"15\">@Gustavo M Marques</span> &amp; <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>, </p>\n<p>I am starting to suspect that there is some issue going on when <code>xr.open_mfdataset()</code> is used in conjunction with dask's distributed: </p>\n<p>Below is  what I am seeing when I try to write the netcdf  file with <code>ds2.load().to_netcdf(path='/glade/scratch/abanihi/test.nc',  mode='w', format='NETCDF4')</code> while using the original <code>open_mfdataset()</code></p>\n<div class=\"codehilite\"><pre><span></span><span class=\"c1\"># read dataset</span>\n<span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_mfdataset</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"p\">,</span>\n    <span class=\"n\">parallel</span><span class=\"o\">=</span><span class=\"bp\">True</span><span class=\"p\">,</span>\n    <span class=\"n\">concat_dim</span><span class=\"o\">=</span><span class=\"s2\">\"time\"</span><span class=\"p\">,</span> <span class=\"c1\"># concatenate along time</span>\n    <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span>\n    <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span>\n    <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s1\">'override'</span><span class=\"p\">,</span>\n    <span class=\"n\">combine</span><span class=\"o\">=</span><span class=\"s1\">'nested'</span><span class=\"p\">,</span>\n    <span class=\"n\">preprocess</span><span class=\"o\">=</span><span class=\"n\">preprocess</span><span class=\"p\">,</span>\n    <span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">chunk</span><span class=\"p\">({</span><span class=\"s2\">\"time\"</span><span class=\"p\">:</span> <span class=\"mi\">4</span><span class=\"p\">})</span>\n</pre></div>\n<p><a href=\"/user_uploads/2/hrXF8NqXpYvdaBJDOmcW4M26/Screen-Shot-2020-03-18-at-9.24.13-AM.png\" target=\"_blank\" title=\"Screen-Shot-2020-03-18-at-9.24.13-AM.png\">Screen-Shot-2020-03-18-at-9.24.13-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/hrXF8NqXpYvdaBJDOmcW4M26/Screen-Shot-2020-03-18-at-9.24.13-AM.png\" target=\"_blank\" title=\"Screen-Shot-2020-03-18-at-9.24.13-AM.png\"><img src=\"/user_uploads/2/hrXF8NqXpYvdaBJDOmcW4M26/Screen-Shot-2020-03-18-at-9.24.13-AM.png\"/></a></div>",
+        "id": 3696,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584545498
+    },
+    {
+        "content": "<p>Notice the memory spike on all workers</p>",
+        "id": 3697,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584545519
+    },
+    {
+        "content": "<p>When I try using <code>open_dataset()</code> to read the data, everything works perfectly fine</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dsets</span> <span class=\"o\">=</span> <span class=\"p\">[]</span>\n<span class=\"k\">for</span> <span class=\"n\">path</span> <span class=\"ow\">in</span> <span class=\"n\">paths</span><span class=\"p\">:</span>\n    <span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_dataset</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"p\">,</span> <span class=\"n\">chunks</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;time&#39;</span><span class=\"p\">:</span> <span class=\"mi\">4</span><span class=\"p\">})</span>\n    <span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">preprocess</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">)</span>\n    <span class=\"n\">dsets</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">)</span>\n<span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">dsets</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s1\">&#39;time&#39;</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 3698,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584545575
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/-zJ_F9nRnAyiyVmZzG12oQMp/Screen-Shot-2020-03-18-at-9.22.11-AM.png\" target=\"_blank\" title=\"Screen-Shot-2020-03-18-at-9.22.11-AM.png\">Screen-Shot-2020-03-18-at-9.22.11-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/-zJ_F9nRnAyiyVmZzG12oQMp/Screen-Shot-2020-03-18-at-9.22.11-AM.png\" target=\"_blank\" title=\"Screen-Shot-2020-03-18-at-9.22.11-AM.png\"><img src=\"/user_uploads/2/-zJ_F9nRnAyiyVmZzG12oQMp/Screen-Shot-2020-03-18-at-9.22.11-AM.png\"></a></div>",
+        "id": 3699,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584545586
+    },
+    {
+        "content": "<p>When I try writing to netcdf I see similar memory spikes, after which the worker dies.</p>",
+        "id": 3700,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1584545598
+    },
+    {
+        "content": "<blockquote>\n<p>When I try writing to netcdf I see similar memory spikes, after which the worker dies. </p>\n</blockquote>\n<p>Were you using <code>open_mfdataset()</code> too?</p>",
+        "id": 3701,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584545656
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>When I try writing to netcdf I see similar memory spikes, after which the worker dies. </p>\n</blockquote>\n<p>Were you using <code>open_mfdataset()</code> too?</p>\n</blockquote>\n<p>yes</p>",
+        "id": 3703,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1584546009
+    },
+    {
+        "content": "<p>Thanks for looking at this issue, Anderson. I am going to try your example and see what happens.</p>",
+        "id": 3704,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584546298
+    },
+    {
+        "content": "<blockquote>\n<p>Thanks for looking at this issue, Anderson. I am going to try your example and see what happens.</p>\n</blockquote>\n<p>Once jupyterhub starts working again...</p>",
+        "id": 3706,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584546464
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>Thanks for looking at this issue, Anderson. I am going to try your example and see what happens.</p>\n</blockquote>\n<p>Once jupyterhub starts working again...</p>\n</blockquote>\n<p>I'm trying to look at it, too, but I can't get allocation on casper, even with ssh.</p>",
+        "id": 3707,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1584546524
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> What if you stuck the <code>chunk</code> bit as a kwarg to <code>open_mfdataset</code></p>",
+        "id": 3709,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584546782
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"13\">Anderson Banihirwe</span> What if you stuck the <code>chunk</code> bit as a kwarg to <code>open_mfdataset</code></p>\n</blockquote>\n<div class=\"codehilite\"><pre><span></span><span class=\"c1\"># read dataset</span>\n<span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_mfdataset</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"p\">,</span>\n    <span class=\"n\">parallel</span><span class=\"o\">=</span><span class=\"bp\">True</span><span class=\"p\">,</span>\n    <span class=\"n\">concat_dim</span><span class=\"o\">=</span><span class=\"s2\">\"time\"</span><span class=\"p\">,</span> <span class=\"c1\"># concatenate along time</span>\n    <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span>\n    <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span>\n    <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s1\">'override'</span><span class=\"p\">,</span>\n    <span class=\"n\">combine</span><span class=\"o\">=</span><span class=\"s1\">'nested'</span><span class=\"p\">,</span>\n    <span class=\"n\">preprocess</span><span class=\"o\">=</span><span class=\"n\">preprocess</span><span class=\"p\">,</span>\n    <span class=\"n\">chunks</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">'time'</span><span class=\"p\">:</span> <span class=\"mi\">4</span><span class=\"p\">}</span>\n    <span class=\"p\">)</span>\n</pre></div>\n<p>It works and the memory usage looks pretty good <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span> </p>\n<p><a href=\"/user_uploads/2/vQI9bL9_HW2oQm5RcfyDf5_U/Screen-Shot-2020-03-18-at-9.58.29-AM.png\" target=\"_blank\" title=\"Screen-Shot-2020-03-18-at-9.58.29-AM.png\">Screen-Shot-2020-03-18-at-9.58.29-AM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/vQI9bL9_HW2oQm5RcfyDf5_U/Screen-Shot-2020-03-18-at-9.58.29-AM.png\" target=\"_blank\" title=\"Screen-Shot-2020-03-18-at-9.58.29-AM.png\"><img src=\"/user_uploads/2/vQI9bL9_HW2oQm5RcfyDf5_U/Screen-Shot-2020-03-18-at-9.58.29-AM.png\"/></a></div><p>P.S.: I hadn't noticed that we were rechunking right after open_mfadataset</p>",
+        "id": 3716,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584547294
+    },
+    {
+        "content": "<p>Yeah that was pretty subtle. :) cc <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> <span class=\"user-mention\" data-user-id=\"15\">@Gustavo M Marques</span> </p>\n<p>I think dask was loading each fully completely before subsetting to chunk-size-along-dim and that was blowing memory. We have some tips here: <a href=\"https://xarray.pydata.org/en/stable/dask.html#optimization-tips\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/dask.html#optimization-tips\">https://xarray.pydata.org/en/stable/dask.html#optimization-tips</a>. Should add something about passing <code>chunks</code> to <code>open_mfdataset</code> instead of chunking later.</p>",
+        "id": 3717,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584547459
+    },
+    {
+        "content": "<p>It works now! Thanks, <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>  and <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>. Perhaps It would be helpful to have a tool that does the xarray + dask stuff under the hood (just the data loading part). There are so many \"knobs\" already that it is hard for users to keep track of everything. Plus, sometimes certain arguments work sometimes they do not. This tool is something I can start working on as a hack-project.</p>",
+        "id": 3727,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584551200
+    },
+    {
+        "content": "<p>Yeah I don't know how useful yet-another-package would be. <code>intake-esm</code> handles (or will handle) all the published datasets.</p>\n<p>For the others: At some point you have to know how to load data into xarray. A number of options in that <code>open_mfdataset</code> call could be removed if xarray changes its defaults to be more sensible which is something we want to do but no one has done yet (<a href=\"https://github.com/pydata/xarray/issues/2064#issuecomment-531818131\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2064#issuecomment-531818131\">https://github.com/pydata/xarray/issues/2064#issuecomment-531818131</a>)</p>",
+        "id": 3782,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584563165
+    },
+    {
+        "content": "<blockquote>\n<p>Yeah I don't know how useful yet-another-package would be. <code>intake-esm</code> handles (or will handle) all the published datasets.</p>\n<p>For the others: At some point you have to know how to load data into xarray. A number of options in that <code>open_mfdataset</code> call could be removed if xarray changes its defaults to be more sensible which is something we want to do but no one has done yet (<a href=\"https://github.com/pydata/xarray/issues/2064#issuecomment-531818131\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2064#issuecomment-531818131\">https://github.com/pydata/xarray/issues/2064#issuecomment-531818131</a>)</p>\n</blockquote>\n<p>I see your point, thanks for the feedback.  Something else that could be done 'automatically' is the chunking part. This might be really hard to generalize and at some point, again, the user might have to know how to specify the chunk sizes for certain purposes. I will focus on writing a model that can be used in <code>mom6-tools</code> for now.</p>",
+        "id": 3844,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1584571497
+    },
+    {
+        "content": "<p>Yeah the appropriate chunk size depends on what you want to do with the data so it's really hard to generalize. Again, you have to learn by trial and error unfortunately</p>",
+        "id": 3849,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584571667
+    }
+]

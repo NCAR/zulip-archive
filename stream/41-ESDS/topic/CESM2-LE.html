@@ -1,0 +1,146 @@
+<html>
+<head><meta charset="utf-8"><title>CESM2-LE · ESDS · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html">CESM2-LE</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="39919"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39919" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39919">(Aug 16 2021 at 18:41)</a>:</h4>
+<p>I've been trying to follow Max's write up on importing the CESM2-LE using intake (see here: <a href="https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/">https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/</a>). I am getting an error with open_esm_datastore. I don't know if this is related to somehow not loading "intake" properly at the start of the notebook, but I did not get an error there. The error I'm getting is: </p>
+<hr>
+<p>KeyError                                  Traceback (most recent call last)<br>
+/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake/__init__.py in __getattr__(attr)<br>
+     60     try:<br>
+---&gt; 61         return gl[attr]<br>
+     62     except KeyError:</p>
+<p>KeyError: 'open_esm_datastore'</p>
+<p>During handling of the above exception, another exception occurred:</p>
+<p>AttributeError                            Traceback (most recent call last)<br>
+&lt;ipython-input-6-deb999ed649e&gt; in &lt;module&gt;<br>
+----&gt; 1 cat = intake.open_esm_datastore('/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json')</p>
+<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake/__init__.py in __getattr__(attr)<br>
+     61         return gl[attr]<br>
+     62     except KeyError:<br>
+---&gt; 63         raise AttributeError(attr)<br>
+     64 <br>
+     65 </p>
+<p>AttributeError: open_esm_datastore</p>
+<p>Any advice? Hopefully this is just something about setting up my environment?</p>
+
+
+
+<a name="39920"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39920" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39920">(Aug 16 2021 at 18:45)</a>:</h4>
+<p>Did you install intake-esm using the following?</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">intake</span><span class="o">-</span><span class="n">esm</span>
+</code></pre></div>
+
+
+
+<a name="39921"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39921" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39921">(Aug 16 2021 at 19:06)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="134">Max Grover</span> <a href="#narrow/stream/41-ESDS/topic/CESM2-LE/near/39920">said</a>:</p>
+<blockquote>
+<p>Did you install intake-esm using the following?</p>
+<p><div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">intake</span><span class="o">-</span><span class="n">esm</span>
+</code></pre></div><br>
+</p>
+</blockquote>
+<p>I'm giving that a try now. It seems to have worked. I'm sure more questions will come up before official office hours. Thanks for helping me get on my way now though. :)</p>
+
+
+
+<a name="39943"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39943" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39943">(Aug 16 2021 at 21:27)</a>:</h4>
+<p>Here is my environment path: <br>
+antarctica_som_env    *  /glade/work/duvivier/miniconda3/envs/antarctica_som_env</p>
+<p>Here is the error:</p>
+<hr>
+<p>AttributeError                            Traceback (most recent call last)<br>
+&lt;ipython-input-7-7054c1bae29b&gt; in &lt;module&gt;<br>
+----&gt; 1 cat.search(variable='aice')</p>
+<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake_esm/core.py in search(self, require_all_on, **query)<br>
+    644         """<br>
+    645 <br>
+--&gt; 646         results = search(self.df, require_all_on=require_all_on, **query)<br>
+    647         ret = esm_datastore.from_df(<br>
+    648             results,</p>
+<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake_esm/search.py in search(df, require_all_on, **query)<br>
+     50         condition_i = np.zeros(len(df), dtype=bool)<br>
+     51         column_is_stringtype = isinstance(<br>
+---&gt; 52             df[key].dtype, (np.object, pd.core.arrays.string_.StringDtype)<br>
+     53         )<br>
+     54         for val_i in val:</p>
+<p>AttributeError: module 'pandas.core.arrays' has no attribute 'string_'</p>
+
+
+
+<a name="40819"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/40819" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#40819">(Aug 24 2021 at 19:44)</a>:</h4>
+<p>I have been able to load the CESM2-LE data, but am running into a hitch when it comes to subsetting the data by year. I've followed the blog post to load the data (historical and future) but when I try to subset the dataset by a limited range of years I get the following errors. I'd done this method of subsetting before on a single ensemble member, so I'm not sure why it's failing now.</p>
+<p><a href="/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png">Screen-Shot-2021-08-24-at-1.43.21-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png" title="Screen-Shot-2021-08-24-at-1.43.21-PM.png"><img src="/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png"></a></div><p><a href="/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png">Screen-Shot-2021-08-24-at-1.43.31-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png" title="Screen-Shot-2021-08-24-at-1.43.31-PM.png"><img src="/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png"></a></div>
+
+
+
+<a name="40821"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/40821" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#40821">(Aug 24 2021 at 19:48)</a>:</h4>
+<p>Try <code>ds_ice.sel(time=slice("1950", "2050"))</code> [see <a href="https://xarray.pydata.org/en/stable/user-guide/time-series.html#datetime-indexing]">https://xarray.pydata.org/en/stable/user-guide/time-series.html#datetime-indexing]</a></p>
+
+
+
+<a name="40857"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/40857" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#40857">(Aug 24 2021 at 21:32)</a>:</h4>
+<p>Thanks, Deepak! That was great for years. Max and I worked further on subsetting months too since it wasn't quite so simple, but it looks like I got that working too.</p>
+
+
+
+<a name="42394"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/42394" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#42394">(Sep 10 2021 at 19:04)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> I have been trying to use the intake-esm function with some atmospheric data from the CESM2-LE. I was able to load the data successfully, but it looks like not all the data are consistent. When I try to concatenate all the historical or future members I get an error because not all the members have the same variables. Here's the error:<br>
+ValueError: 'zlon_bnds' is not present in all datasets.</p>
+<p>I've tried a number of options with xr.concat to ignore the variable that's not in all of the ensembles, but I haven't been able to figure out a way to ignore that when concatenating. Any thoughts? Also, is this inconsistency in different members something to be concerned about?<br>
+Thanks!!</p>
+<p>Notebook location:<br>
+/glade/p/cgd/ppc/duvivier/cesm2_arctic_cyclones/DATA/regional_timeseries/cesm2_le_regional_atmospheric_avgs.ipynb</p>
+
+
+
+<a name="42398"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/42398" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#42398">(Sep 10 2021 at 19:26)</a>:</h4>
+<p>Using the following settings seemed to have worked (and removed the errors saying there are very large chunks)</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'array.slicing.split_large_chunks'</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
+    <span class="n">historical_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">historicals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+    <span class="n">future_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+</code></pre></div>
+<p>I used some of the suggestions from this part of the ESDS FAQ page:</p>
+<p><a href="https://ncar.github.io/esds/faq/#xarray-and-dask">https://ncar.github.io/esds/faq/#xarray-and-dask</a></p>
+<p>Hope this helps!</p>
+
+
+
+<a name="42403"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/42403" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#42403">(Sep 10 2021 at 19:41)</a>:</h4>
+<p>It worked! Thanks! :)</p>
+<p><span class="user-mention silent" data-user-id="134">Max Grover</span> <a href="#narrow/stream/41-ESDS/topic/CESM2-LE/near/42398">said</a>:</p>
+<blockquote>
+<p>Using the following settings seemed to have worked (and removed the errors saying there are very large chunks)</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'array.slicing.split_large_chunks'</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
+    <span class="n">historical_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">historicals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+    <span class="n">future_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+</code></pre></div>
+<p>I used some of the suggestions from this part of the ESDS FAQ page:</p>
+<p><a href="https://ncar.github.io/esds/faq/#xarray-and-dask">https://ncar.github.io/esds/faq/#xarray-and-dask</a></p>
+<p>Hope this helps!</p>
+</blockquote>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

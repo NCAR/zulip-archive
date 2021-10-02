@@ -1,0 +1,548 @@
+[
+    {
+        "content": "<p>Hello,</p>\n<p>I'm trying to get this code running /glade/u/home/islas/python/sortera5/grabera5zmfluxes.ipynb and I'm wondering if an expert could help me understand what is the best way to optimize it.  I am calculating zonal mean fluxes for ERA5 and I'm currently trying to do it on a monthly basis.  This means that for each month, I am reading in 4 variables that are 114Gb in size and doing some calculations with them to produce the output which is ~12M in size.  My trouble is that, first of all, I was following the advice from Deepak in my posting above and trying to have the chunk size about 100Mb.  It was impossibly slow - more than an hour to process a month - I'm not sure exactly how long because I stopped it.  So I tried to optimize my chunk size and I made them bigger.  I found that made it a lot faster.  I got it to run with a chunk size of 1.3G and it  will process a month in 7 minutes.  However, it'll run happily and process somewhere between a year or two and then hang.  It looks like it's still running and there's no error message, but it has clearly stopped doing anything as no more files are being produced.  I'm guessing I may be overdoing it now with the chunk size.  So, how would an expert optimize this?  Should I throw more workers at it? more memory? reduce the chunk size? or am I doing something inefficient with the way that I am organizing the chunks?</p>\n<p>Glad to hear any advice on this and hopefully eventually I'll get it and be able to apply it to other things too.  Thanks in advance for any help.</p>",
+        "id": 25977,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614521810
+    },
+    {
+        "content": "<p>Hoping there's a simple answer to this... I think I'm experiencing similar behavior, where I can run some intensive calculations once with good performance (30secs), but then if I rerun the same cell, it never computes. Can provide an example script if needed.</p>",
+        "id": 25978,
+        "sender_full_name": "Daniel Kennedy",
+        "timestamp": 1614525388
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span>, I am going to take a look at the notebook later today and will get back to you</p>",
+        "id": 26005,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614630640
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> .  Great, thanks a lot.  Since I originally posted I made the chunk size a bit smaller and that seems to make the problem worse.  It starts hanging after only 3 months of processing.  So the probability of hangs doesn't seem to be directly related to the chunk size.</p>",
+        "id": 26006,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614630981
+    },
+    {
+        "content": "<p>Can you take a screenshot of the dask dashboard when the computation hangs?</p>",
+        "id": 26007,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614631021
+    },
+    {
+        "content": "<p>Anderson, do you want to look at it together for \"team time\"?</p>",
+        "id": 26010,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614632711
+    },
+    {
+        "content": "<blockquote>\n<p>Anderson, do you want to look at it together for \"team time\"?</p>\n</blockquote>\n<p>Unfortunately, I have another meeting <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span></p>",
+        "id": 26011,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614635847
+    },
+    {
+        "content": "<blockquote>\n<p>Great, thanks a lot. Since I originally posted I made the chunk size a bit smaller and that seems to make the problem worse.</p>\n</blockquote>\n<p>I've run  into the \"hanging issue\" especially when using <code>to_netcdf()</code> on results from a huge computation task graph</p>",
+        "id": 26012,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614636028
+    },
+    {
+        "content": "<p>Fortunately, there are some remedies</p>",
+        "id": 26013,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614636091
+    },
+    {
+        "content": "<p>Good to hear there are some remedies.  I was struggling to get anything to work with the dask dashboard.  When I clicked on the dask symbol and then tried to click on any of the things, it just gave me a warning and didn't show me anything.  But maybe I'm not looking at the right thing.  I'll try again, but currently waiting for workers.</p>",
+        "id": 26014,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614638563
+    },
+    {
+        "content": "<p>I think there are two issues here:</p>\n<ol>\n<li><a href=\"https://github.com/dask/dask/issues/874\" target=\"_blank\" title=\"https://github.com/dask/dask/issues/874\">https://github.com/dask/dask/issues/874</a> dask is bad at the anomaly calculation. for big datasets the only way to get it to work is to compute the mean explicitly</li>\n<li>distirbuted write to netcdf: I always avoid this. I'm curious to hear what Anderson's suggestions are.</li>\n</ol>\n<p>But for this case the final <code>temdiags</code> dataset is tiny )1.5GB)? so just call <code>.load().to_netcdf(...)</code></p>\n<p>See <code>/glade/u/home/dcherian/islas-era5zm.ipynb</code></p>",
+        "id": 26016,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614640087
+    },
+    {
+        "content": "<p>I rewrote the cell to understand what it was doing., so the code may not be fully right <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>.</p>\n<p>RIght now it's bottlenecked on the regridding and computation of zonal mean.<br>\n<a href=\"user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png\" target=\"_blank\" title=\"user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png\"></a></div><p>but it looks fine.. memory use is low, seems limited by disk</p>",
+        "id": 26017,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614640130
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/9c/fM-jr3AQw5l07etwBl08Tb80/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/9c/fM-jr3AQw5l07etwBl08Tb80/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/9c/fM-jr3AQw5l07etwBl08Tb80/pasted_image.png\"></a></div><p>I'm also seeing this bad load balancing behaviour. Near the end of the computation, one worker is overloaded and dask doesn't redistribute the tasks to idle workers. Barring some change in <code>distributed</code>, I think the way to deal with this is to process multiple months to once so you hit this bottleneck less frequently</p>",
+        "id": 26028,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614643029
+    },
+    {
+        "content": "<p>Let me know if <code>/glade/u/home/dcherian/islas-era5zm.ipynb</code> helps.</p>",
+        "id": 26038,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614645229
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> Thanks so much for looking into this.  This is really helpful and it's great to see how you would do this in a much more elegant way! I have set this going and will let you know if it makes it further than what I was getting to before.  Thanks!</p>",
+        "id": 26039,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614649924
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span> &amp; <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>: Is it dask or is it xarray that is the problem?  I did a benchmarking study with a colleague from Ifremer, and one of the calculations we benchmarked was the anomaly calculation.  The problem we found was that Xarray's <code>groupby</code> operation rechunks the data along the dimension that is \"grouped.\"  So, if you are chunking along a <em>different</em> dimension(s) than the one(s) that is (are) already chunked, Xarray produces <em>many more chunks</em> and the calculation gets bogged down.  Is that what is happening here?  (Sorry, I didn't have time to look at your notebook, <span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span>!)</p>",
+        "id": 26045,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614700667
+    },
+    {
+        "content": "<blockquote>\n<p>The problem we found was that Xarray's groupby operation rechunks the data along the dimension that is \"grouped.\"</p>\n</blockquote>\n<p>this has to happen. A group is <code>obj.isel({group_dim: group_indices})</code> where <code>group_indices</code> is a list of ints  so if the indices are not contiguous (ge.g. roupby(time.season) for 10 years of data), output chunks are different from input chunks.</p>\n<blockquote>\n<p>So, if you are chunking along a different dimension(s) than the one(s) that is (are) already chunked, Xarray produces many more chunks and the calculation gets bogged down</p>\n</blockquote>\n<p>Do you mean grouping along a different dimension? Indexing dask arrays by list of ints can end up in interesting places. Tom fixed a bad edge case: <a href=\"https://github.com/dask/dask/pull/6514\" target=\"_blank\" title=\"https://github.com/dask/dask/pull/6514\">https://github.com/dask/dask/pull/6514</a> , but the output is controlled by <code>dask.config.get(\"array.chunk-size\")</code> which seems to ignore existing chunk structure. it wouldn't surprise me that dask's heuristics can break down for this kind of thing. Can you write down an example?</p>",
+        "id": 26047,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614701140
+    },
+    {
+        "content": "<blockquote>\n<p>Is that what is happening here?</p>\n</blockquote>\n<p>I actually didn't figure out what was happening <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>. I noticed that the intermediate is small (96GB) relative to memory on the cluster  (600GB) so persisting the regridded dataset used for subsequent the anomaly calculation was a good idea</p>",
+        "id": 26048,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614701201
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span> I have little bit experience to process ERA5 data. It was also slow in my case too due to the resolution of the data and I was trying to process hourly. In your case, it might be slow but I think there is no any dependency between processing each month. If this is the case, then your problem is embarrassingly parallel and you could process more than one month in the same time. That will significantly reduce the time to process entire dataset.</p>",
+        "id": 26075,
+        "sender_full_name": "Ufuk Turuncoglu",
+        "timestamp": 1614708547
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> , <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> Thanks for taking the time to think about this.  It is clear from reading all your postings below that I have a long way to go before I come close to understanding what I'm doing.  But an update here is that I successfully used Deepak's version of the code overnight and I think it kept on running for the full 12 hour wallclock.  I was able to process a month per 8 minutes which is definitely faster than my simple minded parallelization I was doing prior to this.  One thing that did not work was to process a full year at once.  Workers got killed.  But if I reverted back to processing a month at a time but with Deepak's changes, it worked.  Thanks a lot for your help on this!</p>",
+        "id": 26078,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614708893
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"56\">@Ufuk Turuncoglu</span> Thanks for your thoughts.  Indeed that was the way I was doing it before when I was running a mess of bash and IDL scripts, but I thought this shouldn't be necessary with dask.  But it seems like I am able to successfully process it now in a timely manner by following the suggestions from Deepak above.</p>",
+        "id": 26080,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614708969
+    },
+    {
+        "content": "<blockquote>\n<p>work was to process a full year at once. Workers got killed. </p>\n</blockquote>\n<p>After how many years did this happen?</p>",
+        "id": 26085,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614709221
+    },
+    {
+        "content": "<p>It happened immediately on the first year.  It didn't get to the point where a netcdf file was produced in the output directory so I'm guessing it was while it was doing all the processing for the first year.</p>",
+        "id": 26086,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1614709364
+    },
+    {
+        "content": "<blockquote>\n<p>reading all your postings below that I have a long way to go before I come close to understanding what I'm doing</p>\n</blockquote>\n<p>Your code was great. The problem is that there are \"known inefficiencies\", and \"known workarounds\" but this knowledge isn't easily accessible <span aria-label=\"confused\" class=\"emoji emoji-1f615\" role=\"img\" title=\"confused\">:confused:</span></p>",
+        "id": 26092,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614711017
+    },
+    {
+        "content": "<p>I'd emailed <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> directly, but realized the question was really better on Zulip and related to this thread.</p>\n<p>I  realize that I don't really understand what's going on under the hood regarding memory, DASK, clusters, etc.  </p>\n<p>Specifically, This notebook below ran (and plotted) fine on Friday. The code takes daily data to look at the timing of snowmelt and the length of the snow free period in the Northern Hemisphere from the CESM2-LE.</p>\n<p>Now I'm unable to generate the plots I'd like, and I'm not really clear why?<br>\nShould I just modify some of the high level changes Anderson made to the FireRisk notebook (e.g. using NCARCluster instead of SLURMCluster)?  </p>\n<p>Are there other memory tricks I should know about?  Are there resources I can try to learn from on this?  From Deepak's note to Isla, it seems there's more of an art to this than I necessarily have bandwidth to accomplish?</p>\n<p>full URL of the notebook is here<br>\n<a href=\"https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_VernalWindow.ipynb\" target=\"_blank\" title=\"https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_VernalWindow.ipynb\">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_VernalWindow.ipynb</a></p>",
+        "id": 26093,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614712512
+    },
+    {
+        "content": "<blockquote>\n<p>Now I'm unable to generate the plots I'd like, and I'm not really clear why?</p>\n</blockquote>\n<p>What does the dashboard look like in this case? What errors are you seeing?</p>",
+        "id": 26094,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614712707
+    },
+    {
+        "content": "<p>I changed the rolling aggregations to use substantially less memory (except var, std) in  xarray v0.17.0. You could try upgrading if you're running in to memory issues with rolling operations.</p>",
+        "id": 26095,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614712760
+    },
+    {
+        "content": "<p>(that wouldn't explain the flakiness since it worked with the older version)</p>",
+        "id": 26096,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614712865
+    },
+    {
+        "content": "<p>the error is long, but the last bit states:</p>\n<p>KilledWorker: (\"('open_dataset-392585d62b286712d16676c89012e8dcTSOI-460deed04f8252002d6150f75d57e19c', 5, 0, 0, 0)\", &lt;Worker 'tcp://10.12.205.19:37748', name: 0-17, memory: 0, processing: 117&gt;)</p>",
+        "id": 26097,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614712982
+    },
+    {
+        "content": "<p>yeah doesn't help unfortunately. How about a snapshot of the dashboard?</p>",
+        "id": 26098,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614713182
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span>, </p>\n<p>Does this SO answer help? </p>\n<p><a href=\"https://stackoverflow.com/questions/46691675/what-do-killedworker-exceptions-mean-in-dask\" target=\"_blank\" title=\"https://stackoverflow.com/questions/46691675/what-do-killedworker-exceptions-mean-in-dask\">https://stackoverflow.com/questions/46691675/what-do-killedworker-exceptions-mean-in-dask</a></p>",
+        "id": 26099,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614719187
+    },
+    {
+        "content": "<p>Do you mean this, Deepak? <a href=\"/user_uploads/2/11/abEMSGQYTaM1x1Qwp8ndwPD2/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/11/abEMSGQYTaM1x1Qwp8ndwPD2/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/11/abEMSGQYTaM1x1Qwp8ndwPD2/pasted_image.png\"></a></div>",
+        "id": 26100,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614719617
+    },
+    {
+        "content": "<p>Like this: <a href=\"/user_uploads/2/e0/dDwRUY8-xcrauNh9el2hIj87/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/e0/dDwRUY8-xcrauNh9el2hIj87/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/e0/dDwRUY8-xcrauNh9el2hIj87/pasted_image.png\"></a></div>",
+        "id": 26101,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614719773
+    },
+    {
+        "content": "<p>I have no idea, where do I find that?</p>",
+        "id": 26102,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614719958
+    },
+    {
+        "content": "<p>my client has a dasboard, but it never loads with an error saying the site cannot be reached \"10.12.205.28 took too long to respond.\"</p>",
+        "id": 26103,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614720048
+    },
+    {
+        "content": "<p>Sounds like your dashboard link is pointing to a local/private address. You need to launch the dashboard via the notebook proxy by running the following code before creating your cluster/client:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">({</span><span class=\"s1\">&#39;distributed.dashboard.link&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;/proxy/</span><span class=\"si\">{port}</span><span class=\"s1\">/status&#39;</span><span class=\"p\">})</span>\n</pre></div>",
+        "id": 26105,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614720383
+    },
+    {
+        "content": "<p>do I put anything in {port} or leave this as written? Leaving {port} I get 404 Not Found when I check on the dashboard link in the client.</p>",
+        "id": 26106,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614720601
+    },
+    {
+        "content": "<blockquote>\n<p>do I put anything in {port} or leave this as written?</p>\n</blockquote>\n<p>Leave it as is. Dask knows how to set it to an actual value.</p>",
+        "id": 26107,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614720732
+    },
+    {
+        "content": "<p>Can you confirm that you have <code> jupyter-server-proxy</code> package in your conda environment?</p>",
+        "id": 26108,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614720760
+    },
+    {
+        "content": "<p>looks like it.  I check this by activating the <code>lens-py</code> environment you created and using <code>conda list</code>?</p>",
+        "id": 26109,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614721136
+    },
+    {
+        "content": "<p>Yes</p>",
+        "id": 26110,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721153
+    },
+    {
+        "content": "<p>Also, are you running this from the jupyterhub or via SSH tunneling?</p>",
+        "id": 26111,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721178
+    },
+    {
+        "content": "<p>jupyterhub</p>",
+        "id": 26112,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614721216
+    },
+    {
+        "content": "<p>does it work with ssh tunneling?</p>",
+        "id": 26113,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614721240
+    },
+    {
+        "content": "<blockquote>\n<p>jupyterhub</p>\n</blockquote>\n<p>Aha! my previous answer is misleading  <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>  Sorry</p>",
+        "id": 26114,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721279
+    },
+    {
+        "content": "<p>Try this</p>",
+        "id": 26115,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721290
+    },
+    {
+        "content": "<p>On  cheyenne</p>",
+        "id": 26116,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721340
+    },
+    {
+        "content": "<p><code>https://jupyterhub.ucar.edu/ch/user/{USER}/proxy/{port}/status</code></p>",
+        "id": 26117,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721356
+    },
+    {
+        "content": "<p>On Casper</p>",
+        "id": 26118,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721360
+    },
+    {
+        "content": "<p><code>https://jupyterhub.ucar.edu/dav/user/{USER}/proxy/{port}/status</code></p>",
+        "id": 26119,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721369
+    },
+    {
+        "content": "<p>OK, now I have a dashboard to look at, but the only menu option that goes anywhere is for <code>info</code>, which give a bunch of info re. workers</p>",
+        "id": 26120,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614721613
+    },
+    {
+        "content": "<p>The other routes return <code>404</code>  errors or they just don't work?</p>",
+        "id": 26121,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614721702
+    },
+    {
+        "content": "<p>The 404 error comes up  when I click on this link in my notebook<br>\n<a href=\"/user_uploads/2/9d/DWjoL5UjNnRW0v7G2QIeDtIo/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/9d/DWjoL5UjNnRW0v7G2QIeDtIo/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/9d/DWjoL5UjNnRW0v7G2QIeDtIo/pasted_image.png\"></a></div>",
+        "id": 26122,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614721883
+    },
+    {
+        "content": "<p>when I fetch the cluster, I also get this warning below, but no other cluster is running </p>\n<p>/glade/u/home/wwieder/miniconda3/envs/lens-py/lib/python3.7/site-packages/distributed/node.py:155: UserWarning: Port 8787 is already in use.<br>\nPerhaps you already have a cluster running?<br>\nHosting the HTTP server on port 44810 instead<br>\n  http_address[\"port\"], self.http_server.port</p>",
+        "id": 26123,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614722050
+    },
+    {
+        "content": "<p>It's likely that someone else is running on the node as you and as a result the default port is taken hence the warning and random port assignment</p>",
+        "id": 26124,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614722207
+    },
+    {
+        "content": "<p>I have to run to another meeting, is it helpful to schedule a zoom call where I can share my screen to help diagnose what's going on?</p>",
+        "id": 26125,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614722279
+    },
+    {
+        "content": "<p>Sounds good...Let me know what time works best for you and we will schedule a short call</p>",
+        "id": 26126,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614722345
+    },
+    {
+        "content": "<p>thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> I sent you a zoom invite for tomorrow afternoon.</p>",
+        "id": 26130,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1614728576
+    },
+    {
+        "content": "<p>couldn't find a similar thread, so I added this questions here.  Specifically my apply_ufunc seems to overload two workers, regardless of how data are being chunked.  The notebook below works fine if I only have 20 years of data, but seems to go really slow on a 'transpose' step, which seems to happen on each ensemble member? (currently just reading in 2 for efficiency).  Ideally I'd like to run this with a whole historical and SPP time series. <br>\n<a href=\"https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb\" target=\"_blank\" title=\"https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb\">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb</a><br>\n<span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> you helped with the first bit of this code (which worked for 10 year slices of data).  Do you have suggestions for how to handle a longer time series?</p>",
+        "id": 26752,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1615769092
+    },
+    {
+        "content": "<p>it was the <code>rechunk-merge</code> part of the workflow that was getting hung up. increasing lat and lon chunks made this better!</p>",
+        "id": 26753,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1615811782
+    },
+    {
+        "content": "<p>at a high level, your data is chunked in time but your function wants only 1 chunk in time. So rechunking (<code>rechunk-merge</code>) will always be expensive (output chunks depend on a large number of input chunks). As you have found out, increasing lat and lon chunks (when you read in data) will make it better.</p>\n<p>You could rewrite this to accept dataarrays. Xarray supports all these operations and they are dask-aware so you can avoid the rechunking/apply_ufunc dance.</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">running_sum_np</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"p\">):</span>\n    <span class=\"n\">v</span> <span class=\"o\">=</span> <span class=\"n\">pd</span><span class=\"o\">.</span><span class=\"n\">Series</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"o\">.</span><span class=\"n\">copy</span><span class=\"p\">())</span>\n    <span class=\"n\">cumsum</span> <span class=\"o\">=</span> <span class=\"n\">v</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"n\">method</span><span class=\"o\">=</span><span class=\"s1\">&#39;pad&#39;</span><span class=\"p\">)</span>\n    <span class=\"n\">reset</span> <span class=\"o\">=</span> <span class=\"o\">-</span><span class=\"n\">cumsum</span><span class=\"p\">[</span><span class=\"n\">v</span><span class=\"o\">.</span><span class=\"n\">isnull</span><span class=\"p\">()]</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"n\">cumsum</span><span class=\"p\">)</span>\n    <span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"n\">v</span><span class=\"o\">.</span><span class=\"n\">where</span><span class=\"p\">(</span><span class=\"n\">v</span><span class=\"o\">.</span><span class=\"n\">notnull</span><span class=\"p\">(),</span> <span class=\"n\">reset</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">()</span>\n    <span class=\"k\">return</span> <span class=\"n\">result</span><span class=\"o\">.</span><span class=\"n\">values</span>\n</pre></div>\n\n\n<p>xclim implements some of your calculations (<a href=\"https://xclim.readthedocs.io/en/stable/indices.html?highlight=fire#fire-weather-indices-submodule\" target=\"_blank\" title=\"https://xclim.readthedocs.io/en/stable/indices.html?highlight=fire#fire-weather-indices-submodule\">https://xclim.readthedocs.io/en/stable/indices.html?highlight=fire#fire-weather-indices-submodule</a>) so you could try their code</p>",
+        "id": 26756,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615814384
+    },
+    {
+        "content": "<p>(the transpose step is also from <code>apply_ufunc</code>... it moves all core dimensions to the end).</p>",
+        "id": 26757,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615814765
+    },
+    {
+        "content": "<p>Maybe like this?</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"k\">as</span> <span class=\"nn\">np</span>\n<span class=\"kn\">import</span> <span class=\"nn\">xarray</span> <span class=\"k\">as</span> <span class=\"nn\">xr</span>\n\n\n<span class=\"n\">arr</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span>\n    <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"p\">(</span>\n        <span class=\"p\">[</span>\n            <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"mi\">3</span><span class=\"p\">,</span> <span class=\"mi\">4</span><span class=\"p\">,</span> <span class=\"mi\">5</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"mi\">4</span><span class=\"p\">,</span> <span class=\"mi\">6</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">],</span>\n            <span class=\"p\">[</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"mi\">5</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"mi\">4</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">,</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span><span class=\"p\">]</span>\n        <span class=\"p\">]</span>\n    <span class=\"p\">),</span>\n    <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"s2\">&quot;x&quot;</span><span class=\"p\">,</span> <span class=\"s2\">&quot;time&quot;</span><span class=\"p\">)</span>\n<span class=\"p\">)</span>\n<span class=\"n\">arr</span>\n</pre></div>\n\n\n<p><a href=\"/user_uploads/2/78/x9ZDqR4tTrx19Liai5Mp8hOv/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/78/x9ZDqR4tTrx19Liai5Mp8hOv/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/78/x9ZDqR4tTrx19Liai5Mp8hOv/pasted_image.png\"></a></div><div class=\"codehilite\"><pre><span></span><span class=\"c1\"># attempt 1</span>\n<span class=\"c1\"># though ffill doesn&#39;t work across chunks:</span>\n<span class=\"c1\"># could use solution here: https://github.com/pydata/xarray/issues/2699</span>\n<span class=\"n\">cumsum</span> <span class=\"o\">=</span> <span class=\"n\">arr</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">(</span><span class=\"s2\">&quot;time&quot;</span><span class=\"p\">)</span>\n<span class=\"n\">cumsum</span> <span class=\"o\">-</span> <span class=\"n\">cumsum</span><span class=\"o\">.</span><span class=\"n\">where</span><span class=\"p\">(</span><span class=\"n\">arr</span><span class=\"o\">.</span><span class=\"n\">isnull</span><span class=\"p\">())</span><span class=\"o\">.</span><span class=\"n\">ffill</span><span class=\"p\">(</span><span class=\"s2\">&quot;time&quot;</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p><a href=\"/user_uploads/2/14/8w1OGzkrQTgGtbhlbPns25RV/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/14/8w1OGzkrQTgGtbhlbPns25RV/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/14/8w1OGzkrQTgGtbhlbPns25RV/pasted_image.png\"></a></div><div class=\"codehilite\"><pre><span></span><span class=\"c1\"># the last fillna(0) is really just for the beginning of the array</span>\n<span class=\"c1\"># pad with nans instead. this may be more efficient with dask,</span>\n<span class=\"c1\"># since we don&#39;t touch every element at the end</span>\n<span class=\"n\">padded</span> <span class=\"o\">=</span> <span class=\"n\">arr</span><span class=\"o\">.</span><span class=\"n\">pad</span><span class=\"p\">(</span><span class=\"n\">time</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">0</span><span class=\"p\">))</span>\n<span class=\"n\">cumsum</span> <span class=\"o\">=</span> <span class=\"n\">padded</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">(</span><span class=\"s2\">&quot;time&quot;</span><span class=\"p\">)</span>\n<span class=\"p\">(</span><span class=\"n\">cumsum</span> <span class=\"o\">-</span> <span class=\"n\">cumsum</span><span class=\"o\">.</span><span class=\"n\">where</span><span class=\"p\">(</span><span class=\"n\">padded</span><span class=\"o\">.</span><span class=\"n\">isnull</span><span class=\"p\">())</span><span class=\"o\">.</span><span class=\"n\">ffill</span><span class=\"p\">(</span><span class=\"s2\">&quot;time&quot;</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">time</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"kc\">None</span><span class=\"p\">))</span>\n</pre></div>\n\n\n<p><a href=\"/user_uploads/2/af/SuFUZgz5RFpUkOBQT53R0NpX/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/af/SuFUZgz5RFpUkOBQT53R0NpX/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/af/SuFUZgz5RFpUkOBQT53R0NpX/pasted_image.png\"></a></div><p>This solution requires fixing <a href=\"https://github.com/pydata/xarray/issues/2699#issuecomment-456999707\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2699#issuecomment-456999707\">https://github.com/pydata/xarray/issues/2699#issuecomment-456999707</a> to have  <code>ffill</code> work across chunks. (A solution exists, just needs to be added with tests cc <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span> <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> )</p>",
+        "id": 26758,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615820344
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> thanks for the xclim suggestion.  This calculation doesn't allow for dimension reduction (4 daily variables go in, 6 daily variables are calculated), with one days calculations dependent on the values from the day before.  As a result the calculations are memory intensive. With help from <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>  I'm able to calculate a decade of results from a single ensemble member and am testing now generating a whole 250 year time series of results, but it's slow going.</p>",
+        "id": 27038,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1615936777
+    },
+    {
+        "content": "<p>It works! but takes nearly an hour for a single ensemble member.<br>\nI'm currently writing out the calculated variables to scratch.  Roughly 20GB/ ensemble member / variable.  Should I be smarted with how I output these files as I'll end up with 5TB data once this is all written out?</p>",
+        "id": 27039,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1615938182
+    },
+    {
+        "content": "<p>re:speed: the <code>rechunk to one chunk; apply_ufunc with vectorize=True</code> pattern is slow because it involves a lot of network transfer (rechunking) and a for loop over points (vectorize).</p>\n<p>re space: use zarr with a compressor or turn on compression with netCDF</p>",
+        "id": 27041,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615942362
+    },
+    {
+        "content": "<p>Using <code>ds = ds.where(ds['PPT'].max(['time', 'ens']) &gt; 0.0)</code> to mask out the ocean is max bad. Every block of every variable in <code>ds</code> now depends on a global reduction of <code>ds.PPT</code> across all time and ensemble members.<br>\nChanged to <code>ds = ds.where(ds.landmask.notnull())</code> and things are flying...</p>",
+        "id": 27047,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615951383
+    },
+    {
+        "content": "<p>Thanks!  A few points of clarification, <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> :</p>\n<ul>\n<li>for <code>apply_ufunc</code> are you suggesting that I set <code>vectorize=False</code></li>\n<li>re. netCDF are you suggesting I use <code>Dataset.to_zarr</code> to write out files?</li>\n</ul>",
+        "id": 27051,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1615987222
+    },
+    {
+        "content": "<blockquote>\n<p>for apply_ufunc are you suggesting that I set vectorize=False</p>\n</blockquote>\n<p>Yes but you'll have to change your function to work with arrays rather than 1D vectors. vectorize is basically a for loop so it is slow. Avoid it if you can.</p>\n<blockquote>\n<p>re. netCDF are you suggesting I use Dataset.to_zarr to write out files?</p>\n</blockquote>\n<p>Yes this will write to zarr in parallel.</p>\n<p>(I sent a PR with some suggested changes: <a href=\"https://github.com/wwieder/cesm-lens/pull/2\" target=\"_blank\" title=\"https://github.com/wwieder/cesm-lens/pull/2\">https://github.com/wwieder/cesm-lens/pull/2</a>; but I didn't get to the end of the notebook)</p>",
+        "id": 27052,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615987463
+    },
+    {
+        "content": "<p>oh, <code>zarr</code> is money!  This writes files much more quickly, thanks for this recommendation and for the suggestions in your PR <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> .</p>",
+        "id": 27075,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1615998333
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span>  Zarr file should have default lz4 lossless compressor enabled. It can save you at least half the space, if you are interested in more space saving, I can teach you use zfp lossy compressor.</p>",
+        "id": 27107,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1616007716
+    },
+    {
+        "content": "<p>thanks <span class=\"user-mention\" data-user-id=\"38\">@Haiying Xu</span> for now I think we'll see if the lossless compression works, and colleagues can subsequently read in the data for her analyses</p>",
+        "id": 27129,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1616015376
+    },
+    {
+        "content": "<p>Even zarr seems to take a long time to write a tiny file (151x33) array.  Any options?</p>\n<p>/glade/u/home/lamar/Python/CMIP6_analysis/Deposition/interp_tracers_to_icecores_CESM2.ipynb</p>",
+        "id": 27548,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616686022
+    },
+    {
+        "content": "<p>OK few things:</p>\n<ol>\n<li>\n<p>here is <code>NH_50</code> after the <code>open_mfdataset</code> call: <br>\n<a href=\"/user_uploads/2/1e/_iQp8dS_Q2O-6AY3En1rAVHJ/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> <br>\n9.5GB is too big. Since you have not specified <code>chunks</code> in the <code>open_mfdataset</code> call, each file becomes one chunk of a variable.  </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/1e/_iQp8dS_Q2O-6AY3En1rAVHJ/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/1e/_iQp8dS_Q2O-6AY3En1rAVHJ/pasted_image.png\"></a></div></li>\n<li>\n<p>Later you're only using <code>lev=69</code>, so that suggests using <code>chunks={\"lev\": 1}</code>.</p>\n</li>\n<li><code>open_mfdataset</code> loads in dask variables but no dask cluster was setup. So it was effectively a single-threaded for loop over chunks (possibly two threads). that's why it is slow. I used</li>\n</ol>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">ncar_jobqueue</span>\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">ncar_jobqueue</span><span class=\"o\">.</span><span class=\"n\">NCARCluster</span><span class=\"p\">(</span><span class=\"n\">project</span><span class=\"o\">=</span><span class=\"s2\">&quot;ncgd0011&quot;</span><span class=\"p\">)</span>\n<span class=\"kn\">import</span> <span class=\"nn\">distributed</span>\n<span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">distributed</span><span class=\"o\">.</span><span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"mi\">4</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<ol start=\"4\">\n<li>Another suggestion is to do <code>wk0 = ds.isel(lev=69).resample(time=\"1YS\").mean()</code>  i.e. switch the order of subsetting and resampling. I think it's always better to subsample earlier in your pipeline</li>\n<li>This output dataset is small so I would do <code>tracer_cores.load().to_netcdf(output_file_name)</code> this will load to memory and write from a single thread so there's no locking issues with netCDF (IIUC). This computation completes in under a minute for me.</li>\n</ol>",
+        "id": 27559,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616687799
+    },
+    {
+        "content": "<p>OK.  This worked much better.  Thanks!</p>\n<p>BTW I couldn't get the following to work</p>\n<p>import ncar_jobqueue<br>\ncluster = ncar_jobqueue.NCARCluster(project=\"ncgd0011\")<br>\nimport distributed<br>\nclient = distributed.Client(cluster)<br>\ncluster.scale(4)</p>\n<p>as I got the error message</p>\n<p>\"NameError: name 'ncar_jobqueue' is not defined\"</p>",
+        "id": 27567,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616688396
+    },
+    {
+        "content": "<p>Ah then it needs to be installed in your environment. It'll let you request Cheyenne/Casper/Hobart/Izumi resources: <a href=\"https://github.com/NCAR/ncar-jobqueue\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue\">https://github.com/NCAR/ncar-jobqueue</a> .</p>",
+        "id": 27568,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616688517
+    },
+    {
+        "content": "<p>OK.  Is there a way to make this part of the standard setup for users? Thanks!</p>",
+        "id": 27572,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616688802
+    },
+    {
+        "content": "<p>it should be. pinging <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span></p>",
+        "id": 27574,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616689317
+    },
+    {
+        "content": "<p>This issue/issues similar will be added to the <a href=\"https://ncar.github.io/esds/faq/\" target=\"_blank\" title=\"https://ncar.github.io/esds/faq/\">https://ncar.github.io/esds/faq/</a> page! This is a great question and would be great to start with - thanks for asking these questions! Also, XDev will be holding a dask tutorial in the near future.</p>",
+        "id": 27593,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616691696
+    },
+    {
+        "content": "<p>A dask tutorial would be excellent.  I have been wondering whether it's worth signing up for <a href=\"https://summit.dask.org/\" target=\"_blank\" title=\"https://summit.dask.org/\">https://summit.dask.org/</a> as a beginner?  It says there are tutorials on May 19th but it's not very clear whether they are for advanced users or beginners.  Maybe the XDev tutorial will tell us everything we need to know!  Thanks.</p>",
+        "id": 27600,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1616692455
+    },
+    {
+        "content": "<p>Well...got another very slow script.  Even with a cluster and splitting the large chunks.  It is about 3x the amount of data from the previous script but is taking forever (did not finish within 12 hour time window)</p>\n<p>/glade/u/home/lamar/Python/CMIP6_analysis/Deposition/test_tracer.ipynb</p>\n<p>BTW the setup to run the cluster is automatically included when opening a CMIP6 environment.</p>",
+        "id": 27688,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616770515
+    },
+    {
+        "content": "<p>Actually job gets killed \"KilledWorker: (\"('where-62ac06e4071e1641b68e4d2585ce8cb3', 230, 21, 0, 0)\", &lt;Worker 'tcp://10.12.205.12:33362', name: 2, memory: 0, processing: 3926&gt;)\"</p>",
+        "id": 27706,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616776338
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> and I are looking at it now</p>",
+        "id": 27707,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616776417
+    },
+    {
+        "content": "<p>There are some variables that are in one file but not others e.g. <code>f107</code>. Do you need all of them or just NH5?</p>",
+        "id": 27711,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616777977
+    },
+    {
+        "content": "<p>just NH_5 and date/time</p>",
+        "id": 27712,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616778005
+    },
+    {
+        "content": "<p>and lat/lon</p>",
+        "id": 27713,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616778012
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"72\">@Jean-Francois Lamarque</span> here is a solution that <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> and I worked on, go ahead and replace the read in dataset portion with this </p>\n<div class=\"codehilite\"><pre><span></span>#\n# open all files and concatenate along time dimension\n#\n\ndef preprocess(ds):\n    return ds[[&quot;NH_5&quot;]]\n\n\nds = xr.open_mfdataset(\n        files,\n        concat_dim=&quot;time&quot;,\n        combine=&quot;by_coords&quot;,\n        chunks={&quot;lev&quot;: 1, &quot;time&quot;: 500},\n        data_vars=&quot;minimal&quot;,\n        coords=&quot;minimal&quot;,\n        compat=&quot;override&quot;,\n        parallel=True,\n        preprocess=preprocess,\n    )\n</pre></div>\n\n\n<p>And try setting the number of workers you have equal to the number of files (7 in this case) </p>\n<p>A writeup of this <code>FAQ </code> will be posted on <a href=\"https://ncar.github.io/esds/faq/\" target=\"_blank\" title=\"https://ncar.github.io/esds/faq/\">https://ncar.github.io/esds/faq/</a></p>",
+        "id": 27717,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616781987
+    },
+    {
+        "content": "<p>actually <code>data_vars=[\"NH_5\"]</code> should also work, instead of the whole preprocess thing?</p>",
+        "id": 27718,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616782036
+    },
+    {
+        "content": "<p>Awesome!  Let me try right away</p>",
+        "id": 27719,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616782345
+    },
+    {
+        "content": "<p>Worked beautifully!  But I had to use the \"preprocess\" step.  Thank you Max and Deepak!</p>",
+        "id": 27721,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1616782790
+    },
+    {
+        "content": "<p>Just wanted to say that reviewing this thread (and the #ESDS FAQ page - thank you <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>, <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> ) was <strong>very</strong> helpful for me to debug a <code>KilledWorker</code> error I was getting when trying to read and analyze large datasets with xarray and dask. In particular, it was helpful for me to 1) use <code>preprocess</code> to subset spatially and select variables during <code>xr.open_mfdataset</code>, 2) save out some intermediate (regridded) results to disk, 3) read them back in with additional lat/lon chunks. This final step helped with memory issues related to data chunked in time when a function (<code>quantile</code>) wanted only 1 chunk in time. Hope this helps anyone else who is also having these issues, which often show up as a mysterious <code>KilledWorker</code> error which can be difficult to debug. I'm very much looking forward to the Dask tutorials to help solidfy some of these best practices!</p>",
+        "id": 38240,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1626909600
+    }
+]

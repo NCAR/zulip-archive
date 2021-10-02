@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>The NA-CORDEX climate dataset has simulation runs  with daily values from several different calendars (360-day, 365 day noleap, 365 with leap), that I would like to combine into a single xarray dataset.   Is anyone familiar with an example of how to do this in xarray?  If it's not too difficult to do, I hope that the combined dataset does not throw away values, but pads out missing days from one calendar or the other with NaN values.     I have looked online for examples of how to do this, but have not found anything yet.   Thanks in advance for any pointers.</p>",
+        "id": 11520,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1592329269
+    },
+    {
+        "content": "<p>maybe something like </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">ds360</span> <span class=\"o\">=</span> <span class=\"n\">ds360</span><span class=\"o\">.</span><span class=\"n\">assign</span><span class=\"p\">(</span><span class=\"n\">time</span><span class=\"o\">=</span><span class=\"n\">ds360</span><span class=\"o\">.</span><span class=\"n\">indexes</span><span class=\"p\">[</span><span class=\"s2\">&quot;time&quot;</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">asi8</span><span class=\"p\">)</span>\n<span class=\"o\">...</span>\n<span class=\"n\">combined</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">merge</span><span class=\"p\">([</span><span class=\"n\">ds360</span><span class=\"p\">,</span> <span class=\"o\">...</span><span class=\"p\">])</span>\n<span class=\"n\">combined</span><span class=\"o\">.</span><span class=\"n\">time</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;units&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;microseconds since 1970-01-01&quot;</span>\n<span class=\"n\">combined</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">decode_cf</span><span class=\"p\">(</span><span class=\"n\">combined</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>basically you get everything on to a common reference axis. then xarray's automatic alignment will insert NaNs in the right place.</p>",
+        "id": 11527,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1592331038
+    },
+    {
+        "content": "<p>Thanks for the suggestion!  I may not be able to try it right away, but my goal is to create an example notebook that demonstrates this.</p>",
+        "id": 11528,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1592331322
+    },
+    {
+        "content": "<p>the best way might be to open an issue at <code>cftime</code> asking for a function to convert between calendars.</p>",
+        "id": 11529,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1592332022
+    },
+    {
+        "content": "<p>I have found pandas time handling to almost always be able to do what I need. Have you used that much? It has the best timezone handling I have seen, too.</p>\n<p>Something like,</p>\n<blockquote>\n<p>import pandas as pd<br>\npd.Timestamp([your time array])</p>\n</blockquote>\n<p>to get into pandas and then combine from there. I can be more specific as needed but this is a starting point. I know pandas isn't xarray but clearly they play really well together.</p>",
+        "id": 11557,
+        "sender_full_name": "Kristen Thyng",
+        "timestamp": 1592403034
+    },
+    {
+        "content": "<blockquote>\n<p>I have found pandas time handling to almost always be able to do what I need. Have you used that much? It has the best timezone handling I have seen, too.</p>\n</blockquote>\n<p>Pandas datetime functionality works great, but unfortunately, it supports  <strong>the proleptic Gregorian calendar</strong> only.  As <span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> pointed out,  he's dealing with some non-standard calendars ie. <code>360-day</code>, <code>365 day noleap</code>. <a href=\"https://unidata.github.io/cftime/\" target=\"_blank\" title=\"https://unidata.github.io/cftime/\">cftime</a> is likely going to be the only option</p>",
+        "id": 11558,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1592403536
+    },
+    {
+        "content": "<p>However, I think <span class=\"user-mention\" data-user-id=\"89\">@Kristen Thyng</span> makes a good point that <em>many</em> times (not always) you only need to know timestamps, and <em>durations</em> (i.e., distances between timestamps) are not needed.  When you do not need to use durations, then pandas should be fine.  If you need to use durations, then some smart handling of calendars is needed.</p>",
+        "id": 11559,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1592403659
+    },
+    {
+        "content": "<p>...Although some care probably needs to be taken to make sure that the timestamps generated for non-standard calendars actually make sense.</p>",
+        "id": 11560,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1592403723
+    },
+    {
+        "content": "<p>I am not sure it's a good idea to combine datasets with different calendars into a single xarray Datatset.</p>",
+        "id": 11561,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592403736
+    },
+    {
+        "content": "<blockquote>\n<p>However, I think <span class=\"user-mention silent\" data-user-id=\"89\">Kristen Thyng</span> makes a good point that <em>many</em> times (not always) you only need to know timestamps, and <em>durations</em> (i.e., distances between timestamps) are not needed.  When you do not need to use durations, then pandas should be fine.  If you need to use durations, then some smart handling of calendars is needed.</p>\n</blockquote>\n<p>Yes I was thinking more like this --- if you know  (or can recreate) the dates, you can still combine between calendars. I wasn't aware, though, that pandas only works with one calendar, I guess I only ever use one!</p>",
+        "id": 11568,
+        "sender_full_name": "Kristen Thyng",
+        "timestamp": 1592406779
+    }
+]

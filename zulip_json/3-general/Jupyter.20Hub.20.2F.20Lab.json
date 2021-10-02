@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Is anyone around today? I've got a few related questions about Jupyter / JupyterHub. I'm working remotely while one of our cars is getting tuned up, and I'd like to run a notebook in such a way that if I get a call about the car being done before the notebook finishes, I can close my web browser without interrupting the computation.<br>\nI don't believe that Jupyter Hub supports that, and that closing the browser interrupts whatever the Hub was doing. Is that correct? Is there an option somewhere to enable that behavior I want?<br>\nMy other thought was to go the old-fashioned route and set up an ssh tunnel... but that doesn't seem to be working on Casper. Did CISL somehow cripple this approach? It seems like Jupyter Lab is running fine because I see</p>\n<div class=\"codehilite\"><pre><span></span>[I 09:18:18.232 LabApp] Serving notebooks from local directory: /glade/work/mlevy\n[I 09:18:18.232 LabApp] The Jupyter Notebook is running at:\n[I 09:18:18.232 LabApp] http://casper05:8889/?token=[token]\n</pre></div>\n\n\n<p>but</p>\n<div class=\"codehilite\"><pre><span></span>ssh -N -L localhost:8888:casper05:8889 mlevy@casper05.ucar.edu\n</pre></div>\n\n\n<p>doesn't work.</p>",
+        "id": 372,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1577377676
+    },
+    {
+        "content": "<p>\"Doesn't work\" in the sense that I get prompted to log in, and I accept the Duo request, but <code>http://localhost:8888/lab</code> reports \"Unable to Connect\"</p>",
+        "id": 373,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1577377753
+    },
+    {
+        "content": "<p><code>https</code> is refused as well</p>",
+        "id": 374,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1577377826
+    },
+    {
+        "content": "<p>Update: maybe the Hub computations do persist when I close a tab? I'm testing it now, and it looks like the dask cluster is growing on its own after closing the browser tab...</p>",
+        "id": 375,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1577378083
+    }
+]

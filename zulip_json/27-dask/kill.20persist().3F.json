@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>I started a background dask computation using .persist() , and it's too slow due to insufficient workers. How do I kill the persist() computation running in the background?</p>",
+        "id": 36730,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1625764569
+    },
+    {
+        "content": "<blockquote>\n<p>How do I kill the persist() computation running in the background?</p>\n</blockquote>\n<p>You can use the client's <code>.cancel</code> method:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"n\">y</span><span class=\"o\">.</span><span class=\"n\">persist</span><span class=\"p\">()</span>\n<span class=\"o\">....</span>\n\n<span class=\"n\">client</span><span class=\"o\">.</span><span class=\"n\">cancel</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 36732,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1625766217
+    }
+]

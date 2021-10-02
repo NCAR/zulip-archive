@@ -1,0 +1,98 @@
+[
+    {
+        "content": "<p>I recently updated my environment and get the following error on importing <code>cartopy</code>:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"o\">---------------------------------------------------------------------------</span>\n<span class=\"ne\">ImportError</span>                               <span class=\"n\">Traceback</span> <span class=\"p\">(</span><span class=\"n\">most</span> <span class=\"n\">recent</span> <span class=\"n\">call</span> <span class=\"n\">last</span><span class=\"p\">)</span>\n<span class=\"o\">&lt;</span><span class=\"n\">ipython</span><span class=\"o\">-</span><span class=\"nb\">input</span><span class=\"o\">-</span><span class=\"mi\">1</span><span class=\"o\">-</span><span class=\"n\">b0688681af7f</span><span class=\"o\">&gt;</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n     <span class=\"mi\">12</span> <span class=\"kn\">import</span> <span class=\"nn\">matplotlib.pyplot</span> <span class=\"k\">as</span> <span class=\"nn\">plt</span>\n     <span class=\"mi\">13</span>\n<span class=\"o\">---&gt;</span> <span class=\"mi\">14</span> <span class=\"kn\">import</span> <span class=\"nn\">cartopy.crs</span> <span class=\"k\">as</span> <span class=\"nn\">ccrs</span>\n     <span class=\"mi\">15</span> <span class=\"kn\">from</span> <span class=\"nn\">cartopy.util</span> <span class=\"kn\">import</span> <span class=\"n\">add_cyclic_point</span>\n     <span class=\"mi\">16</span> <span class=\"kn\">import</span> <span class=\"nn\">cmocean</span>\n\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">mclong</span><span class=\"o\">/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">krill</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">7</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">cartopy</span><span class=\"o\">/</span><span class=\"fm\">__init__</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n     <span class=\"mi\">94</span> <span class=\"c1\"># Commonly used sub-modules. Imported here to provide end-user</span>\n     <span class=\"mi\">95</span> <span class=\"c1\"># convenience.</span>\n<span class=\"o\">---&gt;</span> <span class=\"mi\">96</span> <span class=\"kn\">import</span> <span class=\"nn\">cartopy.crs</span>\n     <span class=\"mi\">97</span> <span class=\"kn\">import</span> <span class=\"nn\">cartopy.feature</span>  <span class=\"c1\"># noqa: F401  (flake8 = unused import)</span>\n\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">mclong</span><span class=\"o\">/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">krill</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">7</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">cartopy</span><span class=\"o\">/</span><span class=\"n\">crs</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n     <span class=\"mi\">34</span> <span class=\"kn\">import</span> <span class=\"nn\">six</span>\n     <span class=\"mi\">35</span>\n<span class=\"o\">---&gt;</span> <span class=\"mi\">36</span> <span class=\"kn\">from</span> <span class=\"nn\">cartopy._crs</span> <span class=\"kn\">import</span> <span class=\"p\">(</span><span class=\"n\">CRS</span><span class=\"p\">,</span> <span class=\"n\">Geodetic</span><span class=\"p\">,</span> <span class=\"n\">Globe</span><span class=\"p\">,</span> <span class=\"n\">PROJ4_VERSION</span><span class=\"p\">,</span>\n     <span class=\"mi\">37</span>                           <span class=\"n\">WGS84_SEMIMAJOR_AXIS</span><span class=\"p\">,</span> <span class=\"n\">WGS84_SEMIMINOR_AXIS</span><span class=\"p\">)</span>\n     <span class=\"mi\">38</span> <span class=\"kn\">from</span> <span class=\"nn\">cartopy._crs</span> <span class=\"kn\">import</span> <span class=\"n\">Geocentric</span>  <span class=\"c1\"># noqa: F401 (flake8 = unused import)</span>\n\n<span class=\"ne\">ImportError</span><span class=\"p\">:</span> <span class=\"n\">libproj</span><span class=\"o\">.</span><span class=\"n\">so</span><span class=\"o\">.</span><span class=\"mi\">19</span><span class=\"p\">:</span> <span class=\"n\">cannot</span> <span class=\"nb\">open</span> <span class=\"n\">shared</span> <span class=\"nb\">object</span> <span class=\"n\">file</span><span class=\"p\">:</span> <span class=\"n\">No</span> <span class=\"n\">such</span> <span class=\"n\">file</span> <span class=\"ow\">or</span> <span class=\"n\">directory</span>\n</pre></div>\n\n\n<p>Has anyone encountered this? Solutions?</p>",
+        "id": 10814,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591709358
+    },
+    {
+        "content": "<p>I am on somewhat up-to-date versions of <code>cartopy</code> and <code>proj</code> and things seem to work fine ( I tested the import)</p>\n<div class=\"codehilite\"><pre><span></span>$ conda list cartopy\n<span class=\"c1\"># packages in environment at /glade/work/abanihi/softwares/miniconda3/envs/analysis:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\ncartopy                   <span class=\"m\">0</span>.18.0           py37h4b180d9_0    conda-forge\n\nabanihi at casper26 in ~\n$ conda list proj\n<span class=\"c1\"># packages in environment at /glade/work/abanihi/softwares/miniconda3/envs/analysis:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\nproj                      <span class=\"m\">7</span>.0.0                h966b41f_4    conda-forge\npyproj                    <span class=\"m\">2</span>.6.1.post1      py37h34dd122_0    conda-forge\n</pre></div>\n\n\n<p>I am curious... Did you pin your <code>proj</code> and <code>pyproj</code> versions? They are a little outdated:</p>\n<div class=\"codehilite\"><pre><span></span>abanihi at casper26 in ~\n$ conda list cartopy\n<span class=\"c1\"># packages in environment at /glade/work/mclong/miniconda3/envs/krill:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\ncartopy                   <span class=\"m\">0</span>.18.0           py37h4b180d9_0    conda-forge\n\nabanihi at casper26 in ~\n$ conda list proj\n<span class=\"c1\"># packages in environment at /glade/work/mclong/miniconda3/envs/krill:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\nproj                      <span class=\"m\">6</span>.3.1                hc80f0dc_1    conda-forge\npyproj                    <span class=\"m\">2</span>.5.0            py37he3cd046_1    conda-forge\n</pre></div>",
+        "id": 10815,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591710175
+    },
+    {
+        "content": "<p>no, I did not pin my <code>proj</code> and <code>pyproj</code> versions, but I bet that this is the problem.  I don't include them in my specific list of dependencies.</p>",
+        "id": 10816,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591710388
+    },
+    {
+        "content": "<p>Here's the environment: <a href=\"https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml\" target=\"_blank\" title=\"https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml\">https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml</a></p>",
+        "id": 10817,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591710506
+    },
+    {
+        "content": "<p>Can you suggest a modification?</p>",
+        "id": 10818,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591710520
+    },
+    {
+        "content": "<blockquote>\n<p>Can you suggest a modification?</p>\n</blockquote>\n<p>I am looking into it</p>",
+        "id": 10819,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591710537
+    },
+    {
+        "content": "<p>i am inspecting the environment to see what packages may be restricting <code>pyproj</code> and  <code>proj</code> to be updated</p>",
+        "id": 10820,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591710584
+    },
+    {
+        "content": "<p>many thanks!</p>",
+        "id": 10821,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591710630
+    },
+    {
+        "content": "<p>Anytime!</p>",
+        "id": 10822,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591710683
+    },
+    {
+        "content": "<p>Are you using this environment file: <a href=\"https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml\" target=\"_blank\" title=\"https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml\">https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml</a>?</p>",
+        "id": 10823,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591710695
+    },
+    {
+        "content": "<p>yes</p>",
+        "id": 10824,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591710723
+    },
+    {
+        "content": "<p>I happened to have a <code>krill</code> environment. I tried updating it with  <code>conda env update -f environment/environment.yml</code> and I noticed that <code>proj</code> and <code>pyproj</code> versions didn't change i.e. before and after the update:</p>\n<div class=\"codehilite\"><pre><span></span>$ conda list proj\n<span class=\"c1\"># packages in environment at /glade/work/abanihi/softwares/miniconda3/envs/krill:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\nproj                      <span class=\"m\">7</span>.0.0                h966b41f_3    conda-forge\npyproj                    <span class=\"m\">2</span>.6.0            py37h34dd122_1    conda-forge\n</pre></div>\n\n\n<p>I'd recommend updating the environment file with the following:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">cartopy &gt;= 0.18.0</span>\n<span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">proj &gt;= 7.0.0</span>\n<span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">pyproj &gt;= 2.6.0</span>\n</pre></div>",
+        "id": 10825,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591711339
+    },
+    {
+        "content": "<p>thanks, I'll try it</p>",
+        "id": 10826,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591711519
+    },
+    {
+        "content": "<p>this seems to have fixed my import error</p>",
+        "id": 10831,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591714681
+    },
+    {
+        "content": "<p>thanks!</p>",
+        "id": 10832,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1591714685
+    },
+    {
+        "content": "<p>Awesome <span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span></p>",
+        "id": 10833,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1591714815
+    }
+]

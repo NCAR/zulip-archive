@@ -1,0 +1,115 @@
+<html>
+<head><meta charset="utf-8"><title>python equivalent of NCL &quot;getind_latlon2d &quot; · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html">python equivalent of NCL &quot;getind_latlon2d &quot;</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="5885"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/5885" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#5885">(Apr 02 2020 at 23:18)</a>:</h4>
+<p>Can anyone point me in the right python direction for coding the equivalent of the following NCL line:<br>
+ij = getind_latlon2d(lat2d,lon2d,lat1d,lon1d)<br>
+which returns an array of i,j indices of the lat2d and lon2d arrays (think TLAT, TLONG from POP) closest to the locations given by the lat1d and lon1d arrays ?  How do you accomplish this using xarray or numpy methods?</p>
+
+
+
+<a name="5889"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/5889" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#5889">(Apr 02 2020 at 23:48)</a>:</h4>
+<p><a href="https://stackoverflow.com/questions/10818546/finding-index-of-nearest-point-in-numpy-arrays-of-x-and-y-coordinates" target="_blank" title="https://stackoverflow.com/questions/10818546/finding-index-of-nearest-point-in-numpy-arrays-of-x-and-y-coordinates">https://stackoverflow.com/questions/10818546/finding-index-of-nearest-point-in-numpy-arrays-of-x-and-y-coordinates</a></p>
+
+
+
+<a name="5890"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/5890" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#5890">(Apr 02 2020 at 23:52)</a>:</h4>
+<p>If you come up with something you think others would benefit from, I can help package it.</p>
+
+
+
+<a name="5891"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/5891" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#5891">(Apr 02 2020 at 23:57)</a>:</h4>
+<p>This one might be better, since it references xarray: <a href="https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates" target="_blank" title="https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates">https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates</a></p>
+
+
+
+<a name="5892"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/5892" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#5892">(Apr 03 2020 at 00:04)</a>:</h4>
+<p>Maybe not better, but another data point.  I like the first discussion better.</p>
+
+
+
+<a name="6026"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/6026" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#6026">(Apr 06 2020 at 17:15)</a>:</h4>
+<p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> I usually use a Kdtree for that. </p>
+<p>Something along those lines:</p>
+<div class="codehilite"><pre><span></span>import numpy as np
+from scipy import spatial
+
+lon = np.linspace(0,360,361)
+lat = np.linspace(-90,90,181)
+lon2d, lat2d = np.meshgrid(lon, lat)
+ii, jj = np.meshgrid(range(len(lon)), range(len(lat)))
+
+grd = list( zip(np.ravel(lon2d), np.ravel(lat2d)) )
+idx = list( zip(np.ravel(ii), np.ravel(jj)) )
+
+pts = ([60.4, 45.1], [275.3, -34.8])
+
+distance, index = spatial.KDTree(grd).query(pts)
+
+pts_coord = np.asarray(grd)[index]
+pts_idx = np.asarray(idx)[index]
+</pre></div>
+
+
+
+<a name="6194"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20equivalent%20of%20NCL%20%22getind_latlon2d%20%22/near/6194" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20equivalent.20of.20NCL.20.22getind_latlon2d.20.22.html#6194">(Apr 07 2020 at 20:15)</a>:</h4>
+<p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> , here's the simple function I use. If you pass in xarray objects it'll return xarray objects.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">find_indices</span><span class="p">(</span><span class="n">xgrid</span><span class="p">,</span> <span class="n">ygrid</span><span class="p">,</span> <span class="n">xpoint</span><span class="p">,</span> <span class="n">ypoint</span><span class="p">):</span>
+    <span class="sd">"""Returns the i, j index for a latitude/longitude point on a grid.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Longitude and latitude points (``xpoint``/``ypoint``) should be in the same</span>
+<span class="sd">        range as the grid itself (e.g., if the longitude grid is 0-360, should be</span>
+<span class="sd">        200 instead of -160).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        xgrid (array_like): Longitude meshgrid (shape `M`, `N`)</span>
+<span class="sd">        ygrid (array_like): Latitude meshgrid (shape `M`, `N`)</span>
+<span class="sd">        xpoint (int or double): Longitude of point searching for on grid.</span>
+<span class="sd">        ypoint (int or double): Latitude of point searching for on grid.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        i, j (int):</span>
+<span class="sd">            Keys for the inputted grid that lead to the lat/lon point the user is</span>
+<span class="sd">            seeking.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; x = np.linspace(0, 360, 37)</span>
+<span class="sd">        &gt;&gt;&gt; y = np.linspace(-90, 90, 19)</span>
+<span class="sd">        &gt;&gt;&gt; xx, yy = np.meshgrid(x, y)</span>
+<span class="sd">        &gt;&gt;&gt; xp = 20</span>
+<span class="sd">        &gt;&gt;&gt; yp = -20</span>
+<span class="sd">        &gt;&gt;&gt; i, j = find_indices(xx, yy, xp, yp)</span>
+<span class="sd">        &gt;&gt;&gt; print(xx[i, j])</span>
+<span class="sd">        20.0</span>
+<span class="sd">        &gt;&gt;&gt; print(yy[i, j])</span>
+<span class="sd">        -20.0</span>
+<span class="sd">    """</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">xgrid</span> <span class="o">-</span> <span class="n">xpoint</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">ygrid</span> <span class="o">-</span> <span class="n">ypoint</span>
+    <span class="n">reduced_grid</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span>
+    <span class="n">min_ix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmin</span><span class="p">(</span><span class="n">reduced_grid</span><span class="p">)</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">min_ix</span><span class="p">,</span> <span class="n">reduced_grid</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

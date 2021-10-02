@@ -1,0 +1,656 @@
+[
+    {
+        "content": "<p>Is there any status update on this development (issue #7)?</p>",
+        "id": 16801,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1599170371
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>, <span class=\"user-mention\" data-user-id=\"40\">@Riley Brady</span>, <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> and <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> have been following this issue. I think we've foundered a bit, but would be good to assess and revive.</p>",
+        "id": 16819,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1599231601
+    },
+    {
+        "content": "<p>a bunch of the pieces are almost there <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>\n<ol>\n<li>we know how to set up xgcm: <a href=\"https://pop-tools.readthedocs.io/en/latest/examples/pop_div_curl_xr_xgcm_metrics_compare.html\" target=\"_blank\" title=\"https://pop-tools.readthedocs.io/en/latest/examples/pop_div_curl_xr_xgcm_metrics_compare.html\">https://pop-tools.readthedocs.io/en/latest/examples/pop_div_curl_xr_xgcm_metrics_compare.html</a></li>\n<li>we know how to specify metrics: <a href=\"https://github.com/NCAR/pop-tools/issues/40\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/issues/40\">https://github.com/NCAR/pop-tools/issues/40</a></li>\n<li>we have unfinished code to estimate metrics that havenot been saved to disk: <a href=\"https://github.com/NCAR/pop-tools/pull/44\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/pull/44\">https://github.com/NCAR/pop-tools/pull/44</a>, <a href=\"https://github.com/NCAR/pop-tools/pull/54\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/pull/54\">https://github.com/NCAR/pop-tools/pull/54</a></li>\n<li>and there is unifinished code for div, grad, curl: <a href=\"https://github.com/xgcm/xgcm/issues/187\" target=\"_blank\" title=\"https://github.com/xgcm/xgcm/issues/187\">https://github.com/xgcm/xgcm/issues/187</a></li>\n</ol>\n<p>cc <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span></p>",
+        "id": 16826,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1599232425
+    },
+    {
+        "content": "<p>Hi all, <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>  and I have been working on a notebook that closes, for example, temperature budget with xarray only, with xgcm and with xgcm metrics. I would say what works now is closing the temperature budget with xgcm, it's not optimally using metrics yet and xarray only has some problems.</p>",
+        "id": 16827,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1599232594
+    },
+    {
+        "content": "<p>I could turn the xgcm version into a function and move it to pop-tools.</p>",
+        "id": 16828,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1599232623
+    },
+    {
+        "content": "<p>it does need DZU which as far as I understand cannot be calculated from the released version of pop-tools right now?!</p>",
+        "id": 16829,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1599232669
+    },
+    {
+        "content": "<p>wow much further along than I thought ! nice!</p>",
+        "id": 16830,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1599232718
+    },
+    {
+        "content": "<p>yeah it's POP specific, though. Which is fine for pop-tools, I guess</p>",
+        "id": 16831,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1599232896
+    },
+    {
+        "content": "<p>Hi all; glad this is making some headway.</p>\n<p>I was looking to flesh out some convenience variables from the <code>get_grid()</code> function so we could really easily wrangle this with <code>xgcm</code> (DZU, DZT, HU, HT, KMU). I could use some feedback on <a href=\"https://github.com/NCAR/pop-tools/pull/54\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/pull/54\">https://github.com/NCAR/pop-tools/pull/54</a> and we need to get <a href=\"https://github.com/NCAR/pop-tools/pull/44\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/pull/44\">https://github.com/NCAR/pop-tools/pull/44</a> merged. We might not need every one of those variables, but if I remember correctly <code>DZU</code> and <code>DZT</code> are needed.</p>\n<p>Also some thoughts on <a href=\"https://github.com/NCAR/pop-tools/issues/56\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/issues/56\">https://github.com/NCAR/pop-tools/issues/56</a> would be useful -- getting <code>DZBC</code> could help us close budgets for runs with partial bottom cells. Although maybe that is a step we take in a future PR. We also haven't done anything to deal with the overflow parameterization that <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> meticulously deals with in his NCL code, but again this should be dealt with after the first iteration of this code.</p>\n<p>There's a lot of discussion on my original purely <code>xarray</code> implementation here that might help in making the updated version work well: <a href=\"https://github.com/NCAR/pop-tools/pull/12\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/pull/12\">https://github.com/NCAR/pop-tools/pull/12</a>. I closed it in favor of giving code/feedback to <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span> and <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> on doing a purely <code>xgcm</code> implementation.</p>",
+        "id": 16835,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1599236413
+    },
+    {
+        "content": "<p>Here's a demo from <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>  and <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> closing the O2 budget using purely <code>xgcm</code>: <a href=\"https://nbviewer.jupyter.org/gist/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8\" target=\"_blank\" title=\"https://nbviewer.jupyter.org/gist/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8\">https://nbviewer.jupyter.org/gist/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8</a>. Yassir and I had talked about just hosting these as examples on the <code>pop-tools</code> docs so folks could just follow along themselves. I still think it'd be valuable to have a function in the package. The best advice I can give from our discussion on my PR is to use YAML files to denote the variables specifically needed for each tracer. For instance, iron needs <code>IRON_FLUX</code>, while O2 needs <code>STF_O2</code>, while DIC needs <code>FG_CO2</code>. We can have an exhaustive list for the tracer variables on what is needed.</p>",
+        "id": 16836,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1599236553
+    },
+    {
+        "content": "<p>Another minor issue is that budget terms are not all available as outputs in many runs, e.g. for BGC in the high res runs,  which prevents demonstrating full budget closure for now. e.g. the gist posted above by <span class=\"user-mention\" data-user-id=\"40\">@Riley Brady</span> is missing the <code>HDIF</code> terms, which likely explains the lack of budget closure.  </p>\n<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> , a pop_tools function would be awesome, happy to help with BGC implementation. A couple other differences for BGC vs heat budgets are lack of a <code>QSW_3D</code> term for BGC budgets, and handling different units for various BGC terms (with ```YAML files too?), both manageable I think.</p>",
+        "id": 16843,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1599238948
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>, <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>'s FOSI run under the CESM-DPLE directory has a lot of the terms. That's what I based my original closure demos and code on in the previous PR. See <code>/glade/p/cesm/community/CESM-DPLE/CESM-DPLE_POPCICEhindcast</code></p>",
+        "id": 16844,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1599239490
+    },
+    {
+        "content": "<p>Here's a demo YAML file: <a href=\"https://github.com/NCAR/pop-tools/blob/master/pop_tools/pop_grid_definitions.yaml\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/blob/master/pop_tools/pop_grid_definitions.yaml\">https://github.com/NCAR/pop-tools/blob/master/pop_tools/pop_grid_definitions.yaml</a>. I would envision the headers being the given variable name, then the sub-sections could be a list of required/expected budget variables (could make some optional based on run output) and other booleans as needed.</p>\n<p>I still think if we can advance discussion on <code>get_grid()</code> returning some of the other grid diagnostics/metrics we should be able to implement this pretty smoothly.</p>",
+        "id": 16845,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1599239563
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"84\">Yassir Eddebbar</span>, <span class=\"user-mention silent\" data-user-id=\"34\">Stephen Yeager</span>'s FOSI run under the CESM-DPLE directory has a lot of the terms. That's what I based my original closure demos and code on in the previous PR. See <code>/glade/p/cesm/community/CESM-DPLE/CESM-DPLE_POPCICEhindcast</code></p>\n</blockquote>\n<p>Excellent. I'll test on those!</p>",
+        "id": 16846,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1599239824
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>  Would you be willing to share your notebook that closes the POP temperature budget using xarray and xgcm?</p>",
+        "id": 26002,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1614629511
+    },
+    {
+        "content": "<p>sure, I am just running it now to make sure it works properly and will share it then</p>",
+        "id": 26003,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614630259
+    },
+    {
+        "content": "<p>cc <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span></p>",
+        "id": 26004,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1614630434
+    },
+    {
+        "content": "<p>Not sure if of interest, but I have an [O2] budget version with major input from <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> as well, need to rerun and clean too...</p>",
+        "id": 26015,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1614638736
+    },
+    {
+        "content": "<p>Currently my budget is not closing. Not sure why, this is the same code that closed a while ago, before a bunch of updates. Am looking into it and hopefully can close it again soon.</p>",
+        "id": 26033,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614643909
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>   I have something that works, do you currently work on the CGD system or casper/cheyenne?</p>",
+        "id": 26129,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614728027
+    },
+    {
+        "content": "<p>Great!  Prefer something that works on casper. Thank you very much for debugging and sharing!</p>",
+        "id": 26131,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1614732470
+    },
+    {
+        "content": "<p>ok, I'm currently running it on cgd. I will put it on casper and make sure it works, then I'll let you know where to find it.</p>",
+        "id": 26132,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614787271
+    },
+    {
+        "content": "<p>Anna you should upload it to pop-tools!</p>",
+        "id": 26133,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614787662
+    },
+    {
+        "content": "<p>The notebook itself? Or change it into a function?</p>",
+        "id": 26134,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614787768
+    },
+    {
+        "content": "<p>The notebook. almost 0 effort <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>",
+        "id": 26135,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614787871
+    },
+    {
+        "content": "<p>ok so here come the problems. so far it's not running on casper -- I assume something to do with xgcm. This is the error I get when I try to convert my dataset ds into a xgcm compatible dataset:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"c1\"># here we get the xgcm compatible dataset</span>\n<span class=\"n\">gridx</span><span class=\"p\">,</span> <span class=\"n\">dsx</span> <span class=\"o\">=</span> <span class=\"n\">pop_tools</span><span class=\"o\">.</span><span class=\"n\">to_xgcm_grid_dataset</span><span class=\"p\">(</span><span class=\"n\">ds</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<div class=\"codehilite\"><pre><span></span><span class=\"o\">---------------------------------------------------------------------------</span>\n<span class=\"ne\">AttributeError</span>                            <span class=\"n\">Traceback</span> <span class=\"p\">(</span><span class=\"n\">most</span> <span class=\"n\">recent</span> <span class=\"n\">call</span> <span class=\"n\">last</span><span class=\"p\">)</span>\n<span class=\"o\">&lt;</span><span class=\"n\">ipython</span><span class=\"o\">-</span><span class=\"nb\">input</span><span class=\"o\">-</span><span class=\"mi\">6</span><span class=\"o\">-</span><span class=\"n\">c629003e2721</span><span class=\"o\">&gt;</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n      <span class=\"mi\">1</span> <span class=\"c1\"># here we get the xgcm compatible dataset</span>\n<span class=\"o\">----&gt;</span> <span class=\"mi\">2</span> <span class=\"n\">gridx</span><span class=\"p\">,</span> <span class=\"n\">dsx</span> <span class=\"o\">=</span> <span class=\"n\">pop_tools</span><span class=\"o\">.</span><span class=\"n\">to_xgcm_grid_dataset</span><span class=\"p\">(</span><span class=\"n\">ds</span><span class=\"p\">)</span>\n      <span class=\"mi\">3</span>\n      <span class=\"mi\">4</span> <span class=\"c1\"># make sure we have the cell volumne for calculations</span>\n      <span class=\"mi\">5</span> <span class=\"n\">dsx</span><span class=\"p\">[</span><span class=\"s2\">&quot;cell_volume&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">dsx</span><span class=\"o\">.</span><span class=\"n\">DZT</span> <span class=\"o\">*</span> <span class=\"n\">dsx</span><span class=\"o\">.</span><span class=\"n\">DXT</span> <span class=\"o\">*</span> <span class=\"n\">dsx</span><span class=\"o\">.</span><span class=\"n\">DYT</span>\n\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">deppenme</span><span class=\"o\">/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">analysis</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">7</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">pop_tools</span><span class=\"o\">/</span><span class=\"n\">xgcm_util</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"n\">to_xgcm_grid_dataset</span><span class=\"p\">(</span><span class=\"n\">ds</span><span class=\"p\">,</span> <span class=\"o\">**</span><span class=\"n\">kwargs</span><span class=\"p\">)</span>\n    <span class=\"mi\">202</span>\n    <span class=\"mi\">203</span>     <span class=\"k\">try</span><span class=\"p\">:</span>\n<span class=\"o\">--&gt;</span> <span class=\"mi\">204</span>         <span class=\"kn\">import</span> <span class=\"nn\">xgcm</span>\n    <span class=\"mi\">205</span>     <span class=\"k\">except</span> <span class=\"ne\">ImportError</span><span class=\"p\">:</span>\n    <span class=\"mi\">206</span>         <span class=\"k\">raise</span> <span class=\"ne\">ImportError</span><span class=\"p\">(</span>\n\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">deppenme</span><span class=\"o\">/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">analysis</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">7</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">xgcm</span><span class=\"o\">/</span><span class=\"fm\">__init__</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n      <span class=\"mi\">4</span> <span class=\"k\">del</span> <span class=\"n\">get_versions</span>\n      <span class=\"mi\">5</span>\n<span class=\"o\">----&gt;</span> <span class=\"mi\">6</span> <span class=\"kn\">from</span> <span class=\"nn\">.grid</span> <span class=\"kn\">import</span> <span class=\"n\">Grid</span><span class=\"p\">,</span> <span class=\"n\">Axis</span>\n      <span class=\"mi\">7</span> <span class=\"kn\">from</span> <span class=\"nn\">.autogenerate</span> <span class=\"kn\">import</span> <span class=\"n\">generate_grid_ds</span>\n\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">deppenme</span><span class=\"o\">/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">analysis</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">7</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">xgcm</span><span class=\"o\">/</span><span class=\"n\">grid</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n    <span class=\"mi\">757</span>\n    <span class=\"mi\">758</span>\n<span class=\"o\">--&gt;</span> <span class=\"mi\">759</span> <span class=\"k\">class</span> <span class=\"nc\">Grid</span><span class=\"p\">:</span>\n    <span class=\"mi\">760</span>     <span class=\"s2\">&quot;&quot;&quot;</span>\n<span class=\"s2\">    761     An object with multiple :class:`xgcm.Axis` objects representing different</span>\n\n<span class=\"s2\">/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xgcm/grid.py in Grid()</span>\n<span class=\"s2\">   1065         return out</span>\n<span class=\"s2\">   1066</span>\n<span class=\"s2\">-&gt; 1067     @docstrings.dedent</span>\n<span class=\"s2\">   1068     def _apply_vector_function(self, function, vector, **kwargs):</span>\n<span class=\"s2\">   1069         # the keys, should be axis names</span>\n\n<span class=\"s2\">/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/docrep/decorators.py in update_docstring(self, *args, **kwargs)</span>\n<span class=\"s2\">     41             return func(self, *args, **kwargs)</span>\n<span class=\"s2\">     42         elif len(args) and callable(args[0]):</span>\n<span class=\"s2\">---&gt; 43             doc = func(self, args[0].__doc__, *args[1:], **kwargs)</span>\n<span class=\"s2\">     44             _set_object_doc(args[0], doc, py2_class=self.python2_classes)</span>\n<span class=\"s2\">     45             return args[0]</span>\n\n<span class=\"s2\">/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/docrep/__init__.py in dedent(self, s, stacklevel)</span>\n<span class=\"s2\">    532             encountering an invalid key in the string</span>\n<span class=\"s2\">    533         &quot;&quot;&quot;</span>\n<span class=\"o\">--&gt;</span> <span class=\"mi\">534</span>         <span class=\"n\">s</span> <span class=\"o\">=</span> <span class=\"n\">inspect</span><span class=\"o\">.</span><span class=\"n\">cleandoc</span><span class=\"p\">(</span><span class=\"n\">s</span><span class=\"p\">)</span>\n    <span class=\"mi\">535</span>         <span class=\"k\">return</span> <span class=\"n\">safe_modulo</span><span class=\"p\">(</span><span class=\"n\">s</span><span class=\"p\">,</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">params</span><span class=\"p\">,</span> <span class=\"n\">stacklevel</span><span class=\"o\">=</span><span class=\"n\">stacklevel</span><span class=\"p\">)</span>\n    <span class=\"mi\">536</span>\n\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">deppenme</span><span class=\"o\">/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">analysis</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">7</span><span class=\"o\">/</span><span class=\"n\">inspect</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"n\">cleandoc</span><span class=\"p\">(</span><span class=\"n\">doc</span><span class=\"p\">)</span>\n    <span class=\"mi\">617</span>     <span class=\"n\">onwards</span> <span class=\"ow\">is</span> <span class=\"n\">removed</span><span class=\"o\">.</span><span class=\"s2\">&quot;&quot;&quot;</span>\n<span class=\"s2\">    618     try:</span>\n<span class=\"s2\">--&gt; 619         lines = doc.expandtabs().split(&#39;</span><span class=\"se\">\\n</span><span class=\"s2\">&#39;)</span>\n<span class=\"s2\">    620     except UnicodeError:</span>\n<span class=\"s2\">    621         return None</span>\n\n<span class=\"s2\">AttributeError: &#39;NoneType&#39; object has no attribute &#39;expandtabs&#39;</span>\n</pre></div>\n\n\n<p>I have tried updating my environment and making sure the relevant packages are the same version, but I fail wrt <code>pop-tools</code> and <code>xgcm</code>.</p>\n<div class=\"codehilite\"><pre><span></span>conda_analysis_casper.txt:pop-tools                 <span class=\"m\">2020</span>.2.17.post6          pypi_0    pypi\nconda_dcpy_andre.txt:pop-tools                 <span class=\"m\">2020</span>.12.15         pyhd8ed1ab_0    conda-forge\n</pre></div>\n\n\n<p>When I run <code>conda update -c conda-forge pop-tools</code> it stays the same, when I try <code>pip install git+https://github.com/NCAR/pop-tools.git</code> it gives me this error: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"o\">(</span>analysis<span class=\"o\">)</span> -bash-4.2$ pip install git+https://github.com/NCAR/pop-tools.git\nCollecting git+https://github.com/NCAR/pop-tools.git\n  Cloning https://github.com/NCAR/pop-tools.git to /glade/scratch/deppenme/pip-req-build-8etvcn_v\n  Running <span class=\"nb\">command</span> git clone -q https://github.com/NCAR/pop-tools.git /glade/scratch/deppenme/pip-req-build-8etvcn_v\n  Installing build dependencies ... <span class=\"k\">done</span>\n  Getting requirements to build wheel ... <span class=\"k\">done</span>\n  Installing backend dependencies ... <span class=\"k\">done</span>\n    Preparing wheel metadata ... <span class=\"k\">done</span>\nRequirement already satisfied: dask&gt;<span class=\"o\">=</span><span class=\"m\">2</span>.14 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2021</span>.2.0<span class=\"o\">)</span>\nRequirement already satisfied: pyyaml&gt;<span class=\"o\">=</span><span class=\"m\">5</span>.3.1 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">5</span>.4.1<span class=\"o\">)</span>\nCollecting numba&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.52\n  Using cached numba-0.52.0-cp37-cp37m-manylinux2014_x86_64.whl <span class=\"o\">(</span><span class=\"m\">3</span>.2 MB<span class=\"o\">)</span>\nRequirement already satisfied: xarray&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.16.1 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">0</span>.17.1.dev3+g48378c4<span class=\"o\">)</span>\nRequirement already satisfied: numpy&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.17.0 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">1</span>.19.5<span class=\"o\">)</span>\nRequirement already satisfied: pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">1</span>.3.0<span class=\"o\">)</span>\nRequirement already satisfied: setuptools in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from numba&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.52-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">49</span>.6.0.post20210108<span class=\"o\">)</span>\nCollecting llvmlite&lt;<span class=\"m\">0</span>.36,&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.35.0\n  Using cached llvmlite-0.35.0-cp37-cp37m-manylinux2010_x86_64.whl <span class=\"o\">(</span><span class=\"m\">25</span>.3 MB<span class=\"o\">)</span>\nRequirement already satisfied: requests in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2</span>.25.1<span class=\"o\">)</span>\nRequirement already satisfied: packaging in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">20</span>.9<span class=\"o\">)</span>\nRequirement already satisfied: appdirs in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">1</span>.4.4<span class=\"o\">)</span>\nRequirement already satisfied: pandas&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.25 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from xarray&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.16.1-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">1</span>.2.3<span class=\"o\">)</span>\nRequirement already satisfied: python-dateutil&gt;<span class=\"o\">=</span><span class=\"m\">2</span>.7.3 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pandas&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.25-&gt;xarray&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.16.1-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2</span>.8.1<span class=\"o\">)</span>\nRequirement already satisfied: pytz&gt;<span class=\"o\">=</span><span class=\"m\">2017</span>.3 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from pandas&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.25-&gt;xarray&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.16.1-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2021</span>.1<span class=\"o\">)</span>\nRequirement already satisfied: six&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.5 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from python-dateutil&gt;<span class=\"o\">=</span><span class=\"m\">2</span>.7.3-&gt;pandas&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.25-&gt;xarray&gt;<span class=\"o\">=</span><span class=\"m\">0</span>.16.1-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">1</span>.15.0<span class=\"o\">)</span>\nRequirement already satisfied: pyparsing&gt;<span class=\"o\">=</span><span class=\"m\">2</span>.0.2 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from packaging-&gt;pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2</span>.4.7<span class=\"o\">)</span>\nRequirement already satisfied: chardet&lt;<span class=\"m\">5</span>,&gt;<span class=\"o\">=</span><span class=\"m\">3</span>.0.2 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from requests-&gt;pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">4</span>.0.0<span class=\"o\">)</span>\nRequirement already satisfied: urllib3&lt;<span class=\"m\">1</span>.27,&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.21.1 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from requests-&gt;pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">1</span>.26.3<span class=\"o\">)</span>\nRequirement already satisfied: certifi&gt;<span class=\"o\">=</span><span class=\"m\">2017</span>.4.17 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from requests-&gt;pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2020</span>.12.5<span class=\"o\">)</span>\nRequirement already satisfied: idna&lt;<span class=\"m\">3</span>,&gt;<span class=\"o\">=</span><span class=\"m\">2</span>.5 in /glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages <span class=\"o\">(</span>from requests-&gt;pooch&gt;<span class=\"o\">=</span><span class=\"m\">1</span>.3.0-&gt;pop-tools<span class=\"o\">==</span><span class=\"m\">2020</span>.12.15<span class=\"o\">)</span> <span class=\"o\">(</span><span class=\"m\">2</span>.10<span class=\"o\">)</span>\nBuilding wheels <span class=\"k\">for</span> collected packages: pop-tools\n  Building wheel <span class=\"k\">for</span> pop-tools <span class=\"o\">(</span>PEP <span class=\"m\">517</span><span class=\"o\">)</span> ... <span class=\"k\">done</span>\n  Created wheel <span class=\"k\">for</span> pop-tools: <span class=\"nv\">filename</span><span class=\"o\">=</span>pop_tools-2020.12.15-py3-none-any.whl <span class=\"nv\">size</span><span class=\"o\">=</span><span class=\"m\">30153</span> <span class=\"nv\">sha256</span><span class=\"o\">=</span>988c711795c5b46037a868957be10d82f56fab4eab935b862cbc8c054f5f7717\n  Stored in directory: /glade/scratch/deppenme/pip-ephem-wheel-cache-bdpxkpi5/wheels/65/87/a3/7667dcc7225e5105e95e09186af11e0befb140c2779fc074cf\nSuccessfully built pop-tools\nInstalling collected packages: llvmlite, numba, pop-tools\n  Attempting uninstall: llvmlite\n    Found existing installation: llvmlite <span class=\"m\">0</span>.31.0\nERROR: Cannot uninstall <span class=\"s1\">&#39;llvmlite&#39;</span>. It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.\n</pre></div>\n\n\n<p>Anyway, I believe the issue is in principle with xgcm (see the <code>.grid</code> problem), so I tried to at least get that to the same version on both systems. Both seem to be installed by conda-forge</p>\n<div class=\"codehilite\"><pre><span></span>conda_analysis_casper.txt:xgcm                      <span class=\"m\">0</span>.3.0                      py_0    conda-forge\nconda_dcpy_andre.txt:xgcm                      <span class=\"m\">0</span>.5.1                      py_0    conda-forge\n</pre></div>\n\n\n<p>and when I try to update with conda-forge it says it's already installed and doesn't change the version. </p>\n<p>Long story short: help please. <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>  any ideas?</p>",
+        "id": 26172,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614800250
+    },
+    {
+        "content": "<p>Yes this is an xgcm version problem. <code>conda update</code> should fix it, are you getting some other error in that case?</p>",
+        "id": 26173,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614801547
+    },
+    {
+        "content": "<p>I keep doing <code>conda update</code> and it doesn't change the version. </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"o\">(</span>analysis<span class=\"o\">)</span> -bash-4.2$ conda update xgcm\nCollecting package metadata <span class=\"o\">(</span>current_repodata.json<span class=\"o\">)</span>: <span class=\"k\">done</span>\nSolving environment: <span class=\"k\">done</span>\n\n<span class=\"c1\"># All requested packages already installed.</span>\n\n<span class=\"o\">(</span>analysis<span class=\"o\">)</span> -bash-4.2$\n</pre></div>",
+        "id": 26174,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614801932
+    },
+    {
+        "content": "<p>same with <code>conda update -c conda-forge xgcm</code></p>",
+        "id": 26175,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614801990
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span>, I think the issue is coming from an incompatible <code>docrep</code> version... Try pinning <code>docrep</code> to <code>v0.2.7</code></p>",
+        "id": 26177,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614805215
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>conda install -c conda-forge <span class=\"nv\">docrep</span><span class=\"o\">==</span><span class=\"m\">0</span>.2.7\n</pre></div>",
+        "id": 26178,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614805236
+    },
+    {
+        "content": "<p>yes, I have come across the docrep problem.  it is currently at 0.2.7<br>\n<code>docrep                    0.2.7                    pypi_0    pypi</code></p>\n<p>am doing the conda install thing now and will then try a conda update xgcm again.</p>",
+        "id": 26179,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614805269
+    },
+    {
+        "content": "<p>it's thinking really hard and currently hangs at </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"o\">(</span>analysis<span class=\"o\">)</span> -bash-4.2$ conda install -c conda-forge <span class=\"nv\">docrep</span><span class=\"o\">==</span><span class=\"m\">0</span>.2.7\nCollecting package metadata <span class=\"o\">(</span>current_repodata.json<span class=\"o\">)</span>: <span class=\"k\">done</span>\nSolving environment: -\nThe environment is inconsistent, please check the package plan carefully\nThe following packages are causing the inconsistency:\n\n  - conda-forge/linux-64::psyplot<span class=\"o\">==</span><span class=\"m\">1</span>.3.1<span class=\"o\">=</span>py37h89c1867_0\n  - conda-forge/noarch::xrft<span class=\"o\">==</span><span class=\"m\">0</span>.2.3<span class=\"o\">=</span>pyhd3deb0d_0\n  - conda-forge/noarch::funcargparse<span class=\"o\">==</span><span class=\"m\">0</span>.2.3<span class=\"o\">=</span>pyh9f0ad1d_0\nfailed with initial frozen solve. Retrying with flexible solve.\nSolving environment: <span class=\"p\">|</span>\n</pre></div>\n\n\n<p>what can I do about the inconsistent environment?</p>",
+        "id": 26180,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614805579
+    },
+    {
+        "content": "<p>ok it took a while but it worked and I was able to update xgcm. Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> ! And while you're here (; I am initializing my cluster like this </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"c1\"># this is for when you do things on casper</span>\n<span class=\"kn\">import</span> <span class=\"nn\">ncar_jobqueue</span>\n<span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"kn\">import</span> <span class=\"nn\">distributed</span>\n\n<span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">({</span><span class=\"s1\">&#39;distributed.dashboard.link&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;/proxy/</span><span class=\"si\">{port}</span><span class=\"s1\">/status&#39;</span><span class=\"p\">})</span>\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">ncar_jobqueue</span><span class=\"o\">.</span><span class=\"n\">NCARCluster</span><span class=\"p\">()</span> <span class=\"c1\"># initializes cluster</span>\n<span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">distributed</span><span class=\"o\">.</span><span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">adapt</span><span class=\"p\">(</span><span class=\"n\">minimum</span><span class=\"o\">=</span><span class=\"mi\">6</span><span class=\"p\">,</span> <span class=\"n\">maximum</span><span class=\"o\">=</span><span class=\"mi\">32</span><span class=\"p\">,</span> <span class=\"n\">wait_count</span><span class=\"o\">=</span><span class=\"mi\">600</span><span class=\"p\">)</span> <span class=\"c1\"># gets you 6 workers minimum, max</span>\n                                                     <span class=\"c1\"># makes them wait 10 minutes before releasing</span>\n<span class=\"n\">client</span>\n</pre></div>\n\n\n<p>but I can't see my dashboard when I click on the link, what am I doing wrong?</p>",
+        "id": 26182,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614805787
+    },
+    {
+        "content": "<p>what version of <code>ncar-jobqueue</code> are you using?</p>",
+        "id": 26186,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614807731
+    },
+    {
+        "content": "<p>With the newest version of ncar-jobqueue, you don't need this </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">({</span><span class=\"s1\">&#39;distributed.dashboard.link&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;/proxy/</span><span class=\"si\">{port}</span><span class=\"s1\">/status&#39;</span><span class=\"p\">})</span>\n</pre></div>",
+        "id": 26187,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614807759
+    },
+    {
+        "content": "<p>'2020.3.4'</p>",
+        "id": 26189,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614807842
+    },
+    {
+        "content": "<p>so when I remove the line and click on the new link. it wants to log into jupyterhub, which I am not using in the first place</p>",
+        "id": 26190,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614807913
+    },
+    {
+        "content": "<blockquote>\n<p>it's thinking really hard and currently hangs at </p>\n</blockquote>\n<p>You may find <code>mamba</code> to be very useful in this kind of situations </p>\n<div class=\"codehilite\"><pre><span></span>conda install -c conda-forge mamba<span class=\"sb\">`</span><span class=\"c1\">#  in your base</span>\n</pre></div>\n\n\n<p>and whenever you want to install packages via conda, replace <code>conda</code> with <code>mamba</code>. E.g.:  <code>mamba install -c conda-forge docrep==0.2.7</code></p>",
+        "id": 26191,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614807951
+    },
+    {
+        "content": "<blockquote>\n<p>'2020.3.4'</p>\n</blockquote>\n<p>That's old</p>",
+        "id": 26192,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614807976
+    },
+    {
+        "content": "<p>Try the latest version <code>2021.2.10</code></p>",
+        "id": 26193,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614807988
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>conda install -c conda-forge ncar-jobqueue<span class=\"o\">==</span><span class=\"m\">2021</span>.2.10\n</pre></div>",
+        "id": 26194,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808010
+    },
+    {
+        "content": "<p>hm. I did a conda update all in the beginning of the day, because I haven't worked on casper in a while, I wonder why it didn't update it.</p>",
+        "id": 26195,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614808022
+    },
+    {
+        "content": "<p>Is there a running documentary somewhere where we keep the current versions? So for example I am mostly working on the cgd system these days, and whenever I switch back to casper I am having these issues and have to ask people (partly because <code>conda update all</code> does not seem to take care of these things?)<br>\nbut anyhow I updated and I still get [pasted image] upon clicking on the link  (<a href=\"user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\" target=\"_blank\" title=\"user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\">https://zulip2.cloud.ucar.edu/user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png</a>)</p>\n<div class=\"message_inline_image\"><a href=\"user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\" target=\"_blank\" title=\"https://zulip2.cloud.ucar.edu/user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\"><img src=\"user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\"></a></div>",
+        "id": 26198,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614808134
+    },
+    {
+        "content": "<blockquote>\n<p>hm. I did a conda update all in the beginning of the day, because I haven't worked on casper in a while, I wonder why it didn't update it.</p>\n</blockquote>\n<p>the conda solver is very flexible unless you pin down which versions you want.. It's hard to control this when you've installed packages via <code>conda install ...</code> command. one remedy is to curate your environment in a <code>environment.yml</code> and then run <code>conda env update -f environment.yml</code> command whenever you want to update... (With this approach, it's easy to control which versions get installed)</p>",
+        "id": 26199,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808340
+    },
+    {
+        "content": "<blockquote>\n<p>Is there a running documentary somewhere where we keep the current versions? So for example I am mostly working on the cgd system these days, and whenever I switch back to casper I am having these issues and have to ask people (partly because <code>conda update all</code> does not seem to take care of these things?)<br>\nbut anyhow I updated and I still get [pasted image] upon clicking on the link  (<a href=\"user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\" target=\"_blank\" title=\"user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png\">https://zulip2.cloud.ucar.edu/user_uploads/2/43/qRHGVdyfK9fAaORJ5dlfqOn8/pasted_image.png</a>)</p>\n</blockquote>\n<p>This looks very familiar</p>",
+        "id": 26200,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808349
+    },
+    {
+        "content": "<p>This is likely a version mismatch</p>",
+        "id": 26201,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808367
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>hm. I did a conda update all in the beginning of the day, because I haven't worked on casper in a while, I wonder why it didn't update it.</p>\n</blockquote>\n<p>the conda solver is very flexible unless you pin down which versions you want.. It's hard to control this when you've installed packages via <code>conda install ...</code> command. one remedy is to curate your environment in a <code>environment.yml</code> and then run <code>conda env update -f environment.yml</code> command whenever you want to update... (With this approach, it's easy to control which versions get installed)</p>\n</blockquote>\n<p>I don't understand what you mean with curate -- like I literally go in and find the version numbers I need?</p>",
+        "id": 26202,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614808399
+    },
+    {
+        "content": "<p>tbh that doesn't sound very easy to me at all. I thought it was the idea to be able to use <code>conda install</code>and then get the latest version if I don't specify which version I want with the <code>==</code>?</p>",
+        "id": 26203,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614808525
+    },
+    {
+        "content": "<blockquote>\n<p>I don't understand what you mean with curate -- like I literally go in and find the version numbers I need? </p>\n</blockquote>\n<p>For instance, if you were starting with a new environment, you would create a new <code>environment.yml</code> file. The original contents of this file may look like this: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"nt\">name</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">my-new-env</span>\n<span class=\"nt\">channels</span><span class=\"p\">:</span>\n   <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">conda-forge</span>\n<span class=\"nt\">dependencies</span><span class=\"p\">:</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">python=3.8</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">xarray==0.16.2</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">dask==2.14</span>\n</pre></div>\n\n\n<p>To create/update this environment, you would run <code>conda env update -f environment.yml</code></p>\n<p>If let's say a week later, you decide that you want to upgrade one or more dependencies in this environment, you need to go back to the <code>environment.yml</code> file and update it, e.g. </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"nt\">name</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">my-new-env</span>\n<span class=\"nt\">channels</span><span class=\"p\">:</span>\n   <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">conda-forge</span>\n<span class=\"nt\">dependencies</span><span class=\"p\">:</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">python=3.8</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">xarray==0.17</span> <span class=\"c1\"># Upgrade to latest version of xarray</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">dask==2.14</span>\n</pre></div>\n\n\n<p>At this point, you would then run <code>conda env update -f environment.yml</code> </p>\n<p>With this approach, you can have an idea of what versions of packages you care about are installed in your environment by looking at your environment.yml file and you can <em>easily</em> re-create this environment on the same machine or another machine with the same type of operating system (Linux, MacOS, etc...). This is what I mean by environment curation.</p>",
+        "id": 26206,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808817
+    },
+    {
+        "content": "<p>I hope this clarifies my previous point</p>",
+        "id": 26207,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808828
+    },
+    {
+        "content": "<p>Regarding the version mismatch issue, what is the output of </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">dask</span><span class=\"o\">,</span> <span class=\"nn\">distributed</span><span class=\"o\">,</span> <span class=\"nn\">bokeh</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">,</span> <span class=\"n\">distributed</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">,</span> <span class=\"n\">bokeh</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>from your notebook??</p>",
+        "id": 26208,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614808865
+    },
+    {
+        "content": "<blockquote>\n<p>I hope this clarifies my previous point</p>\n</blockquote>\n<p>It does, thanks. I am not sure whether I would be able to do that though. It seems like I would be on top of every package version I would want to use, which seems like a lot to research / keep in mind. Anyway.</p>\n<p>The output is <code>2021.02.0 2021.02.0 2.3.0</code></p>\n<p>I also just tried pushing my notebook to git and it says I am denied </p>\n<div class=\"codehilite\"><pre><span></span>Username for &#39;https://github.com&#39;: ALDepp\nPassword for &#39;https://ALDepp@github.com&#39;:\nremote: Permission to NCAR/pop-tools.git denied to ALDepp.\nfatal: unable to access &#39;https://github.com/NCAR/pop-tools.git/&#39;: The requested URL returned error: 403\n</pre></div>",
+        "id": 26211,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614809053
+    },
+    {
+        "content": "<blockquote>\n<p>The output is 2021.02.0 2021.02.0 2.3.0 </p>\n</blockquote>\n<p>Try pinning your dask, distributed, bokeh versions to these versions:</p>\n<div class=\"codehilite\"><pre><span></span>dask==2.14\ndistributed==2.14\nbokeh==1.4\n</pre></div>",
+        "id": 26212,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614809198
+    },
+    {
+        "content": "<blockquote>\n<p>I also just tried pushing my notebook to git and it says I am denied </p>\n</blockquote>\n<p>I think you want to push to your fork (<a href=\"https://github.com/ALDepp/pop-tools\" target=\"_blank\" title=\"https://github.com/ALDepp/pop-tools\">https://github.com/ALDepp/pop-tools</a>) repo and open a pull request to merge your changes into NCAR/pop-tools</p>",
+        "id": 26213,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614809363
+    },
+    {
+        "content": "<p>Can you confirm your git repo is pointed to the right remote endpoint?</p>",
+        "id": 26214,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614809413
+    },
+    {
+        "content": "<p>Try this</p>",
+        "id": 26215,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614809416
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>git remote -v\n</pre></div>",
+        "id": 26216,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614809424
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>I also just tried pushing my notebook to git and it says I am denied </p>\n</blockquote>\n<p>I think you want to push to your fork (<a href=\"https://github.com/ALDepp/pop-tools\" target=\"_blank\" title=\"https://github.com/ALDepp/pop-tools\">https://github.com/ALDepp/pop-tools</a>) repo and open a pull request to merge your changes into NCAR/pop-tools</p>\n</blockquote>\n<p>yes, thank you (:</p>",
+        "id": 26222,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614809612
+    },
+    {
+        "content": "<blockquote>\n<div class=\"codehilite\"><pre><span></span>git remote -v\n</pre></div>\n\n\n</blockquote>\n<div class=\"codehilite\"><pre><span></span>origin  https://github.com/ALDepp/pop-tools.git (fetch)\norigin  https://github.com/ALDepp/pop-tools.git (push)\nupstream    https://github.com/NCAR/pop-tools.git (fetch)\nupstream    https://github.com/NCAR/pop-tools.git (push)\n</pre></div>",
+        "id": 26223,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614810213
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>The output is 2021.02.0 2021.02.0 2.3.0 </p>\n</blockquote>\n<p>Try pinning your dask, distributed, bokeh versions to these versions:</p>\n</blockquote>\n<p>dask==2.14<br>\ndistributed==2.14<br>\nbokeh==1.4<br>\nI have not been able to pin bokeh to 1.4. It took a very long time and then gave me a very long list of packages that conflict, and in the end says</p>\n<div class=\"codehilite\"><pre><span></span>Your installed version is: 2.17\n</pre></div>",
+        "id": 26245,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614874761
+    },
+    {
+        "content": "<p>Could you point me to the location of this conda environment?</p>",
+        "id": 26246,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1614875399
+    },
+    {
+        "content": "<p>/glade/work/deppenme/miniconda3/envs/analysis</p>",
+        "id": 26247,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1614876613
+    },
+    {
+        "content": "<p>I am wondering if it could be helpful to users not deeply familiar with the POP grid to add an illustration/visualization in <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> 's notebook on where the various terms sit in the grid cell, what the various terms mean. This what I found most challenging in creating the budget terms... I started on something a few months ago on illustrator that can be edited for this purpose (needs QA/QC review for accuracy):  <br>\n<a href=\"/user_uploads/2/8a/cyIi14CbPhepCrFP2zBALrjs/POP_Grid.png\" target=\"_blank\" title=\"POP_Grid.png\">POP_Grid.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/8a/cyIi14CbPhepCrFP2zBALrjs/POP_Grid.png\" target=\"_blank\" title=\"POP_Grid.png\"><img src=\"/user_uploads/2/8a/cyIi14CbPhepCrFP2zBALrjs/POP_Grid.png\"></a></div>",
+        "id": 26721,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1615571180
+    },
+    {
+        "content": "<p>yes please! very cool image</p>",
+        "id": 26722,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615571246
+    },
+    {
+        "content": "<p>if you have html/svg skills you could add this to xgcm: <a href=\"https://github.com/xgcm/xgcm/issues/276\" target=\"_blank\" title=\"https://github.com/xgcm/xgcm/issues/276\">https://github.com/xgcm/xgcm/issues/276</a></p>",
+        "id": 26723,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615571345
+    },
+    {
+        "content": "<p>Would be good to add to pop-tools as well?</p>",
+        "id": 26724,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1615571369
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>   I think that would be useful. Are v.t and u.t consistent in this figure? one seems to be on the corner and one on the face</p>",
+        "id": 26725,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1615571405
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>  is it okay if I add this to the example notebook (since casper is up again I aim to make changes and resubmit today)</p>",
+        "id": 26726,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1615571452
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"84\">Yassir Eddebbar</span>  is it okay if I add this to the example notebook (since casper is up again I aim to make changes and resubmit today)</p>\n</blockquote>\n<p>Yes, as long as it looks ok by you and others accuracy wise, go for it. Happy to edit some later</p>",
+        "id": 26730,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1615571817
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"84\">Yassir Eddebbar</span>   I think that would be useful. Are v.t and u.t consistent in this figure? one seems to be on the corner and one on the face</p>\n</blockquote>\n<p>yeah, I struggled with how to represent v.t , it's supposed to look like it's popping out the center of the northern cell face (location 3121) not corner, but now looking at it, it can be confused for the SE upper corner...  I can work something better later?</p>",
+        "id": 26732,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1615572068
+    },
+    {
+        "content": "<blockquote>\n<p>if you have html/svg skills you could add this to xgcm: <a href=\"https://github.com/xgcm/xgcm/issues/276\" target=\"_blank\" title=\"https://github.com/xgcm/xgcm/issues/276\">https://github.com/xgcm/xgcm/issues/276</a></p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>  I'll look into it, not familiar with svg yet, but sounds like it could be really useful for xgcm.</p>",
+        "id": 26734,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1615572218
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span>  Here is an updated version with more POP-consistent naming and a legend: <a href=\"/user_uploads/2/55/D-_J312vUywrdY4HT9t7jvSv/POP_Grid.png\" target=\"_blank\" title=\"POP_Grid.png\">POP_Grid.png</a><br>\n<span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>  Feel free to use on pop-tools doc or elsewhere, and let me know if you need any edits or additions for other uses, I can also send over the .ai file</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/55/D-_J312vUywrdY4HT9t7jvSv/POP_Grid.png\" target=\"_blank\" title=\"POP_Grid.png\"><img src=\"/user_uploads/2/55/D-_J312vUywrdY4HT9t7jvSv/POP_Grid.png\"></a></div>",
+        "id": 26744,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1615579361
+    },
+    {
+        "content": "<p>Just an update: This awesome notebooks is now <a href=\"https://pop-tools.readthedocs.io/en/latest/examples/CloseHeatBudget_POP2.html\" target=\"_blank\" title=\"https://pop-tools.readthedocs.io/en/latest/examples/CloseHeatBudget_POP2.html\">live</a> thanks to <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span> <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> .</p>",
+        "id": 27053,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1615989830
+    },
+    {
+        "content": "<p>I am trying to expanding this awesome notebook to work for prediction datasets (in particular DPLE). Thanks to Anderson, now <code>to_xgcm_grid_dataset()</code> can handle the DPEL dimensions (time, lead, ensemble, z, y, x). But, when I try to compute the buget term using  in Z direction, ie.,</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;WTT&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">WTT</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">)</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;Z&quot;</span><span class=\"p\">)</span> <span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>, I got the following error, while working fine in X and Y directions: \"None of the DataArray's dims ('Y', 'M', 'L', 'z_w_top', 'nlat_t', 'nlon_t') were found in axis coords.\" Can anone help me to figure out how to fix this problem? Thanks!</p>",
+        "id": 31826,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621373982
+    },
+    {
+        "content": "<p>Hi Who, on which coordinate is WTT? I'm assuming VOL is on z_t and WTT on z_w_bot or z_w_top</p>",
+        "id": 31832,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621438882
+    },
+    {
+        "content": "<p>If that is the case then you need to either reasign / rename the coordinate or interpolate first for xgcm to want to mulitply WTT with VOL.</p>",
+        "id": 31833,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621438897
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"51\">@Who Kim</span>  can you paste your code for how you set up your grid, vertical thickness, volume, etc?</p>",
+        "id": 31868,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1621445730
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span>  I have tried that, but didn't work (I forget what was the error messsage). In fact, this line is same as in your original script and only the difference is that WTT has now more coornidates.  Doesn't <code>dsxgcm.VOL.values</code> makes it free from its assigned coordinates?</p>\n<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span> Below is how I set up those, which is similar to the Anna's script with some modifications,</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dple</span><span class=\"p\">[</span><span class=\"s2\">&quot;DZT&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">[:,</span><span class=\"kc\">None</span><span class=\"p\">,</span><span class=\"kc\">None</span><span class=\"p\">]</span><span class=\"o\">*</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">((</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"p\">),</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlat</span><span class=\"p\">),</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlon</span><span class=\"p\">)))</span>\n                <span class=\"p\">,</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlat&#39;</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlon&#39;</span><span class=\"p\">],</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">z_t</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlat&#39;</span><span class=\"p\">:</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlat</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlon&#39;</span><span class=\"p\">:</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlon</span><span class=\"p\">})</span>\n<span class=\"n\">dple</span><span class=\"p\">[</span><span class=\"s2\">&quot;DZU&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">[:,</span><span class=\"kc\">None</span><span class=\"p\">,</span><span class=\"kc\">None</span><span class=\"p\">]</span><span class=\"o\">*</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">((</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"p\">),</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlat</span><span class=\"p\">),</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlon</span><span class=\"p\">)))</span>\n                <span class=\"p\">,</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlat&#39;</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlon&#39;</span><span class=\"p\">],</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">z_t</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlat&#39;</span><span class=\"p\">:</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlat</span><span class=\"p\">,</span><span class=\"s1\">&#39;nlon&#39;</span><span class=\"p\">:</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">nlon</span><span class=\"p\">})</span>\n\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZT</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;long_name&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;Thickness of T cells&quot;</span>\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZT</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;units&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;centimeter&quot;</span>\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZT</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;grid_loc&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;3111&quot;</span>\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZU</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;long_name&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;Thickness of U cells&quot;</span>\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZU</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;units&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;centimeter&quot;</span>\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZU</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;grid_loc&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;3221&quot;</span>\n\n<span class=\"c1\"># make sure we have the cell volumne for calculations</span>\n<span class=\"n\">VOL</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DZT</span> <span class=\"o\">*</span> <span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DXT</span> <span class=\"o\">*</span> <span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">DYT</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">compute</span><span class=\"p\">()</span>\n<span class=\"n\">KMT</span> <span class=\"o\">=</span> <span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">KMT</span><span class=\"o\">.</span><span class=\"n\">compute</span><span class=\"p\">()</span>\n\n<span class=\"k\">for</span> <span class=\"n\">j</span> <span class=\"ow\">in</span> <span class=\"n\">tqdm</span><span class=\"p\">(</span><span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">KMT</span><span class=\"o\">.</span><span class=\"n\">nlat</span><span class=\"p\">))):</span>\n    <span class=\"k\">for</span> <span class=\"n\">i</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">KMT</span><span class=\"o\">.</span><span class=\"n\">nlon</span><span class=\"p\">)):</span>\n        <span class=\"n\">k</span> <span class=\"o\">=</span> <span class=\"n\">KMT</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">[</span><span class=\"n\">j</span><span class=\"p\">,</span> <span class=\"n\">i</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">astype</span><span class=\"p\">(</span><span class=\"nb\">int</span><span class=\"p\">)</span>\n        <span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">[</span><span class=\"n\">k</span><span class=\"p\">:,</span> <span class=\"n\">j</span><span class=\"p\">,</span> <span class=\"n\">i</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"mf\">0.0</span>\n\n<span class=\"n\">dple</span><span class=\"p\">[</span><span class=\"s2\">&quot;VOL&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">VOL</span>\n\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;long_name&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;volume of T cells&quot;</span>\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;units&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;centimeter^3&quot;</span>\n\n<span class=\"n\">dple</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"s2\">&quot;grid_loc&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;3111&quot;</span>\n</pre></div>",
+        "id": 31902,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621456267
+    },
+    {
+        "content": "<p>I didn't catch the <code>.values</code>, thanks for pointing that out. I'm not sure xgcm would multiply with <code>values</code> though, given that it uses the coordinates to determine how to multiply. Usually it looks for the same coordinates to know how to multiply.</p>",
+        "id": 31903,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621456385
+    },
+    {
+        "content": "<p>Below is the codes from your script. I can compute UET and VNT using the same codes without any problems. Is there a reason why you multify (dz<em>dxt</em>dyt).values for WTT insead of VOL.values? I think I tried that, but I can try again with your original formula.</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;UET&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"o\">-</span><span class=\"p\">(</span><span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">UET</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;X&quot;</span><span class=\"p\">)</span> <span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"p\">)</span>\n<span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;VNT&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"o\">-</span><span class=\"p\">(</span><span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VNT</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;Y&quot;</span><span class=\"p\">)</span> <span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"p\">)</span>\n<span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;WTT&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"p\">(</span>\n    <span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">WTT</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">)</span> <span class=\"o\">*</span> <span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">dz</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">DXT</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">DYT</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;Z&quot;</span><span class=\"p\">)</span>\n    <span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span>\n<span class=\"p\">)</span>\n</pre></div>",
+        "id": 31911,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621456734
+    },
+    {
+        "content": "<p>Hmmm, how about the xgcm grid set up, any modification there? i.e. this part:</p>\n<div class=\"codehilite\"><pre><span></span>metrics = {\n    (&quot;X&quot;,): [&quot;DXU&quot;, &quot;DXT&quot;],  # X distances\n    (&quot;Y&quot;,): [&quot;DYU&quot;, &quot;DYT&quot;],  # Y distances\n    (&quot;Z&quot;,): [&quot;DZU&quot;, &quot;DZT&quot;],  # Z distances\n    (&quot;X&quot;, &quot;Y&quot;): [&quot;UAREA&quot;, &quot;TAREA&quot;],\n}\n\n# here we get the xgcm compatible dataset\ngridxgcm, dsxgcm = pop_tools.to_xgcm_grid_dataset(\n    ds,\n    periodic=False,\n    metrics=metrics,\n    boundary={&quot;X&quot;: &quot;extend&quot;, &quot;Y&quot;: &quot;extend&quot;, &quot;Z&quot;: &quot;extend&quot;},\n)\n\nfor coord in [&quot;nlat&quot;, &quot;nlon&quot;]:\n    if coord in dsxgcm.coords:\n        dsxgcm = dsxgcm.drop_vars(coord)\n</pre></div>",
+        "id": 31915,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1621458308
+    },
+    {
+        "content": "<p>It is exactly same.</p>",
+        "id": 31973,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621465244
+    },
+    {
+        "content": "<p>Following on <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> 's reassigning coordinates idea, does an xr.roll / shift method work (just for debugging purposes)? something like:</p>\n<div class=\"codehilite\"><pre><span></span>di=xr.Dataset()\ndi[&#39;UET&#39;] = -((ds.UET*ds.VOL) - (ds.UET*ds.VOL).roll(nlon=1, roll_coords=True))/ds.VOL\ndi[&#39;VNT&#39;] = -((ds.VNT*ds.VOL) - (ds.VNT*ds.VOL).roll(nlat=1, roll_coords=True))/ds.VOL\ndi[&#39;WTT&#39;] = - ((ds.WTT*(ds.VOL.drop(&#39;z_t&#39;).rename({&quot;z_t&quot;:&quot;z_w_top&quot;}).assign_coords(z_w_top=ds.z_w_top))\n                     - (ds.WTT*(ds.VOL.drop(&#39;z_t&#39;).rename({&quot;z_t&quot;:&quot;z_w_top&quot;}).assign_coords(z_w_top=ds.z_w_top))).shift(z_w_top=-1).fillna(0)\n                    ).drop(&#39;z_w_top&#39;).rename({&quot;z_w_top&quot;:&quot;z_t&quot;}).assign_coords(z_t=ds.z_t))/ds.VOL\n</pre></div>",
+        "id": 32006,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1621525799
+    },
+    {
+        "content": "<p>It appears to be working (at least I didn't see any error). I have also generated a new VOL defined at z_w_top and added to dsxgcm, but I got the same error:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dsxgcm</span><span class=\"p\">[</span><span class=\"s2\">&quot;VOL2&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">&#39;z_w_top&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;nlat_t&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;nlon_t&#39;</span><span class=\"p\">],</span>\n                              <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;z_w_top&#39;</span><span class=\"p\">:</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">z_w_top</span><span class=\"p\">,</span> <span class=\"s1\">&#39;nlat_t&#39;</span><span class=\"p\">:</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">nlat_t</span><span class=\"p\">,</span> <span class=\"s1\">&#39;nlon_t&#39;</span><span class=\"p\">:</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">nlon_t</span><span class=\"p\">})</span>\n\n<span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;WTT&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">WTT</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">)</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL2</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;Z&quot;</span><span class=\"p\">)</span><span class=\"o\">/</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"p\">)</span>\n\n<span class=\"o\">---------------------------------------------------------------------------</span>\n<span class=\"ne\">KeyError</span>                                  <span class=\"n\">Traceback</span> <span class=\"p\">(</span><span class=\"n\">most</span> <span class=\"n\">recent</span> <span class=\"n\">call</span> <span class=\"n\">last</span><span class=\"p\">)</span>\n<span class=\"o\">&lt;</span><span class=\"n\">ipython</span><span class=\"o\">-</span><span class=\"nb\">input</span><span class=\"o\">-</span><span class=\"mi\">86</span><span class=\"o\">-</span><span class=\"mf\">192e3</span><span class=\"n\">d3043c5</span><span class=\"o\">&gt;</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n      <span class=\"mi\">2</span> <span class=\"n\">vol_top</span> <span class=\"o\">=</span> <span class=\"n\">vol_top</span><span class=\"o\">.</span><span class=\"n\">rename</span><span class=\"p\">({</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;z_w_top&#39;</span><span class=\"p\">})</span>\n      <span class=\"mi\">3</span>\n<span class=\"o\">----&gt;</span> <span class=\"mi\">4</span> <span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;WTT&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">WTT</span><span class=\"o\">.</span><span class=\"n\">fillna</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">)</span> <span class=\"o\">*</span> <span class=\"n\">vol_top</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;Z&quot;</span><span class=\"p\">)</span><span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"p\">)</span>\n\n<span class=\"o\">~/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">rapcdi</span><span class=\"o\">-</span><span class=\"n\">analysis</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">8</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">xgcm</span><span class=\"o\">/</span><span class=\"n\">grid</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">,</span> <span class=\"n\">da</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"p\">,</span> <span class=\"o\">**</span><span class=\"n\">kwargs</span><span class=\"p\">)</span>\n   <span class=\"mi\">1483</span>         <span class=\"o\">&gt;&gt;&gt;</span> <span class=\"n\">grid</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">da</span><span class=\"p\">,</span> <span class=\"p\">[</span><span class=\"s1\">&#39;X&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;Y&#39;</span><span class=\"p\">],</span> <span class=\"n\">fill_value</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;X&#39;</span><span class=\"p\">:</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"s1\">&#39;Y&#39;</span><span class=\"p\">:</span><span class=\"mi\">100</span><span class=\"p\">})</span>\n   <span class=\"mi\">1484</span>         <span class=\"s2\">&quot;&quot;&quot;</span>\n<span class=\"s2\">-&gt; 1485         return self._grid_func(&quot;diff&quot;, da, axis, **kwargs)</span>\n<span class=\"s2\">   1486</span>\n<span class=\"s2\">   1487     @docstrings.dedent</span>\n\n<span class=\"s2\">~/miniconda3/envs/rapcdi-analysis/lib/python3.8/site-packages/xgcm/grid.py in _grid_func(self, funcname, da, axis, **kwargs)</span>\n<span class=\"s2\">   1419                 out = out * metric</span>\n<span class=\"s2\">   1420</span>\n<span class=\"s2\">-&gt; 1421             out = func(out, **kwargs)</span>\n<span class=\"s2\">   1422</span>\n<span class=\"s2\">   1423             if metric_weighted:</span>\n\n<span class=\"s2\">~/miniconda3/envs/rapcdi-analysis/lib/python3.8/site-packages/xgcm/grid.py in diff(self, da, to, boundary, fill_value, boundary_discontinuity, vector_partner, keep_coords)</span>\n<span class=\"s2\">    638         &quot;&quot;&quot;</span>\n    <span class=\"mi\">639</span>\n<span class=\"o\">--&gt;</span> <span class=\"mi\">640</span>         <span class=\"k\">return</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">_neighbor_binary_func</span><span class=\"p\">(</span>\n    <span class=\"mi\">641</span>             <span class=\"n\">da</span><span class=\"p\">,</span>\n    <span class=\"mi\">642</span>             <span class=\"n\">raw_diff_function</span><span class=\"p\">,</span>\n\n<span class=\"o\">~/</span><span class=\"n\">miniconda3</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">rapcdi</span><span class=\"o\">-</span><span class=\"n\">analysis</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">8</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">xgcm</span><span class=\"o\">/</span><span class=\"n\">grid</span><span class=\"o\">.</span><span class=\"n\">py</span> <span class=\"ow\">in</span> <span class=\"n\">_neighbor_binary_func</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">,</span> <span class=\"n\">da</span><span class=\"p\">,</span> <span class=\"n\">f</span><span class=\"p\">,</span> <span class=\"n\">to</span><span class=\"p\">,</span> <span class=\"n\">boundary</span><span class=\"p\">,</span> <span class=\"n\">fill_value</span><span class=\"p\">,</span> <span class=\"n\">boundary_discontinuity</span><span class=\"p\">,</span> <span class=\"n\">vector_partner</span><span class=\"p\">,</span> <span class=\"n\">keep_coords</span><span class=\"p\">)</span>\n    <span class=\"mi\">275</span>             <span class=\"n\">The</span> <span class=\"n\">differenced</span> <span class=\"n\">data</span>\n    <span class=\"mi\">276</span>         <span class=\"s2\">&quot;&quot;&quot;</span>\n<span class=\"s2\">--&gt; 277         position_from, dim = self._get_axis_coord(da)</span>\n<span class=\"s2\">    278         if to is None:</span>\n<span class=\"s2\">    279             to = self._default_shifts[position_from]</span>\n\n<span class=\"s2\">~/miniconda3/envs/rapcdi-analysis/lib/python3.8/site-packages/xgcm/grid.py in _get_axis_coord(self, da)</span>\n<span class=\"s2\">   1013                 return position, coord_name</span>\n<span class=\"s2\">   1014</span>\n<span class=\"s2\">-&gt; 1015         raise KeyError(</span>\n<span class=\"s2\">   1016             &quot;None of the DataArray&#39;s dims </span><span class=\"si\">%s</span><span class=\"s2\"> were found in axis &quot;</span>\n<span class=\"s2\">   1017             &quot;coords.&quot; </span><span class=\"si\">% r</span><span class=\"s2\">epr(da.dims)</span>\n\n<span class=\"s2\">KeyError: &quot;None of the DataArray&#39;s dims (&#39;Y&#39;, &#39;M&#39;, &#39;L&#39;, &#39;z_w_top&#39;, &#39;nlat_t&#39;, &#39;nlon_t&#39;) were found in axis coords.&quot;</span>\n</pre></div>",
+        "id": 32010,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621528697
+    },
+    {
+        "content": "<p>Who, I don't know where the 'Y', 'M', 'L' dimenions are coming from. I recommend always checking your dimensions for the DataArrays, as they have to line up for xgcm to want to multiply.</p>",
+        "id": 32012,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621529391
+    },
+    {
+        "content": "<p>also, you negate that you added dimensions to <code>VOL2</code> when you then use <code>.values</code>. it turns the xarray dataarray into a <code>numpy.ndarray</code> array.</p>",
+        "id": 32013,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621529432
+    },
+    {
+        "content": "<p>Can you try with with just multiplying <code>VOL2</code> instead of <code>VOL2.values</code>?</p>",
+        "id": 32014,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621529777
+    },
+    {
+        "content": "<p>(I know I've asked this 50x before but I keep forgetting!) Why are we multiplying by <code>VOL.values</code>. Is it because there's a <code>z_w</code> and <code>z_w_top</code> mismatch?</p>",
+        "id": 32015,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1621529981
+    },
+    {
+        "content": "<p>I believe the mismatch was <code>z_t</code> and <code>z_w_top</code> since <code>WTT</code> is centered at the center of the upper face (3112) vs <code>VOL</code> is in the center of the cell (3111).</p>",
+        "id": 32036,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1621538477
+    },
+    {
+        "content": "<blockquote>\n<p>Who, I don't know where the 'Y', 'M', 'L' dimensions are coming from. I recommend always checking your dimensions for the DataArrays, as they have to line up for xgcm to want to multiply.</p>\n</blockquote>\n<p>maybe xgcm is confused by the DPLE <code>Y</code> dimension? in:  </p>\n<div class=\"codehilite\"><pre><span></span>~/miniconda3/envs/rapcdi-analysis/lib/python3.8/site-packages/xgcm/grid.py in diff(self, da, axis, **kwargs)\n   1483         &gt;&gt;&gt; grid.diff(da, [&#39;X&#39;, &#39;Y&#39;], fill_value={&#39;X&#39;:0, &#39;Y&#39;:100})\n   1484         &quot;&quot;&quot;\n-&gt; 1485         return self._grid_func(&quot;diff&quot;, da, axis, **kwargs)\n   1486\n   1487     @docstrings.dedent\n</pre></div>\n\n\n<p>copying <span class=\"user-mention\" data-user-id=\"174\">@Julius Busecke</span>  who helps develop <code>xgcm</code></p>",
+        "id": 32039,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1621538729
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> As I mentioned in my first post, I am working on DPLE data with Y, M, L being  the start year, ensemble memble, and lead time, respectively. I believe the reason why <code>.values</code> is used that UET and VNT are at (nlat_t, nlon_u) while VOL is at T-grid for both. If I don't use .values, I got: <code>broadcasting cannot handle duplicate dimensions: ['time', 'z_t', 'nlat_t', 'nlon_u', 'nlon_u']</code>. I though Anna used .values for a similar region because WTT is at z_w_top although it is at T-grid horizonally. If this logic is correct, I don't see any reason why this operation is not working for WTT. Indeed, it is working fine when my dataset has the conventional POP (t, z, y, x) dimensions. So, my speculation is it is related to the unconventional dataset dimensions, which xgcm cannot perhaps handle it?</p>",
+        "id": 32047,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621540926
+    },
+    {
+        "content": "<p>I just want to add that the operation for UET and VNT is working with the unconventional data dimentions.</p>",
+        "id": 32056,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621541469
+    },
+    {
+        "content": "<p>would you mind copying the dimensions of your dataarrays here Who? I don't understand where the duplicate <code>nlon_u</code> is coming from.</p>",
+        "id": 32058,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621541632
+    },
+    {
+        "content": "<p>specifically <code>VOL</code> (without <code>.values</code>) and <code>WTT</code></p>",
+        "id": 32060,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621541655
+    },
+    {
+        "content": "<p><code>'VOL' (z_t: 60, nlat_t: 384, nlon_t: 320)</code><br>\n<code>'WTT' (Y: 63, M: 39, L: 122, z_w_top: 60, nlat_t: 384, nlon_t: 320)</code><br>\nThe error message above is what I got when I ran the operation for UET without .values, not WTT</p>",
+        "id": 32067,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621541911
+    },
+    {
+        "content": "<blockquote>\n<p>I just want to add that the operation for UET and VNT is working with the unconventional data dimentions.</p>\n</blockquote>\n<p>ah so you meant when you run this with .values? I misunderstood</p>",
+        "id": 32068,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621541961
+    },
+    {
+        "content": "<p>Correct</p>",
+        "id": 32070,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621542018
+    },
+    {
+        "content": "<p>so what are the dimensions of <code>UET</code>? <code>(Y: 63, M: 39, L: 122, z_t: 60, nlat_t: 384, nlon_u: 320)</code>?</p>",
+        "id": 32071,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621542027
+    },
+    {
+        "content": "<p>Yes</p>",
+        "id": 32073,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621542083
+    },
+    {
+        "content": "<p><span aria-label=\"thinking\" class=\"emoji emoji-1f914\" role=\"img\" title=\"thinking\">:thinking:</span></p>",
+        "id": 32075,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1621542376
+    },
+    {
+        "content": "<p>Hey everyone. I have to admit I am a bit overwhelmed right here (might also be the dask summit haha). What is the exact code that fails?</p>",
+        "id": 32112,
+        "sender_full_name": "Julius Busecke",
+        "timestamp": 1621551387
+    },
+    {
+        "content": "<p>The code fails to compute, </p>\n<p><code>budget[\"WTT\"] = (gridxgcm.diff(dsxgcm.WTT.fillna(0) * dsxgcm.VOL2.values, axis=\"Z\")/dsxgcm.VOL)</code></p>\n<p>, while the the same operation in X and Y directions is working fine. I am working with data (CESM DPLE) with \"unusual\" dimensions, which include additional \"lead time\" and \"member\" dimesions (ie., (lead time, member, start year, z, y, x)). The same operation is working fine when the data dimensions are the usual POP dimenions (time, z, y, x).</p>",
+        "id": 32120,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621615876
+    },
+    {
+        "content": "<p>It might be useful to have a reproducible example notebook in order to diagnose this issue. <span class=\"user-mention\" data-user-id=\"51\">@Who Kim</span>, is your work in a notebook that is publicly accessible or somewhere on Glade?</p>",
+        "id": 32132,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1621620391
+    },
+    {
+        "content": "<p>I think I found what went wrong. When reading the data, I only stored the variables and coordinates that I though necessary, including <code>z_w_top</code>, but somehow <code>to_xgcm_grid_dataset</code> coudn't convert  <code>z_w_top</code> to xgcm dataset as a coordinate, while it did for <code>z_w_bot</code>. When I imported everying,  <code>z_w_top</code> appears as a coordinate, weird. Thank everyone responded here!</p>",
+        "id": 32196,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1621635832
+    },
+    {
+        "content": "<p>hmm.. that error message is really misleading then. It should've told you that <code>z_w_top</code> was missing</p>",
+        "id": 32233,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1621639579
+    },
+    {
+        "content": "<blockquote>\n<p>I think I found what went wrong. When reading the data, I only stored the variables and coordinates that I though necessary, including <code>z_w_top</code>, but somehow <code>to_xgcm_grid_dataset</code> coudn't convert  <code>z_w_top</code> to xgcm dataset as a coordinate, while it did for <code>z_w_bot</code>. When I imported everying,  <code>z_w_top</code> appears as a coordinate, weird. </p>\n</blockquote>\n<p>I actually  just had the same problem, would be great if someone could look into why <code>to_xgcm_grid_dataset</code> does not bring <code>z_w_top</code> along!</p>",
+        "id": 35408,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624468970
+    },
+    {
+        "content": "<p>open an issue!</p>",
+        "id": 35409,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624469078
+    },
+    {
+        "content": "<p>I am currently having problems with this line </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;DIA_IMPVF_TEMP&quot;</span><span class=\"p\">][:,</span> <span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"p\">:,</span> <span class=\"p\">:]</span> <span class=\"o\">=</span> <span class=\"p\">(</span>\n    <span class=\"n\">SRF_TEMP_FLUX</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">TAREA</span> <span class=\"o\">-</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">DIA_IMPVF_TEMP</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">z_w_bot</span><span class=\"o\">=</span><span class=\"mi\">0</span><span class=\"p\">)</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">TAREA</span>\n<span class=\"p\">)</span> <span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"p\">:,</span> <span class=\"p\">:]</span>\n</pre></div>\n\n\n<p>This works when I use the example script, which only has 1 timestep. In that case <code>ds.DIA_IMPVF_TEMP</code> is not a dask array. It does not work when I load multiple files, then <code>ds.DIA_IMPVF_TEMP</code> is a dask array, and I can't assign with <code>budget[\"DIA_IMPVF_TEMP\"][:, 0, :, :] =...</code> . yesterday I tried to get around this by loading <code>ds.DIA_IMPVF_TEMP</code>, which resulted in a memory error. How can I assign something to a dask array without loading?</p>",
+        "id": 35410,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624469141
+    }
+]

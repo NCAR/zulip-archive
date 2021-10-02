@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hi All, Not sure if this is the right place to post this but I have a question.  I'm trying to plot a thing, using xarray via jupyter on cheyenne, and am getting the following error:</p>\n<p>ImportError: Plotting of arrays of cftime.datetime objects or arrays indexed by cftime.datetime objects requires the optional <code>nc-time-axis</code> (v1.2.0 or later) package.</p>\n<p>which I see arises from here: <a href=\"https://github.com/pydata/xarray/blob/master/xarray/plot/utils.py#L570\" target=\"_blank\" title=\"https://github.com/pydata/xarray/blob/master/xarray/plot/utils.py#L570\">https://github.com/pydata/xarray/blob/master/xarray/plot/utils.py#L570</a></p>\n<p>my question is, does anyone know the easiest way to satisfy such a dependency on cheyenne?  my current python environment is just the standard one that load via the ncar_pylib command, and I'm not very sophisticated in dealign with dependencies on that system; i.e. how do I install further things on top of that?  thanks for any tips!</p>",
+        "id": 6773,
+        "sender_full_name": "Charlie Koven",
+        "timestamp": 1587155710
+    },
+    {
+        "content": "<p>I think you have two options.</p>\n<p>Option 1 : Follow \"Creating your own clone of the NCAR Package Library\" and then pip install nc-time-axis</p>\n<p>- <a href=\"https://www2.cisl.ucar.edu/resources/python-%E2%80%93-ncar-package-library\" target=\"_blank\" title=\"https://www2.cisl.ucar.edu/resources/python-%E2%80%93-ncar-package-library\">https://www2.cisl.ucar.edu/resources/python-%E2%80%93-ncar-package-library</a></p>\n<p>Option 2 : Follow <a href=\"https://github.com/NCAR/ncar-python-tutorial\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-python-tutorial\">https://github.com/NCAR/ncar-python-tutorial</a> and then you're totally independent of whatever CISL chooses to provide on cheyenne.</p>",
+        "id": 6774,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587156125
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"95\">@Charlie Koven</span>, my recommendation is use <code>conda</code> to create your own environment. </p>\n<p>The README here<br/>\n<a href=\"https://github.com/NCAR/ncar-python-tutorial\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-python-tutorial\">https://github.com/NCAR/ncar-python-tutorial</a> <br/>\nbundles several steps together. Essentially these are</p>\n<ol>\n<li>\n<p><strong>Download and install  miniconda</strong><br/>\nYou can get Miniconda here<br/>\n<a href=\"https://docs.conda.io/en/latest/miniconda.html\" target=\"_blank\" title=\"https://docs.conda.io/en/latest/miniconda.html\">https://docs.conda.io/en/latest/miniconda.html</a><br/>\n(64-bit linux, Python 3)</p>\n</li>\n<li>\n<p><strong>Create environment from a file</strong><br/>\nHere's an example environment file<br/>\n<a href=\"https://github.com/marbl-ecosys/cesm2-marbl/blob/master/environment.yaml\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/cesm2-marbl/blob/master/environment.yaml\">https://github.com/marbl-ecosys/cesm2-marbl/blob/master/environment.yaml</a><br/>\nYou can modify this to suit your purposes, then run </p>\n</li>\n</ol>\n<div class=\"codehilite\"><pre><span></span>conda env create -f environment.yaml\n</pre></div>",
+        "id": 6775,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1587156224
+    },
+    {
+        "content": "<p>ok, thanks both.  i'll try those.  i've managed to avoid having to make a conda install on cheyenne thusfar but i guess it may be necessary.</p>",
+        "id": 6776,
+        "sender_full_name": "Charlie Koven",
+        "timestamp": 1587156317
+    },
+    {
+        "content": "<p>ok <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> your method worked.  no conda install needed. cheers both!</p>",
+        "id": 6777,
+        "sender_full_name": "Charlie Koven",
+        "timestamp": 1587156798
+    }
+]

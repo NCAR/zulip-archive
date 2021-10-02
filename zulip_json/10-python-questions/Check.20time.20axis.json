@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>Hey all,</p>\n<p>Does anyone have a quick way of checking a time axis for bad/missing values? For example, say I expect a cftime object that is:</p>\n<p>&lt;xarray.DataArray 'time' (time: 420)&gt;<br>\narray([cftime.DatetimeNoLeap(2035, 2, 1, 0, 0, 0, 0),<br>\n       cftime.DatetimeNoLeap(2035, 3, 1, 0, 0, 0, 0),<br>\n       cftime.DatetimeNoLeap(2035, 4, 1, 0, 0, 0, 0), ...,<br>\n       cftime.DatetimeNoLeap(2069, 11, 1, 0, 0, 0, 0),<br>\n       cftime.DatetimeNoLeap(2069, 12, 1, 0, 0, 0, 0),<br>\n       cftime.DatetimeNoLeap(2070, 1, 1, 0, 0, 0, 0)], dtype=object)</p>\n<p>I want to make sure that no years/days are skipped here.</p>",
+        "id": 42402,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1631302568
+    },
+    {
+        "content": "<p>Kind of answered my own question. If I read in the time axis, but with decode_times=False, then I can use</p>\n<p>print(np.all(np.diff(time) &gt; 0))</p>\n<p>Then I can also check the length of the time element and there should be nyears<em>12 or nyears</em>365 monthly and daily times respectively. I think this should spot any issues.</p>",
+        "id": 42404,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1631303903
+    },
+    {
+        "content": "<blockquote>\n<p>print(np.all(np.diff(time) &gt; 0))</p>\n</blockquote>\n<p>Hmm.. isn't this checking monotonicity not that no years or days are skipped <span aria-label=\"thinking\" class=\"emoji emoji-1f914\" role=\"img\" title=\"thinking\">:thinking:</span></p>",
+        "id": 42412,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1631307977
+    },
+    {
+        "content": "<p>I think you could try <code>xr.infer_freq(time)</code> <a href=\"https://xarray.pydata.org/en/stable/generated/xarray.infer_freq.html\">if it returns None</a> you have a problem.</p>",
+        "id": 42413,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1631308069
+    },
+    {
+        "content": "<p>I don't think this works. Here is the output:</p>\n<p>DatetimeIndex(['2035-01-01', '2035-01-02', '2035-01-03', '2035-01-04',<br>\n               '2035-01-05', '2035-01-06', '2035-01-07', '2035-01-08',<br>\n               '2035-01-09', '2035-01-10',<br>\n               ...<br>\n               '2069-12-22', '2069-12-23', '2069-12-24', '2069-12-25',<br>\n               '2069-12-26', '2069-12-27', '2069-12-28', '2069-12-29',<br>\n               '2069-12-30', '2069-12-31'],<br>\n              dtype='datetime64[ns]', length=12775, freq=None)</p>",
+        "id": 42452,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1631550339
+    },
+    {
+        "content": "<blockquote>\n<p>freq=None</p>\n</blockquote>\n<p>I think this means you might have a problem. </p>\n<div class=\"codehilite\"><pre><span></span><code>import pandas as pd\n\npd.DatetimeIndex(data=ds.time.data, freq=&quot;infer&quot;)\n</code></pre></div>\n<p>Does this also set <code>freq=None</code>? If so there might be an issue. You could try removing some roundoff error in secoinds with</p>\n<p><code>ds[\"time\"] = ds.time.dt.round(\"H\")</code> which will discard sub-hourly information.</p>",
+        "id": 42460,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1631551633
+    },
+    {
+        "content": "<p>Ok. So, if I do this with the monthly-mean data it works fine and I get 'MS'. So, I believe the issue is the 'noleap' calendar with the daily mean. No February 29th. Is there a way to specify the 'noleap' calendar?</p>",
+        "id": 42509,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1631556689
+    },
+    {
+        "content": "<p>you'll have to use <code>CFTimeIndex</code> in that case. So I would convert <code>ds[\"time\"] = xr.CFTimeIndex(ds.time.data)</code> or specify <code>use_cftime</code> in your <code>open_Dataset</code> call. And then run <code>infer_freq</code></p>",
+        "id": 42511,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1631556856
+    },
+    {
+        "content": "<p>I guess I am confused. There is actually a warning about this:</p>\n<p>python timecheck.py<br>\n['/glade/campaign/cesm/development/wawg/WACCM6-TSMLT-GEO/SAI1/b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.001/atm/proc/tseries/month_1/b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.001.cam.h0.TREFHT.203501-206912.nc']<br>\ntimecheck.py:18: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.</p>\n<p>Does infer_freq only work on datetimeindex objects? Or are you saying that CFTimeIndex works as well?</p>",
+        "id": 42533,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1631559699
+    },
+    {
+        "content": "<p>Ok. I think I understand. This code works:</p>\n<p>ds = xr.open_mfdataset(files)</p>\n<p>xr.CFTimeIndex(<a href=\"http://ds.time.data\">ds.time.data</a>)<br>\ntime = ds['time']</p>\n<p>print(xr.infer_freq(time))</p>",
+        "id": 42534,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1631559817
+    },
+    {
+        "content": "<p>Yes you can provide <code>use_cftime=True</code> in <code>open_mfdataset</code> to do this from the start. and avoid the second assignment to <code>ds[\"time\"]</code></p>",
+        "id": 42541,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1631563051
+    }
+]

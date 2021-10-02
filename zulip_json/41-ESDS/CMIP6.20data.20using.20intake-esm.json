@@ -1,0 +1,224 @@
+[
+    {
+        "content": "<p>I'm trying to read in ocean temperature and salinity data from CMIP6 OMIP runs using intake-esm, as follows: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">catalog_file</span> <span class=\"o\">=</span> <span class=\"s1\">&#39;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&#39;</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_file</span><span class=\"p\">)</span>\n<span class=\"n\">cat</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span>\n    <span class=\"n\">experiment_id</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">&#39;omip1&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;omip2&#39;</span><span class=\"p\">,</span><span class=\"s1\">&#39;omip1-spunup&#39;</span><span class=\"p\">,</span><span class=\"s1\">&#39;omip2-spunup&#39;</span><span class=\"p\">],</span>\n    <span class=\"n\">variable_id</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">&#39;thetao&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;so&#39;</span><span class=\"p\">],</span>\n    <span class=\"n\">table_id</span><span class=\"o\">=</span><span class=\"s1\">&#39;Omon&#39;</span>\n<span class=\"p\">)</span>\n<span class=\"n\">dset_dict</span> <span class=\"o\">=</span> <span class=\"n\">cat</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>This generates the following AggregationError:  \"Failed to merge multiple datasets in group with key=OMIP.CNRM-CERFACS.CNRM-CM6-1.omip1.Omon.gn into a single xarray Dataset as variables.\"  I'd appreciate any help on this.</p>",
+        "id": 31104,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1620671320
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>, I think there is a mismatch in the length of the time axis for <code>so</code> and <code>thetaso</code>. If you load these seperately for the <code>CNRM-CM6-1</code> model, I think it will work (i.e., add <code>source_id='CNRM-CM6-1'</code> to your search and <code>variable_id=['so']</code> then  <code>variable_id=['thetao']</code> separately).</p>\n<p>You can use the information in <code>cat.df</code>, which is a <code>pandas.DataFrame</code> to inspect the underlying files. I think there is probably a chunk of time missing.</p>",
+        "id": 31111,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1620673164
+    },
+    {
+        "content": "<p>I think debugging this particular problem would be an interesting blog post. Or entry in the <code>intake-esm</code> documentation</p>",
+        "id": 31117,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620676249
+    },
+    {
+        "content": "<p>agreed!</p>",
+        "id": 31121,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1620676881
+    },
+    {
+        "content": "<p>Anderson's talk today reminded me of the <code>aggregate=False</code> keyword argument to <code>to_dataset_dict</code>. That could be useful here too.</p>",
+        "id": 31133,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1620683912
+    },
+    {
+        "content": "<p>Hi all,</p>\n<p>I'm trying to familiarize myself with intake-esm and accessing CMIP6 atmospheric data. I have code that reads in atmospheric variables to calculate equilibrium climate sensitivity.  </p>\n<p>It starts with reading the catalog:</p>\n<p>#catalog_file = '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json'<br>\ncatalog_file = '<a href=\"https://storage.googleapis.com/cmip6/pangeo-cmip6.json\" target=\"_blank\" title=\"https://storage.googleapis.com/cmip6/pangeo-cmip6.json\">https://storage.googleapis.com/cmip6/pangeo-cmip6.json</a>'<br>\ncol = intake.open_esm_datastore(catalog_file)</p>\n<p>selecting the glade catalog leads to an error when using to_dataset_dict() but does not create an error with the google catalog</p>\n<p>It might be that it has to do google files being zarr but glade not. I tried removing the zarr_kwargs argument but that did not help. I looks like it's related to the arguments passed to xarray.open_dataset().</p>\n<p>Ideally I would be able to access the local files and create another catalog from development runs to allow simple comparisons.</p>\n<p>error:<br>\nOSError: <br>\n            Failed to open netCDF/HDF dataset.</p>\n<div class=\"codehilite\"><pre><span></span>        *** Arguments passed to xarray.open_dataset() ***:\n\n        - filename_or_obj: /glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc\n        - kwargs: {&#39;chunks&#39;: {}}\n\n        *** fsspec options used ***:\n\n        - root: /glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc\n        - protocol: None\n</pre></div>\n\n\n<p>The file exists on glade. I have isolated the error in the following test notebook:</p>\n<p>/glade/u/home/marsh/projects/cmip6-temperature-demo/notebooks/intake_test.ipynb</p>\n<p>Any suggestions?  Thanks,</p>\n<p>Dan</p>",
+        "id": 34617,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1623857258
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span>, I am looking into this... Will get back to you shortly</p>",
+        "id": 34633,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1623858809
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> it looks like the file being flagged is a softlink to a relative path:</p>\n<div class=\"codehilite\"><pre><span></span>$ ls -lh /glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc\nlrwxrwxrwx 1 cmip6 stdd0003 76 Sep 27  2019 /glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc -&gt; ../files/d20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc\n</pre></div>\n\n\n<p>is it possible that intake is looking for <code>../files/d20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc</code> from the working directory rather than relative to <code>/glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/</code>? it would be interesting to see if changing the softlink to an absolute path makes any difference</p>",
+        "id": 34657,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623860272
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, it's my understanding that netcdf4-python/xarray are able to open a symlink as long as the target exists.... </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span> <span class=\"kn\">import</span> <span class=\"nn\">xarray</span> <span class=\"k\">as</span> <span class=\"nn\">xr</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">2</span><span class=\"p\">]:</span> <span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_dataset</span><span class=\"p\">(</span><span class=\"s1\">&#39;/glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc&#39;</span><span class=\"p\">,</span> <span class=\"n\">chunks</span><span class=\"o\">=</span><span class=\"p\">{})</span>\n<span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">work</span><span class=\"o\">/</span><span class=\"n\">abanihi</span><span class=\"o\">/</span><span class=\"n\">opt</span><span class=\"o\">/</span><span class=\"n\">miniconda</span><span class=\"o\">/</span><span class=\"n\">envs</span><span class=\"o\">/</span><span class=\"n\">playground</span><span class=\"o\">/</span><span class=\"n\">lib</span><span class=\"o\">/</span><span class=\"n\">python3</span><span class=\"o\">.</span><span class=\"mi\">8</span><span class=\"o\">/</span><span class=\"n\">site</span><span class=\"o\">-</span><span class=\"n\">packages</span><span class=\"o\">/</span><span class=\"n\">xarray</span><span class=\"o\">/</span><span class=\"n\">conventions</span><span class=\"o\">.</span><span class=\"n\">py</span><span class=\"p\">:</span><span class=\"mi\">512</span><span class=\"p\">:</span> <span class=\"n\">SerializationWarning</span><span class=\"p\">:</span> <span class=\"n\">variable</span> <span class=\"s1\">&#39;rsut&#39;</span> <span class=\"n\">has</span> <span class=\"n\">multiple</span> <span class=\"n\">fill</span> <span class=\"n\">values</span> <span class=\"p\">{</span><span class=\"mf\">1e+20</span><span class=\"p\">,</span> <span class=\"mf\">1e+20</span><span class=\"p\">},</span> <span class=\"n\">decoding</span> <span class=\"nb\">all</span> <span class=\"n\">values</span> <span class=\"n\">to</span> <span class=\"n\">NaN</span><span class=\"o\">.</span>\n  <span class=\"n\">new_vars</span><span class=\"p\">[</span><span class=\"n\">k</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">decode_cf_variable</span><span class=\"p\">(</span>\n</pre></div>\n\n\n<p>My current speculation is that the issue has to with dask/intake-esm. I haven't found the exact culprit, but I have a working/temporary solution. <span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span>, I was able to read the data without a problem while using the <code>distributed</code> dask scheduler. </p>\n<ul>\n<li>Ensure we have a running dask cluster:</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">4</span><span class=\"p\">]:</span> <span class=\"kn\">from</span> <span class=\"nn\">distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">5</span><span class=\"p\">]:</span> <span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">Client</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>If you want to use dask-jobqueue, you could replace this with the following </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">from</span> <span class=\"nn\">ncar_jobqueue</span> <span class=\"kn\">import</span> <span class=\"n\">NCARCluster</span>\n<span class=\"kn\">from</span> <span class=\"nn\">distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">NCARCluter</span><span class=\"p\">()</span>\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"n\">njobs</span><span class=\"o\">=</span><span class=\"mi\">2</span><span class=\"p\">)</span>\n<span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<ul>\n<li>\n<p>Load the catalog, and search for datasets of interest (Using the same code in /glade/u/home/marsh/projects/cmip6-temperature-demo/notebooks/intake_test.ipynb)</p>\n</li>\n<li>\n<p>Load the found datasets</p>\n</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">11</span><span class=\"p\">]:</span> <span class=\"n\">dset_dict_tas</span> <span class=\"o\">=</span> <span class=\"n\">cat_tas</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">(</span><span class=\"n\">preprocess</span> <span class=\"o\">=</span> <span class=\"n\">drop_time_bounds</span><span class=\"p\">,</span> <span class=\"n\">cdf_kwargs</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;chunks&#39;</span><span class=\"p\">:</span> <span class=\"p\">{}})</span>\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">12</span><span class=\"p\">]:</span> <span class=\"n\">dset_dict_rad</span> <span class=\"o\">=</span> <span class=\"n\">cat_rad</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">(</span><span class=\"n\">preprocess</span> <span class=\"o\">=</span> <span class=\"n\">drop_time_bounds</span><span class=\"p\">,</span> <span class=\"n\">cdf_kwargs</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">&#39;chunks&#39;</span><span class=\"p\">:</span> <span class=\"p\">{}})</span>\n</pre></div>\n\n\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">13</span><span class=\"p\">]:</span> <span class=\"n\">dset_dict_rad</span><span class=\"o\">.</span><span class=\"n\">keys</span><span class=\"p\">()</span>\n<span class=\"n\">Out</span><span class=\"p\">[</span><span class=\"mi\">13</span><span class=\"p\">]:</span> <span class=\"n\">dict_keys</span><span class=\"p\">([</span><span class=\"s1\">&#39;CMIP.NCAR.CESM2-FV2.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM-FV2.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM.piControl.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-FV2.piControl.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM-FV2.piControl.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2.piControl.Amon.gn&#39;</span><span class=\"p\">])</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">14</span><span class=\"p\">]:</span> <span class=\"n\">dset_dict_tas</span><span class=\"o\">.</span><span class=\"n\">keys</span><span class=\"p\">()</span>\n<span class=\"n\">Out</span><span class=\"p\">[</span><span class=\"mi\">14</span><span class=\"p\">]:</span> <span class=\"n\">dict_keys</span><span class=\"p\">([</span><span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM-FV2.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM.piControl.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-FV2.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2.piControl.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2.abrupt-4xCO2.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-WACCM-FV2.piControl.Amon.gn&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;CMIP.NCAR.CESM2-FV2.piControl.Amon.gn&#39;</span><span class=\"p\">])</span>\n</pre></div>",
+        "id": 34663,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1623861763
+    },
+    {
+        "content": "<blockquote>\n<p>My current speculation is that the issue has to with dask/intake-esm. I haven't found the exact culprit, but I have a working/temporary solution.  </p>\n</blockquote>\n<p>I will do a full investigation of the issue in the coming days....</p>",
+        "id": 34664,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1623861880
+    },
+    {
+        "content": "<p>Thanks - that works! Since I was planning on using dask anyway this is good. <br>\nNCAR CMIP6 CESM ECS calculation here: /glade/u/home/marsh/projects/cmip6-temperature-demo/notebooks/CESM_ECS.ipynb</p>",
+        "id": 34674,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1623863425
+    },
+    {
+        "content": "<p>All, I cannot seem to get plot to work with CESM \" (time) object 0210-02-01 00:00:00 ... 0210-01-01 00:00:00\"  as the x-axis when reading in datasets via intake-esm. Even with installing nc-time-axis, I get the error:<br>\nTypeError: float() argument must be a string or a number, not 'cftime._cftime.datetime'<br>\nOpening the file using xr.open_datset will plot the same data without issue. <br>\nA notebook to extract zonal wind in the tropical stratosphere and make a simple plot is here and re-creates the error:<br>\n/glade/u/home/marsh/WACCM/waccm_1deg_MA/read_catalog.ipynb<br>\nIn the same directory is the notebook that created the catalog from WACCM timeseries data (WACCM/waccm_1deg_MA/create_intake_catalog.ipynb)</p>\n<p>Fearing it was a set up issue, yesterday I deleted my whole miniconda3 install and reinstalled, added Max's latest ecgtools and udpated matplotlib and xarray. It still does not work.</p>",
+        "id": 35442,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624474417
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span>, I was not able to reproduce this error in your notebook using xarray verion 0.17.0.</p>",
+        "id": 35550,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1624490555
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  Thanks for trying. Max reported something similar. Well, I was able to get it to work, but I am not sure why you were able to make it work without modifications. The change I had to make was adding 'decode_times': False to cdf_kwargs</p>\n<p>dsets = cat.to_dataset_dict(cdf_kwargs={'chunks': {'time': 8}, 'decode_times': False})</p>\n<p>then I added decode_cf and sortby</p>\n<p>k = 'atm.cam.h0.b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918'<br>\nds = dsets[k]<br>\nds = xr.decode_cf(ds)<br>\nds = ds.sortby('time')</p>\n<p>This seemed to work.  It was a bit of surprise that when extracting a timeseries from dsets that the data were not sorted in time - this is a long historical pre-industrial run which spanned 011001 to 026212 compositing 4 separate netcdf files. Without sorting the first entry was year 0210-02-01 00:00:00 (the first entry in the 3rd file). After sorting it was 0110-02-01 00:00:00. A potential gotcha if you take the values before sorting.</p>",
+        "id": 35552,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1624496557
+    },
+    {
+        "content": "<blockquote>\n<p>This seemed to work. It was a bit of surprise that when extracting a timeseries from dsets that the data were not sorted in time  </p>\n</blockquote>\n<p>This is a bug in intake-esm: <a href=\"https://github.com/intake/intake-esm/issues/343\" target=\"_blank\" title=\"https://github.com/intake/intake-esm/issues/343\">https://github.com/intake/intake-esm/issues/343</a>. I will look into it next week</p>",
+        "id": 35571,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624552094
+    },
+    {
+        "content": "<p>All, I am trying to make a catalog that includes multiple cases of a particular model configuration of CESM (WACCM with middle atmosphere chemistry at 1 degree). The data are all under /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/<br>\nThe runs are a PI control (BWma1850), 4xCO2 (BWmaCO2x4), an ensemble of 3 historical simulations (BWmaHIST) and an SSP245 (BWSSP245).</p>\n<p>I am interested only the timeseries atmospheric data at 1- and 5-day and monthly resolution, so had to include a lengthy exclude pattern: <br>\n<code> depth=5,\n    exclude_patterns=[\"*/cpl/*\",   \"*/esp/*\",  \"*/glc/*\", \"*/ice/*\", \"*/lnd/*\", \"*/logs/*\", \"*/ocn/*\", \"*/rest/*\", \"*/rof/*\",  \"*/wav/*\", \"*/atm/h6/*\", \"*/atm/hist/*\", \"*/atm/proc/h*\", \"*/atm/proc/*_RESTOM.nc\"],</code></p>\n<p>Unfortunately, the catalog I create only lists one case:</p>\n<p>dict_keys(['atm.cam.h0.b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001', 'atm.cam.h6.b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001', 'atm.cam.h7.b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001'])</p>\n<p>here h0 is monthly, h6 is daily and h7 is 5-day output for just the 4xCO2 case.<br>\nI can create a case by case catalog by specifying the full path (e.g., b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/atm/proc/tseries/month_1/) and depth = 1, but I'd prefer to have all the cases in one catalog so I can compute, for example, climate sensitivity (requires  PI control  and 4xCO2)</p>\n<p>Any suggestions as to what I am doing wrong?</p>\n<p>I've put my full notebooks on github here: <a href=\"https://github.com/dan800/intake-esm.git\" target=\"_blank\" title=\"https://github.com/dan800/intake-esm.git\">https://github.com/dan800/intake-esm.git</a></p>\n<p>thanks,</p>\n<p>Dan</p>",
+        "id": 37377,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626296209
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span>, </p>\n<p>Can you confirm that you have access to all directories under  <code>/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg</code>? I am asking because when I try accessing a file under the <code>b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001</code> case, I get a permission denied error: </p>\n<div class=\"codehilite\"><pre><span></span>$ ncdump -h /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/day_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231.nc\nncdump: /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/day_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231.nc: /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/day_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231.nc: Permission denied\n</pre></div>",
+        "id": 37411,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626300088
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> ,</p>\n<p>It looks like I do:<br>\n<code>ncdump -h /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/day_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231.nc\nnetcdf b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231 {\ndimensions:\n        lat = 192 ;\n        zlon = 1 ;\n        nbnd = 2 ;\n        lon = 288 ;\n        time = UNLIMITED ; // (3650 currently)\n        chars = 8 ;\n        lev = 70 ;\n        ilev = 71 ;</code></p>",
+        "id": 37416,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626300483
+    },
+    {
+        "content": "<p>Okay... It looks like it's just me who lacks read permissions <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span></p>",
+        "id": 37419,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626300906
+    },
+    {
+        "content": "<p>That is frustrating - I have no idea why read permissions are group restricted. I can try to get that opened up. Do you see any problems with how I have tried to create my catalog?</p>",
+        "id": 37427,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626301291
+    },
+    {
+        "content": "<blockquote>\n<p>Do you see any problems with how I have tried to create my catalog?</p>\n</blockquote>\n<p>Everything looks good (which is why I wanted to see what's going on with the files themselves).. </p>\n<p>Which version of <code>ecgtools</code> are you using? </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">ecgtools</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">ecgtools</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 37430,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626301507
+    },
+    {
+        "content": "<p>I am using: 0.0.post44</p>",
+        "id": 37433,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626301687
+    },
+    {
+        "content": "<p>Possibly (probably) a dumb question, but do all directories have to have the same output? What happens if, for example, daily U is not in all the atm/proc/tseries/day_1 directories?</p>",
+        "id": 37435,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626303151
+    },
+    {
+        "content": "<p>Aha! That could be the problem...   Try the unreleased version from the main branch</p>\n<div class=\"codehilite\"><pre><span></span>python -m pip install  git+https://github.com/NCAR/ecgtools.git\n</pre></div>\n\n\n<p>And then run the following test to see if you get valid output</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span> <span class=\"kn\">from</span> <span class=\"nn\">ecgtools.parsers.cesm</span> <span class=\"kn\">import</span> <span class=\"n\">parse_cesm_timeseries</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">2</span><span class=\"p\">]:</span> <span class=\"n\">path</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/month_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h0.ACTREL.206501-209912.nc&quot;</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">3</span><span class=\"p\">]:</span> <span class=\"n\">parse_cesm_timeseries</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 37438,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626308308
+    },
+    {
+        "content": "<blockquote>\n<p>but do all directories have to have the same output? </p>\n</blockquote>\n<p>They don't have to... For CESM output, the metadata information for each file comes from two places</p>\n<p>(1)  attributes such as <code>stream</code>,  <code>case</code>, <code>variable</code> come from the <code>filename</code> e.g. (<code>b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h0.ACTREL.206501-209912.nc</code><br>\n(2) attributes such as <code>frequency</code> are harvested from global attributes within the netCDF file</p>",
+        "id": 37439,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626308696
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> </p>\n<p>Apologies for the long reply below!</p>\n<p>Okay, I installed the unrealeased version. That didn't seem to fix the issue. I still only get 3 streams for one case: </p>\n<p>dict_keys(['atm.cam.h0.b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001', 'atm.cam.h6.b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001', 'atm.cam.h7.b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001'])</p>\n<p><span class=\"user-mention\" data-user-id=\"178\">@Mike Mills</span> added read permissions to the following directories (thanks Mike!):<br>\n<code>'/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/',\n '/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWmaHIST.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.003/',\n '/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWmaCO2x4.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/',\n '/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWmaHIST.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.002/',\n '/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWmaHIST.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/',</code></p>\n<p>The SSP case is owned by someone else but perhaps you could exclude that in your test?<br>\n<code> '/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/'</code></p>\n<p>I did notice that when  I isolate just a few of these files (e.g., /glade/u/home/marsh/scratch/WACCM6-MA-1deg/) the parser doesn't like the c20200918 in the case name and gives invalid assets - I guess it's expecting 001, 002, etc. However, it does produce a catalog with multiple cases and streams if I do this:<br>\n<code>esm_dir = \"/glade/u/home/marsh/scratch/WACCM6-MA-1deg/\"\nb = Builder(\n    # Directory with the output\n    esm_dir,\n    # Depth of 1 since we are sending it to the case output directory\n    depth=3,\n    exclude_patterns=[\"*/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/*\"],\n    njobs=1\n)</code></p>\n<p>Perhaps <span class=\"user-mention\" data-user-id=\"178\">@Mike Mills</span> can comment on if this is a one-off case name or a new naming convention?  </p>\n<p>So, I think it's working but not when I point to the large set of files on campaign. I could try writing a script to create a directory filled with symbolic links of only the timeseries files for all these cases and point the Builder() to that. This might be better since I don't think we need to have all the 315 variables held in separate monthly timeseries files in the catalog (it does slow things down a lot).  The object for me is to create a catalog I can point a diagnostic analysis package to, containing multiple cases and key fields (U,V,T,O3,TOA fluxes) at various temporal frequencies. It might be nice to have an include_only_patterns argument to Builder() so I don't have to exclude some many directories and files.</p>",
+        "id": 37467,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626362146
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span>, it sounds like the issue resides in <code>parse_cesm_timeseries</code> function (this function doesn't cover all edge cases <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span>) </p>\n<p>Could you run the following code snippet on one of files that aren't appearing in the catalog:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span> <span class=\"kn\">from</span> <span class=\"nn\">ecgtools.parsers.cesm</span> <span class=\"kn\">import</span> <span class=\"n\">parse_cesm_timeseries</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">2</span><span class=\"p\">]:</span> <span class=\"n\">path</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/month_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h0.ACTREL.206501-209912.nc&quot;</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">3</span><span class=\"p\">]:</span> <span class=\"n\">parse_cesm_timeseries</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>The output of this function may have some hints on what's not working when parsing some of the files... </p>\n<blockquote>\n<p>It might be nice to have an include_only_patterns argument to Builder() so I don't have to exclude some many directories and files.It might be nice to have an include_only_patterns argument to Builder() so I don't have to exclude some many directories and files.</p>\n</blockquote>\n<p><span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span>  Yeah this would be a great addition. I'll look into it</p>",
+        "id": 37474,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626364433
+    },
+    {
+        "content": "<p>Ahh another problem here might be that we are using the <code>parse_cesm_timeseries</code> parser when we should use the <code>parse_cesm_history</code>. Although these files have multiple times, there are multiple variables (the <code>timeseries</code> within ecgools refers to files that have one variable, with multiple times, output from the various timeseries generation tools). Also, within the filename, the timeseries parser is looking for the start and end time. I ran the revised version from the PR on ecgtools, and it works for those files you mentioned <span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span></p>",
+        "id": 37479,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1626367027
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> I am only trying to point to single variable timeseries files in the tseries/month_1, day_5 and day_1 directories.  I don't think any of them have multiple variables. Elsewhere, there's a lot of other stuff (h0s with many vars) in these case directories that I have done my best to exclude them.</p>",
+        "id": 37484,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626367929
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> <br>\nThat code segment worked fine:<br>\n<code>{'component': 'atm',\n 'stream': 'cam.h0',\n 'case': 'b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001',\n 'member_id': 1,\n 'variable': 'ACTREL',\n 'start_time': '2065-01',\n 'end_time': '2099-12',\n 'time_range': '206501-209912',\n 'long_name': 'Average Cloud Top droplet effective radius',\n 'units': 'Micron',\n 'vertical_levels': 1,\n 'frequency': 'month_1',\n 'path': '/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/month_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h0.ACTREL.206501-209912.nc'}</code></p>",
+        "id": 37491,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626368084
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span> sounds good- it looks like this file does have multiple variables and multiple times <code>/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/atm/h6/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918.cam.h6.0208-01-01-00000.nc</code>, which was one of the files which required the history parser... the 3D variables (time, lat, lon) include:</p>\n<ul>\n<li><code>THzm</code>  - zonal mean potential temperature</li>\n<li><code>UVzm</code> - Meridonal Flux of Zonal Momentum</li>\n<li><code>UWzm</code> - Vertical Flux of Zonal Momentum</li>\n<li><code>Uzm</code> - Zonal Mean Zonal Wind</li>\n<li><code>VTHzm</code> - Meridional heat flux</li>\n<li><code>Vzm</code> - Zonal mean meridional wind</li>\n<li><code>Wzm</code>- Zonal mean vertical wind</li>\n</ul>",
+        "id": 37495,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1626368287
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>   <code>\"*/atm/h6/*\"</code> is in my exclude patterns so that's odd. Does * not begin below the the data dir which is the first argument to Builder?</p>",
+        "id": 37496,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626368571
+    },
+    {
+        "content": "<p>Ohhh good point. Sorry! I tried testing this on the first directory I saw it the atmosphere component.</p>",
+        "id": 37497,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1626369424
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span> changing the depth from 5 to 4 seemed to solve the problem. Using this block for setting up the builder works</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"c1\"># esm_dir = &quot;/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/atm/proc/tseries/month_1/&quot;</span>\n<span class=\"n\">esm_dir</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/&quot;</span>\n\n<span class=\"n\">b</span> <span class=\"o\">=</span> <span class=\"n\">Builder</span><span class=\"p\">(</span>\n    <span class=\"c1\"># Directory with the output</span>\n    <span class=\"n\">esm_dir</span><span class=\"p\">,</span>\n    <span class=\"c1\"># Depth of 1 since we are sending it to the case output directory</span>\n    <span class=\"n\">depth</span><span class=\"o\">=</span><span class=\"mi\">4</span><span class=\"p\">,</span>\n    <span class=\"c1\"># Exclude the other components, hist, and restart directories</span>\n    <span class=\"c1\"># and pick out the proc timeseries for 1- and 5-day and monthly data</span>\n    <span class=\"n\">exclude_patterns</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s2\">&quot;*/cpl/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/esp/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/glc/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/ice/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/lnd/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/logs/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/ocn/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/rest/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/rof/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/wav/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/atm/h6/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/atm/hist/*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/atm/proc/h*&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/atm/proc/*_RESTOM.nc&quot;</span><span class=\"p\">,</span>\n                      <span class=\"s2\">&quot;*/archive/*&quot;</span><span class=\"p\">],</span>\n    <span class=\"c1\"># Number of jobs to execute - should be equal to # threads you are using</span>\n    <span class=\"n\">njobs</span><span class=\"o\">=-</span><span class=\"mi\">1</span>\n<span class=\"p\">)</span>\n</pre></div>",
+        "id": 37513,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1626373114
+    },
+    {
+        "content": "<blockquote>\n<p>@Daniel Marsh changing the depth from 5 to 4 seemed to solve the problem. Using this block for setting up the builder works</p>\n</blockquote>\n<p>something strange  is going on with how <code>depth</code> is used to crawl list of directories... (most likely an ecgtools bug)</p>",
+        "id": 37514,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1626373249
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"145\">@Daniel Marsh</span> could you install from the main branch? We merged the PR that fixes the issues you raised</p>",
+        "id": 37515,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1626373534
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>  and <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> <br>\nI made the change and updated to 2021.6.21.post2 and all looks good! Thanks very much. Now onto using it!</p>",
+        "id": 37576,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626381866
+    }
+]

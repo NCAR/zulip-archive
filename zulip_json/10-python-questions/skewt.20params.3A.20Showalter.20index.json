@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Anyone has an understanding of Showalter Index?</p>\n<p>We are currently implementing a function in GeoCAT-comp to provide <code>skewt</code> parameters. Most of such parameters are simply outputted as a call to MetPy's existing functions; however, one significant contribution of our function would be the calculation of Showalter Index (i.e. shox). </p>\n<p>To demonstrate our function's results, we are comparing against NCL'S skewt_2_2 (<a href=\"https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png\" target=\"_blank\" title=\"https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png\">https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png</a>), but we are having significant difference between ours and NCL (NCL <code>shox</code>=3, ours= -7). </p>\n<div class=\"message_inline_image\"><a href=\"https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png\" target=\"_blank\" title=\"https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png\"><img src=\"https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png\"></a></div><p>The details of our implementation, what we are struggling currently, and what our findings are can be seen in this PR: <a href=\"https://github.com/NCAR/geocat-comp/pull/96\" target=\"_blank\" title=\"https://github.com/NCAR/geocat-comp/pull/96\">https://github.com/NCAR/geocat-comp/pull/96</a><br>\nBriefly, NCL function seems to have a number of assumptions when calculating <code>shox</code>, which is likely the reason of the difference with the results. We couldn't decide how to proceed further with our implementation (either apply NCL-like hard-coded assumptions to the data, or get rid of such assumptions at the risk of generating much different results than NCL), we would appreciate a scientific perspective here.</p>\n<p>cc: <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span></p>",
+        "id": 24197,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1611616257
+    },
+    {
+        "content": "<p>Perhaps <span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span> has some useful perspective?</p>",
+        "id": 24199,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1611619991
+    },
+    {
+        "content": "<p>I don't have anything to offer with regards to GeoCAT vs. NCL, but I will say that adding Showalter Index to MetPy has been an open issue for awhile: <a href=\"https://github.com/Unidata/MetPy/issues/630\" target=\"_blank\" title=\"https://github.com/Unidata/MetPy/issues/630\">https://github.com/Unidata/MetPy/issues/630</a><br>\nThe main holdup was waiting on MetPy's improved xarray integration so that we can have a straightforward interface for it in MetPy. I think at this point it should be a straightforward calculation to implement in MetPy.</p>",
+        "id": 24206,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1611684316
+    },
+    {
+        "content": "<p>Thank you <span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span></p>\n<p>We had found this open issue and thought that it wouldn't be implemented in the future since issue was old and there was no much conversation in it.  It's good news for us to know it would be done in the future. </p>\n<p>That being said, for <strong>showalter index</strong>, we can provide our own implementation to the user for now, and when it is implemented in MetPy, we can just convert it to a function call from upstream.</p>",
+        "id": 24210,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1611688467
+    },
+    {
+        "content": "<p>We try to make sure that if an issue is still open on MetPy it's very much still relevant. If you're feeling ambitious, you could open a Pull Request with your own implementation. We're always happy to have community contributions to MetPy, and that would help ensure it's implemented in MetPy sooner rather than later.</p>",
+        "id": 24212,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1611690207
+    },
+    {
+        "content": "<p>Yeah, this sounds good; we would like to make upstream contributions. I will talk to our teammate who made the implementation. Thanks!</p>",
+        "id": 24213,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1611691002
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span>  Orhan spun me up on this conversation, but I just wanted to let you know that I'm going to refine what we have currently with respect to calculating Showalter and create a PR on the MetPy repo. If there's anything else I need to know before submitting that PR, please feel free to send me a DM!</p>",
+        "id": 24224,
+        "sender_full_name": "Michaela Sizemore",
+        "timestamp": 1611698662
+    },
+    {
+        "content": "<p>Excellent! We have a Contributor's Guide that may be helpful: <a href=\"https://github.com/Unidata/MetPy/blob/master/CONTRIBUTING.md\" target=\"_blank\" title=\"https://github.com/Unidata/MetPy/blob/master/CONTRIBUTING.md\">https://github.com/Unidata/MetPy/blob/master/CONTRIBUTING.md</a>  One thing up front is that we'd want to have a simple test or two that we can run to validate that the calculation is working, and making sure we don't break it in the future (see this test for precipitable water <a href=\"https://github.com/Unidata/MetPy/blob/9ed0829f308bb86374f389994d0bfe9ed2303159/tests/calc/test_indices.py#L89-L96\" target=\"_blank\" title=\"https://github.com/Unidata/MetPy/blob/9ed0829f308bb86374f389994d0bfe9ed2303159/tests/calc/test_indices.py#L89-L96\">https://github.com/Unidata/MetPy/blob/9ed0829f308bb86374f389994d0bfe9ed2303159/tests/calc/test_indices.py#L89-L96</a>)<br>\nOtherwise, don't worry about making sure the PR is perfect or anything--PRs are generally a good collaborative, iterative process. Thanks for considering contributing!</p>",
+        "id": 24226,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1611700684
+    }
+]

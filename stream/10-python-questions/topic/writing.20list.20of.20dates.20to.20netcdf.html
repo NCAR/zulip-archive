@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="utf-8"><title>writing list of dates to netcdf · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/writing.20list.20of.20dates.20to.20netcdf.html">writing list of dates to netcdf</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="39439"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/writing%20list%20of%20dates%20to%20netcdf/near/39439" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/writing.20list.20of.20dates.20to.20netcdf.html#39439">(Aug 10 2021 at 01:00)</a>:</h4>
+<p>Hello, I also have something with non-standard calendars that I have been struggling with.  I want to output the following list of dates to netcdf.  It's for a piControl so the years start at 1.</p>
+<p>[array(cftime.DatetimeNoLeap(4, 2, 2, 0, 0, 0, 0), dtype=object), array(cftime.DatetimeNoLeap(8, 2, 10, 0, 0, 0, 0), dtype=object), array(cftime.DatetimeNoLeap(9, 4, 2, 0, 0, 0, 0), dtype=object)]</p>
+<p>I have tried:<br>
+(1) Convert this list to an xarray data array and then use "to_netcdf": this gives unable to infer dtype on variable 'sswdate'; xarray cannot serialize arbitrary Python objects</p>
+<p>(2) Tried to convert to a datetimeindex instead.</p>
+<ul>
+<li>(a) pd.to_datetime(datelist): this gives &lt;class 'numpy.ndarray'&gt; is not convertible to datetime</li>
+<li>(b)  datelist.indexes.to_datetimeindex(): this gives  'list' object has no attribute 'indexes'</li>
+</ul>
+<p>Can anyone advise me as to how best to deal with this list of dates and get them into a netcdf file?  Converting to the datetimeindex is what I've done for similar problems before, but I guess something is missing here.</p>
+<p>Thanks for your help,<br>
+Isla</p>
+
+
+
+<a name="39440"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/writing%20list%20of%20dates%20to%20netcdf/near/39440" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/writing.20list.20of.20dates.20to.20netcdf.html#39440">(Aug 10 2021 at 01:09)</a>:</h4>
+<p>Hi Isla,</p>
+<p>The weird thing about your list is it is a list of  <em>array</em> of cftime objects. That ends up confusing the software</p>
+<p>Your 2b solution assumes <code>datelist</code> is an xarray thing (which does have an <code>indexes</code> property). But <code>datelist</code> is a list so that's the reason for the error</p>
+<p>Here I pull out each individual item from the array and things work</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">cftime</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
+
+<span class="n">time</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">array</span><span class="p">(</span><span class="n">cftime</span><span class="o">.</span><span class="n">DatetimeNoLeap</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+    <span class="n">array</span><span class="p">(</span><span class="n">cftime</span><span class="o">.</span><span class="n">DatetimeNoLeap</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+    <span class="n">array</span><span class="p">(</span><span class="n">cftime</span><span class="o">.</span><span class="n">DatetimeNoLeap</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="s2">"time.nc"</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+<a name="39441"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/writing%20list%20of%20dates%20to%20netcdf/near/39441" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/writing.20list.20of.20dates.20to.20netcdf.html#39441">(Aug 10 2021 at 01:16)</a>:</h4>
+<p>Wow, thanks for the fast response!  Indeed, that has done the trick.  Thanks a lot!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

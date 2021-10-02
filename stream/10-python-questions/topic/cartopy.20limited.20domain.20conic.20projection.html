@@ -1,0 +1,64 @@
+<html>
+<head><meta charset="utf-8"><title>cartopy limited domain conic projection · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cartopy.20limited.20domain.20conic.20projection.html">cartopy limited domain conic projection</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="23499"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cartopy%20limited%20domain%20conic%20projection/near/23499" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cartopy.20limited.20domain.20conic.20projection.html#23499">(Dec 31 2020 at 18:17)</a>:</h4>
+<p>Can anyone share an example of how to use matplotlib with cartopy to generate a regional conic projection plot like the attached?<br>
+<a href="/user_uploads/2/6d/9uTz7VLX8F1H3aWvvH4vilUf/plot_example.png" target="_blank" title="plot_example.png">plot_example.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/6d/9uTz7VLX8F1H3aWvvH4vilUf/plot_example.png" target="_blank" title="plot_example.png"><img src="/user_uploads/2/6d/9uTz7VLX8F1H3aWvvH4vilUf/plot_example.png"></a></div>
+
+
+
+<a name="23502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cartopy%20limited%20domain%20conic%20projection/near/23502" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cartopy.20limited.20domain.20conic.20projection.html#23502">(Jan 02 2021 at 22:17)</a>:</h4>
+<p>Here's a solution with a time slice of POP SST, though it's a bit hacky. Had to pre-trim the data to approximately fit the region bounds to get the regional map to fill the figure. Would love to know if there's a way to do this that doesn't require pre-trimming.</p>
+<div class="codehilite"><pre><span></span>import cartopy.crs as ccrs
+import matplotlib.pyplot as plt
+from matplotlib.path import Path
+import xarray as xr
+import numpy as np
+
+lonw=-80; lone=20; lats=45; latn=70 #corners for conic projection
+xw=50; xe=175; ys=312; yn=380       #for trimming POP data to region
+
+sst=ds[&#39;SST&#39;].roll(nlon=100).isel({&#39;nlat&#39;:slice(ys,yn),&#39;nlon&#39;:slice(xw,xe)})
+tlong=sst[&#39;TLONG&#39;]
+tlat=sst[&#39;TLAT&#39;]
+
+ax=plt.axes(projection=ccrs.LambertConformal(central_longitude=(lonw+lone)/2, \
+                                             central_latitude=(lats+latn)/2))  #AlbersEqualArea also works
+
+sbnd=[[ee,lats] for ee in np.arange(lonw,lone,1)]  #make vertices for regional map boundary
+nbnd=[[ww,latn] for ww in np.arange(lone,lonw,-1)]
+verts=sbnd+nbnd
+path=Path(verts)
+ax.set_boundary(path, transform=ccrs.PlateCarree()) #reset projection boundary
+
+plt.pcolormesh(tlong, tlat, sst, transform=ccrs.PlateCarree())
+ax.coastlines()
+cb=plt.colorbar(orientation=&#39;horizontal&#39;, label=&#39;SST ($^{\circ}$C)&#39;)
+</pre></div>
+
+
+<p>GridSpec can be used to adjust the colorbar size relative to the map.<br>
+<a href="/user_uploads/2/45/rl6gjhR7xeXPHVwu0Cbl1gUk/almostconic.png" target="_blank" title="almostconic.png">almostconic.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/45/rl6gjhR7xeXPHVwu0Cbl1gUk/almostconic.png" target="_blank" title="almostconic.png"><img src="/user_uploads/2/45/rl6gjhR7xeXPHVwu0Cbl1gUk/almostconic.png"></a></div>
+
+
+
+<a name="23503"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cartopy%20limited%20domain%20conic%20projection/near/23503" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cartopy.20limited.20domain.20conic.20projection.html#23503">(Jan 03 2021 at 16:59)</a>:</h4>
+<p>Thanks Liz. This is a good workaround, but I agree that it's quite awkward to have to pre-trim the data.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

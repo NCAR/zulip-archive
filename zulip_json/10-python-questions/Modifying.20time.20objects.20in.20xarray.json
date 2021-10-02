@@ -1,0 +1,116 @@
+[
+    {
+        "content": "<p>Is it possible to modify dates on the time axis in an xarray dataset?   In the following example, I am trying to change one kind of datetime object into another for the first time step.</p>\n<div class=\"codehilite\"><pre><span></span>import xarray as xr\nimport pandas as pd\n\nfilePath = &#39;/glade/collections/cdg/data/cordex/data/raw/NAM-22i/day/RegCM4/HadGEM2-ES/hist/tasmax/tasmax.hist.HadGEM2-ES.RegCM4.day.NAM-22i.raw.nc&#39;\nds = xr.open_dataset(filePath)\n\nds[&#39;time&#39;].isel(time=0).values\n\n     array(cftime.Datetime360Day(1950-01-01 12:00:00), dtype=object)\n\nds[&#39;time&#39;].isel(time=0) = pd.date_time(1950,1,1)\nSyntaxError: cannot assign to function call\n</pre></div>",
+        "id": 14133,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595020425
+    },
+    {
+        "content": "<p>Note that I'm ultimately trying to convert all elements to datetime64 objects.  And modify their 'dayofyear' values in the process.</p>",
+        "id": 14138,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595021024
+    },
+    {
+        "content": "<p>You should not be using <code>isel</code> for assignment: <br>\n<a href=\"http://xarray.pydata.org/en/stable/indexing.html#assigning-values-with-indexing\" target=\"_blank\" title=\"http://xarray.pydata.org/en/stable/indexing.html#assigning-values-with-indexing\">http://xarray.pydata.org/en/stable/indexing.html#assigning-values-with-indexing</a></p>",
+        "id": 14147,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1595023201
+    },
+    {
+        "content": "<p>The easier but obscure way of doing that is <code>ds[\"time\"] = ds.indexes[\"time\"].to_datetimeindex()</code>. <span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> Can you open an issue about making this transformation easier</p>",
+        "id": 14151,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1595028629
+    },
+    {
+        "content": "<blockquote>\n<p>Can you open an issue about making this transformation easier</p>\n</blockquote>\n<p>OK, I will.   Thank you!</p>",
+        "id": 14152,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595046630
+    },
+    {
+        "content": "<p>what's the error? I am actually using that line in a notebook now and it works.</p>",
+        "id": 14185,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1595277868
+    },
+    {
+        "content": "<p>I am having connection issues to Casper/Glade, but I will get you that error.  It has to do with converting Feb. 30, I believe.</p>",
+        "id": 14186,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595277945
+    },
+    {
+        "content": "<p>Have you tried the file in my example?</p>",
+        "id": 14187,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595278003
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>&quot;ValueError: Cannot convert date 1950-02-29 12:00:00 to a date in the standard calendar.  Reason: day is out of range for month.&quot;\n</pre></div>\n\n\n<p>OK this is a sensible error!</p>",
+        "id": 14188,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1595278181
+    },
+    {
+        "content": "<p>Yes I agree <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>  I hope I can loop over years, subset the dates, convert each date to \"days since Jan.1\", and then use these integers as indexes into an array of dates for the Gregorian Calendar.   Essentially I am trying to distribute the 5-6 missing dates in the 360-day calendar evenly over each year.</p>",
+        "id": 14189,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595278520
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>  I am still looking for any possible way to modify the cftime.Datetime360Day objects in xarray.   Does this generally need to be done in a single operation for all time objects at once, or can each time object be modified individually?   I have written a function that computes the replacement Gregorian date for any date on the 360-day calendar.   I just can't see how to apply that function to the objects on the time axis.</p>",
+        "id": 14392,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595374815
+    },
+    {
+        "content": "<p><code>ds[\"time\"] = [your_function(t) for t in ds.time.values]</code>?</p>",
+        "id": 14394,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1595374970
+    },
+    {
+        "content": "<p>OK, I will give that a try.  Thank you!</p>",
+        "id": 14395,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595374998
+    },
+    {
+        "content": "<p>Thanks Deepak, your advice worked nicely.   I can post code if anyone else wants to see an example of calendar conversion.</p>",
+        "id": 14431,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595453520
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> </p>\n<p>A short blog post on <a href=\"https://ncar.github.io/xdev/\" target=\"_blank\" title=\"https://ncar.github.io/xdev/\">https://ncar.github.io/xdev/</a> is welcome too ;)</p>",
+        "id": 14433,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595453776
+    },
+    {
+        "content": "<p>Good idea.  Are there any instructions on how to write a blog post?  I think Nikola is somehow involved but I haven't done it before.</p>",
+        "id": 14434,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595453829
+    },
+    {
+        "content": "<blockquote>\n<p>I think Nikola is somehow involved but I haven't done it before. </p>\n</blockquote>\n<p>It's straightforward once you have nikola installed. This repo has all necessary information: <a href=\"https://github.com/NCAR/xdev#xdev-blog\" target=\"_blank\" title=\"https://github.com/NCAR/xdev#xdev-blog\">https://github.com/NCAR/xdev#xdev-blog</a></p>",
+        "id": 14435,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595453927
+    },
+    {
+        "content": "<p>OK, I will start writing and reply when it's ready.  Thank you!</p>",
+        "id": 14441,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595454308
+    },
+    {
+        "content": "<p>Awesome! Looking forward to it</p>",
+        "id": 14451,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595454947
+    }
+]

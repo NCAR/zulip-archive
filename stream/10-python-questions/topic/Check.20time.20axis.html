@@ -1,0 +1,118 @@
+<html>
+<head><meta charset="utf-8"><title>Check time axis · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html">Check time axis</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="42402"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42402" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42402">(Sep 10 2021 at 19:36)</a>:</h4>
+<p>Hey all,</p>
+<p>Does anyone have a quick way of checking a time axis for bad/missing values? For example, say I expect a cftime object that is:</p>
+<p>&lt;xarray.DataArray 'time' (time: 420)&gt;<br>
+array([cftime.DatetimeNoLeap(2035, 2, 1, 0, 0, 0, 0),<br>
+       cftime.DatetimeNoLeap(2035, 3, 1, 0, 0, 0, 0),<br>
+       cftime.DatetimeNoLeap(2035, 4, 1, 0, 0, 0, 0), ...,<br>
+       cftime.DatetimeNoLeap(2069, 11, 1, 0, 0, 0, 0),<br>
+       cftime.DatetimeNoLeap(2069, 12, 1, 0, 0, 0, 0),<br>
+       cftime.DatetimeNoLeap(2070, 1, 1, 0, 0, 0, 0)], dtype=object)</p>
+<p>I want to make sure that no years/days are skipped here.</p>
+
+
+
+<a name="42404"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42404" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42404">(Sep 10 2021 at 19:58)</a>:</h4>
+<p>Kind of answered my own question. If I read in the time axis, but with decode_times=False, then I can use</p>
+<p>print(np.all(np.diff(time) &gt; 0))</p>
+<p>Then I can also check the length of the time element and there should be nyears<em>12 or nyears</em>365 monthly and daily times respectively. I think this should spot any issues.</p>
+
+
+
+<a name="42412"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42412" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42412">(Sep 10 2021 at 21:06)</a>:</h4>
+<blockquote>
+<p>print(np.all(np.diff(time) &gt; 0))</p>
+</blockquote>
+<p>Hmm.. isn't this checking monotonicity not that no years or days are skipped <span aria-label="thinking" class="emoji emoji-1f914" role="img" title="thinking">:thinking:</span></p>
+
+
+
+<a name="42413"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42413" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42413">(Sep 10 2021 at 21:07)</a>:</h4>
+<p>I think you could try <code>xr.infer_freq(time)</code> <a href="https://xarray.pydata.org/en/stable/generated/xarray.infer_freq.html">if it returns None</a> you have a problem.</p>
+
+
+
+<a name="42452"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42452" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42452">(Sep 13 2021 at 16:25)</a>:</h4>
+<p>I don't think this works. Here is the output:</p>
+<p>DatetimeIndex(['2035-01-01', '2035-01-02', '2035-01-03', '2035-01-04',<br>
+               '2035-01-05', '2035-01-06', '2035-01-07', '2035-01-08',<br>
+               '2035-01-09', '2035-01-10',<br>
+               ...<br>
+               '2069-12-22', '2069-12-23', '2069-12-24', '2069-12-25',<br>
+               '2069-12-26', '2069-12-27', '2069-12-28', '2069-12-29',<br>
+               '2069-12-30', '2069-12-31'],<br>
+              dtype='datetime64[ns]', length=12775, freq=None)</p>
+
+
+
+<a name="42460"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42460" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42460">(Sep 13 2021 at 16:47)</a>:</h4>
+<blockquote>
+<p>freq=None</p>
+</blockquote>
+<p>I think this means you might have a problem. </p>
+<div class="codehilite"><pre><span></span><code>import pandas as pd
+
+pd.DatetimeIndex(data=ds.time.data, freq=&quot;infer&quot;)
+</code></pre></div>
+<p>Does this also set <code>freq=None</code>? If so there might be an issue. You could try removing some roundoff error in secoinds with</p>
+<p><code>ds["time"] = ds.time.dt.round("H")</code> which will discard sub-hourly information.</p>
+
+
+
+<a name="42509"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42509" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42509">(Sep 13 2021 at 18:11)</a>:</h4>
+<p>Ok. So, if I do this with the monthly-mean data it works fine and I get 'MS'. So, I believe the issue is the 'noleap' calendar with the daily mean. No February 29th. Is there a way to specify the 'noleap' calendar?</p>
+
+
+
+<a name="42511"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42511" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42511">(Sep 13 2021 at 18:14)</a>:</h4>
+<p>you'll have to use <code>CFTimeIndex</code> in that case. So I would convert <code>ds["time"] = xr.CFTimeIndex(ds.time.data)</code> or specify <code>use_cftime</code> in your <code>open_Dataset</code> call. And then run <code>infer_freq</code></p>
+
+
+
+<a name="42533"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42533" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42533">(Sep 13 2021 at 19:01)</a>:</h4>
+<p>I guess I am confused. There is actually a warning about this:</p>
+<p>python timecheck.py<br>
+['/glade/campaign/cesm/development/wawg/WACCM6-TSMLT-GEO/SAI1/b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.001/atm/proc/tseries/month_1/b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.001.cam.h0.TREFHT.203501-206912.nc']<br>
+timecheck.py:18: RuntimeWarning: Converting a CFTimeIndex with dates from a non-standard calendar, 'noleap', to a pandas.DatetimeIndex, which uses dates from the standard calendar.  This may lead to subtle errors in operations that depend on the length of time between dates.</p>
+<p>Does infer_freq only work on datetimeindex objects? Or are you saying that CFTimeIndex works as well?</p>
+
+
+
+<a name="42534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42534" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42534">(Sep 13 2021 at 19:03)</a>:</h4>
+<p>Ok. I think I understand. This code works:</p>
+<p>ds = xr.open_mfdataset(files)</p>
+<p>xr.CFTimeIndex(<a href="http://ds.time.data">ds.time.data</a>)<br>
+time = ds['time']</p>
+<p>print(xr.infer_freq(time))</p>
+
+
+
+<a name="42541"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Check%20time%20axis/near/42541" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Check.20time.20axis.html#42541">(Sep 13 2021 at 19:57)</a>:</h4>
+<p>Yes you can provide <code>use_cftime=True</code> in <code>open_mfdataset</code> to do this from the start. and avoid the second assignment to <code>ds["time"]</code></p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

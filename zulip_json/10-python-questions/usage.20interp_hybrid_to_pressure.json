@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hi all, but especially <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> :<br>\nI'm getting an error <code>numpy.AxisError: axis 1 is out of bounds for array of dimension 1</code> when trying to use GeoCAT's interp_hybrid_to_pressure. Here's what I'm trying:</p>\n<div class=\"codehilite\"><pre><span></span>import geocat.comp as gc\nimport xarray as xr\nloc = &quot;/glade/p/cesm/pcwg/jenkay/COSP/cesm21/f.e21.FHIST_BGC.f09_f09_mg17.CMIP6-AMIP.001_cosp1/atm/proc/tseries/month_1/&quot;\nds_ps = xr.open_dataset(loc+&quot;f.e21.FHIST_BGC.f09_f09_mg17.CMIP6-AMIP.001_cosp1.cam.h0.PS.197901-201412.nc&quot;)\nds_t = xr.open_dataset(loc+&quot;f.e21.FHIST_BGC.f09_f09_mg17.CMIP6-AMIP.001_cosp1.cam.h0.T.197901-201412.nc&quot;)\ntemp = ds_t[&quot;T&quot;]\nps = ds_ps[&quot;PS&quot;]\ntemp_plev = gc.interp_hybrid_to_pressure(temp, ps, ds_t[&#39;hyam&#39;], ds_t[&#39;hybm&#39;], lev_dim=&#39;lev&#39;)\n</pre></div>\n\n\n<p>This is with python 3.9.2 in a brand new geocat environment on casper (with the addition of conda install netcdf4).</p>\n<p>Any idea what is happening?</p>",
+        "id": 30872,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1620156548
+    },
+    {
+        "content": "<p><a href=\"https://github.com/NCAR/geocat-comp/blob/eae0d27f353db2bfae9ae36ad2b615fdca66cf44/src/geocat/comp/interp_hybrid_to_pressure.py#L70\" target=\"_blank\" title=\"https://github.com/NCAR/geocat-comp/blob/eae0d27f353db2bfae9ae36ad2b615fdca66cf44/src/geocat/comp/interp_hybrid_to_pressure.py#L70\">https://github.com/NCAR/geocat-comp/blob/eae0d27f353db2bfae9ae36ad2b615fdca66cf44/src/geocat/comp/interp_hybrid_to_pressure.py#L70</a></p>\n<p>This is a bug. <code>interp_axis</code> should always be -1, since <code>lev_dim</code> is a core dim, apply_ufunc will transpose so that <code>lev_dim</code> is the last dimension.</p>\n<p><span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span> try <code>gc.interp_hybrid_to_pressure(temp.transpose(..., \"lev\"), ...)</code>.</p>",
+        "id": 30873,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620156829
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> ! That makes sense. Applying transpose appears to be working.</p>",
+        "id": 30915,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1620164330
+    },
+    {
+        "content": "<p>I spoke too soon. I can get it to work for a single column, but it seems like as soon as I use an actual multidimensional array it is giving a similar kind of error. I tried to use a subset of the data:</p>\n<div class=\"codehilite\"><pre><span></span>ntime = 2\ntemp_sample = temp.isel(time=slice(None,ntime)).transpose(&quot;time&quot;,&quot;lat&quot;,&quot;lon&quot;,&quot;lev&quot;)\nps_sample = ps.isel(time=slice(None,ntime))\nprint(temp_sample.shape)  # (2, 192, 288, 32)\nprint(ps_sample.shape)  # (2, 192, 288)\ntmp = gc.interp_hybrid_to_pressure(temp_sample, ps_sample, ds_t[&#39;hyam&#39;], ds_t[&#39;hybm&#39;])\ntmp\n</pre></div>\n\n\n<p>and it says <code>AxisError: axis 3 is out of bounds for array of dimension 1</code></p>",
+        "id": 30917,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1620166923
+    },
+    {
+        "content": "<p>Well, I don't completely understand what is going on, but I can share a workaround for this issue. I switched from the MetPy interpolation to just plain old numpy <code>interp</code>:</p>\n<div class=\"codehilite\"><pre><span></span>    if method == &#39;linear&#39;:\n#         func_interpolate = metpy.interpolate.interpolate_1d\n        func_interpolate = np.interp\n</pre></div>\n\n\n<p>and corresponding adjustment of the vertical remapper:</p>\n<div class=\"codehilite\"><pre><span></span>    def _vertical_remap(data, pressure):\n        &quot;&quot;&quot;Define interpolation function.&quot;&quot;&quot;\n        return func_interpolate(new_levels, pressure, data, left=np.nan, right=np.nan)\n</pre></div>\n\n\n<p>This appears to behave nicely.</p>",
+        "id": 30926,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1620183144
+    },
+    {
+        "content": "<p>I will be looking into it soon</p>",
+        "id": 30935,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1620228974
+    },
+    {
+        "content": "<p>If you find we're doing something wrong, please don't hesitate to open an issue.</p>",
+        "id": 31230,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1620762834
+    },
+    {
+        "content": "<p>Especially <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span> and <span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span> , and also others, sorry for the late report back. I have had some findings now:</p>\n<p>1) The <code>pressure</code> and <code>data</code> were not of the same shape (after <code>_pressure_from_hybrid</code> call) though it is required by <code>metpy.interpolate.interpolate_1d</code>. I first corrected this one:</p>\n<div class=\"codehilite\"><pre><span></span># Calculate pressure levels at the hybrid levels\n    pressure = _pressure_from_hybrid(ps, hyam, hybm, p0)  # Pa\n\n    pressure = pressure.transpose(*data.dims)\n</pre></div>\n\n\n<p>2) After that, the code was still failing within the <code>xarray.apply_ufunc</code> call. I wanted to first see how <code>metpy.interpolate.interpolate_1d</code> or <code>metpy.interpolate.log_interpolate_1d</code> is behaving when data is of type numpy.ndarray or xarray.DataArray. So, I tested the following cases:</p>\n<p><strong>a- Numpy Inputs</strong>: When I converted Brian's inputs to Numpy and called metpy functions directly (i.e. no <code>xarray.apply_ufunc</code>), the code ran successfully.</p>\n<div class=\"codehilite\"><pre><span></span>    # Calling with Numpy is successful\n    output_np = _vertical_remap(data.values, pressure.values)\n</pre></div>\n\n\n<p><strong>b- Xarray Inputs</strong>: When I kept Brian's inputs as is ( i.e. Xarray) and called metpy functions directly (i.e. no <code>xarray.apply_ufunc</code>), the code failed.</p>\n<div class=\"codehilite\"><pre><span></span>    # Calling with Xarray is failing!!!\n    output_xr = _vertical_remap(data, pressure)\n</pre></div>\n\n\n<p>Here is the failure message, which is clearer than the failure messages that were output while calling via <code>xarray.apply_ufunc</code> (Though, the original failure Brian found in the original code, i.e. via <code>xarray.apply_ufunc</code>, was due to this same <code>xarray</code> thing I think):</p>\n<div class=\"codehilite\"><pre><span></span>  File &quot;/Users/oero/miniconda3/envs/geocat_comp_build/lib/python3.9/site-packages/geocat/comp/interp_hybrid_to_pressure.py&quot;, line 89, in _vertical_remap\n    return func_interpolate(new_levels, pressure, data, axis=interp_axis)\n  File &quot;/Users/oero/miniconda3/envs/geocat_comp_build/lib/python3.9/site-packages/metpy/xarray.py&quot;, line 1206, in wrapper\n    result = func(*bound_args.args, **bound_args.kwargs)\n  File &quot;/Users/oero/miniconda3/envs/geocat_comp_build/lib/python3.9/site-packages/metpy/interpolate/one_dimension.py&quot;, line 127, in interpolate_1d\n    minv = np.apply_along_axis(np.searchsorted, axis, xp, x[sort_x])\n  File &quot;&lt;__array_function__ internals&gt;&quot;, line 5, in apply_along_axis\nTypeError: no implementation found for &#39;numpy.apply_along_axis&#39; on types that implement __array_function__: [&lt;class &#39;pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity&#39;&gt;]\n</pre></div>\n\n\n<p>I couldn't dig into the actual issue with <code>metpy</code> &amp; <code>xarray</code> for the time; I will continue my investigation into it.</p>\n<p><span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span> : I can create an issue in metpy repo, but I am not sure how to provide them/you with an easily replicable GeoCAT-comp run of this (i.e. it may require you to setup GeoCAT-comp etc.). Maybe I could create a branch/PR from these changes I have made under our code, and metpy folks would like to step in? Let me know what is more convenient for you (if you think it is a metpy issue).</p>",
+        "id": 31825,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1621373711
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span> </p>\n<p>Please see <a href=\"https://github.com/NCAR/geocat-comp/pull/155\" target=\"_blank\" title=\"https://github.com/NCAR/geocat-comp/pull/155\">GeoCAT-comp PR #155</a> for a workaround to get <code>interp_hybrid_to_pressure</code> successfully for Xarray inputs of 4D or more dims. With this new version of the code, your original script (i.e. without transposing data) should work successfully. I already tested it. Please let me know if you can test it with the code in the PR; otherwise, you can also give it a try with our newer version via conda around end of May or early June.  By the way, I tested both unchunked and chunked versions of your data and got dramatically different performances, which I could share with you.</p>\n<p><span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span> I think that this is related to metpy.interpolate's xarray interface; thus, I have created an issue with a minimal code that does directly run on metpy functions (i.e. no geocat-comp functionality). Please see the <a href=\"https://github.com/Unidata/MetPy/issues/1889\" target=\"_blank\" title=\"https://github.com/Unidata/MetPy/issues/1889\">Metpy Issue #1889 here</a></p>",
+        "id": 32822,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1622085673
+    }
+]

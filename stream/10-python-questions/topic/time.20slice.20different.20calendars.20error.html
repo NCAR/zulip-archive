@@ -1,0 +1,90 @@
+<html>
+<head><meta charset="utf-8"><title>time slice different calendars error · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html">time slice different calendars error</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="36346"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/36346" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#36346">(Jul 02 2021 at 21:21)</a>:</h4>
+<p>I'm trying to extract a subset of years for a variable using the tried-and-true <code>.sel</code> method. I've used the same code block in a different script without any problems, but I'm getting an error message:</p>
+<div class="codehilite"><pre><span></span>TypeError: cannot compare cftime.datetime(1992, 7, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;) and cftime.datetime(1950, 1, 1, 0, 0, 0, 0, calendar=&#39;gregorian&#39;) (different calendars)
+</pre></div>
+
+
+<p>The error message corresponds to the last line of this code:</p>
+<div class="codehilite"><pre><span></span>dat = xr.open_dataset(&#39;/glade/p/cesm/lmwg_dev/dll/CESM2_Coupled_NoCrop/b.e21.BHIST_BPRP.f09_g17.CMIP6-esm-hist.001.cam.h0.CO2.185001-201412.nc&#39;)
+CESM2ppm = dat.CO2
+CESM2ppm.sel(time=slice(&#39;1950&#39;,&#39;2014&#39;))
+</pre></div>
+
+
+<p>The time array is <code>noleap</code>, and I'm not sure why using either <code>sel</code> or <code>slice</code> is comparing to a gregorian calendar. </p>
+<div class="codehilite"><pre><span></span>time
+(time)
+object
+1850-01-16 12:00:00 ... 2014-12-...
+array([cftime.datetime(1850, 1, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;),
+       cftime.datetime(1850, 2, 15, 0, 0, 0, 0, calendar=&#39;noleap&#39;),
+       cftime.datetime(1850, 3, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;), ...,
+       cftime.datetime(2014, 10, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;),
+       cftime.datetime(2014, 11, 16, 0, 0, 0, 0, calendar=&#39;noleap&#39;),
+       cftime.datetime(2014, 12, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;)],
+      dtype=object)
+</pre></div>
+
+
+<p>Any ideas what the problem is or how I can work around this?  Thanks in advance!</p>
+
+
+
+<a name="36362"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/36362" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#36362">(Jul 02 2021 at 21:48)</a>:</h4>
+<p>Hi Danica! I tried the same code in a notebook and it worked for me. Could it be your version of xarray or something else in your environment? For example, I'm wondering if you need to have <a href="https://cf-xarray.readthedocs.io/en/latest/" target="_blank" title="https://cf-xarray.readthedocs.io/en/latest/">cf-xarray</a> installed -- sometimes that does the trick for me.</p>
+
+
+
+<a name="36369"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/36369" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#36369">(Jul 02 2021 at 23:20)</a>:</h4>
+<p>Thanks Katie! Adding cf-xarray didn't do the trick (or maybe I don't know how to install it properly -- I'm still learning how to manage environments), but I switched to a different environment and it worked. I'll have to see if I can figure out what's different about the environments that is making the difference.</p>
+
+
+
+<a name="36370"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/36370" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#36370">(Jul 02 2021 at 23:21)</a>:</h4>
+<p>it's probably the <code>cftime</code> version.</p>
+
+
+
+<a name="36371"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/36371" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#36371">(Jul 02 2021 at 23:25)</a>:</h4>
+<p>Thanks! I'll give that a try next!</p>
+
+
+
+<a name="44188"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/44188" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Amanda Fay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#44188">(Oct 01 2021 at 20:21)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> Maybe some tips here with your cftime slice issue?</p>
+
+
+
+<a name="44214"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/44214" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#44214">(Oct 01 2021 at 23:00)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="130">@Amanda Fay</span> for pointing me here. I encountered what appears to be the same issue and documented it here:<br>
+<a href="#narrow/stream/10-python-questions/topic/datetime.20index/near/44187">https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/datetime.20index/near/44187</a></p>
+<p>This seems like a bug, though perhaps there is a <code>cftime</code> version works.</p>
+
+
+
+<a name="44215"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/time%20slice%20different%20calendars%20error/near/44215" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/time.20slice.20different.20calendars.20error.html#44215">(Oct 01 2021 at 23:00)</a>:</h4>
+<p>note that I have a work-around</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

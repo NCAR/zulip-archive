@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Creating a monthly climatology of time-dependent variables in an xarray Dataset using groupby has the undesirable effect of introducing a monthly dimension in data variables that did not have time dimension to begin with. In the example below, I do not want 'depth_bnds' to acquire the 'month' dimension (squeeze=True does not help).<br>\n<a href=\"/user_uploads/2/f5/PERcJJkrGBnlbzd_egrYk9kL/Screen-Shot-2021-05-12-at-11.00.59-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-05-12-at-11.00.59-AM.png\">Screen-Shot-2021-05-12-at-11.00.59-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/f5/PERcJJkrGBnlbzd_egrYk9kL/Screen-Shot-2021-05-12-at-11.00.59-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-05-12-at-11.00.59-AM.png\"><img src=\"/user_uploads/2/f5/PERcJJkrGBnlbzd_egrYk9kL/Screen-Shot-2021-05-12-at-11.00.59-AM.png\"></a></div>",
+        "id": 31305,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1620839224
+    },
+    {
+        "content": "<p>This is slighlty hard to fix: <a href=\"https://github.com/pydata/xarray/issues/2145#issuecomment-391114129\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2145#issuecomment-391114129\">https://github.com/pydata/xarray/issues/2145#issuecomment-391114129</a> . I recommend dropping it before the groupby and adding it back if you need it. Does it help if <code>depth_bounds</code> is a coordinate variable instead?</p>",
+        "id": 31311,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620839956
+    },
+    {
+        "content": "<p>Yes.  If I replace 'ds_en4' with 'ds_en4.set_coords('depth_bnds')', everything looks good.</p>",
+        "id": 31318,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1620845127
+    }
+]

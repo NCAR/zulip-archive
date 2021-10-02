@@ -1,0 +1,58 @@
+<html>
+<head><meta charset="utf-8"><title>data array multiplication unexpectedly zeroing dimensions · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/data.20array.20multiplication.20unexpectedly.20zeroing.20dimensions.html">data array multiplication unexpectedly zeroing dimensions</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="5884"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/data%20array%20multiplication%20unexpectedly%20zeroing%20dimensions/near/5884" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/data.20array.20multiplication.20unexpectedly.20zeroing.20dimensions.html#5884">(Apr 02 2020 at 23:14)</a>:</h4>
+<p>I am running into a problem when multiplying two data arrays. In particular, the multiplication is collapsing one of the variable dimensions. The code is a simple multiplication of two variables that are both </p>
+<p>#sub_gpp: xarray.DataArray (years: 319, month: 12, pft: 64, lat: 192, lon: 288)<br>
+#cropwtsmask: xarray.DataArray (years: 319, pft: 64, lat: 192, lon: 288)</p>
+<p>gridded_wts    = sub_gpp * cropwtsmask</p>
+<p>The 'gridded_wts' variable keeps all the dimensions the same size <em>except</em> the 'pft' dimension:<br>
+gridded_wts: xarray.DataArray (years: 319, month: 12, pft: 0, lat: 192, lon: 288)</p>
+<p>Any idea why this is happening and what I might be doing incorrectly? Help is very much appreciated!</p>
+
+
+
+<a name="5887"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/data%20array%20multiplication%20unexpectedly%20zeroing%20dimensions/near/5887" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/data.20array.20multiplication.20unexpectedly.20zeroing.20dimensions.html#5887">(Apr 02 2020 at 23:21)</a>:</h4>
+<blockquote>
+<p>I am running into a problem when multiplying two data arrays. In particular, the multiplication is collapsing one of the variable dimensions. The code is a simple multiplication of two variables that are both </p>
+<p>#sub_gpp: xarray.DataArray (years: 319, month: 12, pft: 64, lat: 192, lon: 288)<br>
+#cropwtsmask: xarray.DataArray (years: 319, pft: 64, lat: 192, lon: 288)</p>
+<p>gridded_wts    = sub_gpp * cropwtsmask</p>
+<p>The 'gridded_wts' variable keeps all the dimensions the same size <em>except</em> the 'pft' dimension:<br>
+gridded_wts: xarray.DataArray (years: 319, month: 12, pft: 0, lat: 192, lon: 288)</p>
+<p>Any idea why this is happening and what I might be doing incorrectly? Help is very much appreciated!</p>
+</blockquote>
+<p>Hi Danica, have you checked that your pft dimension has the same values? If you were to multiply to columns with each dimension depth:15, but one of them would have coordinates [1m, 2m, 3m..] and  the other [1.5m, 2.5m, 3.5m] it would not multiply them.</p>
+
+
+
+<a name="6406"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/data%20array%20multiplication%20unexpectedly%20zeroing%20dimensions/near/6406" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/data.20array.20multiplication.20unexpectedly.20zeroing.20dimensions.html#6406">(Apr 10 2020 at 19:21)</a>:</h4>
+<blockquote>
+<blockquote>
+<p>I am running into a problem when multiplying two data arrays. In particular, the multiplication is collapsing one of the variable dimensions. The code is a simple multiplication of two variables that are both </p>
+<p>#sub_gpp: xarray.DataArray (years: 319, month: 12, pft: 64, lat: 192, lon: 288)<br>
+#cropwtsmask: xarray.DataArray (years: 319, pft: 64, lat: 192, lon: 288)</p>
+<p>gridded_wts    = sub_gpp * cropwtsmask</p>
+<p>The 'gridded_wts' variable keeps all the dimensions the same size <em>except</em> the 'pft' dimension:<br>
+gridded_wts: xarray.DataArray (years: 319, month: 12, pft: 0, lat: 192, lon: 288)</p>
+<p>Any idea why this is happening and what I might be doing incorrectly? Help is very much appreciated!</p>
+</blockquote>
+<p>Hi Danica, have you checked that your pft dimension has the same values? If you were to multiply to columns with each dimension depth:15, but one of them would have coordinates [1m, 2m, 3m..] and  the other [1.5m, 2.5m, 3.5m] it would not multiply them.</p>
+</blockquote>
+<p>Thanks for this tip! I thought the dimensions were identical, but they in fact were not. Setting them equal fixed the problem!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

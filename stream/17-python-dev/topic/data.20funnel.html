@@ -1,0 +1,185 @@
+<html>
+<head><meta charset="utf-8"><title>data funnel · python-dev · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html">data funnel</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="3282"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3282" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3282">(Mar 16 2020 at 16:02)</a>:</h4>
+<p>I have been playing around with daisy chaining notebooks in a workflow:<br/>
+<a href="https://github.com/matt-long/funnel" target="_blank" title="https://github.com/matt-long/funnel">https://github.com/matt-long/funnel</a></p>
+<p>This example tries to demonstrate some interesting things that might be possible if we can call notebooks with parameters—and possibly get return arguments, perhaps as data catalog-ish type objects. </p>
+<p>I was not able to install <code>papermill</code> in my environment due to conflicts and don't have time to investigate further, so the notebooks are not actually being called. I don't think <code>papermill</code> support return arguments (yet?).</p>
+<p>Also <code>intake-esm</code> may be broken with latest commits (I am using the head of master). I can't get my notebook to load the data, but it was working over the weekend.</p>
+<p>The idea here is that </p>
+<ul>
+<li><code>Southern-Ocean-Surface-Fields.ipynb</code> depends on </li>
+<li><code>_cesm-le-data.ipynb</code>, which depends in turn on </li>
+<li><code>_pop_region_mask.ipynb</code>. </li>
+</ul>
+<p>I find that this is an effective way to develop a project. </p>
+<p>In each of the <code>_*.ipynb</code> notebooks, I can develop and validate a particular workflow, processing data into a form ready for plotting, then caching that data locally. These processing notebooks are helpful to document low-level details of a calculation. </p>
+<p>This also enables me to focus more effectively on the plotting/final analysis notebook with the time-consuming processing done. Eventually, this final notebook could support a web-app for visualization, the "backend" supplied by the other notebooks.</p>
+<p>Also a notebook like <code>_cesm-le-data.ipynb</code> could be effectively developed into a more general backend for support CESM-LE analysis. We might imagine curating notebooks like these that people can incorporate into their own workflows. By exposing the processing code, we can enable off-piste activities more effectively than trying to package everything and handle all use cases.</p>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>, perhaps you can take a look at the <code>intake-esm</code> issue? </p>
+<p>I would like to share this more broadly if we can get it working. Feedback, contributions are welcome. I don't think I'll have much more time to work on this for awhile. Have to shift focus to a proposal.</p>
+
+
+
+<a name="3438"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3438" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3438">(Mar 17 2020 at 16:37)</a>:</h4>
+<p>So, I'm taking a look at this this morning, and I have some thoughts.</p>
+<p>Our current "recommendation" for users is to use Jupyter Notebooks for "interactive" analysis, and Python scripting for "batch" analysis.  In this workflow, your example would be structured like so:</p>
+<ul>
+<li><code>Southern-Ocean-Surface-Fields.ipynb</code> depends on</li>
+<li><code>_cesm-le-data.py</code> (note, <em>not</em> a Notebook), which depends in turn on</li>
+<li><code>_pop_region_mask.py</code> (again, <em>not</em> a Notebook)</li>
+</ul>
+<p>Do I understand this correctly?</p>
+<p>The difference comes in the development of the "batch"-style scripts (<code>_cesm-le-data.py</code> and <code>_pop_region_mask.py</code>), instead of the Notebook dependencies.  These scripts <em>could</em> have started as Jupyter Notebooks, and you could have exported them to an executable script directly from JupyterLab (i.e., <em>"File"</em> --&gt; <em>"Export Notebook As ..."</em> --&gt;  <em>"Export Notebook to Executable Script"</em>).</p>
+<p>However, there are advantages to writing the "batch" operations as Notebooks, rather than scripts.  Namely, Notebooks can contain "diagnostic" cells that you can look at later to see how the operation progressed.  Yes, you could accomplish the same thing with "print statements" in a script, but the Notebook allows you to contain the output with the input, so you can easily access the diagnostic information later.  It never gets separated or lost (as a print statement would if it was only sent to stdout).</p>
+<p>You are also suggesting the concept of <em>modularity</em>, which is another "best practice" in development, splitting the pieces of a workflow into independent "modules".  This makes it easier to share commonly used "modules" with others, instead of having to reinvent the wheel.</p>
+<p>So, altogether, I think that this is great!  It is clear from your Notebooks, though, that you are also hoping to be able to <code>call</code> the dependency Notebooks.  That functionality is missing right now, in its current form, and I agree that this functionality is critical to getting this to work "right."</p>
+<p>Here's what I think this all needs to be of the most use to the other users:</p>
+<p>1. We definitely need the ability to <code>call</code>/<code>run</code>  other Notebooks from within a Notebook.  But not "necessarily."  In other words, we need to be able to check if the "product" of a Notebook (i.e., some file...or, perhaps, an object in memory...hard to do across independent processes) has been produced and is "up-to-date" with the Notebook itself.  If the product exists and is up-to-date, then load the product instead of <code>run</code>ning.  The <code>run</code> functionality could, potentially, be handled by <code>papermill</code>, but I have not had time to investigate this.</p>
+<p>2. Make the Notebooks <em>and</em> their "products" cacheable in a common place so that other people can easily use them in their own Notebooks.  They should be searchable and well documented, so other people can easily find them and choose whether they "trust" them, or not.  That is, there needs to be a "vetting" procedure.</p>
+<p>NBGallery provides <em>some</em> of these features, namely the searchability and part of the vetting (i.e., rankings) features.  But it's not quite there, yet.  Personally, because NBGallery doesn't work <em>with</em> JupyterHub (that is, it is a separate service independent of JupyterHub), I've talked with <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> about making the searching and ranking capabilities of NBGallery hook into JupyterLab via a JupyterLab Extension.  The notebook+product caching would need to be something we would have to create.</p>
+
+
+
+<a name="3443"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3443" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3443">(Mar 17 2020 at 16:59)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="8">@Kevin Paul</span>. Yes you have it right. </p>
+<p>I agree, we could be developing modules for these dependencies, rather than notebooks. But the advantage is the notebooks offer an ability to showcase aspects of the calculation. </p>
+<blockquote>
+<p>1. We definitely need the ability to call/run other Notebooks from within a Notebook. But not "necessarily." In other words, we need to be able to check if the "product" of a Notebook (i.e., some file...or, perhaps, an object in memory...hard to do across independent processes) has been produced and is "up-to-date" with the Notebook itself.</p>
+</blockquote>
+<p>Yes! I have been thinking about using <code>xpersist</code> or similar functionality for this. This could be embedded in the dependency notebook itself.</p>
+<p><code>papermill</code> seems like a work in progress. It does permit parameterizing and calling notebooks. It does not support return arguments. We could easily hack something based on messaging files...</p>
+<blockquote>
+<p>2. Make the Notebooks and their "products" cacheable in a common place so that other people can easily use them in their own Notebooks.</p>
+</blockquote>
+<p>Yes. A starting place might be to build dataset specific notebooks. For instance, you might imagine interacting with the CESM-LE through a community-developed notebook that encapsulates many common first-cut operations (dim reductions, derived variables, etc) applied appropriately to these data.</p>
+
+
+
+<a name="3444"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3444" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3444">(Mar 17 2020 at 17:01)</a>:</h4>
+<blockquote>
+<p>The difference comes in the development of the "batch"-style scripts (_cesm-le-data.py and _pop_region_mask.py), instead of the Notebook dependencies. These scripts could have started as Jupyter Notebooks, and you could have exported them to an executable script directly from JupyterLab (i.e., "File" --&gt; "Export Notebook As ..." --&gt; "Export Notebook to Executable Script").</p>
+</blockquote>
+<p>In some cases you may <strong>even leave the notebooks as is</strong> and import them as modules via this package called <a href="https://github.com/deathbeds/importnb" target="_blank" title="https://github.com/deathbeds/importnb">importnb</a> </p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">importnb</span> <span class="kn">import</span> <span class="n">Notebook</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="k">with</span> <span class="n">Notebook</span><span class="p">():</span>
+   <span class="o">...</span><span class="p">:</span>     <span class="kn">import</span> <span class="nn">_pop_region_mask</span> <span class="c1"># This is the  _pop_region_mask.ipynb notebook</span>
+   <span class="o">...</span><span class="p">:</span>
+<span class="n">Cannot</span> <span class="n">write</span> <span class="n">to</span> <span class="n">data</span> <span class="n">cache</span> <span class="s1">&#39;/glade/p/cesmdata/cseg&#39;</span><span class="o">.</span> <span class="n">Will</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">download</span> <span class="n">remote</span> <span class="n">data</span> <span class="n">files</span><span class="o">.</span> <span class="n">Use</span> <span class="n">environment</span> <span class="n">variable</span> <span class="s1">&#39;CESMDATAROOT&#39;</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">another</span> <span class="n">directory</span><span class="o">.</span>
+<span class="o">------------------------------</span>
+<span class="n">Writing</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">devel</span><span class="o">/</span><span class="n">gists</span><span class="o">/</span><span class="n">matt</span><span class="o">-</span><span class="nb">long</span><span class="o">/</span><span class="n">funnel</span><span class="o">/</span><span class="n">notebooks</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">region</span><span class="o">-</span><span class="n">mask</span><span class="o">-</span><span class="n">POP_gx1v6</span><span class="o">-</span><span class="n">krill</span><span class="o">-</span><span class="n">ToE</span><span class="o">.</span><span class="n">zarr</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span>
+<span class="n">Dimensions</span><span class="p">:</span>      <span class="p">(</span><span class="n">nlat</span><span class="p">:</span> <span class="mi">384</span><span class="p">,</span> <span class="n">nlon</span><span class="p">:</span> <span class="mi">320</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">region</span>       <span class="p">(</span><span class="n">region</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U14</span> <span class="s1">&#39;Southern Ocean&#39;</span> <span class="s1">&#39;WAP &amp; Atlantic&#39;</span> <span class="s1">&#39;Indo-Pacific&#39;</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span>
+<span class="n">Data</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">masked_area</span>  <span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span><span class="p">)</span> <span class="n">float64</span> <span class="n">nan</span> <span class="n">nan</span> <span class="n">nan</span> <span class="n">nan</span> <span class="o">...</span> <span class="n">nan</span> <span class="n">nan</span> <span class="n">nan</span>
+
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">_pop_region_mask</span><span class="o">.</span><span class="n">grid_name</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="s1">&#39;POP_gx1v6&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">_pop_region_mask</span><span class="o">.</span><span class="n">masked_area</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="s1">&#39;masked_area&#39;</span> <span class="p">(</span><span class="n">region</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">nlat</span><span class="p">:</span> <span class="mi">384</span><span class="p">,</span> <span class="n">nlon</span><span class="p">:</span> <span class="mi">320</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">1.52530781e+13</span><span class="p">,</span> <span class="mf">1.52530781e+13</span><span class="p">,</span> <span class="mf">1.52530781e+13</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">]],</span>
+
+       <span class="p">[[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">1.52530781e+13</span><span class="p">,</span> <span class="mf">1.52530781e+13</span><span class="p">,</span> <span class="mf">1.52530781e+13</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">]],</span>
+
+       <span class="p">[[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="mf">0.00000000e+00</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">],</span>
+        <span class="p">[</span>           <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span>
+                    <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">,</span>            <span class="n">nan</span><span class="p">]]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">region</span>   <span class="p">(</span><span class="n">region</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">U14</span> <span class="s1">&#39;Southern Ocean&#39;</span> <span class="s1">&#39;WAP &amp; Atlantic&#39;</span> <span class="s1">&#39;Indo-Pacific&#39;</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span>
+</pre></div>
+
+
+
+<a name="3445"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3445" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3445">(Mar 17 2020 at 17:07)</a>:</h4>
+<p>That's a cool feature!  That definitely makes the clunky "convert to executable script" step nicer.</p>
+
+
+
+<a name="3446"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3446" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3446">(Mar 17 2020 at 17:53)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> Your points are correct.  </p>
+<p><code>xpersist</code> goes part of the way there, but I am thinking of something more closely tied to the Notebook itself.  That is, the Notebook and its "products" need to be tied together very closely, in a way that makes it possible to correctly determine if the products need re-generation or not.  One way to do this is to record a hash (like a git hash) in the metadata of the Notebook itself, and store the same hash in the attributes of the "product".  Then, you would update the Notebook hash every time the Notebook was "updated."</p>
+<p>This, now, introduces the concept of Notebook "updating," which naturally is different from just saving the Notebook file.  Maybe this is actually "committing" rather than "saving", like a git commit.  That might be a nice feature to add, and could possibly be added to JupyterLab via an extension ("Commit Notebook").  This would be a bit like NBGallery, then, with the ability to "commit" a Notebook to the "repository".  Then the actual git commit hash could be stored in the product attributes.</p>
+<p>There's a lot here to flesh out, including things like:</p>
+<ul>
+<li>Marking cells in a Notebook so that their output can be "referenced" in another Notebook.  <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> has already shown how to import a Notebook into another Notebook, but I don't know what the Notebook "namespace" looks like.  So,  this might be done, already.  Not sure.</li>
+<li>Storing separate I/O output (i.e., output file paths) in the Notebook in a referenceable form.  <code>xpersist</code> might accomplish this on its own.  But now <code>xpersist</code>ed datasets and variables created in a referenced Notebook need to be "findable" (somehow) from the referencing Notebook.  Might need something like a <code>docstrings</code> standard for Notebooks themselves.  (Relates to the previous bullet, actually)</li>
+<li>Notebooks could be "committed" to a common "repository" (using git language here, but it might not need to be git), but the Notebook products should also be "commitable" to a common "repository".  In the case of "products," though, the "repository" starts looking more like a "catalog," so this might hook best into <code>intake</code>.</li>
+</ul>
+<p>...And there's probably more.  We should set up a meeting to flesh out this workflow so we know what we all can actually work on to make this real.</p>
+
+
+
+<a name="3448"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/3448" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#3448">(Mar 17 2020 at 17:58)</a>:</h4>
+<p>I agree, a meeting would be useful for brainstorming.</p>
+
+
+
+<a name="5287"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/data%20funnel/near/5287" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/data.20funnel.html#5287">(Mar 26 2020 at 22:24)</a>:</h4>
+<p>Sounds appealing to me.</p>
+<p>An important conclusion that we came to back when we were working on this kind of idea in the form of the Capstone project: provenance and versioning need to be threaded through this entire process and captured automatically.  You need to be able to start from the end product and be able to determine that the Nth step of the workflow was performed by version X of module Y.  That's essential for scientific reproducibility, for data and software citation, and for being able to determine whether the results of a given analysis are affected by a bug somebody recently found.</p>
+<p>In a serial / on-prem environment, you can accomplish this by using netcdf as the 'pipeline' format between modules; if every module reads netcdf as input, writes netcdf as output, and is well-behaved in terms of adding an appropriate entry to the "history" metadata attribute, then you have a system that automatically captures the provenance of the workflow*.  I'm not sure if that really works in a parallel / cloud / zarr environment, but hopefully it's useful as a starting point for thinking about the issue.</p>
+<p>(* For linear workflows, at least; there were some open questions about how to handle convergent workflows with multiple inputs...)</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

@@ -1,0 +1,24 @@
+<html>
+<head><meta charset="utf-8"><title>start-jupyter does not work after updating · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/start-jupyter.20does.20not.20work.20after.20updating.html">start-jupyter does not work after updating</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="17402"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/start-jupyter%20does%20not%20work%20after%20updating/near/17402" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/start-jupyter.20does.20not.20work.20after.20updating.html#17402">(Sep 16 2020 at 19:56)</a>:</h4>
+<p>Solution: Change line 70 to </p>
+<div class="codehilite"><pre><span></span>while ! $(grep -Fq -e &quot;ERROR&quot; -e &quot; is running&quot; $LOGFILE &gt;&amp; /dev/null); do
+</pre></div>
+
+
+<p>I think it previously searched for "Notebook is running" but now jupyter prints "Notebook 6.13 is running" to screen</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

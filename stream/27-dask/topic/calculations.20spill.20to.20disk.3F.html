@@ -1,0 +1,320 @@
+<html>
+<head><meta charset="utf-8"><title>calculations spill to disk? · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html">calculations spill to disk?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="23997"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/23997" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#23997">(Jan 17 2021 at 20:31)</a>:</h4>
+<p>A few of us in the land section have been working on some analysis of the CESM large ensembles. We are using this as a chance to get up to speed with xarray. We've been having issues with xarray/dask, where some calculations seem to be spilling onto disk, creating a bunch of large files a la core-casper30-24189-153776-11, sometimes killing the calculations.</p>
+<p>A given data array is 42 ensemble members * 1032 months * 192 lat * 288 lon, which xarray quotes as 9.6 GB. Per xarray documentation I've been chunking the data by ensemble member and every 2 years in order to achieve chunks of ~1.3e6 elements.<br>
+Yet even with 36 workers from casper (375GB memory), something like calculating annual means seems to 'spill' to disk. It seems like that should be plenty of memory? </p>
+<p>The notebook is online here: <a href="https://nbviewer.jupyter.org/github/djk2120/cesm-lens/blob/main/src/memory_issue_casper.ipynb" target="_blank" title="https://nbviewer.jupyter.org/github/djk2120/cesm-lens/blob/main/src/memory_issue_casper.ipynb">https://nbviewer.jupyter.org/github/djk2120/cesm-lens/blob/main/src/memory_issue_casper.ipynb</a></p>
+<p>It seems like there are lots of tricks for optimizing dask, and I was hoping for suggestions. Should I be using larger chunks? smaller? Do I just need more workers?</p>
+<p>Likewise, is this a common issue that people are running into on Casper or is this unique to our group?</p>
+<p>thanks for any suggestions!<br>
+-Daniel</p>
+<p>further documentation:<br>
+xarray version: 16.2<br>
+dask version: 2020.12.0<br>
+notebook on github: <a href="https://github.com/djk2120/cesm-lens/blob/main/src/memory_issue_casper.ipynb" target="_blank" title="https://github.com/djk2120/cesm-lens/blob/main/src/memory_issue_casper.ipynb">https://github.com/djk2120/cesm-lens/blob/main/src/memory_issue_casper.ipynb</a><br>
+red herring?: when I try similar calculations on cheyenne I am less likely to trigger this type of problem</p>
+
+
+
+<a name="23998"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/23998" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#23998">(Jan 18 2021 at 17:08)</a>:</h4>
+<p>Hi Daniel, I checked and it completes with <code>dask==2.30.0</code> with bigger chunks/ I used </p>
+<div class="codehilite"><pre><span></span>ds = xr.open_mfdataset(
+    files, combine=&quot;nested&quot;, parallel=True, concat_dim=ensdim, chunks={&quot;time&quot;: -1}
+)
+</pre></div>
+
+
+<p>Max memory usage ≈ 100GB.  So this may be a regression.<br>
+Another trick is to use <code>.mean(skipna=True)</code> then max memory usage ≈ 30GB. This will propagate NaNs (but it doesn't matter since you're using model output which shouldn't have NaNs).</p>
+
+
+
+<a name="24001"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24001" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24001">(Jan 19 2021 at 15:06)</a>:</h4>
+<p>Great- thanks Deepak. This worked for me</p>
+
+
+
+<a name="24082"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24082" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24082">(Jan 21 2021 at 16:20)</a>:</h4>
+<p>Oops, actually this is not totally working for me. It worked for CESM1, but not for CESM2. The main difference between them is that CESM2 splits the output across ensemble members, but also into 10-year chunks. I.e. CESM1 is split across 42 files for 42 ensemble members. CESM2 is split across 200 files for 50 ensemble members. </p>
+<p>Similar to before I have a DataArray that is: <br>
+50 ensemble members x 420 months x 192 lat x 288 lon, quoted by xarray as 4.64GB<br>
+(Because this is land-focused, many elements are NaN. On disk, the files sum to 2.1GB.)</p>
+<p>Using 36 dask workers (375GB memory), I am unable to perform calculations on the full DataArray without spilling to disk (e.g.  da.mean(skipna=True). I tried a few different chunk layouts (200,50, and 350 chunks) and all created core-casper-xx files. It looked like I could work on about one tenth of the dataset at a time without spilling to disk.</p>
+<p>Is this a common problem? In my mind it seems like that ratio of 375GB memory to 4.64GB of data should be very reasonable.<br>
+Any suggestions?</p>
+<p>You can see my notebook here: <a href="https://nbviewer.jupyter.org/github/djk2120/cesm-lens/blob/main/src/memory_issue.ipynb" target="_blank" title="https://nbviewer.jupyter.org/github/djk2120/cesm-lens/blob/main/src/memory_issue.ipynb">https://nbviewer.jupyter.org/github/djk2120/cesm-lens/blob/main/src/memory_issue.ipynb</a><br>
+Or find it on github: <a href="https://github.com/djk2120/cesm-lens/blob/main/src/memory_issue.ipynb" target="_blank" title="https://github.com/djk2120/cesm-lens/blob/main/src/memory_issue.ipynb">https://github.com/djk2120/cesm-lens/blob/main/src/memory_issue.ipynb</a></p>
+<p>thanks!</p>
+
+
+
+<a name="24100"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24100" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24100">(Jan 21 2021 at 21:12)</a>:</h4>
+<p><span class="user-mention" data-user-id="120">@Daniel Kennedy</span> , can you post here the contents of <code>~/.config/dask/distributed.yaml</code> when you get a moment? There's a chance that adjusting  the worker configurations may help.</p>
+
+
+
+<a name="24101"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24101" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24101">(Jan 21 2021 at 21:16)</a>:</h4>
+<p>This looks like a pertinent bit:<br>
+     # Fractions of worker memory at which we take action to avoid memory blowup<br>
+     # Set any of the lower three values to False to turn off the behavior entirely<br>
+     memory:<br>
+       target: 0.60  # target fraction to stay below<br>
+       spill: 0.70  # fraction at which we spill to disk<br>
+       pause: 0.80  # fraction at which we pause worker threads<br>
+       terminate: 0.95  # fraction at which we terminate the worker</p>
+
+
+
+<a name="24102"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24102" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24102">(Jan 21 2021 at 21:19)</a>:</h4>
+<p>Also:<br>
+   scheduler:<br>
+     allowed-failures: 3     # number of retries before a task is considered bad<br>
+     bandwidth: 100000000    # 100 MB/s estimated worker-worker bandwidth<br>
+     blocked-handlers: []<br>
+     default-data-size: 1000<br>
+     # Number of seconds to wait until workers or clients are removed from the events log<br>
+     # after they have been removed from the scheduler<br>
+     events-cleanup-delay: 1h<br>
+     idle-timeout: null      # Shut down after this duration, like "1h" or "30 minutes"<br>
+     transition-log-length: 100000<br>
+     work-stealing: True     # workers should steal tasks from each other<br>
+     worker-ttl: null        # like '60s'. Time to live for workers.  They must heartbeat faster th</p>
+
+
+
+<a name="24103"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24103" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24103">(Jan 21 2021 at 21:20)</a>:</h4>
+<p>Great! Try these settings</p>
+<div class="codehilite"><pre><span></span><span class="nt">memory</span><span class="p">:</span>
+  <span class="nt">target</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># don&#39;t spill to disk</span>
+  <span class="nt">spill</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>     <span class="c1"># don&#39;t spill to disk</span>
+  <span class="nt">pause</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.80</span> <span class="c1"># fraction at which we pause worker threads</span>
+  <span class="nt">terminate</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.95</span> <span class="c1"># fraction at which we terminate the worker</span>
+</pre></div>
+
+
+
+<a name="24105"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24105" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24105">(Jan 21 2021 at 21:22)</a>:</h4>
+<p>The scheduler settings look okay</p>
+
+
+
+<a name="24109"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24109" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24109">(Jan 21 2021 at 21:43)</a>:</h4>
+<p>Hi Anderson,<br>
+That didn't actually work for me- I was still spilling to disk. I thought maybe my kernel wasn't ingesting that information correctly, so I switched how I access my notebook. I was using the 'start-jupyter' approach, and switched to jupyterhub, and that fixed it. Then I changed the spill settings back and it looks like it is still fixed. Not sure what was at fault in my other environment, but switching to jupyterhub seems to have fixed it for me.</p>
+<p>Thanks. And thanks also, Deepak.</p>
+
+
+
+<a name="24110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24110" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24110">(Jan 21 2021 at 22:02)</a>:</h4>
+<p>Glad to hear that adjusting the configurations <em>works</em></p>
+<blockquote>
+<p>I was using the 'start-jupyter' approach, and switched to jupyterhub, and that fixed it. </p>
+</blockquote>
+<p>Interesting.... I don't know where the discrepancy between the two approaches is coming from ;).  Can you confirm that dask is loading configurations from the same location in both approaches?</p>
+<p>Here's some code snippet for inspecting where the configurations are coming from:</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">dask</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">dask</span><span class="o">.</span><span class="n">__version__</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s1">&#39;2021.01.0&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;distributed.worker&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;memory&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;target&#39;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s1">&#39;spill&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;pause&#39;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">,</span> <span class="s1">&#39;terminate&#39;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">}}</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">PATH</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="s1">&#39;/glade/u/home/abanihi/.config/dask&#39;</span>
+</pre></div>
+
+
+
+<a name="24116"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24116" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24116">(Jan 21 2021 at 22:41)</a>:</h4>
+<p>For both:<br>
+dask.config.PATH  is  /glade/u/home/djk2120/.config/dask</p>
+<p>And the dask version and all the 'distributed.worker' information is the same. (My settings match what you have printed above)</p>
+
+
+
+<a name="24124"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24124" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24124">(Jan 21 2021 at 22:57)</a>:</h4>
+<p>I will note I am using different environments. E.g. h5py for my environment on jupyterhub is 3.1.0 and for ncar_pylib is 2.10.0<br>
+I've attached the rest of the version info, if you're interested to peruse...</p>
+<p><a href="/user_uploads/2/af/oz2jZ4skpDxtLabH33NLEIrY/npl_versions.txt" target="_blank" title="npl_versions.txt">npl_versions.txt</a> <a href="/user_uploads/2/97/KyZtV5iaF7VU682S4XBZWx4x/myenv_versions.txt" target="_blank" title="myenv_versions.txt">myenv_versions.txt</a></p>
+
+
+
+<a name="24703"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24703" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24703">(Feb 03 2021 at 23:48)</a>:</h4>
+<p>new question on this thread you can maybe help with?<br>
+I'm trying to read in daily data, do some calculations, and then calculate a cumulative sum for each grid cell...<br>
+The code here was working with 2 ensemble members and ~10 years of data (albeit) slowly <br>
+<a href="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb" target="_blank" title="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb</a></p>
+<p>adding more years and ensemble members, however, quickly becomes prohibitively time consuming and eventually kills a worker (very sad).  Suggestions for making this code more efficient would be very helpful.</p>
+
+
+
+<a name="24748"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24748" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24748">(Feb 04 2021 at 19:11)</a>:</h4>
+<p><span class="user-mention" data-user-id="67">@Will Wieder</span>  , did you ever use yipsolon.visualize() to check if yipsolon parallel correctly?</p>
+
+
+
+<a name="24804"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24804" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24804">(Feb 05 2021 at 17:44)</a>:</h4>
+<p><span class="user-mention" data-user-id="67">@Will Wieder</span>, I took a look at your notebook, and with a few adjustments I was able to get the entire notebook to run without a problem. Here's the output of the cell that was failing in your latest run: <a href="/user_uploads/2/60/MsRHI38hW5pctve2scYKyBdD/Screen-Shot-2021-02-04-at-9.59.24-PM.png" target="_blank" title="Screen-Shot-2021-02-04-at-9.59.24-PM.png">Screen-Shot-2021-02-04-at-9.59.24-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/60/MsRHI38hW5pctve2scYKyBdD/Screen-Shot-2021-02-04-at-9.59.24-PM.png" target="_blank" title="Screen-Shot-2021-02-04-at-9.59.24-PM.png"><img src="/user_uploads/2/60/MsRHI38hW5pctve2scYKyBdD/Screen-Shot-2021-02-04-at-9.59.24-PM.png"></a></div><p>Here's a list the adjustments I made:</p>
+<ul>
+<li>Reduce the number of dask-workers (from 36 to 18) so as to allow dask to allocate more memory to each worker: </li>
+</ul>
+<p><a href="/user_uploads/2/10/t9C8XCnR3nbNtejYUISwHmPP/Screen-Shot-2021-02-04-at-10.00.19-PM.png" target="_blank" title="Screen-Shot-2021-02-04-at-10.00.19-PM.png">Screen-Shot-2021-02-04-at-10.00.19-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/10/t9C8XCnR3nbNtejYUISwHmPP/Screen-Shot-2021-02-04-at-10.00.19-PM.png" target="_blank" title="Screen-Shot-2021-02-04-at-10.00.19-PM.png"><img src="/user_uploads/2/10/t9C8XCnR3nbNtejYUISwHmPP/Screen-Shot-2021-02-04-at-10.00.19-PM.png"></a></div><ul>
+<li>The <strong>chunking scheme</strong> tends to be among top 3 causes of memory problems with dask. It appears that your original chunking scheme (800MB per chunk. this comes from the fact that each file was being read in one chunk) may have played a role in the killed worker error</li>
+</ul>
+<p><a href="/user_uploads/2/25/xK1KrBLYuvM5qrVIlSvVSewt/Screen-Shot-2021-02-05-at-10.35.43-AM.png" target="_blank" title="Screen-Shot-2021-02-05-at-10.35.43-AM.png">Screen-Shot-2021-02-05-at-10.35.43-AM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/25/xK1KrBLYuvM5qrVIlSvVSewt/Screen-Shot-2021-02-05-at-10.35.43-AM.png" target="_blank" title="Screen-Shot-2021-02-05-at-10.35.43-AM.png"><img src="/user_uploads/2/25/xK1KrBLYuvM5qrVIlSvVSewt/Screen-Shot-2021-02-05-at-10.35.43-AM.png"></a></div><p>Reducing the chunksize to ~ 110MB helped </p>
+<p><a href="/user_uploads/2/5d/uTbIu4KjI-yQeRcpILjnJU56/Screen-Shot-2021-02-05-at-10.35.52-AM.png" target="_blank" title="Screen-Shot-2021-02-05-at-10.35.52-AM.png">Screen-Shot-2021-02-05-at-10.35.52-AM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/5d/uTbIu4KjI-yQeRcpILjnJU56/Screen-Shot-2021-02-05-at-10.35.52-AM.png" target="_blank" title="Screen-Shot-2021-02-05-at-10.35.52-AM.png"><img src="/user_uploads/2/5d/uTbIu4KjI-yQeRcpILjnJU56/Screen-Shot-2021-02-05-at-10.35.52-AM.png"></a></div>
+
+
+
+<a name="24805"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24805" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24805">(Feb 05 2021 at 17:45)</a>:</h4>
+<p>To address the chunking issue, here's the modified version of <code>get_daily()</code> function:</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_daily</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">fields</span><span class="p">,</span><span class="n">firstyear</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span><span class="n">nens</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">}):</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="c1">#find the appropriate files</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="n">all_files</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">field</span><span class="p">,</span><span class="n">firstyear</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span><span class="n">nens</span><span class="p">)</span>
+
+        <span class="c1">#instantiation steps only required once</span>
+        <span class="k">if</span> <span class="n">first</span><span class="p">:</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># set up ensemble dimensions</span>
+            <span class="n">ensdim</span>  <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)),</span> <span class="n">dims</span><span class="o">=</span><span class="s1">&#39;ens&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ens&#39;</span><span class="p">)</span>
+            <span class="n">ensdim</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span><span class="o">=</span><span class="s1">&#39;ensemble number&#39;</span>
+            <span class="n">concat_dim</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;CESM1&#39;</span><span class="p">:</span><span class="n">ensdim</span><span class="p">,</span><span class="s1">&#39;CESM2&#39;</span><span class="p">:[</span><span class="n">ensdim</span><span class="p">,</span><span class="s1">&#39;time&#39;</span><span class="p">]}</span>
+
+            <span class="c1"># instantiate ds</span>
+            <span class="k">if</span> <span class="n">model</span><span class="o">==</span><span class="s1">&#39;CESM2&#39;</span><span class="p">:</span>
+                <span class="c1"># LENS2 is split by decade, take only 1 copy of landfrac,area, etc.</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">combine</span><span class="o">=</span><span class="s1">&#39;by_coords&#39;</span><span class="p">,</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">thisvar</span> <span class="ow">in</span> <span class="n">tmp</span><span class="o">.</span><span class="n">data_vars</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tmp</span><span class="p">[</span><span class="n">thisvar</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="p">:</span>
+                        <span class="n">ds</span><span class="p">[</span><span class="n">thisvar</span><span class="p">]</span><span class="o">=</span><span class="n">tmp</span><span class="p">[</span><span class="n">thisvar</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">files</span><span class="p">,</span><span class="n">combine</span><span class="o">=</span><span class="s1">&#39;nested&#39;</span><span class="p">,</span><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">concat_dim</span><span class="o">=</span><span class="n">concat_dim</span><span class="p">[</span><span class="n">model</span><span class="p">],</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="n">field</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">component</span> <span class="o">==</span> <span class="s1">&#39;lnd&#39;</span><span class="p">:</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;landarea&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;area&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;landfrac&#39;</span><span class="p">]</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;landarea&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;landarea&#39;</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;landarea&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;km2&#39;</span>
+
+    <span class="n">nmonths</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+    <span class="n">yr0</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time.year&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">cftime_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">yr0</span><span class="p">),</span><span class="n">periods</span><span class="o">=</span><span class="n">nmonths</span><span class="p">,</span><span class="n">freq</span><span class="o">=</span><span class="s1">&#39;MS&#39;</span><span class="p">)</span>
+    <span class="n">ix</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time.year&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">firstyear</span>
+
+    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;array.slicing.split_large_chunks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ix</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="24806"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24806" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24806">(Feb 05 2021 at 17:47)</a>:</h4>
+<p>Notice the <code>chunks={'time': 500}</code> in the function signature. I propagate this chunking scheme to all existing <code>xr.open_mfdataset()</code> invocations by passing <code>chunks=chunks</code>...</p>
+
+
+
+<a name="24807"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24807" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24807">(Feb 05 2021 at 17:49)</a>:</h4>
+<p>I hope this helps. When you get a moment, please give it a try and let me know how it goes</p>
+
+
+
+<a name="24829"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24829" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24829">(Feb 05 2021 at 23:40)</a>:</h4>
+<div class="codehilite"><pre><span></span>    <span class="n">ix</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time.year&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">firstyear</span>
+
+    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;array.slicing.split_large_chunks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ix</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Can this be replaced by <code>ds.sel(time=slice(str(firstyear), None))</code></p>
+
+
+
+<a name="24833"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24833" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24833">(Feb 08 2021 at 16:20)</a>:</h4>
+<p>This is working great!<br>
+I have one additional question.  Currently I'm just doing the calculations on a single grid cell to accelerate development of this code,  (see cells 34-35)<br>
+<a href="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb" target="_blank" title="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb</a></p>
+<p>I know there should be a better way to use the pandas functions in cell 35 to calculate a running accumulator (that resets when precipitation &gt; 3 mm).<br>
+Can you suggest an efficient way to do this (using <code>apply_ufunc</code>)?</p>
+
+
+
+<a name="24875"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24875" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24875">(Feb 08 2021 at 21:55)</a>:</h4>
+<p>Since the data are chunked across the <code>ens</code> dimension, I think <code>xr.map_blocks()</code> is a good candidate (in my opinion, it's clearer than <code>xr.apply_ufunc</code>) for what you are trying to achieve.  </p>
+<ul>
+<li><a href="https://xarray.pydata.org/en/stable/dask.html?highlight=map_blocks#map-blocks" target="_blank" title="https://xarray.pydata.org/en/stable/dask.html?highlight=map_blocks#map-blocks">https://xarray.pydata.org/en/stable/dask.html?highlight=map_blocks#map-blocks</a></li>
+<li><a href="https://xarray.pydata.org/en/stable/generated/xarray.map_blocks.html?highlight=map_blocks" target="_blank" title="https://xarray.pydata.org/en/stable/generated/xarray.map_blocks.html?highlight=map_blocks">https://xarray.pydata.org/en/stable/generated/xarray.map_blocks.html?highlight=map_blocks</a></li>
+</ul>
+<p>I'm curious... what was the motivation for using pandas in </p>
+<div class="codehilite"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;d_NI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=-</span><span class="mi">25</span><span class="p">,</span><span class="n">lon</span><span class="o">=</span><span class="mi">125</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">ens</span><span class="o">=</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">cumsum</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;pad&#39;</span><span class="p">)</span>
+<span class="n">reset</span> <span class="o">=</span> <span class="o">-</span><span class="n">cumsum</span><span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">cumsum</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">notnull</span><span class="p">(),</span> <span class="n">reset</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+</pre></div>
+
+
+<p>I'm asking because if you choose to go with <code>xr.map_blocks()</code>, you may have to re-write this so as to consume xarray objects. </p>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> , what's the equivalent of <code>.fillna(method='pad')</code> in xarray?  From the documentation, xarray's <code>.fillna()</code> doesn't have the <code>method</code> argument and accepts a value only.</p>
+
+
+
+<a name="24876"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24876" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24876">(Feb 08 2021 at 21:56)</a>:</h4>
+<p><code>.interpolate_na(method="nearest")</code>?</p>
+
+
+
+<a name="24877"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24877" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24877">(Feb 08 2021 at 21:58)</a>:</h4>
+<blockquote>
+<p>running accumulator (that resets when precipitation &gt; 3 mm)</p>
+</blockquote>
+<p>I would use numba + apply_ufunc for something like this.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

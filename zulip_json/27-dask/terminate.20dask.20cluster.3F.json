@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>I started a dask cluster that I no longer need. How do I terminate all my dask-worker jobs?</p>",
+        "id": 21769,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1605808014
+    },
+    {
+        "content": "<p>in the notebook you can do <code>cluster.close()</code> assuming you started with <code>cluster = NCARCluster(...)</code> or something similar</p>",
+        "id": 21770,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1605808835
+    },
+    {
+        "content": "<p>I think you'll want to do <code>client.close()</code> also to avoid a bunch of error messages (assuming <code>client = distributed.Client(cluster)</code></p>",
+        "id": 21771,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1605808887
+    },
+    {
+        "content": "<p>If you want to kill the jobs from the command line the following will kill ALL of your dask-workers:</p>\n<div class=\"codehilite\"><pre><span></span>squeue -u $USER | grep dask-wor | awk &#39;{print $1}&#39; | xargs scancel\n</pre></div>\n\n\n<p>Don't run this if you have other dask-workers that you want to keep around.</p>\n<p>This is assuming that you're workers are on casper/slurm.<br>\nReplace <code>squeue</code> and <code>scancel</code> with corresponding PBS commands if your workers are on cheyenne/PBS.</p>",
+        "id": 21772,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1605809158
+    },
+    {
+        "content": "<p>Thanks, that worked to kill the second batch of workers, but I invoked <code>cluster = NCARCluster(...)</code> and <code>client = Client(cluster)</code> twice in the same notebook. The first batch of workers seem to be in limbo and no longer connected to my notebook?</p>",
+        "id": 21773,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1605809206
+    },
+    {
+        "content": "<p>ah yes i don't know a good notebook-only solution for the two cluster problem. <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> any ideas?</p>",
+        "id": 21774,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1605809263
+    },
+    {
+        "content": "<p>There's a hidden <code>_global_clients</code> object which holds references to clients instantiated in a Python session... You can loop over this object to see which clients have been registered..</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">13</span><span class=\"p\">]:</span> <span class=\"kn\">from</span> <span class=\"nn\">distributed.client</span> <span class=\"kn\">import</span> <span class=\"n\">_global_clients</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">31</span><span class=\"p\">]:</span> <span class=\"k\">for</span> <span class=\"n\">k</span><span class=\"p\">,</span> <span class=\"n\">v</span> <span class=\"ow\">in</span> <span class=\"n\">_global_clients</span><span class=\"o\">.</span><span class=\"n\">items</span><span class=\"p\">():</span>\n    <span class=\"o\">...</span><span class=\"p\">:</span>     <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">k</span><span class=\"p\">,</span> <span class=\"n\">v</span><span class=\"p\">)</span>\n    <span class=\"o\">...</span><span class=\"p\">:</span>\n<span class=\"mi\">0</span> <span class=\"o\">&lt;</span><span class=\"n\">Client</span><span class=\"p\">:</span> <span class=\"s1\">&#39;tcp://127.0.0.1:59227&#39;</span> <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">4</span> <span class=\"n\">threads</span><span class=\"o\">=</span><span class=\"mi\">8</span><span class=\"p\">,</span> <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"mf\">17.18</span> <span class=\"n\">GB</span><span class=\"o\">&gt;</span>\n<span class=\"mi\">1</span> <span class=\"o\">&lt;</span><span class=\"n\">Client</span><span class=\"p\">:</span> <span class=\"s1\">&#39;tcp://127.0.0.1:59227&#39;</span> <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">4</span> <span class=\"n\">threads</span><span class=\"o\">=</span><span class=\"mi\">8</span><span class=\"p\">,</span> <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"mf\">17.18</span> <span class=\"n\">GB</span><span class=\"o\">&gt;</span>\n<span class=\"mi\">2</span> <span class=\"o\">&lt;</span><span class=\"n\">Client</span><span class=\"p\">:</span> <span class=\"s1\">&#39;tcp://127.0.0.1:59374&#39;</span> <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">4</span> <span class=\"n\">threads</span><span class=\"o\">=</span><span class=\"mi\">8</span><span class=\"p\">,</span> <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"mf\">17.18</span> <span class=\"n\">GB</span><span class=\"o\">&gt;</span>\n<span class=\"mi\">3</span> <span class=\"o\">&lt;</span><span class=\"n\">Client</span><span class=\"p\">:</span> <span class=\"s1\">&#39;tcp://127.0.0.1:59374&#39;</span> <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">4</span> <span class=\"n\">threads</span><span class=\"o\">=</span><span class=\"mi\">8</span><span class=\"p\">,</span> <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"mf\">17.18</span> <span class=\"n\">GB</span><span class=\"o\">&gt;</span>\n</pre></div>\n\n\n<p>Once you know the key corresponding to the client/cluster you want to terminate, you can close the cluster associated with it by retrieving the entry and deleting the corresponding cluster: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">38</span><span class=\"p\">]:</span> <span class=\"n\">_global_clients</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">close</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<div class=\"codehilite\"><pre><span></span>\n</pre></div>",
+        "id": 21775,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605810748
+    }
+]

@@ -1,0 +1,59 @@
+<html>
+<head><meta charset="utf-8"><title>chunking while loading files · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/chunking.20while.20loading.20files.html">chunking while loading files</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="28417"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/chunking%20while%20loading%20files/near/28417" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/chunking.20while.20loading.20files.html#28417">(Apr 02 2021 at 18:04)</a>:</h4>
+<p>Hi all, <br>
+I have an issue with chunking while loading my dataset. I read my datasets like this</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">read_dat</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">pop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;nlat&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;nlon&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;z_t&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">}):</span>
+    <span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ds</span><span class="p">[</span><span class="n">variables</span><span class="p">]</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># reset coords means they are reset as variables</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="n">preprocess</span><span class="p">,</span>
+                           <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
+                           <span class="n">combine</span><span class="o">=</span><span class="s1">&#39;by_coords&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pop</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="n">file0</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">file0</span><span class="p">[[</span><span class="s1">&#39;ULONG&#39;</span><span class="p">,</span> <span class="s1">&#39;ULAT&#39;</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">,</span> <span class="s1">&#39;TLAT&#39;</span><span class="p">]])</span>
+        <span class="n">file0</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">ds</span>
+    <span class="k">return</span> <span class="n">ds</span>
+</pre></div>
+
+
+<p>but somehow this doesn't result in the desired chunks (120MB each) when I use it </p>
+<div class="codehilite"><pre><span></span><span class="n">flist</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/project/oce/deppenme/process-dat/more_years/Pac_POP0.1_JRA_IAF_*.nc&#39;</span><span class="p">)</span>
+<span class="n">ds_misc</span> <span class="o">=</span> <span class="n">read_dat</span><span class="p">(</span><span class="n">flist</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;TEMP&#39;</span><span class="p">,</span> <span class="s1">&#39;WVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;UVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;VVEL&#39;</span><span class="p">,</span> <span class="s1">&#39;DIA_IMPVF_TEMP&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">],</span> <span class="n">pop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;nlat&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;nlon&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s1">&#39;z_t&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">})</span>
+</pre></div>
+
+
+<p><a href="/user_uploads/2/c/eZMKVecdiTDKr7soNXfLi6ps/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> <br>
+Any ideas how to better do this? <br>
+(I am currently trying chunking while just reading with <code>xr.open_mfdataset()</code> and it takes way too long)</p>
+<div class="message_inline_image"><a href="/user_uploads/2/c/eZMKVecdiTDKr7soNXfLi6ps/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/c/eZMKVecdiTDKr7soNXfLi6ps/pasted_image.png"></a></div>
+
+
+
+<a name="28418"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/chunking%20while%20loading%20files/near/28418" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/chunking.20while.20loading.20files.html#28418">(Apr 02 2021 at 18:09)</a>:</h4>
+<p>It looks like you have one file per timestep, so <code>open_mfdataset</code> cannot apply chunking along time. I would chunk the other 3 dimensions to make bigger chunks, if you can. If you really need to chunk along time, you'll have to do it after reading the files.</p>
+
+
+
+<a name="28421"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/chunking%20while%20loading%20files/near/28421" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/chunking.20while.20loading.20files.html#28421">(Apr 02 2021 at 18:22)</a>:</h4>
+<p>Thanks! Trying other chunks to get to the desired chunk size.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

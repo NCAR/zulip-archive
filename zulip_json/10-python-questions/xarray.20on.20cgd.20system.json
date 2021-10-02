@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>Is anyone using xr.open_mfdataset() on the cgd machine? It doesn't work for me, failing with an error I haven't seen before:<br>\ndistributed.protocol.core - CRITICAL - Failed to deserialize</p>\n<p>this happens whenever / however I pass more than one files, either with a wildcard or when passing a list of files. <br>\nI made sure that my dask / distributed / xarray versions are the same as the ones I use on casper when running this.<br>\nany ideas?</p>",
+        "id": 2717,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1583955108
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span>, </p>\n<p>What version of <br/>\n- <code>xarray</code><br/>\n- <code>dask</code><br/>\n- <code>distributed</code></p>\n<p>are you using?</p>",
+        "id": 2725,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583959031
+    },
+    {
+        "content": "<p>What is the output of <code> client.get_versions(check=True)</code>?</p>",
+        "id": 2726,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583959217
+    },
+    {
+        "content": "<p>distrubuted version: 2.7.0<br>\ndask version: 2.7.0<br>\nxarray version:  0.14.1</p>",
+        "id": 2727,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1583959405
+    },
+    {
+        "content": "<p>{'scheduler': {'host': (('python', '3.7.3.final.0'),<br>\n   ('python-bits', 64),<br>\n   ('OS', 'Linux'),<br>\n   ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n   ('machine', 'x86_64'),<br>\n   ('processor', 'x86_64'),<br>\n   ('byteorder', 'little'),<br>\n   ('LC_ALL', 'None'),<br>\n   ('LANG', 'en_US.UTF-8'),<br>\n   ('LOCALE', 'en_US.UTF-8')),<br>\n  'packages': {'required': (('dask', '2.7.0'),<br>\n    ('distributed', '2.7.0'),<br>\n    ('msgpack', '1.0.0'),<br>\n    ('cloudpickle', '1.3.0'),<br>\n    ('tornado', '5.1.1'),<br>\n    ('toolz', '0.10.0')),<br>\n   'optional': (('numpy', '1.16.4'),<br>\n    ('pandas', '0.25.0'),<br>\n    ('bokeh', '1.3.1'),<br>\n    ('lz4', '2.1.9'),<br>\n    ('dask_ml', None),<br>\n    ('blosc', '1.8.1'))}},<br>\n 'workers': {'tcp://127.0.0.1:32838': {'host': (('python', '3.7.3.final.0'),<br>\n    ('python-bits', 64),<br>\n    ('OS', 'Linux'),<br>\n    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n    ('machine', 'x86_64'),<br>\n    ('processor', 'x86_64'),<br>\n    ('byteorder', 'little'),<br>\n    ('LC_ALL', 'None'),<br>\n    ('LANG', 'en_US.UTF-8'),<br>\n    ('LOCALE', 'en_US.UTF-8')),<br>\n   'packages': {'required': (('dask', '2.7.0'),<br>\n     ('distributed', '2.7.0'),<br>\n     ('msgpack', '1.0.0'),<br>\n     ('cloudpickle', '1.3.0'),<br>\n     ('tornado', '5.1.1'),<br>\n     ('toolz', '0.10.0')),<br>\n    'optional': (('numpy', '1.16.4'),<br>\n     ('pandas', '0.25.0'),<br>\n     ('bokeh', '1.3.1'),<br>\n     ('lz4', '2.1.9'),<br>\n     ('dask_ml', None),<br>\n     ('blosc', '1.8.1'))}},<br>\n  'tcp://127.0.0.1:36557': {'host': (('python', '3.7.3.final.0'),<br>\n    ('python-bits', 64),<br>\n    ('OS', 'Linux'),<br>\n    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n    ('machine', 'x86_64'),<br>\n    ('processor', 'x86_64'),<br>\n    ('byteorder', 'little'),<br>\n    ('LC_ALL', 'None'),<br>\n    ('LANG', 'en_US.UTF-8'),<br>\n    ('LOCALE', 'en_US.UTF-8')),<br>\n   'packages': {'required': (('dask', '2.7.0'),<br>\n     ('distributed', '2.7.0'),<br>\n     ('msgpack', '1.0.0'),<br>\n     ('cloudpickle', '1.3.0'),<br>\n     ('tornado', '5.1.1'),<br>\n     ('toolz', '0.10.0')),<br>\n    'optional': (('numpy', '1.16.4'),<br>\n     ('pandas', '0.25.0'),<br>\n     ('bokeh', '1.3.1'),<br>\n     ('lz4', '2.1.9'),<br>\n     ('dask_ml', None),<br>\n     ('blosc', '1.8.1'))}},<br>\n  'tcp://127.0.0.1:37239': {'host': (('python', '3.7.3.final.0'),<br>\n    ('python-bits', 64),<br>\n    ('OS', 'Linux'),<br>\n    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n    ('machine', 'x86_64'),<br>\n    ('processor', 'x86_64'),<br>\n    ('byteorder', 'little'),<br>\n    ('LC_ALL', 'None'),<br>\n    ('LANG', 'en_US.UTF-8'),<br>\n    ('LOCALE', 'en_US.UTF-8')),<br>\n   'packages': {'required': (('dask', '2.7.0'),<br>\n     ('distributed', '2.7.0'),<br>\n     ('msgpack', '1.0.0'),<br>\n     ('cloudpickle', '1.3.0'),<br>\n     ('tornado', '5.1.1'),<br>\n     ('toolz', '0.10.0')),<br>\n    'optional': (('numpy', '1.16.4'),<br>\n     ('pandas', '0.25.0'),<br>\n     ('bokeh', '1.3.1'),<br>\n     ('lz4', '2.1.9'),<br>\n     ('dask_ml', None),<br>\n     ('blosc', '1.8.1'))}},<br>\n  'tcp://127.0.0.1:37465': {'host': (('python', '3.7.3.final.0'),<br>\n    ('python-bits', 64),<br>\n    ('OS', 'Linux'),<br>\n    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n    ('machine', 'x86_64'),<br>\n    ('processor', 'x86_64'),<br>\n    ('byteorder', 'little'),<br>\n    ('LC_ALL', 'None'),<br>\n    ('LANG', 'en_US.UTF-8'),<br>\n    ('LOCALE', 'en_US.UTF-8')),<br>\n   'packages': {'required': (('dask', '2.7.0'),<br>\n     ('distributed', '2.7.0'),<br>\n     ('msgpack', '1.0.0'),<br>\n     ('cloudpickle', '1.3.0'),<br>\n     ('tornado', '5.1.1'),<br>\n     ('toolz', '0.10.0')),<br>\n    'optional': (('numpy', '1.16.4'),<br>\n     ('pandas', '0.25.0'),<br>\n     ('bokeh', '1.3.1'),<br>\n     ('lz4', '2.1.9'),<br>\n     ('dask_ml', None),<br>\n     ('blosc', '1.8.1'))}},<br>\n  'tcp://127.0.0.1:37751': {'host': (('python', '3.7.3.final.0'),<br>\n    ('python-bits', 64),<br>\n    ('OS', 'Linux'),<br>\n    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n    ('machine', 'x86_64'),<br>\n    ('processor', 'x86_64'),<br>\n    ('byteorder', 'little'),<br>\n    ('LC_ALL', 'None'),<br>\n    ('LANG', 'en_US.UTF-8'),<br>\n    ('LOCALE', 'en_US.UTF-8')),<br>\n   'packages': {'required': (('dask', '2.7.0'),<br>\n     ('distributed', '2.7.0'),<br>\n     ('msgpack', '1.0.0'),<br>\n     ('cloudpickle', '1.3.0'),<br>\n     ('tornado', '5.1.1'),<br>\n     ('toolz', '0.10.0')),<br>\n    'optional': (('numpy', '1.16.4'),<br>\n     ('pandas', '0.25.0'),<br>\n     ('bokeh', '1.3.1'),<br>\n     ('lz4', '2.1.9'),<br>\n     ('dask_ml', None),<br>\n     ('blosc', '1.8.1'))}},<br>\n  'tcp://127.0.0.1:38280': {'host': (('python', '3.7.3.final.0'),<br>\n    ('python-bits', 64),<br>\n    ('OS', 'Linux'),<br>\n    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n    ('machine', 'x86_64'),<br>\n    ('processor', 'x86_64'),<br>\n    ('byteorder', 'little'),<br>\n    ('LC_ALL', 'None'),<br>\n    ('LANG', 'en_US.UTF-8'),<br>\n    ('LOCALE', 'en_US.UTF-8')),<br>\n   'packages': {'required': (('dask', '2.7.0'),<br>\n     ('distributed', '2.7.0'),<br>\n     ('msgpack', '1.0.0'),<br>\n     ('cloudpickle', '1.3.0'),<br>\n     ('tornado', '5.1.1'),<br>\n     ('toolz', '0.10.0')),<br>\n    'optional': (('numpy', '1.16.4'),<br>\n     ('pandas', '0.25.0'),<br>\n     ('bokeh', '1.3.1'),<br>\n     ('lz4', '2.1.9'),<br>\n     ('dask_ml', None),<br>\n     ('blosc', '1.8.1'))}}},<br>\n 'client': {'host': [('python', '3.7.3.final.0'),<br>\n   ('python-bits', 64),<br>\n   ('OS', 'Linux'),<br>\n   ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>\n   ('machine', 'x86_64'),<br>\n   ('processor', 'x86_64'),<br>\n   ('byteorder', 'little'),<br>\n   ('LC_ALL', 'None'),<br>\n   ('LANG', 'en_US.UTF-8'),<br>\n   ('LOCALE', 'en_US.UTF-8')],<br>\n  'packages': {'required': [('dask', '2.7.0'),<br>\n    ('distributed', '2.7.0'),<br>\n    ('msgpack', '1.0.0'),<br>\n    ('cloudpickle', '1.3.0'),<br>\n    ('tornado', '5.1.1'),<br>\n    ('toolz', '0.10.0')],<br>\n   'optional': [('numpy', '1.16.4'),<br>\n    ('pandas', '0.25.0'),<br>\n    ('bokeh', '1.3.1'),<br>\n    ('lz4', '2.1.9'),<br>\n    ('dask_ml', None),<br>\n    ('blosc', '1.8.1')]}}}</p>",
+        "id": 2728,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1583959435
+    },
+    {
+        "content": "<p>Interesting... I see that you are on <code>('msgpack', '1.0.0')</code>. I suspect that this is where the issue is coming from ( a few weeks ago, this release of mspack had some incompatibility issue with dask)...</p>",
+        "id": 2729,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583959902
+    },
+    {
+        "content": "<p>I recommend upgrading your dask/distributed  (even xarray) to the latest versions</p>",
+        "id": 2730,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583959929
+    },
+    {
+        "content": "<p>The latest versions of dask is <code>2.12.0</code></p>",
+        "id": 2731,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583960017
+    },
+    {
+        "content": "<p>Another solution is to downgrade <code>msgpack</code> to a version earlier than <code>1.0.0</code></p>",
+        "id": 2732,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583960070
+    },
+    {
+        "content": "<p>OKay, I will try to update everything and see how it goes. The reason I had specified the versions was because there was some problem with a later dask or distributed version, I think 2.9, but I see that that is superseded by now.</p>",
+        "id": 2733,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1583960136
+    },
+    {
+        "content": "<p>Great! Let me know how it goes</p>",
+        "id": 2735,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1583960255
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> , it works!</p>",
+        "id": 2737,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1583960811
+    }
+]

@@ -1,0 +1,54 @@
+<html>
+<head><meta charset="utf-8"><title>xarray:  seasonal-mean timeseries from a monthly timeseries · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html">xarray:  seasonal-mean timeseries from a monthly timeseries</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="21905"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21905" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21905">(Nov 22 2020 at 21:32)</a>:</h4>
+<p>I'm struggling to find clear web documentation on how to convert a monthly DataArray (time: 720) into a yearly DataArray(time:60) that represents a seasonal average ('DJF' or 'JFM', etc). Apparently, this requires using the resample method, but I find the documentation of <code>xarray.Dataset.resample</code> to be unhelpful. Can anyone share a clear example of how this is done?</p>
+
+
+
+<a name="21906"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21906" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21906">(Nov 22 2020 at 21:50)</a>:</h4>
+<p>I'm sure there's a slicker way to do this with resample and/or groupby('time.season'), but here's how I've done this in the past using rolling to calculate running 3-month-means then grabbing every 12th mean:</p>
+<div class="codehilite"><pre><span></span>startmonth=11 #for DJF, if first month = January; D=11 w/0-indexing
+endmonth=len(ds[&#39;time&#39;])
+
+djfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))
+</pre></div>
+
+
+
+<a name="21907"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21907" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21907">(Nov 22 2020 at 22:04)</a>:</h4>
+<p>Oops - look like I had the startmonth off; for DJF should be 13 (for February). By default, rolling using the right side of the window as the time index.</p>
+
+
+
+<a name="21908"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21908" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21908">(Nov 22 2020 at 23:19)</a>:</h4>
+<p>I came up with the following which seems to work: </p>
+<div class="codehilite"><pre><span></span>def jfm_mean(ds):
+    month_length = ds.time.dt.days_in_month
+    result = ((ds * month_length).resample(time=&#39;QS-JAN&#39;).sum() /
+          month_length.resample(time=&#39;QS-JAN&#39;).sum())
+    return result.sel(time=result[&#39;time.month&#39;]==1)
+</pre></div>
+
+
+
+<a name="21909"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21909" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21909">(Nov 22 2020 at 23:24)</a>:</h4>
+<p>Appears to work on a test dataset over here.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

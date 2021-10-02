@@ -1,0 +1,108 @@
+<html>
+<head><meta charset="utf-8"><title>assigning coords in xarray when dimension names differ · python-dev · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html">assigning coords in xarray when dimension names differ</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="32240"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32240" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32240">(May 22 2021 at 14:55)</a>:</h4>
+<p>I'm doing some analysis of CESM coupler history files with python. The metadata is a bit awkward. I'm trying to clean it up with xarray and I'm stumped. A subset of ncdump from an example file is</p>
+<blockquote>
+<div class="codehilite"><pre><span></span>    doma_nx = 640 ;
+    doma_ny = 320 ;
+    a2x_nx = 640 ;
+    a2x_ny = 320 ;
+    double doma_lat(time, doma_ny, doma_nx) ;
+            doma_lat:_FillValue = 1.e+30 ;
+            doma_lat:units = &quot;degrees north&quot; ;
+            doma_lat:long_name = &quot;latitude&quot; ;
+            doma_lat:standard_name = &quot;latitude&quot; ;
+            doma_lat:internal_dname = &quot;dom_ax&quot; ;
+    double doma_lon(time, doma_ny, doma_nx) ;
+            doma_lon:_FillValue = 1.e+30 ;
+            doma_lon:units = &quot;degrees east&quot; ;
+            doma_lon:long_name = &quot;longitude&quot; ;
+            doma_lon:standard_name = &quot;longitude&quot; ;
+            doma_lon:internal_dname = &quot;dom_ax&quot; ;
+    double a2x_Faxa_bcphidry(time, a2x_ny, a2x_nx) ;
+            a2x_Faxa_bcphidry:_FillValue = 1.e+30 ;
+            a2x_Faxa_bcphidry:units = &quot;kg m-2 s-1&quot; ;
+            a2x_Faxa_bcphidry:long_name = &quot;Hydrophylic black carbon dry deposition flux&quot; ;
+            a2x_Faxa_bcphidry:standard_name = &quot;dry_deposition_flux_of_hydrophylic_black_carbon&quot; ;
+            a2x_Faxa_bcphidry:internal_dname = &quot;a2x_ax&quot; ;
+</pre></div>
+
+
+</blockquote>
+<p>I would like to assign the coordinate variables <code>doma_lat</code> and <code>doma_lon</code> as coordinates for the variable <code>a2x_Faxa_bcphidry</code>. When I try the command</p>
+<blockquote>
+<p>var_ctrl.assign_coords({"lon": ds_CTRL["doma_lon"], "lat": ds_CTRL["doma_lat"]})</p>
+</blockquote>
+<p>I get the error message</p>
+<blockquote>
+<p>ValueError: cannot add coordinates with new dimensions to a DataArray</p>
+</blockquote>
+<p>I suspect this is because the dimension names for the variable differ from the dimension names for the coordinate variables, but it's also possible that I'm not understanding the API of assign_coords. Assuming the former, I'd like versions of the <code>doma_lon</code> and <code>doma_lat</code> variables on the <code>a2x_nx</code> and <code>a2x_ny</code> dimensions. I can't figure out how to do that in xarray.</p>
+<p>Suggestions on how to proceed?</p>
+<p>FYI, the file I'm looking at is located at<br>
+/glade/scratch/mvertens/SMS_Vmct_Ld1.TL319_g17.G1850ECOIAF_JRA_PHYS_DEV.cheyenne_intel.pop-ecosys.validate00/run/SMS_Vmct_Ld1.TL319_g17.G1850ECOIAF_JRA_PHYS_DEV.cheyenne_intel.pop-ecosys.validate00.cpl.hi.0001-01-01-03600.nc</p>
+
+
+
+<a name="32241"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32241" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32241">(May 22 2021 at 21:01)</a>:</h4>
+<p>Try <a href="https://xarray.pydata.org/en/stable/generated/xarray.Dataset.rename_dims.html?highlight=rename_dims" target="_blank" title="https://xarray.pydata.org/en/stable/generated/xarray.Dataset.rename_dims.html?highlight=rename_dims"><code>rename_dims</code></a> to rename the  <code>doma_*</code> dimensions to <code>a2x_*</code>. (<code>rename_dims</code> was contributed by <span class="user-mention" data-user-id="12">@Julia Kent</span>).</p>
+
+
+
+<a name="32242"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32242" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32242">(May 22 2021 at 21:37)</a>:</h4>
+<p>When I try <code>rename_dims</code> on the Dataset, I get the error message</p>
+<blockquote>
+<p>ValueError: Cannot rename doma_nx to a2x_nx because a2x_nx already exists. Try using swap_dims instead.</p>
+</blockquote>
+<p><code>swap_dims</code> on the Dataset seems to do what I want. I had previously read the docstring for <code>swap_dims</code></p>
+<blockquote>
+<p>Returns a new DataArray with swapped dimensions</p>
+</blockquote>
+<p>and thought that it wasn't what I wanted. I think of swap as exchanging 2 labels, while the rename seems more like a substitution. I guess swap means different things to different people.</p>
+<p>I think it's unfortunate that user code needs to use a different method for rename if the desired name already exists.</p>
+<p>That said, thanks for pointing me on a path that led to what works.</p>
+
+
+
+<a name="32243"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32243" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32243">(May 22 2021 at 23:01)</a>:</h4>
+<p>I think the core issue here is you're trying to rename to a "dimension name" for which coordinate values already exist. Instead of potentially overwriting values, it raises an error. So <code>ds.drop_vars(["doma_nx", "doma_ny"]).rename_dims</code> <em>should</em> work. <code>swap_dims</code> is also a good solution.</p>
+
+
+
+<a name="32244"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32244" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32244">(May 22 2021 at 23:16)</a>:</h4>
+<p>The aren't any variables named <code>doma_nx</code> or <code>doma_ny</code> in the Dataset, just dimensions. So <code>ds.drop_vars(["doma_nx", "doma_ny"])</code> generates the error</p>
+<blockquote>
+<p>ValueError: One or more of the specified variables cannot be found in this dataset</p>
+</blockquote>
+<p>The metadata in this file is awkward/lacking enough that xarray doesn't detect/deduce that any variables are coordinates, except for <code>time</code>.</p>
+
+
+
+<a name="32245"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32245" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32245">(May 22 2021 at 23:22)</a>:</h4>
+<p>Ah sorry I got confused between <code>doma_lon</code> (for which there is a variable) and <code>doma_nx</code></p>
+
+
+
+<a name="32246"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/assigning%20coords%20in%20xarray%20when%20dimension%20names%20differ/near/32246" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/assigning.20coords.20in.20xarray.20when.20dimension.20names.20differ.html#32246">(May 22 2021 at 23:26)</a>:</h4>
+<p>No worries, <code>swap_dims</code> works.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

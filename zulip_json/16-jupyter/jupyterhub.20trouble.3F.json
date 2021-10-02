@@ -1,0 +1,698 @@
+[
+    {
+        "content": "<p>is anyone else having trouble spinning up a server on casper using <a href=\"http://jupyterhub.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.ucar.edu\">jupyterhub.ucar.edu</a>? I don't see any requests in squeue...</p>",
+        "id": 28015,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1617131555
+    },
+    {
+        "content": "<p>I was able to get in a few minutes ago... but I only requested a single node</p>",
+        "id": 28016,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617131652
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>, I am able to get in as well. Can you confirm that your <code>gladequota</code> is okay?</p>",
+        "id": 28018,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1617131762
+    },
+    {
+        "content": "<p>I had trouble yesterday.  Eventually it worked in the afternoon and I am not having trouble today.</p>",
+        "id": 28019,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1617131785
+    },
+    {
+        "content": "<p>yup <code>gladequota</code> looks great. is there a log somewhere? THe webiste says \"Spawning server...\"</p>",
+        "id": 28020,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1617131856
+    },
+    {
+        "content": "<p>now it's failed with a timeout</p>",
+        "id": 28021,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1617131897
+    },
+    {
+        "content": "<blockquote>\n<p>looks great. is there a log somewhere?  </p>\n</blockquote>\n<p>The logs reside in <code>/glade/scratch/$USER/.jupyter_logs</code></p>",
+        "id": 28022,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1617131991
+    },
+    {
+        "content": "<p>However, I don't think they show up until the job is up and running</p>",
+        "id": 28023,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1617132016
+    },
+    {
+        "content": "<blockquote>\n<p>now it's failed with a timeout</p>\n</blockquote>\n<p>Are you using the default settings?</p>",
+        "id": 28024,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1617132381
+    },
+    {
+        "content": "<p>ya just tried that.</p>",
+        "id": 28025,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1617132464
+    },
+    {
+        "content": "<p>I wonder if the queue is simply  choked up? Many of the Casper nodes are now on PBS—I presume this means they are unavailable via Slurm.</p>",
+        "id": 28039,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617138078
+    },
+    {
+        "content": "<p>Do all the requests use Slurm by default?</p>",
+        "id": 28040,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617138487
+    },
+    {
+        "content": "<p>CISL is in the process of transition Casper from all Slurm to all PBS. Perhaps <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> or <span class=\"user-mention\" data-user-id=\"143\">@mickc</span> have some insight here.</p>",
+        "id": 28042,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617138997
+    },
+    {
+        "content": "<p>Approximately half of the nodes have been moved from Slurm to PBS, so indeed you will see slower dispatch times than normal during busy hours until things are totally migrated to PBS. I expect that this will get better as the week goes along as folks migrate their traditional jobs.</p>",
+        "id": 28048,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1617139554
+    },
+    {
+        "content": "<p>The production JupyterHub still uses Slurm (I forgot to mention that explicitly!)</p>",
+        "id": 28049,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1617139583
+    },
+    {
+        "content": "<p>@all, in case you missed it, <a href=\"http://jupyterhub.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.ucar.edu\">jupyterhub.ucar.edu</a> now redirects to <a href=\"http://jupyterhub.hpc.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.hpc.ucar.edu\">jupyterhub.hpc.ucar.edu</a>; the Hub has been updated and there is a new interface for spawning a server (or multiple servers via the control panel).</p>",
+        "id": 28799,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617806264
+    },
+    {
+        "content": "<p>I am having issues creating a Jupyter Notebook on Cheyenne. </p>\n<p>When I try to create a new notebook, I am getting the error: <br>\n\"Unexpected error while saving file: Untitled.ipynb attempt to write a readonly database\"</p>\n<p>I am attaching screenshots of the error message I am getting. <br>\n<a href=\"/user_uploads/2/83/mOW4aHyVS6exAJlAXI2_AGxZ/Screen-Shot-2021-04-12-at-10.18.07-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-12-at-10.18.07-AM.png\">Screen-Shot-2021-04-12-at-10.18.07-AM.png</a> <br>\n<a href=\"/user_uploads/2/e0/U00wM-fiYNjgIh1UuAoKF0hr/Screen-Shot-2021-04-12-at-10.18.13-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-12-at-10.18.13-AM.png\">Screen-Shot-2021-04-12-at-10.18.13-AM.png</a> . </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/83/mOW4aHyVS6exAJlAXI2_AGxZ/Screen-Shot-2021-04-12-at-10.18.07-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-12-at-10.18.07-AM.png\"><img src=\"/user_uploads/2/83/mOW4aHyVS6exAJlAXI2_AGxZ/Screen-Shot-2021-04-12-at-10.18.07-AM.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/e0/U00wM-fiYNjgIh1UuAoKF0hr/Screen-Shot-2021-04-12-at-10.18.13-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-12-at-10.18.13-AM.png\"><img src=\"/user_uploads/2/e0/U00wM-fiYNjgIh1UuAoKF0hr/Screen-Shot-2021-04-12-at-10.18.13-AM.png\"></a></div><p>I am getting this error with the JupyterHub and with interactive sessions on cheyenne. I have no issues on my laptop or on the cgd machines. This only happens on the CISL machines. I should have a permission problem somewhere but I haven't been able to figure it out. I looked on stackoverflow, but I haven't find a way to solve this problem</p>",
+        "id": 29300,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618247069
+    },
+    {
+        "content": "<p>There are a lot of things that can <em>look</em> like a permission error, too.  Such as not having storage space.  But I'm not sure what the problem is.</p>",
+        "id": 29302,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1618247724
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"60\">@Cecile Hannay</span>, you might want to check your quota: Kevin is right, it could simply be no disk space available.</p>",
+        "id": 29306,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618250695
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> and <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>: It was a good thought but I haven't reached my quota and it is not a space issue.</p>",
+        "id": 29321,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618255663
+    },
+    {
+        "content": "<p>Are you using the new JupyterHub? (<a href=\"http://jupyterhub.hpc.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.hpc.ucar.edu\">jupyterhub.hpc.ucar.edu</a>) And if so, are you on the <code>Cheyenne Login</code> option?</p>",
+        "id": 29322,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1618256147
+    },
+    {
+        "content": "<p>I think we need clarification.  The first error message you get is the <code>Unexpected error while saving...</code> error, right?  And then you get the second error after you click \"Dismiss\" on the first error message dialog box?</p>",
+        "id": 29323,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1618256306
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>:  <span class=\"user-mention\" data-user-id=\"60\">@Cecile Hannay</span> is seeing this on both the JHub and via self-launched (i.e., SSH tunnels) Jupyter sessions.</p>",
+        "id": 29324,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1618256353
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span>: This is correct. I when the first error when I try to create Notebook and the second error after clicking \"dismiss\" on the dialog box.</p>",
+        "id": 29325,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618256842
+    },
+    {
+        "content": "<p>From the command line, can you try running <code>jupyter notebook --NotebookNotary.db_file=':memory:'</code> there is a thread from google groups <a href=\"https://groups.google.com/a/continuum.io/g/anaconda/c/dGcZoFIci1k\" target=\"_blank\" title=\"https://groups.google.com/a/continuum.io/g/anaconda/c/dGcZoFIci1k\">https://groups.google.com/a/continuum.io/g/anaconda/c/dGcZoFIci1k</a> on this, but I am not sure if you have tried this. It says that it could be that you do not have write permissions to your home directory for some reason. Along with a github issue thread here <a href=\"https://github.com/jupyter/notebook/issues/5321\" target=\"_blank\" title=\"https://github.com/jupyter/notebook/issues/5321\">https://github.com/jupyter/notebook/issues/5321</a></p>",
+        "id": 29326,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1618257056
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> I am not sure at which stage I should try that command. <br>\nI either use the JupyterHub (<a href=\"http://jupyterhub.hpc.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.hpc.ucar.edu\">jupyterhub.hpc.ucar.edu</a>) or start-jupyter.</p>",
+        "id": 29335,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618263697
+    },
+    {
+        "content": "<p>Can you open up a terminal once you are on the Jupyterhub? Then type it in there?</p>",
+        "id": 29342,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1618267784
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> </p>\n<p>Thanks for your reply. I tried that but I am not sure it is doing anything. I still get the same error.</p>\n<p>I open a terminal and type the command:<br>\n<a href=\"/user_uploads/2/95/DJ4FNU9Ml4WC6IIgu-6_ZLC5/Screen-Shot-2021-04-12-at-5.19.23-PM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-12-at-5.19.23-PM.png\">Screen-Shot-2021-04-12-at-5.19.23-PM.png</a> [Screen-Shot-2021-04-12-at-5.19.39-PM.png]</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/95/DJ4FNU9Ml4WC6IIgu-6_ZLC5/Screen-Shot-2021-04-12-at-5.19.23-PM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-12-at-5.19.23-PM.png\"><img src=\"/user_uploads/2/95/DJ4FNU9Ml4WC6IIgu-6_ZLC5/Screen-Shot-2021-04-12-at-5.19.23-PM.png\"></a></div><p>Here is what happens on the screen but I cannot click on these links.<br>\n(<a href=\"user_uploads/2/ef/bamQGFCIII15CuIfm7Su_C3J/Screen-Shot-2021-04-12-at-5.19.39-PM.png\" target=\"_blank\" title=\"user_uploads/2/ef/bamQGFCIII15CuIfm7Su_C3J/Screen-Shot-2021-04-12-at-5.19.39-PM.png\">https://zulip2.cloud.ucar.edu/user_uploads/2/ef/bamQGFCIII15CuIfm7Su_C3J/Screen-Shot-2021-04-12-at-5.19.39-PM.png</a>) [Screen-Shot-2021-04-12-at-5.20.12-PM.png]</p>\n<div class=\"message_inline_image\"><a href=\"user_uploads/2/ef/bamQGFCIII15CuIfm7Su_C3J/Screen-Shot-2021-04-12-at-5.19.39-PM.png\" target=\"_blank\" title=\"https://zulip2.cloud.ucar.edu/user_uploads/2/ef/bamQGFCIII15CuIfm7Su_C3J/Screen-Shot-2021-04-12-at-5.19.39-PM.png\"><img src=\"user_uploads/2/ef/bamQGFCIII15CuIfm7Su_C3J/Screen-Shot-2021-04-12-at-5.19.39-PM.png\"></a></div><p>When I try to open a Jupyter Notebook, I get the same error. <br>\n(<a href=\"user_uploads/2/6d/8XGKw78NoEQc-tZUdD7hhyy3/Screen-Shot-2021-04-12-at-5.20.12-PM.png\" target=\"_blank\" title=\"user_uploads/2/6d/8XGKw78NoEQc-tZUdD7hhyy3/Screen-Shot-2021-04-12-at-5.20.12-PM.png\">https://zulip2.cloud.ucar.edu/user_uploads/2/6d/8XGKw78NoEQc-tZUdD7hhyy3/Screen-Shot-2021-04-12-at-5.20.12-PM.png</a>)</p>\n<div class=\"message_inline_image\"><a href=\"user_uploads/2/6d/8XGKw78NoEQc-tZUdD7hhyy3/Screen-Shot-2021-04-12-at-5.20.12-PM.png\" target=\"_blank\" title=\"https://zulip2.cloud.ucar.edu/user_uploads/2/6d/8XGKw78NoEQc-tZUdD7hhyy3/Screen-Shot-2021-04-12-at-5.20.12-PM.png\"><img src=\"user_uploads/2/6d/8XGKw78NoEQc-tZUdD7hhyy3/Screen-Shot-2021-04-12-at-5.20.12-PM.png\"></a></div>",
+        "id": 29360,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618269803
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"60\">@Cecile Hannay</span>, I think you should send this info to CISL help. I cannot reproduce your problem on my end. </p>\n<p>You can look in <br>\n/glade/${USER}/scratch/.jupyter_logs</p>\n<p>Perhaps there is something useful there? (I tried to look for you, but don't have permission.)</p>\n<p>cc <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span></p>",
+        "id": 29377,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618326139
+    },
+    {
+        "content": "<p>I have worked with <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>.  <br>\nFrom the command: jupyter notebook --NotebookNotary.db_file=':memory:' <br>\nit looks like I don't have write permissions to my home directory for jupyter Notebook.</p>\n<p>I contacted cislhelp yesterday but I will update with this new piece of information.</p>",
+        "id": 29388,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618334388
+    },
+    {
+        "content": "<p>We also looked at: <br>\n/glade/${USER}/scratch/.jupyter_logs<br>\nAll my recent attempts didn't create any jupyter_logs.</p>",
+        "id": 29389,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618335119
+    },
+    {
+        "content": "<p>weird. I don't have any idea what could be going wrong. Is the behavior consistent on Capser PBS Batch, Login, etc.?</p>",
+        "id": 29390,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618335238
+    },
+    {
+        "content": "<p>Here is the same behavior on casper. </p>\n<p>I will try to clean up to get my quota under 90% as Brian suggested.</p>",
+        "id": 29391,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618335277
+    },
+    {
+        "content": "<p>my home directory is at 94.52%</p>",
+        "id": 29392,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618335370
+    },
+    {
+        "content": "<p>so I wouldn't guess that that's the trouble...but it's beyond me what might be going wrong.</p>",
+        "id": 29393,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618335397
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> <br>\nI brought my quota to:<br>\n/glade/u/home/hannay                       43.09 GB    50.00 GB   86.18 %      147355<br>\nI am still getting the same error.</p>",
+        "id": 29394,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618337624
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"60\">@Cecile Hannay</span> Thanks for letting me know. Which instance did you use in your most recent attempts? A JupyterHub session or a tunnel? If the Hub, which system and was it batch or login? This information will help me narrow down which logs to have the admins look at.</p>",
+        "id": 29398,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1618340304
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>  In my last attempt after reducing the quota, I tried on the JupyterHub on cheyenne.</p>",
+        "id": 29400,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618340399
+    },
+    {
+        "content": "<p>Thanks Cecile. We are taking a look.</p>",
+        "id": 29428,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1618343224
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> on a related topic, the new JupyterHub interface  <a href=\"http://jupyterhub.hpc.ucar.edu/\" target=\"_blank\" title=\"http://jupyterhub.hpc.ucar.edu/\">http://jupyterhub.hpc.ucar.edu/</a> is really slick. A couple of documentation items that might make it much more accessible:</p>\n<ol>\n<li>Provide guidance on which resource to select. The tradeoffs between casper-batch vs cheyenne-batch vs login aren't readily obvious.</li>\n<li>More importantly, having comprehensive documentation on how to configure a Dask environment for single-node-multiple-threads and distributed-node use would be really helpful. Most of that information seems to be scattered around various zulip postings and in one of <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> 's GitHub repos (<a href=\"https://github.com/NCAR/ncar-jobqueue\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue\">https://github.com/NCAR/ncar-jobqueue</a>).  It would be great to have documentation and examples that are maintained by CISL. Perhaps they already exist and I simply couldn't find them! Just my 2 cents worth :-)</li>\n</ol>",
+        "id": 29430,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1618343357
+    },
+    {
+        "content": "<p>The problem has been solved with cisl. I am posting the fix here in case someone runs into the same issue.</p>\n<p>The problem was that the auto-created file: <br>\n<code>~/.local/share/jupyter/nbsignatures.db</code> <br>\ngot currupted. </p>\n<p>Because this database couldn't be accessed properly, I couldn't access/create notebooks.  Erasing the file solved the problem. </p>\n<p>Last thing: before deleting the file, you need to make sure you don't have any Jupyter sessions that have that file locked / opened.</p>",
+        "id": 29463,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618349397
+    },
+    {
+        "content": "<p>Great to hear!</p>",
+        "id": 29479,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618353840
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"60\">@Cecile Hannay</span>!</p>",
+        "id": 29480,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1618353928
+    },
+    {
+        "content": "<p>Hello, I'm having trouble accessing jupyterhub this morning. I can type my username and password, but then it brings me to a page that says \"This page isn't working\" . See screenshot. Would anyone be able to help me?<br>\n<a href=\"/user_uploads/2/a/daPqo2Zneb9WW_g0uugjktP6/Screen-Shot-2021-04-15-at-10.16.23-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-15-at-10.16.23-AM.png\">Screen-Shot-2021-04-15-at-10.16.23-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/a/daPqo2Zneb9WW_g0uugjktP6/Screen-Shot-2021-04-15-at-10.16.23-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-15-at-10.16.23-AM.png\"><img src=\"/user_uploads/2/a/daPqo2Zneb9WW_g0uugjktP6/Screen-Shot-2021-04-15-at-10.16.23-AM.png\"></a></div>",
+        "id": 29616,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618503436
+    },
+    {
+        "content": "<p>I had the same error two days ago. It was temporary and it worked after trying again later.</p>",
+        "id": 29617,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1618503530
+    },
+    {
+        "content": "<p>Oh ok, thanks Cecile! I'll try again in a little while</p>",
+        "id": 29618,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618503573
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span> is aware of these issues.</p>",
+        "id": 29625,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618505383
+    },
+    {
+        "content": "<p>Ok, thanks... it's still not working.</p>",
+        "id": 29627,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618505456
+    },
+    {
+        "content": "<p>What about now?</p>",
+        "id": 29628,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618506162
+    },
+    {
+        "content": "<p>still not working..</p>",
+        "id": 29629,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618506241
+    },
+    {
+        "content": "<p>Neato. Okay, well I'm going to go see if I can prune your entries in the state database since the API is not doing what it says it is.</p>",
+        "id": 29630,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618506851
+    },
+    {
+        "content": "<p>ok thanks! Just let me know when I should try again...</p>",
+        "id": 29631,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618507266
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> I imagine the web page if you refresh will ask you to log in again.</p>",
+        "id": 29654,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618510618
+    },
+    {
+        "content": "<p>no it just keeps saying \"This page isn't working\"</p>",
+        "id": 29655,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618510680
+    },
+    {
+        "content": "<blockquote>\n<p>no it just keeps saying \"This page isn't working\"</p>\n</blockquote>\n<p>Do you get the same error message when accessing the  page from a private browser window or a different browser ?</p>",
+        "id": 29656,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1618510917
+    },
+    {
+        "content": "<p>I was just able to spawn a server...</p>",
+        "id": 29657,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618510933
+    },
+    {
+        "content": "<p>Made another change Kristen. what about now?</p>",
+        "id": 29658,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618510989
+    },
+    {
+        "content": "<p>yes, now it's asking me sign in again</p>",
+        "id": 29659,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618511042
+    },
+    {
+        "content": "<p>oh now it looks like it might work! says 'my server is starting up'</p>",
+        "id": 29660,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618511108
+    },
+    {
+        "content": "<p>yes! it's working! thank you!</p>",
+        "id": 29661,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618511134
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> I tried with different browsers before and it just brought me to a blank white page</p>",
+        "id": 29662,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618511181
+    },
+    {
+        "content": "<p>Good deal, what a doozy.</p>",
+        "id": 29663,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618511188
+    },
+    {
+        "content": "<p>but now problem solved:))</p>",
+        "id": 29664,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618511197
+    },
+    {
+        "content": "<p>well, I just got kicked off jupyterhub and it's been stuck on this page for a couple min. Is anyone else having this issue? <a href=\"/user_uploads/2/76/eb64r-pxLzsjZColGcYa-WjX/Screen-Shot-2021-04-15-at-1.23.36-PM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-15-at-1.23.36-PM.png\">Screen-Shot-2021-04-15-at-1.23.36-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/76/eb64r-pxLzsjZColGcYa-WjX/Screen-Shot-2021-04-15-at-1.23.36-PM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-15-at-1.23.36-PM.png\"><img src=\"/user_uploads/2/76/eb64r-pxLzsjZColGcYa-WjX/Screen-Shot-2021-04-15-at-1.23.36-PM.png\"></a></div>",
+        "id": 29668,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618514803
+    },
+    {
+        "content": "<p>I tried to sign in today as unable to do so</p>",
+        "id": 29670,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1618515004
+    },
+    {
+        "content": "<p>Yes. I was trying to figure this out just now.</p>\n<p>When I first go to <a href=\"http://jupyterhub.hpc.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.hpc.ucar.edu\">jupyterhub.hpc.ucar.edu</a> I get an unfamiliar login page</p>\n<p><a href=\"/user_uploads/2/8d/5eUMUjaNfCxekL-1MRkFfBZH/Screen-Shot-2021-04-15-at-1.25.45-PM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-15-at-1.25.45-PM.png\">Screen-Shot-2021-04-15-at-1.25.45-PM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/8d/5eUMUjaNfCxekL-1MRkFfBZH/Screen-Shot-2021-04-15-at-1.25.45-PM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-15-at-1.25.45-PM.png\"><img src=\"/user_uploads/2/8d/5eUMUjaNfCxekL-1MRkFfBZH/Screen-Shot-2021-04-15-at-1.25.45-PM.png\"></a></div><p>Then I get the \"Your server is stopping \" page as above.</p>\n<p>I have tried rebooting, clearing browser cache etc.</p>\n<p>I am able to connect from a shell with jupyter lab, but my Dask Dashboard hangs with the same infinite waiting page.</p>",
+        "id": 29671,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1618515062
+    },
+    {
+        "content": "<p>The hub remains unstable for me as well.</p>",
+        "id": 29680,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618516113
+    },
+    {
+        "content": "<p>There are some runaway things now. trying to keep it alive.</p>",
+        "id": 29686,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618516890
+    },
+    {
+        "content": "<p>Yeah, it looks like there's issues on casper-login1.  The load is very high on it and my ssh login is hanging on it.</p>",
+        "id": 29687,
+        "sender_full_name": "Sheri Mickelson",
+        "timestamp": 1618517059
+    },
+    {
+        "content": "<p>I was able to get the node wrangled back and hopefully didn't interrupt too much running through the hub. Apologies, but what a perfect storm.</p>",
+        "id": 29715,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618522185
+    },
+    {
+        "content": "<p>thanks <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>!</p>",
+        "id": 29732,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618523151
+    },
+    {
+        "content": "<p>Let me know if it's not working for you I suppose.</p>",
+        "id": 29733,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618523186
+    },
+    {
+        "content": "<p>I'm still getting that \"Your server is stopping\" page...</p>",
+        "id": 29734,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618523275
+    },
+    {
+        "content": "<p>were you running a casper-batch job?</p>",
+        "id": 29735,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618523562
+    },
+    {
+        "content": "<p>yes</p>",
+        "id": 29736,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618523973
+    },
+    {
+        "content": "<p>but then I got kicked off.. and then I tried to restart the server with another casper-batch job but it just keeps landing on this page</p>",
+        "id": 29737,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618524028
+    },
+    {
+        "content": "<p>Okay, I have a theory on what happened here then. I'm curious if it was in the process of spawning then the hub became overwhelmed and never got the update. Do you mind if I try something interesting?</p>",
+        "id": 29738,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618524247
+    },
+    {
+        "content": "<p>I don't mind! try anything:)</p>",
+        "id": 29739,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618524630
+    },
+    {
+        "content": "<p>I am also seeing the same thing I did earlier today (Y\"our server is stopping\")</p>",
+        "id": 29740,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1618524707
+    },
+    {
+        "content": "<p>glad I'm not the only one!</p>",
+        "id": 29741,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618524886
+    },
+    {
+        "content": "<p>I have the same issue! I've been having issues since around noon</p>",
+        "id": 29742,
+        "sender_full_name": "Abby Jaye",
+        "timestamp": 1618524911
+    },
+    {
+        "content": "<p>FYI I was getting some very flaky behavior late yesterday (I thought it might be a glade issue) and just shut down for the day. Perhaps something is still running  from that instance?</p>",
+        "id": 29743,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1618524998
+    },
+    {
+        "content": "<p>This feels pretty systemic to me—it's never really been stable since the PBS switch—but today has been particularly bad. I've switched to using SSH tunnels so I can get work done. </p>\n<p><span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>, please let us know what's most helpful for you regarding testing, complaining, etc.</p>",
+        "id": 29744,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618525051
+    },
+    {
+        "content": "<p>It was absolutely systemic. I'm not sure I can really blame PBS here. JupyterHub with the new login spawners had at one point 22k open file handles. The system security limits were preventing proper response times, then things started stacking up on the Hub's polling eventually leading up to the \"hang\" on casper-login1 today.</p>",
+        "id": 29756,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618529372
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> I've attempted to insert a proxy route and I think I was successful on that, but I'm not sure if it gave you the ability to access your instance again. I think it's still trying to stop.</p>",
+        "id": 29757,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618529473
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>! I'll try again tomorrow!</p>",
+        "id": 29758,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618531206
+    },
+    {
+        "content": "<p>things were going smoothly for awhile this morning...but then I just lost my kernel. I am not getting any error messages, the interface has simply stopped responding.</p>",
+        "id": 29762,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618574937
+    },
+    {
+        "content": "<p>...and now it's back. It must have choked on something for a bit</p>",
+        "id": 29763,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618574991
+    },
+    {
+        "content": "<p>and now it's unresponsive again. I am on crhtc53.  load average: 5.11, 5.59, 5.33...doesn't seem terrible.</p>",
+        "id": 29764,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618575115
+    },
+    {
+        "content": "<p>It let me sign in this morning and then it went to \"This page isn't working\" , like it was yesterday morning.</p>",
+        "id": 29765,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618575500
+    },
+    {
+        "content": "<p>Kristen, your instance seemed to have a mismatched route. I've removed it. I'm hoping <span aria-label=\"fingers crossed\" class=\"emoji emoji-1f91e\" role=\"img\" title=\"fingers crossed\">:fingers_crossed:</span> that will give you options to spawn a server again.</p>",
+        "id": 29773,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618583267
+    },
+    {
+        "content": "<p>Yes! it worked this time!</p>",
+        "id": 29783,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1618583837
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> I think your issue is hub agnostic. I'm not sure what might be causing the log messages \"kernel interrupted\" that are in the job logs (_/glade/scratch/$USER/.jupyter_logs/_). I'm going to have to look those messages closer. I honestly have no idea why a kernel may see interruptions like that; presently at least.</p>",
+        "id": 29790,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618586463
+    },
+    {
+        "content": "<p>I can believe that. hasn't happened again.  With Cheyenne and the old Hub, I found that the share queue was hard to use because of intermittent unresponsiveness. Could just be a load issue, I guess.</p>",
+        "id": 29792,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618586806
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>, the hub seems pretty stable today. Thanks for all your work on it!</p>",
+        "id": 29803,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618608527
+    },
+    {
+        "content": "<p>That's good. Made a couple background changes. Although this has given me a reason to write some tools to inspect the health of the hub as well. Enjoy your weekend!</p>",
+        "id": 29804,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618608649
+    },
+    {
+        "content": "<p>you too! Thanks!</p>",
+        "id": 29805,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618608663
+    },
+    {
+        "content": "<p>Seems like yesterday's jupyterhub issues are still not resolved.  I clicked on \"Production\" from the main page and got a CIT login prompt, but then landed on the screen below. Now I get this screen when I start over and click on \"Production\".<br>\n<a href=\"/user_uploads/2/97/rA75ZMyQcrYqN-qQEuekovRd/Screen-Shot-2021-04-17-at-8.38.23-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-17-at-8.38.23-AM.png\">Screen-Shot-2021-04-17-at-8.38.23-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/97/rA75ZMyQcrYqN-qQEuekovRd/Screen-Shot-2021-04-17-at-8.38.23-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-17-at-8.38.23-AM.png\"><img src=\"/user_uploads/2/97/rA75ZMyQcrYqN-qQEuekovRd/Screen-Shot-2021-04-17-at-8.38.23-AM.png\"></a></div>",
+        "id": 29812,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1618670736
+    },
+    {
+        "content": "<p>I was able to spawn a session this morning, a few hours ago, and it's still running. </p>\n<p>I was getting that same behavior earlier this week though...tried different browser and such...didn't help</p>",
+        "id": 29813,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618672677
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> you can try again whenever. You'll need to log back in.</p>",
+        "id": 29814,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618682861
+    },
+    {
+        "content": "<p>the hub has become unresponsive for me: <br>\nwhen I click \"production\" on <a href=\"https://jupyterhub.hpc.ucar.edu/\" target=\"_blank\" title=\"https://jupyterhub.hpc.ucar.edu/\">https://jupyterhub.hpc.ucar.edu/</a>, it seemingly starts to load a new page, but seems to be waiting indefinitely.</p>",
+        "id": 29864,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618857916
+    },
+    {
+        "content": "<p>Mine seemingly loaded just fine. I'll go check state, then it'll be to the logs.</p>",
+        "id": 29865,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1618858386
+    },
+    {
+        "content": "<p>Hub is not working for me - clicking Production at  <a href=\"https://jupyterhub.hpc.ucar.edu/\" target=\"_blank\" title=\"https://jupyterhub.hpc.ucar.edu/\">https://jupyterhub.hpc.ucar.edu/</a> just spins going on an hour now - tried 2 different machines and 3 different browsers. Matt says it works for him. Any suggestions, or ideas why the experience is user dependent? Thanks!</p>",
+        "id": 30018,
+        "sender_full_name": "Britt Stephens",
+        "timestamp": 1619028195
+    },
+    {
+        "content": "<p>My guess is that the Hub is either bogged down with users and can't respond to more requests, or there is something in your browser cache that needs to be cleared out.  But that's just a guess.</p>",
+        "id": 30019,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1619030162
+    },
+    {
+        "content": "<p>Thanks Kevin - CISL says \"We have had to do some work on the JupyterHub login system since yesterday evening. I believe this is impacting your login ability. We will be continuing to work on it tomorrow and a notice will be sent out soon detailing the downtime while work is being done.\" Odd that it only affects some users.</p>",
+        "id": 30022,
+        "sender_full_name": "Britt Stephens",
+        "timestamp": 1619030985
+    },
+    {
+        "content": "<p>It only affects some users because the hub DoS'ed one of the login nodes and to get it restored, we had to block things at a network level rather than a host-level. I'm cleaning it up, but unfortunately it's a slow process. I have some potential workarounds to restore access if you'd like to pursue that?</p>",
+        "id": 30027,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619031923
+    },
+    {
+        "content": "<p>a workaround would be great, thanks, and thanks for the explanation too</p>",
+        "id": 30028,
+        "sender_full_name": "Britt Stephens",
+        "timestamp": 1619032485
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"33\">@Britt Stephens</span>  might be back now.</p>",
+        "id": 30047,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619043118
+    },
+    {
+        "content": "<p>thanks - I can log in, but can't open any notebooks (existing or new) - you likely already know, but I have a help ticket open that Daniel Howard has been iterating with me on</p>",
+        "id": 30063,
+        "sender_full_name": "Britt Stephens",
+        "timestamp": 1619043568
+    },
+    {
+        "content": "<p>If you refresh the page, it will ask that you re-login at this point, but I think it'll be back to normal</p>",
+        "id": 30066,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619044081
+    },
+    {
+        "content": "<p>thanks Jared - unfortunately same behavior - trying to open an existing notebook gives \"File Load Error for cmip6-sno-compute.ipynb    Unhandled error\" and trying to start a new notebook gives \"Launcher Error Cannot read property 'path' of undefined\"</p>",
+        "id": 30067,
+        "sender_full_name": "Britt Stephens",
+        "timestamp": 1619044581
+    },
+    {
+        "content": "<p>That's a new one for me.</p>",
+        "id": 30068,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619044710
+    },
+    {
+        "content": "<p>So I think the error is a red herring. You're $HOME is at 100%.</p>",
+        "id": 30069,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619044990
+    },
+    {
+        "content": "<p>Can we move something to the scratch filesystem to check?</p>",
+        "id": 30070,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619045171
+    },
+    {
+        "content": "<p>maybe the SOCO2_210309.tar file?</p>",
+        "id": 30071,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1619045364
+    },
+    {
+        "content": "<p>ah, great catch - that worked - sorry I didn't notice that before - thanks a lot for the help!</p>",
+        "id": 30072,
+        "sender_full_name": "Britt Stephens",
+        "timestamp": 1619045880
+    }
+]

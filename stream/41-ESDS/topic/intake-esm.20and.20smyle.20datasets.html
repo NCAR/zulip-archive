@@ -1,0 +1,114 @@
+<html>
+<head><meta charset="utf-8"><title>intake-esm and smyle datasets · ESDS · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html">intake-esm and smyle datasets</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="29533"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29533" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29533">(Apr 14 2021 at 18:03)</a>:</h4>
+<p>It seems like there is a common issue with efficiently reading subsets of CESM-LE / SMYLE / other datasets. Daniel's efficient solution  to this problem is being copy-pasted in quite a number of notebooks I've seen.</p>
+<p>I think the sustainable solution forward is to move that logic into intake_esm (if it is not there already) and promote intake_esm more.</p>
+<p>cc <span class="user-mention" data-user-id="34">@Stephen Yeager</span> <span class="user-mention" data-user-id="67">@Will Wieder</span> <span class="user-mention" data-user-id="120">@Daniel Kennedy</span>  <span class="user-group-mention" data-user-group-id="4">@xdev</span></p>
+
+
+
+<a name="29534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29534" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29534">(Apr 14 2021 at 18:11)</a>:</h4>
+<p>Here's where I have some code to access the CESM-LE: <a href="https://github.com/djk2120/cesm-lens/blob/main/notebooks/lens_template.ipynb" target="_blank" title="https://github.com/djk2120/cesm-lens/blob/main/notebooks/lens_template.ipynb">https://github.com/djk2120/cesm-lens/blob/main/notebooks/lens_template.ipynb</a></p>
+
+
+
+<a name="29535"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29535" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29535">(Apr 14 2021 at 18:15)</a>:</h4>
+<p>This works for me.  <br>
+Can we include some good documentation for how users should interface with the function in intake_esm?</p>
+
+
+
+<a name="29536"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29536" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29536">(Apr 14 2021 at 18:29)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> put together an example on <code>inake_esm</code> last week:<br>
+<a href="https://ncar.github.io/esds/posts/intake_esm_dask/" target="_blank" title="https://ncar.github.io/esds/posts/intake_esm_dask/">https://ncar.github.io/esds/posts/intake_esm_dask/</a></p>
+<p>The package is documented here:<br>
+<a href="https://intake-esm.readthedocs.io/en/latest/" target="_blank" title="https://intake-esm.readthedocs.io/en/latest/">https://intake-esm.readthedocs.io/en/latest/</a></p>
+<p>To make this work for SMYLE/DPLE, we need to ensure that we have a working spec:<br>
+<a href="https://github.com/NCAR/esm-collection-spec" target="_blank" title="https://github.com/NCAR/esm-collection-spec">https://github.com/NCAR/esm-collection-spec</a></p>
+<p>This needs an entry in the <code>aggregation_control</code> section of something like</p>
+<div class="codehilite"><pre><span></span>      <span class="p">{</span>
+        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;join_new&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;start_date&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="nt">&quot;coords&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span> <span class="nt">&quot;compat&quot;</span><span class="p">:</span> <span class="s2">&quot;override&quot;</span> <span class="p">}</span>
+      <span class="p">}</span>
+</pre></div>
+
+
+<p>We worked thru aspects of this to support CMIP DP experiments, but I am not sure if any of the work was retained. <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>, do you remember?</p>
+<p>Existing catalogs:<br>
+<a href="https://intake-esm.readthedocs.io/en/latest/supplemental-guide/cmip_ap.html#available-catalogs-at-ncar" target="_blank" title="https://intake-esm.readthedocs.io/en/latest/supplemental-guide/cmip_ap.html#available-catalogs-at-ncar">https://intake-esm.readthedocs.io/en/latest/supplemental-guide/cmip_ap.html#available-catalogs-at-ncar</a></p>
+
+
+
+<a name="30142"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/30142" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#30142">(Apr 22 2021 at 22:55)</a>:</h4>
+<p>I posted this on the repo but  it's private so I'm posting here too since it seems to be broadly useful.</p>
+<p>The following version seems to work and is a single <code>open_mfdataset</code> call. It should be more feasible to write it as an intake-esm thing.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_smyle</span><span class="p">(</span><span class="n">ds0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This is applied on an individual file basis.&quot;&quot;&quot;</span>
+    <span class="n">d0</span> <span class="o">=</span> <span class="n">ds0</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">z_t</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">))</span>
+
+    <span class="c1"># quick fix to adjust time vector for monthly data</span>
+    <span class="n">nmonths</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">d0</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+    <span class="n">yr0</span> <span class="o">=</span> <span class="n">d0</span><span class="p">[</span><span class="s2">&quot;time.year&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">d0</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">cftime_range</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">yr0</span><span class="p">),</span> <span class="n">periods</span><span class="o">=</span><span class="n">nmonths</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;MS&quot;</span><span class="p">)</span>
+
+    <span class="c1"># DC: Can&#39;t assign M yet since we have a single file = 1 member</span>
+    <span class="c1"># d0 = d0.assign_coords(M=(&quot;M&quot;, np.arange(sizes[&quot;M&quot;])))</span>
+    <span class="n">d0</span> <span class="o">=</span> <span class="n">d0</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">d0</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">d0</span> <span class="o">=</span> <span class="n">d0</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;L&quot;</span><span class="p">})</span>
+    <span class="n">d0</span> <span class="o">=</span> <span class="n">d0</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+
+    <span class="c1"># DC: explicitly add the dimension Y so xarray knows to concatenate time variables also</span>
+    <span class="c1"># if you know what Y should be, you could do `.expand_dims(Y=[year])`</span>
+    <span class="c1">#    - d0.encoding[&quot;source&quot;] is the file name, which might be useful for setting some</span>
+    <span class="c1">#      coordinate values</span>
+    <span class="c1"># you could also do this with TEMP to be really explicit about what you want.</span>
+    <span class="c1"># Because you pass data_vars=[&quot;TEMP&quot;], xarray will do expand_dims on TEMP for you.</span>
+    <span class="n">d0</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d0</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+    <span class="n">d0</span><span class="p">[</span><span class="s2">&quot;time_bound&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">d0</span><span class="o">.</span><span class="n">time_bound</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+
+    <span class="c1"># DC: subset as in the original code but not necessary</span>
+    <span class="c1"># does speed things up.</span>
+    <span class="k">return</span> <span class="n">d0</span><span class="p">[[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;time_bound&quot;</span><span class="p">,</span> <span class="s2">&quot;TEMP&quot;</span><span class="p">,</span> <span class="s2">&quot;TAREA&quot;</span><span class="p">,</span> <span class="s2">&quot;UAREA&quot;</span><span class="p">]]</span>
+
+
+
+<span class="n">file_list</span><span class="p">,</span> <span class="n">yrs</span> <span class="o">=</span> <span class="n">nested_file_list_by_year</span><span class="p">(</span><span class="n">filetemplate</span><span class="p">,</span> <span class="n">ens</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">firstyear</span><span class="p">,</span> <span class="n">lastyear</span><span class="p">,</span> <span class="n">startmonth</span><span class="p">)</span>
+
+<span class="n">ds0</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span>
+    <span class="n">file_list</span><span class="p">,</span>
+    <span class="n">combine</span><span class="o">=</span><span class="s2">&quot;nested&quot;</span><span class="p">,</span>
+    <span class="c1"># concat_dim depends on how file_list is ordered;</span>
+    <span class="c1"># inner most list of datasets is combined along &quot;M&quot;;</span>
+    <span class="c1"># then the outer list is combined along &quot;Y&quot;</span>
+    <span class="n">concat_dim</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">],</span>
+    <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">data_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;TEMP&quot;</span><span class="p">],</span>
+    <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+    <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+    <span class="n">preprocess</span><span class="o">=</span><span class="n">preprocess_smyle</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># assign final attributes</span>
+<span class="n">ds0</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">yrs</span>
+<span class="n">ds0</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ds0</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

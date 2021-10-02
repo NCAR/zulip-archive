@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>I read some netcdf files and convert to zarr files using Dask and Xarray, but the .zarray and .zmetadata ownership is owner read/write only. Is it supposed to  be like that? Is it possible for me to change the file permission in the codes?</p>",
+        "id": 30700,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1619805771
+    },
+    {
+        "content": "<p>The Zarr stores I've created have permissions <code>-rw-r--r--</code> for those files.   That means anyone can read.</p>",
+        "id": 30702,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1619806280
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"38\">@Haiying Xu</span>, this was a known issue at some point: <a href=\"https://github.com/zarr-developers/zarr-python/issues/325\" target=\"_blank\" title=\"https://github.com/zarr-developers/zarr-python/issues/325\">https://github.com/zarr-developers/zarr-python/issues/325</a>, and I think it was resolved...  </p>\n<p>Can you check that the <code>umask</code> for the parent directory you are writing to is the same as your default umask?</p>",
+        "id": 30703,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1619806724
+    },
+    {
+        "content": "<p>The directory is 755, my default is 022</p>",
+        "id": 30707,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1619808299
+    },
+    {
+        "content": "<p>My umask is the same.   I don't know if it matters, but in my case I was writing the stores to /glade/scratch, which is visible by anyone logged in.   Perhaps if you haven't tried that yet, it might make a difference?   If you are doing that already, then I don't know what to suggest...</p>",
+        "id": 30708,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1619808574
+    },
+    {
+        "content": "<p>I am writing to scratch. All data and .z* file have 600, directory has 755. Let me try writing to $WORK space to see any change.</p>",
+        "id": 30709,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1619808841
+    },
+    {
+        "content": "<p>Actually the <code>umask</code> command gives me 0022 as the answer.    I am not sure if that extra zero makes a difference.   You might check your login scripts to see if there are any <code>umask</code> commands given there.   That is all I can think of right now...</p>",
+        "id": 30710,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1619809559
+    },
+    {
+        "content": "<p>I should also mention I was using xarray 0.17.0:</p>\n<div class=\"codehilite\"><pre><span></span>(pangeo-cordex2) casper-login2:~$. conda list xarray\n# packages in environment at /glade/work/bonnland/miniconda3/envs/pangeo-cordex2:\n#\n# Name                    Version                   Build  Channel\ncf_xarray                 0.5.1              pyh44b312d_0    conda-forge\nxarray                    0.17.0             pyhd8ed1ab_0    conda-forge\n</pre></div>",
+        "id": 30713,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1619812525
+    },
+    {
+        "content": "<p>I am using the same version of Xarray.</p>",
+        "id": 30715,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1619813181
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>(pangeo-cordex2) casper-login2:~$ conda list zarr\n# packages in environment at /glade/work/bonnland/miniconda3/envs/pangeo-cordex2:\n#\n# Name                    Version                   Build  Channel\nzarr                      2.7.0              pyhd8ed1ab_0    conda-forge\n</pre></div>",
+        "id": 30717,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1619813642
+    },
+    {
+        "content": "<p>I upgraded zarr to 2.8.1, but still get 600 for .zarray and data.</p>",
+        "id": 30852,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1620149796
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> Thanks.   I used the wrong environment, in fact, after I upgraded zarr, the ownership were changed to right mode.</p>",
+        "id": 30854,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1620150422
+    }
+]

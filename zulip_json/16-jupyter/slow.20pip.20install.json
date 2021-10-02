@@ -1,0 +1,248 @@
+[
+    {
+        "content": "<p>This is more of a general question for Cheyenne/Casper rather than jupyter specific. Does anyone have a sense of what causes such sluggish <code>pip install</code> times sometimes? I use <code>conda</code> for my environment, but when developing e.g. project-specific packages of code, I need to run <code>pip install . --upgrade</code> on the main package directory.</p>\n<p>Some days this seems to be instantaneous. Other days it will take minutes to run. Any thoughts on this in general or how to speed it up? Today is a day that it's taking minutes. It seems to happen on the login node and compute nodes.</p>",
+        "id": 8008,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588785155
+    },
+    {
+        "content": "<blockquote>\n<p>It seems to happen on the login node and compute nodes.</p>\n</blockquote>\n<p>This is likely due to some GLADE/filesystem issue</p>",
+        "id": 8009,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588787758
+    },
+    {
+        "content": "<p>Can you try running <code>pip install</code> with the <code>--verbose</code> option on to see if there is any useful information about the problem</p>\n<div class=\"codehilite\"><pre><span></span>pip install . --upgrade --verbose\n</pre></div>",
+        "id": 8010,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588787816
+    },
+    {
+        "content": "<p>P.S.:  Apparently the <code>--verbose</code> option is additive. Beware <span aria-label=\"grinning\" class=\"emoji emoji-1f600\" role=\"img\" title=\"grinning\">:grinning:</span></p>\n<div class=\"codehilite\"><pre><span></span>$ pip --help\n  -v, --verbose               Give more output. Option is additive, and can be\n                              used up to <span class=\"m\">3</span> times.\n</pre></div>",
+        "id": 8011,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588787953
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>, the <code>--verbose</code> option doesn't give enlightening information. It hangs here for 30s-1min (sometimes longer):</p>\n<div class=\"codehilite\"><pre><span></span>$ pip install . --upgrade --verbose\nNon-user install because site-packages writeable\nCreated temporary directory: /glade/scratch/rbrady/tmp/pip-ephem-wheel-cache-qljvs7i7\nCreated temporary directory: /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56\nInitialized build tracking at /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56\nCreated build tracker: /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56\nEntered build tracker: /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56\nCreated temporary directory: /glade/scratch/rbrady/tmp/pip-install-deditwzg\nProcessing /glade/work/rbrady/projects/carbonpathways\n  Created temporary directory: /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe\n</pre></div>\n\n\n<p>Then cranks through this:</p>\n<div class=\"codehilite\"><pre><span></span>Processing /glade/work/rbrady/projects/carbonpathways\n  Created temporary directory: /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe\n  Added file:///glade/work/rbrady/projects/carbonpathways to build tracker <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56&#39;</span>\n    Running setup.py <span class=\"o\">(</span>path:/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/setup.py<span class=\"o\">)</span> egg_info <span class=\"k\">for</span> package from file:///glade/work/rbrady/projects/carbonpathways\n    Running <span class=\"nb\">command</span> python setup.py egg_info\n    running egg_info\n    creating /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info\n    writing /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/PKG-INFO\n    writing dependency_links to /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/dependency_links.txt\n    writing top-level names to /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/top_level.txt\n    writing manifest file <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/SOURCES.txt&#39;</span>\n    reading manifest file <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/SOURCES.txt&#39;</span>\n    reading manifest template <span class=\"s1\">&#39;MANIFEST.in&#39;</span>\n    writing manifest file <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/SOURCES.txt&#39;</span>\n  Source in /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe has version <span class=\"m\">0</span>.1.0, which satisfies requirement <span class=\"nv\">carbonpathways</span><span class=\"o\">==</span><span class=\"m\">0</span>.1.0 from file:///glade/work/rbrady/projects/carbonpathways\n  Removed <span class=\"nv\">carbonpathways</span><span class=\"o\">==</span><span class=\"m\">0</span>.1.0 from file:///glade/work/rbrady/projects/carbonpathways from build tracker <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56&#39;</span>\nBuilding wheels <span class=\"k\">for</span> collected packages: carbonpathways\n  Created temporary directory: /glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1\n  Building wheel <span class=\"k\">for</span> carbonpathways <span class=\"o\">(</span>setup.py<span class=\"o\">)</span> ...   Destination directory: /glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1\n  Running <span class=\"nb\">command</span> /glade/work/rbrady/miniconda3/envs/carbonpathways/bin/python3.8 -u -c <span class=\"s1\">&#39;import sys, setuptools, tokenize; sys.argv[0] = &#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/setup.py&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;; __file__=&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/setup.py&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;;f=getattr(tokenize, &#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;open&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;, open)(__file__);code=f.read().replace(&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;\\r\\n&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;, &#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;\\n&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;);f.close();exec(compile(code, __file__, &#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;exec&#39;</span><span class=\"s2\">&quot;&#39;&quot;</span><span class=\"s1\">&#39;))&#39;</span> bdist_wheel -d /glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1\n  running bdist_wheel\n  running build\n  running build_py\n  creating build\n  creating build/lib\n  creating build/lib/carbonpathways\n  copying carbonpathways/memory.py -&gt; build/lib/carbonpathways\n  copying carbonpathways/parallel.py -&gt; build/lib/carbonpathways\n  copying carbonpathways/__init__.py -&gt; build/lib/carbonpathways\n  copying carbonpathways/regions.py -&gt; build/lib/carbonpathways\n  copying carbonpathways/subset.py -&gt; build/lib/carbonpathways\n  copying carbonpathways/preprocess.py -&gt; build/lib/carbonpathways\n  creating build/lib/carbonpathways/visualization\n  copying carbonpathways/visualization/visualize.py -&gt; build/lib/carbonpathways/visualization\n  copying carbonpathways/visualization/__init__.py -&gt; build/lib/carbonpathways/visualization\n  creating build/lib/carbonpathways/data\n  copying carbonpathways/data/make_dataset.py -&gt; build/lib/carbonpathways/data\n  copying carbonpathways/data/__init__.py -&gt; build/lib/carbonpathways/data\n  running egg_info\n  creating carbonpathways.egg-info\n  writing carbonpathways.egg-info/PKG-INFO\n  writing dependency_links to carbonpathways.egg-info/dependency_links.txt\n  writing top-level names to carbonpathways.egg-info/top_level.txt\n  writing manifest file <span class=\"s1\">&#39;carbonpathways.egg-info/SOURCES.txt&#39;</span>\n  reading manifest file <span class=\"s1\">&#39;carbonpathways.egg-info/SOURCES.txt&#39;</span>\n  reading manifest template <span class=\"s1\">&#39;MANIFEST.in&#39;</span>\n  writing manifest file <span class=\"s1\">&#39;carbonpathways.egg-info/SOURCES.txt&#39;</span>\n  copying carbonpathways/particle_test_file.nc -&gt; build/lib/carbonpathways\n  installing to build/bdist.linux-x86_64/wheel\n  running install\n  running install_lib\n  creating build/bdist.linux-x86_64\n  creating build/bdist.linux-x86_64/wheel\n  creating build/bdist.linux-x86_64/wheel/carbonpathways\n  copying build/lib/carbonpathways/memory.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  copying build/lib/carbonpathways/parallel.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  copying build/lib/carbonpathways/__init__.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  copying build/lib/carbonpathways/regions.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  copying build/lib/carbonpathways/particle_test_file.nc -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  copying build/lib/carbonpathways/subset.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  creating build/bdist.linux-x86_64/wheel/carbonpathways/visualization\n  copying build/lib/carbonpathways/visualization/visualize.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/visualization\n  copying build/lib/carbonpathways/visualization/__init__.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/visualization\n  creating build/bdist.linux-x86_64/wheel/carbonpathways/data\n  copying build/lib/carbonpathways/data/make_dataset.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/data\n  copying build/lib/carbonpathways/data/__init__.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/data\n  copying build/lib/carbonpathways/preprocess.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways\n  running install_egg_info\n  Copying carbonpathways.egg-info to build/bdist.linux-x86_64/wheel/carbonpathways-0.1.0-py3.8.egg-info\n  running install_scripts\n  adding license file <span class=\"s2\">&quot;LICENSE&quot;</span> <span class=\"o\">(</span>matched pattern <span class=\"s2\">&quot;LICEN[CS]E*&quot;</span><span class=\"o\">)</span>\n  creating build/bdist.linux-x86_64/wheel/carbonpathways-0.1.0.dist-info/WHEEL\n  creating <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1/carbonpathways-0.1.0-py3-none-any.whl&#39;</span> and adding <span class=\"s1\">&#39;build/bdist.linux-x86_64/wheel&#39;</span> to it\n  adding <span class=\"s1\">&#39;carbonpathways/__init__.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/memory.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/parallel.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/particle_test_file.nc&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/preprocess.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/regions.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/subset.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/data/__init__.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/data/make_dataset.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/visualization/__init__.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways/visualization/visualize.py&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways-0.1.0.dist-info/LICENSE&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways-0.1.0.dist-info/METADATA&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways-0.1.0.dist-info/WHEEL&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways-0.1.0.dist-info/top_level.txt&#39;</span>\n  adding <span class=\"s1\">&#39;carbonpathways-0.1.0.dist-info/RECORD&#39;</span>\n  removing build/bdist.linux-x86_64/wheel\n<span class=\"k\">done</span>\n  Created wheel <span class=\"k\">for</span> carbonpathways: <span class=\"nv\">filename</span><span class=\"o\">=</span>carbonpathways-0.1.0-py3-none-any.whl <span class=\"nv\">size</span><span class=\"o\">=</span><span class=\"m\">52801</span> <span class=\"nv\">sha256</span><span class=\"o\">=</span>0e3e90d90d10e3861cdd426b74b357a77785d693cbc22aae06885f3fc32983b0\n  Stored in directory: /glade/scratch/rbrady/tmp/pip-ephem-wheel-cache-qljvs7i7/wheels/64/2a/a6/9dc322f41f7002c714ffef0f74000ba1384978c0591cfd84be\nSuccessfully built carbonpathways\nInstalling collected packages: carbonpathways\n  Attempting uninstall: carbonpathways\n    Found existing installation: carbonpathways <span class=\"m\">0</span>.1.0\n    Uninstalling carbonpathways-0.1.0:\n      Created temporary directory: /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/~arbonpathways-0.1.0.dist-info\n      Removing file or directory /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/carbonpathways-0.1.0.dist-info/\n      Created temporary directory: /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/~arbonpathways\n      Removing file or directory /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/carbonpathways/\n      Successfully uninstalled carbonpathways-0.1.0\n  Created temporary directory: /glade/scratch/rbrady/tmp/pip-unpacked-wheel-7qxfk_no\n\nSuccessfully installed carbonpathways-0.1.0\nCleaning up...\n  Removing <span class=\"nb\">source</span> in /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe\nRemoved build tracker: <span class=\"s1\">&#39;/glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56&#39;</span>\n</pre></div>\n\n\n<p>This is about as lightweight of a package as you can get. I notice that some days it will install in order seconds. Other days, minutes. Also, what does additive mean in this case? Just for my own knowledge.</p>",
+        "id": 8022,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588794960
+    },
+    {
+        "content": "<ul>\n<li>What version of <code>pip</code> are you running?</li>\n<li>What is the size of your directory?</li>\n</ul>",
+        "id": 8037,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588795628
+    },
+    {
+        "content": "<ul>\n<li>What is the output of <code>time pip install . --upgrade</code>?</li>\n</ul>",
+        "id": 8038,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588795736
+    },
+    {
+        "content": "<ul>\n<li>Since you are installing the package from a local directory, do you need the <code>--upgrade</code> flag?</li>\n</ul>",
+        "id": 8040,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588795771
+    },
+    {
+        "content": "<p>Additive might mean that <code>--verbose ---verbose</code> will give you even more information.</p>",
+        "id": 8041,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1588795925
+    },
+    {
+        "content": "<blockquote>\n<p>Additive might mean that <code>--verbose ---verbose</code> will give you even more information.</p>\n</blockquote>\n<p>Yep.. and the short version looks like: <code>pip install -vvv ....</code></p>",
+        "id": 8042,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588796023
+    },
+    {
+        "content": "<ol>\n<li>Version is pip 20.0.2</li>\n<li>Which directory? Scratch (where <code>--verbose</code> implies temporary things are being installed) is at 9% full. Work, where pip/conda installs to is 57% full. The interior <code>carbonpathways</code> folder with python code is 252 kb. Although the main folder is 66GB since I have a <code>./data</code> folder with some post-processed output for now. That's not included whatsoever in the <code>setup.py</code> file so I figured it ignored that kind of stuff.</li>\n<li>It takes 1 min 6s to install.</li>\n<li>I guess I'm not changing the version name, but I am adding code and modules. So I figured <code>--upgrade</code> overwrote the current installation. As opposed to doing uninstall then reinstall. </li>\n</ol>\n<p>Also this is independent of cheyenne or casper node.</p>",
+        "id": 8043,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588796201
+    },
+    {
+        "content": "<p>I think even with that large <code>/data</code> folder I have some days where this sort of install works in a second or two.</p>",
+        "id": 8044,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588796220
+    },
+    {
+        "content": "<blockquote>\n<p>I guess I'm not changing the version name, but I am adding code and modules. So I figured --upgrade overwrote the current installation. As opposed to doing uninstall then reinstall. </p>\n</blockquote>\n<p><code>-e</code>, or <code>--editable</code> option might be a better alternative to <code>--upgrade</code> i.e. <code>pip install . -e</code>. When using <code>-e</code> option, pip will just link the package to the original location, meaning any changes to the original package would reflect directly in your environment.</p>",
+        "id": 8046,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588796440
+    },
+    {
+        "content": "<p>Hm. I need to read up on that. That installs instantaneously but isn't working with <code>autoreload</code>. In the <code>pip install . --upgrade</code> case, I don't have to restart my notebook. If I run <code>pip install -e .</code>  with and without <code>--upgrade</code> I don't get updates to functions in my notebook.</p>",
+        "id": 8051,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588796696
+    },
+    {
+        "content": "<blockquote>\n<p>It takes 1 min 6s to install.</p>\n</blockquote>\n<p>I am assuming this is the real (wall clock) time. When you get a chance, can you post the full output of <code>time pip install . --upgrade</code>? When I first asked for this, I was going for the <code>user</code>, and <code>sys</code>times as well.</p>",
+        "id": 8055,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588796810
+    },
+    {
+        "content": "<blockquote>\n<p>Hm. I need to read up on that. That installs instantaneously but isn't working with <code>autoreload</code>. In the <code>pip install . --upgrade</code> case, I don't have to restart my notebook. If I run <code>pip install -e .</code>  with and without <code>--upgrade</code> I don't get updates to functions in my notebook.</p>\n</blockquote>\n<p>Ooooh I see... I didn't know you were using the <code>autoreload</code> magic as well.. <code>%autoreload</code> has some caveats...</p>",
+        "id": 8057,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588796995
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>real    1m6.161s\nuser    0m1.715s\nsys 1m2.335s\n</pre></div>",
+        "id": 8059,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588797273
+    },
+    {
+        "content": "<p>I'm using <code>autoreload</code> since I'm working with <code>dask_jobqueue</code> and don't want to have to kill and restart all my workers every time I update my local package.</p>",
+        "id": 8060,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588797304
+    },
+    {
+        "content": "<p>As I suspected, <code>-e</code> is way faster: </p>\n<div class=\"codehilite\"><pre><span></span>$ <span class=\"nb\">time</span> pip install -e .\nObtaining file:///glade/scratch/abanihi/carbonpathways\nInstalling collected packages: carbonpathways\n  Running setup.py develop <span class=\"k\">for</span> carbonpathways\nSuccessfully installed carbonpathways\n\nreal    0m4.519s\nuser    0m1.941s\nsys      0m0.639s\n</pre></div>\n\n\n<p>My takeaway from this is that you either have to trade <code>pip install . --upgrade</code> speed for the  flexibility provided by <code>%autoreload</code> magic or go with <code>pip install -e .</code> at the expense of having to rerun your notebook from scratch <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span></p>",
+        "id": 8062,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588798524
+    },
+    {
+        "content": "<p>Thanks for the input! Wasn't sure if I was missing something. I'll ping you in this thread if a day comes up soon where the timings are drastically different. If that doesn't happen for awhile maybe I'll try moving my <code>data</code> folder out of there to see if <code>setup</code> is somehow including it. Although I don't think that's the case.</p>",
+        "id": 8063,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588798901
+    },
+    {
+        "content": "<p>By the way, the <code>data</code> directory may be the culprit here....</p>",
+        "id": 8064,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588798937
+    },
+    {
+        "content": "<p>During <code>pip install . --upgrade</code>, you will notice that pip creates a temporary directory</p>",
+        "id": 8065,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588798959
+    },
+    {
+        "content": "<p>It then copies everything from <code>carbonpathways</code> main directory into this temporary directory</p>",
+        "id": 8066,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588798987
+    },
+    {
+        "content": "<p>Hm I'll move that tomorrow and see what happens. I'm following more of a cookiecutter repo format (<a href=\"https://github.com/bradyrx/cookiecutter-climate-science\" target=\"_blank\" title=\"https://github.com/bradyrx/cookiecutter-climate-science\">https://github.com/bradyrx/cookiecutter-climate-science</a>) to keep everything nice and together . Data isn't going up to git of course but is nice to have consolidated there rather than in scratch. So maybe I should forego that for speed.</p>",
+        "id": 8067,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588799032
+    },
+    {
+        "content": "<p>Removing the <code>data</code> directory reduces the wall clock time to </p>\n<div class=\"codehilite\"><pre><span></span>real    0m5.541s\nuser    0m1.894s\nsys 0m0.863s\n</pre></div>",
+        "id": 8068,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588799110
+    },
+    {
+        "content": "<p>That's a huge improvement compared to the original</p>\n<div class=\"codehilite\"><pre><span></span>real    1m6.161s\nuser    0m1.715s\nsys 1m2.335s\n</pre></div>",
+        "id": 8069,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588799178
+    },
+    {
+        "content": "<p>Hm, okay. That's it then. i'm wondering if there's some flag or way to have pip ignore certain sub-directorries. Because it is convenient to keep my post-proc data there for the project.</p>",
+        "id": 8070,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588799204
+    },
+    {
+        "content": "<p>So, you may want to move <code>data</code>somewhere else</p>",
+        "id": 8071,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588799205
+    },
+    {
+        "content": "<blockquote>\n<p>Data isn't going up to git of course but is nice to have consolidated there rather than in scratch</p>\n</blockquote>\n<p>could you keep data elsewhere on <code>/glade/work</code> and then softlink it in your git clone?</p>",
+        "id": 8072,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588799220
+    },
+    {
+        "content": "<p>That's a good idea <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> . I'll just do a soft link into my repo. Thanks! Well, I'll check that pip doesn't try to copy that linked directory.</p>",
+        "id": 8073,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588799334
+    },
+    {
+        "content": "<blockquote>\n<p>Well, I'll check that pip doesn't try to copy that linked directory.</p>\n</blockquote>\n<p>yeah, I don't know <code>pip</code> well enough to know what it'll do, but <span aria-label=\"fingers crossed\" class=\"emoji emoji-1f91e\" role=\"img\" title=\"fingers crossed\">:fingers_crossed:</span></p>",
+        "id": 8074,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588799386
+    },
+    {
+        "content": "<p><del>Another solution is to edit your <code>MANIFEST.in</code> file and add the following line</del></p>\n<div class=\"codehilite\"><pre><span></span>prune data*\n</pre></div>\n\n\n<p><del>I haven't tested this yet though</del></p>",
+        "id": 8075,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588799429
+    },
+    {
+        "content": "<p>it does not work</p>",
+        "id": 8076,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588799648
+    },
+    {
+        "content": "<p>Give <code>python setup.py install</code> a try</p>",
+        "id": 8081,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588800415
+    },
+    {
+        "content": "<p>You may not need to move your <code>data</code> directory after all</p>",
+        "id": 8082,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588800451
+    },
+    {
+        "content": "<p>I was thinking about that instead of pip! Will give that a try tomorrow and let you know.</p>",
+        "id": 8083,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588800492
+    },
+    {
+        "content": "<p>I ended up going down a rabbit hole, and  I think it paid off... <span aria-label=\"grinning\" class=\"emoji emoji-1f600\" role=\"img\" title=\"grinning\">:grinning:</span>  </p>\n<p><strong>Good News</strong>:</p>\n<p>If you upgrade to <code>pip&gt;=20.1</code>, you should be good... It appears that this issue (<a href=\"https://github.com/pypa/pip/issues/2195\" target=\"_blank\" title=\"https://github.com/pypa/pip/issues/2195\">https://github.com/pypa/pip/issues/2195</a>) was addressed in <a href=\"https://github.com/pypa/pip/pull/7882\" target=\"_blank\" title=\"https://github.com/pypa/pip/pull/7882\">https://github.com/pypa/pip/pull/7882</a></p>",
+        "id": 8085,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588801002
+    },
+    {
+        "content": "<p>I tested it, and here's what I got</p>",
+        "id": 8086,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588801022
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>real    0m4.362s\nuser    0m1.857s\nsys 0m0.553s\n</pre></div>",
+        "id": 8087,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588801028
+    },
+    {
+        "content": "<p>That's it for me for today <span aria-label=\"grinning\" class=\"emoji emoji-1f600\" role=\"img\" title=\"grinning\">:grinning:</span> .... I won't spam this stream/topic again at least for today...</p>",
+        "id": 8088,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1588801081
+    },
+    {
+        "content": "<p>Works great, thanks so much <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>. The old update-the-package trick. Well, if you just do standard upgrade it only seems to go to 20.0.2 or so. So one does have to force <code>&gt;=20.1</code> in the conda environment.</p>\n<div class=\"codehilite\"><pre><span></span>real    0m1.833s\nuser    0m1.387s\nsys 0m0.388s\n</pre></div>",
+        "id": 8103,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1588860035
+    }
+]

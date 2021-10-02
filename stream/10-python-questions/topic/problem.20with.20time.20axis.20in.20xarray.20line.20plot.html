@@ -1,0 +1,50 @@
+<html>
+<head><meta charset="utf-8"><title>problem with time axis in xarray line plot · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/problem.20with.20time.20axis.20in.20xarray.20line.20plot.html">problem with time axis in xarray line plot</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="16438"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/problem%20with%20time%20axis%20in%20xarray%20line%20plot/near/16438" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/problem.20with.20time.20axis.20in.20xarray.20line.20plot.html#16438">(Aug 31 2020 at 23:43)</a>:</h4>
+<p>Hi,<br>
+When I run the following code in a notebook, the horizontal <code>time</code> axis in the generated plot runs from 0 to ~4, instead of from 1 to 4 like the <code>time</code> values do. Any idea what's going wrong?</p>
+<div class="codehilite"><pre><span></span>import cftime
+import xarray as xr
+
+time_vals = [cftime.DatetimeNoLeap(1+year, 1+month, 15)
+             for year in range(3) for month in range(12)]
+
+x_vals = [time_val.year + time_val.dayofyr / 365.0
+          for time_val in time_vals]
+
+x_da = xr.DataArray(x_vals, coords=[time_vals], dims=[&quot;time&quot;])
+
+x_da.plot();
+</pre></div>
+
+
+<p><a href="/user_uploads/2/e5/bkVjKn7WYYD-4wyhZGmytYL4/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/e5/bkVjKn7WYYD-4wyhZGmytYL4/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/e5/bkVjKn7WYYD-4wyhZGmytYL4/pasted_image.png"></a></div>
+
+
+
+<a name="16685"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/problem%20with%20time%20axis%20in%20xarray%20line%20plot/near/16685" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/problem.20with.20time.20axis.20in.20xarray.20line.20plot.html#16685">(Sep 02 2020 at 20:55)</a>:</h4>
+<p>FYI, I've filed an issue with xarray regarding this at<br>
+<a href="https://github.com/pydata/xarray/issues/4401" target="_blank" title="https://github.com/pydata/xarray/issues/4401">https://github.com/pydata/xarray/issues/4401</a></p>
+
+
+
+<a name="16687"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/problem%20with%20time%20axis%20in%20xarray%20line%20plot/near/16687" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/problem.20with.20time.20axis.20in.20xarray.20line.20plot.html#16687">(Sep 02 2020 at 20:56)</a>:</h4>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span>, this appears to be a bug somewhere in xarray--&gt;nc-time-axis--&gt;matplotlib.</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

@@ -1,0 +1,86 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> can you provide your dask version? Dask allows assignment , but only with very recent versions: <a href=\"https://docs.dask.org/en/latest/array-assignment.html\" target=\"_blank\" title=\"https://docs.dask.org/en/latest/array-assignment.html\">https://docs.dask.org/en/latest/array-assignment.html</a></p>",
+        "id": 35411,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624469254
+    },
+    {
+        "content": "<p>'2021.02.0'</p>",
+        "id": 35412,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624469284
+    },
+    {
+        "content": "<blockquote>\n<p>What's the output of </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">show_versions</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>?</p>\n</blockquote>\n<p>INSTALLED VERSIONS</p>\n<hr>\n<p>commit: None<br>\npython: 3.8.8 | packaged by conda-forge | (default, Feb 20 2021, 16:22:27) <br>\n[GCC 9.3.0]<br>\npython-bits: 64<br>\nOS: Linux<br>\nOS-release: 3.10.0-1160.25.1.el7.x86_64<br>\nmachine: x86_64<br>\nprocessor: x86_64<br>\nbyteorder: little<br>\nLC_ALL: None<br>\nLANG: en_US.UTF-8<br>\nLOCALE: ('en_US', 'UTF-8')<br>\nlibhdf5: 1.10.6<br>\nlibnetcdf: 4.7.4</p>\n<p>xarray: 0.18.2<br>\npandas: 1.2.2<br>\nnumpy: 1.20.1<br>\nscipy: 1.5.3<br>\nnetCDF4: 1.5.6<br>\npydap: None<br>\nh5netcdf: 0.10.0<br>\nh5py: 3.1.0<br>\nNio: None<br>\nzarr: 2.6.1<br>\ncftime: 1.4.1<br>\nnc_time_axis: 1.2.0<br>\nPseudoNetCDF: None<br>\nrasterio: None<br>\ncfgrib: None<br>\niris: 2.4.0<br>\nbottleneck: 1.3.2<br>\ndask: 2021.02.0<br>\ndistributed: 2021.02.0<br>\nmatplotlib: 3.3.4<br>\ncartopy: 0.18.0<br>\nseaborn: 0.11.1<br>\nnumbagg: None<br>\npint: None<br>\nsetuptools: 49.6.0.post20210108<br>\npip: 21.0.1<br>\nconda: 4.9.2<br>\npytest: 6.2.2<br>\nIPython: 7.21.0<br>\nsphinx: 3.5.1</p>",
+        "id": 35413,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624469316
+    },
+    {
+        "content": "<p>Looks like it went in on FEb 10, and is in 2021.03.0</p>",
+        "id": 35414,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624469412
+    },
+    {
+        "content": "<p>ok I will update</p>",
+        "id": 35426,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624469700
+    },
+    {
+        "content": "<p>I update like this <code>conda install -c conda-forge dask==2021.03.0</code> correct? Asking because it's taking forever to solve environment <code>Solving environment: failed with initial frozen solve. Retrying with flexible solve.</code><br>\nand <code>conda update dask</code> told me all requested packages already installed.</p>",
+        "id": 35428,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624470014
+    },
+    {
+        "content": "<p>try <code>mamba</code> instead of <code>conda</code>?</p>",
+        "id": 35429,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624470182
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> can you put your usual tricks for this scenario in a FAQ entry?</p>",
+        "id": 35430,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624470233
+    },
+    {
+        "content": "<p><code>mamba</code> worked (and looks super fancy) and the assignment also works now <span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span></p>",
+        "id": 35432,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624470932
+    },
+    {
+        "content": "<p>Nice! Let's add a note to the top of the notebook then. We should consider distributing some environment files.</p>",
+        "id": 35436,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624470989
+    },
+    {
+        "content": "<p>definitely</p>",
+        "id": 35438,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624470997
+    },
+    {
+        "content": "<p>will do that after lunch.</p>",
+        "id": 35439,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624471026
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"13\">Anderson Banihirwe</span> can you put your usual tricks for this scenario in a FAQ entry?</p>\n</blockquote>\n<p>Done. The PR resides here: <a href=\"https://github.com/NCAR/esds/pull/71\" target=\"_blank\" title=\"https://github.com/NCAR/esds/pull/71\">https://github.com/NCAR/esds/pull/71</a></p>",
+        "id": 35440,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624473033
+    },
+    {
+        "content": "<p>awesome thanks!</p>",
+        "id": 35441,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1624473165
+    }
+]

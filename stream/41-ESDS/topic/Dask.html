@@ -1,0 +1,272 @@
+<html>
+<head><meta charset="utf-8"><title>Dask · ESDS · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html">Dask</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="41115"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41115" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41115">(Aug 26 2021 at 22:30)</a>:</h4>
+<p><span class="user-mention" data-user-id="176">@Maria Molina</span> and I are working on  a notebook to extract data from the CESM2-LE for self organizing maps. We're using the intake-esm example and therefore dask. We keep getting an error about killed workers in DASK.  (see below for error). We're unsure the solution. We've tried doing some of the calculations earlier (e.g. a .persist earlier in the notebook) but maybe the solution is we need more workers or memory or cores. Is there any guidance for how to navigate this sort of error in DASK? <span class="user-mention" data-user-id="134">@Max Grover</span> <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , you may have some DASK specific guidance as well and I've worked with both of you on aspects of this notebook already.</p>
+<p>KilledWorker: ('open_dataset-10b51ac878a730e7158c2de0c868d102coast_mask-dc1e9cae81941bac9542c4296cdde25b', &lt;WorkerState 'tcp://10.12.206.8:43462', name: PBSCluster-9, memory: 0, processing: 44&gt;)</p>
+
+
+
+<a name="41116"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41116" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41116">(Aug 27 2021 at 14:47)</a>:</h4>
+<p>Unfortunately, there typically is not an easy answer to that... you can try allocating more memory/workers, checking the size of your chunks, and breaking the computation into smaller portions.  We put together <em>some</em> documentation on this on the <a href="https://ncar.github.io/esds/faq/#xarray-and-dask">ESDS FAQ page</a>, but this may not completely solve your problem. I encourage you stop by our office hours on Monday, we can try taking a look at the Dask dashboard to see if we can diagnose the problem if that works?</p>
+
+
+
+<a name="41140"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41140" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41140">(Aug 27 2021 at 15:27)</a>:</h4>
+<p>Okay, I'll see how far I can get today with the FAQ, but otherwise I'll see you again at office hours next week. Thanks! :)</p>
+
+
+
+<a name="41567"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41567" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41567">(Sep 01 2021 at 03:09)</a>:</h4>
+<p>congratulations! you have found an xarray <a href="https://github.com/pydata/xarray/issues/5754">bug</a> =)</p>
+<p>When you stack <code>member_id</code> and <code>time</code>. into a new dimension it consolidated that into one giant 8GB chunk, which causes all the trouble. Good news is that if you subset in latitude early enough (since most of the domain is useless for what you want to do) everything works perfectly fine on my end.</p>
+<p>Here's the notebook with some notes and suggestions: <a href="/user_uploads/2/2/xX9W5Crm6H1F8_3SdSkhK6px/soms_antarctica-gettingdata.ipynb">soms_antarctica-gettingdata.ipynb</a></p>
+
+
+
+<a name="41568"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41568" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maria Molina <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41568">(Sep 01 2021 at 04:04)</a>:</h4>
+<p>Awesome!! Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span> !</p>
+
+
+
+<a name="41632"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41632" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41632">(Sep 01 2021 at 21:50)</a>:</h4>
+<p>Thanks! I will give that a try. :)</p>
+
+
+
+<a name="41755"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41755" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41755">(Sep 02 2021 at 17:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I downloaded the notebook that appears to be attached to your message, but I looked through and don't see the notes or suggestions (I also diffed it with the notebook I sent you and the diff came back with no changes). Am I missing something obvious here?</p>
+
+
+
+<a name="41762"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/41762" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#41762">(Sep 02 2021 at 18:51)</a>:</h4>
+<p>ouch it didn't save in that case (the notebook was open read-only in your directory, i assumed that it would add my changes when I clicked download).</p>
+<p>IIRC the main suggestion was to use <code>ds.isel(time=ds.time.dt.month.isin([10, 11, 12]))</code> to pick out OND months.</p>
+<p>I also added <code>compat="override"</code> in various <code>open_mfdataset</code> / <code>concat</code> lines to prevent constructing giant 5D TAREA arrays though I don't think that affected the final computation</p>
+
+
+
+<a name="42401"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42401" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42401">(Sep 10 2021 at 19:34)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I just got a chance to try your suggestions, but just adding the ds.isel(time=ds.time.dt.mont.isin([4,5,6,7,8,9,10])) wasn't enough to prevent all the killed workers. Would you mind coming to office hours on Monday so you and I can talk about it again? Or if that time doesn't work for you, maybe we could find another time?</p>
+
+
+
+<a name="42411"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42411" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42411">(Sep 10 2021 at 21:04)</a>:</h4>
+<p>For the killed workers, you should subset in latitude early (before stacking) since most of the domain is useless for what you were trying.</p>
+
+
+
+<a name="42420"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42420" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42420">(Sep 10 2021 at 22:31)</a>:</h4>
+<p>Update: I added a .persist() right before I did the big calculation and it hasn't died (yet). I'm keeping my fingers crossed...</p>
+<p>I tried dropping the unused horizontal values a lot sooner and then subsetting time, all before stacking, and I still ended up with the Killed Worker error. Were you able to get it to work in your testing? If so, I wonder if I'm still missing some crucial piece.</p>
+<p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> <a href="#narrow/stream/41-ESDS/topic/Dask/near/42411">said</a>:</p>
+<blockquote>
+<p>For the killed workers, you should subset in latitude early (before stacking) since most of the domain is useless for what you were trying.</p>
+</blockquote>
+
+
+
+<a name="42434"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42434" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42434">(Sep 13 2021 at 15:40)</a>:</h4>
+<p>Just before section 4, I executed <code>ds_ice_winter.load()</code> (I chose to do this because that array is now only 1GB) and it works fine with 10 workers and 15GB memory each.<br>
+<a href="/user_uploads/2/77/AteziURinWB1PVa6sQJ-9Y6o/image.png">image.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/77/AteziURinWB1PVa6sQJ-9Y6o/image.png" title="image.png"><img src="/user_uploads/2/77/AteziURinWB1PVa6sQJ-9Y6o/image.png"></a></div><p>I did skip this cell which seems useless? It doesn't seem to drop anything.</p>
+<div class="codehilite"><pre><span></span><code>ds_ice_masked_subset = ds_ice_masked_subset.where(ds_ice_masked_subset!=-999.999, drop=True)
+</code></pre></div>
+<p>I recommend updating dask and distributed (i'm running <code>2021.7.2</code>). There've been a lot of updates recently that apparently help with reducing memory usage. Maybe one of those improvements has drastically improved this sequence of operations.</p>
+<div class="codehilite"><pre><span></span><code>numpy      : 1.21.1
+distributed: 2021.7.2
+cartopy    : 0.19.0.post1
+matplotlib : 3.4.2
+intake     : 0.6.2
+xarray     : 0.19.0
+pandas     : 1.3.1
+cftime     : 1.5.0
+dask       : 2021.7.2
+</code></pre></div>
+
+
+
+<a name="42720"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42720" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42720">(Sep 14 2021 at 21:52)</a>:</h4>
+<p>Ok, I was able to load the data this way and not kill all the dask workers. So that's a success. However, when I move on to the next step I remembered the reason I'd originally gone in the order of operations that created the Dask problem. There is an issue with xarray with dropping nans - basically it doesn't work. And the SOM algorithm can't have nans, so we have to figure out a way to drop them.</p>
+<p>As it stands now, I have an array ds_ice_winter with shape (25 -members, 21614 - time, 14 - nj, 35 - ni) that is significantly reduced in 2D size from the global data. Here's the first timestep, basically all the purple is a nan currently and this is invariant in time. All those values should be dropped so the SOM doesn't train with them.<br>
+<a href="/user_uploads/2/30/VR3AvK8kY_cp3wrxAWGG9sS9/Screen-Shot-2021-09-14-at-3.43.24-PM.png">Screen-Shot-2021-09-14-at-3.43.24-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/30/VR3AvK8kY_cp3wrxAWGG9sS9/Screen-Shot-2021-09-14-at-3.43.24-PM.png" title="Screen-Shot-2021-09-14-at-3.43.24-PM.png"><img src="/user_uploads/2/30/VR3AvK8kY_cp3wrxAWGG9sS9/Screen-Shot-2021-09-14-at-3.43.24-PM.png"></a></div><p>So I stack the horizontal points and then the members and replace all the nans with a fill number. This seems to work. I can see that for temp2 there are -999.99 values but I have checked and not <em>all</em> the values are the missing.<br>
+<a href="/user_uploads/2/8f/_MeLLg2PialbGjeO2lu3_lu5/Screen-Shot-2021-09-14-at-3.48.37-PM.png">Screen-Shot-2021-09-14-at-3.48.37-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/8f/_MeLLg2PialbGjeO2lu3_lu5/Screen-Shot-2021-09-14-at-3.48.37-PM.png" title="Screen-Shot-2021-09-14-at-3.48.37-PM.png"><img src="/user_uploads/2/8f/_MeLLg2PialbGjeO2lu3_lu5/Screen-Shot-2021-09-14-at-3.48.37-PM.png"></a></div><p>However, when I try to drop the values that are equal to -999.99, it doesn't seem to work and just returns an array with all the nans back. <br>
+<a href="/user_uploads/2/39/dtLzwOaQGmSvN2nMrFzd_jqc/Screen-Shot-2021-09-14-at-3.48.47-PM.png">Screen-Shot-2021-09-14-at-3.48.47-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/39/dtLzwOaQGmSvN2nMrFzd_jqc/Screen-Shot-2021-09-14-at-3.48.47-PM.png" title="Screen-Shot-2021-09-14-at-3.48.47-PM.png"><img src="/user_uploads/2/39/dtLzwOaQGmSvN2nMrFzd_jqc/Screen-Shot-2021-09-14-at-3.48.47-PM.png"></a></div><p><span class="user-mention" data-user-id="176">@Maria Molina</span> and I have both worked on this and can't figure out a way to replace the nans in a way that they will be dropped by xarray. Xarray seems to remember from way back with the masking by the location that these are missing and won't let them go. </p>
+<p>Any suggestions? We're stumped.</p>
+
+
+
+<a name="42750"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42750" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42750">(Sep 14 2021 at 23:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span>,</p>
+<blockquote>
+<p>However, when I try to drop the values that are equal to -999.99, it doesn't seem to work and just returns an array with all the nans back. </p>
+</blockquote>
+<p>Consider this array</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">57</span><span class="p">]:</span> <span class="n">array</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]],</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s1">'x'</span><span class="p">,</span><span class="s1">'y'</span><span class="p">],</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s1">'x'</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">)})</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">58</span><span class="p">]:</span> <span class="n">array</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">58</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">x</span>        <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">y</span>
+</code></pre></div>
+<p>Masking zeros results in this array... </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">59</span><span class="p">]:</span> <span class="n">array</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">array</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">59</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span> <span class="n">nan</span><span class="p">],</span>
+       <span class="p">[</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">,</span> <span class="n">nan</span><span class="p">]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">x</span>        <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">y</span>
+</code></pre></div>
+<p>Notice the location of the <code>NaNs</code>.  Assuming we want to preserve the dimensionality of our original array, dropping all NaNs in this 2D array would leave us with an <strong>awkward</strong> array. To drop everything we would have to collapse the result to a 1D array. Because <code>xr.where(.... drop=True)</code> preserves the <strong>dimensionality</strong> of the array, it drops as many values as possible while setting data values to <code>NaN</code> where necessary. </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">60</span><span class="p">]:</span> <span class="n">array</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">array</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">60</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[</span> <span class="mf">1.</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">],</span>
+       <span class="p">[</span><span class="n">nan</span><span class="p">,</span>  <span class="mf">1.</span><span class="p">]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">x</span>        <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">0</span> <span class="mi">1</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">y</span>
+</code></pre></div>
+<p>I hope this helps explain why you are getting some <code>NaNs</code> when using <code>drop=True</code>...</p>
+
+
+
+<a name="42751"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42751" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42751">(Sep 15 2021 at 00:07)</a>:</h4>
+<p>If you don't mind collapsing your results to a 1D array + losing coordinate/dimension information, you can use NumPy's <code>where()</code> in conjunction with slicing: </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">79</span><span class="p">]:</span> <span class="n">slice_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">data</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">80</span><span class="p">]:</span> <span class="n">array</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">slice_mask</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">80</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+<a name="42757"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42757" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42757">(Sep 15 2021 at 03:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  Okay, I see your point, however in this case it would be okay to drop the nan locations because they should be the same for every time entry because they correspond to a time-invariant spatial mask. </p>
+<p>Consider the image below - it's sea ice concentration in a very specific region. We want to train a self organizing map (SOM) on these values.  In the figure all the purple points, which are the nans, will remain purple points for the full 100+ years of data we are looking at. The purple points correspond to areas we don't want to consider for training. The SOM uses a 1D vector array for each timestep we provide, and we provide many timesteps to train with.  Thus, we've flattened (or stacked) the xy data so that there's just a single array of values corresponding to the yellow and purple areas. <br>
+<a href="/user_uploads/2/b9/Mr2FwJHtYVvRb68gYuWtMHQI/image.png">image.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/b9/Mr2FwJHtYVvRb68gYuWtMHQI/image.png" title="image.png"><img src="/user_uploads/2/b9/Mr2FwJHtYVvRb68gYuWtMHQI/image.png"></a></div><p>However the SOM doesn't really need the time invariant points to train, so being able to reduce the size of the array passed to the SOM would be optimal. Thus, the desire to just drop the NaN points rather than keeping track of them. From that quick figure above you can see that probably 1/3-1/2 the domain is nans, so that's a lot of nans we want to drop to make the SOM process more efficient. Also, the SOM algorithm doesn't accept a "NaN" value, so at worst we could set the NaNs to something non-physical like -999 to be able to identify them but not break the algorithm.</p>
+<p>The equivalent might be like the following array:<br>
+([[1.0,  0.8, 1.0, nan, nan, 0.5, nan, 1.0],<br>
+   [0.9, 0.8, 0.9, nan, nan, 0.6, nan, 1.0],<br>
+   [0.9, 0.9, 0.8, nan, nan, 0.5, nan, 0.9],<br>
+   ..... (many more times here)])<br>
+imagine this array.shape = [8, 10,000]</p>
+<p>For each training time the nan stays in the same location for the vector. Thus, it would be more efficient to pass the following data to the SOM to train the following ideal array. In this case for each of the 10,000 time vectors there are only 5 values to train on rather than 8.<br>
+([[1.0,  0.8, 1.0, 0.5, 1.0],<br>
+   [0.9, 0.8, 0.9, 0.6, 1.0],<br>
+   [0.9, 0.9, 0.8, 0.5, 0.9],<br>
+   ..... (many more times here)])<br>
+imagine this array.shape = [5, 10,000]</p>
+<p>Does this make sense what I'm trying to do better and why I just want to drop those values? </p>
+<p>I see the comment that maybe the np.where could be used. However, I do <strong>not</strong> want to end up with the following by losing dimensionality:<br>
+[1.0,  0.8, 1.0, 0.5, 1.0, 0.9, 0.8, 0.9, 0.6, 1.0, 0.9, 0.9, 0.8, 0.5, 0.9, ....]<br>
+I could maybe loop through all the times and apply it to each time individually, but that seems inefficient. But maybe that's the way to do it? As I said, <span class="user-mention" data-user-id="176">@Maria Molina</span> and I have been trying to get around this and are stumped.</p>
+
+
+
+<a name="42758"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42758" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42758">(Sep 15 2021 at 03:51)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span> Anderson's point is that there's a data model problem</p>
+<p>This example array (which I think looks like your end goal)</p>
+<div class="codehilite"><pre><span></span><code>[[1, 2],
+ [1, 2, 3]]
+</code></pre></div>
+<p>is not a regular array. It is "ragged" or "awkward" since the rows are of different lengths. These arrays cannot be represented by numpy arrays so xarray cannot represent them either. I think your choices are to flatten again to a 1D array then drop NaNs; or use a sentinel value like <code>-999</code> and preserve the 2 dimensions.</p>
+
+
+
+<a name="42759"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42759" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42759">(Sep 15 2021 at 04:04)</a>:</h4>
+<p>oh <span aria-label="face palm" class="emoji emoji-1f926" role="img" title="face palm">:face_palm:</span>  this figure is misleading. Ignore my last comment</p>
+<p>I think you want to experiment with</p>
+<div class="codehilite"><pre><span></span><code>mask_stacked = mask.stack(horizontal=(&quot;nj&quot;, &quot;ni&quot;))
+data.stack(horizontal=(&quot;nj&quot;, &quot;ni&quot;)).where(mask_stacked, drop=True)
+</code></pre></div>
+<p>basically stack the data and mask the same way to flatten the horizontal dimension; then drop.</p>
+
+
+
+<a name="42835"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42835" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42835">(Sep 15 2021 at 17:45)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> Yes! It worked to stack the mask and the data and then drop that way rather than try to use the 2d mask with the data. Thanks so much! I know this took a lot of time for a lot of people. :)</p>
+
+
+
+<a name="42840"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/42840" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#42840">(Sep 15 2021 at 18:47)</a>:</h4>
+<p>Nice! Would you mind writing a very short summary of the lessons learned from this debugging discussion? I think we could make that a nice FAQ entry.</p>
+
+
+
+<a name="43295"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/43295" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#43295">(Sep 21 2021 at 17:49)</a>:</h4>
+<p>Yes, sure. I was out at the end of last week so just saw this, but I can work on it. :)</p>
+
+
+
+<a name="44107"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/44107" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#44107">(Oct 01 2021 at 15:12)</a>:</h4>
+<p>I'm trying to load some CESM2-LE members using the same intake-esm process I've used in the past. When I get to the point of doing ds.load() on the actual data I get this error: <br>
+distributed.scheduler - ERROR - Couldn't gather keys {"('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 12, 18, 0, 0)": ['tcp://10.12.206.32:33999'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 20, 6, 0, 0)": ['tcp://10.12.206.35:40111'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 36, 1, 0, 0)": ['tcp://10.12.206.35:40111'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 47, 10, 0, 0)": ['tcp://10.12.206.37:40422'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 14, 14, 0, 0)": ['tcp://10.12.206.56:44976'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 36, 10, 0, 0)": ['tcp://10.12.206.37:40422'], ... (lots more)</p>
+<p>Any idea if this is a dask issue, a casper issue, or something else that might cause this error?</p>
+
+
+
+<a name="44182"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/44182" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#44182">(Oct 01 2021 at 19:43)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="153">Alice DuVivier</span> <a href="#narrow/stream/41-ESDS/topic/Dask/near/44107">said</a>:</p>
+<blockquote>
+<p>I'm trying to load some CESM2-LE members using the same intake-esm process I've used in the past. When I get to the point of doing ds.load() on the actual data I get this error: <br>
+distributed.scheduler - ERROR - Couldn't gather keys {"('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 12, 18, 0, 0)": ['tcp://10.12.206.32:33999'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 20, 6, 0, 0)": ['tcp://10.12.206.35:40111'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 36, 1, 0, 0)": ['tcp://10.12.206.35:40111'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 47, 10, 0, 0)": ['tcp://10.12.206.37:40422'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 14, 14, 0, 0)": ['tcp://10.12.206.56:44976'], "('concatenate-04c2be37fdc22c875ee22a7ba14c10e9', 36, 10, 0, 0)": ['tcp://10.12.206.37:40422'], ... (lots more)</p>
+<p>Any idea if this is a dask issue, a casper issue, or something else that might cause this error?</p>
+</blockquote>
+<p>It looks like it's related to killed dask workers, so I'll follow on that and see if I can sort it out.</p>
+
+
+
+<a name="44189"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Dask/near/44189" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Dask.html#44189">(Oct 01 2021 at 20:24)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="153">Alice DuVivier</span> <a href="#narrow/stream/41-ESDS/topic/Dask/near/44182">said</a>:</p>
+<blockquote>
+<p>It looks like it's related to killed dask workers, so I'll follow on that and see if I can sort it out.</p>
+</blockquote>
+<p>And just to round this out, I was able to get around the problem by using a .persist() instead of a .load() where I had been trying to load the data, and it seems to have worked fine and got past the problem. So issue has been solved (for now)!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

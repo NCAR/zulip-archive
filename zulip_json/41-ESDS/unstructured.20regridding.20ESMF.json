@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>I'm wondering if there's still a plan to port the NCL ESMF_regrid functionality into GeoCAT?  The last comment on this was from a couple years ago:  <a href=\"https://github.com/NCAR/geocat-comp/issues/6\">https://github.com/NCAR/geocat-comp/issues/6</a><br>\nThis is desirable because xesmf does not appear to be able to handle unstructured grids (eg. CAM-SE) even if the weights have been precomputed (using SCRIP, for example).</p>",
+        "id": 40803,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1629833152
+    },
+    {
+        "content": "<p>Thanks for bringing this into attention, <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> ! We would absolutely work on the unstructured grids part of this under the scope of the Project Raijin, which is recently awarded by NSF for unstructured grids research. We would also need to determine how we should proceed with the regular lat/lon regridding, taking the existence of XESMF into account. </p>\n<p>cc'ing GeoCAT team: <span class=\"user-mention\" data-user-id=\"97\">@Alea Kootz</span> <span class=\"user-mention\" data-user-id=\"114\">@Anissa Zacharias</span> <span class=\"user-mention\" data-user-id=\"105\">@Michaela Sizemore</span></p>",
+        "id": 40922,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1629912571
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>, it might be helpful to see what the limitation in xESMF is with the unstructured grid. Hardcoded assumption about the grid being 2D?</p>",
+        "id": 40928,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1629917270
+    },
+    {
+        "content": "<p>I also noticed that there is no issue about unstructured grid support at the xESMF repository (<a href=\"https://github.com/pangeo-data/xESMF\">https://github.com/pangeo-data/xESMF</a>). It would be good to ask them about plans and if they are open to contributions</p>",
+        "id": 40946,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1629920258
+    },
+    {
+        "content": "<p>Ah there is an issue on the older, abandoned repo: <a href=\"https://github.com/JiaweiZhuang/xESMF/issues/18\">https://github.com/JiaweiZhuang/xESMF/issues/18</a></p>",
+        "id": 40948,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1629920567
+    },
+    {
+        "content": "<p>I've tried to generate a regridder using xesmf to regrid CAM-SE (ne120) data to a regular 0.25x0.25 grid using:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">regrid_ne120</span> <span class=\"o\">=</span> <span class=\"n\">xe</span><span class=\"o\">.</span><span class=\"n\">Regridder</span><span class=\"p\">(</span><span class=\"n\">ds_cam_ne120</span><span class=\"p\">,</span> <span class=\"n\">target_p25</span><span class=\"p\">,</span> <span class=\"n\">method</span><span class=\"o\">=</span><span class=\"s1\">'bilinear'</span><span class=\"p\">,</span><span class=\"n\">periodic</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>and</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">regrid_ne120</span> <span class=\"o\">=</span> <span class=\"n\">xe</span><span class=\"o\">.</span><span class=\"n\">Regridder</span><span class=\"p\">(</span><span class=\"n\">ds_cam_ne120</span><span class=\"p\">,</span> <span class=\"n\">target_p25</span><span class=\"p\">,</span> <span class=\"n\">method</span><span class=\"o\">=</span><span class=\"s1\">'bilinear'</span><span class=\"p\">,</span><span class=\"n\">periodic</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span><span class=\"n\">filename</span><span class=\"o\">=</span><span class=\"n\">wgtfile</span><span class=\"p\">,</span><span class=\"n\">reuse_weights</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>In the second, I'm trying to reuse SCRIP weights from a file. Both calls generate the error \"Unable to allocate 4.40 TiB for an array with shape (777602, 777602) and data type float64\".  The error appears to be thrown in: xesmf/frontend.py in as_2d_mesh(lon, lat)<br>\nso it appears to be trying to force the ne120 to look like a 2d mesh?</p>",
+        "id": 40979,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1629921744
+    },
+    {
+        "content": "<p>The notebook is here: <br>\n/glade/u/home/yeager/analysis/python/Robinson.ipynb<br>\nwhich also includes a failed attempt to use ESMpy (it won't read in the ne120 grid file correctly).</p>",
+        "id": 40991,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1629922013
+    },
+    {
+        "content": "<p>From the xesmf documention:<br>\n\"ESMPy is actually able to deal with general irregular meshes (example), but designing an elegant front-end for that is very challenging. Plain 2D arrays cannot describe irregular meshes. There needs to be additional information for connectivity, as suggested by UGRID Conventions.</p>\n<p>xESMF supports quadrilateral grids and has limited support of triangular or hexagonal meshes. xESMF also supports complex polygonal meshes, but only in the context of regional averaging.</p>\n<p>xarray’s data model, although powerful, can only describe quadrilateral grids (including multi-tile quadrilateral grids like the cubed-sphere). If there is an elegant data model in Python for irregular meshes, interfacing with ESMPy should not be very difficult. Pull requests along these lines are welcome.\"</p>",
+        "id": 40997,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629922092
+    },
+    {
+        "content": "<p>FWIW the unstructured grid support planned as part of Project Raijin will be based around extensions to XArray that are modeled on the UGRID specifications: <a href=\"http://ugrid-conventions.github.io/ugrid-conventions\">http://ugrid-conventions.github.io/ugrid-conventions</a>. At least that is the plan of record :-).</p>",
+        "id": 41036,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1629926056
+    }
+]

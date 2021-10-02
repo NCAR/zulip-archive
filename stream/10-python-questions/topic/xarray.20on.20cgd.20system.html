@@ -1,0 +1,271 @@
+<html>
+<head><meta charset="utf-8"><title>xarray on cgd system · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html">xarray on cgd system</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="2717"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2717" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2717">(Mar 11 2020 at 19:31)</a>:</h4>
+<p>Is anyone using xr.open_mfdataset() on the cgd machine? It doesn't work for me, failing with an error I haven't seen before:<br>
+distributed.protocol.core - CRITICAL - Failed to deserialize</p>
+<p>this happens whenever / however I pass more than one files, either with a wildcard or when passing a list of files. <br>
+I made sure that my dask / distributed / xarray versions are the same as the ones I use on casper when running this.<br>
+any ideas?</p>
+
+
+
+<a name="2725"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2725" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2725">(Mar 11 2020 at 20:37)</a>:</h4>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, </p>
+<p>What version of <br/>
+- <code>xarray</code><br/>
+- <code>dask</code><br/>
+- <code>distributed</code></p>
+<p>are you using?</p>
+
+
+
+<a name="2726"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2726" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2726">(Mar 11 2020 at 20:40)</a>:</h4>
+<p>What is the output of <code> client.get_versions(check=True)</code>?</p>
+
+
+
+<a name="2727"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2727" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2727">(Mar 11 2020 at 20:43)</a>:</h4>
+<p>distrubuted version: 2.7.0<br>
+dask version: 2.7.0<br>
+xarray version:  0.14.1</p>
+
+
+
+<a name="2728"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2728" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2728">(Mar 11 2020 at 20:43)</a>:</h4>
+<p>{'scheduler': {'host': (('python', '3.7.3.final.0'),<br>
+   ('python-bits', 64),<br>
+   ('OS', 'Linux'),<br>
+   ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+   ('machine', 'x86_64'),<br>
+   ('processor', 'x86_64'),<br>
+   ('byteorder', 'little'),<br>
+   ('LC_ALL', 'None'),<br>
+   ('LANG', 'en_US.UTF-8'),<br>
+   ('LOCALE', 'en_US.UTF-8')),<br>
+  'packages': {'required': (('dask', '2.7.0'),<br>
+    ('distributed', '2.7.0'),<br>
+    ('msgpack', '1.0.0'),<br>
+    ('cloudpickle', '1.3.0'),<br>
+    ('tornado', '5.1.1'),<br>
+    ('toolz', '0.10.0')),<br>
+   'optional': (('numpy', '1.16.4'),<br>
+    ('pandas', '0.25.0'),<br>
+    ('bokeh', '1.3.1'),<br>
+    ('lz4', '2.1.9'),<br>
+    ('dask_ml', None),<br>
+    ('blosc', '1.8.1'))}},<br>
+ 'workers': {'tcp://127.0.0.1:32838': {'host': (('python', '3.7.3.final.0'),<br>
+    ('python-bits', 64),<br>
+    ('OS', 'Linux'),<br>
+    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+    ('machine', 'x86_64'),<br>
+    ('processor', 'x86_64'),<br>
+    ('byteorder', 'little'),<br>
+    ('LC_ALL', 'None'),<br>
+    ('LANG', 'en_US.UTF-8'),<br>
+    ('LOCALE', 'en_US.UTF-8')),<br>
+   'packages': {'required': (('dask', '2.7.0'),<br>
+     ('distributed', '2.7.0'),<br>
+     ('msgpack', '1.0.0'),<br>
+     ('cloudpickle', '1.3.0'),<br>
+     ('tornado', '5.1.1'),<br>
+     ('toolz', '0.10.0')),<br>
+    'optional': (('numpy', '1.16.4'),<br>
+     ('pandas', '0.25.0'),<br>
+     ('bokeh', '1.3.1'),<br>
+     ('lz4', '2.1.9'),<br>
+     ('dask_ml', None),<br>
+     ('blosc', '1.8.1'))}},<br>
+  'tcp://127.0.0.1:36557': {'host': (('python', '3.7.3.final.0'),<br>
+    ('python-bits', 64),<br>
+    ('OS', 'Linux'),<br>
+    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+    ('machine', 'x86_64'),<br>
+    ('processor', 'x86_64'),<br>
+    ('byteorder', 'little'),<br>
+    ('LC_ALL', 'None'),<br>
+    ('LANG', 'en_US.UTF-8'),<br>
+    ('LOCALE', 'en_US.UTF-8')),<br>
+   'packages': {'required': (('dask', '2.7.0'),<br>
+     ('distributed', '2.7.0'),<br>
+     ('msgpack', '1.0.0'),<br>
+     ('cloudpickle', '1.3.0'),<br>
+     ('tornado', '5.1.1'),<br>
+     ('toolz', '0.10.0')),<br>
+    'optional': (('numpy', '1.16.4'),<br>
+     ('pandas', '0.25.0'),<br>
+     ('bokeh', '1.3.1'),<br>
+     ('lz4', '2.1.9'),<br>
+     ('dask_ml', None),<br>
+     ('blosc', '1.8.1'))}},<br>
+  'tcp://127.0.0.1:37239': {'host': (('python', '3.7.3.final.0'),<br>
+    ('python-bits', 64),<br>
+    ('OS', 'Linux'),<br>
+    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+    ('machine', 'x86_64'),<br>
+    ('processor', 'x86_64'),<br>
+    ('byteorder', 'little'),<br>
+    ('LC_ALL', 'None'),<br>
+    ('LANG', 'en_US.UTF-8'),<br>
+    ('LOCALE', 'en_US.UTF-8')),<br>
+   'packages': {'required': (('dask', '2.7.0'),<br>
+     ('distributed', '2.7.0'),<br>
+     ('msgpack', '1.0.0'),<br>
+     ('cloudpickle', '1.3.0'),<br>
+     ('tornado', '5.1.1'),<br>
+     ('toolz', '0.10.0')),<br>
+    'optional': (('numpy', '1.16.4'),<br>
+     ('pandas', '0.25.0'),<br>
+     ('bokeh', '1.3.1'),<br>
+     ('lz4', '2.1.9'),<br>
+     ('dask_ml', None),<br>
+     ('blosc', '1.8.1'))}},<br>
+  'tcp://127.0.0.1:37465': {'host': (('python', '3.7.3.final.0'),<br>
+    ('python-bits', 64),<br>
+    ('OS', 'Linux'),<br>
+    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+    ('machine', 'x86_64'),<br>
+    ('processor', 'x86_64'),<br>
+    ('byteorder', 'little'),<br>
+    ('LC_ALL', 'None'),<br>
+    ('LANG', 'en_US.UTF-8'),<br>
+    ('LOCALE', 'en_US.UTF-8')),<br>
+   'packages': {'required': (('dask', '2.7.0'),<br>
+     ('distributed', '2.7.0'),<br>
+     ('msgpack', '1.0.0'),<br>
+     ('cloudpickle', '1.3.0'),<br>
+     ('tornado', '5.1.1'),<br>
+     ('toolz', '0.10.0')),<br>
+    'optional': (('numpy', '1.16.4'),<br>
+     ('pandas', '0.25.0'),<br>
+     ('bokeh', '1.3.1'),<br>
+     ('lz4', '2.1.9'),<br>
+     ('dask_ml', None),<br>
+     ('blosc', '1.8.1'))}},<br>
+  'tcp://127.0.0.1:37751': {'host': (('python', '3.7.3.final.0'),<br>
+    ('python-bits', 64),<br>
+    ('OS', 'Linux'),<br>
+    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+    ('machine', 'x86_64'),<br>
+    ('processor', 'x86_64'),<br>
+    ('byteorder', 'little'),<br>
+    ('LC_ALL', 'None'),<br>
+    ('LANG', 'en_US.UTF-8'),<br>
+    ('LOCALE', 'en_US.UTF-8')),<br>
+   'packages': {'required': (('dask', '2.7.0'),<br>
+     ('distributed', '2.7.0'),<br>
+     ('msgpack', '1.0.0'),<br>
+     ('cloudpickle', '1.3.0'),<br>
+     ('tornado', '5.1.1'),<br>
+     ('toolz', '0.10.0')),<br>
+    'optional': (('numpy', '1.16.4'),<br>
+     ('pandas', '0.25.0'),<br>
+     ('bokeh', '1.3.1'),<br>
+     ('lz4', '2.1.9'),<br>
+     ('dask_ml', None),<br>
+     ('blosc', '1.8.1'))}},<br>
+  'tcp://127.0.0.1:38280': {'host': (('python', '3.7.3.final.0'),<br>
+    ('python-bits', 64),<br>
+    ('OS', 'Linux'),<br>
+    ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+    ('machine', 'x86_64'),<br>
+    ('processor', 'x86_64'),<br>
+    ('byteorder', 'little'),<br>
+    ('LC_ALL', 'None'),<br>
+    ('LANG', 'en_US.UTF-8'),<br>
+    ('LOCALE', 'en_US.UTF-8')),<br>
+   'packages': {'required': (('dask', '2.7.0'),<br>
+     ('distributed', '2.7.0'),<br>
+     ('msgpack', '1.0.0'),<br>
+     ('cloudpickle', '1.3.0'),<br>
+     ('tornado', '5.1.1'),<br>
+     ('toolz', '0.10.0')),<br>
+    'optional': (('numpy', '1.16.4'),<br>
+     ('pandas', '0.25.0'),<br>
+     ('bokeh', '1.3.1'),<br>
+     ('lz4', '2.1.9'),<br>
+     ('dask_ml', None),<br>
+     ('blosc', '1.8.1'))}}},<br>
+ 'client': {'host': [('python', '3.7.3.final.0'),<br>
+   ('python-bits', 64),<br>
+   ('OS', 'Linux'),<br>
+   ('OS-release', '3.10.0-1062.12.1.el7.x86_64'),<br>
+   ('machine', 'x86_64'),<br>
+   ('processor', 'x86_64'),<br>
+   ('byteorder', 'little'),<br>
+   ('LC_ALL', 'None'),<br>
+   ('LANG', 'en_US.UTF-8'),<br>
+   ('LOCALE', 'en_US.UTF-8')],<br>
+  'packages': {'required': [('dask', '2.7.0'),<br>
+    ('distributed', '2.7.0'),<br>
+    ('msgpack', '1.0.0'),<br>
+    ('cloudpickle', '1.3.0'),<br>
+    ('tornado', '5.1.1'),<br>
+    ('toolz', '0.10.0')],<br>
+   'optional': [('numpy', '1.16.4'),<br>
+    ('pandas', '0.25.0'),<br>
+    ('bokeh', '1.3.1'),<br>
+    ('lz4', '2.1.9'),<br>
+    ('dask_ml', None),<br>
+    ('blosc', '1.8.1')]}}}</p>
+
+
+
+<a name="2729"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2729" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2729">(Mar 11 2020 at 20:51)</a>:</h4>
+<p>Interesting... I see that you are on <code>('msgpack', '1.0.0')</code>. I suspect that this is where the issue is coming from ( a few weeks ago, this release of mspack had some incompatibility issue with dask)...</p>
+
+
+
+<a name="2730"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2730" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2730">(Mar 11 2020 at 20:52)</a>:</h4>
+<p>I recommend upgrading your dask/distributed  (even xarray) to the latest versions</p>
+
+
+
+<a name="2731"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2731" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2731">(Mar 11 2020 at 20:53)</a>:</h4>
+<p>The latest versions of dask is <code>2.12.0</code></p>
+
+
+
+<a name="2732"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2732" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2732">(Mar 11 2020 at 20:54)</a>:</h4>
+<p>Another solution is to downgrade <code>msgpack</code> to a version earlier than <code>1.0.0</code></p>
+
+
+
+<a name="2733"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2733" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2733">(Mar 11 2020 at 20:55)</a>:</h4>
+<p>OKay, I will try to update everything and see how it goes. The reason I had specified the versions was because there was some problem with a later dask or distributed version, I think 2.9, but I see that that is superseded by now.</p>
+
+
+
+<a name="2735"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2735" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2735">(Mar 11 2020 at 20:57)</a>:</h4>
+<p>Great! Let me know how it goes</p>
+
+
+
+<a name="2737"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray%20on%20cgd%20system/near/2737" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.20on.20cgd.20system.html#2737">(Mar 11 2020 at 21:06)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , it works!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

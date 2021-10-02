@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi <br>\nWe have  a 250 member ensemble with time series. The time series are created from CESM outputs and compressed (time chunk = 1). This is not efficient for reading the files, and I am wondering if anyone have scripts for compressing files that also can be read in efficiently.</p>",
+        "id": 40920,
+        "sender_full_name": "Trude Eidhammer",
+        "timestamp": 1629912440
+    },
+    {
+        "content": "<p>FYI, I am compressing the files with : nccopy -d1 -c time/1,lat/$lath,lon/$lonh $fname1 $fname2</p>",
+        "id": 40923,
+        "sender_full_name": "Trude Eidhammer",
+        "timestamp": 1629914162
+    },
+    {
+        "content": "<p>Trude, in the past I used to save the variables I was interested in as a native numpy format (.npy). I didn't use dask at all but maybe this suits your needs because it loads quickly and compressed the data size. <br>\nTo save the array compressed:<br>\nnp.savez_compressed(fileout, ifile=filename, var=varname, data=mydata)<br>\nTo load it:<br>\nmydata = np.load(filein)['data']<br>\nLet me know if that works for you and I can give you my scripts.</p>",
+        "id": 42301,
+        "sender_full_name": "Maria Frediani",
+        "timestamp": 1631293321
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"148\">Trude Eidhammer</span> <a href=\"#narrow/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading/near/40920\">said</a>:</p>\n<blockquote>\n<p>Hi <br>\nWe have  a 250 member ensemble with time series. The time series are created from CESM outputs and compressed (time chunk = 1). This is not efficient for reading the files, and I am wondering if anyone have scripts for compressing files that also can be read in efficiently.</p>\n</blockquote>\n<p>Hi Trude, I have some recipes for \"rechunking\" using the rechunker package and appending to zarr files. The input can be netcdf but the output of my recipes is zarr. There is a postprocessing step that can convert to netcdf again. I'm happy to discuss off line but wanted to post here in case such recipies are of interest to others.</p>\n<p>James</p>",
+        "id": 42325,
+        "sender_full_name": "James McCreight",
+        "timestamp": 1631293778
+    }
+]

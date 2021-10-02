@@ -1,0 +1,8 @@
+[
+    {
+        "content": "<p>Here is some strange behavior that I'm not sure is desirable or not. I'm subsampling this dataset read in using xr.open_dataset:<br>\n/glade/campaign/cesm/development/espwg/verification_datasets/mon/SST/HadISST_sst.nc<br>\nThe longitudes and latitudes are for a regular 1-degree grid, but latitude is inverted:  89.5,88.5,...,-89.5.  I hadn't noticed this until I tried sel(latitude=slice(-5,5)) and got nothing back. However, sel(latitude(5,-5)) works as expected. Should the 'sel' method be smart enough to check whether the dimension is inverted?</p>",
+        "id": 43453,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1632431776
+    }
+]

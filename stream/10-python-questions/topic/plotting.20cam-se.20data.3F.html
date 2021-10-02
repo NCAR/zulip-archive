@@ -1,0 +1,127 @@
+<html>
+<head><meta charset="utf-8"><title>plotting cam-se data? · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html">plotting cam-se data?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="11234"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11234" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11234">(Jun 12 2020 at 17:46)</a>:</h4>
+<p>Hi all,<br>
+Plotting CAM-FV data seems pretty straightforward.  I do something like this:</p>
+<p>tsdata = ds.TS.isel(time=0)<br>
+latdata = ds.lat<br>
+londata = ds.lon<br>
+cy_tsdata, cy_londata = add_cyclic_point(tsdata, coord=ds['lon'])<br>
+fig = plt.figure(dpi=300)<br>
+mymap = cmocean.cm.thermal<br>
+ax = plt.axes(projection=ccrs.PlateCarree(central_longitude = 0.0, globe=None))<br>
+ctrf = ax.contourf(cy_londata, latdata, cy_tsdata, transform=ccrs.PlateCarree(), cmap=mymap, levels = 25)</p>
+<p>But, I am having trouble with the SE data.  I am doing this:</p>
+<p>se_tsdata = se_ds.TS.isel(time=0)<br>
+se_latdata = se_ds.lat<br>
+se_londata = se_ds.lon<br>
+new_se_londata = np.where(se_londata &gt; 180.0, se_londata - 360.0, se_londata)<br>
+se_fig = plt.figure(dpi=300)<br>
+se_mymap = cmocean.cm.thermal<br>
+se_ax = plt.axes(projection=ccrs.PlateCarree(central_longitude = 0.0, globe=None))<br>
+tcf = se_ax.tricontourf(new_se_londata, se_latdata, se_tsdata, cmap=se_mymap)</p>
+<p>But now my plot has funny artifacts:<br>
+<a href="/user_uploads/2/b5/nAaveeRRslNGJwr_TkUd8lLQ/camse.png" target="_blank" title="camse.png">camse.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/b5/nAaveeRRslNGJwr_TkUd8lLQ/camse.png" target="_blank" title="camse.png"><img src="/user_uploads/2/b5/nAaveeRRslNGJwr_TkUd8lLQ/camse.png"></a></div><p>Do I need to regrid first so that I can use contourf (instead of tricontourf).  If anyone has advice or example code, I'd appreciate it!</p>
+<p>Thanks! Allison</p>
+
+
+
+<a name="11235"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11235" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11235">(Jun 12 2020 at 17:50)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span> can you attach the FV plot as well for comparison?</p>
+
+
+
+<a name="11236"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11236" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11236">(Jun 12 2020 at 17:51)</a>:</h4>
+<p>Here's the FV plot: <a href="/user_uploads/2/19/zytpyO5cHHeSy1gwf4ID07sP/fv-data.png" target="_blank" title="fv-data.png">fv-data.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/19/zytpyO5cHHeSy1gwf4ID07sP/fv-data.png" target="_blank" title="fv-data.png"><img src="/user_uploads/2/19/zytpyO5cHHeSy1gwf4ID07sP/fv-data.png"></a></div>
+
+
+
+<a name="11237"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11237" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11237">(Jun 12 2020 at 17:52)</a>:</h4>
+<p>It's the white stuff in the upper and lower right corners that I don't know how to fix...</p>
+
+
+
+<a name="11238"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11238" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11238">(Jun 12 2020 at 17:55)</a>:</h4>
+<blockquote>
+<p>It's the white stuff in the upper and lower right corners that I don't know how to fix...</p>
+</blockquote>
+<p>oh, gotcha -- I was expecting the issue to be cubed-sphere imprinting but didn't see it on the SE plot.</p>
+
+
+
+<a name="11239"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11239" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11239">(Jun 12 2020 at 17:58)</a>:</h4>
+<p>Is this an artifact of <code>tricontourf</code> not knowing anything about cyclic coordinates?</p>
+
+
+
+<a name="11247"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11247" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11247">(Jun 12 2020 at 19:22)</a>:</h4>
+<p>hmmm..that is probably right.  But I'm not sure how to do that without first regriding to a structured grid - which is probably what ncl does... I'm hoping there is an existing python option for this</p>
+
+
+
+<a name="11548"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11548" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11548">(Jun 16 2020 at 22:00)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span>:  I think I have a solution to your problem.  I created a function to manually "fix" the cyclic coordinate.  It is, at the moment, pretty specific to your problem (CESM-SE data with -180 &lt; lon &lt; 180), but it should work:</p>
+<div class="codehilite"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;ihesp14.TS.12mon.nc&#39;</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lon</span> <span class="o">&gt;</span> <span class="mf">180.0</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">lon</span> <span class="o">-</span> <span class="mf">360.0</span><span class="p">,</span> <span class="n">ds</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>    <span class="c1"># fix data: -180 &lt; lon &lt; 180</span>
+
+<span class="c1"># Retrieve reduced datasets corresponding to points on the lon==-180.0 and lon==+180.0 lines</span>
+<span class="n">ds_1</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lon</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.9999</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;ncol&#39;</span><span class="p">)</span>
+<span class="n">ds_2</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lon</span> <span class="o">&gt;</span> <span class="mf">179.9999</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;ncol&#39;</span><span class="p">)</span>
+
+<span class="c1"># Flip the sign of the lon coordinate of each dataset (only works due to grid symmetry around lon==0)</span>
+<span class="n">ds_1</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">ds_2</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="c1"># Concatenate the three datasets back together along the &#39;ncol&#39; dimension</span>
+<span class="n">ds_new</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ds_2</span><span class="p">,</span> <span class="n">ds</span><span class="p">,</span> <span class="n">ds_1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;ncol&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot the new dataset</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">mymap</span> <span class="o">=</span> <span class="n">cmocean</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">thermal</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">globe</span><span class="o">=</span><span class="kc">None</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">ds_new</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">ds_new</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">ds_new</span><span class="o">.</span><span class="n">TS</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="n">mymap</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+</pre></div>
+
+
+<p>Which should produce the following plot:</p>
+<p><a href="/user_uploads/2/43/2VZAT4U4LvzAEsx3H9iutG-x/Screen-Shot-2020-06-16-at-3.50.47-PM.png" target="_blank" title="Screen-Shot-2020-06-16-at-3.50.47-PM.png">Screen-Shot-2020-06-16-at-3.50.47-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/43/2VZAT4U4LvzAEsx3H9iutG-x/Screen-Shot-2020-06-16-at-3.50.47-PM.png" target="_blank" title="Screen-Shot-2020-06-16-at-3.50.47-PM.png"><img src="/user_uploads/2/43/2VZAT4U4LvzAEsx3H9iutG-x/Screen-Shot-2020-06-16-at-3.50.47-PM.png"></a></div>
+
+
+
+<a name="11549"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11549" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11549">(Jun 16 2020 at 22:03)</a>:</h4>
+<p>There are still some artifacts near the top and bottom borders (little bits of white), but this has to due with the layout of the gridpoints.  If you look at the original grid, you can see the gridpoints are symmetric around <code>lon==0</code>, which is where I got the idea:</p>
+<p><a href="/user_uploads/2/6e/UuctfLs7ArJ5qXcuWb8Yqt5u/Screen-Shot-2020-06-16-at-3.51.12-PM.png" target="_blank" title="Screen-Shot-2020-06-16-at-3.51.12-PM.png">Screen-Shot-2020-06-16-at-3.51.12-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/6e/UuctfLs7ArJ5qXcuWb8Yqt5u/Screen-Shot-2020-06-16-at-3.51.12-PM.png" target="_blank" title="Screen-Shot-2020-06-16-at-3.51.12-PM.png"><img src="/user_uploads/2/6e/UuctfLs7ArJ5qXcuWb8Yqt5u/Screen-Shot-2020-06-16-at-3.51.12-PM.png"></a></div>
+
+
+
+<a name="11551"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/plotting%20cam-se%20data%3F/near/11551" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/plotting.20cam-se.20data.3F.html#11551">(Jun 16 2020 at 22:39)</a>:</h4>
+<p><span class="user-mention" data-user-id="8">@Kevin Paul</span>  That looks good - thanks so much for your help. I will give this a try!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

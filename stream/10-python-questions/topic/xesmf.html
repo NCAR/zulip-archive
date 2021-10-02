@@ -1,0 +1,71 @@
+<html>
+<head><meta charset="utf-8"><title>xesmf · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xesmf.html">xesmf</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="21048"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xesmf/near/21048" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kate Hedstrom <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xesmf.html#21048">(Nov 06 2020 at 06:53)</a>:</h4>
+<p>I'm trying to use xesmf to regrid onto a curvilinear ROMS grid. It is telling me:</p>
+<div class="codehilite"><pre><span></span>  File &quot;/import/c1/AKWATERS/kate/.conda/envs/snowdrifts/lib/python3.7/site-packages/xesmf/frontend.py&quot;, line 94, in ds_to_ESMFlocstream
+    raise ValueError(&quot;lon can only be 1d&quot;)
+ValueError: lon can only be 1d
+</pre></div>
+
+
+<p>The test code:</p>
+<div class="codehilite"><pre><span></span>import xarray as xr
+import xesmf
+
+def regrid_tracer(fld, method=&#39;bilinear&#39;):
+    coords = xr.open_dataset(&#39;/import/AKWATERS/kshedstrom/gridpak/Arctic2/grid_Arctic_4.nc&#39;)
+    coords = coords.rename({&#39;lon_rho&#39;: &#39;lon&#39;, &#39;lat_rho&#39;: &#39;lat&#39;})
+    gsource = xr.open_dataset(&#39;/import/AKWATERS/kshedstrom/HYCOM/Svalbard/data/HYCOM_GLBv0.08_2018_001.nc&#39;)
+
+    regrid = xesmf.Regridder(
+        gsource,
+        coords,
+        method=method,
+        locstream_out=True,
+        periodic=False,
+        filename=&#39;regrid_t.nc&#39;,
+        reuse_weights=True
+    )
+    tdest = regrid(gsource.ssh)
+    return tdest
+
+myssh = regrid_tracer(&#39;ssh&#39;)
+myssh.to_netcdf(&#39;myssh.nc&#39;)
+</pre></div>
+
+
+<p>What am I doing wrong?</p>
+
+
+
+<a name="21053"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xesmf/near/21053" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xesmf.html#21053">(Nov 06 2020 at 16:27)</a>:</h4>
+<p>I wonder why <code>ds_to_ESMFlocstream</code> is involved. I would have expected an ESMF grid object. The locstream is indeed a 1D thing. I think xesmf must be getting confused and not instantiating an ESMF grid object from your data. <br>
+cc <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
+
+
+
+<a name="21055"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xesmf/near/21055" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kate Hedstrom <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xesmf.html#21055">(Nov 06 2020 at 16:58)</a>:</h4>
+<p>Oh, I was copying from a code that had locstream set to true. It works without that. Thanks!</p>
+
+
+
+<a name="21056"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xesmf/near/21056" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xesmf.html#21056">(Nov 06 2020 at 16:59)</a>:</h4>
+<p>Ah, had I looked more closely at your code, I would have seen that. Glad it's working!</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

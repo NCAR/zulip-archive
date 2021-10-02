@@ -1,0 +1,176 @@
+[
+    {
+        "content": "<p>Sorry if this isn't the best forum to ask this question, but is anyone aware of code examples that plot the various land model plant types, such as deciduous forests, etc from the CLM model?   It appears there is a fairly complicated sparse indexing scheme used to store these types in NetCDF, and I'm trying to figure out how this scheme works.  </p>\n<p>Background description: <a href=\"https://www.cesm.ucar.edu/models/clm/surface.heterogeneity.html\" target=\"_blank\" title=\"https://www.cesm.ucar.edu/models/clm/surface.heterogeneity.html\">https://www.cesm.ucar.edu/models/clm/surface.heterogeneity.html</a></p>\n<p>Example NetCDF file:  /glade/scratch/bonnland/DART/ds345.0/lnd/0001/f.e21.FHIST_BGC.f09_025.CAM6assim.011.clm2_0001.h1.2015.nc</p>\n<p>Variables using this scheme include:  GPP, GRAINC_TO_FOOD, GSSHALN, GSSUNLN, NPP, NPP_NUPTAKE, PLANT_NDEMAND, QVEGT, TLAI</p>\n<p>Thanks for any advice!</p>",
+        "id": 35626,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1624562743
+    },
+    {
+        "content": "<blockquote>\n<p>It appears there is a fairly complicated sparse indexing scheme used to store these types in NetCDF, and I'm trying to figure out how this scheme works.</p>\n</blockquote>\n<p>yeah this is definitely a thing! <span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span> or <span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> might have some code examples in python. Here is Danica's example notebook from the <a href=\"https://github.com/NCAR/ctsm_python_gallery\" target=\"_blank\" title=\"https://github.com/NCAR/ctsm_python_gallery\">ctsm-py repo</a>:<br>\n<a href=\"https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb\" target=\"_blank\" title=\"https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb\">https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb</a></p>",
+        "id": 35664,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1624574000
+    },
+    {
+        "content": "<p>I think <span class=\"user-mention\" data-user-id=\"179\">@Zhonghua Zheng</span> had a similar question last week?</p>",
+        "id": 35666,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1624574118
+    },
+    {
+        "content": "<p>Hi again, I have more questions about how to interpret PFT-related variables in the CLM history files.</p>\n<p>I'm looking at this file, for example: <br>\n<code>/glade/scratch/bonnland/temp/lnd/0001/f.e21.FHIST_BGC.f09_025.CAM6assim.011.clm2_0001.h1.2011.nc</code></p>\n<p>In it, there is the variable  <code>TLAI(time, pft)</code>.   I was originally thinking that the <code>pft</code> dimension can be expanded from 1D to 3D by mapping to the dimensions <code>(lat, lon, veg_type)</code>, but it appears that this mapping is not enough:  there are many cases where the same <code>(lat, lon, veg_type)</code> index values. appear more than once.   For example, in the file above:</p>\n<ul>\n<li>the last few values of <code>pfts1d_lat </code>are             83.403145</li>\n<li>the last few values of <code>pfts1d_lon</code> are            335.0</li>\n<li>the last few values of <code>pfts1d_itype_veg</code> are  0</li>\n</ul>\n<p>Is there some other dimension needed to keep these indexes from referring to the same <code>(lat, lon, veg_type) </code>combination more than once?   Or should these be viewed as duplicate values that can be removed?   </p>\n<p>Thanks for any insights!</p>",
+        "id": 35976,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625002245
+    },
+    {
+        "content": "<p>Tagging <span class=\"user-mention\" data-user-id=\"120\">@Daniel Kennedy</span> as well here for any relevant code examples of PFT regridding in python</p>",
+        "id": 36014,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1625071308
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> : Did you look at my script that Katie pointed you to earlier (here for reference: <a href=\"https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb\" target=\"_blank\" title=\"https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb\">https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb</a>)? </p>\n<p>The relevant line of code for what you're trying to do is in cell 15 (look for 'Creating gridded array' in the text). I'm happy to talk more if you'd like</p>",
+        "id": 36340,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1625259924
+    },
+    {
+        "content": "<p>Hi Danica!  This is embarrassing but I keep hitting a key by accident that erases my reply; I've written it twice now!    So I'm going to write a bunch of smaller parts, which should end with a question.</p>",
+        "id": 36347,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625261128
+    },
+    {
+        "content": "<p>I found your notebook very helpful, I was getting nowhere until I got to look at it.   <br>\nI'm looking into whether the PFT-related data can be organized in Zarr format, where we have the ability to organize the data by <code>(lat, lon, vegtype)</code> for example.    If we do that, then someone interested in just evergreen forests in North America can load 1% of the data they otherwise need to with the data as it is organized now.    It can be expensive, resource-wise, to load all available data and then throw away 99% of it to get the subset you're interested in.</p>",
+        "id": 36348,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625261393
+    },
+    {
+        "content": "<p>But when I tried doing this, I discovered that there are many elements along the <code>pft</code> dimension in the original data with the same <code>(lat, lon, vegtype)</code> combination.   This prevents the data from being reorganized along just these three dimensions.</p>",
+        "id": 36349,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625261488
+    },
+    {
+        "content": "<p>To reorganize the data, each element along the <code>pft</code> dimension needs its own unique combination of indexed values.   What I've discovered is that every element <em>does</em> have a unique combination of <code>(lat, lon, vegtype, coltype, lunittype, active)</code>.   These are other potential dimensions available in the NetCDF files I am using.</p>",
+        "id": 36350,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625261605
+    },
+    {
+        "content": "<p>I think my question(s) are \"Does what I'm saying make any sense based on your understanding of the data?\" and \"Is it possible I've added too many dimensions?\"     If what I'm saying isn't clear, I'm happy to explain more.</p>",
+        "id": 36352,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625261744
+    },
+    {
+        "content": "<p>To be totally honest, the PFT-level data has always confused me! We may have to iterate on this a few times. I agree that this is a resource-intensive process, and I will be super excited if you figure out a way to pull just the PFTs of interest. This will be particularly helpful for LENS2 analysis!</p>\n<p>The data from CLM can be a little confusing, but you may be on the right track. One upfront question: are all the duplicates 0, like in the example you shared? </p>\n<p>Historically, all PFTs were on the same column, but this changed when we added crops. With the active crop model, each crop has its own soil column. I am surprised that the indices appear more than once, however. Even though different plant types may be on different soil columns, I don't think that any should be specified twice in a grid cell. </p>\n<p>Have you looked at whether <code>(lat, lon, vegtype, coltype)</code> has duplicates? I ask because I wouldn't expect lunittype (land unit type) to be important in this context, because all the plants should be on the vegetated land unit (others include glacier, lake, etc). The 'active' variable is probably related to whether the crop type is active or not (even though we have 64 crop PFTs on the file, only 16 are actually simulated), so I wouldn't expect that to matter either. </p>\n<p>I wonder if it's worth comparing the processing of a full dataset (similar to my script) and then data processing using your method, ignoring duplicate values. It may give us a better sense for whether the duplicates matter, especially if they are 0 values.</p>",
+        "id": 36364,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1625265020
+    },
+    {
+        "content": "<p>Excellent info, thank you!   I will try to find out the answers to your questions, but it may be next week!</p>",
+        "id": 36365,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625265162
+    },
+    {
+        "content": "<p>Thinking more about your answer, is it possibly a good idea to remove all points that are not marked as active?   Could you imagine anyone wanting to look at values where active = 0?   Maybe these are also zero for non-crop vegtypes, however, in which case we want to keep them?</p>",
+        "id": 36366,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625266115
+    },
+    {
+        "content": "<p>I do remember that when I tried using just the <code>(lat, lon, vegtype)</code> dimensions, there were around 65,000 elements in the <code>pft</code> dimension (~800,000 total elements for that dimension) that were marked as having non-unique index values.    But I don't know what the <code>coltype</code> values were for those points.   I will see if I can figure that out soon.</p>",
+        "id": 36367,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625266369
+    },
+    {
+        "content": "<p>I'm not entirely sure about <code>active</code>. I can't think of a reason where people would want to use an inactive PFT, but that doesn't mean they don't exist! The inactive PFTs get merged into the active crop types, so I don't think there would be any useful information for the inactive PFTs.</p>",
+        "id": 36368,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1625266617
+    },
+    {
+        "content": "<p>Brian, The notebook that <span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span> pointed to has 1D indexes <code>pfts1d_ixy</code> and <code>pfts1d_jxy</code>.  If your dataset has that too, you can use that directly in the <code>sparse.COO</code> constructor and avoid all the expense in create the MultiIndex.</p>",
+        "id": 36482,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625602099
+    },
+    {
+        "content": "<p>Yes, I have those too, and I will give that a try, thank you!   Eventually I hope the points can be indexed by lat/lon instead of array indexes, but perhaps this can be accomplished easily at a later step.</p>",
+        "id": 36483,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625602559
+    },
+    {
+        "content": "<p>hmmm.. there's some misconception here. Let me write up an example</p>",
+        "id": 36484,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625602930
+    },
+    {
+        "content": "<p>I appreciate that!   From looking at the sparse docs, it appears that simple indexing is supported, and xarray would have to provide the coordinate index mapping if you wanted to store the variable as <code>TLAI(lat, lon, vegtype)</code> for example.   It seems possible in principle, since there is a 1:1 relationship between sparse array indexes and lat/lon coordinate indexes (at least for gridded data).</p>",
+        "id": 36485,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625604973
+    },
+    {
+        "content": "<p>Done. <a href=\"https://github.com/NCAR/ctsm_python_gallery/pull/36\" target=\"_blank\" title=\"https://github.com/NCAR/ctsm_python_gallery/pull/36\">https://github.com/NCAR/ctsm_python_gallery/pull/36</a></p>",
+        "id": 36494,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625608732
+    },
+    {
+        "content": "<p>(the dask repr is wrong, it still think its a numpy array but if you compute you get a sparse array; I havent updated dask in a while <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>)</p>",
+        "id": 36496,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625608771
+    },
+    {
+        "content": "<p>Wow!   Great stuff in that notebook!    I have to try soon and see whether it can be saved to Zarr, unless you're fairly confident that sparse arrays like these are supported by Zarr.     I really appreciate your work on this!  It should help the wider community have access to these interesting variables.</p>",
+        "id": 36501,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625609514
+    },
+    {
+        "content": "<p>fairly certain you can't write sparse directly to zarr. I bet this is more useful as a utility function that is applied after a dataset is read</p>",
+        "id": 36502,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625609673
+    },
+    {
+        "content": "<p>OK, but if the entire variable needs to be processed this way each time, it makes the memory requirements much higher than it otherwise would need to be.</p>",
+        "id": 36503,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625609834
+    },
+    {
+        "content": "<p>it's parallelized using dask so it's just an extra compute step with much lower memory usage: <a href=\"/user_uploads/2/f4/7_X9irlIWTa2nvfPZGgwrYKe/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/f4/7_X9irlIWTa2nvfPZGgwrYKe/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/f4/7_X9irlIWTa2nvfPZGgwrYKe/pasted_image.png\"></a></div>",
+        "id": 36504,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625610240
+    },
+    {
+        "content": "<p>Yes, I meant something different.    I am imagining that analysis will rarely involve the full data, so if we could arrange the data on disk in useful slices, then there is potentially some real savings in core hours and/or memory in the long run.</p>",
+        "id": 36505,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625610478
+    },
+    {
+        "content": "<p>Ah I see. Another way would be to chunk along <code>pft</code> before unstacking it which would require some interesting logic =)</p>",
+        "id": 36506,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625612665
+    },
+    {
+        "content": "<p>It might not be bad, not sure about this but sparse arrays can be combined by summing them together if the points in the two sparse arrays are disjoint, as they are in this case.   It just might work...</p>",
+        "id": 36507,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625613967
+    }
+]

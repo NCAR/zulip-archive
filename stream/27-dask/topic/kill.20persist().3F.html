@@ -1,0 +1,33 @@
+<html>
+<head><meta charset="utf-8"><title>kill persist()? · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/kill.20persist().3F.html">kill persist()?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="36730"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/kill%20persist%28%29%3F/near/36730" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/kill.20persist().3F.html#36730">(Jul 08 2021 at 17:16)</a>:</h4>
+<p>I started a background dask computation using .persist() , and it's too slow due to insufficient workers. How do I kill the persist() computation running in the background?</p>
+
+
+
+<a name="36732"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/kill%20persist%28%29%3F/near/36732" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/kill.20persist().3F.html#36732">(Jul 08 2021 at 17:43)</a>:</h4>
+<blockquote>
+<p>How do I kill the persist() computation running in the background?</p>
+</blockquote>
+<p>You can use the client's <code>.cancel</code> method:</p>
+<div class="codehilite"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+<span class="o">....</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">cancel</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

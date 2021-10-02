@@ -1,0 +1,153 @@
+<html>
+<head><meta charset="utf-8"><title>KeyError when retrieving a zarr file · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html">KeyError when retrieving a zarr file</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="10768"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KeyError%20when%20retrieving%20a%20zarr%20file/near/10768" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html#10768">(Jun 07 2020 at 16:59)</a>:</h4>
+<p>Has anyone encountered this error when trying to retrieve a stored zarr file:</p>
+<p>/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/xarray/backends/zarr.py in open_zarr(store, group, synchronizer, chunks, decode_cf, mask_and_scale, decode_times, concat_characters, decode_coords, drop_variables, consolidated, overwrite_encoded_chunks, **kwargs)<br>
+    595         synchronizer=synchronizer,<br>
+    596         group=group,<br>
+--&gt; 597         consolidated=consolidated,<br>
+    598     )<br>
+    599     ds = maybe_decode_store(zarr_store)</p>
+<p>/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/xarray/backends/zarr.py in open_group(cls, store, mode, synchronizer, group, consolidated, consolidate_on_close)<br>
+    257         if consolidated:<br>
+    258             # TODO: an option to pass the metadata_key keyword<br>
+--&gt; 259             zarr_group = zarr.open_consolidated(store, **open_kwargs)<br>
+    260         else:<br>
+    261             zarr_group = zarr.open_group(store, **open_kwargs)</p>
+<p>/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/zarr/convenience.py in open_consolidated(store, metadata_key, mode, **kwargs)<br>
+   1177 <br>
+   1178     # setup metadata sotre<br>
+-&gt; 1179     meta_store = ConsolidatedMetadataStore(store, metadata_key=metadata_key)<br>
+   1180 <br>
+   1181     # pass through</p>
+<p>/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/zarr/storage.py in __init__(self, store, metadata_key)<br>
+   2499 <br>
+   2500         # retrieve consolidated metadata<br>
+-&gt; 2501         meta = json_loads(store[metadata_key])<br>
+   2502 <br>
+   2503         # check format of consolidated metadata</p>
+<p>/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/zarr/storage.py in __getitem__(self, key)<br>
+    789             return self._fromfile(filepath)<br>
+    790         else:<br>
+--&gt; 791             raise KeyError(key)<br>
+    792 <br>
+    793     def __setitem__(self, key, value):</p>
+<p>KeyError: '.zmetadata'</p>
+
+
+
+<a name="10769"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KeyError%20when%20retrieving%20a%20zarr%20file/near/10769" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html#10769">(Jun 07 2020 at 19:31)</a>:</h4>
+<p><span class="user-mention" data-user-id="35">@Precious Mongwe</span>, can you post the path to the zarr archive you are trying to read? It's possible that error is a result of an incomplete archive.</p>
+
+
+
+<a name="10771"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KeyError%20when%20retrieving%20a%20zarr%20file/near/10771" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html#10771">(Jun 07 2020 at 19:35)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> "/glade/scratch/pmongwe/LE_spl_proc_avr_data/LE_TEMP_hist_ds_anm_v4.zarr" /LE_TEMP_hist_ds_anm_v2.zarr</p>
+
+
+
+<a name="10772"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KeyError%20when%20retrieving%20a%20zarr%20file/near/10772" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html#10772">(Jun 07 2020 at 19:37)</a>:</h4>
+<p>I can read <br>
+'/glade/scratch/pmongwe/LE_spl_proc_avr_data/LE_TEMP_hist_ds_anm_v4.zarr' </p>
+<p>with no apparent problems. (xarray v0.15.1)</p>
+
+
+
+<a name="10773"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KeyError%20when%20retrieving%20a%20zarr%20file/near/10773" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html#10773">(Jun 07 2020 at 19:49)</a>:</h4>
+<p>I just tried this a different environment and it works!, thanks, problem solved!</p>
+
+
+
+<a name="10774"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KeyError%20when%20retrieving%20a%20zarr%20file/near/10774" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KeyError.20when.20retrieving.20a.20zarr.20file.html#10774">(Jun 08 2020 at 05:41)</a>:</h4>
+<p><span class="user-mention" data-user-id="35">@Precious Mongwe</span>, </p>
+<ul>
+<li><strong>Reading with <code>consolidated=False</code> works</strong></li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/glade/scratch/pmongwe/LE_spl_proc_avr_data/LE_TEMP_hist_ds_anm_v4.zarr&quot;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span>
+<span class="n">Dimensions</span><span class="p">:</span>  <span class="p">(</span><span class="n">member_id</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span> <span class="n">nlat</span><span class="p">:</span> <span class="mi">384</span><span class="p">,</span> <span class="n">nlon</span><span class="p">:</span> <span class="mi">320</span><span class="p">,</span> <span class="n">year</span><span class="p">:</span> <span class="mi">46</span><span class="p">,</span> <span class="n">z_t</span><span class="p">:</span> <span class="mi">45</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+    <span class="n">TLAT</span>     <span class="p">(</span><span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span><span class="p">)</span> <span class="n">float64</span> <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="mi">384</span><span class="p">,</span> <span class="mi">320</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+    <span class="n">TLONG</span>    <span class="p">(</span><span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span><span class="p">)</span> <span class="n">float64</span> <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="mi">384</span><span class="p">,</span> <span class="mi">320</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+  <span class="o">*</span> <span class="n">year</span>     <span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">1920</span> <span class="mi">1921</span> <span class="mi">1922</span> <span class="mi">1923</span> <span class="mi">1924</span> <span class="o">...</span> <span class="mi">1961</span> <span class="mi">1962</span> <span class="mi">1963</span> <span class="mi">1964</span> <span class="mi">1965</span>
+  <span class="o">*</span> <span class="n">z_t</span>      <span class="p">(</span><span class="n">z_t</span><span class="p">)</span> <span class="n">float32</span> <span class="mf">500.0</span> <span class="mf">1500.0</span> <span class="mf">2500.0</span> <span class="o">...</span> <span class="mf">140049.72</span> <span class="mf">157394.64</span> <span class="mf">176400.33</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">member_id</span><span class="p">,</span> <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span>
+<span class="n">Data</span> <span class="n">variables</span><span class="p">:</span>
+    <span class="n">TEMP</span>     <span class="p">(</span><span class="n">member_id</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">z_t</span><span class="p">,</span> <span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span><span class="p">)</span> <span class="n">float32</span> <span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">384</span><span class="p">,</span> <span class="mi">320</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<ul>
+<li><strong>Opening the store using zarr's consolidated metadata capability fails</strong></li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">consolidated</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span>                                  <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mf">00e040</span><span class="n">a4d4a9</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">consolidated</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">softwares</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">analysis</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xarray</span><span class="o">/</span><span class="n">backends</span><span class="o">/</span><span class="n">zarr</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">open_zarr</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">synchronizer</span><span class="p">,</span> <span class="n">chunks</span><span class="p">,</span> <span class="n">decode_cf</span><span class="p">,</span> <span class="n">mask_and_scale</span><span class="p">,</span> <span class="n">decode_times</span><span class="p">,</span> <span class="n">concat_characters</span><span class="p">,</span> <span class="n">decode_coords</span><span class="p">,</span> <span class="n">drop_variables</span><span class="p">,</span> <span class="n">consolidated</span><span class="p">,</span> <span class="n">overwrite_encoded_chunks</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">595</span>         <span class="n">synchronizer</span><span class="o">=</span><span class="n">synchronizer</span><span class="p">,</span>
+    <span class="mi">596</span>         <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span>
+<span class="o">--&gt;</span> <span class="mi">597</span>         <span class="n">consolidated</span><span class="o">=</span><span class="n">consolidated</span><span class="p">,</span>
+    <span class="mi">598</span>     <span class="p">)</span>
+    <span class="mi">599</span>     <span class="n">ds</span> <span class="o">=</span> <span class="n">maybe_decode_store</span><span class="p">(</span><span class="n">zarr_store</span><span class="p">)</span>
+
+<span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">softwares</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">analysis</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xarray</span><span class="o">/</span><span class="n">backends</span><span class="o">/</span><span class="n">zarr</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">open_group</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">synchronizer</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">consolidated</span><span class="p">,</span> <span class="n">consolidate_on_close</span><span class="p">)</span>
+    <span class="mi">257</span>         <span class="k">if</span> <span class="n">consolidated</span><span class="p">:</span>
+    <span class="mi">258</span>             <span class="c1"># TODO: an option to pass the metadata_key keyword</span>
+<span class="o">--&gt;</span> <span class="mi">259</span>             <span class="n">zarr_group</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_consolidated</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">open_kwargs</span><span class="p">)</span>
+    <span class="mi">260</span>         <span class="k">else</span><span class="p">:</span>
+    <span class="mi">261</span>             <span class="n">zarr_group</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_group</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">open_kwargs</span><span class="p">)</span>
+
+<span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">softwares</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">analysis</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">zarr</span><span class="o">/</span><span class="n">convenience</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="n">open_consolidated</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">metadata_key</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+   <span class="mi">1177</span>
+   <span class="mi">1178</span>     <span class="c1"># setup metadata sotre</span>
+<span class="o">-&gt;</span> <span class="mi">1179</span>     <span class="n">meta_store</span> <span class="o">=</span> <span class="n">ConsolidatedMetadataStore</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">metadata_key</span><span class="o">=</span><span class="n">metadata_key</span><span class="p">)</span>
+   <span class="mi">1180</span>
+   <span class="mi">1181</span>     <span class="c1"># pass through</span>
+
+<span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">softwares</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">analysis</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">zarr</span><span class="o">/</span><span class="n">storage</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">metadata_key</span><span class="p">)</span>
+   <span class="mi">2499</span>
+   <span class="mi">2500</span>         <span class="c1"># retrieve consolidated metadata</span>
+<span class="o">-&gt;</span> <span class="mi">2501</span>         <span class="n">meta</span> <span class="o">=</span> <span class="n">json_loads</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="n">metadata_key</span><span class="p">])</span>
+   <span class="mi">2502</span>
+   <span class="mi">2503</span>         <span class="c1"># check format of consolidated metadata</span>
+
+<span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">softwares</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">analysis</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">zarr</span><span class="o">/</span><span class="n">storage</span><span class="o">.</span><span class="n">py</span> <span class="ow">in</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+    <span class="mi">789</span>             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fromfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="mi">790</span>         <span class="k">else</span><span class="p">:</span>
+<span class="o">--&gt;</span> <span class="mi">791</span>             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="mi">792</span>
+    <span class="mi">793</span>     <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+<span class="ne">KeyError</span><span class="p">:</span> <span class="s1">&#39;.zmetadata&#39;</span>
+</pre></div>
+
+
+<p>So, the error is also hinting at the fact that you probably didn't save the zarr store metadata in a consolidated file i.e. you saved it with <code>ds.to_zarr(ZARR_PATH)</code>. To consolidate your zarr store metadata, you need to use <code>ds.to_zarr(ZARR_PATH, consolidated=True)</code></p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>

@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Hi I am trying to read standard CESM output and extract single variables for CMIP6-style output.  I might also have to do unit conversion.  <br>\nScript is ~lamar/Python/H2/rw_h0.ipynb</p>\n<p>I am reading the files using </p>\n<p>ds=xr.open_mfdataset(files[0:3], concat_dim=\"time\", combine='nested')</p>\n<p>then extracting a specific variable</p>\n<p>var = ds[\"H2\"]</p>\n<p>I tried</p>\n<p>var.rename({\"H2\": \"h2\"})</p>\n<p>but this does not work.  The error message is</p>\n<p>\"cannot rename 'H2' because it is not a variable or dimension in this dataset\"</p>\n<p>Thoughts?</p>",
+        "id": 30233,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619385756
+    },
+    {
+        "content": "<p>Use:  <br>\nvar.rename('h2')   <br>\nFor some reason, the dict construct is only for coordinates?</p>",
+        "id": 30234,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1619386342
+    },
+    {
+        "content": "<p>Thanks. Steve.  It \"works\" in that it does not complain, but the output netcdf file still has \"H2\", not \"h2\"</p>\n<p>/glade/scratch/lamar/tmp/H2/h2_Amon_WACCM6-fr_hydrogen_c1_r1_gn_201001-201412.nc</p>",
+        "id": 30235,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619386482
+    },
+    {
+        "content": "<p>You need to overwrite var by doing:<br>\nvar = var.rename('h2')</p>",
+        "id": 30236,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1619386521
+    },
+    {
+        "content": "<p>Making progress :-)</p>\n<p>Now it crashes writing the netcdf file</p>\n<p>TypeError: unhashable type: 'set'</p>",
+        "id": 30237,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619389457
+    },
+    {
+        "content": "<p>Found a way around it.  Not pretty but it works.  Since I have a lot of variables, is<br>\nthere a way to create a function that would do that?</p>\n<p>var = ds[\"H2\"]</p>\n<h1>dsout = xr.Dataset(</h1>\n<div class=\"codehilite\"><pre><span></span>data_vars=dict(\n    h2=([&quot;time&quot;, &quot;lev&quot;, &quot;lat&quot;, &quot;lon&quot;], var),\n),\ncoords=dict(\n    lon=([&quot;lon&quot;], lon),\n    lat=([&quot;lat&quot;], lat),\n    lev=([&quot;lev&quot;], lev),\n    time=date,\n),\nattrs=dict(description=&quot;Hydrogen MIP&quot;),\n</pre></div>\n\n\n<p>)<br>\ndsout['h2'].attrs[\"units\"] = \"mol/mol\"</p>",
+        "id": 30238,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619392206
+    },
+    {
+        "content": "<p>I would do something like</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">ds</span><span class=\"o\">=</span><span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_mfdataset</span><span class=\"p\">(</span><span class=\"n\">files</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">:</span><span class=\"mi\">3</span><span class=\"p\">],</span> <span class=\"n\">concat_dim</span><span class=\"o\">=</span><span class=\"s2\">&quot;time&quot;</span><span class=\"p\">,</span> <span class=\"n\">combine</span><span class=\"o\">=</span><span class=\"s1\">&#39;nested&#39;</span><span class=\"p\">)</span>\n<span class=\"n\">renamer</span> <span class=\"o\">=</span> <span class=\"p\">{</span><span class=\"s2\">&quot;H2&quot;</span><span class=\"p\">:</span> <span class=\"s2\">&quot;h2&quot;</span><span class=\"p\">,}</span>  <span class=\"c1\"># could add other variables here</span>\n\n<span class=\"n\">attrs</span> <span class=\"o\">=</span> <span class=\"p\">{</span><span class=\"s2\">&quot;h2&quot;</span><span class=\"p\">:</span> <span class=\"p\">{</span><span class=\"s2\">&quot;units&quot;</span><span class=\"p\">:</span> <span class=\"s2\">&quot;mol/mol&quot;</span><span class=\"p\">,</span> <span class=\"s2\">&quot;description=&quot;</span><span class=\"n\">Hydrogen</span> <span class=\"n\">MIP</span><span class=\"s2\">&quot;}}</span>\n\n<span class=\"n\">ds_renamed</span> <span class=\"o\">=</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">rename_vars</span><span class=\"p\">(</span><span class=\"n\">rename</span><span class=\"p\">)</span>\n\n<span class=\"k\">for</span> <span class=\"n\">var</span> <span class=\"ow\">in</span> <span class=\"n\">ds_renamed</span><span class=\"p\">:</span>\n    <span class=\"c1\"># alternatively, ds_renamed[var].attrs = attrs[var]</span>\n    <span class=\"n\">ds_renamed</span><span class=\"p\">[</span><span class=\"n\">var</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">assign_attrs</span><span class=\"p\">(</span><span class=\"n\">attrs</span><span class=\"p\">[</span><span class=\"n\">var</span><span class=\"p\">])</span><span class=\"o\">.</span><span class=\"n\">to_netcdf</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s2\">&quot;</span><span class=\"si\">{var}</span><span class=\"s2\">.nc&quot;</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 30239,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1619393639
+    },
+    {
+        "content": "<p>Thanks, Deepak.  I'll try that!</p>",
+        "id": 30240,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619395016
+    }
+]

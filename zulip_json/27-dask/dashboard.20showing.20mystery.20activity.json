@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>When I logged on to jupyterhub this morning, I had several dask dashboard windows open from my last session that show lots of activity even before I've initiated a cluster :<br>\n<a href=\"/user_uploads/2/41/CmJInrAyPvMYV6dYkZfz_gh4/Screen-Shot-2021-04-30-at-8.01.33-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-30-at-8.01.33-AM.png\">Screen-Shot-2021-04-30-at-8.01.33-AM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/41/CmJInrAyPvMYV6dYkZfz_gh4/Screen-Shot-2021-04-30-at-8.01.33-AM.png\" target=\"_blank\" title=\"Screen-Shot-2021-04-30-at-8.01.33-AM.png\"><img src=\"/user_uploads/2/41/CmJInrAyPvMYV6dYkZfz_gh4/Screen-Shot-2021-04-30-at-8.01.33-AM.png\"></a></div><p>When I do <code>qstat -u yeager</code>, I don't see any dask workers. My dashboard is pointing to <a href=\"https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/\" target=\"_blank\" title=\"https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/\">https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/</a>.  Is my dashboard somehow reflecting another user's job? What's going on?</p>",
+        "id": 30606,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1619791540
+    },
+    {
+        "content": "<p>Is it still showing up?</p>",
+        "id": 30610,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619795617
+    },
+    {
+        "content": "<p>Also, are you on the login node?</p>",
+        "id": 30611,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619795636
+    },
+    {
+        "content": "<p>I stopped my server and then restarted, and then the dask dashboard went inactive. Both times, I logged into casper batch queue.</p>",
+        "id": 30612,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1619795747
+    },
+    {
+        "content": "<p>So the dashboard isn't showing at all for you anymore? Does it spawn a new dashboard link?</p>",
+        "id": 30613,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619796627
+    },
+    {
+        "content": "<p>The dashboard is now working. I just initiated a new cluster on casper and the link (<a href=\"https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/\" target=\"_blank\" title=\"https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/\">https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/</a>) now shows activity on my cluster.</p>",
+        "id": 30614,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1619797046
+    },
+    {
+        "content": "<p>Still a mystery why I already had an active dashboard when first logging in to casper.</p>",
+        "id": 30615,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1619797071
+    },
+    {
+        "content": "<blockquote>\n<p>Still a mystery why I already had an active dashboard when first logging in to casper.</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> the port-forwarding for the dashboard does not require authentication, so somebody else must have spun up a cluster on the node you were logged in with and been assigned the port you had previously used. This is pretty common if your dashboard was pointing to 8787 (the default), because once you stop your cluster the next person on the node to start one will then get 8787 instead</p>",
+        "id": 30630,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1619797241
+    }
+]

@@ -1,0 +1,164 @@
+[
+    {
+        "content": "<p>I'm trying to use <code>pre-commit</code> while working on a PR for <code>pop-tools</code>. When trying to commit, I get the following error:</p>\n<div class=\"codehilite\"><pre><span></span>[WARNING] Unstaged files detected.\n[INFO] Stashing unstaged files to /glade/u/home/rbrady/.cache/pre-commit/patch1590692934.\n[INFO] Installing environment for https://github.com/pre-commit/pre-commit-hooks.\n[INFO] Once installed this environment will be reused.\n[INFO] This may take a few minutes...\n[INFO] Restored changes from /glade/u/home/rbrady/.cache/pre-commit/patch1590692934.\nAn unexpected error has occurred: CalledProcessError: command: (&#39;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/bin/python&#39;, &#39;-mpip&#39;, &#39;install&#39;, &#39;.&#39;)\nreturn code: 1\nexpected return code: 0\nstdout: (none)\nstderr:\n    Traceback (most recent call last):\n      File &quot;/glade/work/rbrady/miniconda3/envs/pop-tools-dev/lib/python3.8/runpy.py&quot;, line 193, in _run_module_as_main\n        return _run_code(code, main_globals, None,\n      File &quot;/glade/work/rbrady/miniconda3/envs/pop-tools-dev/lib/python3.8/runpy.py&quot;, line 86, in _run_code\n        exec(code, run_globals)\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/__main__.py&quot;, line 23, in &lt;module&gt;\n        from pip._internal.cli.main import main as _main  # isort:skip # noqa\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/cli/main.py&quot;, line 10, in &lt;module&gt;\n        from pip._internal.cli.autocompletion import autocomplete\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/cli/autocompletion.py&quot;, line 9, in &lt;module&gt;\n        from pip._internal.cli.main_parser import create_main_parser\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/cli/main_parser.py&quot;, line 7, in &lt;module&gt;\n        from pip._internal.cli import cmdoptions\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/cli/cmdoptions.py&quot;, line 24, in &lt;module&gt;\n        from pip._internal.cli.progress_bars import BAR_TYPES\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/cli/progress_bars.py&quot;, line 12, in &lt;module&gt;\n        from pip._internal.utils.logging import get_indentation\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/utils/logging.py&quot;, line 18, in &lt;module&gt;\n        from pip._internal.utils.misc import ensure_dir\n      File &quot;/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_internal/utils/misc.py&quot;, line 20, in &lt;module&gt;\n        from pip._vendor import pkg_resources\n    ImportError: cannot import name &#39;pkg_resources&#39; from &#39;pip._vendor&#39; (/glade/u/home/rbrady/.cache/pre-commit/repo4_mumozy/py_env-python3.8/lib/python3.8/site-packages/pip/_vendor/__init__.py)\n</pre></div>\n\n\n<p>A log is available here, but says basically the same thing: <code>Check the log at /glade/u/home/rbrady/.cache/pre-commit/pre-commit.log</code>.</p>\n<ol>\n<li>I tried deleting my <code>miniconda3</code> folder and reinstalling miniconda, since sometimes things get tripped up there. </li>\n<li>I tried clearing my <code>pre-commit</code> cache folder completely.</li>\n<li>I tried downgrading <code>pip</code> to a version earlier than <code>20.1.1</code>.</li>\n<li>I tried downgrading <code>pre-commit</code> to a version earlier than <code>2.4.0</code></li>\n</ol>\n<p>Not sure what's going on here. Googling wasn't of much help. Couldn't find anyone referencing this error: <code>ImportError: cannot import name 'pkg_resources' from 'pip._vendor'</code>.</p>",
+        "id": 9921,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590693130
+    },
+    {
+        "content": "<p>Perhaps this has something to do with python 3.8?</p>",
+        "id": 9922,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590693172
+    },
+    {
+        "content": "<p>this doesn't help figure out what is going wrong, but what if you stash the changes yourself?</p>\n<div class=\"codehilite\"><pre><span></span>$ git stash\n$ git commit\n$ git stash apply\n</pre></div>",
+        "id": 9923,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1590693231
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"40\">@Riley Brady</span>,  try cleaning the cache with</p>\n<div class=\"codehilite\"><pre><span></span>pre-commit gc <span class=\"o\">&amp;&amp;</span> pre-commit uninstall <span class=\"o\">&amp;&amp;</span> pre-commit install\n</pre></div>",
+        "id": 9925,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693337
+    },
+    {
+        "content": "<p>And run <code>pre-commit run --all-files</code> to confirm that things are working again</p>",
+        "id": 9926,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693385
+    },
+    {
+        "content": "<p>Actually, use <code>pre-commit run</code> as a check</p>",
+        "id": 9927,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693464
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>, no luck. Same error following those steps.</p>",
+        "id": 9928,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590693464
+    },
+    {
+        "content": "<p>Okay</p>",
+        "id": 9929,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693471
+    },
+    {
+        "content": "<p>give me a second to look at the logs</p>",
+        "id": 9930,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693484
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> that doesn't help either, stashing before committing. It breaks on the <code>git commit</code> step.</p>",
+        "id": 9931,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590693508
+    },
+    {
+        "content": "<p>Can you post the content of  your <code>.pre-commit-hooks.yaml</code> file?</p>",
+        "id": 9932,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693609
+    },
+    {
+        "content": "<p>Looking back at your error message, I think I misread something... I thought the</p>\n<div class=\"codehilite\"><pre><span></span>[INFO] Restored changes from /glade/u/home/rbrady/.cache/pre-commit/patch1590692934\n</pre></div>\n\n\n<p>was indicating that the error happened when restoring changes, rather than that being the last good step... sorry about that</p>",
+        "id": 9933,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1590693621
+    },
+    {
+        "content": "<blockquote>\n<p>Can you post the content of  your <code>.pre-commit-hooks.yaml</code> file?</p>\n</blockquote>\n<p>Never mind.. I hadn't seen that this is <code>pop-tools</code> <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>",
+        "id": 9934,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590693687
+    },
+    {
+        "content": "<p>I am not <span aria-label=\"100\" class=\"emoji emoji-1f4af\" role=\"img\" title=\"100\">:100:</span> convinced that the following is going to work, but it is worth trying. </p>\n<p>How about updating the hooks:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"nt\">repos</span><span class=\"p\">:</span>\n\n  <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">repo</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">https://github.com/pre-commit/pre-commit-hooks</span>\n      <span class=\"nt\">rev</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">v2.2.3</span>\n      <span class=\"nt\">hooks</span><span class=\"p\">:</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">trailing-whitespace</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">end-of-file-fixer</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">check-docstring-first</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">check-yaml</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">double-quote-string-fixer</span>\n\n  <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">repo</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">https://github.com/ambv/black</span>\n      <span class=\"nt\">rev</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">19.3b0</span>\n      <span class=\"nt\">hooks</span><span class=\"p\">:</span>\n      <span class=\"p p-Indicator\">-</span> <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">black</span>\n        <span class=\"nt\">args</span><span class=\"p\">:</span> <span class=\"p p-Indicator\">[</span><span class=\"s\">&quot;--line-length&quot;</span><span class=\"p p-Indicator\">,</span> <span class=\"s\">&quot;100&quot;</span><span class=\"p p-Indicator\">,</span> <span class=\"s\">&quot;--skip-string-normalization&quot;</span><span class=\"p p-Indicator\">]</span>\n\n  <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">repo</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">https://gitlab.com/pycqa/flake8</span>\n      <span class=\"nt\">rev</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">3.8.1</span>\n      <span class=\"nt\">hooks</span><span class=\"p\">:</span>\n      <span class=\"p p-Indicator\">-</span> <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">flake8</span>\n\n  <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">repo</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">https://github.com/asottile/seed-isort-config</span>\n      <span class=\"nt\">rev</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">v1.9.0</span>\n      <span class=\"nt\">hooks</span><span class=\"p\">:</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">seed-isort-config</span>\n  <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">repo</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">https://github.com/pre-commit/mirrors-isort</span>\n      <span class=\"nt\">rev</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">v4.3.20</span>\n      <span class=\"nt\">hooks</span><span class=\"p\">:</span>\n      <span class=\"p p-Indicator\">-</span>   <span class=\"nt\">id</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">isort</span>\n          <span class=\"nt\">args</span><span class=\"p\">:</span> <span class=\"p p-Indicator\">[</span><span class=\"s\">&quot;-w&quot;</span><span class=\"p p-Indicator\">,</span> <span class=\"s\">&quot;100&quot;</span><span class=\"p p-Indicator\">]</span>\n</pre></div>\n\n\n<p>followed by </p>\n<div class=\"codehilite\"><pre><span></span>pre-commit autoupdate\n</pre></div>\n\n\n<div class=\"codehilite\"><pre><span></span>git add .  <span class=\"o\">&amp;&amp;</span> pre-commit run\n</pre></div>",
+        "id": 9939,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590694110
+    },
+    {
+        "content": "<p>No, that didn't work unfortunately. I updated <code>flake8</code> to 3.8.1 and ran those commands. I did this with and without blacken-docs as a hook. Are you reproducing this error when trying to run pre-commit on pop-tools?</p>",
+        "id": 9940,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590694454
+    },
+    {
+        "content": "<p>Is <code>pre-commit</code> installed in your <code>base</code> environment?</p>",
+        "id": 9941,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590694454
+    },
+    {
+        "content": "<p>No it's not</p>",
+        "id": 9942,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590694474
+    },
+    {
+        "content": "<p>Just installed it in base and still had the issue.</p>",
+        "id": 9943,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590694517
+    },
+    {
+        "content": "<p>I.e. install in base then activate <code>pop-tools-dev</code> and trying running it.</p>",
+        "id": 9944,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590694528
+    },
+    {
+        "content": "<p>Do you have <code>setuptools</code> in your <code>base</code> environment?</p>",
+        "id": 9945,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590694564
+    },
+    {
+        "content": "<p>Yes</p>",
+        "id": 9946,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590694853
+    },
+    {
+        "content": "<blockquote>\n<p>Are you reproducing this error when trying to run pre-commit on pop-tools? </p>\n</blockquote>\n<p>Yes</p>\n<div class=\"codehilite\"><pre><span></span>abanihi at casper26 in ~/work/devel/ncar/pop-tools on update-pooch-downloader\n$ pre-commit run --verbose --all-files\nTrim Trailing Whitespace.................................................Failed\n- hook id: trailing-whitespace\n- duration: <span class=\"m\">0</span>.14s\n- <span class=\"nb\">exit</span> code: <span class=\"m\">1</span>\n- files were modified by this hook\n\nFixing pop_tools/input_templates/tx1v1_vert_grid\n\nFix End of Files.........................................................Failed\n- hook id: end-of-file-fixer\n- duration: <span class=\"m\">0</span>.13s\n- <span class=\"nb\">exit</span> code: <span class=\"m\">1</span>\n- files were modified by this hook\n\nFixing docs/Makefile\nFixing .coveragerc\n\nCheck docstring is first.................................................Passed\n- hook id: check-docstring-first\n- duration: <span class=\"m\">0</span>.09s\nCheck Yaml...............................................................Passed\n- hook id: check-yaml\n- duration: <span class=\"m\">0</span>.26s\nFix double quoted strings................................................Passed\n- hook id: double-quote-string-fixer\n- duration: <span class=\"m\">0</span>.08s\nblack....................................................................Passed\n- hook id: black\n- duration: <span class=\"m\">0</span>.68s\n\nAll <span class=\"k\">done</span>! ✨ 🍰 ✨\n<span class=\"m\">17</span> files left unchanged.\n\nFlake8...................................................................Passed\n- hook id: flake8\n- duration: <span class=\"m\">0</span>.86s\nseed isort known_third_party.............................................Passed\n- hook id: seed-isort-config\n- duration: <span class=\"m\">0</span>.09s\nisort....................................................................Passed\n- hook id: isort\n- duration: <span class=\"m\">1</span>.12s\nblacken-docs.............................................................Passed\n- hook id: blacken-docs\n- duration: <span class=\"m\">0</span>.64s\n</pre></div>",
+        "id": 9947,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590694952
+    },
+    {
+        "content": "<p>I have to run some errands. When I'm back I'll see if I'm reproducing this locally (on my desktop) for <code>pop-tools</code> and if it's something that's happening e.g. at <code>climpred</code> as well..</p>",
+        "id": 9949,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590695063
+    },
+    {
+        "content": "<p>Ran it locally on <code>pop-tools</code>. First did <code>pre-commit autoupdate</code> and then when I ran it, I was told that <code>flake8</code> migrated to <code>https://gitlab.com/pycqa/flake8</code>, so I switched that out for the repo on the config file and changed the rev to <code>3.8.2</code> and it worked. Let me see if that's the case on cheyenne.</p>",
+        "id": 9970,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590698814
+    },
+    {
+        "content": "<p>Hm I changed out the repo for pre-commit on cheyenne and it didn't work. Switched to an interactive node on casper and it worked. Not really sure what's going on here.</p>",
+        "id": 9973,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590699038
+    },
+    {
+        "content": "<blockquote>\n<p>Hm I changed out the repo for pre-commit on cheyenne and it didn't work. Switched to an interactive node on casper and it worked. Not really sure what's going on here.</p>\n</blockquote>\n<p>It's weird that it works on Casper and not on Cheyenne...</p>",
+        "id": 9974,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590699178
+    },
+    {
+        "content": "<p>Yeah they're both of course accessing the same miniconda folder and cache on glade. I'll go forward with this for now and will let you know if anything else comes up.</p>",
+        "id": 9976,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1590699277
+    }
+]

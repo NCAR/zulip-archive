@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hello, I'm having some trouble reading in the files here on the CGD machines... /project/cmip6/ssp585/Amon/ua/IPSL-CM6A-LR/r1i1p1f1/gr/.  I am doing the following...</p>\n<p>dat.xr_open_mfdataset(filepath+\"*.nc\", coords=\"minimal\", join=\"override\", decode_times = False)</p>\n<p>where filepath is the above path.  I am setting decode_times=False because the calendar goes to 2300 so I'm decoding the times manually afterwards.  There are two files in this directory.  One that goes from 2015-2100 and one that goes from 2101-2300.  For some reason when I do this, it is only reading the second file.  I'm not sure if it has something to do with the fact that the time attributes for the first file are \"days since 2015-01-01\" while those for the second one are \"days since 2100-01-01\", so the values of time in both files start from 0.  So if it doesn't account for the attributes it'll see the dates in the first and second file as being the same.  Can anyone help me with this?  Thanks!</p>",
+        "id": 19378,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1602684884
+    },
+    {
+        "content": "<p>I think <code>join=\"override\"</code> results in overwriting here. Does <code>decode_times=True, use_cftime=True</code> not work with this range of dates?</p>",
+        "id": 19379,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1602685022
+    },
+    {
+        "content": "<p>Thanks Deepak.  Yes, indeed decode_times = True, use_cftime = True does work.  When I was first trying to read it with decoding the time axis I had tried dat = xr.open_mfdataset(filepath+\"*.nc\", coords=\"minimal\", join=\"override\") and this didn't work.  But it is working now if I set decode_times  = True and use_cftime = True.  Thanks a lot!</p>",
+        "id": 19380,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1602685746
+    },
+    {
+        "content": "<p>yeah <code>use_cftime=True</code> was the trick there, <code>decode_times=True</code> is the default</p>",
+        "id": 19381,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1602685809
+    },
+    {
+        "content": "<p>Excellent, thanks a lot.</p>",
+        "id": 19382,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1602686988
+    }
+]

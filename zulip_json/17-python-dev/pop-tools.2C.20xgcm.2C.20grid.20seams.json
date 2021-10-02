@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>For those interested, here's xgcm's attempt to represent the LLC grid: <a href=\"https://xgcm.readthedocs.io/en/latest/grid_topology.html\" target=\"_blank\" title=\"https://xgcm.readthedocs.io/en/latest/grid_topology.html\">https://xgcm.readthedocs.io/en/latest/grid_topology.html</a>  and here's an example using face connections to do calculations: <a href=\"https://xgcm.readthedocs.io/en/latest/example_eccov4.html#Spatial-Derivatives:-Heat-Budget\" target=\"_blank\" title=\"https://xgcm.readthedocs.io/en/latest/example_eccov4.html#Spatial-Derivatives:-Heat-Budget\">https://xgcm.readthedocs.io/en/latest/example_eccov4.html#Spatial-Derivatives:-Heat-Budget</a></p>",
+        "id": 6281,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1586370591
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> .  Without really understanding the code on the example pages, I will put out there that the tripole grid may be best thought of as a special kind of periodic boundary. The basic idea (not necessarily coded this way) is that for a scalar point on the most j-ward row at (i,nlat-1), its neighbor across the cell face in the j-ward direction is at point (nlon-i,nlat-1) using zero-based indexing. That is, there is a reflection across the mid-point of the center of the most j-ward row. With vector quantities you need to keep track of changes in directionality. Unfortunately, this is buried very deep in the POP communication structures where halo updates handle all of this.</p>",
+        "id": 6282,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1586375724
+    }
+]

@@ -1,0 +1,74 @@
+<html>
+<head><meta charset="utf-8"><title>Adding f90nml to my environment · general · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html">Adding f90nml to my environment</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30989"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/Adding%20f90nml%20to%20my%20environment/near/30989" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html#30989">(May 06 2021 at 17:13)</a>:</h4>
+<p>I am trying to add f90nml to my environment using conda but am getting the following error message.  Thoughts?</p>
+<p>[lamar@crhtc45 ~/Python]$ conda install f90nml<br>
+Collecting package metadata (current_repodata.json): done<br>
+Solving environment: failed with initial frozen solve. Retrying with flexible solve.<br>
+Collecting package metadata (repodata.json): done<br>
+Solving environment: failed with initial frozen solve. Retrying with flexible solve.</p>
+<p>PackagesNotFoundError: The following packages are not available from current channels:</p>
+<p>- f90nml</p>
+<p>Current channels:</p>
+<p>- <a href="https://repo.anaconda.com/pkgs/main/linux-64" target="_blank" title="https://repo.anaconda.com/pkgs/main/linux-64">https://repo.anaconda.com/pkgs/main/linux-64</a><br>
+  - <a href="https://repo.anaconda.com/pkgs/main/noarch" target="_blank" title="https://repo.anaconda.com/pkgs/main/noarch">https://repo.anaconda.com/pkgs/main/noarch</a><br>
+  - <a href="https://repo.anaconda.com/pkgs/r/linux-64" target="_blank" title="https://repo.anaconda.com/pkgs/r/linux-64">https://repo.anaconda.com/pkgs/r/linux-64</a><br>
+  - <a href="https://repo.anaconda.com/pkgs/r/noarch" target="_blank" title="https://repo.anaconda.com/pkgs/r/noarch">https://repo.anaconda.com/pkgs/r/noarch</a></p>
+<p>To search for alternate channels that may provide the conda package you're<br>
+looking for, navigate to</p>
+<div class="codehilite"><pre><span></span>https://anaconda.org
+</pre></div>
+
+
+<p>and use the search bar at the top of the page.</p>
+
+
+
+<a name="30990"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/Adding%20f90nml%20to%20my%20environment/near/30990" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html#30990">(May 06 2021 at 17:16)</a>:</h4>
+<p>What happens when you add the option <code>-c conda-forge</code>?</p>
+
+
+
+<a name="30991"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/Adding%20f90nml%20to%20my%20environment/near/30991" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html#30991">(May 06 2021 at 17:28)</a>:</h4>
+<blockquote>
+<p>What happens when you add the option <code>-c conda-forge</code>?</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="72">@Jean-Francois Lamarque</span>  Running the following should work</p>
+<div class="codehilite"><pre><span></span>conda install -c conda-forge f90nml
+</pre></div>
+
+
+
+<a name="30994"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/Adding%20f90nml%20to%20my%20environment/near/30994" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html#30994">(May 06 2021 at 17:37)</a>:</h4>
+<p>Works like a charm!! Thank you <span class="user-mention" data-user-id="134">@Max Grover</span> and <span class="user-mention" data-user-id="9">@Brian Bonnlander</span></p>
+
+
+
+<a name="30995"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/Adding%20f90nml%20to%20my%20environment/near/30995" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html#30995">(May 06 2021 at 17:45)</a>:</h4>
+<p>Yes, that worked for me - see example ~/marsh/python/demo/read_atm_in.ipynb</p>
+
+
+
+<a name="30996"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/Adding%20f90nml%20to%20my%20environment/near/30996" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/Adding.20f90nml.20to.20my.20environment.html#30996">(May 06 2021 at 17:47)</a>:</h4>
+<p>Path should be</p>
+<p>~marsh/python/demo/read_atm_in.ipynb</p>
+
+
+
+<hr><p>Last updated: Oct 02 2021 at 10:06 UTC</p>
+</html></div>
