@@ -1,0 +1,317 @@
+<html>
+<head><meta charset="utf-8"><title>xr.to_netcdf adding fillvalues · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html">xr.to_netcdf adding fillvalues</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="2272"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2272" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2272">(Mar 03 2020 at 21:45)</a>:</h4>
+<p>I am trying to use xarray to read in a netcdf file (a CAM timeseries file), modify a<br>
+few fields, and then save as a new netcdf file. Here's a simplified<br>
+version:</p>
+<p>import xarray as xr<br>
+myfile_orig = '/Users/abaker/alli/compression/statistical/prect/orig-data/PRECT.orig.ts10000.nc' <br>
+ds = xr.open_dataset(myfile_orig)<br>
+new_file = '<a href="http://Copy.nc" target="_blank" title="http://Copy.nc">Copy.nc</a>'<br>
+ds.to_netcdf(new_file, engine = 'netcdf4', format='NETCDF4')</p>
+<p>It appears that the xr.to_netcdf()  function adds a     _FillValue: nan to every variable.<br>
+(This causes another code I have to fail as the coordinate variables<br>
+are not supposed to have this). For example:</p>
+<p>(py372) cisl-duluth:prect abaker$ ncinfo -v lon <a href="http://Copy.nc" target="_blank" title="http://Copy.nc">Copy.nc</a> <br>
+&lt;class 'netCDF4._netCDF4.Variable'&gt;<br>
+float64 lon(lon)<br>
+    _FillValue: nan<br>
+    long_name: longitude<br>
+    units: degrees_east<br>
+unlimited dimensions: <br>
+current shape = (288,)<br>
+filling on</p>
+<p>(py372) cisl-duluth:prect abaker$ ncinfo -v lon  orig-data/PRECT.orig.ts10000.nc <br>
+&lt;class 'netCDF4._netCDF4.Variable'&gt;<br>
+float64 lon(lon)<br>
+    long_name: longitude<br>
+    units: degrees_east<br>
+unlimited dimensions: <br>
+current shape = (288,)<br>
+filling on, default _FillValue of 9.969209968386869e+36 used</p>
+<p>In this stackflow thread:<br>
+<a href="https://stackoverflow.com/questions/45693688/xarray-automatically-applying-fillvalue-to-coordinates-on-netcdf-output" target="_blank" title="https://stackoverflow.com/questions/45693688/xarray-automatically-applying-fillvalue-to-coordinates-on-netcdf-output">https://stackoverflow.com/questions/45693688/xarray-automatically-applying-fillvalue-to-coordinates-on-netcdf-output</a><br>
+It suggests to set the encoding for each variable to False before call<br>
+to_netcdf(), e.g.:     ds.lon.encoding['_FillValue'] = False</p>
+<p>While this works, it seems that there might be a more global way to<br>
+do this without having to modify the encoding for each variable.<br>
+(I tried  setting ds.encoding['_FillValue'] = False, but that did not affect anything )</p>
+<p>There is another related post here:<br>
+<a href="https://github.com/pydata/xarray/issues/1598" target="_blank" title="https://github.com/pydata/xarray/issues/1598">https://github.com/pydata/xarray/issues/1598</a></p>
+<p>But it still seems that this must be done on a variable by variable basis.<br>
+Is that true or does anyone know a different way?   Thanks.</p>
+
+
+
+<a name="2275"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2275" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2275">(Mar 03 2020 at 22:50)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span>, </p>
+<blockquote>
+<p>But it still seems that this must be done on a variable by variable basis.<br/>
+Is that true or does anyone know a different way? </p>
+</blockquote>
+<p>Internally, xarray checks the data type of  each variable in order to assign it a default <code>_FillValue</code>. Because of this, setting <code>ds.encoding['_FillValue'] = False</code> globally does not work. One solution is to loop through all variables: </p>
+<div class="codehilite"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">'_FillValue'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">encoding</span><span class="p">:</span>
+        <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">encoding</span><span class="p">[</span><span class="s1">'_FillValue'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+
+
+
+<a name="2313"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2313" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2313">(Mar 04 2020 at 17:07)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  - Thanks for clarifying and for the suggestion.</p>
+
+
+
+<a name="2323"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2323" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2323">(Mar 04 2020 at 17:27)</a>:</h4>
+<p>Following up on this same example, the other thing happening is that<br>
+my dimension "chars=8" gets changed to "string8 = 8".  For example,</p>
+<p>(py372) cisl-duluth:prect abaker$ ncdump -h <a href="http://Copy.nc" target="_blank" title="http://Copy.nc">Copy.nc</a> <br>
+netcdf Copy {<br>
+dimensions:<br>
+    time = UNLIMITED ; // (1 currently)<br>
+    lat = 192 ;<br>
+    lon = 288 ;<br>
+    string8 = 8 ;<br>
+    ilev = 31 ;<br>
+    lev = 30 ;<br>
+    slat = 191 ;<br>
+    slon = 288 ;<br>
+    nbnd = 2 ;</p>
+<p>(py372) cisl-duluth:prect abaker$ ncdump -h orig-data/PRECT.orig.ts10000.nc <br>
+netcdf PRECT.orig.ts10000 {<br>
+dimensions:<br>
+    time = UNLIMITED ; // (1 currently)<br>
+    lat = 192 ;<br>
+    lon = 288 ;<br>
+    chars = 8 ;<br>
+    ilev = 31 ;<br>
+    lev = 30 ;<br>
+    slat = 191 ;<br>
+    slon = 288 ;<br>
+    nbnd = 2 ;</p>
+<p>I see that when I read in the dataset, chars is not in the dims:<br>
+In [12]: ds.dims                                                                                                                                 <br>
+Out[12]: Frozen(SortedKeysDict({'time': 1, 'lat': 192, 'lon': 288, 'ilev': 31, 'lev': 30, 'slat': 191, 'slon': 288, 'nbnd': 2}))</p>
+<p>I have been post-processing the file with a nco tool to change it back<br>
+(ncrename -d string8,chars <a href="http://Copy.nc" target="_blank" title="http://Copy.nc">Copy.nc</a>), but would  rather fix it in my<br>
+python script if anyone knows how to do that....</p>
+<p>Thanks!</p>
+
+
+
+<a name="2326"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2326" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2326">(Mar 04 2020 at 17:38)</a>:</h4>
+<p>Yeah, I think this is clearly a bug in Xarray.  The way that Xarray documentation says to handle this is to add the 'char_dim_name<code> to the variable's </code>encoding<code> (e.g., </code>var.encoding['char_dim_name'] = 'chars'`), but this does not work.  </p>
+<p>And, as a separate issue, the <code>char_dim_name</code> encoding value should be stored in the variable's encoding at <em>read</em>-time, when the Xarray Dataset is created.  But it is not.</p>
+
+
+
+<a name="2396"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2396" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2396">(Mar 05 2020 at 01:22)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span>,  when you get a chance, can you point me to the file or send me the file you are using? I'd like to use it to  open an issue  in the xarray repo.  Thanks!</p>
+
+
+
+<a name="2397"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2397" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2397">(Mar 05 2020 at 03:46)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span>’s file might be too big to upload. However, I’m sure we can extract a smaller piece of the file (e.g., 1 timestep) that can reproduce the problem.</p>
+
+
+
+<a name="2408"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2408" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2408">(Mar 05 2020 at 16:50)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  Yes - I attached <a href="/user_uploads/2/1RYjJ_C76x0Y-GLQcePDr85-/PRECT.orig.ts10000.nc" target="_blank" title="PRECT.orig.ts10000.nc">PRECT.orig.ts10000.nc</a> my single timeslice file.</p>
+
+
+
+<a name="2434"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2434" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2434">(Mar 05 2020 at 18:55)</a>:</h4>
+<blockquote>
+<p>I see that when I read in the dataset, chars is not in the dims:<br/>
+In [12]: ds.dims                                                                                                                                 <br/>
+Out[12]: Frozen(SortedKeysDict({'time': 1, 'lat': 192, 'lon': 288, 'ilev': 31, 'lev': 30, 'slat': 191, 'slon': 288, 'nbnd': 2}))</p>
+<p>I have been post-processing the file with a nco tool to change it back<br/>
+(ncrename -d string8,chars <a href="http://Copy.nc" target="_blank" title="http://Copy.nc">Copy.nc</a>), but would  rather fix it in my<br/>
+python script if anyone knows how to do that....</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span> </p>
+<p>I can confirm that the <code>chars</code> is not in the dims, however, <strong>I am not getting the <code>string8 = 8 </code> issue</strong>.  According to the <a href="https://xarray.pydata.org/en/stable/io.html#string-encoding" target="_blank" title="https://xarray.pydata.org/en/stable/io.html#string-encoding">documentation</a>, xarray is keeping tracking of <code>chars</code> dim in the encoding of every variable that has this dimension. When I write the dataset back, the <code>chars</code> is present in netCDF:</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s2">"PRECT.orig.ts10000.nc"</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">dims</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="n">Frozen</span><span class="p">(</span><span class="n">SortedKeysDict</span><span class="p">({</span><span class="s1">'time'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'lat'</span><span class="p">:</span> <span class="mi">192</span><span class="p">,</span> <span class="s1">'lon'</span><span class="p">:</span> <span class="mi">288</span><span class="p">,</span> <span class="s1">'ilev'</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span> <span class="s1">'lev'</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">'slat'</span><span class="p">:</span> <span class="mi">191</span><span class="p">,</span> <span class="s1">'slon'</span><span class="p">:</span> <span class="mi">288</span><span class="p">,</span> <span class="s1">'nbnd'</span><span class="p">:</span> <span class="mi">2</span><span class="p">}))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">date_written</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="s1">'date_written'</span> <span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([</span><span class="sa">b</span><span class="s1">'03/02/20'</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'|S8'</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">time</span>     <span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="nb">object</span> <span class="mi">1947</span><span class="o">-</span><span class="mo">05</span><span class="o">-</span><span class="mi">26</span> <span class="mo">00</span><span class="p">:</span><span class="mo">00</span><span class="p">:</span><span class="mo">00</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">date_written</span><span class="o">.</span><span class="n">encoding</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">'zlib'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+ <span class="s1">'shuffle'</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+ <span class="s1">'complevel'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+ <span class="s1">'fletcher32'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+ <span class="s1">'contiguous'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+ <span class="s1">'chunksizes'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+ <span class="s1">'source'</span><span class="p">:</span> <span class="s1">'/Users/abanihi/devel/tmp_notebooks/xarray/PRECT.orig.ts10000.nc'</span><span class="p">,</span>
+ <span class="s1">'original_shape'</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+ <span class="s1">'dtype'</span><span class="p">:</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'S1'</span><span class="p">),</span>
+ <span class="s1">'char_dim_name'</span><span class="p">:</span> <span class="s1">'chars'</span><span class="p">}</span>
+</pre></div>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="s2">"test.nc"</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="o">%%</span><span class="n">bash</span>
+   <span class="o">...</span><span class="p">:</span> <span class="n">ncdump</span> <span class="o">-</span><span class="n">h</span> <span class="n">test</span><span class="o">.</span><span class="n">nc</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>
+   <span class="o">...</span><span class="p">:</span>
+<span class="n">netcdf</span> <span class="n">test</span> <span class="p">{</span>
+<span class="n">dimensions</span><span class="p">:</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">UNLIMITED</span> <span class="p">;</span> <span class="o">//</span> <span class="p">(</span><span class="mi">1</span> <span class="n">currently</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="mi">192</span> <span class="p">;</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="mi">288</span> <span class="p">;</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="mi">8</span> <span class="p">;</span>
+    <span class="n">ilev</span> <span class="o">=</span> <span class="mi">31</span> <span class="p">;</span>
+    <span class="n">lev</span> <span class="o">=</span> <span class="mi">30</span> <span class="p">;</span>
+    <span class="n">slat</span> <span class="o">=</span> <span class="mi">191</span> <span class="p">;</span>
+    <span class="n">slon</span> <span class="o">=</span> <span class="mi">288</span> <span class="p">;</span>
+    <span class="n">nbnd</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">;</span>
+<span class="n">variables</span><span class="p">:</span>
+    <span class="n">double</span> <span class="n">P0</span> <span class="p">;</span>
+        <span class="n">P0</span><span class="p">:</span><span class="n">_FillValue</span> <span class="o">=</span> <span class="n">NaN</span> <span class="p">;</span>
+        <span class="n">P0</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">"reference pressure"</span> <span class="p">;</span>
+        <span class="n">P0</span><span class="p">:</span><span class="n">units</span> <span class="o">=</span> <span class="s2">"Pa"</span> <span class="p">;</span>
+    <span class="nb">float</span> <span class="n">PRECT</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span> <span class="p">;</span>
+<span class="o">...</span>
+    <span class="n">char</span> <span class="n">date_written</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span> <span class="p">;</span>
+    <span class="nb">int</span> <span class="n">datesec</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">datesec</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">"current seconds of current date"</span> <span class="p">;</span>
+    <span class="n">double</span> <span class="n">f11vmr</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="p">;</span>
+        <span class="n">f11vmr</span><span class="p">:</span><span class="n">_FillValue</span> <span class="o">=</span> <span class="n">NaN</span> <span class="p">;</span>
+        <span class="n">f11vmr</span><span class="p">:</span><span class="n">long_name</span> <span class="o">=</span> <span class="s2">"f11 volume mixing ratio"</span> <span class="p">;</span>
+</pre></div>
+
+
+
+<a name="2435"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2435" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2435">(Mar 05 2020 at 18:57)</a>:</h4>
+<p>Can you elaborate on what operations you are applying on the read dataset that result in you getting:</p>
+<div class="codehilite"><pre><span></span><span class="o">(</span>py372<span class="o">)</span> cisl-duluth:prect abaker$ ncdump -h Copy.nc
+netcdf Copy <span class="o">{</span>
+dimensions:
+<span class="nb">time</span> <span class="o">=</span> UNLIMITED <span class="p">;</span> // <span class="o">(</span><span class="m">1</span> currently<span class="o">)</span>
+<span class="nv">lat</span> <span class="o">=</span> <span class="m">192</span> <span class="p">;</span>
+<span class="nv">lon</span> <span class="o">=</span> <span class="m">288</span> <span class="p">;</span>
+<span class="nv">string8</span> <span class="o">=</span> <span class="m">8</span> <span class="p">;</span>
+<span class="nv">ilev</span> <span class="o">=</span> <span class="m">31</span> <span class="p">;</span>
+<span class="nv">lev</span> <span class="o">=</span> <span class="m">30</span> <span class="p">;</span>
+<span class="nv">slat</span> <span class="o">=</span> <span class="m">191</span> <span class="p">;</span>
+<span class="nv">slon</span> <span class="o">=</span> <span class="m">288</span> <span class="p">;</span>
+<span class="nv">nbnd</span> <span class="o">=</span> <span class="m">2</span> <span class="p">;</span>
+</pre></div>
+
+
+
+<a name="2436"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2436" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2436">(Mar 05 2020 at 18:57)</a>:</h4>
+<p>We were not seeing that in our testing.  In fact, the <code>chars</code> dimension was <em>not</em> being saved in the variable <code>encoding</code>.  </p>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span> What version of Xarray are you using?</p>
+
+
+
+<a name="2437"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2437" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2437">(Mar 05 2020 at 18:58)</a>:</h4>
+<p>I should add that I am using </p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">xr</span><span class="o">.</span><span class="n">__version__</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="s1">&#39;0.15.0&#39;</span>
+</pre></div>
+
+
+
+<a name="2445"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2445" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2445">(Mar 05 2020 at 20:39)</a>:</h4>
+<p>I just did the same thing as you and mine turned to string8.  Maybe I have a different version of some package?</p>
+<p>In [1]: import xarray as xr <br>
+   ...: import numpy as np <br>
+   ...: ds = xr.open_dataset("orig-data/PRECT.orig.ts10000.nc")                                                                                  </p>
+<p>In [2]: ds.dims                                                                                                                                  <br>
+Out[2]: Frozen(SortedKeysDict({'time': 1, 'lat': 192, 'lon': 288, 'ilev': 31, 'lev': 30, 'slat': 191, 'slon': 288, 'nbnd': 2}))</p>
+<p>In [3]: ds.date_written                                                                                                                          <br>
+Out[3]: <br>
+&lt;xarray.DataArray 'date_written' (time: 1)&gt;<br>
+array([b'03/02/20'], dtype='|S8')<br>
+Coordinates:</p>
+<p>* time     (time) object 1947-05-26 00:00:00</p>
+<p>In [4]: ds.date_written.encoding                                                                                                                 <br>
+Out[4]: <br>
+{'zlib': True,<br>
+ 'shuffle': True,<br>
+ 'complevel': 1,<br>
+ 'fletcher32': False,<br>
+ 'contiguous': False,<br>
+ 'chunksizes': (1, 8),<br>
+ 'source': '/Users/abaker/alli/compression/statistical/prect/orig-data/PRECT.orig.ts10000.nc',<br>
+ 'original_shape': (1, 8),<br>
+ 'dtype': dtype('S1')}</p>
+<p>In [5]: ds.to_netcdf("<a href="http://test.nc" target="_blank" title="http://test.nc">test.nc</a>")                                                                                                                  </p>
+<p>In [6]: ds.to_netcdf("<a href="http://test.nc" target="_blank" title="http://test.nc">test.nc</a>")                                                                                                                  </p>
+<p>In [7]: %%bash <br>
+   ...: ncdump -h <a href="http://test.nc" target="_blank" title="http://test.nc">test.nc</a> <br>
+   ...:  <br>
+   ...:                                                                                                                                          <br>
+netcdf test {<br>
+dimensions:<br>
+    time = UNLIMITED ; // (1 currently)<br>
+    lat = 192 ;<br>
+    lon = 288 ;<br>
+    string8 = 8 ;<br>
+    ilev = 31 ;<br>
+    lev = 30 ;<br>
+    slat = 191 ;<br>
+    slon = 288 ;<br>
+    nbnd = 2 ;</p>
+
+
+
+<a name="2446"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2446" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2446">(Mar 05 2020 at 20:41)</a>:</h4>
+<p><span class="user-mention" data-user-id="8">@Kevin Paul</span> <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <br/>
+OK, I have an older version - grrrr <br/>
+xr.__version__                                                                                                                           <br/>
+Out[8]: '0.12.1'</p>
+<p>I will update it and re-try.....</p>
+
+
+
+<a name="2447"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2447" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2447">(Mar 05 2020 at 20:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span> Yes.  Update regularly!</p>
+
+
+
+<a name="2450"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.to_netcdf%20adding%20fillvalues/near/2450" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Eto_netcdf.20adding.20fillvalues.html#2450">(Mar 05 2020 at 21:21)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <span class="user-mention" data-user-id="8">@Kevin Paul</span> <br/>
+ OK, that fixed it - thank you!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

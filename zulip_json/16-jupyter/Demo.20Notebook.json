@@ -1,0 +1,80 @@
+[
+    {
+        "content": "<p>Does anyone have a good recommendation for a Jupyter Notebook that would make for a good, <em>short</em> demo of the current NCAR JupyterHub?  In particular, I'm looking for something that demonstrates Dask and the Dask Labextension, uses Dask-Jobqueue (or NCAR-Jobqueue), and runs in less than 2 minutes.</p>",
+        "id": 14468,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595520736
+    },
+    {
+        "content": "<p>...<strong>NOTE:</strong> I got both \"money and time,\" so if it can scale up to a large number of workers...bonus!</p>",
+        "id": 14469,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595520813
+    },
+    {
+        "content": "<p>...<strong>NOTE:</strong> Can work on either Casper or Cheyenne</p>",
+        "id": 14470,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595520872
+    },
+    {
+        "content": "<p>Hmm.  No takers?</p>",
+        "id": 14517,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595545894
+    },
+    {
+        "content": "<p>Anderson did a live demo for SciPy 2019 on Cheyenne, but I'm not sure which notebook it was.   It looked cool though while I was watching in the audience.   <span aria-label=\"rock on\" class=\"emoji emoji-1f918\" role=\"img\" title=\"rock on\">:rock_on:</span></p>",
+        "id": 14518,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1595546089
+    },
+    {
+        "content": "<p>Cool!  <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>: Do you mind sharing?</p>",
+        "id": 14519,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595546121
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span>,  </p>\n<p>Here's the notebook I presented at SciPy: <a href=\"https://nbviewer.jupyter.org/github/andersy005/talks/blob/gh-pages/notebooks/dask-jupyter-scipy-2019.ipynb\" target=\"_blank\" title=\"https://nbviewer.jupyter.org/github/andersy005/talks/blob/gh-pages/notebooks/dask-jupyter-scipy-2019.ipynb\">https://nbviewer.jupyter.org/github/andersy005/talks/blob/gh-pages/notebooks/dask-jupyter-scipy-2019.ipynb</a>. In the notebook I use the GMET dataset in zarr format. Unfortunately, this zarr dataset appears to have been purged. Let me see I can recreate the zarr version again.</p>",
+        "id": 14530,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595598421
+    },
+    {
+        "content": "<blockquote>\n<p>In particular, I'm looking for something that demonstrates Dask and the Dask Labextension, uses Dask-Jobqueue (or NCAR-Jobqueue), and runs in less than 2 minutes.</p>\n</blockquote>\n<p>As far as I can remember, the notebook took between 4 minutes -5 minutes, but with a beefy dask cluster you may be able to run it under 2 minutes.</p>",
+        "id": 14531,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595598727
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>!  I’ll try it out.</p>",
+        "id": 14533,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595602779
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>:  Can you export your environment for this notebook?</p>",
+        "id": 14566,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595617438
+    },
+    {
+        "content": "<p>You are welcome! The zarr copy of the data resides here:  <code>\"/glade/scratch/abanihi/data/gmet_v1.zarr\"</code></p>\n<p>Regarding the environment, here's the contents of the YAML file (<code>scipy-demo.yml</code>) you can use:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"nt\">name</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">scipy-demo</span>\n<span class=\"nt\">channels</span><span class=\"p\">:</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">conda-forge</span>\n<span class=\"nt\">dependencies</span><span class=\"p\">:</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">xarray</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">zarr</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">dask-jobqueue</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">dask</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">distributed</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">hvplot</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">dask-labextension</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">ipywidgets</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">jupyterlab</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">nodejs</span>\n</pre></div>\n\n\n<div class=\"codehilite\"><pre><span></span>$ conda env update -f scipy-demo.yml\n$ conda activate scipy-demo\n$ jupyter labextension install --clean <span class=\"se\">\\</span>\n                            @jupyter-widgets/jupyterlab-manager  dask-labextension @pyviz/jupyterlab_pyviz\n</pre></div>",
+        "id": 14577,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595625398
+    },
+    {
+        "content": "<p>It looks like the notebook can easily run in under 2 minutes... I just ran it on casper with the following cluster configuration and it took <strong>1 minute and 20 seconds</strong>. </p>\n<p><a href=\"/user_uploads/2/f4/Yw-UagWhM9oM72M8lig2srqF/Screen-Shot-2020-07-24-at-3.48.40-PM.png\" target=\"_blank\" title=\"Screen-Shot-2020-07-24-at-3.48.40-PM.png\">Screen-Shot-2020-07-24-at-3.48.40-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/f4/Yw-UagWhM9oM72M8lig2srqF/Screen-Shot-2020-07-24-at-3.48.40-PM.png\" target=\"_blank\" title=\"Screen-Shot-2020-07-24-at-3.48.40-PM.png\"><img src=\"/user_uploads/2/f4/Yw-UagWhM9oM72M8lig2srqF/Screen-Shot-2020-07-24-at-3.48.40-PM.png\"></a></div>",
+        "id": 14587,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1595627498
+    },
+    {
+        "content": "<p>Nice!  Thanks <em>very</em> much, <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>!</p>",
+        "id": 14590,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1595712490
+    }
+]

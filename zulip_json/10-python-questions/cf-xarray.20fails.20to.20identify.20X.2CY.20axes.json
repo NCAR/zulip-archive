@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I'm looking at CMIP6 ocean data using cf-xarray. One of my functions needs the dimensions of the 'X' and 'Y' axes of a DataArray, defined as follows:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">ny</span> <span class=\"o\">=</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">cf</span><span class=\"o\">.</span><span class=\"n\">sizes</span><span class=\"p\">[</span><span class=\"s1\">'Y'</span><span class=\"p\">]</span>\n<span class=\"n\">nx</span> <span class=\"o\">=</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">cf</span><span class=\"o\">.</span><span class=\"n\">sizes</span><span class=\"p\">[</span><span class=\"s1\">'X'</span><span class=\"p\">]</span>\n</code></pre></div>\n<p>This works for many models, like this one: <a href=\"/user_uploads/2/ae/ZuMG8yPZwaaIAcVZudFWI2zJ/Screen-Shot-2021-11-17-at-1.22.19-PM.png\">Screen-Shot-2021-11-17-at-1.22.19-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/ae/ZuMG8yPZwaaIAcVZudFWI2zJ/Screen-Shot-2021-11-17-at-1.22.19-PM.png\" title=\"Screen-Shot-2021-11-17-at-1.22.19-PM.png\"><img src=\"/user_uploads/2/ae/ZuMG8yPZwaaIAcVZudFWI2zJ/Screen-Shot-2021-11-17-at-1.22.19-PM.png\"></a></div><p>but fails for others, like this one: <a href=\"/user_uploads/2/7d/Ca7L_QYX1i-y-UiLYv7v2Wgz/Screen-Shot-2021-11-17-at-1.21.01-PM.png\">Screen-Shot-2021-11-17-at-1.21.01-PM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/7d/Ca7L_QYX1i-y-UiLYv7v2Wgz/Screen-Shot-2021-11-17-at-1.21.01-PM.png\" title=\"Screen-Shot-2021-11-17-at-1.21.01-PM.png\"><img src=\"/user_uploads/2/7d/Ca7L_QYX1i-y-UiLYv7v2Wgz/Screen-Shot-2021-11-17-at-1.21.01-PM.png\"></a></div><p>Using cf.guess_coord_axis() doesn't help. It seems that cf-xarray can identify X,Y axes only if they are included as coordinate arrays. Is there an easy workaround for robust identification of grid 'X' and 'Y' dimensions?</p>",
+        "id": 47165,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1637181079
+    },
+    {
+        "content": "<p>cf_xarray fundamentally works by looking at attributes. the <code>x</code> and <code>y</code> in that dataset don't have attributes. If yo udo </p>\n<div class=\"codehilite\"><pre><span></span><code>ds[&quot;x&quot;] = np.arange(ds.sizes[&quot;x&quot;])\nds[&quot;y&quot;] = np.arange(ds.sizes[&quot;y&quot;])\nds = ds.cf.guess_coord_axis()\n</code></pre></div>\n<p>This should now work and set the right attributes on <code>x</code> and <code>y</code></p>",
+        "id": 47167,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1637183470
+    },
+    {
+        "content": "<p>Thanks. I guess this inevitably requires identification and manipulation of DataArrays in the catalog that are not \"cf-xarray-compliant\".</p>",
+        "id": 47169,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1637184569
+    },
+    {
+        "content": "<p>Well...  <code>x</code> and <code>y</code> have absolutely no data associated with them in the file. They only exist as dimension names, which isn't great. </p>\n<p>For convenience, we could teach cf-xarray to optionally do that assignment before guessing: <a href=\"https://github.com/xarray-contrib/cf-xarray/issues/266\">https://github.com/xarray-contrib/cf-xarray/issues/266</a></p>",
+        "id": 47220,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1637255208
+    }
+]

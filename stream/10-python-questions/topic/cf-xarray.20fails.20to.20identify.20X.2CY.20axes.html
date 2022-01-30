@@ -1,0 +1,49 @@
+<html>
+<head><meta charset="utf-8"><title>cf-xarray fails to identify X,Y axes · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cf-xarray.20fails.20to.20identify.20X.2CY.20axes.html">cf-xarray fails to identify X,Y axes</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="47165"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cf-xarray%20fails%20to%20identify%20X%2CY%20axes/near/47165" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cf-xarray.20fails.20to.20identify.20X.2CY.20axes.html#47165">(Nov 17 2021 at 20:31)</a>:</h4>
+<p>I'm looking at CMIP6 ocean data using cf-xarray. One of my functions needs the dimensions of the 'X' and 'Y' axes of a DataArray, defined as follows:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ny</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s1">'Y'</span><span class="p">]</span>
+<span class="n">nx</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s1">'X'</span><span class="p">]</span>
+</code></pre></div>
+<p>This works for many models, like this one: <a href="/user_uploads/2/ae/ZuMG8yPZwaaIAcVZudFWI2zJ/Screen-Shot-2021-11-17-at-1.22.19-PM.png">Screen-Shot-2021-11-17-at-1.22.19-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/ae/ZuMG8yPZwaaIAcVZudFWI2zJ/Screen-Shot-2021-11-17-at-1.22.19-PM.png" title="Screen-Shot-2021-11-17-at-1.22.19-PM.png"><img src="/user_uploads/2/ae/ZuMG8yPZwaaIAcVZudFWI2zJ/Screen-Shot-2021-11-17-at-1.22.19-PM.png"></a></div><p>but fails for others, like this one: <a href="/user_uploads/2/7d/Ca7L_QYX1i-y-UiLYv7v2Wgz/Screen-Shot-2021-11-17-at-1.21.01-PM.png">Screen-Shot-2021-11-17-at-1.21.01-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/7d/Ca7L_QYX1i-y-UiLYv7v2Wgz/Screen-Shot-2021-11-17-at-1.21.01-PM.png" title="Screen-Shot-2021-11-17-at-1.21.01-PM.png"><img src="/user_uploads/2/7d/Ca7L_QYX1i-y-UiLYv7v2Wgz/Screen-Shot-2021-11-17-at-1.21.01-PM.png"></a></div><p>Using cf.guess_coord_axis() doesn't help. It seems that cf-xarray can identify X,Y axes only if they are included as coordinate arrays. Is there an easy workaround for robust identification of grid 'X' and 'Y' dimensions?</p>
+
+
+
+<a name="47167"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cf-xarray%20fails%20to%20identify%20X%2CY%20axes/near/47167" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cf-xarray.20fails.20to.20identify.20X.2CY.20axes.html#47167">(Nov 17 2021 at 21:11)</a>:</h4>
+<p>cf_xarray fundamentally works by looking at attributes. the <code>x</code> and <code>y</code> in that dataset don't have attributes. If yo udo </p>
+<div class="codehilite"><pre><span></span><code>ds[&quot;x&quot;] = np.arange(ds.sizes[&quot;x&quot;])
+ds[&quot;y&quot;] = np.arange(ds.sizes[&quot;y&quot;])
+ds = ds.cf.guess_coord_axis()
+</code></pre></div>
+<p>This should now work and set the right attributes on <code>x</code> and <code>y</code></p>
+
+
+
+<a name="47169"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cf-xarray%20fails%20to%20identify%20X%2CY%20axes/near/47169" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cf-xarray.20fails.20to.20identify.20X.2CY.20axes.html#47169">(Nov 17 2021 at 21:29)</a>:</h4>
+<p>Thanks. I guess this inevitably requires identification and manipulation of DataArrays in the catalog that are not "cf-xarray-compliant".</p>
+
+
+
+<a name="47220"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cf-xarray%20fails%20to%20identify%20X%2CY%20axes/near/47220" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cf-xarray.20fails.20to.20identify.20X.2CY.20axes.html#47220">(Nov 18 2021 at 17:06)</a>:</h4>
+<p>Well...  <code>x</code> and <code>y</code> have absolutely no data associated with them in the file. They only exist as dimension names, which isn't great. </p>
+<p>For convenience, we could teach cf-xarray to optionally do that assignment before guessing: <a href="https://github.com/xarray-contrib/cf-xarray/issues/266">https://github.com/xarray-contrib/cf-xarray/issues/266</a></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

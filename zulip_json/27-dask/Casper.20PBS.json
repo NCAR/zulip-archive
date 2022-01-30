@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>@all Here is a post detailing how to get started using Dask with PBSCluster on Casper through the new Jupyterhub which launches tomorrow <a href=\"https://ncar.github.io/esds/posts/casper_pbs_dask/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/casper_pbs_dask/\">https://ncar.github.io/esds/posts/casper_pbs_dask/</a></p>",
+        "id": 28786,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617751458
+    },
+    {
+        "content": "<p>If anybody has this working, I'm trying to do it currently but am unsure of the order of things. Any help much appreciated!</p>\n<p>Currently I'm starting a JupyterHub session (e.g. Casper batch, 2 nodes, 16 CPUs per node, 100GiB per node) and then running  a version of the example code (from the GitHub page) in the resulting notebook. But it seems strange to me to be providing all the session information again rather than just, say, a Job ID from which this could be grabbed. Additionally the <code>PBSCluster</code> documentation suggests that it is setting up a new job from scratch (e.g. passing arguments to #PBS), rather than using the one I already have. Am I doing things the right way around, or asking for a whole new job after already starting one? And - apologies for two questions in one post! - what is the significance of <code>cluster.scale(2)</code> ?</p>",
+        "id": 40504,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1629505556
+    },
+    {
+        "content": "<p>Hi Dafydd,<br>\nI am using that function to get dask workers for my notebooks.</p>\n<p>I think of those dask clusters as associated with a specific notebook rather than with a JupyterHub session. So I don't ask for my computational resources when I am logging into JupyterHub, I just adjust the wallclock. Then I ask for the required number of CPUs within a given notebook with that PBSCluster sequence. </p>\n<p>The cluster.scale() function goes and gets your extra computational cores. cluster.scale(2) would deliver 2 CPUS.</p>\n<p>But I'm interested to hear if there are other approaches out there..</p>",
+        "id": 40829,
+        "sender_full_name": "Daniel Kennedy",
+        "timestamp": 1629835267
+    },
+    {
+        "content": "<p>Hi Daniel,<br>\nThis makes sense, thanks! I've managed to get this behaving more as expected by launching the notebook on the login node and then requesting the dask workers on the compute nodes from within the notebook. I suppose a related question would then be how to get dask to use an existing set of resources (say for running a python script to process output at the end of a model run which is already using many nodes/cpus), but that's probably one for another stream.</p>",
+        "id": 40859,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1629840958
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"184\">@Dafydd Stephenson</span>, </p>\n<blockquote>\n<p>I suppose a related question would then be how to get dask to use an existing set of resources (say for running a python script to process output at the end of a model run which is already using many nodes/cpus), but that's probably one for another stream.</p>\n</blockquote>\n<p>You may find <code>dask-mpi</code> to be useful for this kind of setup: <a href=\"https://mpi.dask.org/en/latest/\">https://mpi.dask.org/en/latest/</a></p>",
+        "id": 40866,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1629844483
+    },
+    {
+        "content": "<blockquote>\n<p>You may find <code>dask-mpi</code> to be useful for this kind of setup: <a href=\"https://mpi.dask.org/en/latest/\">https://mpi.dask.org/en/latest/</a></p>\n</blockquote>\n<p>This looks exactly like what I'm looking for and seems very straightforward to set up. Thanks!</p>",
+        "id": 40868,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1629844604
+    }
+]

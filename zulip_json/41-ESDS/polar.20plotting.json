@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>I have been trying to plot some scalar and vector fields with a North Stereographic projection and running into issues both with contours and vectors. I have a standard sea ice data from CESM - sea ice speed and the u and v vectors.</p>\n<p>I just tried to plot the contours and they are creating weird polygons over the pole, though they look fine further south. Any idea what's going on? I have used contourf this same way with CAM data, so I'm wondering if it has to do with the ice/ocean grid?<br>\n<a href=\"/user_uploads/2/9e/7jt_CmswgOeWFsUkEPEOWap7/Screen-Shot-2022-01-24-at-4.11.05-PM.png\">Screen-Shot-2022-01-24-at-4.11.05-PM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/9e/7jt_CmswgOeWFsUkEPEOWap7/Screen-Shot-2022-01-24-at-4.11.05-PM.png\" title=\"Screen-Shot-2022-01-24-at-4.11.05-PM.png\"><img src=\"/user_uploads/2/9e/7jt_CmswgOeWFsUkEPEOWap7/Screen-Shot-2022-01-24-at-4.11.05-PM.png\"></a></div><p>Here I plotted the scalar speed with pcolormesh and then tried to overlay just contour labels. Same issue as above probably.<br>\n<a href=\"/user_uploads/2/24/vRoCeW9xQD760BAMrPbjru4e/Screen-Shot-2022-01-24-at-4.12.04-PM.png\">Screen-Shot-2022-01-24-at-4.12.04-PM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/24/vRoCeW9xQD760BAMrPbjru4e/Screen-Shot-2022-01-24-at-4.12.04-PM.png\" title=\"Screen-Shot-2022-01-24-at-4.12.04-PM.png\"><img src=\"/user_uploads/2/24/vRoCeW9xQD760BAMrPbjru4e/Screen-Shot-2022-01-24-at-4.12.04-PM.png\"></a></div><p>Finally, I tried to overlay vectors on the pcolormesh using quiver and I am seeing some weird, non-physical, convergence at the North Pole. <br>\n<a href=\"/user_uploads/2/9e/mUj75JI5h35vWhXI-jP4XY-Q/Screen-Shot-2022-01-24-at-4.12.27-PM.png\">Screen-Shot-2022-01-24-at-4.12.27-PM.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/9e/mUj75JI5h35vWhXI-jP4XY-Q/Screen-Shot-2022-01-24-at-4.12.27-PM.png\" title=\"Screen-Shot-2022-01-24-at-4.12.27-PM.png\"><img src=\"/user_uploads/2/9e/mUj75JI5h35vWhXI-jP4XY-Q/Screen-Shot-2022-01-24-at-4.12.27-PM.png\"></a></div><p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> and I worked on this briefly during office hours today and couldn't find a solution.  I have also looked through the GeoCat webpage and googled in general and not found a clear solution. I am hoping I am just missing something minor. But this github quiver issue (<a href=\"https://github.com/SciTools/cartopy/issues/1179\">https://github.com/SciTools/cartopy/issues/1179</a>) makes me concerned that there wasn't actually an existing solution for the vectors. </p>\n<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> do you have any suggestions? I  think in a pervious session you were named as the visualization guru.</p>",
+        "id": 49654,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1643066384
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> I can dig into this later today - Ill post any updates in this stream</p>",
+        "id": 49655,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1643118978
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , <span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> , if something comes out of this effort that you think would benefit a broader community, please consider contributing to the GeoCAT gallery: <a href=\"https://geocat-examples.readthedocs.io/en/latest/\">https://geocat-examples.readthedocs.io/en/latest/</a></p>",
+        "id": 49673,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1643128400
+    },
+    {
+        "content": "<p>Sure, it would be good to figure out the weird details with high latitude plots. <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> today is not good, but I'm a lot more flexible in the coming days if it would help to hop on a zoom and talk through what's going on. :)</p>",
+        "id": 49675,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1643133614
+    },
+    {
+        "content": "<p>Do you have a path to the notebook you are using <span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span></p>",
+        "id": 49689,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1643144726
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> Yes, but I asked <span class=\"user-mention\" data-user-id=\"198\">@Lorenzo Zampieri</span> today and he might have a solution. So I'm going to wait to send it and maybe save you some time/effort. :)</p>",
+        "id": 49691,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1643148003
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"153\">Alice DuVivier</span> <a href=\"#narrow/stream/41-ESDS/topic/polar.20plotting/near/49691\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"134\">Max Grover</span> Yes, but I asked <span class=\"user-mention silent\" data-user-id=\"198\">Lorenzo Zampieri</span> today and he might have a solution. So I'm going to wait to send it and maybe save you some time/effort. :)</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , <span class=\"user-mention\" data-user-id=\"198\">@Lorenzo Zampieri</span> and I figured this out. You have to do a fairly simple rotation from the CICE grid to the \"real\" map. There are a few keys that I think can be posted somewhere (blog post, geocat example, etc.) and probably something that could be added to pop_tools. </p>\n<p>1) You need to have the ANGLE value from the pop grid. This is not currently in the grid from pop_tools, but could be added.<br>\n2) Then you rotate the raw u and v vectors using the following:</p>\n<div class=\"codehilite\"><pre><span></span><code>u_rot = (u_raw*np.cos(angle)) - (v_raw*np.sin(angle))\nv_rot = (u_raw*np.sin(angle)) + (v_raw*np.cos(angle))\n</code></pre></div>\n<p>That's it. Pretty simple, but it took a while to sort out. See below for the comparison of rotated and non-rotated vectors. I also wrote it up simply in the following notebook that might be useful as well. <br>\n/glade/p/cgd/ppc/duvivier/cesm2_arctic_cyclones/rufmod_analysis/version_2/ice_transport/vector_tests/testing3.ipynb<br>\n<a href=\"/user_uploads/2/6b/a8_DZ9_MYvzhD0K1WcC0Ozm5/Screen-Shot-2022-01-26-at-4.07.50-PM.png\">Screen-Shot-2022-01-26-at-4.07.50-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/6b/a8_DZ9_MYvzhD0K1WcC0Ozm5/Screen-Shot-2022-01-26-at-4.07.50-PM.png\" title=\"Screen-Shot-2022-01-26-at-4.07.50-PM.png\"><img src=\"/user_uploads/2/6b/a8_DZ9_MYvzhD0K1WcC0Ozm5/Screen-Shot-2022-01-26-at-4.07.50-PM.png\"></a></div>",
+        "id": 49734,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1643238767
+    }
+]

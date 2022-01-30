@@ -1,0 +1,80 @@
+[
+    {
+        "content": "<p>What is the best way to ensure reproducible environments?</p>\n<p>Many of us have been curating environment.yaml files in our repos; these are handy for defining environments, but resolve to a particular environment depending on when they are invoked. In some cases, it is important to ensure that environments can be reproduced exactly. </p>\n<p>For example, I am working on a calculation, it's taken months to develop my code and during that time, I've only updated my conda environment occasionally. If a collaborator clones my repo and builds an environment from the environment.yaml file therein, they will likely get newer package versions, which could break my code.</p>\n<p>One thing I've come across is <code>conda-lock</code>. This seems like a very nice utility to curate platform-specific files for curating exact replicates of an environment:<br>\n<a href=\"https://github.com/brl0/conda-lock\" target=\"_blank\" title=\"https://github.com/brl0/conda-lock\">https://github.com/brl0/conda-lock</a></p>\n<p>The workflow seems to be something like </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"c1\"># generate the lockfiles</span>\nconda-lock -f environment.yml -p osx-64 -p linux-64\n\n<span class=\"c1\"># create an environment from the lockfile</span>\nconda create -n my-locked-env --file conda-linux-64.lock\n</pre></div>\n\n\n<p>I think I should be curating these conda lock files in my repos. </p>\n<p>Is this the best way to solve this problem? Are there other tools/approaches to consider?</p>\n<p>cc <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span>, <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span>, <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span></p>",
+        "id": 19496,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1602793558
+    },
+    {
+        "content": "<p><code>conda-lock</code> is a great tool for this... It's worth noting that if you have packages that are installed from pypi via <code>pip</code> or from GitHub via <code>pip</code>, locking environment <strong>fails</strong></p>\n<p>E.g.: Locking this environment results in failure:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"nt\">name</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">my-env</span>\n<span class=\"nt\">channels</span><span class=\"p\">:</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">conda-forge</span>\n<span class=\"nt\">dependencies</span><span class=\"p\">:</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">....</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"nt\">pip</span><span class=\"p\">:</span>\n      <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">dummy-pkg</span>\n      <span class=\"p p-Indicator\">-</span> <span class=\"l l-Scalar l-Scalar-Plain\">git+https://github.com/foo/bar.git@some-hash</span>\n</pre></div>\n\n\n<p>If all packages in your environment are <code>conda</code> installable, everything should work just fine...</p>",
+        "id": 19498,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602794211
+    },
+    {
+        "content": "<p>Good point. Some packages are only available via <code>pip</code>.  Does <code>docker</code> provide a solution? Not viable on HPC, though?</p>",
+        "id": 19499,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1602794310
+    },
+    {
+        "content": "<p><code>docker</code> is a solution, but its a bit more of a lift to get it working.  While <code>docker</code> doesn't work on HPC, <code>singularity</code> does, and you can pretty easily convert a <code>docker</code> image to a <code>singularity</code> image.  I think the process goes like this.</p>\n<ol>\n<li>\n<p>On your local machine (with <code>docker</code>) save your image to a tarball:<br>\n<code>bash\n   $ docker save IMAGEID -o IMAGENAME.tar\n   </code></p>\n</li>\n<li>\n<p>Copy the tarball to Cheyenne or Casper.</p>\n</li>\n<li>\n<p><code>module load singularity</code> ...I think</p>\n</li>\n<li>\n<p>Use Singularity to convert the image:<br>\n<code>bash\n   $ singularity build --sandbox IMAGENAME docker-archive:///path/to/IMAGENAME.tar\n   </code></p>\n</li>\n</ol>\n<p>Or you can pull directly from DockerHub with just one command:</p>\n<div class=\"codehilite\"><pre><span></span>singularity build --sandbox IMAGENAME docker://OWNER/IMAGENAME\n</pre></div>\n\n\n<p>Never tried it myself, but it's worth trying.</p>",
+        "id": 19501,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1602794986
+    },
+    {
+        "content": "<p>Also, note that there is a Visual Studio (VS) Code extension that lets you run and dev inside a docker container, so you can actually do your development in the exact same environment.</p>",
+        "id": 19502,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1602795073
+    },
+    {
+        "content": "<blockquote>\n<p>Good point. Some packages are only available via <code>pip</code>.  Does <code>docker</code> provide a solution? Not viable on HPC, though?</p>\n</blockquote>\n<p>It turns out that docker images are just a <code>tarball</code> collection of files.  So, if one could emit a tarball for the environment, it's likely that you can get an environment that is as reproducible as Docker's or Singularity's (without the Operating  system bits though) .</p>",
+        "id": 19506,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602795458
+    },
+    {
+        "content": "<p>There's an existing tool for this: <a href=\"https://conda.github.io/conda-pack/\" target=\"_blank\" title=\"https://conda.github.io/conda-pack/\">https://conda.github.io/conda-pack/</a></p>",
+        "id": 19507,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602795468
+    },
+    {
+        "content": "<p>I haven't used it though</p>",
+        "id": 19508,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602795476
+    },
+    {
+        "content": "<p>One piece that is missing is something equivalent to <code>Docker Hub</code> or similar to serve as an environment registry...  With an environment registry, one would be able to</p>\n<ul>\n<li>(from source system): pack an environment into a tarball.   --&gt; equivalent to  <code>docker build </code></li>\n<li>push the tarball to some remote registry --&gt; equivalent to <code>docker push</code></li>\n<li>(from the target system) pull the tarball and you are good to go....  --&gt; equivalent to<code>docker pull &amp;&amp; docker run</code></li>\n</ul>\n<p>One caveat is that this workflow is going to be Operating system dependent (because we are not shipping the operating system)..</p>",
+        "id": 19509,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602796035
+    },
+    {
+        "content": "<p>This actually sounds like a fun, prototype project worth exploring if time permits.... <span aria-label=\"smiley\" class=\"emoji emoji-1f603\" role=\"img\" title=\"smiley\">:smiley:</span></p>",
+        "id": 19510,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602796209
+    },
+    {
+        "content": "<p>We are actively dealing with these issues in our work related to the <a class=\"stream\" data-stream-id=\"20\" href=\"/#narrow/stream/20-0.2E1.C2.B0-JRA-BGC-Run\">#0.1° JRA BGC Run</a>.  Perhaps we can prototype a solution there?</p>",
+        "id": 19513,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1602798398
+    },
+    {
+        "content": "<p>cc <span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span></p>",
+        "id": 20545,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1603886828
+    },
+    {
+        "content": "<p>Thanks for pinging me, Matt - I hadn't known about this discussion, but I'm definitely interested in it.</p>\n<p>Two quick questions/comments:</p>\n<p>1) As Anderson said, Docker (and other containers) use the 'OCI' [Open Container Initiative] API, so all have compatible / convertible formats of their file systems.  So on Cheyenne, I've converted Docker containers to Charliecloud ones and run them fine.   In terms of HPC use, it really depends on what you're trying to do - running a single-node image on a (single) HPC node is a piece of cake, and something we do often (and applicable to any system).  Running a multi-node HPC code, and taking advantage of the high-speed interconnect, is harder.  Doable on Cheyenne, but not exactly portable.  If you want to run a Docker container for some analysis on a single node on Cheyenne, though, I'm happy to help.</p>\n<p>2) My admittedly limited understanding of environment.yml files is that they can track the actual build of a package, ensuring reproducibility across similar systems (eg, Linux on x86/64).  For example, if I have a dependency of 'liblapack', then I'm going to get different versions depending on when I build the environment.  If I have a dependency of 'liblapack=3.8.0=17_openblas', I'm ensuring I get THAT build, but can't (necessarily) build the same environment across OS and architecture.  The OS issue can be handled by containers, and the architecture issue... probably isn't portable anyway.  Eg, I'm <em>guessing</em> a numPy matrix-multiply of significant size on x86 will give different results than on Arm.  Just a guess, but an educated one, given how floating-point is handled on these systems.</p>\n<p>Conda-pack looks great and has some extra features, but I'm not sure it's needed on the same platform?  Regardless, I'm interested in this topic, and in helping.</p>",
+        "id": 20546,
+        "sender_full_name": "Brian Dobbins",
+        "timestamp": 1603895207
+    }
+]

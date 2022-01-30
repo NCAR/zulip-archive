@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>Hi all. I'm trying to do some timedelta operations on <code>cftime.datetime</code> objects so I can write a computation function that supports non-standard calendars (i.e <code>noleap</code>, <code>all_leap</code>, <code>julian</code>, etc.). All I need to do is be able to add one day to a preexisting <code>cftime.datetime</code> object. The <a href=\"https://unidata.github.io/cftime/api.html#cftime.datetime\" target=\"_blank\" title=\"https://unidata.github.io/cftime/api.html#cftime.datetime\">documentation page</a> for <code>cftime.datetime</code> says the following:</p>\n<blockquote>\n<p>This class mimics datetime.datetime but support calendars other than the proleptic Gregorian calendar.</p>\n<p>Supports timedelta operations by overloading +/-, and comparisons with other instances using the same calendar.</p>\n</blockquote>\n<p>I don't think the <code>+</code> and <code>-</code> operators are actually overloaded, because I recieve a TypeError when I run the code below. On top of that, there is no way to define one day in <code>cftime</code> since the month must be between 1 and 12.</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">time</span> <span class=\"o\">=</span> <span class=\"n\">cftime</span><span class=\"o\">.</span><span class=\"n\">datetime</span><span class=\"p\">(</span><span class=\"n\">year</span><span class=\"o\">=</span><span class=\"mi\">2000</span><span class=\"p\">,</span> <span class=\"n\">month</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">day</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">calendar</span><span class=\"o\">=</span><span class=\"s1\">&#39;gregorian&#39;</span><span class=\"p\">)</span>\n<span class=\"n\">delta</span> <span class=\"o\">=</span> <span class=\"n\">cftime</span><span class=\"o\">.</span><span class=\"n\">datetime</span><span class=\"p\">(</span><span class=\"n\">year</span><span class=\"o\">=</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"n\">month</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">day</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">calendar</span><span class=\"o\">=</span><span class=\"s1\">&#39;gregorian&#39;</span><span class=\"p\">,</span> <span class=\"n\">has_year_zero</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">)</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">time</span> <span class=\"o\">+</span> <span class=\"n\">delta</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<div class=\"codehilite\"><pre><span></span>TypeError: unsupported operand type(s) for +: &#39;cftime._cftime.datetime&#39; and &#39;cftime._cftime.datetime&#39;\n</pre></div>\n\n\n<p>Does anyone now if there is an existing package that supports this kind of operation? Pandas has timedeltas and datetime offsets, but it only supports one kind of calendar. Any help is appreciated! Thanks!</p>",
+        "id": 36579,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1625680129
+    },
+    {
+        "content": "<p>Does <a href=\"https://github.com/pydata/xarray/discussions/4999\" target=\"_blank\" title=\"https://github.com/pydata/xarray/discussions/4999\">https://github.com/pydata/xarray/discussions/4999</a> help?</p>",
+        "id": 36581,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625680391
+    },
+    {
+        "content": "<blockquote>\n<p>delta = cftime.datetime</p>\n</blockquote>\n<p>Ah you're creating a <code>datetime</code> not a <code>timedelta</code></p>",
+        "id": 36582,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625681387
+    },
+    {
+        "content": "<p>Oh I see the problem now. Using <code>datetime.timedelta</code> I can add one day to my <code>cftime.datetime</code> object.</p>",
+        "id": 36583,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1625681496
+    },
+    {
+        "content": "<p>I just remembered that I have another case where I will need to add a month to a datetime, but <code>datetime.timedelta</code> does not support months. Do you know of something that does? Depending on which month is next, I want to add 28, 29, 30, or 31 days.</p>",
+        "id": 36585,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1625681556
+    },
+    {
+        "content": "<p>I want to do this too! <br>\nI tried this package and couldn't get it to work.<br>\n<a href=\"https://stackoverflow.com/questions/12433233/what-is-the-difference-between-datetime-timedelta-and-dateutil-relativedelta\">https://stackoverflow.com/questions/12433233/what-is-the-difference-between-datetime-timedelta-and-dateutil-relativedelta</a></p>",
+        "id": 39140,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1628120472
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"137\">@Rich Neale</span> can you describe what you're trying to do in more detail?</p>",
+        "id": 39173,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628183680
+    },
+    {
+        "content": "<p>Just to re-label (FEB) by 1 backwards (JAN) as par of the var.time.dt.strftime(\"%b\")</p>",
+        "id": 39368,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1628530280
+    },
+    {
+        "content": "<p>is the time vector always starting at day 1 of the month? If so, does this work</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"p\">(</span><span class=\"n\">var</span><span class=\"o\">.</span><span class=\"n\">time</span> <span class=\"o\">-</span> <span class=\"n\">pd</span><span class=\"o\">.</span><span class=\"n\">Timedelta</span><span class=\"p\">(</span><span class=\"s2\">\"1 day\"</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">dt</span><span class=\"o\">.</span><span class=\"n\">strftime</span><span class=\"p\">(</span><span class=\"s2\">\"%b\"</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 39428,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628541016
+    },
+    {
+        "content": "<p>Oh sorry, no. Knowing the name of the month from the time object (var.time) I want to realign the time object to be one month earlier. Can I just do pd.timedelta(\"1 month\") ?</p>",
+        "id": 39436,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1628550384
+    },
+    {
+        "content": "<p>Unfortunately not, because <code>pd.timedelta</code> tries to convert that to an absolute number of nanoseconds, which fails ...</p>\n<p>But how about this:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">time</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span>\n    <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">cftime_range</span><span class=\"p\">(</span><span class=\"s2\">\"1000-01-01\"</span><span class=\"p\">,</span> <span class=\"s2\">\"1000-05-01\"</span><span class=\"p\">,</span> <span class=\"n\">freq</span><span class=\"o\">=</span><span class=\"s2\">\"MS\"</span><span class=\"p\">,</span> <span class=\"n\">calendar</span><span class=\"o\">=</span><span class=\"s2\">\"360_day\"</span><span class=\"p\">),</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"s2\">\"time\"</span><span class=\"p\">,</span> <span class=\"n\">name</span><span class=\"o\">=</span><span class=\"s2\">\"time\"</span>\n<span class=\"p\">)</span>\n<span class=\"n\">time</span> <span class=\"o\">-</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">coding</span><span class=\"o\">.</span><span class=\"n\">cftime_offsets</span><span class=\"o\">.</span><span class=\"n\">MonthEnd</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>Does this do what you want? If so, I can open an issue about making those offsets more public</p>",
+        "id": 39448,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628606648
+    }
+]

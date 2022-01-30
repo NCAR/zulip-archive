@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>Can anyone point me in the right python direction for coding the equivalent of the following NCL line:<br>\nij = getind_latlon2d(lat2d,lon2d,lat1d,lon1d)<br>\nwhich returns an array of i,j indices of the lat2d and lon2d arrays (think TLAT, TLONG from POP) closest to the locations given by the lat1d and lon1d arrays ?  How do you accomplish this using xarray or numpy methods?</p>",
+        "id": 5885,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1585869501
+    },
+    {
+        "content": "<p><a href=\"https://stackoverflow.com/questions/10818546/finding-index-of-nearest-point-in-numpy-arrays-of-x-and-y-coordinates\" target=\"_blank\" title=\"https://stackoverflow.com/questions/10818546/finding-index-of-nearest-point-in-numpy-arrays-of-x-and-y-coordinates\">https://stackoverflow.com/questions/10818546/finding-index-of-nearest-point-in-numpy-arrays-of-x-and-y-coordinates</a></p>",
+        "id": 5889,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1585871281
+    },
+    {
+        "content": "<p>If you come up with something you think others would benefit from, I can help package it.</p>",
+        "id": 5890,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1585871522
+    },
+    {
+        "content": "<p>This one might be better, since it references xarray: <a href=\"https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates\" target=\"_blank\" title=\"https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates\">https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates</a></p>",
+        "id": 5891,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1585871845
+    },
+    {
+        "content": "<p>Maybe not better, but another data point.  I like the first discussion better.</p>",
+        "id": 5892,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1585872280
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> I usually use a Kdtree for that. </p>\n<p>Something along those lines:</p>\n<div class=\"codehilite\"><pre><span></span>import numpy as np\nfrom scipy import spatial\n\nlon = np.linspace(0,360,361)\nlat = np.linspace(-90,90,181)\nlon2d, lat2d = np.meshgrid(lon, lat)\nii, jj = np.meshgrid(range(len(lon)), range(len(lat)))\n\ngrd = list( zip(np.ravel(lon2d), np.ravel(lat2d)) )\nidx = list( zip(np.ravel(ii), np.ravel(jj)) )\n\npts = ([60.4, 45.1], [275.3, -34.8])\n\ndistance, index = spatial.KDTree(grd).query(pts)\n\npts_coord = np.asarray(grd)[index]\npts_idx = np.asarray(idx)[index]\n</pre></div>",
+        "id": 6026,
+        "sender_full_name": "Fred Castruccio",
+        "timestamp": 1586193338
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> , here's the simple function I use. If you pass in xarray objects it'll return xarray objects.</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">find_indices</span><span class=\"p\">(</span><span class=\"n\">xgrid</span><span class=\"p\">,</span> <span class=\"n\">ygrid</span><span class=\"p\">,</span> <span class=\"n\">xpoint</span><span class=\"p\">,</span> <span class=\"n\">ypoint</span><span class=\"p\">):</span>\n    <span class=\"sd\">\"\"\"Returns the i, j index for a latitude/longitude point on a grid.</span>\n\n<span class=\"sd\">    .. note::</span>\n<span class=\"sd\">        Longitude and latitude points (``xpoint``/``ypoint``) should be in the same</span>\n<span class=\"sd\">        range as the grid itself (e.g., if the longitude grid is 0-360, should be</span>\n<span class=\"sd\">        200 instead of -160).</span>\n\n<span class=\"sd\">    Args:</span>\n<span class=\"sd\">        xgrid (array_like): Longitude meshgrid (shape `M`, `N`)</span>\n<span class=\"sd\">        ygrid (array_like): Latitude meshgrid (shape `M`, `N`)</span>\n<span class=\"sd\">        xpoint (int or double): Longitude of point searching for on grid.</span>\n<span class=\"sd\">        ypoint (int or double): Latitude of point searching for on grid.</span>\n\n<span class=\"sd\">    Returns:</span>\n<span class=\"sd\">        i, j (int):</span>\n<span class=\"sd\">            Keys for the inputted grid that lead to the lat/lon point the user is</span>\n<span class=\"sd\">            seeking.</span>\n\n<span class=\"sd\">    Examples:</span>\n<span class=\"sd\">        &gt;&gt;&gt; import numpy as np</span>\n<span class=\"sd\">        &gt;&gt;&gt; x = np.linspace(0, 360, 37)</span>\n<span class=\"sd\">        &gt;&gt;&gt; y = np.linspace(-90, 90, 19)</span>\n<span class=\"sd\">        &gt;&gt;&gt; xx, yy = np.meshgrid(x, y)</span>\n<span class=\"sd\">        &gt;&gt;&gt; xp = 20</span>\n<span class=\"sd\">        &gt;&gt;&gt; yp = -20</span>\n<span class=\"sd\">        &gt;&gt;&gt; i, j = find_indices(xx, yy, xp, yp)</span>\n<span class=\"sd\">        &gt;&gt;&gt; print(xx[i, j])</span>\n<span class=\"sd\">        20.0</span>\n<span class=\"sd\">        &gt;&gt;&gt; print(yy[i, j])</span>\n<span class=\"sd\">        -20.0</span>\n<span class=\"sd\">    \"\"\"</span>\n    <span class=\"n\">dx</span> <span class=\"o\">=</span> <span class=\"n\">xgrid</span> <span class=\"o\">-</span> <span class=\"n\">xpoint</span>\n    <span class=\"n\">dy</span> <span class=\"o\">=</span> <span class=\"n\">ygrid</span> <span class=\"o\">-</span> <span class=\"n\">ypoint</span>\n    <span class=\"n\">reduced_grid</span> <span class=\"o\">=</span> <span class=\"nb\">abs</span><span class=\"p\">(</span><span class=\"n\">dx</span><span class=\"p\">)</span> <span class=\"o\">+</span> <span class=\"nb\">abs</span><span class=\"p\">(</span><span class=\"n\">dy</span><span class=\"p\">)</span>\n    <span class=\"n\">min_ix</span> <span class=\"o\">=</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nanargmin</span><span class=\"p\">(</span><span class=\"n\">reduced_grid</span><span class=\"p\">)</span>\n    <span class=\"n\">i</span><span class=\"p\">,</span> <span class=\"n\">j</span> <span class=\"o\">=</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">unravel_index</span><span class=\"p\">(</span><span class=\"n\">min_ix</span><span class=\"p\">,</span> <span class=\"n\">reduced_grid</span><span class=\"o\">.</span><span class=\"n\">shape</span><span class=\"p\">)</span>\n    <span class=\"k\">return</span> <span class=\"n\">i</span><span class=\"p\">,</span> <span class=\"n\">j</span>\n</pre></div>",
+        "id": 6194,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1586290511
+    }
+]

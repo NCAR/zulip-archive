@@ -1,0 +1,63 @@
+<html>
+<head><meta charset="utf-8"><title>killed workers · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html">killed workers</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="25502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/killed%20workers/near/25502" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html#25502">(Feb 19 2021 at 21:48)</a>:</h4>
+<p>Hello, I'm not sure if this is a dask question.  I'm trying to run a script on ERA5 data from the RDA.  Before I ran almost exactly the same script on the 2m Temperature data and it worked fine.  Now I'm trying to output the 850hPa level temperature.  So, pretty much the only difference from my 2m temperature script is a ".sel(level=850, method="nearest")" appended to my open_mfdataset call.  My script is failing on the write out to netcdf of my processed data and there isn't an error that I can comprehend.  The bottom line of it is...</p>
+<p>KilledWorker: ("('broadcast_to-mean_agg-aggregate-mean_chunk-regrid_array-regrid_array_0-transpose-concatenate-c524a83c21d7433475bf36--384', 320, 0, 0)", &lt;Worker 'tcp://10.12.205.23:36825', name: 0-28, memory: 0, processing: 9&gt;)</p>
+<p>The netcdf file actually seems to have all the data in it except for the last day which is all nans.  So, it seems to be failing at the end of the write out to netcdf.  My script is here... /glade/u/home/islas/python/sortera5/grabera5t850.ipynb.  I'd be glad to hear if anyone has any suggestions as to how to diagnose this problem further.  Thanks!</p>
+
+
+
+<a name="25504"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/killed%20workers/near/25504" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html#25504">(Feb 19 2021 at 22:25)</a>:</h4>
+<p>Hi Isla.</p>
+<p>I split your <code>open_mfdataset</code> call in to two steps.</p>
+<div class="codehilite"><pre><span></span><span class="n">fulldata</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">24</span><span class="p">})</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fulldata</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">850</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Then I looked at fulldata:<br>
+<a href="/user_uploads/2/ae/bPO6RQWKTi1g_T7a0162mrgC/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/ae/bPO6RQWKTi1g_T7a0162mrgC/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/ae/bPO6RQWKTi1g_T7a0162mrgC/pasted_image.png"></a></div><p>The chunk size is large (3GB). You want this to usually be ≈100-200 MB range.</p>
+<p>I would try with <code>chunks={"time": 48, "level": 1}</code> then the chunk size is 100MB. Your 2m code is reading from a surface file which has one level (i assume) so that's probably why it worked</p>
+
+
+
+<a name="25505"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/killed%20workers/near/25505" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html#25505">(Feb 19 2021 at 22:27)</a>:</h4>
+<p>More generally, I'm curious as to why you're looping over months instead of having <code>open_mfdataset</code> do it for you? Something like <code>xr.open_mfdataset("/gpfs/fs1/collections/rda/data/ds633.0/e5.oper.an.pl//1979*/*_t.*.nc")</code></p>
+
+
+
+<a name="25508"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/killed%20workers/near/25508" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html#25508">(Feb 19 2021 at 23:33)</a>:</h4>
+<p>Hi Deepak, </p>
+<p>Thanks a lot.  Yeah, I don't really know what I'm doing when it comes to the chunks, so this is good advice for how to debug issues like this.  I had no clue.  Indeed, that is working now.  The reason I had divided it up and looped over months was because I was worried about memory.  I was thinking that I can read in per month and interpolate to the coarser grid and then never have the full years worth of 0.25deg data loaded into memory.  But maybe this doesn't make sense.  I don't have a good handle on when data is being loaded into memory.  I assumed it would be done at the regridding stage, but maybe it's all being don at the end?  I'll try it out without looping over months.</p>
+<p>Thanks for your help!</p>
+
+
+
+<a name="25512"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/killed%20workers/near/25512" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html#25512">(Feb 20 2021 at 00:13)</a>:</h4>
+<p>It's all being done at the end so the loop isn't adding anything.</p>
+
+
+
+<a name="25515"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/killed%20workers/near/25515" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/killed.20workers.html#25515">(Feb 20 2021 at 00:18)</a>:</h4>
+<p>oh ok.  good to know!  thank you.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

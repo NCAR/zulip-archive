@@ -1,0 +1,29 @@
+<html>
+<head><meta charset="utf-8"><title>HPCD-maintained conda module and environments · general · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/HPCD-maintained.20conda.20module.20and.20environments.html">HPCD-maintained conda module and environments</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="45823"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/HPCD-maintained%20conda%20module%20and%20environments/near/45823" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/HPCD-maintained.20conda.20module.20and.20environments.html#45823">(Oct 28 2021 at 00:49)</a>:</h4>
+<p>Hello all,</p>
+<p>Just wanted to give everyone here a heads up that <span class="user-group-mention" data-user-group-id="6">@hpcd</span> have deployed and plan to support a conda module on Cheyenne and Casper, along with conda-installed versions of the "NCAR Package Library" that we have traditionally installed from source/pip. We anticipate that the conda module and NPL environments will be our primary means of supporting Python moving forward. A JupyterHub kernel for this NPL environment is available too.</p>
+<p>The module, once loaded, will allow you to use the conda binary (including environment activation) without adding initialization code to your startup files. However, it shouldn't interfere with your pre-existing setup in any lasting way. Simply unload the conda module to use your own conda installation if preferred. Having said that, it's our goal to offer a service that relieves users of the need to maintain conda. The conda module would provide conda and the faster-resolver mamba (thanks to Kevin and Anderson for the tip on that). It would not change your Python binary to avoid unintended side-effects... you should activate an environment to accomplish that as usual.</p>
+<p>We'd certainly appreciate any feedback you all have on the module and the conda-based NPL environment. We were thinking we would update both on a monthly cadence, offering three versions of the NPL (e.g., legacy, current, future), with the default being one month behind (this would also be the version available in JupyterHub). If this cadence is problematic, please let me know and we can iterate.</p>
+<p>Thanks for giving it a try!</p>
+
+
+
+<a name="45827"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/HPCD-maintained%20conda%20module%20and%20environments/near/45827" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/HPCD-maintained.20conda.20module.20and.20environments.html#45827">(Oct 28 2021 at 14:27)</a>:</h4>
+<p>This is great news, <span class="user-mention" data-user-id="141">@Brian Vanderwende</span>!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

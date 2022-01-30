@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hello, Can anyone help me with this?  What I'd like to do is have a flexible subroutine that's doing something with an xarray data array along a dimension specified as input to this subroutine i.e., as a simple example would be something like...</p>\n<div class=\"codehilite\"><pre><span></span><code>def function(x, dim):\n    y = x.isel(dim=slice(0,10))\n    return y\n</code></pre></div>\n<p>Suppose x has dimensions [model, lat, lon] and I want to get the slice along the model dimension I'd call this using...</p>\n<div class=\"codehilite\"><pre><span></span><code>y = function(x, &#39;model&#39;)\n</code></pre></div>\n<p>But this doesn't work because it thinks I want to do the slicing along dimension \"dim\" as opposed to using the string that I've passed through the be variable \"dim\".  Is there a way around this?  Thanks in advance for any help!</p>",
+        "id": 47382,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1637632817
+    },
+    {
+        "content": "<p>What you want is Python's support for keyword argument unpacking from a dictionary using <code>**</code>:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">def</span>  <span class=\"nf\">function</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"p\">):</span>\n    <span class=\"n\">kwargs</span> <span class=\"o\">=</span> <span class=\"p\">{</span><span class=\"n\">dim</span><span class=\"p\">:</span> <span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mi\">10</span><span class=\"p\">)}</span>\n    <span class=\"n\">y</span> <span class=\"o\">=</span> <span class=\"n\">x</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"o\">**</span><span class=\"n\">kwargs</span><span class=\"p\">)</span>\n    <span class=\"k\">return</span> <span class=\"n\">y</span>\n</code></pre></div>",
+        "id": 47384,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1637651819
+    },
+    {
+        "content": "<p>That's excellent!  Thanks a lot!</p>",
+        "id": 47385,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1637679128
+    },
+    {
+        "content": "<p><code>sel</code> and <code>isel</code> also accept dictionaries so even <code>y = x.sel(kwargs)</code> will work</p>",
+        "id": 47395,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1637690319
+    },
+    {
+        "content": "<p>good to know.  Thanks!</p>",
+        "id": 47396,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1637690607
+    }
+]

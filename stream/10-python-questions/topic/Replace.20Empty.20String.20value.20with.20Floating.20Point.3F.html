@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="utf-8"><title>Replace Empty String value with Floating Point? · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html">Replace Empty String value with Floating Point?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="18498"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18498" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18498">(Oct 01 2020 at 17:19)</a>:</h4>
+<p>Hello all! I'm a student from CU Boulder working with Dr. Shields this semester to look at and study anemometer data from the Sonic versus the WXT. I just wanted to ask a question about some list conversion issues I'm having. To keep it very brief, Time, Wind Speed, and Wind Direction are being read in as a list of strings.<br>
+For instance, Wind Speed looks something like ['2.0', '1.98', '3.04'] etc.<br>
+Now I have wanted to convert Wind Speed into a list of floating points, however... not all the data in my list is actually floats. There's missing data.<br>
+So in reality, Wind Speed looks like ['3.40', ' ', '9.02', ' ', '6.78], and so on.<br>
+I've tried a bunch of list comprehensions, I've tried .replace and all sorts of other things but can't for the life of me figure out how to replace all these ' ' values with some temporary float value like '99.99'. As you can see from my code I've tried this lambda thing but for some reason that messed up my data and started conjoining floats together, so i'd end up with 99.99899.99599.99 and weird data like that.<br>
+Does anyone have any idea on how I can replace these empty string values with a float so that I can convert my list to floats? (Also you can ignore the CWindSpd2 array, that was something I deleted because the lambda function wasnt properly cleaning my list)  <a href="/user_uploads/2/c3/BS1wHW1EG0UWU0AFdlzGWffI/Capture.PNG" target="_blank" title="Capture.PNG">Capture.PNG</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/c3/BS1wHW1EG0UWU0AFdlzGWffI/Capture.PNG" target="_blank" title="Capture.PNG"><img src="/user_uploads/2/c3/BS1wHW1EG0UWU0AFdlzGWffI/Capture.PNG"></a></div>
+
+
+
+<a name="18499"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18499" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18499">(Oct 01 2020 at 17:27)</a>:</h4>
+<p>Welcome, <span class="user-mention" data-user-id="121">@Muntaha Pasha</span>!  Thanks for the question.</p>
+<p>This kind of problem happens a lot with data.  There are always errors or unexpected values in the data that need to be dealt with in post-processing.  It is the messiest thing about data analysis.</p>
+<p>Try changing your <code>CWindSpd</code> calculation to the following:</p>
+<div class="codehilite"><pre><span></span><span class="n">CWindSpd</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">WindSpd</span><span class="p">))</span>
+</pre></div>
+
+
+
+<a name="18500"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18500" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18500">(Oct 01 2020 at 17:29)</a>:</h4>
+<p>The <code>lambda</code> function that I wrote will return the string <code>s</code> converted to a <code>float</code> <em>if</em> the string evaluates to <code>True</code>, otherwise it will return <code>None</code>.  You could also replace <code>None</code> with your "missing value" of <code>99.99</code>.</p>
+
+
+
+<a name="18501"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18501" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18501">(Oct 01 2020 at 17:31)</a>:</h4>
+<p><span class="user-mention" data-user-id="8">@Kevin Paul</span> Thank you so much! That did the trick.</p>
+
+
+
+<a name="18502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18502" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18502">(Oct 01 2020 at 17:31)</a>:</h4>
+<p>Note that in Python, it is typical that anything that contains multiple "items" in it (strings, lists, dicts, etc.) will evaluate to <code>False</code> if it is "empty" (i.e., <code>len(x) == 0</code>).  So, the line <code>if s else None</code> is equivalent to <code>if len(s) &gt; 0 else None</code>.</p>
+
+
+
+<a name="18503"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18503" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Muntaha Pasha <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18503">(Oct 01 2020 at 17:32)</a>:</h4>
+<p>Ohh, I see. Yeah, that's a better way to go about it. At first I tried crazy for loops to iterate through empty spots and then try and replace the values there, but this is definitely more condensed and makes a lot more sense to me. Thanks again for the help!</p>
+
+
+
+<a name="18504"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18504" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18504">(Oct 01 2020 at 17:35)</a>:</h4>
+<p>You're very welcome.</p>
+<p>Since you are reading your data from a CSV file, you might consider working with <a href="https://pandas.pydata.org/" target="_blank" title="https://pandas.pydata.org/">Pandas</a>.  Pandas has a builtin function <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html" target="_blank" title="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html"><code>read_csv</code></a> that will automatically read a CSV file and return a "spreadsheet-like" data structure for you.  The advantage of Pandas is that it will automatically try to detect the type of data.  In your case, it will automatically detect <code>float</code>s.</p>
+<p>It also allows you to do computations with missing values, which it will replace with <code>NaN</code>s.</p>
+
+
+
+<a name="18505"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18505" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18505">(Oct 01 2020 at 17:37)</a>:</h4>
+<p>You can also easily extract "columns" from your Pandas "spreadsheet" (called a <code>Dataframe</code>) into NumPy arrays, which are great for computation.</p>
+
+
+
+<a name="18506"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Replace%20Empty%20String%20value%20with%20Floating%20Point%3F/near/18506" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Replace.20Empty.20String.20value.20with.20Floating.20Point.3F.html#18506">(Oct 01 2020 at 17:37)</a>:</h4>
+<p>...But start with what you know and go from there once you have it working the way you want.  <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

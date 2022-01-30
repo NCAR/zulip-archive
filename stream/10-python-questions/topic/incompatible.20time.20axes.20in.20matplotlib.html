@@ -1,0 +1,57 @@
+<html>
+<head><meta charset="utf-8"><title>incompatible time axes in matplotlib · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/incompatible.20time.20axes.20in.20matplotlib.html">incompatible time axes in matplotlib</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="16175"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/incompatible%20time%20axes%20in%20matplotlib/near/16175" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/incompatible.20time.20axes.20in.20matplotlib.html#16175">(Aug 26 2020 at 19:14)</a>:</h4>
+<p>I'm trying to use xarray &amp; matplotlib to generate a timeseries plot of model data (POP) along with observational data (OSNAP). The model data time axis is of type <code>cftime.DatetimeNoLeap</code> and the observational data has time axis of type <code>datetime64</code>. If I just plot model data, everything works and I get a nice plot:<br>
+<a href="/user_uploads/2/e4/7TVsX0-Emf_vEXer4WP9MOVB/Screen-Shot-2020-08-26-at-1.01.47-PM.png" target="_blank" title="Screen-Shot-2020-08-26-at-1.01.47-PM.png">Screen-Shot-2020-08-26-at-1.01.47-PM.png</a> <br>
+When I uncomment the additional plot commands to plot OSNAP data, I get an error that says</p>
+<div class="message_inline_image"><a href="/user_uploads/2/e4/7TVsX0-Emf_vEXer4WP9MOVB/Screen-Shot-2020-08-26-at-1.01.47-PM.png" target="_blank" title="Screen-Shot-2020-08-26-at-1.01.47-PM.png"><img src="/user_uploads/2/e4/7TVsX0-Emf_vEXer4WP9MOVB/Screen-Shot-2020-08-26-at-1.01.47-PM.png"></a></div><div class="codehilite"><pre><span></span>ValueError: view limit minimum -52881.950000000004 is less than 1 and is an invalid Matplotlib date value. This often happens if you pass a non-datetime value to an axis that has datetime units
+</pre></div>
+
+
+<p>What do I do to make the different time axes compatible for plotting together?</p>
+
+
+
+<a name="16181"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/incompatible%20time%20axes%20in%20matplotlib/near/16181" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/incompatible.20time.20axes.20in.20matplotlib.html#16181">(Aug 26 2020 at 19:51)</a>:</h4>
+<p>I discovered a workaround which is to use cftime to convert the observational time axis to <code>cftime.DatetimeNoLeap</code> as follows:</p>
+<div class="codehilite"><pre><span></span><span class="n">ds_os1</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{dir_osnap}</span><span class="s1">/OSNAP_Transports_201408_201604_2018.nc&#39;</span><span class="p">,</span><span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">osn_cftime</span> <span class="o">=</span> <span class="n">cftime</span><span class="o">.</span><span class="n">num2date</span><span class="p">(</span><span class="n">ds_os1</span><span class="o">.</span><span class="n">TIME</span><span class="p">,</span> <span class="n">ds_os1</span><span class="o">.</span><span class="n">TIME</span><span class="o">.</span><span class="n">units</span><span class="p">,</span> <span class="n">calendar</span><span class="o">=</span><span class="s1">&#39;noleap&#39;</span><span class="p">,</span> <span class="n">only_use_cftime_datetimes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>I still be interested to hear how others handle such issues.</p>
+
+
+
+<a name="16193"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/incompatible%20time%20axes%20in%20matplotlib/near/16193" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/incompatible.20time.20axes.20in.20matplotlib.html#16193">(Aug 26 2020 at 21:34)</a>:</h4>
+<ol>
+<li>
+<p>you can use the <code>use_cftime</code> option in <code>open_dataset</code> to specifically ask for CFTime (<code>use_cftime=True</code>). The default is None which tries <code>numpy.datetime64</code> and if that fails uses CFtime. I don;t know if plotting two cftime variables with different calendars on the same axis works...</p>
+</li>
+<li>
+<p>You can convert an existing CFTime thing to a numpy thing using <code>ds.indexes["time"] = ds.indexes["time"].to_datetimeindex()</code>https://xarray.pydata.org/en/stable/weather-climate.html#non-standard-calendars-and-dates-outside-the-timestamp-valid-range</p>
+</li>
+</ol>
+
+
+
+<a name="16226"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/incompatible%20time%20axes%20in%20matplotlib/near/16226" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/incompatible.20time.20axes.20in.20matplotlib.html#16226">(Aug 26 2020 at 22:33)</a>:</h4>
+<p>I tried your suggestion #1 (which returned <code>cftime.DatetimeGregorian</code>) which plotted fine together with <code>cftime.DatetimeNoLeap</code>. Thanks.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

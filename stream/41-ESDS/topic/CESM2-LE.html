@@ -1,0 +1,357 @@
+<html>
+<head><meta charset="utf-8"><title>CESM2-LE · ESDS · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html">CESM2-LE</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="39919"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39919" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39919">(Aug 16 2021 at 18:41)</a>:</h4>
+<p>I've been trying to follow Max's write up on importing the CESM2-LE using intake (see here: <a href="https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/">https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/</a>). I am getting an error with open_esm_datastore. I don't know if this is related to somehow not loading "intake" properly at the start of the notebook, but I did not get an error there. The error I'm getting is: </p>
+<hr>
+<p>KeyError                                  Traceback (most recent call last)<br>
+/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake/__init__.py in __getattr__(attr)<br>
+     60     try:<br>
+---&gt; 61         return gl[attr]<br>
+     62     except KeyError:</p>
+<p>KeyError: 'open_esm_datastore'</p>
+<p>During handling of the above exception, another exception occurred:</p>
+<p>AttributeError                            Traceback (most recent call last)<br>
+&lt;ipython-input-6-deb999ed649e&gt; in &lt;module&gt;<br>
+----&gt; 1 cat = intake.open_esm_datastore('/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json')</p>
+<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake/__init__.py in __getattr__(attr)<br>
+     61         return gl[attr]<br>
+     62     except KeyError:<br>
+---&gt; 63         raise AttributeError(attr)<br>
+     64 <br>
+     65 </p>
+<p>AttributeError: open_esm_datastore</p>
+<p>Any advice? Hopefully this is just something about setting up my environment?</p>
+
+
+
+<a name="39920"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39920" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39920">(Aug 16 2021 at 18:45)</a>:</h4>
+<p>Did you install intake-esm using the following?</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">intake</span><span class="o">-</span><span class="n">esm</span>
+</code></pre></div>
+
+
+
+<a name="39921"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39921" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39921">(Aug 16 2021 at 19:06)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="134">Max Grover</span> <a href="#narrow/stream/41-ESDS/topic/CESM2-LE/near/39920">said</a>:</p>
+<blockquote>
+<p>Did you install intake-esm using the following?</p>
+<p><div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">conda</span> <span class="n">install</span> <span class="o">-</span><span class="n">c</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="n">intake</span><span class="o">-</span><span class="n">esm</span>
+</code></pre></div><br>
+</p>
+</blockquote>
+<p>I'm giving that a try now. It seems to have worked. I'm sure more questions will come up before official office hours. Thanks for helping me get on my way now though. :)</p>
+
+
+
+<a name="39943"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/39943" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#39943">(Aug 16 2021 at 21:27)</a>:</h4>
+<p>Here is my environment path: <br>
+antarctica_som_env    *  /glade/work/duvivier/miniconda3/envs/antarctica_som_env</p>
+<p>Here is the error:</p>
+<hr>
+<p>AttributeError                            Traceback (most recent call last)<br>
+&lt;ipython-input-7-7054c1bae29b&gt; in &lt;module&gt;<br>
+----&gt; 1 cat.search(variable='aice')</p>
+<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake_esm/core.py in search(self, require_all_on, **query)<br>
+    644         """<br>
+    645 <br>
+--&gt; 646         results = search(self.df, require_all_on=require_all_on, **query)<br>
+    647         ret = esm_datastore.from_df(<br>
+    648             results,</p>
+<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake_esm/search.py in search(df, require_all_on, **query)<br>
+     50         condition_i = np.zeros(len(df), dtype=bool)<br>
+     51         column_is_stringtype = isinstance(<br>
+---&gt; 52             df[key].dtype, (np.object, pd.core.arrays.string_.StringDtype)<br>
+     53         )<br>
+     54         for val_i in val:</p>
+<p>AttributeError: module 'pandas.core.arrays' has no attribute 'string_'</p>
+
+
+
+<a name="40819"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/40819" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#40819">(Aug 24 2021 at 19:44)</a>:</h4>
+<p>I have been able to load the CESM2-LE data, but am running into a hitch when it comes to subsetting the data by year. I've followed the blog post to load the data (historical and future) but when I try to subset the dataset by a limited range of years I get the following errors. I'd done this method of subsetting before on a single ensemble member, so I'm not sure why it's failing now.</p>
+<p><a href="/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png">Screen-Shot-2021-08-24-at-1.43.21-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png" title="Screen-Shot-2021-08-24-at-1.43.21-PM.png"><img src="/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png"></a></div><p><a href="/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png">Screen-Shot-2021-08-24-at-1.43.31-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png" title="Screen-Shot-2021-08-24-at-1.43.31-PM.png"><img src="/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png"></a></div>
+
+
+
+<a name="40821"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/40821" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#40821">(Aug 24 2021 at 19:48)</a>:</h4>
+<p>Try <code>ds_ice.sel(time=slice("1950", "2050"))</code> [see <a href="https://xarray.pydata.org/en/stable/user-guide/time-series.html#datetime-indexing]">https://xarray.pydata.org/en/stable/user-guide/time-series.html#datetime-indexing]</a></p>
+
+
+
+<a name="40857"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/40857" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#40857">(Aug 24 2021 at 21:32)</a>:</h4>
+<p>Thanks, Deepak! That was great for years. Max and I worked further on subsetting months too since it wasn't quite so simple, but it looks like I got that working too.</p>
+
+
+
+<a name="42394"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/42394" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#42394">(Sep 10 2021 at 19:04)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> I have been trying to use the intake-esm function with some atmospheric data from the CESM2-LE. I was able to load the data successfully, but it looks like not all the data are consistent. When I try to concatenate all the historical or future members I get an error because not all the members have the same variables. Here's the error:<br>
+ValueError: 'zlon_bnds' is not present in all datasets.</p>
+<p>I've tried a number of options with xr.concat to ignore the variable that's not in all of the ensembles, but I haven't been able to figure out a way to ignore that when concatenating. Any thoughts? Also, is this inconsistency in different members something to be concerned about?<br>
+Thanks!!</p>
+<p>Notebook location:<br>
+/glade/p/cgd/ppc/duvivier/cesm2_arctic_cyclones/DATA/regional_timeseries/cesm2_le_regional_atmospheric_avgs.ipynb</p>
+
+
+
+<a name="42398"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/42398" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#42398">(Sep 10 2021 at 19:26)</a>:</h4>
+<p>Using the following settings seemed to have worked (and removed the errors saying there are very large chunks)</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'array.slicing.split_large_chunks'</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
+    <span class="n">historical_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">historicals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+    <span class="n">future_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+</code></pre></div>
+<p>I used some of the suggestions from this part of the ESDS FAQ page:</p>
+<p><a href="https://ncar.github.io/esds/faq/#xarray-and-dask">https://ncar.github.io/esds/faq/#xarray-and-dask</a></p>
+<p>Hope this helps!</p>
+
+
+
+<a name="42403"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/42403" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#42403">(Sep 10 2021 at 19:41)</a>:</h4>
+<p>It worked! Thanks! :)</p>
+<p><span class="user-mention silent" data-user-id="134">Max Grover</span> <a href="#narrow/stream/41-ESDS/topic/CESM2-LE/near/42398">said</a>:</p>
+<blockquote>
+<p>Using the following settings seemed to have worked (and removed the errors saying there are very large chunks)</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'array.slicing.split_large_chunks'</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
+    <span class="n">historical_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">historicals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+    <span class="n">future_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">futures</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">"minimal"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s2">"override"</span><span class="p">)</span>
+</code></pre></div>
+<p>I used some of the suggestions from this part of the ESDS FAQ page:</p>
+<p><a href="https://ncar.github.io/esds/faq/#xarray-and-dask">https://ncar.github.io/esds/faq/#xarray-and-dask</a></p>
+<p>Hope this helps!</p>
+</blockquote>
+
+
+
+<a name="44990"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/44990" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yakelyn R. Jauregui <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#44990">(Oct 12 2021 at 20:06)</a>:</h4>
+<p>Hello <span class="user-mention" data-user-id="134">@Max Grover</span> , I wonder the 3-hourly data, especially precip (precc + precl) and TS can be added to this catalog (/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json) . I only found cam.h0, cam.h1, and cam.h2, but I know the 3-hourly data is available here: /glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/hour_3/ . Thanks, I appreciate any help.</p>
+
+
+
+<a name="44991"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/44991" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#44991">(Oct 12 2021 at 20:07)</a>:</h4>
+<p>Sure - I can add that to the catalog!</p>
+
+
+
+<a name="45004"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/45004" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#45004">(Oct 12 2021 at 23:09)</a>:</h4>
+<p>It should be updated by tomorrow! I rebuilt it today!</p>
+
+
+
+<a name="45168"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/45168" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#45168">(Oct 15 2021 at 20:43)</a>:</h4>
+<p>The catalog has been updated!! You can use the path <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code></p>
+
+
+
+<a name="47574"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47574" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47574">(Dec 01 2021 at 20:01)</a>:</h4>
+<p>I'm finding that the cesm2-le catalog has gaps. This is dangerous because such gaps are silently filled when aggregating using intake-esm, resulting in analysis errors that are not obvious. For example:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">catalog_file</span> <span class="o">=</span> <span class="s1">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">catalog_file</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="s1">'ocn'</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="p">[</span><span class="s1">'SHF'</span><span class="p">],</span> <span class="n">frequency</span><span class="o">=</span><span class="s1">'month_1'</span><span class="p">,</span> <span class="n">experiment</span><span class="o">=</span><span class="p">[</span><span class="s1">'historical'</span><span class="p">,</span><span class="s1">'ssp370'</span><span class="p">])</span>
+<span class="n">dsets</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_dataset_dict</span><span class="p">()</span>
+</code></pre></div>
+<p>returns a dataset dictionary that is missing many 10-year chunks, even though the corresponding datafiles exist on glade. A few examples are (cesm_member_id:time_range):<br>
+1231.002:186001-186912<br>
+1231.004:186001-186912<br>
+1011.001:201501-210012<br>
+The catalog needs to be updated and quality-checked to avoid such gaps.</p>
+
+
+
+<a name="47575"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47575" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47575">(Dec 01 2021 at 20:08)</a>:</h4>
+<p>There was a problem with some of that data originally - here is the note from Gary in late September. </p>
+<p>"There are some decades from some runs that aren't yet at NCAR due to a problem on the IBS side:</p>
+<p>1850-1859     b.e21.BHISTsmbb.f09_g17.LE2-1251.018    <br>
+1860-1869     b.e21.BHISTcmip6.f09_g17.LE2-1231.002  <br>
+              b.e21.BHISTcmip6.f09_g17.LE2-1231.004<br>
+              b.e21.BHISTcmip6.f09_g17.LE2-1231.005<br>
+              b.e21.BHISTcmip6.f09_g17.LE2-1231.006<br>
+              b.e21.BHISTcmip6.f09_g17.LE2-1231.007<br>
+1890-1899     b.e21.BHISTsmbb.f09_g17.LE2-1251.017    <br>
+1900-1909     b.e21.BHISTsmbb.f09_g17.LE2-1231.020    <br>
+              b.e21.BHISTsmbb.f09_g17.LE2-1251.011<br>
+              b.e21.BHISTsmbb.f09_g17.LE2-1251.012<br>
+              b.e21.BHISTsmbb.f09_g17.LE2-1251.016<br>
+              b.e21.BHISTsmbb.f09_g17.LE2-1251.013<br>
+1910-1919     b.e21.BHISTsmbb.f09_g17.LE2-1251.013<br>
+              b.e21.BHISTsmbb.f09_g17.LE2-1231.019<br>
+1980-1989     b.e21.BHISTsmbb.f09_g17.LE2-1301.017 </p>
+<p>These are being filled in as the IBS folks get to them."</p>
+<p>I have been updating it periodically, so I can go head and update it again if there are more files there.</p>
+
+
+
+<a name="47577"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47577" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47577">(Dec 01 2021 at 20:15)</a>:</h4>
+<p>Could you post a notification when you've updated it?  Thank you!</p>
+
+
+
+<a name="47578"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47578" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47578">(Dec 01 2021 at 20:31)</a>:</h4>
+<blockquote>
+<p>This is dangerous because such gaps are silently filled when aggregating using intake-esm,</p>
+</blockquote>
+<p>Can you clarify what you mean by "silently filling"? Is it adding NaNs?</p>
+
+
+
+<a name="47579"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47579" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47579">(Dec 01 2021 at 20:32)</a>:</h4>
+<p>Yes.</p>
+
+
+
+<a name="47661"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47661" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47661">(Dec 02 2021 at 22:32)</a>:</h4>
+<p>The catalog is corrected - I tested it across those cases.</p>
+
+
+
+<a name="47666"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47666" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47666">(Dec 02 2021 at 23:25)</a>:</h4>
+<p>Steve, are you concatenating those datasets later? is that when the filling occurs?</p>
+
+
+
+<a name="47678"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/47678" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#47678">(Dec 03 2021 at 14:44)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> Yes, I am concatenating 'historical' with 'ssp370', but that's not the problem. The problem is that there is an aggregation over 'member_id', but some members are missing time blocks (at least, they were in the old catalog). So loading a multimember dataset results in gaps filled with Nan for some members.</p>
+
+
+
+<a name="48196"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/48196" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#48196">(Dec 13 2021 at 23:14)</a>:</h4>
+<p>This may be related to <span class="user-mention" data-user-id="34">@Stephen Yeager</span> 's question, but I'm getting a failure using the CESM2-LE catalog and I think it's related to missing files from the 1860's and possibly a name update.</p>
+<p>The piece of code I'm running is here:</p>
+<div class="codehilite"><pre><span></span><code>%%time
+#load the data we selected into a dataset
+with dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: True}):
+    dsets = subset.to_dataset_dict(cdf_kwargs={&#39;chunks&#39;: {&#39;time&#39;:240}, &#39;decode_times&#39;: True})
+</code></pre></div>
+<p>Here's the error:</p>
+<div class="codehilite"><pre><span></span><code>OSError:
+            Failed to open netCDF/HDF dataset.
+
+            *** Arguments passed to xarray.open_dataset() ***:
+
+            - filename_or_obj: /glade/campaign/cgd/cesm/CESM2-LE/timeseries/ice/proc/tseries/day_1/aice_d/b.e21.BHISTcmip6.f09_g17.LE2-1231.007.cice.h1.aice_d.18600101-18691231.nc
+            - kwargs: {&#39;chunks&#39;: {&#39;time&#39;: 240}, &#39;decode_times&#39;: True}
+
+            *** fsspec options used ***:
+
+            - root: /glade/campaign/cgd/cesm/CESM2-LE/timeseries/ice/proc/tseries/day_1/aice_d/b.e21.BHISTcmip6.f09_g17.LE2-1231.007.cice.h1.aice_d.18600101-18691231.nc
+            - protocol: None
+
+            ********************************************
+</code></pre></div>
+<p>This looks like it's not finding the file for 1860-1869. However, when I look in the directory, it looks like the following file <em>is</em> present, but maybe has been renamed? <br>
+/glade/campaign/cgd/cesm/CESM2-LE/timeseries/ice/proc/tseries/day_1/aice_d/b.e21.BHISTcmip6.f09_g17.LE2-1231.007.cice.h1.aice_d.18600102-18700101.nc</p>
+<p>Honestly, I'm not totally clear what's happened because I've used this piece of code in the past without problems and the only thing I can think has changed is the addition of the new 1860's files.</p>
+
+
+
+<a name="48351"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/48351" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#48351">(Dec 16 2021 at 16:50)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span>  <span class="user-mention" data-user-id="34">@Stephen Yeager</span>  - the CESM2-LE GLADE catalog has been updated, with fixes for both of the gaps/bugs that you mentioned.</p>
+
+
+
+<a name="48354"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/48354" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#48354">(Dec 16 2021 at 16:53)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="134">@Max Grover</span></p>
+
+
+
+<a name="49110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/49110" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#49110">(Jan 11 2022 at 20:01)</a>:</h4>
+<p>I'm encountering another issue with  intake and cesm2-le. The following collection returns a dataframe with time out of order:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">catalog_file</span> <span class="o">=</span> <span class="s1">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">catalog_file</span><span class="p">)</span>
+<span class="n">cesm2data</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="s1">'ocn'</span><span class="p">,</span>
+                       <span class="n">variable</span><span class="o">=</span><span class="p">[</span><span class="s1">'IFRAC'</span><span class="p">],</span>
+                       <span class="n">frequency</span><span class="o">=</span><span class="s1">'month_1'</span><span class="p">,</span>
+                       <span class="n">experiment</span><span class="o">=</span><span class="p">[</span><span class="s1">'historical'</span><span class="p">,</span><span class="s1">'ssp370'</span><span class="p">],</span>
+                       <span class="n">forcing_variant</span><span class="o">=</span><span class="s1">'smbb'</span><span class="p">)</span>
+</code></pre></div>
+<p>When I look at ssp370 files using</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">cesm2data</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">cesm2data</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">experiment</span> <span class="o">==</span> <span class="s1">'ssp370'</span><span class="p">]</span>
+</code></pre></div>
+<p>it appears to return a list that looks complete, but cesm2data.to_dataset_dict()  does not aggregate properly across timestamps (because the dataframe file list is out of order?). Similar error for the 'historical' data.</p>
+
+
+
+<a name="49112"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/49112" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#49112">(Jan 11 2022 at 20:15)</a>:</h4>
+<p>I believe this is related to this issue <a href="https://github.com/intake/intake-esm/issues/343">https://github.com/intake/intake-esm/issues/343</a> and it should/will be fixed in the upcoming version of <code>intake-esm</code>.  A temporary workaround is to sort the dataframe yourself before loading the data:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">cesm2data</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">cesm2data</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'time_range'</span><span class="p">])</span>
+</code></pre></div>
+<p>or just sort the entire catalog after reading it in</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">col</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">'time_range'</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+<a name="49361"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/49361" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#49361">(Jan 14 2022 at 22:49)</a>:</h4>
+<p>I'm encountering a new issue in a notebook that used to work to process CESM2-LE using intake (v0.6.3).  The following collection query:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">catalog_file</span> <span class="o">=</span> <span class="s1">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">catalog_file</span><span class="p">)</span>
+<span class="n">oceandata</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">component</span><span class="o">=</span><span class="s1">'ocn'</span><span class="p">,</span>
+                       <span class="n">variable</span><span class="o">=</span><span class="p">[</span><span class="s1">'TEMP'</span><span class="p">],</span>
+                       <span class="n">frequency</span><span class="o">=</span><span class="s1">'month_1'</span><span class="p">,</span>
+                       <span class="n">experiment</span><span class="o">=</span><span class="p">[</span><span class="s1">'historical'</span><span class="p">,</span><span class="s1">'ssp370'</span><span class="p">])</span>
+</code></pre></div>
+<p>returns incorrect 'experiment' entries. Attached is a snapshot of the output from </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">oceandata</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">experiment</span><span class="o">=</span><span class="s1">'historical'</span><span class="p">,</span><span class="n">forcing_variant</span><span class="o">=</span><span class="s1">'cmip6'</span><span class="p">)</span><span class="o">.</span><span class="n">df</span>
+</code></pre></div>
+<p>Note that some 'BSSP370' cases are labelled as 'historical'. Similarly, some 'BHIST' cases are labelled as 'ssp370'. These errors mess up the aggregation into a dataset dictionary. <a href="/user_uploads/2/1c/STgFKbLtcGLK7nLoOcQuXpTm/Screen-Shot-2022-01-14-at-3.46.45-PM.png">Screen-Shot-2022-01-14-at-3.46.45-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/1c/STgFKbLtcGLK7nLoOcQuXpTm/Screen-Shot-2022-01-14-at-3.46.45-PM.png" title="Screen-Shot-2022-01-14-at-3.46.45-PM.png"><img src="/user_uploads/2/1c/STgFKbLtcGLK7nLoOcQuXpTm/Screen-Shot-2022-01-14-at-3.46.45-PM.png"></a></div>
+
+
+
+<a name="49362"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/49362" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#49362">(Jan 15 2022 at 00:51)</a>:</h4>
+<p>I believe this is a bug in the scripts used to build the catalog... Cc <span class="user-mention" data-user-id="134">@Max Grover</span>, could you please look into this when you have time?</p>
+
+
+
+<a name="49408"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/49408" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#49408">(Jan 18 2022 at 21:52)</a>:</h4>
+<p>taking a look at this this afternoon</p>
+
+
+
+<a name="49415"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/CESM2-LE/near/49415" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/CESM2-LE.html#49415">(Jan 19 2022 at 17:55)</a>:</h4>
+<p>Currently submitting a PR to <a href="https://github.com/NCAR/intake-esm-datastore">intake-esm-datastore</a>... should be good to go later today!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

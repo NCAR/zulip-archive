@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>I updated to the latest pop_tools and get the following error when I run <code>import pop_utils</code>:</p>\n<div class=\"codehilite\"><pre><span></span>---------------------------------------------------------------------------\nTypeError                                 Traceback (most recent call last)\n&lt;ipython-input-1-4db41a978446&gt; in &lt;module&gt;\n     10 import esmlab\n     11 import esmlab_regrid\n---&gt; 12 import pop_tools\n     13\n     14 from gen_remap_weights_1d import gen_remap_weights_1d\n\n/gpfs/fs1/work/klindsay/analysis/pop-tools/pop_tools/__init__.py in &lt;module&gt;\n      4 from pkg_resources import DistributionNotFound, get_distribution\n      5\n----&gt; 6 from .datasets import DATASETS\n      7 from .eos import compute_pressure, eos\n      8 from .fill import lateral_fill, lateral_fill_np_array\n\n/gpfs/fs1/work/klindsay/analysis/pop-tools/pop_tools/datasets.py in &lt;module&gt;\n     14     base_url=&#39;ftp://ftp.cgd.ucar.edu/archive/aletheia-data/cesm-data/ocn/&#39;,\n     15 )\n---&gt; 16 DATASETS.load_registry(pkg_resources.resource_stream(&#39;pop_tools&#39;, &#39;data_registry.txt&#39;))\n     17\n     18\n\n/glade/work/klindsay/miniconda3/envs/analysis_dev/lib/python3.7/site-packages/pooch/core.py in load_registry(self, fname)\n    342\n    343         &quot;&quot;&quot;\n--&gt; 344         with open(fname) as fin:\n    345             for linenum, line in enumerate(fin):\n    346                 elements = line.strip().split()\n\nTypeError: expected str, bytes or os.PathLike object, not _io.BufferedReader\n</pre></div>\n\n\n<p>I don't know what to make of this. Any suggestions on how to avoid this error, or how to further diagnosis the problem?</p>",
+        "id": 6850,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587407731
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>, </p>\n<p>What version of <code>pooch</code> are you running?</p>\n<p>I just tried importing <code>pop_tools</code> locally and everything seems to be working </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span> <span class=\"kn\">import</span> <span class=\"nn\">pop_tools</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">3</span><span class=\"p\">]:</span> <span class=\"n\">exit</span>\n</pre></div>\n<div class=\"codehilite\"><pre><span></span>pop-tools on  master via 🐍 v3.7.6 via C analysis via  <span class=\"m\">89</span>%/55% took 38s\n❯ conda list pooch                                                                                                                           <span class=\"o\">(</span>analysis<span class=\"o\">)</span> <span class=\"m\">12</span>:41:51\n<span class=\"c1\"># packages in environment at /Users/abanihi/opt/miniconda3/envs/analysis:</span>\n<span class=\"c1\">#</span>\n<span class=\"c1\"># Name                    Version                   Build  Channel</span>\npooch                     <span class=\"m\">1</span>.1.0                      py_0    conda-forge\n</pre></div>",
+        "id": 6854,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587408213
+    },
+    {
+        "content": "<p>conda list pooch returns</p>\n<div class=\"codehilite\"><pre><span></span># packages in environment at /glade/work/klindsay/miniconda3/envs/analysis_dev:\n#\n# Name                    Version                   Build  Channel\npooch                     0.2.1                 py37_1000    conda-forge\n</pre></div>\n\n\n<p>I'll try updating it. Fingers crossed that other stuff doesn't break when I update pooch.</p>\n<p>I tried to clone my conda environment with the idea of updating pooch in the clone. But the clone failed, so I don't see a safe/reversible way to update pooch.</p>",
+        "id": 6856,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587408752
+    },
+    {
+        "content": "<p>Do you have another environment that has <code>pop-tools</code> installed in it?</p>",
+        "id": 6866,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587413728
+    },
+    {
+        "content": "<p>Can you try the following and see if it works:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span> <span class=\"kn\">import</span> <span class=\"nn\">pkg_resources</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">2</span><span class=\"p\">]:</span> <span class=\"n\">pkg_resources</span><span class=\"o\">.</span><span class=\"n\">resource_stream</span><span class=\"p\">(</span><span class=\"s1\">&#39;pop_tools&#39;</span><span class=\"p\">,</span> <span class=\"s1\">&#39;data_registry.txt&#39;</span><span class=\"p\">)</span>\n<span class=\"n\">Cannot</span> <span class=\"n\">write</span> <span class=\"n\">to</span> <span class=\"n\">data</span> <span class=\"n\">cache</span> <span class=\"n\">folder</span> <span class=\"s1\">&#39;/glade/p/cesmdata/cseg&#39;</span><span class=\"o\">.</span> <span class=\"n\">Will</span> <span class=\"ow\">not</span> <span class=\"n\">be</span> <span class=\"n\">able</span> <span class=\"n\">to</span> <span class=\"n\">download</span> <span class=\"n\">remote</span> <span class=\"n\">data</span> <span class=\"n\">files</span><span class=\"o\">.</span> <span class=\"n\">Use</span> <span class=\"n\">environment</span> <span class=\"n\">variable</span> <span class=\"s1\">&#39;CESMDATAROOT&#39;</span> <span class=\"n\">to</span> <span class=\"n\">specify</span> <span class=\"n\">another</span> <span class=\"n\">directory</span><span class=\"o\">.</span>\n<span class=\"n\">Out</span><span class=\"p\">[</span><span class=\"mi\">2</span><span class=\"p\">]:</span> <span class=\"o\">&lt;</span><span class=\"n\">_io</span><span class=\"o\">.</span><span class=\"n\">BufferedReader</span> <span class=\"n\">name</span><span class=\"o\">=</span><span class=\"s1\">&#39;/glade/work/abanihi/softwares/miniconda3/envs/analysis/lib/python3.7/site-packages/pop_tools/data_registry.txt&#39;</span><span class=\"o\">&gt;</span>\n</pre></div>",
+        "id": 6867,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587413759
+    },
+    {
+        "content": "<p>My other environments that have pop-tools are old enough that they don't have the file data_registry.txt.</p>\n<p>I'm about to give up on conda updating pooch only. It's been trying for nearly 2 hours to resolve conflicts.</p>\n<p>I think I will try to either back up to the older tag of pop-tools that I previously used,<br>\nor start a new environment for the notebook that I'm trying to write.</p>",
+        "id": 6876,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587415418
+    },
+    {
+        "content": "<p>I tried cloning your environment, but I ran into some issues with packages installed from PyPI:</p>\n<div class=\"codehilite\"><pre><span></span>abanihi at casper26 in ~\n$ conda create --name analysis_dev_clone --clone /glade/work/klindsay/miniconda3/envs/analysis_dev\nSource:      /glade/work/klindsay/miniconda3/envs/analysis_dev\nDestination: /glade/work/abanihi/softwares/miniconda3/envs/analysis_dev_clone\n\nPackagesNotFoundError: The following packages are missing from the target environment:\n  - <span class=\"nv\">zipp</span><span class=\"o\">==</span><span class=\"m\">0</span>.4.0<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">seawater</span><span class=\"o\">==</span><span class=\"m\">3</span>.3.4<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">cfgrib</span><span class=\"o\">==</span><span class=\"m\">0</span>.9.6.2<span class=\"o\">=</span>pypi_0\n  - importlib-metadata<span class=\"o\">==</span><span class=\"m\">0</span>.9<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">typing</span><span class=\"o\">==</span><span class=\"m\">3</span>.6.6<span class=\"o\">=</span>pypi_0\n  - pop-tools<span class=\"o\">==</span><span class=\"m\">0</span>.0.post19<span class=\"o\">=</span>dev_0\n  - <span class=\"nv\">toml</span><span class=\"o\">==</span><span class=\"m\">0</span>.10.0<span class=\"o\">=</span>pypi_0\n  - esmlab-regrid<span class=\"o\">==</span><span class=\"m\">2019</span>.5.2.dev8+g815fd28<span class=\"o\">=</span>dev_0\n  - <span class=\"nv\">gitpython</span><span class=\"o\">==</span><span class=\"m\">2</span>.1.11<span class=\"o\">=</span>pypi_0\n  - intake-esm<span class=\"o\">==</span><span class=\"m\">2019</span>.4.26.1.post15<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">watermark</span><span class=\"o\">==</span><span class=\"m\">1</span>.8.1<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">esmlab</span><span class=\"o\">==</span><span class=\"m\">2019</span>.4.27<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">virtualenv</span><span class=\"o\">==</span><span class=\"m\">16</span>.5.0<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">nodeenv</span><span class=\"o\">==</span><span class=\"m\">1</span>.3.3<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">docrep</span><span class=\"o\">==</span><span class=\"m\">0</span>.2.5<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">cfgv</span><span class=\"o\">==</span><span class=\"m\">1</span>.6.0<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">gitdb2</span><span class=\"o\">==</span><span class=\"m\">2</span>.0.5<span class=\"o\">=</span>pypi_0\n  - ncar-jobqueue<span class=\"o\">==</span><span class=\"m\">2019</span>.3.8<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">nbdime</span><span class=\"o\">==</span><span class=\"m\">1</span>.0.5<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">colorama</span><span class=\"o\">==</span><span class=\"m\">0</span>.4.1<span class=\"o\">=</span>pypi_0\n  - dask-jobqueue<span class=\"o\">==</span><span class=\"m\">0</span>.4.1+30.g779bea3<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">smmap2</span><span class=\"o\">==</span><span class=\"m\">2</span>.0.5<span class=\"o\">=</span>pypi_0\n  - pre-commit<span class=\"o\">==</span><span class=\"m\">1</span>.15.2<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">identify</span><span class=\"o\">==</span><span class=\"m\">1</span>.4.2<span class=\"o\">=</span>pypi_0\n  - msgpack-python<span class=\"o\">==</span><span class=\"m\">0</span>.5.6<span class=\"o\">=</span>pypi_0\n  - <span class=\"nv\">xcollection</span><span class=\"o\">==</span><span class=\"m\">0</span>+untagged.60.g1905fea<span class=\"o\">=</span>pypi_0\n  - aspy-yaml<span class=\"o\">==</span><span class=\"m\">1</span>.2.0<span class=\"o\">=</span>pypi_0\n</pre></div>",
+        "id": 6884,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587415980
+    },
+    {
+        "content": "<p>I got the same errors when I attempted to clone the environment myself.<br>\nIt's unclear to me where the packages are missing from.</p>",
+        "id": 6885,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587416342
+    },
+    {
+        "content": "<p>Try the following</p>",
+        "id": 6886,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587416609
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>conda list --explicit &gt; spec-file.txt\n</pre></div>",
+        "id": 6887,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587416614
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>conda install --name myenv --file spec-file.txt\n</pre></div>",
+        "id": 6888,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1587416625
+    },
+    {
+        "content": "<p>anecdotally, if your environment is too old, updating single packages makes everything fall flat. There are too many possible solutions (I think). Usually <code>conda update --all</code> will complete in a reasonable amount of time.</p>",
+        "id": 6890,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587418255
+    }
+]

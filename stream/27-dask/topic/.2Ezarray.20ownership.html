@@ -1,0 +1,98 @@
+<html>
+<head><meta charset="utf-8"><title>.zarray ownership · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html">.zarray ownership</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30700"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30700" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30700">(Apr 30 2021 at 18:02)</a>:</h4>
+<p>I read some netcdf files and convert to zarr files using Dask and Xarray, but the .zarray and .zmetadata ownership is owner read/write only. Is it supposed to  be like that? Is it possible for me to change the file permission in the codes?</p>
+
+
+
+<a name="30702"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30702" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30702">(Apr 30 2021 at 18:11)</a>:</h4>
+<p>The Zarr stores I've created have permissions <code>-rw-r--r--</code> for those files.   That means anyone can read.</p>
+
+
+
+<a name="30703"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30703" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30703">(Apr 30 2021 at 18:18)</a>:</h4>
+<p><span class="user-mention" data-user-id="38">@Haiying Xu</span>, this was a known issue at some point: <a href="https://github.com/zarr-developers/zarr-python/issues/325" target="_blank" title="https://github.com/zarr-developers/zarr-python/issues/325">https://github.com/zarr-developers/zarr-python/issues/325</a>, and I think it was resolved...  </p>
+<p>Can you check that the <code>umask</code> for the parent directory you are writing to is the same as your default umask?</p>
+
+
+
+<a name="30707"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30707" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30707">(Apr 30 2021 at 18:44)</a>:</h4>
+<p>The directory is 755, my default is 022</p>
+
+
+
+<a name="30708"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30708" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30708">(Apr 30 2021 at 18:49)</a>:</h4>
+<p>My umask is the same.   I don't know if it matters, but in my case I was writing the stores to /glade/scratch, which is visible by anyone logged in.   Perhaps if you haven't tried that yet, it might make a difference?   If you are doing that already, then I don't know what to suggest...</p>
+
+
+
+<a name="30709"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30709" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30709">(Apr 30 2021 at 18:54)</a>:</h4>
+<p>I am writing to scratch. All data and .z* file have 600, directory has 755. Let me try writing to $WORK space to see any change.</p>
+
+
+
+<a name="30710"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30710" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30710">(Apr 30 2021 at 19:05)</a>:</h4>
+<p>Actually the <code>umask</code> command gives me 0022 as the answer.    I am not sure if that extra zero makes a difference.   You might check your login scripts to see if there are any <code>umask</code> commands given there.   That is all I can think of right now...</p>
+
+
+
+<a name="30713"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30713" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30713">(Apr 30 2021 at 19:55)</a>:</h4>
+<p>I should also mention I was using xarray 0.17.0:</p>
+<div class="codehilite"><pre><span></span>(pangeo-cordex2) casper-login2:~$. conda list xarray
+# packages in environment at /glade/work/bonnland/miniconda3/envs/pangeo-cordex2:
+#
+# Name                    Version                   Build  Channel
+cf_xarray                 0.5.1              pyh44b312d_0    conda-forge
+xarray                    0.17.0             pyhd8ed1ab_0    conda-forge
+</pre></div>
+
+
+
+<a name="30715"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30715" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30715">(Apr 30 2021 at 20:06)</a>:</h4>
+<p>I am using the same version of Xarray.</p>
+
+
+
+<a name="30717"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30717" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30717">(Apr 30 2021 at 20:14)</a>:</h4>
+<div class="codehilite"><pre><span></span>(pangeo-cordex2) casper-login2:~$ conda list zarr
+# packages in environment at /glade/work/bonnland/miniconda3/envs/pangeo-cordex2:
+#
+# Name                    Version                   Build  Channel
+zarr                      2.7.0              pyhd8ed1ab_0    conda-forge
+</pre></div>
+
+
+
+<a name="30852"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30852" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30852">(May 04 2021 at 17:36)</a>:</h4>
+<p>I upgraded zarr to 2.8.1, but still get 600 for .zarray and data.</p>
+
+
+
+<a name="30854"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/.zarray%20ownership/near/30854" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/.2Ezarray.20ownership.html#30854">(May 04 2021 at 17:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="9">@Brian Bonnlander</span> Thanks.   I used the wrong environment, in fact, after I upgraded zarr, the ownership were changed to right mode.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

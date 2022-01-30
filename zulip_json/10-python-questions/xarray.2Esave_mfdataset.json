@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I'm trying to use xarray.save_mfdataset to write out a bunch of netcdf files from a dask-enabled jupyter notebook.</p>\n<p>Is there any way to specify the encoding and unlimited_dim as you would using the <code>to_netcdf()</code> function?  <br>\nTagging <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span></p>",
+        "id": 24638,
+        "sender_full_name": "Seth McGinnis",
+        "timestamp": 1612334489
+    },
+    {
+        "content": "<p>The solution is to loop over and update <code>DataArray.encoding</code> and <code>Dataset.encoding</code> before calling <code>save_mfdataset</code></p>\n<blockquote>\n<p>unlimited_dims may also be set via dataset.encoding[\"unlimited_dims\"].</p>\n</blockquote>",
+        "id": 24639,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1612360913
+    },
+    {
+        "content": "<p>Thanks, I'll give that a shot!</p>",
+        "id": 24661,
+        "sender_full_name": "Seth McGinnis",
+        "timestamp": 1612378264
+    }
+]

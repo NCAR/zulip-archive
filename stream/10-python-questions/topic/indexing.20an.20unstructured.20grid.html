@@ -1,0 +1,168 @@
+<html>
+<head><meta charset="utf-8"><title>indexing an unstructured grid · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html">indexing an unstructured grid</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30098"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30098" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30098">(Apr 22 2021 at 16:44)</a>:</h4>
+<p>I'm working with CAM-SE data that has a 1D spatial dimension ('ncol'). I'd like to be able to use xarray's <code>sel</code> method to extract data at particular lon(ncol),  lat(ncol) values. I thought there might be a way to set up a multi-index coordinate to do this, following <a href="http://xarray.pydata.org/en/stable/indexing.html#multi-level-indexing" target="_blank" title="http://xarray.pydata.org/en/stable/indexing.html#multi-level-indexing">http://xarray.pydata.org/en/stable/indexing.html#multi-level-indexing</a>.  Here is the original dask array: <a href="/user_uploads/2/55/K6UNCngMATyYrNYtbwW-fH76/HRDP_psl.png" target="_blank" title="HRDP_psl.png">HRDP_psl.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/55/K6UNCngMATyYrNYtbwW-fH76/HRDP_psl.png" target="_blank" title="HRDP_psl.png"><img src="/user_uploads/2/55/K6UNCngMATyYrNYtbwW-fH76/HRDP_psl.png"></a></div><p>I've created a MultiIndex object as follows:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="n">latlon</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_arrays</span><span class="p">([</span><span class="n">hrdp_psl</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span><span class="n">hrdp_psl</span><span class="o">.</span><span class="n">lon</span><span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>I don't know how to assign this MultiIndex object as a coordinate for the above dask array. The following line generates an error: unhashable type: 'MultiIndex'</p>
+<div class="codehilite"><pre><span></span><span class="n">hrdp_psl</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">latlon</span><span class="p">:(</span><span class="s1">&#39;ncol&#39;</span><span class="p">,</span><span class="n">latlon</span><span class="p">)})</span>
+</pre></div>
+
+
+
+<a name="30110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30110" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30110">(Apr 22 2021 at 17:52)</a>:</h4>
+<p>Update:  I'm able to assign a multi-index coordinate with the following line</p>
+<div class="codehilite"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">hrdp_psl</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;ncol&#39;</span><span class="p">,</span><span class="n">latlon</span><span class="p">))</span>
+</pre></div>
+
+
+<p><a href="/user_uploads/2/cf/S05hsRA0Dp8pkiNNuh9n26rX/Screen-Shot-2021-04-22-at-11.50.04-AM.png" target="_blank" title="Screen-Shot-2021-04-22-at-11.50.04-AM.png">Screen-Shot-2021-04-22-at-11.50.04-AM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/cf/S05hsRA0Dp8pkiNNuh9n26rX/Screen-Shot-2021-04-22-at-11.50.04-AM.png" target="_blank" title="Screen-Shot-2021-04-22-at-11.50.04-AM.png"><img src="/user_uploads/2/cf/S05hsRA0Dp8pkiNNuh9n26rX/Screen-Shot-2021-04-22-at-11.50.04-AM.png"></a></div><p>However, this slicing attempt fails with error "method='nearest' not implemented yet for MultiIndex; see GitHub issue 9365"</p>
+<div class="codehilite"><pre><span></span><span class="n">tmp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="p">[(</span><span class="mf">34.</span><span class="p">,</span><span class="mf">350.</span><span class="p">)],</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="30111"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30111" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30111">(Apr 22 2021 at 17:53)</a>:</h4>
+<p>You are very close. This should work.</p>
+<div class="codehilite"><pre><span></span>hrdp_psl.assign_coords({&quot;ncol&quot;: latlon}).rename({&quot;ncol&quot;: &quot;latlon&quot;})
+</pre></div>
+
+
+<p>This syntax <code>{latlon:('ncol',latlon)}</code> means "create a DataArray with dimension name "ncol" and the MultiIndex in <code>latlon</code>, and assign it with name "latlon". That syntax only works with arrays, not MultiIndex.</p>
+<p>My suggested syntax says "assign the multiindex with name 'ncol'" </p>
+<p>(PS: the MultiIndex support confused the data model a bit, and prompted an ongoing refactoring. so it's a bit messy to work with.)</p>
+<p>EDIT: haha i guess my explanation was wrong if your syntax worked!</p>
+
+
+
+<a name="30112"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30112" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30112">(Apr 22 2021 at 17:55)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span>, I'm curious....  is this something that is well handled by <a href="https://xoak.readthedocs.io/en/latest/" target="_blank" title="https://xoak.readthedocs.io/en/latest/">xoak</a>?</p>
+
+
+
+<a name="30113"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30113" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30113">(Apr 22 2021 at 17:55)</a>:</h4>
+<p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> is this a regular grid that was flattened?</p>
+
+
+
+<a name="30114"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30114" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30114">(Apr 22 2021 at 17:58)</a>:</h4>
+<p>No, it's unstructured CAM-SE data (spectral element) on the 0.25deg grid (ne120). Here's an example data file sitting on glade:<br>
+/glade/work/yeager/iHesp/fredc_data/B1850/B.E.13.B1850C5.ne120_t12.sehires38.003.sunway_02.cam.h.PSL.002101.050112.nc</p>
+
+
+
+<a name="30119"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30119" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30119">(Apr 22 2021 at 18:10)</a>:</h4>
+<p>ya this is going to be clunky</p>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  this <a href="https://xoak.readthedocs.io/en/latest/_api_generated/xoak.index.s2_adapters.S2PointIndexAdapter.html" target="_blank" title="https://xoak.readthedocs.io/en/latest/_api_generated/xoak.index.s2_adapters.S2PointIndexAdapter.html">s2index</a> thing should work. Do you have time to try it out?</p>
+
+
+
+<a name="30120"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30120" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30120">(Apr 22 2021 at 18:44)</a>:</h4>
+<p>I couldn't get  xoak to not crash but the following works after <code>mamba install pys2index</code></p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">pys2index</span> <span class="kn">import</span> <span class="n">S2PointIndex</span>
+
+<span class="n">xr</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span>
+    <span class="n">display_style</span><span class="o">=</span><span class="s2">&quot;text&quot;</span>
+<span class="p">)</span>  <span class="c1"># something about this dataset really kills the HTML repr!</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span>
+    <span class="s2">&quot;/glade/work/yeager/iHesp/fredc_data/B1850/B.E.13.B1850C5.ne120_t12.sehires38.003.sunway_02.cam.h.PSL.002101.050112.nc&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="s2">&quot;area&quot;</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">ugrid_sel</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">):</span>
+    <span class="n">distances</span><span class="p">,</span> <span class="n">positions</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">]))</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">dim</span><span class="p">:</span> <span class="n">positions</span><span class="p">})</span>
+</pre></div>
+
+
+<p>The next cell creates the fancy index structure once. It seems to crash unpredictably <span aria-label="confused" class="emoji emoji-1f615" role="img" title="confused">:confused:</span> but as long as you get it to work everything else seems to work smoothly</p>
+<div class="codehilite"><pre><span></span><span class="n">latlon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># transpose is really important!</span>
+
+<span class="c1"># for some reason can&#39;t combine with upper cell :/</span>
+<span class="n">s2index</span> <span class="o">=</span> <span class="n">S2PointIndex</span><span class="p">(</span><span class="n">latlon</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="n">ugrid_sel</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="s2">&quot;ncol&quot;</span><span class="p">,</span> <span class="n">s2index</span><span class="p">,</span> <span class="p">[</span><span class="mi">34</span><span class="p">,</span> <span class="mf">34.25</span><span class="p">,</span> <span class="mf">34.3</span><span class="p">],</span> <span class="p">[</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">352</span><span class="p">])</span>
+</pre></div>
+
+
+<p>gives</p>
+<div class="codehilite"><pre><span></span>&lt;xarray.Dataset&gt;
+Dimensions:    (nbnd: 2, ncol: 3, time: 5772)
+Coordinates:
+  * time       (time) object 0021-02-01 00:00:00 ... 0502-01-01 00:00:00
+    lat        (ncol) float64 34.1 34.3 34.24
+    area       (ncol) float64 ...
+    lon        (ncol) float64 350.0 350.0 352.0
+Dimensions without coordinates: nbnd, ncol
+</pre></div>
+
+
+
+<a name="30121"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30121" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30121">(Apr 22 2021 at 18:45)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> this would be a great blogpost!</p>
+
+
+
+<a name="30122"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/indexing%20an%20unstructured%20grid/near/30122" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/indexing.20an.20unstructured.20grid.html#30122">(Apr 22 2021 at 18:58)</a>:</h4>
+<p>This is way more dependable:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">xoak</span>
+
+
+<span class="k">def</span> <span class="nf">kdtree_sel</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ds</span><span class="o">.</span><span class="n">xoak</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">xoak</span><span class="o">.</span><span class="n">set_index</span><span class="p">((</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">),</span> <span class="s2">&quot;scipy_kdtree&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">xoak</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">lat</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s2">&quot;ncol&quot;</span><span class="p">,</span> <span class="n">lats</span><span class="p">),</span> <span class="n">lon</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="s2">&quot;ncol&quot;</span><span class="p">,</span> <span class="n">lons</span><span class="p">))</span>
+
+
+<span class="n">kdtree_sel</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="p">[</span><span class="mi">34</span><span class="p">,</span> <span class="mf">34.25</span><span class="p">,</span> <span class="mf">34.3</span><span class="p">,</span> <span class="mi">42</span><span class="p">],</span> <span class="p">[</span><span class="mi">350</span><span class="p">,</span> <span class="mi">350</span><span class="p">,</span> <span class="mi">352</span><span class="p">,</span> <span class="mi">290</span><span class="p">])</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>&lt;xarray.Dataset&gt;
+Dimensions:    (nbnd: 2, ncol: 4, time: 5772)
+Coordinates:
+  * time       (time) object 0021-02-01 00:00:00 ... 0502-01-01 00:00:00
+    lat        (ncol) float64 34.1 34.3 34.24 41.92
+    area       (ncol) float64 ...
+    lon        (ncol) float64 350.0 350.0 352.0 290.0
+Dimensions without coordinates: nbnd, ncol
+</pre></div>
+
+
+<p>2ms lookups</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

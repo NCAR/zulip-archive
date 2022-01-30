@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>So, the example we benchmarked that proved to scale poorly involved computing monthly means.  So, we applied <code>groupby</code> month, but the dataset was chunked over <code>lat</code> and <code>lon</code>.  After the <code>groupby</code> operation, the intermediate state was chunked over <code>lat</code>, <code>lon</code> and <code>month</code>, which increased the number of chunks by a factor of 12.  The scheduler got bogged down with the number of chunks, and the anomaly calculation stopped scaling.</p>\n<p>Without knowing that Xarray re-chunks over groups, this was surprising to us!  Because if you think about it, the <code>groupby</code>+<code>mean</code> by month operation should be trivially parallelizable over <code>lat</code> and <code>lon</code>.  So, you might imagine that you could do the <code>groupby</code> month operation \"in place\" (i.e., inside a single dask chunk), but that requires a hand implementation of the <code>groupby</code>+<code>mean</code> operation to be applied over every dask chunk independently...not what Xarray does.</p>",
+        "id": 26049,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614701937
+    },
+    {
+        "content": "<p>The takeaway from this was that you should chunk over the same dimension you apply the <code>groupby</code> operation over.</p>",
+        "id": 26051,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614702122
+    },
+    {
+        "content": "<p>This looks like a missed opportunity for optimization. See <a href=\"https://github.com/pydata/xarray/issues/2237\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2237\">https://github.com/pydata/xarray/issues/2237</a></p>",
+        "id": 26057,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614706277
+    },
+    {
+        "content": "<p>I wouldn't say missed.  Just hasn't begun.  I don't have time and nobody else seems to complain.</p>",
+        "id": 26058,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614706693
+    },
+    {
+        "content": "<p>And, actually, I believe my collaborator pointed me to that Xarray issue during our benchmarking effort and we just decided to make note of it and avoid mixing groupby and chunk dimensions.  So, you could say that we learned to optimize our workflows from that issue.</p>",
+        "id": 26059,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614707005
+    },
+    {
+        "content": "<p>I have not heard of other people having this problem, and since we discovered it during a benchmarking exercise, our conclusion was that our benchmarking example was not representative of the problems that other people experience...and we felt the issue was well documented in the issue you already referenced.  So, if it's not actively being worked on...is it really a big issue?</p>",
+        "id": 26060,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614707305
+    },
+    {
+        "content": "<p>...However, this is probably something that should be documented as a \"best practice.\"</p>",
+        "id": 26061,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614707385
+    },
+    {
+        "content": "<p>I mean missed opportunity for dask to optimize that graph. Yes it is an issue! this kind of inefficiency builds up and breaks at scale.</p>\n<p>Ultimately solving this kind of thing is bottlenecked on the single-digit-number-of-people that can \"speak science\", \"speak xarray\" &amp; \"speak dask\".  And then bottlenecked on getting a dask maintainer to think about and fix it. The second thing is solvable by contracting.  The first thing... I don't know.</p>",
+        "id": 26063,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614707679
+    },
+    {
+        "content": "<p>Yeah.  Ok.  I can't follow things closely enough to know if other people are experiencing these problems.  (Was <span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span>'s problem related to this?)  So, if it's a routinely encountered problem, then we should figure out how to fix it.</p>\n<p>However, not being a core developer, it's not clear to me if it is an Xarray decision or a Dask decision to make?  Is there a heuristic that can be developed that will tell you when to do the reduction \"in-place\" (i.e., on the existing chunks) or \"out-of-place\" (i.e., by creating new chunks).  If a heuristic like that can be devised, then it seems to me that Xarray could make that decision for Dask...?</p>\n<p>...Maybe we should move this discussion to GitHub.  Is this specific enough to warrant a new issue?</p>",
+        "id": 26074,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1614708339
+    },
+    {
+        "content": "<p>I commented here: <a href=\"https://github.com/pydata/xarray/issues/2237#issuecomment-789078512\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/2237#issuecomment-789078512\">https://github.com/pydata/xarray/issues/2237#issuecomment-789078512</a> Maybe that will kickstart more conversation.</p>\n<blockquote>\n<p>However, not being a core developer, it's not clear to me if it is an Xarray decision or a Dask decision to make?</p>\n</blockquote>\n<p>xarray always avoids making chunking decisions. Those decisions are always dask's. The challenge is to determine what xarray is doing under-the-hood with standard dask operations (in this case, indexing followed by mean followed by concat), and figure out why those result in inefficient computations (first bottleneck)</p>",
+        "id": 26076,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1614708820
+    }
+]

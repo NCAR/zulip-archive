@@ -1,0 +1,164 @@
+[
+    {
+        "content": "<p>Hello all! I had a question in regards to averaging data from a dataframe. Right now, I am trying to plot a running mean of Anemometer wind speed data from the WXT. There are a total of 281391 entries in my WXT dataframe. These points are 5 minutes apart. Because I want to graph the data day by day, I need to take the average wind speed for every 288th data points. (Since there are 288 5-minute intervals in one day). So I want to average every 288 points. However, I am running into some errors with the way I'm doing it now. I've attached the image below of the error I'm getting using a method I found online. I am not sure what I should be doing instead or if there's an easier way to do this? <a href=\"/user_uploads/2/76/EvnBvDd719L00gnoIBwxbEpj/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/76/EvnBvDd719L00gnoIBwxbEpj/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/76/EvnBvDd719L00gnoIBwxbEpj/Capture.PNG\"></a></div>",
+        "id": 21776,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605811388
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"121\">@Muntaha Pasha</span>, it sounds like the <code>rolling</code> window operation with a <code>window size of 288</code>  is what you want... <a href=\"https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html\" target=\"_blank\" title=\"https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html\">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.rolling.html</a></p>",
+        "id": 21777,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605811651
+    },
+    {
+        "content": "<p>Is my interpretation correct?</p>",
+        "id": 21778,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605811704
+    },
+    {
+        "content": "<p>I believe so, yes. I haven't seen this documentation before, do you by any chance know how I'd set it up in my case?</p>",
+        "id": 21779,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605811829
+    },
+    {
+        "content": "<p>What do you get when run <code>dfWXT.index.dtype</code>?</p>",
+        "id": 21781,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605811998
+    },
+    {
+        "content": "<p>I get dtype('int64')</p>",
+        "id": 21782,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812062
+    },
+    {
+        "content": "<p>I'd recommend setting your pandas.DataFrame indexes to consist of datetime objects... What is the data type of the <code>datetime</code> column?</p>",
+        "id": 21783,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605812150
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/d9/8ZMBTcOPP6u_bmwmZKaRHimm/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a> <br>\nThis is what I have for the types. It looks like datetime is an object</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/d9/8ZMBTcOPP6u_bmwmZKaRHimm/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/d9/8ZMBTcOPP6u_bmwmZKaRHimm/Capture.PNG\"></a></div>",
+        "id": 21784,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812229
+    },
+    {
+        "content": "<p>Try the following:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dfWXT</span><span class=\"p\">[</span><span class=\"s1\">&#39;datetime&#39;</span><span class=\"p\">]</span> <span class=\"o\">=</span>  <span class=\"n\">pd</span><span class=\"o\">.</span><span class=\"n\">to_datetime</span><span class=\"p\">(</span><span class=\"n\">dfWXT</span><span class=\"p\">[</span><span class=\"s1\">&#39;datetime&#39;</span><span class=\"p\">])</span>\n<span class=\"n\">dfWXT</span> <span class=\"o\">=</span> <span class=\"n\">dfWXT</span><span class=\"o\">.</span><span class=\"n\">set_index</span><span class=\"p\">(</span><span class=\"s1\">&#39;datetime&#39;</span><span class=\"p\">)</span>\n<span class=\"n\">dfWXT</span><span class=\"o\">.</span><span class=\"n\">rolling</span><span class=\"p\">(</span><span class=\"s1\">&#39;5D&#39;</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">()</span>\n</pre></div>",
+        "id": 21785,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605812359
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/66/yhKam8I0PIi4sbYNOBu-TD21/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a>  So this is what I got. It just gave me this and no data points.</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/66/yhKam8I0PIi4sbYNOBu-TD21/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/66/yhKam8I0PIi4sbYNOBu-TD21/Capture.PNG\"></a></div>",
+        "id": 21788,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812508
+    },
+    {
+        "content": "<p>hmmm... <span aria-label=\"thinking\" class=\"emoji emoji-1f914\" role=\"img\" title=\"thinking\">:thinking:</span> something went wrong..... What is the output of <code>dfWXT.head()</code>?</p>",
+        "id": 21789,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605812571
+    },
+    {
+        "content": "<p>So dfWXT.head() shows the same thing as the image I sent above</p>",
+        "id": 21791,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812628
+    },
+    {
+        "content": "<p>And if I do dfWXT.info() the datetime is no longer a column in my DF</p>",
+        "id": 21792,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812660
+    },
+    {
+        "content": "<p>It sounds like I broke your code.... Try re-running everything up to the <code>pd.to_datetime(....)</code> invocation...</p>",
+        "id": 21793,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605812736
+    },
+    {
+        "content": "<p>And then let me know what <code>dfWXT.head()</code> gives you</p>",
+        "id": 21794,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605812763
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/15/oJPns1msYTDxCrcbghYuZt1-/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a> <br>\nAlright! after re-running, this is the head of my dataframe.</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/15/oJPns1msYTDxCrcbghYuZt1-/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/15/oJPns1msYTDxCrcbghYuZt1-/Capture.PNG\"></a></div>",
+        "id": 21795,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812858
+    },
+    {
+        "content": "<p>this doesnt include your commands you sent earlier. I havent run those yet.</p>",
+        "id": 21796,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605812884
+    },
+    {
+        "content": "<p>does <code>dfWXT.rolling(288).mean()</code> return anything?</p>",
+        "id": 21798,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605813301
+    },
+    {
+        "content": "<blockquote>\n<p>And if I do dfWXT.info() the datetime is no longer a column in my DF</p>\n</blockquote>\n<p>This is expected because  after <code>dfWXT = dfWXT.set_inde('datetime')</code>, <code>datetime</code> is no longer a column but an index...</p>",
+        "id": 21799,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605813429
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/b0/1AxiWBDIivj7Yb_CIQinqVCR/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a> This is the results from rolling</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/b0/1AxiWBDIivj7Yb_CIQinqVCR/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/b0/1AxiWBDIivj7Yb_CIQinqVCR/Capture.PNG\"></a></div>",
+        "id": 21800,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605813447
+    },
+    {
+        "content": "<blockquote>\n<p>Because I want to graph the data day by day, I need to take the average wind speed for every 288th data points. (Since there are 288 5-minute intervals in one day).</p>\n</blockquote>\n<p>Is it the case that you actually want to compute an average for each day, and not a daily running average?</p>",
+        "id": 21801,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605814181
+    },
+    {
+        "content": "<p>I am asking because I just realized that I may have misinterpreted your original question <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>",
+        "id": 21802,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605814214
+    },
+    {
+        "content": "<p>If you want to compute daily average, you can try this: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dfWXT</span><span class=\"p\">[</span><span class=\"s1\">&#39;datetime&#39;</span><span class=\"p\">]</span> <span class=\"o\">=</span>  <span class=\"n\">pd</span><span class=\"o\">.</span><span class=\"n\">to_datetime</span><span class=\"p\">(</span><span class=\"n\">dfWXT</span><span class=\"p\">[</span><span class=\"s1\">&#39;datetime&#39;</span><span class=\"p\">])</span>\n<span class=\"n\">dfWXT</span><span class=\"o\">.</span><span class=\"n\">groupby</span><span class=\"p\">(</span><span class=\"n\">dfWXT</span><span class=\"o\">.</span><span class=\"n\">datetime</span><span class=\"o\">.</span><span class=\"n\">dt</span><span class=\"o\">.</span><span class=\"n\">date</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">()</span>\n</pre></div>",
+        "id": 21803,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605814306
+    },
+    {
+        "content": "<p>Yes! This is perfect! Sorry for the confusion. This is what I want. The average of wind speed by each day. <br>\nMy only question now is when I want to graph it, what should I set \"x\" as? Since datetime is no longer a column but <a href=\"/user_uploads/2/50/ta-k8EWZLLqr9fvQ3Dl8sFIP/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a> an index.</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/50/ta-k8EWZLLqr9fvQ3Dl8sFIP/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/50/ta-k8EWZLLqr9fvQ3Dl8sFIP/Capture.PNG\"></a></div>",
+        "id": 21805,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605814769
+    },
+    {
+        "content": "<p>Ah, nevermind. I will leave x out. It will automatically do it by datetime.<br>\nThank you for your help!!</p>",
+        "id": 21806,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1605814894
+    },
+    {
+        "content": "<blockquote>\n<p>My only question now is when I want to graph it, what should I set \"x\" as? Since datetime is no longer a column but</p>\n</blockquote>\n<p>You can reset the index to turn <code>datetime</code> into a column again:</p>\n<div class=\"codehilite\"><pre><span></span> <span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">groupby</span><span class=\"p\">(</span><span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">datetime</span><span class=\"o\">.</span><span class=\"n\">dt</span><span class=\"o\">.</span><span class=\"n\">date</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">reset_index</span><span class=\"p\">()</span>\n</pre></div>",
+        "id": 21807,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605815059
+    },
+    {
+        "content": "<blockquote>\n<p>Yes! This is perfect! Sorry for the confusion.  </p>\n</blockquote>\n<p>Of course! Glad we got it to work as expected</p>",
+        "id": 21808,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1605815101
+    }
+]

@@ -1,0 +1,144 @@
+<html>
+<head><meta charset="utf-8"><title>Xarray  unify_chunks() · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html">Xarray  unify_chunks()</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="20534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20534" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20534">(Oct 28 2020 at 00:12)</a>:</h4>
+<p>I have two Zarr stores whose data I want to combine along the time dimension, and then save as a new Zarr store.     The second Zarr store has time values that start just after when the first Zarr store's time values end.</p>
+<p>Both datasets have the same data variables and chunk sizes.    But I know that the combined chunks from both will likely need re-alignment, because the final chunks from the first Zarr store are not completely filled. </p>
+<p>Is calling unify_chunks() after concatenation going to de-fragment and rechunk the data using the existing chunk information, as I hope it will?     </p>
+<p>Thanks for any insights.</p>
+
+
+
+<a name="20589"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20589" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20589">(Oct 28 2020 at 19:12)</a>:</h4>
+<p>I guess I should have tried this before asking, but <code>unify_chunks()</code> does not do what I need.   I need to call <code>chunk()</code> with the coordinate dimensions and chunk sizes  I am interested in.  </p>
+<p>All I need to figure out is how to produce the dictionary describing my chunk sizes.   <br>
+I can get the data variable dimension names with this expression:</p>
+<p><code>ds['my_var'].dims
+('member_id', 'time', 'lat', 'lon')</code></p>
+<p>And I can get the data variable chunk sizes with this expression:</p>
+<p><code>ds['my_var'].data.chunksize
+(4, 1000, 65, 120)</code></p>
+<p>But I can't seem to get the dictionary that  puts these two things together, i.e.   </p>
+<p><code>{'member_id': 4, 'time': 1000, 'lat': 65, 'lon': 120}</code></p>
+<p>For now, I will assume that the ordering of values matches and I can construct the dictionary myself, but I don't know if this is a safe assumption.</p>
+
+
+
+<a name="20591"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20591" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20591">(Oct 28 2020 at 19:16)</a>:</h4>
+<blockquote>
+<p>But I can't seem to get the dictionary that puts these two things together, i.e.</p>
+</blockquote>
+<p>Are you looking for this:</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;member_id&#39;</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">chunksizes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">120</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">chunksizes</span><span class="p">))</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="p">{</span><span class="s1">&#39;member_id&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">:</span> <span class="mi">65</span><span class="p">,</span> <span class="s1">&#39;lon&#39;</span><span class="p">:</span> <span class="mi">120</span><span class="p">}</span>
+</pre></div>
+
+
+
+<a name="20593"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20593" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20593">(Oct 28 2020 at 19:18)</a>:</h4>
+<p>That works as long as the values for <code>dims</code> and <code>chunksizes</code> are always produced in the same order.   Is this a fair assumption?</p>
+
+
+
+<a name="20594"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20594" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20594">(Oct 28 2020 at 19:18)</a>:</h4>
+<p>Yes, the ordering matters</p>
+
+
+
+<a name="20595"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20595" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20595">(Oct 28 2020 at 19:21)</a>:</h4>
+<p>Do you mean that I can assume the above code will always work?   I don't want to associate a key with the wrong value...</p>
+
+
+
+<a name="20596"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20596" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20596">(Oct 28 2020 at 19:22)</a>:</h4>
+<p>Instead of <code>ds['my_var'].data.chunksize</code>,  Try the following </p>
+<div class="codehilite"><pre><span></span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;my_var&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;my_var&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">chunks</span><span class="p">))</span>
+</pre></div>
+
+
+
+<a name="20600"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20600" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20600">(Oct 28 2020 at 19:26)</a>:</h4>
+<p>This is what I get:</p>
+<div class="codehilite"><pre><span></span>dict(zip(ds[&#39;uas&#39;].dims, ds[&#39;uas&#39;].chunks))
+{&#39;member_id&#39;: (4, 4, 4),
+ &#39;time&#39;: (1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  1000,
+  698),
+ &#39;lat&#39;: (65, 65, 65, 63),
+ &#39;lon&#39;: (120, 120, 120, 120, 120)}
+</pre></div>
+
+
+<p>I don't think that is what I want...I just want to know if I can trust that <code>dims</code> and <code>chunksize</code> will order the values correctly for me.</p>
+
+
+
+<a name="20601"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20601" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20601">(Oct 28 2020 at 19:29)</a>:</h4>
+<blockquote>
+<p>I can trust that dims and chunksize will order the values correctly for me.</p>
+</blockquote>
+<p>I've always used both, I haven't run into any issues... It's my understanding that dims, chunksize are returned in the same ordering</p>
+
+
+
+<a name="20602"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Xarray%20%20unify_chunks%28%29/near/20602" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Xarray.20.20unify_chunks().html#20602">(Oct 28 2020 at 19:30)</a>:</h4>
+<p>Thanks, I appreciate knowing your experience so far.   I will print some diagnostics to help make sure that things look correct.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,54 @@
+<html>
+<head><meta charset="utf-8"><title>KilledWorker on simple operations · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html">KilledWorker on simple operations</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="10845"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KilledWorker%20on%20simple%20operations/near/10845" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html#10845">(Jun 09 2020 at 18:20)</a>:</h4>
+<p>Hi all. Generally <code>dask</code> plays pretty nicely with my work if I throw a lot of workers at the problem. I'm struggling with a <code>KilledWorker</code> error right now in a pretty simple case. I have a 32.4GB dataset and I am taking a mean over a single dimension to reduce it to ~6.5GB dataset. I tried with 36 cores per node, 36 processes, 100GB memory, and 10 nodes (i.e. 1TB memory and 360 workers). It's chunked such that chunks are about 100MB. Just trying to take the mean over a single dimension and then saving to a netcdf I get </p>
+<div class="codehilite"><pre><span></span><span class="n">KilledWorker</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;(&#39;open_dataset-concatenate-c100c09070937c41c0bc3dec0d93593c&#39;, 0, 5, 0, 0, 0)&quot;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">Worker</span> <span class="s1">&#39;tcp://10.148.7.66:46303&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="mi">0</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="n">memory</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="n">processing</span><span class="p">:</span> <span class="mi">1</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Any thoughts? I tried 18 processes per node instead of 36 to give the workers a little more memory. I've also tried to chunk smaller and larger. Again, generally more workers/nodes solves these kinds of things but these are 100MB chunks with 360 workers for a 32GB dataset. Shouldn't expect this problem.</p>
+
+
+
+<a name="10846"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KilledWorker%20on%20simple%20operations/near/10846" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html#10846">(Jun 09 2020 at 18:24)</a>:</h4>
+<p>does <code>ds.mean("dim").compute()</code> also crash?</p>
+
+
+
+<a name="10847"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KilledWorker%20on%20simple%20operations/near/10847" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html#10847">(Jun 09 2020 at 18:25)</a>:</h4>
+<p>and is the 32.4GB dataset being read straight from disk, or is the result of some other step?</p>
+
+
+
+<a name="10848"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KilledWorker%20on%20simple%20operations/near/10848" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html#10848">(Jun 09 2020 at 18:26)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> , yep it does. I switched over to <code>.to_netcdf()</code> thinking that might help for some reason. It's read semi straight from disk. I run <code>xr.open_mfdataset</code> first to concatenate 7 ~4.5GB files into the larger one. Maybe that's what the concat error is. I might try doing the <code>open_mfdataset</code> and then saving the combined form out as zarr.</p>
+
+
+
+<a name="10849"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KilledWorker%20on%20simple%20operations/near/10849" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html#10849">(Jun 09 2020 at 18:27)</a>:</h4>
+<p>are you chunking at the <code>mfdataset</code> stage?</p>
+
+
+
+<a name="10850"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/KilledWorker%20on%20simple%20operations/near/10850" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/KilledWorker.20on.20simple.20operations.html#10850">(Jun 09 2020 at 18:31)</a>:</h4>
+<p>I think that fixes it. :) I was running <code>xr.open_mfdataset(files, parallel=True)</code> then chunking afterwards with <code>ds = ds.chunk(...)</code>. I didn't stop to think that it was probably loading it all in as one chunk and then rechunking. It works if I run <code>chunks=...</code> within the <code>open_mfdataset</code> stage. Thanks! Sometimes it's simple.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

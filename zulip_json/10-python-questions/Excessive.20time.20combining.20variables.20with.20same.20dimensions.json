@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>This is more a question about if the problem is with me or if others have experienced this problem as well.</p>\n<p>Basically, in some combinations of versions of <code>intake</code>, <code>intake-esm</code>, and <code>xarray</code>, I run into problems when combining variables with all the same dimensions/coordinates. What it looks like it's doing is that it for some reason thinks that the coords aren't exactly identical and so starts broadcasting like crazy. Anyone run into this problem before and/or know if this is a known bug that has since been resolved?</p>\n<p>For example this problem occurs with</p>\n<div class=\"codehilite\"><pre><span></span><code>intake                        0.5.5\nintake-esm              2020.3.16.2\nxarray                        0.16\n</code></pre></div>\n<p>but not</p>\n<div class=\"codehilite\"><pre><span></span><code>intake                       0.6.3\nintake-esm             2021.8.17\nxarray                       0.19.0\n</code></pre></div>",
+        "id": 42922,
+        "sender_full_name": "Andrew Shao",
+        "timestamp": 1631808477
+    },
+    {
+        "content": "<p>Here's a quick code snippet:</p>\n<div class=\"codehilite\"><pre><span></span><code>import intake\nimport xarray as xr\n\ncat_url = &quot;/space/hall4/sitestore/eccc/crd/CMIP6/final/canesm_final.json&quot;\n\ncol = intake.open_esm_datastore(cat_url)\n\nquery = dict(variable_id=[&#39;tas&#39;, &#39;pr&#39;, &#39;psl&#39;], table_id=&#39;Amon&#39;, source_id=&#39;CanESM5&#39;, experiment_id=&#39;historical&#39;, member_id=&#39;r1i1p2f1&#39;)\ncat = col.search(**query)\ndset_dict = cat.to_dataset_dict()\n</code></pre></div>",
+        "id": 42923,
+        "sender_full_name": "Andrew Shao",
+        "timestamp": 1631808517
+    },
+    {
+        "content": "<p>Note: you can point <code>cat_url</code> to whatever your favorite CMIP6 catalogue is.</p>",
+        "id": 42925,
+        "sender_full_name": "Andrew Shao",
+        "timestamp": 1631808607
+    },
+    {
+        "content": "<p>Not sure how to explain the version dependencies, but sometimes there are roundoff level differences in coordinates that can trip up the <code>xarray</code> combine.</p>",
+        "id": 42936,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1631810566
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  Thanks. I do suspect that you're right about that. If I use <code>preprocess</code> to overwrite the coordinates, it works as expected</p>",
+        "id": 42958,
+        "sender_full_name": "Andrew Shao",
+        "timestamp": 1631815379
+    }
+]

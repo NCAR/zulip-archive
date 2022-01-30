@@ -1,0 +1,104 @@
+[
+    {
+        "content": "<p>Hi all. I am trying to open an intake catalog from yaml file with <code>intake.open_catalog('test.yaml)</code> but I get a Constructor Error: <code>ConstructorError: could not determine a constructor for the tag 'tag:yaml.org,2002:python/object:intake.catalog.local.LocalCatalogEntry'</code> </p>\n<p>Does anyone know why this could be? Am I using the wrong open command? I also tried <code>intake.open_yaml_file_cat()</code>. Or is my yaml file perhaps formatted incorrectly? The script and my yaml file are <a href=\"https://github.com/jukent/NASA-ACCESS\">here</a>.</p>",
+        "id": 39167,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628181242
+    },
+    {
+        "content": "<blockquote>\n<p>Does anyone know why this could be? Am I using the wrong open command? I also tried</p>\n</blockquote>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_catalog</span><span class=\"p\">(</span><span class=\"s1\">'test.yaml'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>is the right command. The contents of the YAML file are the culprit.  How was the <code>test.yaml</code> file produced?</p>",
+        "id": 39168,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628182569
+    },
+    {
+        "content": "<blockquote>\n<p>How was the test.yaml file produced?</p>\n</blockquote>\n<p>Never mind... I see the notebook</p>",
+        "id": 39170,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628182962
+    },
+    {
+        "content": "<p>I generate it in the <code>intake_serialize.ipynb</code> notebook in that repository. I am trying to load the url of a catalog as a catalog, walk down to a few levels of depth, and save that new catalog as a yaml file that can also be loaded as a catalog.</p>",
+        "id": 39171,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628183046
+    },
+    {
+        "content": "<p>Thanks for helping!</p>",
+        "id": 39172,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628183065
+    },
+    {
+        "content": "<p>The meat of it is:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">with</span> <span class=\"nb\">open</span><span class=\"p\">(</span><span class=\"s1\">'test.yaml'</span><span class=\"p\">,</span> <span class=\"s1\">'w'</span><span class=\"p\">)</span> <span class=\"k\">as</span> <span class=\"n\">f</span><span class=\"p\">:</span>\n    <span class=\"n\">f</span><span class=\"o\">.</span><span class=\"n\">write</span><span class=\"p\">(</span><span class=\"n\">yaml</span><span class=\"o\">.</span><span class=\"n\">dump</span><span class=\"p\">(</span><span class=\"n\">stac_cat</span><span class=\"o\">.</span><span class=\"n\">walk</span><span class=\"p\">(</span><span class=\"n\">depth</span><span class=\"o\">=</span><span class=\"mi\">10</span><span class=\"p\">)))</span>\n</code></pre></div>",
+        "id": 39174,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628183785
+    },
+    {
+        "content": "<p>@jukent,  Since <code>stac_cat.walk(...)</code> returns a dictionary with  Python objects that may or may not be serializable, serializing this dict results in an invalid YAML file... You will need to jump through some hoops to get a valid YAML file <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span>. </p>\n<p>I don't how to deal with these problematic Python objects ( for e.g. the <code>satstac.item.Item</code> which I believe comes from <a href=\"https://github.com/sat-utils/sat-stac/blob/master/satstac/item.py\">https://github.com/sat-utils/sat-stac/blob/master/satstac/item.py</a>)</p>",
+        "id": 39179,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628185407
+    },
+    {
+        "content": "<p>It's my understanding that <code>satstac.item.Item</code> isn't serializable. So, if your goal is to serialize the walked catalog, you may have to exclude some of the items</p>",
+        "id": 39180,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628185568
+    },
+    {
+        "content": "<p>An alternative would be to serialize just top-level (the parents). For e.g. </p>\n<p><a href=\"/user_uploads/2/35/uuvlfIWEpeANHXwZY0F3s6DT/Screen-Shot-2021-08-05-at-11.50.01-AM.png\">Screen-Shot-2021-08-05-at-11.50.01-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/35/uuvlfIWEpeANHXwZY0F3s6DT/Screen-Shot-2021-08-05-at-11.50.01-AM.png\" title=\"Screen-Shot-2021-08-05-at-11.50.01-AM.png\"><img src=\"/user_uploads/2/35/uuvlfIWEpeANHXwZY0F3s6DT/Screen-Shot-2021-08-05-at-11.50.01-AM.png\"></a></div>",
+        "id": 39184,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628185992
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> Could you point me to some documentation on what makes a valid YAML that can be opened by intake? I thought any dictionary could be turned into a YAML.</p>",
+        "id": 39185,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628185999
+    },
+    {
+        "content": "<p>I think the purpose of the project is to find those hoops and figure out how to jump through them to get more than just the top-level in the YAML.</p>",
+        "id": 39186,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628186169
+    },
+    {
+        "content": "<blockquote>\n<p>Could you point me to some documentation on what makes a valid YAML that can be opened by intake? </p>\n</blockquote>\n<p>There isn't documentation about this <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span>.  </p>\n<blockquote>\n<p>I thought any dictionary could be turned into a YAML. </p>\n</blockquote>\n<p>That's right... It's the YAML loading part that creates all sorts of issues.  intake uses the default yaml loader (which isn't aware of some of these custom objects). </p>\n<p>The main test I use is <strong>if you can read the YAML file with the default pyyaml loader, intake should be able to do the same</strong>(<a href=\"https://github.com/intake/intake/blob/6959346c1db430547546627989875ce0cbdfb53f/intake/utils.py#L75\">https://github.com/intake/intake/blob/6959346c1db430547546627989875ce0cbdfb53f/intake/utils.py#L75</a>)</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">yaml</span>\n<span class=\"k\">with</span> <span class=\"nb\">open</span><span class=\"p\">(</span><span class=\"s1\">'test.yaml'</span><span class=\"p\">)</span> <span class=\"k\">as</span> <span class=\"n\">f</span><span class=\"p\">:</span>\n    <span class=\"n\">data</span> <span class=\"o\">=</span> <span class=\"n\">yaml</span><span class=\"o\">.</span><span class=\"n\">safe_load</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">)</span>\n</code></pre></div>\n<hr>",
+        "id": 39195,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628188705
+    },
+    {
+        "content": "<p>I don't know if creating custom YAML loaders is going to help for your use case, but here's an example in case you are interested: <a href=\"https://stackoverflow.com/questions/58924168/loading-custom-objects-with-pyyaml\">https://stackoverflow.com/questions/58924168/loading-custom-objects-with-pyyaml</a></p>",
+        "id": 39198,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628188808
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> It seems the <code>yaml.dump()</code> method adds all sorts of things to the YAML that the <code>intake.yaml()</code> method excludes, and I need to figure out what those are so that I can have save the YAML a few layers down in a form that is still readable by <code>intake</code>. I will reach out if I have any more specific questions.</p>",
+        "id": 39205,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628189323
+    },
+    {
+        "content": "<p>Even just knowing that I am reading the YAML correctly is a huge help in finding the error!</p>",
+        "id": 39206,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628189366
+    },
+    {
+        "content": "<blockquote>\n<p>I will reach out if I have any more specific questions.<br>\nEven just knowing that I am reading the YAML correctly is a huge help in finding the error!</p>\n</blockquote>\n<p><span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span>  sounds good... </p>\n<p>By the way, there's a shortcut method <code>.save()</code> for saving an intake catalog object to a YAML file </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">14</span><span class=\"p\">]:</span> <span class=\"n\">url</span> <span class=\"o\">=</span> <span class=\"s1\">'https://raw.githubusercontent.com/sat-utils/sat-stac/master/test/catalog/catalog.json'</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">15</span><span class=\"p\">]:</span> <span class=\"n\">cat</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_stac_catalog</span><span class=\"p\">(</span><span class=\"n\">url</span><span class=\"p\">)</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">16</span><span class=\"p\">]:</span> <span class=\"nb\">list</span><span class=\"p\">(</span><span class=\"n\">cat</span><span class=\"p\">)</span>\n<span class=\"n\">Out</span><span class=\"p\">[</span><span class=\"mi\">16</span><span class=\"p\">]:</span> <span class=\"p\">[</span><span class=\"s1\">'stac-catalog-eo'</span><span class=\"p\">]</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">17</span><span class=\"p\">]:</span> <span class=\"n\">walked_cat_dict</span> <span class=\"o\">=</span> <span class=\"n\">cat</span><span class=\"o\">.</span><span class=\"n\">walk</span><span class=\"p\">(</span><span class=\"n\">depth</span><span class=\"o\">=</span><span class=\"mi\">10</span><span class=\"p\">)</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">18</span><span class=\"p\">]:</span> <span class=\"nb\">type</span><span class=\"p\">(</span><span class=\"n\">walked_cat_dict</span><span class=\"p\">)</span>\n<span class=\"n\">Out</span><span class=\"p\">[</span><span class=\"mi\">18</span><span class=\"p\">]:</span> <span class=\"nb\">dict</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">19</span><span class=\"p\">]:</span> <span class=\"n\">walked_cat</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">catalog</span><span class=\"o\">.</span><span class=\"n\">Catalog</span><span class=\"o\">.</span><span class=\"n\">from_dict</span><span class=\"p\">(</span><span class=\"n\">walked_cat_dict</span><span class=\"p\">)</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">21</span><span class=\"p\">]:</span> <span class=\"n\">walked_cat</span><span class=\"o\">.</span><span class=\"n\">save</span><span class=\"p\">(</span><span class=\"s1\">'test.yaml'</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 39211,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1628190070
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"32\">@Joe Hamman</span> And I were looking at that method today as a possible avenue as well.</p>",
+        "id": 39214,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1628190917
+    }
+]

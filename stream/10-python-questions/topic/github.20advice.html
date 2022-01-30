@@ -1,0 +1,68 @@
+<html>
+<head><meta charset="utf-8"><title>github advice · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html">github advice</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="22178"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22178" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22178">(Nov 28 2020 at 15:44)</a>:</h4>
+<p>Hello again,  I'm trying to start using github for my project and I'm wondering if there's a way (other than just cloning the repository all over the place) to deal with the fact that on the CGD machines we have a tiny home directory.  Normally the way I work is to have the following:</p>
+<p>code in /home/islas<br>
+data in /project/cas/islas/savs<br>
+plots in /project/cas/islas/plots</p>
+<p>I like to keep things separate like this.  But I can't see how to deal with this in github.  links don't work because/home and /project are on different devices.  I want to include some small data files in the github repository that are needed for making the plots, but I don't have space for them in my home directory.  How do others deal with this?  Do you just do everything in the project space?  Or is there a way to incorporate other locations into your git repository?  Thanks in advance!</p>
+
+
+
+<a name="22187"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22187" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22187">(Nov 30 2020 at 15:43)</a>:</h4>
+<p><span class="user-mention" data-user-id="45">@Isla Simpson</span>, </p>
+<p>Have you considered putting everything ( code, data, plots) in a parent directory under <code>/project/cas/islas</code> and creating a soft link in your home directory pointing to the parent directory in  <code>/project/cas/islas</code>?</p>
+
+
+
+<a name="22189"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22189" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22189">(Nov 30 2020 at 15:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="45">@Isla Simpson</span> do you need the data and plots to be under version control? My typical workflow would be to keep the code in github but find a better way to back up the datasets (I typically work on glade and don't recall the CGD backup policy for <code>/project/</code>... if ISG doesn't keep backups, could you copy the data to campaign or <code>/glade/work/</code> or something?) and then plan on regenerating any plots that are lost if the disk happens to fail</p>
+
+
+
+<a name="22190"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22190" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22190">(Nov 30 2020 at 15:51)</a>:</h4>
+<p>I'd probably make softlinks to the data and plot directories so I could use relative paths in the code, but then include those softlinks in <code>.gitignore</code> so they aren't kept in the repository. Then if you move to a separate machine you'll need to create similar softlinks after copying the data over, but you'll be free to keep the data on a separate volume from the code again.</p>
+
+
+
+<a name="22192"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22192" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22192">(Nov 30 2020 at 16:47)</a>:</h4>
+<p>Hi Anderson, Mike, </p>
+<p>Thanks for the suggestions.  I think not having the data and plots under version control is probably the way to go.  The reason I wanted to put the data up there is that I wanted to provide the basic data for making the plots for when it comes to publication and making the data available.  But, perhaps what I should do is use some other platform for sharing the data and not have it be part of my github repository.   The suggestion of putting everything in /project/cas would be an idea, but I'd like to take advantage of the backups in /home.  So, I think continuing to keep them separate and not provide the data on github is what I'll do and then put the necessary data somewhere else.  Thanks for the advice!</p>
+
+
+
+<a name="22195"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22195" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22195">(Nov 30 2020 at 16:47)</a>:</h4>
+<p>I think <span class="user-mention" data-user-id="10">@Michael Levy</span> is right, here.  The best strategy for using version control on a project or package is to <em>only</em> apply version control to the source code and <em>not</em> the data or products (i.e., plots).  You might even include all plot and data file types in your <code>.gitignore</code> file, so that new data files and/or plot files are automatically ignored by git.  (Sometimes, not including data in your git repository is <em>necessary</em> because of file size limitations on hosting platforms like GitHub.  GitHub does not allow files larger than 100 MB.)</p>
+<p>Another useful design suggestion might be to try to <em>generalize</em> what you keep in your git repository so that it doesn't actually depend on specific data files (and specific data file paths).  That makes the code more easily reusable.  Even if nobody else uses it, you might for another project (and other data files).</p>
+
+
+
+<a name="22196"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22196" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22196">(Nov 30 2020 at 16:48)</a>:</h4>
+<p>ok, thanks a lot!</p>
+
+
+
+<a name="22197"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/github%20advice/near/22197" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/github.20advice.html#22197">(Nov 30 2020 at 16:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="45">@Isla Simpson</span>:  If you want to include data for example/demonstration purposes, that's usually okay (and appreciated).  But <span class="user-mention" data-user-id="10">@Michael Levy</span> is correct that usually keeping <em>all</em> of the data is unnecessary.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

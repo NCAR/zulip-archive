@@ -1,0 +1,42 @@
+<html>
+<head><meta charset="utf-8"><title>running average over sub regions · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/running.20average.20over.20sub.20regions.html">running average over sub regions</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="21815"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/running%20average%20over%20sub%20regions/near/21815" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/running.20average.20over.20sub.20regions.html#21815">(Nov 19 2020 at 22:45)</a>:</h4>
+<p>Hi All, </p>
+<p>This is my first post to list and i am exciting about it. I am trying to learn dask and xarray by trying following operation  </p>
+<div class="codehilite"><pre><span></span>import xarray as xr
+import dask.array as da
+import numpy as np
+
+def box_average(x):
+    return np.average(x+np.roll(x, -1)+np.roll(x, -1, axis=0)+np.roll(x, -1, axis=1)+np.roll(x, [-1,-1], axis=(0, 1)))
+
+tmp = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+arr = da.from_array(tmp, chunks=5)
+print(arr.compute())
+arr2 = arr.map_overlap(box_average, depth=1, boundary=0)
+print(arr2.compute())
+</pre></div>
+
+
+<p>i am aiming to calculate average over 2d field by using its neighbors. I found map_overlap function to do it but it won't produce that i want . Do you know any good example about it. Actually, this is just demo code that i try something but eventually this will be used in very high resolution dataset and i am not sure about its performance at this point. Any comments could be helpful since i am beginer</p>
+
+
+
+<a name="21821"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/running%20average%20over%20sub%20regions/near/21821" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/running.20average.20over.20sub.20regions.html#21821">(Nov 20 2020 at 16:30)</a>:</h4>
+<p>i think i solved the problem. thanks</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

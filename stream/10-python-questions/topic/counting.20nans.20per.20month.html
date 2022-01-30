@@ -1,0 +1,76 @@
+<html>
+<head><meta charset="utf-8"><title>counting nans per month · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html">counting nans per month</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="33757"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33757" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33757">(Jun 07 2021 at 22:42)</a>:</h4>
+<p>Hi all, I'm trying to count the nans in my dataset per month. I have previously counted nans in the entire dataset like this:<br>
+<code>nans_wdt = xr.ufuncs.isnan(ds_wdt_iso.wdt_iso).sum(dim='time')</code><br>
+but now would like to do this per month. Using <code>groupby('time.month')</code> doesn't work unfortunately: <br>
+<code>AttributeError: 'DatasetGroupBy' object has no attribute '_unary_op'</code><br>
+I can count per month with this (where <code>mon</code> stands for the months I'm currently counting): <code>xr.ufuncs.isnan(ds_wdt_iso.sel(time=ds_wdt_iso.wdt_iso.time.dt.month.isin([mon]))).sum(dim='time')</code>,<br>
+ but then the only way I see to get all 12 months is to loop -- can someone help with a more elegant solution?</p>
+
+
+
+<a name="33758"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33758" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33758">(Jun 07 2021 at 23:15)</a>:</h4>
+<p><code>ds.groupby("time.month").map(lambda g: g.isnull().sum("time"))</code></p>
+
+
+
+<a name="33792"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33792" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33792">(Jun 08 2021 at 15:16)</a>:</h4>
+<p>cool I'll try it and learn more about map and lambda (I noticed it saved the day already with Danica's problem)</p>
+
+
+
+<a name="33794"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33794" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33794">(Jun 08 2021 at 15:44)</a>:</h4>
+<p>A non-lambda version is </p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">count_null</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+
+<span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.month&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">count_null</span><span class="p">)</span><span class="o">.</span> <span class="c1"># applies count_null to each group</span>
+</pre></div>
+
+
+<p>They're equivalent, for such short functions that are used only once it's just a lot more convenient to use a lambda (especially if you're lazy like me)</p>
+
+
+
+<a name="33866"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33866" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33866">(Jun 08 2021 at 19:59)</a>:</h4>
+<p>Coding "best practices" can be endlessly debated, but I follow the general rule of avoiding the use of lambda if you're writing code that other people in the wider community will want to run also.   One of python's potential advantages is that ideas can be expressed in short, simple pieces of code that can be understood quickly.</p>
+
+
+
+<a name="33877"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33877" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33877">(Jun 08 2021 at 20:30)</a>:</h4>
+<p><span class="user-mention" data-user-id="9">@Brian Bonnlander</span>  I do not fully understand <code>lambda</code> functionality (it was also provided in an example to me earlier this week), but can you explain why it might be problematic when sharing code more broadly?</p>
+
+
+
+<a name="33882"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33882" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33882">(Jun 08 2021 at 20:42)</a>:</h4>
+<p>I didn't mean anything super profound.   Lambda functions are not strictly necessary in most computer languages.   They act as a form of convenience.    Lambdas are "unnamed" or "ephemeral" functions which can be convenient when you need to use a function once, you never want to use it again.</p>
+<p>Most places where lambdas are used, you could instead define a function first (as above with the <code>count_null()</code> function).    Function definitions are nice because you can give them English names that describe what they do.   Most people find that helpful.    </p>
+<p>It always takes me longer to understand what someone is trying to do with their code if many steps are happening on a single line.   Lambdas kind of require you to produce longer coding expressions,  and that makes it harder for others to quickly determine the code's intent.</p>
+
+
+
+<a name="33885"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/counting%20nans%20per%20month/near/33885" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/counting.20nans.20per.20month.html#33885">(Jun 08 2021 at 20:45)</a>:</h4>
+<p>Thanks for this clear explanation! It's very helpful for me to understand lambda and best coding practices.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>Is there a way to sum up fields within a single xarray? Like all the 3-d fields in this.  And I want to just add the fields without knowing their names</p>\n<p>&lt;xarray.Dataset&gt;<br>\nDimensions:       (lat: 96, lon: 144, time: 324)<br>\nCoordinates:</p>\n<p>* lon           (lon) float32 0.0 2.5 5.0 7.5 10.0 ... 350.0 352.5 355.0 357.5<br>\n  * lat           (lat) float32 -90.0 -88.10526 -86.210526 ... 88.10526 90.0<br>\n  * time          (time) datetime64[ns] 1850-01-15 1850-02-15 ... 2100-12-15<br>\nData variables:<br>\n    bb            (time, lat, lon) float32 ...<br>\n    anthro        (time, lat, lon) float32 ...<br>\n    date          (time) int32 ...<br>\n    gridbox_area  (lat, lon) float32 ...<br>\n    volcano       (time, lat, lon) float32 ..</p>",
+        "id": 30563,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619728172
+    },
+    {
+        "content": "<p>here's a toy example</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">Dataset</span><span class=\"p\">({</span>\n    <span class=\"s1\">&#39;a&#39;</span><span class=\"p\">:</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">),</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"s1\">&#39;x&#39;</span><span class=\"p\">)),</span>\n    <span class=\"s1\">&#39;b&#39;</span><span class=\"p\">:</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">),</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"s1\">&#39;x&#39;</span><span class=\"p\">)),</span>\n    <span class=\"s1\">&#39;c&#39;</span><span class=\"p\">:</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">DataArray</span><span class=\"p\">(</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">),</span> <span class=\"n\">dims</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"s1\">&#39;x&#39;</span><span class=\"p\">)),</span>\n<span class=\"p\">})</span>\n\n<span class=\"n\">varnames</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"n\">v</span> <span class=\"k\">for</span> <span class=\"n\">v</span> <span class=\"ow\">in</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">data_vars</span> <span class=\"k\">if</span> <span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">v</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">dims</span> <span class=\"o\">==</span> <span class=\"p\">(</span><span class=\"s1\">&#39;x&#39;</span><span class=\"p\">,)]</span>\n\n<span class=\"n\">total</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">full_like</span><span class=\"p\">(</span><span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">varnames</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">]],</span> <span class=\"n\">fill_value</span><span class=\"o\">=</span><span class=\"mf\">0.</span><span class=\"p\">)</span>\n<span class=\"k\">for</span> <span class=\"n\">v</span> <span class=\"ow\">in</span> <span class=\"n\">varnames</span><span class=\"p\">:</span>\n    <span class=\"n\">total</span> <span class=\"o\">+=</span> <span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">v</span><span class=\"p\">]</span>\n</pre></div>",
+        "id": 30564,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619728567
+    },
+    {
+        "content": "<p>in your case, <code>ds.data_vars</code> will include <code>gridbox_area</code>, so you want to filter out the variables that don't have the right dims</p>",
+        "id": 30565,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619728629
+    },
+    {
+        "content": "<p>Looks like what I need.  Thanks!</p>",
+        "id": 30566,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619729077
+    },
+    {
+        "content": "<p>If you get rid of <code>date</code> and <code>gridbox_area</code>, then <code>ds.to_array(\"variable\").sum(\"variable\")</code> will do what you want. It will stack all \"data variables\" into a new array along a new dimension named \"variable\". Then sum along the \"variable\" dimension</p>",
+        "id": 30571,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1619731930
+    },
+    {
+        "content": "<p>That's interesting approach, Deepak.  Not all files have those fields so it is a little bit of a mess and therefore querying has to happen, either to remove or to sum them.</p>",
+        "id": 30584,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1619733301
+    },
+    {
+        "content": "<p>you could combine the solutions:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">varnames</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"n\">v</span> <span class=\"k\">for</span> <span class=\"n\">v</span> <span class=\"ow\">in</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">data_vars</span> <span class=\"k\">if</span> <span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">v</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">dims</span> <span class=\"o\">==</span> <span class=\"p\">(</span><span class=\"s1\">&#39;x&#39;</span><span class=\"p\">,)]</span>\n<span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">varnames</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">to_array</span><span class=\"p\">(</span><span class=\"s1\">&#39;variable&#39;</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">sum</span><span class=\"p\">(</span><span class=\"s1\">&#39;variable&#39;</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 30585,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619735813
+    }
+]

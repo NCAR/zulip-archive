@@ -1,0 +1,147 @@
+<html>
+<head><meta charset="utf-8"><title>cesm-lens files and xarray · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html">cesm-lens files and xarray</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30691"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30691" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30691">(Apr 30 2021 at 17:21)</a>:</h4>
+<p>I am reading in a monthly CAM CESM-LENS file that starts Jan 1920, but when I look at the at time attributes in xarray, it looks like the first month is February --  not January.  (I also tried a CESM-LENS2 file and found the same thing.   I thought the first monthly average in this file was for Jan.  I am trying to do annual averages so wanted to use this info (also to weight by days in month). Can someone tell me what I am missing here?  </p>
+<div class="codehilite"><pre><span></span>import xarray as xr
+filename = &#39;/glade/collections/cdg/data/cesmLE/CESM-CAM5-BGC-LE/atm/proc/tseries/monthly/TS/b.e11.B20TRC5CNBDRD.f09_g16.011.cam.h0.TS.192001-200512.nc&#39;
+ds = xr.open_dataset(filename)
+ts = ds[&#39;TS&#39;]
+months = ts.time.dt.month
+years = ts.time.dt.year
+month_length = ts.time.dt.days_in_month
+</pre></div>
+
+
+<p>Then I get the following:<br>
+<a href="/user_uploads/2/4d/r36x_tYZXGIAu25-o2jVDo_N/months.png" target="_blank" title="months.png">months.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/4d/r36x_tYZXGIAu25-o2jVDo_N/months.png" target="_blank" title="months.png"><img src="/user_uploads/2/4d/r36x_tYZXGIAu25-o2jVDo_N/months.png"></a></div>
+
+
+
+<a name="30692"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30692" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30692">(Apr 30 2021 at 17:34)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span>, this is a well known issue when working with CESM data...The issue can be fixed by </p>
+<ul>
+<li>telling xarray not to decode the time</li>
+<li>computing new time axis by averaging the time bounds</li>
+<li>and decoding the time manually... </li>
+</ul>
+<div class="codehilite"><pre><span></span><span class="n">n</span> <span class="p">[</span><span class="mi">25</span><span class="p">]:</span> <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;/glade/collections/cdg/data/cesmLE/CESM-CAM5-BGC-LE/atm/proc/tseries/monthly/TS/b.e11.B20TRC5CNBDRD.f09_g16.011.cam.h0.TS.192001-200512.nc&#39;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">26</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">27</span><span class="p">]:</span> <span class="n">attrs</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">28</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">time</span><span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">time_bnds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;nbnd&#39;</span><span class="p">))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">29</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">30</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">decode_cf</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="30693"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30693" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30693">(Apr 30 2021 at 17:34)</a>:</h4>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">31</span><span class="p">]:</span> <span class="n">ds</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">31</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="o">&gt;</span>
+<span class="n">Dimensions</span><span class="p">:</span>       <span class="p">(</span><span class="n">ilev</span><span class="p">:</span> <span class="mi">31</span><span class="p">,</span> <span class="n">lat</span><span class="p">:</span> <span class="mi">192</span><span class="p">,</span> <span class="n">lev</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="n">lon</span><span class="p">:</span> <span class="mi">288</span><span class="p">,</span> <span class="n">nbnd</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">slat</span><span class="p">:</span> <span class="mi">191</span><span class="p">,</span> <span class="n">slon</span><span class="p">:</span> <span class="mi">288</span><span class="p">,</span> <span class="n">time</span><span class="p">:</span> <span class="mi">1032</span><span class="p">)</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">ilev</span>          <span class="p">(</span><span class="n">ilev</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">2.255</span> <span class="mf">5.032</span> <span class="mf">10.16</span> <span class="mf">18.56</span> <span class="o">...</span> <span class="mf">967.5</span> <span class="mf">985.1</span> <span class="mf">1e+03</span>
+  <span class="o">*</span> <span class="n">lat</span>           <span class="p">(</span><span class="n">lat</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">90.0</span> <span class="o">-</span><span class="mf">89.06</span> <span class="o">-</span><span class="mf">88.12</span> <span class="o">-</span><span class="mf">87.17</span> <span class="o">...</span> <span class="mf">88.12</span> <span class="mf">89.06</span> <span class="mf">90.0</span>
+  <span class="o">*</span> <span class="n">lev</span>           <span class="p">(</span><span class="n">lev</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">3.643</span> <span class="mf">7.595</span> <span class="mf">14.36</span> <span class="mf">24.61</span> <span class="o">...</span> <span class="mf">957.5</span> <span class="mf">976.3</span> <span class="mf">992.6</span>
+  <span class="o">*</span> <span class="n">lon</span>           <span class="p">(</span><span class="n">lon</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">0.0</span> <span class="mf">1.25</span> <span class="mf">2.5</span> <span class="mf">3.75</span> <span class="o">...</span> <span class="mf">355.0</span> <span class="mf">356.2</span> <span class="mf">357.5</span> <span class="mf">358.8</span>
+  <span class="o">*</span> <span class="n">slat</span>          <span class="p">(</span><span class="n">slat</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">89.53</span> <span class="o">-</span><span class="mf">88.59</span> <span class="o">-</span><span class="mf">87.64</span> <span class="o">...</span> <span class="mf">87.64</span> <span class="mf">88.59</span> <span class="mf">89.53</span>
+  <span class="o">*</span> <span class="n">slon</span>          <span class="p">(</span><span class="n">slon</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">0.625</span> <span class="mf">0.625</span> <span class="mf">1.875</span> <span class="mf">3.125</span> <span class="o">...</span> <span class="mf">355.6</span> <span class="mf">356.9</span> <span class="mf">358.1</span>
+  <span class="o">*</span> <span class="n">time</span>          <span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="nb">object</span> <span class="mi">1920</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">16</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="o">...</span> <span class="mi">2005</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">16</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+</pre></div>
+
+
+
+<a name="30694"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30694" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30694">(Apr 30 2021 at 17:34)</a>:</h4>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">32</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">32</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="s1">&#39;month&#39;</span> <span class="p">(</span><span class="n">time</span><span class="p">:</span> <span class="mi">1032</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">time</span>     <span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="nb">object</span> <span class="mi">1920</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">16</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="o">...</span> <span class="mi">2005</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">16</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>
+</pre></div>
+
+
+
+<a name="30696"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30696" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30696">(Apr 30 2021 at 17:35)</a>:</h4>
+<p>FAQ time!</p>
+
+
+
+<a name="30697"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30697" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30697">(Apr 30 2021 at 17:37)</a>:</h4>
+<blockquote>
+<p>FAQ time!</p>
+</blockquote>
+<p>Will submit a PR shortly</p>
+
+
+
+<a name="30698"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30698" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30698">(Apr 30 2021 at 17:38)</a>:</h4>
+<p>Thanks a lot! I have mostly been working with daily data  so hadn't seen this...</p>
+
+
+
+<a name="30699"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30699" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30699">(Apr 30 2021 at 17:38)</a>:</h4>
+<blockquote>
+<p>Thanks a lot! I have mostly been working with daily data  so hadn't seen this...</p>
+</blockquote>
+<p>Thanks for asking the question!</p>
+
+
+
+<a name="30701"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30701" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30701">(Apr 30 2021 at 18:09)</a>:</h4>
+<p>Yes this is very helpful. I'll add that if you want to do this for land output, there are a couple of small tweaks you have to make based on how things are named. For Line [28] in <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> 's code above, I (think) it would be the following: <br>
+<code>ds = ds.assign_coords(time=ds.time_bounds.mean('hist_interval'))</code></p>
+
+
+
+<a name="30705"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30705" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30705">(Apr 30 2021 at 18:23)</a>:</h4>
+<p>I have a function <code>time_set_mid</code> at<br>
+<a href="https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/22aa55e60471078922d96f07033adb326769e47a/src/utils.py#L69-L103" target="_blank" title="https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/22aa55e60471078922d96f07033adb326769e47a/src/utils.py#L69-L103">https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/22aa55e60471078922d96f07033adb326769e47a/src/utils.py#L69-L103</a><br>
+that resets <code>time</code> to the midpoints of time bounds. It works if <code>decode_times</code> was True or False, and works with different components of CESM that have different names for the time bounds variables. I also have a test suite for it at<br>
+<a href="https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/22aa55e60471078922d96f07033adb326769e47a/tests/test_utils.py#L49-L87" target="_blank" title="https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/22aa55e60471078922d96f07033adb326769e47a/tests/test_utils.py#L49-L87">https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/22aa55e60471078922d96f07033adb326769e47a/tests/test_utils.py#L49-L87</a></p>
+
+
+
+<a name="30706"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/cesm-lens%20files%20and%20xarray/near/30706" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/cesm-lens.20files.20and.20xarray.html#30706">(Apr 30 2021 at 18:26)</a>:</h4>
+<p><span class="user-mention" data-user-id="42">@Allison Baker</span>, <span class="user-mention" data-user-id="47">@Katie Dagon</span>'s shortcut works</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">time_bnds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;nbnd&#39;</span><span class="p">))</span>
+</pre></div>
+
+
+<p>You may want to preserve your original attributes because xarray seems to throw those away during the <code> ds = ds.assign_coords(time=ds.time_bnds.mean('nbnd'))</code></p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">]:</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">attrs</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">13</span><span class="p">]:</span> <span class="p">{}</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

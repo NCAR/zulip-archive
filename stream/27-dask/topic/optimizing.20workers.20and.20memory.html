@@ -1,0 +1,747 @@
+<html>
+<head><meta charset="utf-8"><title>optimizing workers and memory · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html">optimizing workers and memory</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="25977"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/25977" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#25977">(Feb 28 2021 at 14:16)</a>:</h4>
+<p>Hello,</p>
+<p>I'm trying to get this code running /glade/u/home/islas/python/sortera5/grabera5zmfluxes.ipynb and I'm wondering if an expert could help me understand what is the best way to optimize it.  I am calculating zonal mean fluxes for ERA5 and I'm currently trying to do it on a monthly basis.  This means that for each month, I am reading in 4 variables that are 114Gb in size and doing some calculations with them to produce the output which is ~12M in size.  My trouble is that, first of all, I was following the advice from Deepak in my posting above and trying to have the chunk size about 100Mb.  It was impossibly slow - more than an hour to process a month - I'm not sure exactly how long because I stopped it.  So I tried to optimize my chunk size and I made them bigger.  I found that made it a lot faster.  I got it to run with a chunk size of 1.3G and it  will process a month in 7 minutes.  However, it'll run happily and process somewhere between a year or two and then hang.  It looks like it's still running and there's no error message, but it has clearly stopped doing anything as no more files are being produced.  I'm guessing I may be overdoing it now with the chunk size.  So, how would an expert optimize this?  Should I throw more workers at it? more memory? reduce the chunk size? or am I doing something inefficient with the way that I am organizing the chunks?</p>
+<p>Glad to hear any advice on this and hopefully eventually I'll get it and be able to apply it to other things too.  Thanks in advance for any help.</p>
+
+
+
+<a name="25978"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/25978" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#25978">(Feb 28 2021 at 15:16)</a>:</h4>
+<p>Hoping there's a simple answer to this... I think I'm experiencing similar behavior, where I can run some intensive calculations once with good performance (30secs), but then if I rerun the same cell, it never computes. Can provide an example script if needed.</p>
+
+
+
+<a name="26005"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26005" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26005">(Mar 01 2021 at 20:30)</a>:</h4>
+<p><span class="user-mention" data-user-id="45">@Isla Simpson</span>, I am going to take a look at the notebook later today and will get back to you</p>
+
+
+
+<a name="26006"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26006" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26006">(Mar 01 2021 at 20:36)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> .  Great, thanks a lot.  Since I originally posted I made the chunk size a bit smaller and that seems to make the problem worse.  It starts hanging after only 3 months of processing.  So the probability of hangs doesn't seem to be directly related to the chunk size.</p>
+
+
+
+<a name="26007"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26007" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26007">(Mar 01 2021 at 20:37)</a>:</h4>
+<p>Can you take a screenshot of the dask dashboard when the computation hangs?</p>
+
+
+
+<a name="26010"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26010" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26010">(Mar 01 2021 at 21:05)</a>:</h4>
+<p>Anderson, do you want to look at it together for "team time"?</p>
+
+
+
+<a name="26011"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26011" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26011">(Mar 01 2021 at 21:57)</a>:</h4>
+<blockquote>
+<p>Anderson, do you want to look at it together for "team time"?</p>
+</blockquote>
+<p>Unfortunately, I have another meeting <span aria-label="frown" class="emoji emoji-1f641" role="img" title="frown">:frown:</span></p>
+
+
+
+<a name="26012"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26012" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26012">(Mar 01 2021 at 22:00)</a>:</h4>
+<blockquote>
+<p>Great, thanks a lot. Since I originally posted I made the chunk size a bit smaller and that seems to make the problem worse.</p>
+</blockquote>
+<p>I've run  into the "hanging issue" especially when using <code>to_netcdf()</code> on results from a huge computation task graph</p>
+
+
+
+<a name="26013"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26013" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26013">(Mar 01 2021 at 22:01)</a>:</h4>
+<p>Fortunately, there are some remedies</p>
+
+
+
+<a name="26014"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26014" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26014">(Mar 01 2021 at 22:42)</a>:</h4>
+<p>Good to hear there are some remedies.  I was struggling to get anything to work with the dask dashboard.  When I clicked on the dask symbol and then tried to click on any of the things, it just gave me a warning and didn't show me anything.  But maybe I'm not looking at the right thing.  I'll try again, but currently waiting for workers.</p>
+
+
+
+<a name="26016"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26016" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26016">(Mar 01 2021 at 23:08)</a>:</h4>
+<p>I think there are two issues here:</p>
+<ol>
+<li><a href="https://github.com/dask/dask/issues/874" target="_blank" title="https://github.com/dask/dask/issues/874">https://github.com/dask/dask/issues/874</a> dask is bad at the anomaly calculation. for big datasets the only way to get it to work is to compute the mean explicitly</li>
+<li>distirbuted write to netcdf: I always avoid this. I'm curious to hear what Anderson's suggestions are.</li>
+</ol>
+<p>But for this case the final <code>temdiags</code> dataset is tiny )1.5GB)? so just call <code>.load().to_netcdf(...)</code></p>
+<p>See <code>/glade/u/home/dcherian/islas-era5zm.ipynb</code></p>
+
+
+
+<a name="26017"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26017" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26017">(Mar 01 2021 at 23:08)</a>:</h4>
+<p>I rewrote the cell to understand what it was doing., so the code may not be fully right <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>.</p>
+<p>RIght now it's bottlenecked on the regridding and computation of zonal mean.<br>
+<a href="user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png" target="_blank" title="user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png" target="_blank" title="pasted image"><img src="user_uploads/2/bf/j3ZDh5jLd2xHzcTh9Suqacck/pasted_image.png"></a></div><p>but it looks fine.. memory use is low, seems limited by disk</p>
+
+
+
+<a name="26028"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26028" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26028">(Mar 01 2021 at 23:57)</a>:</h4>
+<p><a href="/user_uploads/2/9c/fM-jr3AQw5l07etwBl08Tb80/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/9c/fM-jr3AQw5l07etwBl08Tb80/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/9c/fM-jr3AQw5l07etwBl08Tb80/pasted_image.png"></a></div><p>I'm also seeing this bad load balancing behaviour. Near the end of the computation, one worker is overloaded and dask doesn't redistribute the tasks to idle workers. Barring some change in <code>distributed</code>, I think the way to deal with this is to process multiple months to once so you hit this bottleneck less frequently</p>
+
+
+
+<a name="26038"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26038" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26038">(Mar 02 2021 at 00:33)</a>:</h4>
+<p>Let me know if <code>/glade/u/home/dcherian/islas-era5zm.ipynb</code> helps.</p>
+
+
+
+<a name="26039"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26039" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26039">(Mar 02 2021 at 01:52)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> Thanks so much for looking into this.  This is really helpful and it's great to see how you would do this in a much more elegant way! I have set this going and will let you know if it makes it further than what I was getting to before.  Thanks!</p>
+
+
+
+<a name="26045"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26045" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26045">(Mar 02 2021 at 15:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="45">@Isla Simpson</span> &amp; <span class="user-mention" data-user-id="25">@Deepak Cherian</span>: Is it dask or is it xarray that is the problem?  I did a benchmarking study with a colleague from Ifremer, and one of the calculations we benchmarked was the anomaly calculation.  The problem we found was that Xarray's <code>groupby</code> operation rechunks the data along the dimension that is "grouped."  So, if you are chunking along a <em>different</em> dimension(s) than the one(s) that is (are) already chunked, Xarray produces <em>many more chunks</em> and the calculation gets bogged down.  Is that what is happening here?  (Sorry, I didn't have time to look at your notebook, <span class="user-mention" data-user-id="45">@Isla Simpson</span>!)</p>
+
+
+
+<a name="26047"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26047" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26047">(Mar 02 2021 at 16:05)</a>:</h4>
+<blockquote>
+<p>The problem we found was that Xarray's groupby operation rechunks the data along the dimension that is "grouped."</p>
+</blockquote>
+<p>this has to happen. A group is <code>obj.isel({group_dim: group_indices})</code> where <code>group_indices</code> is a list of ints  so if the indices are not contiguous (ge.g. roupby(time.season) for 10 years of data), output chunks are different from input chunks.</p>
+<blockquote>
+<p>So, if you are chunking along a different dimension(s) than the one(s) that is (are) already chunked, Xarray produces many more chunks and the calculation gets bogged down</p>
+</blockquote>
+<p>Do you mean grouping along a different dimension? Indexing dask arrays by list of ints can end up in interesting places. Tom fixed a bad edge case: <a href="https://github.com/dask/dask/pull/6514" target="_blank" title="https://github.com/dask/dask/pull/6514">https://github.com/dask/dask/pull/6514</a> , but the output is controlled by <code>dask.config.get("array.chunk-size")</code> which seems to ignore existing chunk structure. it wouldn't surprise me that dask's heuristics can break down for this kind of thing. Can you write down an example?</p>
+
+
+
+<a name="26048"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26048" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26048">(Mar 02 2021 at 16:06)</a>:</h4>
+<blockquote>
+<p>Is that what is happening here?</p>
+</blockquote>
+<p>I actually didn't figure out what was happening <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>. I noticed that the intermediate is small (96GB) relative to memory on the cluster  (600GB) so persisting the regridded dataset used for subsequent the anomaly calculation was a good idea</p>
+
+
+
+<a name="26075"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26075" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26075">(Mar 02 2021 at 18:09)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="45">@Isla Simpson</span> I have little bit experience to process ERA5 data. It was also slow in my case too due to the resolution of the data and I was trying to process hourly. In your case, it might be slow but I think there is no any dependency between processing each month. If this is the case, then your problem is embarrassingly parallel and you could process more than one month in the same time. That will significantly reduce the time to process entire dataset.</p>
+
+
+
+<a name="26078"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26078" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26078">(Mar 02 2021 at 18:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> , <span class="user-mention" data-user-id="8">@Kevin Paul</span> Thanks for taking the time to think about this.  It is clear from reading all your postings below that I have a long way to go before I come close to understanding what I'm doing.  But an update here is that I successfully used Deepak's version of the code overnight and I think it kept on running for the full 12 hour wallclock.  I was able to process a month per 8 minutes which is definitely faster than my simple minded parallelization I was doing prior to this.  One thing that did not work was to process a full year at once.  Workers got killed.  But if I reverted back to processing a month at a time but with Deepak's changes, it worked.  Thanks a lot for your help on this!</p>
+
+
+
+<a name="26080"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26080" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26080">(Mar 02 2021 at 18:16)</a>:</h4>
+<p><span class="user-mention" data-user-id="56">@Ufuk Turuncoglu</span> Thanks for your thoughts.  Indeed that was the way I was doing it before when I was running a mess of bash and IDL scripts, but I thought this shouldn't be necessary with dask.  But it seems like I am able to successfully process it now in a timely manner by following the suggestions from Deepak above.</p>
+
+
+
+<a name="26085"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26085" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26085">(Mar 02 2021 at 18:20)</a>:</h4>
+<blockquote>
+<p>work was to process a full year at once. Workers got killed. </p>
+</blockquote>
+<p>After how many years did this happen?</p>
+
+
+
+<a name="26086"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26086" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26086">(Mar 02 2021 at 18:22)</a>:</h4>
+<p>It happened immediately on the first year.  It didn't get to the point where a netcdf file was produced in the output directory so I'm guessing it was while it was doing all the processing for the first year.</p>
+
+
+
+<a name="26092"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26092" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26092">(Mar 02 2021 at 18:50)</a>:</h4>
+<blockquote>
+<p>reading all your postings below that I have a long way to go before I come close to understanding what I'm doing</p>
+</blockquote>
+<p>Your code was great. The problem is that there are "known inefficiencies", and "known workarounds" but this knowledge isn't easily accessible <span aria-label="confused" class="emoji emoji-1f615" role="img" title="confused">:confused:</span></p>
+
+
+
+<a name="26093"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26093" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26093">(Mar 02 2021 at 19:15)</a>:</h4>
+<p>I'd emailed <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> directly, but realized the question was really better on Zulip and related to this thread.</p>
+<p>I  realize that I don't really understand what's going on under the hood regarding memory, DASK, clusters, etc.  </p>
+<p>Specifically, This notebook below ran (and plotted) fine on Friday. The code takes daily data to look at the timing of snowmelt and the length of the snow free period in the Northern Hemisphere from the CESM2-LE.</p>
+<p>Now I'm unable to generate the plots I'd like, and I'm not really clear why?<br>
+Should I just modify some of the high level changes Anderson made to the FireRisk notebook (e.g. using NCARCluster instead of SLURMCluster)?  </p>
+<p>Are there other memory tricks I should know about?  Are there resources I can try to learn from on this?  From Deepak's note to Isla, it seems there's more of an art to this than I necessarily have bandwidth to accomplish?</p>
+<p>full URL of the notebook is here<br>
+<a href="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_VernalWindow.ipynb" target="_blank" title="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_VernalWindow.ipynb">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_VernalWindow.ipynb</a></p>
+
+
+
+<a name="26094"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26094" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26094">(Mar 02 2021 at 19:18)</a>:</h4>
+<blockquote>
+<p>Now I'm unable to generate the plots I'd like, and I'm not really clear why?</p>
+</blockquote>
+<p>What does the dashboard look like in this case? What errors are you seeing?</p>
+
+
+
+<a name="26095"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26095" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26095">(Mar 02 2021 at 19:19)</a>:</h4>
+<p>I changed the rolling aggregations to use substantially less memory (except var, std) in  xarray v0.17.0. You could try upgrading if you're running in to memory issues with rolling operations.</p>
+
+
+
+<a name="26096"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26096" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26096">(Mar 02 2021 at 19:21)</a>:</h4>
+<p>(that wouldn't explain the flakiness since it worked with the older version)</p>
+
+
+
+<a name="26097"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26097" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26097">(Mar 02 2021 at 19:23)</a>:</h4>
+<p>the error is long, but the last bit states:</p>
+<p>KilledWorker: ("('open_dataset-392585d62b286712d16676c89012e8dcTSOI-460deed04f8252002d6150f75d57e19c', 5, 0, 0, 0)", &lt;Worker 'tcp://10.12.205.19:37748', name: 0-17, memory: 0, processing: 117&gt;)</p>
+
+
+
+<a name="26098"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26098" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26098">(Mar 02 2021 at 19:26)</a>:</h4>
+<p>yeah doesn't help unfortunately. How about a snapshot of the dashboard?</p>
+
+
+
+<a name="26099"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26099" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26099">(Mar 02 2021 at 21:06)</a>:</h4>
+<p><span class="user-mention" data-user-id="67">@Will Wieder</span>, </p>
+<p>Does this SO answer help? </p>
+<p><a href="https://stackoverflow.com/questions/46691675/what-do-killedworker-exceptions-mean-in-dask" target="_blank" title="https://stackoverflow.com/questions/46691675/what-do-killedworker-exceptions-mean-in-dask">https://stackoverflow.com/questions/46691675/what-do-killedworker-exceptions-mean-in-dask</a></p>
+
+
+
+<a name="26100"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26100" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26100">(Mar 02 2021 at 21:13)</a>:</h4>
+<p>Do you mean this, Deepak? <a href="/user_uploads/2/11/abEMSGQYTaM1x1Qwp8ndwPD2/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/11/abEMSGQYTaM1x1Qwp8ndwPD2/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/11/abEMSGQYTaM1x1Qwp8ndwPD2/pasted_image.png"></a></div>
+
+
+
+<a name="26101"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26101" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26101">(Mar 02 2021 at 21:16)</a>:</h4>
+<p>Like this: <a href="/user_uploads/2/e0/dDwRUY8-xcrauNh9el2hIj87/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/e0/dDwRUY8-xcrauNh9el2hIj87/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/e0/dDwRUY8-xcrauNh9el2hIj87/pasted_image.png"></a></div>
+
+
+
+<a name="26102"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26102" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26102">(Mar 02 2021 at 21:19)</a>:</h4>
+<p>I have no idea, where do I find that?</p>
+
+
+
+<a name="26103"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26103" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26103">(Mar 02 2021 at 21:20)</a>:</h4>
+<p>my client has a dasboard, but it never loads with an error saying the site cannot be reached "10.12.205.28 took too long to respond."</p>
+
+
+
+<a name="26105"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26105" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26105">(Mar 02 2021 at 21:26)</a>:</h4>
+<p>Sounds like your dashboard link is pointing to a local/private address. You need to launch the dashboard via the notebook proxy by running the following code before creating your cluster/client:</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">dask</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">({</span><span class="s1">&#39;distributed.dashboard.link&#39;</span><span class="p">:</span> <span class="s1">&#39;/proxy/</span><span class="si">{port}</span><span class="s1">/status&#39;</span><span class="p">})</span>
+</pre></div>
+
+
+
+<a name="26106"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26106" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26106">(Mar 02 2021 at 21:30)</a>:</h4>
+<p>do I put anything in {port} or leave this as written? Leaving {port} I get 404 Not Found when I check on the dashboard link in the client.</p>
+
+
+
+<a name="26107"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26107" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26107">(Mar 02 2021 at 21:32)</a>:</h4>
+<blockquote>
+<p>do I put anything in {port} or leave this as written?</p>
+</blockquote>
+<p>Leave it as is. Dask knows how to set it to an actual value.</p>
+
+
+
+<a name="26108"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26108" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26108">(Mar 02 2021 at 21:32)</a>:</h4>
+<p>Can you confirm that you have <code> jupyter-server-proxy</code> package in your conda environment?</p>
+
+
+
+<a name="26109"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26109" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26109">(Mar 02 2021 at 21:38)</a>:</h4>
+<p>looks like it.  I check this by activating the <code>lens-py</code> environment you created and using <code>conda list</code>?</p>
+
+
+
+<a name="26110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26110" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26110">(Mar 02 2021 at 21:39)</a>:</h4>
+<p>Yes</p>
+
+
+
+<a name="26111"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26111" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26111">(Mar 02 2021 at 21:39)</a>:</h4>
+<p>Also, are you running this from the jupyterhub or via SSH tunneling?</p>
+
+
+
+<a name="26112"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26112" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26112">(Mar 02 2021 at 21:40)</a>:</h4>
+<p>jupyterhub</p>
+
+
+
+<a name="26113"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26113" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26113">(Mar 02 2021 at 21:40)</a>:</h4>
+<p>does it work with ssh tunneling?</p>
+
+
+
+<a name="26114"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26114" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26114">(Mar 02 2021 at 21:41)</a>:</h4>
+<blockquote>
+<p>jupyterhub</p>
+</blockquote>
+<p>Aha! my previous answer is misleading  <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>  Sorry</p>
+
+
+
+<a name="26115"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26115" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26115">(Mar 02 2021 at 21:41)</a>:</h4>
+<p>Try this</p>
+
+
+
+<a name="26116"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26116" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26116">(Mar 02 2021 at 21:42)</a>:</h4>
+<p>On  cheyenne</p>
+
+
+
+<a name="26117"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26117" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26117">(Mar 02 2021 at 21:42)</a>:</h4>
+<p><code>https://jupyterhub.ucar.edu/ch/user/{USER}/proxy/{port}/status</code></p>
+
+
+
+<a name="26118"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26118" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26118">(Mar 02 2021 at 21:42)</a>:</h4>
+<p>On Casper</p>
+
+
+
+<a name="26119"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26119" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26119">(Mar 02 2021 at 21:42)</a>:</h4>
+<p><code>https://jupyterhub.ucar.edu/dav/user/{USER}/proxy/{port}/status</code></p>
+
+
+
+<a name="26120"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26120" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26120">(Mar 02 2021 at 21:46)</a>:</h4>
+<p>OK, now I have a dashboard to look at, but the only menu option that goes anywhere is for <code>info</code>, which give a bunch of info re. workers</p>
+
+
+
+<a name="26121"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26121" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26121">(Mar 02 2021 at 21:48)</a>:</h4>
+<p>The other routes return <code>404</code>  errors or they just don't work?</p>
+
+
+
+<a name="26122"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26122" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26122">(Mar 02 2021 at 21:51)</a>:</h4>
+<p>The 404 error comes up  when I click on this link in my notebook<br>
+<a href="/user_uploads/2/9d/DWjoL5UjNnRW0v7G2QIeDtIo/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/9d/DWjoL5UjNnRW0v7G2QIeDtIo/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/9d/DWjoL5UjNnRW0v7G2QIeDtIo/pasted_image.png"></a></div>
+
+
+
+<a name="26123"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26123" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26123">(Mar 02 2021 at 21:54)</a>:</h4>
+<p>when I fetch the cluster, I also get this warning below, but no other cluster is running </p>
+<p>/glade/u/home/wwieder/miniconda3/envs/lens-py/lib/python3.7/site-packages/distributed/node.py:155: UserWarning: Port 8787 is already in use.<br>
+Perhaps you already have a cluster running?<br>
+Hosting the HTTP server on port 44810 instead<br>
+  http_address["port"], self.http_server.port</p>
+
+
+
+<a name="26124"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26124" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26124">(Mar 02 2021 at 21:56)</a>:</h4>
+<p>It's likely that someone else is running on the node as you and as a result the default port is taken hence the warning and random port assignment</p>
+
+
+
+<a name="26125"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26125" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26125">(Mar 02 2021 at 21:57)</a>:</h4>
+<p>I have to run to another meeting, is it helpful to schedule a zoom call where I can share my screen to help diagnose what's going on?</p>
+
+
+
+<a name="26126"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26126" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26126">(Mar 02 2021 at 21:59)</a>:</h4>
+<p>Sounds good...Let me know what time works best for you and we will schedule a short call</p>
+
+
+
+<a name="26130"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26130" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26130">(Mar 02 2021 at 23:42)</a>:</h4>
+<p>thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> I sent you a zoom invite for tomorrow afternoon.</p>
+
+
+
+<a name="26752"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26752" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26752">(Mar 15 2021 at 00:44)</a>:</h4>
+<p>couldn't find a similar thread, so I added this questions here.  Specifically my apply_ufunc seems to overload two workers, regardless of how data are being chunked.  The notebook below works fine if I only have 20 years of data, but seems to go really slow on a 'transpose' step, which seems to happen on each ensemble member? (currently just reading in 2 for efficiency).  Ideally I'd like to run this with a whole historical and SPP time series. <br>
+<a href="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb" target="_blank" title="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb</a><br>
+<span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> you helped with the first bit of this code (which worked for 10 year slices of data).  Do you have suggestions for how to handle a longer time series?</p>
+
+
+
+<a name="26753"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26753" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26753">(Mar 15 2021 at 12:36)</a>:</h4>
+<p>it was the <code>rechunk-merge</code> part of the workflow that was getting hung up. increasing lat and lon chunks made this better!</p>
+
+
+
+<a name="26756"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26756" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26756">(Mar 15 2021 at 13:19)</a>:</h4>
+<p>at a high level, your data is chunked in time but your function wants only 1 chunk in time. So rechunking (<code>rechunk-merge</code>) will always be expensive (output chunks depend on a large number of input chunks). As you have found out, increasing lat and lon chunks (when you read in data) will make it better.</p>
+<p>You could rewrite this to accept dataarrays. Xarray supports all these operations and they are dask-aware so you can avoid the rechunking/apply_ufunc dance.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">running_sum_np</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+    <span class="n">cumsum</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;pad&#39;</span><span class="p">)</span>
+    <span class="n">reset</span> <span class="o">=</span> <span class="o">-</span><span class="n">cumsum</span><span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">cumsum</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">notnull</span><span class="p">(),</span> <span class="n">reset</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+
+<p>xclim implements some of your calculations (<a href="https://xclim.readthedocs.io/en/stable/indices.html?highlight=fire#fire-weather-indices-submodule" target="_blank" title="https://xclim.readthedocs.io/en/stable/indices.html?highlight=fire#fire-weather-indices-submodule">https://xclim.readthedocs.io/en/stable/indices.html?highlight=fire#fire-weather-indices-submodule</a>) so you could try their code</p>
+
+
+
+<a name="26757"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26757" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26757">(Mar 15 2021 at 13:26)</a>:</h4>
+<p>(the transpose step is also from <code>apply_ufunc</code>... it moves all core dimensions to the end).</p>
+
+
+
+<a name="26758"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/26758" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#26758">(Mar 15 2021 at 14:59)</a>:</h4>
+<p>Maybe like this?</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+
+<span class="n">arr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">]</span>
+        <span class="p">]</span>
+    <span class="p">),</span>
+    <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">arr</span>
+</pre></div>
+
+
+<p><a href="/user_uploads/2/78/x9ZDqR4tTrx19Liai5Mp8hOv/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/78/x9ZDqR4tTrx19Liai5Mp8hOv/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/78/x9ZDqR4tTrx19Liai5Mp8hOv/pasted_image.png"></a></div><div class="codehilite"><pre><span></span><span class="c1"># attempt 1</span>
+<span class="c1"># though ffill doesn&#39;t work across chunks:</span>
+<span class="c1"># could use solution here: https://github.com/pydata/xarray/issues/2699</span>
+<span class="n">cumsum</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">cumsum</span> <span class="o">-</span> <span class="n">cumsum</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span><span class="o">.</span><span class="n">ffill</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a href="/user_uploads/2/14/8w1OGzkrQTgGtbhlbPns25RV/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/14/8w1OGzkrQTgGtbhlbPns25RV/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/14/8w1OGzkrQTgGtbhlbPns25RV/pasted_image.png"></a></div><div class="codehilite"><pre><span></span><span class="c1"># the last fillna(0) is really just for the beginning of the array</span>
+<span class="c1"># pad with nans instead. this may be more efficient with dask,</span>
+<span class="c1"># since we don&#39;t touch every element at the end</span>
+<span class="n">padded</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">cumsum</span> <span class="o">=</span> <span class="n">padded</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="p">(</span><span class="n">cumsum</span> <span class="o">-</span> <span class="n">cumsum</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">padded</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span><span class="o">.</span><span class="n">ffill</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+</pre></div>
+
+
+<p><a href="/user_uploads/2/af/SuFUZgz5RFpUkOBQT53R0NpX/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/af/SuFUZgz5RFpUkOBQT53R0NpX/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/af/SuFUZgz5RFpUkOBQT53R0NpX/pasted_image.png"></a></div><p>This solution requires fixing <a href="https://github.com/pydata/xarray/issues/2699#issuecomment-456999707" target="_blank" title="https://github.com/pydata/xarray/issues/2699#issuecomment-456999707">https://github.com/pydata/xarray/issues/2699#issuecomment-456999707</a> to have  <code>ffill</code> work across chunks. (A solution exists, just needs to be added with tests cc <span class="user-group-mention" data-user-group-id="4">@xdev</span> <span class="user-group-mention" data-user-group-id="1">@geocat</span> )</p>
+
+
+
+<a name="27038"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27038" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27038">(Mar 16 2021 at 23:19)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> thanks for the xclim suggestion.  This calculation doesn't allow for dimension reduction (4 daily variables go in, 6 daily variables are calculated), with one days calculations dependent on the values from the day before.  As a result the calculations are memory intensive. With help from <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  I'm able to calculate a decade of results from a single ensemble member and am testing now generating a whole 250 year time series of results, but it's slow going.</p>
+
+
+
+<a name="27039"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27039" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27039">(Mar 16 2021 at 23:43)</a>:</h4>
+<p>It works! but takes nearly an hour for a single ensemble member.<br>
+I'm currently writing out the calculated variables to scratch.  Roughly 20GB/ ensemble member / variable.  Should I be smarted with how I output these files as I'll end up with 5TB data once this is all written out?</p>
+
+
+
+<a name="27041"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27041" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27041">(Mar 17 2021 at 00:52)</a>:</h4>
+<p>re:speed: the <code>rechunk to one chunk; apply_ufunc with vectorize=True</code> pattern is slow because it involves a lot of network transfer (rechunking) and a for loop over points (vectorize).</p>
+<p>re space: use zarr with a compressor or turn on compression with netCDF</p>
+
+
+
+<a name="27047"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27047" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27047">(Mar 17 2021 at 03:23)</a>:</h4>
+<p>Using <code>ds = ds.where(ds['PPT'].max(['time', 'ens']) &gt; 0.0)</code> to mask out the ocean is max bad. Every block of every variable in <code>ds</code> now depends on a global reduction of <code>ds.PPT</code> across all time and ensemble members.<br>
+Changed to <code>ds = ds.where(ds.landmask.notnull())</code> and things are flying...</p>
+
+
+
+<a name="27051"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27051" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27051">(Mar 17 2021 at 13:20)</a>:</h4>
+<p>Thanks!  A few points of clarification, <span class="user-mention" data-user-id="25">@Deepak Cherian</span> :</p>
+<ul>
+<li>for <code>apply_ufunc</code> are you suggesting that I set <code>vectorize=False</code></li>
+<li>re. netCDF are you suggesting I use <code>Dataset.to_zarr</code> to write out files?</li>
+</ul>
+
+
+
+<a name="27052"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27052" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27052">(Mar 17 2021 at 13:24)</a>:</h4>
+<blockquote>
+<p>for apply_ufunc are you suggesting that I set vectorize=False</p>
+</blockquote>
+<p>Yes but you'll have to change your function to work with arrays rather than 1D vectors. vectorize is basically a for loop so it is slow. Avoid it if you can.</p>
+<blockquote>
+<p>re. netCDF are you suggesting I use Dataset.to_zarr to write out files?</p>
+</blockquote>
+<p>Yes this will write to zarr in parallel.</p>
+<p>(I sent a PR with some suggested changes: <a href="https://github.com/wwieder/cesm-lens/pull/2" target="_blank" title="https://github.com/wwieder/cesm-lens/pull/2">https://github.com/wwieder/cesm-lens/pull/2</a>; but I didn't get to the end of the notebook)</p>
+
+
+
+<a name="27075"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27075" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27075">(Mar 17 2021 at 16:25)</a>:</h4>
+<p>oh, <code>zarr</code> is money!  This writes files much more quickly, thanks for this recommendation and for the suggestions in your PR <span class="user-mention" data-user-id="25">@Deepak Cherian</span> .</p>
+
+
+
+<a name="27107"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27107" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27107">(Mar 17 2021 at 19:01)</a>:</h4>
+<p><span class="user-mention" data-user-id="67">@Will Wieder</span>  Zarr file should have default lz4 lossless compressor enabled. It can save you at least half the space, if you are interested in more space saving, I can teach you use zfp lossy compressor.</p>
+
+
+
+<a name="27129"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27129" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27129">(Mar 17 2021 at 21:09)</a>:</h4>
+<p>thanks <span class="user-mention" data-user-id="38">@Haiying Xu</span> for now I think we'll see if the lossless compression works, and colleagues can subsequently read in the data for her analyses</p>
+
+
+
+<a name="27548"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27548" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27548">(Mar 25 2021 at 15:27)</a>:</h4>
+<p>Even zarr seems to take a long time to write a tiny file (151x33) array.  Any options?</p>
+<p>/glade/u/home/lamar/Python/CMIP6_analysis/Deposition/interp_tracers_to_icecores_CESM2.ipynb</p>
+
+
+
+<a name="27559"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27559" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27559">(Mar 25 2021 at 15:56)</a>:</h4>
+<p>OK few things:</p>
+<ol>
+<li>
+<p>here is <code>NH_50</code> after the <code>open_mfdataset</code> call: <br>
+<a href="/user_uploads/2/1e/_iQp8dS_Q2O-6AY3En1rAVHJ/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> <br>
+9.5GB is too big. Since you have not specified <code>chunks</code> in the <code>open_mfdataset</code> call, each file becomes one chunk of a variable.  </p>
+<div class="message_inline_image"><a href="/user_uploads/2/1e/_iQp8dS_Q2O-6AY3En1rAVHJ/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/1e/_iQp8dS_Q2O-6AY3En1rAVHJ/pasted_image.png"></a></div></li>
+<li>
+<p>Later you're only using <code>lev=69</code>, so that suggests using <code>chunks={"lev": 1}</code>.</p>
+</li>
+<li><code>open_mfdataset</code> loads in dask variables but no dask cluster was setup. So it was effectively a single-threaded for loop over chunks (possibly two threads). that's why it is slow. I used</li>
+</ol>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ncar_jobqueue</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">ncar_jobqueue</span><span class="o">.</span><span class="n">NCARCluster</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s2">&quot;ncgd0011&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">distributed</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">distributed</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+
+<ol start="4">
+<li>Another suggestion is to do <code>wk0 = ds.isel(lev=69).resample(time="1YS").mean()</code>  i.e. switch the order of subsetting and resampling. I think it's always better to subsample earlier in your pipeline</li>
+<li>This output dataset is small so I would do <code>tracer_cores.load().to_netcdf(output_file_name)</code> this will load to memory and write from a single thread so there's no locking issues with netCDF (IIUC). This computation completes in under a minute for me.</li>
+</ol>
+
+
+
+<a name="27567"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27567" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27567">(Mar 25 2021 at 16:06)</a>:</h4>
+<p>OK.  This worked much better.  Thanks!</p>
+<p>BTW I couldn't get the following to work</p>
+<p>import ncar_jobqueue<br>
+cluster = ncar_jobqueue.NCARCluster(project="ncgd0011")<br>
+import distributed<br>
+client = distributed.Client(cluster)<br>
+cluster.scale(4)</p>
+<p>as I got the error message</p>
+<p>"NameError: name 'ncar_jobqueue' is not defined"</p>
+
+
+
+<a name="27568"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27568" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27568">(Mar 25 2021 at 16:08)</a>:</h4>
+<p>Ah then it needs to be installed in your environment. It'll let you request Cheyenne/Casper/Hobart/Izumi resources: <a href="https://github.com/NCAR/ncar-jobqueue" target="_blank" title="https://github.com/NCAR/ncar-jobqueue">https://github.com/NCAR/ncar-jobqueue</a> .</p>
+
+
+
+<a name="27572"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27572" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27572">(Mar 25 2021 at 16:13)</a>:</h4>
+<p>OK.  Is there a way to make this part of the standard setup for users? Thanks!</p>
+
+
+
+<a name="27574"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27574" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27574">(Mar 25 2021 at 16:21)</a>:</h4>
+<p>it should be. pinging <span class="user-group-mention" data-user-group-id="4">@xdev</span></p>
+
+
+
+<a name="27593"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27593" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27593">(Mar 25 2021 at 17:01)</a>:</h4>
+<p>This issue/issues similar will be added to the <a href="https://ncar.github.io/esds/faq/" target="_blank" title="https://ncar.github.io/esds/faq/">https://ncar.github.io/esds/faq/</a> page! This is a great question and would be great to start with - thanks for asking these questions! Also, XDev will be holding a dask tutorial in the near future.</p>
+
+
+
+<a name="27600"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27600" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27600">(Mar 25 2021 at 17:14)</a>:</h4>
+<p>A dask tutorial would be excellent.  I have been wondering whether it's worth signing up for <a href="https://summit.dask.org/" target="_blank" title="https://summit.dask.org/">https://summit.dask.org/</a> as a beginner?  It says there are tutorials on May 19th but it's not very clear whether they are for advanced users or beginners.  Maybe the XDev tutorial will tell us everything we need to know!  Thanks.</p>
+
+
+
+<a name="27688"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27688" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27688">(Mar 26 2021 at 14:55)</a>:</h4>
+<p>Well...got another very slow script.  Even with a cluster and splitting the large chunks.  It is about 3x the amount of data from the previous script but is taking forever (did not finish within 12 hour time window)</p>
+<p>/glade/u/home/lamar/Python/CMIP6_analysis/Deposition/test_tracer.ipynb</p>
+<p>BTW the setup to run the cluster is automatically included when opening a CMIP6 environment.</p>
+
+
+
+<a name="27706"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27706" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27706">(Mar 26 2021 at 16:32)</a>:</h4>
+<p>Actually job gets killed "KilledWorker: ("('where-62ac06e4071e1641b68e4d2585ce8cb3', 230, 21, 0, 0)", &lt;Worker 'tcp://10.12.205.12:33362', name: 2, memory: 0, processing: 3926&gt;)"</p>
+
+
+
+<a name="27707"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27707" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27707">(Mar 26 2021 at 16:33)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> and I are looking at it now</p>
+
+
+
+<a name="27711"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27711" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27711">(Mar 26 2021 at 16:59)</a>:</h4>
+<p>There are some variables that are in one file but not others e.g. <code>f107</code>. Do you need all of them or just NH5?</p>
+
+
+
+<a name="27712"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27712" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27712">(Mar 26 2021 at 17:00)</a>:</h4>
+<p>just NH_5 and date/time</p>
+
+
+
+<a name="27713"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27713" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27713">(Mar 26 2021 at 17:00)</a>:</h4>
+<p>and lat/lon</p>
+
+
+
+<a name="27717"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27717" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27717">(Mar 26 2021 at 18:06)</a>:</h4>
+<p><span class="user-mention" data-user-id="72">@Jean-Francois Lamarque</span> here is a solution that <span class="user-mention" data-user-id="25">@Deepak Cherian</span> and I worked on, go ahead and replace the read in dataset portion with this </p>
+<div class="codehilite"><pre><span></span>#
+# open all files and concatenate along time dimension
+#
+
+def preprocess(ds):
+    return ds[[&quot;NH_5&quot;]]
+
+
+ds = xr.open_mfdataset(
+        files,
+        concat_dim=&quot;time&quot;,
+        combine=&quot;by_coords&quot;,
+        chunks={&quot;lev&quot;: 1, &quot;time&quot;: 500},
+        data_vars=&quot;minimal&quot;,
+        coords=&quot;minimal&quot;,
+        compat=&quot;override&quot;,
+        parallel=True,
+        preprocess=preprocess,
+    )
+</pre></div>
+
+
+<p>And try setting the number of workers you have equal to the number of files (7 in this case) </p>
+<p>A writeup of this <code>FAQ </code> will be posted on <a href="https://ncar.github.io/esds/faq/" target="_blank" title="https://ncar.github.io/esds/faq/">https://ncar.github.io/esds/faq/</a></p>
+
+
+
+<a name="27718"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27718" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27718">(Mar 26 2021 at 18:07)</a>:</h4>
+<p>actually <code>data_vars=["NH_5"]</code> should also work, instead of the whole preprocess thing?</p>
+
+
+
+<a name="27719"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27719" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27719">(Mar 26 2021 at 18:12)</a>:</h4>
+<p>Awesome!  Let me try right away</p>
+
+
+
+<a name="27721"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/27721" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#27721">(Mar 26 2021 at 18:19)</a>:</h4>
+<p>Worked beautifully!  But I had to use the "preprocess" step.  Thank you Max and Deepak!</p>
+
+
+
+<a name="38240"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing%20workers%20and%20memory/near/38240" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/optimizing.20workers.20and.20memory.html#38240">(Jul 21 2021 at 23:20)</a>:</h4>
+<p>Just wanted to say that reviewing this thread (and the #ESDS FAQ page - thank you <span class="user-mention" data-user-id="134">@Max Grover</span>, <span class="user-mention" data-user-id="25">@Deepak Cherian</span> ) was <strong>very</strong> helpful for me to debug a <code>KilledWorker</code> error I was getting when trying to read and analyze large datasets with xarray and dask. In particular, it was helpful for me to 1) use <code>preprocess</code> to subset spatially and select variables during <code>xr.open_mfdataset</code>, 2) save out some intermediate (regridded) results to disk, 3) read them back in with additional lat/lon chunks. This final step helped with memory issues related to data chunked in time when a function (<code>quantile</code>) wanted only 1 chunk in time. Hope this helps anyone else who is also having these issues, which often show up as a mysterious <code>KilledWorker</code> error which can be difficult to debug. I'm very much looking forward to the Dask tutorials to help solidfy some of these best practices!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

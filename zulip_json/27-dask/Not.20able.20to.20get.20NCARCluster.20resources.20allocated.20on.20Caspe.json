@@ -1,0 +1,158 @@
+[
+    {
+        "content": "<p>Hi,</p>\n<p>I am trying to run a geocat-comp function via Dask on Casper but can't get the requested cluster/client resources allocated for the last two days, i.e. always getting zero workers, zero memory. I am using the same <code>ncar-jobqueue</code> configs with a colleague, who is able to  run Dask clusters successfully. My config file is located at <code>/glade/u/home/oero/.config/dask</code> for reference. Here are what I do in order:</p>\n<ul>\n<li>Start my server on Casper login nodes via <a href=\"https://jupyterhub.hpc.ucar.edu/\">UCAR Jupyter Hub</a></li>\n<li>Run my notebook located at <code>/glade/u/home/oero/src/brian_issue_interp_hybrid_to_sigma/Orhan.ipynb</code></li>\n<li>In the notebook, setup my cluster with</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><code>import dask.distributed as dd\nfrom ncar_jobqueue import NCARCluster\n\ncluster = NCARCluster()\ncluster.scale(jobs=5)\nclient = dd.Client(cluster)\n</code></pre></div>\n<p>And this is what I always get for the client in the last two days:<br>\n<a href=\"/user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png\">image.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png\"></a></div><p>I couldn't get it fixed. Any thoughts?</p>",
+        "id": 44566,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633625149
+    },
+    {
+        "content": "<p><code>cluster.scale(jobs=5)</code> call is asynchronous. As a result, you may get a report with zero workers when you print the client right after calling <code>cluster.scale()</code> and jobs submitted are still in a <code>pending</code> state...</p>\n<p>Do you see any jobs via <code>qstat -u $USER</code> from the command line?</p>",
+        "id": 44569,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633625648
+    },
+    {
+        "content": "<p>When you get a moment, can you post here the output of <code>print(cluster.job_script())</code>?</p>",
+        "id": 44571,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633625695
+    },
+    {
+        "content": "<p>Yeah, I thought about it being asynchronous and kept trying to run the remaining cells, while having the Dashboard open. Dashboard never showed me some realtime resources either. </p>\n<p><code>qstat -u $USER</code> returned me nothing in this morning, but it gives me now:</p>\n<p><a href=\"/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png\"></a></div>",
+        "id": 44574,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633625885
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> </p>\n<p>My own experience is that NCARCluster acted differently on Casper after the switch from SLURM  to PBS.    I could be wrong, but the config settings for PBS were originally designed for Cheyenne.   You want to start by specifying everything (#workers, #cores, etc) in your NCARCluster call to make sure of your settings.   Keep in mind that your <code>cluster.scale()</code> command is how to select multiple copies of your original settings.</p>\n<p>Your default settings are found in <code>~/.dask/jobqueue.yaml</code> I believe.</p>",
+        "id": 44575,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633625948
+    },
+    {
+        "content": "<p>And, this is what I get from <code>print(cluster.job_script())</code>:</p>\n<p>#PBS -N dask-worker-casper-dav<br>\n#PBS -q casper<br>\n#PBS -A NVST0001<br>\n#PBS -l select=1:ncpus=6:mem=128GB<br>\n#PBS -l walltime=01:00:00<br>\n#PBS -e /glade/scratch/oero/dask/casper-dav/logs/<br>\n#PBS -o /glade/scratch/oero/dask/casper-dav/logs/</p>\n<p>/glade/work/oero/miniconda3/envs/s_at_s/bin/python -m distributed.cli.dask_worker tcp://10.12.206.18:36731 --nthreads 0 --nprocs 12 --memory-limit 9.93GiB --name dummy-name --nanny --death-timeout 60 --local-directory $TMPDIR --interface ib0 --protocol tcp://</p>",
+        "id": 44576,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633625960
+    },
+    {
+        "content": "<blockquote>\n<p>My own experience is that NCARCluster acted differently on Casper after the switch from SLURM to PBS. I could be wrong, but the config settings for PBS were originally designed for Cheyenne. </p>\n</blockquote>\n<p>This issue got fixed a while ago...</p>",
+        "id": 44577,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633626199
+    },
+    {
+        "content": "<p>OK thanks, that was a total guess on my part.</p>",
+        "id": 44578,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633626243
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span>, </p>\n<blockquote>\n<p>/glade/work/oero/miniconda3/envs/s_at_s/bin/python -m distributed.cli.dask_worker tcp://10.12.206.18:36731 --nthreads 0 --nprocs 12 --memory-limit 9.93GiB</p>\n</blockquote>\n<p>The dask-worker launch script has <code>--nthreads</code> set to <code>0</code> and this is likely what's causing you issues... </p>\n<p>What is the output of </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">7</span><span class=\"p\">]:</span> <span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">8</span><span class=\"p\">]:</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">get</span><span class=\"p\">(</span><span class=\"s1\">'jobqueue.pbs'</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 44579,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633626645
+    },
+    {
+        "content": "<p>Here it is</p>\n<p>{'name': 'dask-worker',<br>\n 'cores': 36,<br>\n 'memory': '109GB',<br>\n 'processes': 1,<br>\n 'interface': 'ib0',<br>\n 'queue': 'regular',<br>\n 'walltime': '01:00:00',<br>\n 'resource-spec': 'select=1:ncpus=36:mem=109GB',<br>\n 'local-directory': '/glade/scratch/oero',<br>\n 'project': '&lt;our VAST project ID&gt;',<br>\n 'job-extra': [],<br>\n 'log-directory': '/glade/scratch/oero'}</p>",
+        "id": 44581,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633626998
+    },
+    {
+        "content": "<p>Yes, like me you might still have your own personal NCARCluster config settings that were originally designed for Cheyenne.   I see that in the resource-spec line.</p>",
+        "id": 44582,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633627080
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"9\">Brian Bonnlander</span> <a href=\"#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44582\">said</a>:</p>\n<blockquote>\n<p>Yes, like me you might still have your own personal NCARCluster config settings that were originally designed for Cheyenne.   I see that in the resource-spec line.</p>\n</blockquote>\n<p>Oh, yes, it is interesting, it is reading from Cheyenne configs instead of Casper.</p>",
+        "id": 44583,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633627143
+    },
+    {
+        "content": "<p>My way around this is to be explicit in the NCARCluster call; don't rely on defaults at first.   Then modify the defaults when you find a good configuration.</p>",
+        "id": 44584,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633627236
+    },
+    {
+        "content": "<p>Actually I switched to PBSCluster because for the moment, all HPC resources are managed with PBS.</p>",
+        "id": 44585,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633627301
+    },
+    {
+        "content": "<p>But keep in mind, the above outputs are when I run <code>dask.config.get('jobqueue.pbs')</code> right after <code>import dask</code>. Instead, when I run it after NCARCluster initialization, the output is (which seems good  think):</p>\n<p>#!/usr/bin/env bash</p>\n<p>#PBS -N dask-worker-casper-dav<br>\n#PBS -q casper<br>\n#PBS -A NVST0001<br>\n#PBS -l select=1:ncpus=1:mem=50GB<br>\n#PBS -l walltime=01:30:00<br>\n#PBS -e /glade/scratch/oero/dask/casper-dav/logs/<br>\n#PBS -o /glade/scratch/oero/dask/casper-dav/logs/</p>\n<p>/glade/work/oero/miniconda3/envs/s_at_s/bin/python -m distributed.cli.dask_worker tcp://10.12.206.18:35301 --nthreads 2 --memory-limit 46.57GiB --name dummy-name --nanny --death-timeout 60 --local-directory /glade/scratch/oero/dask/casper-dav/local-dir --interface ib0 --protocol tcp://</p>",
+        "id": 44586,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633627567
+    },
+    {
+        "content": "<p>OK, my theory is easily falsified, making it a great theory in one sense <span aria-label=\"smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"smile\">:smile:</span></p>",
+        "id": 44587,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633627658
+    },
+    {
+        "content": "<blockquote>\n<p>But keep in mind, the above outputs are when I run dask.config.get('jobqueue.pbs') right after import dask. Instead, when I run it after NCARCluster initialization, the output is (which seems good think):</p>\n</blockquote>\n<p>This looks great and I expect it to work....  </p>\n<p>Because Casper and Cheyenne are using the same scheduler (PBS) and dask doesn't know about this, NCARJobqueue introduces a hack that </p>\n<p>(1) loads the right configurations<br>\n(2) modifies dask's default configurations and then passes modified configurations to dask. <br>\n(3) prevents dask from <strong>re-loading</strong> the default configurations </p>\n<p>So, in some cases (e.g. when you import dask after ncar-jobqueue), changes made by ncar-jobqueue are being overridden by dask (because dask is reloading its configuration but isn't aware of ncar-jobqueue's custom configurations)</p>",
+        "id": 44588,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633627988
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"18\">Orhan Eroglu</span> <a href=\"#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44574\">said</a>:</p>\n<blockquote>\n<p>Yeah, I thought about it being asynchronous and kept trying to run the remaining cells, while having the Dashboard open. Dashboard never showed me some realtime resources either. </p>\n<p><code>qstat -u $USER</code> returned me nothing in this morning, but it gives me now:</p>\n<p><a href=\"/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png\">image.png</a></p>\n</blockquote>\n<p>I missed this message <span aria-label=\"frown\" class=\"emoji emoji-1f641\" role=\"img\" title=\"frown\">:frown:</span></p>",
+        "id": 44589,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633628218
+    },
+    {
+        "content": "<p>Since you don't have any jobs in the queue, my hunch is that the batch script submission is not working properly due to some errors... I am going to take a look at logs in <code>/glade/scratch/oero/dask/casper-dav/logs</code> to see if I can figure out what's going on</p>",
+        "id": 44590,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633628330
+    },
+    {
+        "content": "<p>I found this in one of your logs</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>$ cat /glade/scratch/oero/dask/casper-dav/logs/1242944.casper-pbs.ER\nTraceback <span class=\"o\">(</span>most recent call last<span class=\"o\">)</span>:\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/runpy.py\"</span>, line <span class=\"m\">193</span>, <span class=\"k\">in</span> _run_module_as_main\n    <span class=\"s2\">\"__main__\"</span>, mod_spec<span class=\"o\">)</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/runpy.py\"</span>, line <span class=\"m\">85</span>, <span class=\"k\">in</span> _run_code\n    exec<span class=\"o\">(</span>code, run_globals<span class=\"o\">)</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/site-packages/distributed/cli/dask_worker.py\"</span>, line <span class=\"m\">466</span>, <span class=\"k\">in</span> &lt;module&gt;\n    go<span class=\"o\">()</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/site-packages/distributed/cli/dask_worker.py\"</span>, line <span class=\"m\">461</span>, <span class=\"k\">in</span> go\n    check_python_3<span class=\"o\">()</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/site-packages/distributed/cli/utils.py\"</span>, line <span class=\"m\">32</span>, <span class=\"k\">in</span> check_python_3\n    _unicodefun._verify_python3_env<span class=\"o\">()</span>\n</code></pre></div>",
+        "id": 44591,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633628515
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"13\">Anderson Banihirwe</span> <a href=\"#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44588\">said</a>:</p>\n<blockquote>\n<p>Because Casper and Cheyenne are using the same scheduler (PBS) and dask doesn't know about this, NCARJobqueue introduces a hack that </p>\n<p>(1) loads the right configurations</p>\n</blockquote>\n<p>Just so we're clear:  which configurations are the \"right\" ones?   The ones originally intended for Slurm?</p>",
+        "id": 44592,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1633628774
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"13\">Anderson Banihirwe</span> <a href=\"#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44591\">said</a>:</p>\n<blockquote>\n<p>I found this in one of your logs</p>\n<p><div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>$ cat /glade/scratch/oero/dask/casper-dav/logs/1242944.casper-pbs.ER\nTraceback <span class=\"o\">(</span>most recent call last<span class=\"o\">)</span>:\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/runpy.py\"</span>, line <span class=\"m\">193</span>, <span class=\"k\">in</span> _run_module_as_main\n    <span class=\"s2\">\"__main__\"</span>, mod_spec<span class=\"o\">)</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/runpy.py\"</span>, line <span class=\"m\">85</span>, <span class=\"k\">in</span> _run_code\n    exec<span class=\"o\">(</span>code, run_globals<span class=\"o\">)</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/site-packages/distributed/cli/dask_worker.py\"</span>, line <span class=\"m\">466</span>, <span class=\"k\">in</span> &lt;module&gt;\n    go<span class=\"o\">()</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/site-packages/distributed/cli/dask_worker.py\"</span>, line <span class=\"m\">461</span>, <span class=\"k\">in</span> go\n    check_python_3<span class=\"o\">()</span>\n  File <span class=\"s2\">\"/glade/work/oero/miniconda3/envs/s_at_s/lib/python3.7/site-packages/distributed/cli/utils.py\"</span>, line <span class=\"m\">32</span>, <span class=\"k\">in</span> check_python_3\n    _unicodefun._verify_python3_env<span class=\"o\">()</span>\n</code></pre></div><br>\n</p>\n</blockquote>\n<p>The version of <code>click</code> (<code>v8.0.1</code>) in your environment appears to have introduced a bug in <code>distributed</code>. Can you try downgrade to an earlier version of click (e.g. <code>v7.1.2</code>)  to see if this error goes away</p>",
+        "id": 44593,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633628893
+    },
+    {
+        "content": "<p>Another option is to upgrade your <code>distributed</code> version to a more recent version (<code>v2021.09.1</code>)</p>",
+        "id": 44594,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633629153
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> ! Let me try these. Will keep you posted</p>",
+        "id": 44595,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633629246
+    },
+    {
+        "content": "<blockquote>\n<p>Just so we're clear: which configurations are the \"right\" ones? The ones originally intended for Slurm?</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span>, <a href=\"https://github.com/NCAR/ncar-jobqueue/blob/main/ncar_jobqueue/ncar-jobqueue.yaml\">https://github.com/NCAR/ncar-jobqueue/blob/main/ncar_jobqueue/ncar-jobqueue.yaml</a> provides a starting point... and if you are using <code>ncar-jobqueue</code> there is a copy in your home at <code>~/.config/dask/ncar-jobqueue.yaml</code>. You will notice that the <code>jobqueue.yaml</code> and <code>ncar-jobqueue.yaml</code> files use different structures.</p>",
+        "id": 44598,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1633630206
+    },
+    {
+        "content": "<p>Thanks a lot <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>  for figuring this out! Installing a fresh conda environment did the fix  (I chose this way since I noticed I had a several month-old one). The new environment has distributed (v2021.09.1) and click (v8.0.1) FYI.</p>",
+        "id": 44637,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1633646657
+    }
+]

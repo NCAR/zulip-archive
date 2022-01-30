@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Does anyone know how to build an R kernel, preferably using conda, that's available in JupyterLab (jupyterhub)?</p>",
+        "id": 42302,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1631293338
+    },
+    {
+        "content": "<p>I can probably dig up some instructions for it. I used <code>conda</code> to install the one on JupyterHub, but was told that R doesn't get much traction here at NCAR, so only update the installation when requested.</p>",
+        "id": 42378,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1631296179
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>! </p>\n<p>I think I am able to build an R environment with conda—but am unsure how to get JLab on the hub to \"see\" it, i.e. via whatever the <code>nb_conda_kernels</code> equivalent is.  </p>\n<p>I am not much of an R user myself, but there is a small contingent of users at NCAR and it could be nice to document how to construct replete kernels. I tried your default R kernel, but apparently it lack <code>library('ncdf4')</code> which I presume precludes reading netCDF files.</p>",
+        "id": 42392,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1631299653
+    },
+    {
+        "content": "<p>Part of the installation is opening up the R console basically and install the spec file which is basically a json blob if I remember right on how to launch the kernel and such. </p>\n<p><code>IRkernel::installspec(name = 'ir$MAJOR$MINOR, displayname = 'R $VERSION')</code></p>\n<p>here is the json spec for the installed IRkernel specs:</p>\n<div class=\"codehilite\" data-code-language=\"bash-4.2\"><pre><span></span><code>{\n  \"argv\": [\"/ncar/usr/jupyterhub/envs/r-3.5.1/lib/R/bin/R\", \"--slave\", \"-e\", \"IRkernel::main()\", \"--args\", \"{connection_file}\"],\n  \"display_name\": \"R 3.5.1\",\n  \"language\": \"R\"\n}\nbash-4.2$ cat kernel.js\nconst cmd_key = /Mac/.test(navigator.platform) ? 'Cmd' : 'Ctrl'\n\nconst edit_actions = [\n        {\n                name: 'R Assign',\n                shortcut: 'Alt--',\n                icon: 'fa-long-arrow-left',\n                help: 'R: Inserts the left-assign operator (&lt;-)',\n                handler(cm) {\n                        cm.replaceSelection(' &lt;- ')\n                },\n        },\n        {\n                name: 'R Pipe',\n                shortcut: `Shift-${cmd_key}-M`,\n                icon: 'fa-angle-right',\n                help: 'R: Inserts the magrittr pipe operator (%&gt;%)',\n                handler(cm) {\n                        cm.replaceSelection(' %&gt;% ')\n                },\n        },\n        {\n                name: 'R Help',\n                shortcut: 'F1',\n                icon: 'fa-book',\n                help: 'R: Shows the manpage for the item under the cursor',\n                handler(cm, cell) {\n                        const {anchor, head} = cm.findWordAt(cm.getCursor())\n                        const word = cm.getRange(anchor, head)\n\n                        const callbacks = cell.get_callbacks()\n                        const options = {silent: false, store_history: false, stop_on_error: true}\n                        cell.last_msg_id = cell.notebook.kernel.execute(`help(\\`${word}\\`)`, callbacks, options)\n                },\n        },\n]\n\nconst prefix = 'irkernel'\n\nfunction add_edit_shortcut(notebook, actions, keyboard_manager, edit_action) {\n        const {name, shortcut, icon, help, handler} = edit_action\n\n        const action = {\n                icon, help,\n                help_index : 'zz',\n                handler: () =&gt; {\n                        const cell = notebook.get_selected_cell()\n                        handler(cell.code_mirror, cell)\n                },\n        }\n\n        const full_name = actions.register(action, name, prefix)\n\n        Jupyter.keyboard_manager.edit_shortcuts.add_shortcut(shortcut, full_name)\n}\n\nfunction render_math(pager, html) {\n        if (!html) return\n        const $container = pager.pager_element.find('#pager-container')\n        $container.find('p[style=\"text-align: center;\"]').map((i, e) =&gt;\n                e.outerHTML = `\\\\[${e.querySelector('i').innerHTML}\\\\]`)\n        $container.find('i').map((i, e) =&gt;\n                e.outerHTML = `\\\\(${e.innerHTML}\\\\)`)\n        MathJax.Hub.Queue(['Typeset', MathJax.Hub, $container[0]])\n}\n\ndefine(['base/js/namespace'], ({\n        notebook,\n        actions,\n        keyboard_manager,\n        pager,\n}) =&gt; ({\n        onload() {\n                edit_actions.forEach(a =&gt; add_edit_shortcut(notebook, actions, keyboard_manager, a))\n\n                pager.events.on('open_with_text.Pager', (event, {data: {'text/html': html}}) =&gt;\n                        render_math(pager, html))\n        },\n}))```\n</code></pre></div>",
+        "id": 42393,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1631300635
+    },
+    {
+        "content": "<p>thanks...</p>",
+        "id": 42396,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1631301081
+    },
+    {
+        "content": "<p>I'll try to play around with this info</p>",
+        "id": 42397,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1631301101
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  my unsolicited advice is to let R users use Rstudio. I've taught parallel R a few times at workshops and my experience with using an R kernel in Jupyterlab was that most learners were hating it because they were used to Rstudio.</p>",
+        "id": 42399,
+        "sender_full_name": "Thomas Hauser",
+        "timestamp": 1631302213
+    },
+    {
+        "content": "<p>Sounds like good advice—though the etymology of \"Jupyter\" is \"a reference to the three core programming languages supported by Jupyter, which are Julia, Python and R.\"  So I was under the naive impression that R should be easily supported. Also, I don't use R, but my collaborator does—and I was hoping to be able to build collections of notebooks in both Python and R.</p>",
+        "id": 42400,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1631302400
+    }
+]

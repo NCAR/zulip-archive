@@ -1,0 +1,44 @@
+<html>
+<head><meta charset="utf-8"><title>environment variables on jupyterhub · jupyter · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/index.html">jupyter</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/environment.20variables.20on.20jupyterhub.html">environment variables on jupyterhub</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="49676"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/environment%20variables%20on%20jupyterhub/near/49676" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/environment.20variables.20on.20jupyterhub.html#49676">(Jan 25 2022 at 18:09)</a>:</h4>
+<p>I am using a specific version of netcdf that includes hdf5 ffilter plugins for compression on Cheyenne.  I have to set the plugin path as follows:<br>
+setenv HDF5_PLUGIN_PATH /glade/work/haiyingx/hdf/h5pl-1.12.1-Linux/HDF_Group/HDF5/1.12.1/lib/plugin/<br>
+Now when I run a python session directly on Cheyenne, for example, as long as this path is set, then the netCDF4-python package can read my netcdf file with the filter. So yay for that.</p>
+<p>But now I would like to be able to do this on jupyterhub.  I have tried setting the plugin path like this in my notebook:<br>
+os.environ["HDF5_PLUGIN_PATH"] = "/glade/work/haiyingx/hdf/h5pl-1.12.1-Linux/HDF_Group/HDF5/1.12.1/lib/plugin/"<br>
+but the netCDF4 python does not seem to get this info as it can't find the filter definitions (i.e., I get the message that you get if you forget to set this filter path).  I have never messed with my environment variables in jupyterhub before, so I must be missing some concept on how this works.  Any help is appreciated!</p>
+
+
+
+<a name="49682"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/environment%20variables%20on%20jupyterhub/near/49682" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/environment.20variables.20on.20jupyterhub.html#49682">(Jan 25 2022 at 18:28)</a>:</h4>
+<p>You can probably do this a number of ways, but ultimately the startup for Jupyter sessions from JupyterHub is done in bash and often picks up things in either ~/.bashrc or ~/.bash_profile depending on how one has structured their dot files. Alternatively, there is an optional ~/.jupyterhub file (that must use bash format) that could be used, but will require you to restart your JupyterHub server before it takes effect:</p>
+<p><a href="/user_uploads/2/75/nOZ3Bg1so2rf_9LU5ugO0Pz_/image.png">image.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/75/nOZ3Bg1so2rf_9LU5ugO0Pz_/image.png" title="image.png"><img src="/user_uploads/2/75/nOZ3Bg1so2rf_9LU5ugO0Pz_/image.png"></a></div><p>Might be required depending on how you're interacting with NetCDF I suppose.</p>
+
+
+
+<a name="49683"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/environment%20variables%20on%20jupyterhub/near/49683" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/environment.20variables.20on.20jupyterhub.html#49683">(Jan 25 2022 at 18:51)</a>:</h4>
+<p>Thanks - I'll try this...</p>
+
+
+
+<a name="49688"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/environment%20variables%20on%20jupyterhub/near/49688" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/environment.20variables.20on.20jupyterhub.html#49688">(Jan 25 2022 at 20:46)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="154">@Jared Baker</span>  - both of those options work (creating a .jupyterhub file or adding to my .bashrc)</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,54 @@
+<html>
+<head><meta charset="utf-8"><title>python to jupyterbook · general · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/python.20to.20jupyterbook.html">python to jupyterbook</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="32709"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/python%20to%20jupyterbook/near/32709" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Judith Berner <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/python.20to.20jupyterbook.html#32709">(May 26 2021 at 19:14)</a>:</h4>
+<p>I am trying to translate some python code (with lots of functions and loops over the whole code) to a jupyter notebook. <br>
+Can you point me to any good documentation on best practices? Can this be automated (and then revised?).</p>
+
+
+
+<a name="32712"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/python%20to%20jupyterbook/near/32712" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/python.20to.20jupyterbook.html#32712">(May 26 2021 at 19:31)</a>:</h4>
+<blockquote>
+<p>Can you point me to any good documentation on best practices? Can this be automated (and then revised?).</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="48">@Judith Berner</span>, you might find the <code>jupytext</code> tool to be useful for the from <code>.py</code> to <code>.ipynb</code> notebook conversion: </p>
+<ul>
+<li>Installation</li>
+</ul>
+<div class="codehilite"><pre><span></span>conda install -c conda-forge jupytext
+
+<span class="c1"># or</span>
+
+python -m pip install jupytext --upgrade
+</pre></div>
+
+
+<ul>
+<li>Convert your python script/file to a notebook</li>
+</ul>
+<div class="codehilite"><pre><span></span>jupytext --to ipynb your_script_file.py
+</pre></div>
+
+
+<p>Documentation: <a href="https://jupytext.readthedocs.io/en/latest/using-cli.html" target="_blank" title="https://jupytext.readthedocs.io/en/latest/using-cli.html">https://jupytext.readthedocs.io/en/latest/using-cli.html</a></p>
+
+
+
+<a name="34525"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/python%20to%20jupyterbook/near/34525" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Judith Berner <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/python.20to.20jupyterbook.html#34525">(Jun 15 2021 at 21:15)</a>:</h4>
+<p>Thanks so much!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

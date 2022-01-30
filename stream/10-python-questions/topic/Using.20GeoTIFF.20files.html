@@ -1,0 +1,525 @@
+<html>
+<head><meta charset="utf-8"><title>Using GeoTIFF files · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html">Using GeoTIFF files</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="20356"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20356" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20356">(Oct 26 2020 at 16:48)</a>:</h4>
+<p>Does anyone have experience using GeoTIFF files for model evaluation? I received some satellite-derived GPP data in .tif format (/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/) and would like to ultimately compare to CLM GPP. </p>
+<p>There is some information online about working with GeoTIFF files (<a href="https://towardsdatascience.com/reading-and-visualizing-geotiff-images-with-python-8dcca7a74510" target="_blank" title="https://towardsdatascience.com/reading-and-visualizing-geotiff-images-with-python-8dcca7a74510">https://towardsdatascience.com/reading-and-visualizing-geotiff-images-with-python-8dcca7a74510</a>), but I'm having trouble getting started. I don't know how to update or change environments on casper to be able to add the <code>georaster</code> or <code>osgeo</code> modules so that I can read in the data. From there, it's not clear to me how I will be able to manipulate the data for comparison against CLM. Any thoughts or advice for reading in and manipulating data in GeoTIFF format are very much appreciated!</p>
+
+
+
+<a name="20357"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20357" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20357">(Oct 26 2020 at 17:01)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, </p>
+<p>If you haven't done so already, give xarray + rasterio a try </p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GPP_2000.M0</span>
+    <span class="o">...</span><span class="p">:</span> <span class="mi">3</span><span class="n">_Mean</span><span class="o">.</span><span class="n">tif</span><span class="s1">&#39;)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="n">da</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">band</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="mi">7200</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="p">[</span><span class="mi">25920000</span> <span class="n">values</span> <span class="k">with</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint16</span><span class="p">]</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">band</span>     <span class="p">(</span><span class="n">band</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">1</span>
+  <span class="o">*</span> <span class="n">y</span>        <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">89.97</span> <span class="mf">89.92</span> <span class="mf">89.88</span> <span class="mf">89.83</span> <span class="o">...</span> <span class="o">-</span><span class="mf">89.83</span> <span class="o">-</span><span class="mf">89.88</span> <span class="o">-</span><span class="mf">89.93</span> <span class="o">-</span><span class="mf">89.98</span>
+  <span class="o">*</span> <span class="n">x</span>        <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">180.0</span> <span class="o">-</span><span class="mf">179.9</span> <span class="o">-</span><span class="mf">179.9</span> <span class="o">-</span><span class="mf">179.8</span> <span class="o">...</span> <span class="mf">179.8</span> <span class="mf">179.9</span> <span class="mf">179.9</span> <span class="mf">180.0</span>
+<span class="n">Attributes</span><span class="p">:</span>
+    <span class="n">transform</span><span class="p">:</span>         <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">)</span>
+    <span class="n">crs</span><span class="p">:</span>               <span class="o">+</span><span class="n">init</span><span class="o">=</span><span class="n">epsg</span><span class="p">:</span><span class="mi">4326</span>
+    <span class="n">res</span><span class="p">:</span>               <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">is_tiled</span><span class="p">:</span>          <span class="mi">1</span>
+    <span class="n">nodatavals</span><span class="p">:</span>        <span class="p">(</span><span class="n">nan</span><span class="p">,)</span>
+    <span class="n">scales</span><span class="p">:</span>            <span class="p">(</span><span class="mf">1.0</span><span class="p">,)</span>
+    <span class="n">offsets</span><span class="p">:</span>           <span class="p">(</span><span class="mf">0.0</span><span class="p">,)</span>
+    <span class="n">AREA_OR_POINT</span><span class="p">:</span>     <span class="n">Area</span>
+    <span class="n">TIFFTAG_SOFTWARE</span><span class="p">:</span>  <span class="n">MATLAB</span> <span class="mf">8.6</span><span class="p">,</span> <span class="n">Mapping</span> <span class="n">Toolbox</span> <span class="mf">4.2</span>
+</pre></div>
+
+
+<p>For this to work, you need to have <code>rasterio</code> which is available via conda</p>
+<div class="codehilite"><pre><span></span>conda install -c conda-forge rasterio
+</pre></div>
+
+
+
+<a name="20358"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20358" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20358">(Oct 26 2020 at 17:11)</a>:</h4>
+<blockquote>
+<p>I don't know how to update or change environments on casper to be able to add the georaster or osgeo modules so that I can read in the data</p>
+</blockquote>
+<p>Do you own the environment you are using or is this one of the public/"official" environments?</p>
+
+
+
+<a name="20359"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20359" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20359">(Oct 26 2020 at 17:16)</a>:</h4>
+<p>rioxarray may also be helpful (<a href="https://corteva.github.io/rioxarray/stable/index.html" target="_blank" title="https://corteva.github.io/rioxarray/stable/index.html">https://corteva.github.io/rioxarray/stable/index.html</a>)</p>
+
+
+
+<a name="20360"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20360" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20360">(Oct 26 2020 at 17:29)</a>:</h4>
+<p>Thank you Anderson and Deepak! I was able to read in the file. Now I just have to figure out how to use it. <br>
+@Anderson Banihirwe: I don't know whether I own the environment or not. Is there an easy way to check? I'm using conda env: miniconda-analysis. I participated in several different tutorials that set up environments before I really knew what this meant. I'd ultimately like to clean up the environment space and gain a better understanding of how to set up and manage my own environments.</p>
+
+
+
+<a name="20368"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20368" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20368">(Oct 26 2020 at 17:38)</a>:</h4>
+<blockquote>
+<p>I don't know whether I own the environment or not. Is there an easy way to check? </p>
+</blockquote>
+<p>Inside a notebook, try the following</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="s1">&#39;/glade/work/abanihi/softwares/miniconda3/envs/playground/bin/python&#39;</span>
+</pre></div>
+
+
+<p>This will tell you where the Python executable is coming from</p>
+
+
+
+<a name="20374"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20374" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20374">(Oct 26 2020 at 17:39)</a>:</h4>
+<p>^ nice! should go in the xdev FAQ.</p>
+
+
+
+<a name="20380"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20380" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20380">(Oct 26 2020 at 18:00)</a>:</h4>
+<blockquote>
+<p>. I'd ultimately like to clean up the environment space and gain a better understanding of how to set up and manage my own environments.</p>
+</blockquote>
+<p><span aria-label="+1" class="emoji emoji-1f44d" role="img" title="+1">:+1:</span> When you get a chance, there's a great resource residing here: <a href="https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/" target="_blank" title="https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/">https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/</a></p>
+<p>If you are more of a visual learner, there's a video tutorial too: <a href="https://youtu.be/qn5zfdJtcYc" target="_blank" title="https://youtu.be/qn5zfdJtcYc">https://youtu.be/qn5zfdJtcYc</a></p>
+<p>Most of the things covered in these tutorials are cross-platform i.e. they work the same regardless of the machine you are using... There is a few exceptions/caveats when working with conda on Cheyenne/Casper. <span class="user-group-mention" data-user-group-id="4">@xdev</span> folks will be happy to answer any question you may have....</p>
+<div class="youtube-video message_inline_image"><a data-id="qn5zfdJtcYc" href="https://youtu.be/qn5zfdJtcYc" target="_blank" title="https://youtu.be/qn5zfdJtcYc"><img src="https://i.ytimg.com/vi/qn5zfdJtcYc/default.jpg"></a></div>
+
+
+
+<a name="20469"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20469" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20469">(Oct 26 2020 at 22:21)</a>:</h4>
+<p>Thanks for sharing these resources! I will take a look and try to improve my environment. It looks like the environment I'm using is my personal environment, so hopefully I should be able to set that up properly.</p>
+
+
+
+<a name="20479"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20479" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20479">(Oct 26 2020 at 23:59)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="74">Danica Lombardozzi</span>, </p>
+<p>If you haven't done so already, give xarray + rasterio a try </p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GPP_2000.M0</span>
+    <span class="o">...</span><span class="p">:</span> <span class="mi">3</span><span class="n">_Mean</span><span class="o">.</span><span class="n">tif</span><span class="s1">&#39;)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="n">da</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">band</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="mi">7200</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="p">[</span><span class="mi">25920000</span> <span class="n">values</span> <span class="k">with</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint16</span><span class="p">]</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+  <span class="o">*</span> <span class="n">band</span>     <span class="p">(</span><span class="n">band</span><span class="p">)</span> <span class="n">int64</span> <span class="mi">1</span>
+  <span class="o">*</span> <span class="n">y</span>        <span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">89.97</span> <span class="mf">89.92</span> <span class="mf">89.88</span> <span class="mf">89.83</span> <span class="o">...</span> <span class="o">-</span><span class="mf">89.83</span> <span class="o">-</span><span class="mf">89.88</span> <span class="o">-</span><span class="mf">89.93</span> <span class="o">-</span><span class="mf">89.98</span>
+  <span class="o">*</span> <span class="n">x</span>        <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">float64</span> <span class="o">-</span><span class="mf">180.0</span> <span class="o">-</span><span class="mf">179.9</span> <span class="o">-</span><span class="mf">179.9</span> <span class="o">-</span><span class="mf">179.8</span> <span class="o">...</span> <span class="mf">179.8</span> <span class="mf">179.9</span> <span class="mf">179.9</span> <span class="mf">180.0</span>
+<span class="n">Attributes</span><span class="p">:</span>
+    <span class="n">transform</span><span class="p">:</span>         <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">180.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">)</span>
+    <span class="n">crs</span><span class="p">:</span>               <span class="o">+</span><span class="n">init</span><span class="o">=</span><span class="n">epsg</span><span class="p">:</span><span class="mi">4326</span>
+    <span class="n">res</span><span class="p">:</span>               <span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">is_tiled</span><span class="p">:</span>          <span class="mi">1</span>
+    <span class="n">nodatavals</span><span class="p">:</span>        <span class="p">(</span><span class="n">nan</span><span class="p">,)</span>
+    <span class="n">scales</span><span class="p">:</span>            <span class="p">(</span><span class="mf">1.0</span><span class="p">,)</span>
+    <span class="n">offsets</span><span class="p">:</span>           <span class="p">(</span><span class="mf">0.0</span><span class="p">,)</span>
+    <span class="n">AREA_OR_POINT</span><span class="p">:</span>     <span class="n">Area</span>
+    <span class="n">TIFFTAG_SOFTWARE</span><span class="p">:</span>  <span class="n">MATLAB</span> <span class="mf">8.6</span><span class="p">,</span> <span class="n">Mapping</span> <span class="n">Toolbox</span> <span class="mf">4.2</span>
+</pre></div>
+
+
+<p>For this to work, you need to have <code>rasterio</code> which is available via conda</p>
+<div class="codehilite"><pre><span></span>conda install -c conda-forge rasterio
+</pre></div>
+
+
+</blockquote>
+<p>Anderson: In working with the data (the same as above), it looks to me as if there aren't any data in the file. Am I missing something? I also tried to make a plot, but the plot is blank. I'm wondering if loading the file this way somehow strips the data or if there is something else I may be doing incorrectly. I've  been working on regridding to a coarser resolution, but that will be pointless if there aren't useable data. Thanks!</p>
+
+
+
+<a name="20527"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20527" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20527">(Oct 27 2020 at 20:33)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> , that's strange... </p>
+<blockquote>
+<p>it looks to me as if there aren't any data in the file.</p>
+</blockquote>
+<p>I think the data is there because when I compute some metrics such as mean, min, etc... I get values</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GP</span>
+   <span class="o">...</span><span class="p">:</span> <span class="n">P_2000</span><span class="o">.</span><span class="n">M03_Mean</span><span class="o">.</span><span class="n">tif</span><span class="s1">&#39;)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">da</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">da</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">da</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">da</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">()</span><span class="o">&gt;</span>
+ <span class="n">array</span><span class="p">(</span><span class="mf">52212.33478943</span><span class="p">),</span>
+ <span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">()</span><span class="o">&gt;</span>
+ <span class="n">array</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint16</span><span class="p">),</span>
+ <span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">()</span><span class="o">&gt;</span>
+ <span class="n">array</span><span class="p">(</span><span class="mi">65535</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">uint16</span><span class="p">),</span>
+ <span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">()</span><span class="o">&gt;</span>
+ <span class="n">array</span><span class="p">(</span><span class="mf">25213.59032424</span><span class="p">))</span>
+</pre></div>
+
+
+<p>I will look into the plotting issue and will get back to you</p>
+
+
+
+<a name="20528"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20528" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20528">(Oct 27 2020 at 20:57)</a>:</h4>
+<p>I think I figured out how to get an image/plot from the data. </p>
+<p>Using <code>da.squeeze().plot.imshow()</code> --which displays data as an image, i.e., on a 2D regular raster-- works perfectly fine:</p>
+<p><a href="/user_uploads/2/b/moC-Vj1gmsuaBGCL4eiFRBmA/Screen-Shot-2020-10-27-at-2.39.59-PM.png" target="_blank" title="Screen-Shot-2020-10-27-at-2.39.59-PM.png">Screen-Shot-2020-10-27-at-2.39.59-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/b/moC-Vj1gmsuaBGCL4eiFRBmA/Screen-Shot-2020-10-27-at-2.39.59-PM.png" target="_blank" title="Screen-Shot-2020-10-27-at-2.39.59-PM.png"><img src="/user_uploads/2/b/moC-Vj1gmsuaBGCL4eiFRBmA/Screen-Shot-2020-10-27-at-2.39.59-PM.png"></a></div><p>I don't know why the colormesh plot is blank though (Ccing <span class="user-mention" data-user-id="25">@Deepak Cherian</span>  who knows more than me. There's a chance he might have a clue about what's going on  <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>) </p>
+<p><a href="/user_uploads/2/e0/r2KmOEJr45uTbNRiVPAy2j4Y/Screen-Shot-2020-10-27-at-2.52.48-PM.png" target="_blank" title="Screen-Shot-2020-10-27-at-2.52.48-PM.png">Screen-Shot-2020-10-27-at-2.52.48-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/e0/r2KmOEJr45uTbNRiVPAy2j4Y/Screen-Shot-2020-10-27-at-2.52.48-PM.png" target="_blank" title="Screen-Shot-2020-10-27-at-2.52.48-PM.png"><img src="/user_uploads/2/e0/r2KmOEJr45uTbNRiVPAy2j4Y/Screen-Shot-2020-10-27-at-2.52.48-PM.png"></a></div>
+
+
+
+<a name="20530"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20530" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20530">(Oct 27 2020 at 22:24)</a>:</h4>
+<p>Thanks Anderson! I was able to get that to work, and I'm glad to know that the data are there. I was wondering if you can help with another problem related to these data. The data are on a very high resolution grid (0.05-degree), and I would like to make direct comparisons to CESM simulations. I've been using the xesmf tool to regrid, but it hangs for 10 minutes or more before I give up. I'm currently testing the code for only a single file and I have many more that I hope to regrid (and save). Is there an easy way to make this more efficient that what I'm currently doing? This assumes that I'm doing the regridding correctly in the first place, which I've not yet verified. </p>
+<div class="codehilite"><pre><span></span>#Data
+sifdat = xr.open_rasterio(sifdir + &quot;GOSIF_GPP_2001.M01_Mean.tif&quot;)
+sifdat = sifdat.rename({&#39;x&#39;:&#39;lat&#39;})
+sifdat = sifdat.rename({&#39;y&#39;:&#39;lon&#39;})
+#&lt;xarray.DataArray (lat: 3600, lon: 7200)&gt;
+
+#Regrid
+sif_coarse = xr.Dataset({&#39;lat&#39;: ([&#39;lat&#39;], np.arange(-90,90,0.94)),
+                         &#39;lon&#39;: ([&#39;lon&#39;], np.arange(0,360,1.25)),
+                        }
+                       )
+sif_coarse
+#&lt;xarray.Dataset: Dimensions:  (lat: 192, lon: 288)&gt;
+
+# Next line very slow, never successfully completed
+regridder = xe.Regridder(sifdat, sif_coarse, &#39;bilinear&#39;)
+sif_out = regridder(sif_coarse)
+</pre></div>
+
+
+
+<a name="20531"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20531" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20531">(Oct 27 2020 at 22:43)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, that problem may be too big for xesmf, which calls the serial version of the ESMF to generate weights.</p>
+<p>Here's a script that invokes a parallel version of <code>ESMF_RegridWeightGen</code><br>
+<a href="https://github.com/marbl-ecosys/marbl-forcing/blob/master/Fe_sediment_flux/esmf_gen_weights.pbs" target="_blank" title="https://github.com/marbl-ecosys/marbl-forcing/blob/master/Fe_sediment_flux/esmf_gen_weights.pbs">https://github.com/marbl-ecosys/marbl-forcing/blob/master/Fe_sediment_flux/esmf_gen_weights.pbs</a></p>
+<p>In order to use this, you will need SCRIP format grid files for the <code>SRC</code> and <code>DST</code> grids. </p>
+<p>Here's a function that creates a SCRIP grid file for regular lat/lon grids<br>
+<a href="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292" target="_blank" title="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292">https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292</a></p>
+<p>More complicated grids are...more complicated. <a href="https://github.com/NCAR/pop-tools/blob/ca3c67c69473ba336e59db5931415bbb92b93fcf/pop_tools/grid.py#L45" target="_blank" title="https://github.com/NCAR/pop-tools/blob/ca3c67c69473ba336e59db5931415bbb92b93fcf/pop_tools/grid.py#L45">pop_tools.get_grid</a> can return a SCRIP grid.</p>
+<p>Once you have the weight files, you can likely use xESMF to apply them. </p>
+<p>I have code to do this too that is based on xESMF, but provides some other features.<br>
+<a href="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L499" target="_blank" title="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L499">https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L499</a></p>
+<p>Would be great to get the <span class="user-group-mention" data-user-group-id="1">@geocat</span> team involved here; we are really lacking a clean, comprehensive solution to regridding.</p>
+
+
+
+<a name="20532"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20532" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Austin Kootz <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20532">(Oct 27 2020 at 22:44)</a>:</h4>
+<p>Consider us informed, I'll start reading and see if our current or planned regridding tools would help in this case.</p>
+
+
+
+<a name="20547"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20547" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20547">(Oct 28 2020 at 14:41)</a>:</h4>
+<p>Thanks Matt! I'll see if I can get something working based on the scripts you point me to.</p>
+
+
+
+<a name="21676"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21676" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21676">(Nov 17 2020 at 23:42)</a>:</h4>
+<p>Another question related to GeoTIFF files: Is there a way to read in multiple files? I've been using <code>open_rasterio</code>, but can only seem to open a single file at a time. I have &gt;200 monthly files that I'd like to open as a data array, so I think I'm looking for the equivalent of <code>open_mfdataset</code> for GeoTiff files in xarray. Thanks!</p>
+
+
+
+<a name="21694"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21694" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21694">(Nov 17 2020 at 23:55)</a>:</h4>
+<p>It's my understanding that  currently <code>xarray.open_mfdataset()</code> works for <code>netCDF</code> and <code>HDF</code> files only (this may change in the future). </p>
+<p>So, to read in multiple GeoTiff files, you may want to try something along these lines:</p>
+<div class="codehilite"><pre><span></span><span class="n">list_of_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;file1.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;file2.tif&#39;</span><span class="p">]</span>
+<span class="n">dsets</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Loop over the list of files, reading each one in its own dataarray</span>
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">list_of_files</span><span class="p">:</span>
+  <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">.....</span><span class="p">)</span>
+  <span class="n">dsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+
+<span class="c1"># concatenate/merge the list of read files into a single datarray/dataset</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">combine_by_coords</span><span class="p">(</span><span class="n">dsets</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="21703"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21703" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21703">(Nov 18 2020 at 00:01)</a>:</h4>
+<p><span aria-label="warning" class="emoji emoji-26a0" role="img" title="warning">:warning:</span> <span aria-label="warning" class="emoji emoji-26a0" role="img" title="warning">:warning:</span>  It turns out that the code snippet above has a bug in it <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>...</p>
+
+
+
+<a name="21711"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21711" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21711">(Nov 18 2020 at 00:11)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, is this what you are looking for?</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">pathlib</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">root_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/&#39;</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">root_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.tif&quot;</span><span class="p">))</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="mi">226</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">files</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
+<span class="p">[</span><span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GPP_2000.M03_Mean.tif&#39;</span><span class="p">),</span>
+ <span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GPP_2000.M04_Mean.tif&#39;</span><span class="p">),</span>
+ <span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GPP_2000.M05_Mean.tif&#39;</span><span class="p">),</span>
+ <span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/GOSIF_GPP_2000.M06_Mean.tif&#39;</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="c1"># Loop over the first 4 files for testing purposes</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">dsets</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">37</span><span class="p">]:</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">[:</span><span class="mi">4</span><span class="p">]:</span>
+    <span class="o">...</span><span class="p">:</span>     <span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="o">...</span><span class="p">:</span>     <span class="n">dsets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">38</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;new_dim&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="21712"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21712" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21712">(Nov 18 2020 at 00:12)</a>:</h4>
+<p>The resulting <code>ds</code> looks like:</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">39</span><span class="p">]:</span> <span class="n">ds</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">39</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">new_dim</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="n">band</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="mi">3600</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="mi">7200</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[[[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="o">...</span><span class="p">,</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">]]],</span>
+
+
+       <span class="p">[[[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+         <span class="o">...</span><span class="p">,</span>
+         <span class="p">[</span><span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">,</span> <span class="mi">65535</span><span class="p">],</span>
+</pre></div>
+
+
+
+<a name="21713"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21713" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21713">(Nov 18 2020 at 00:33)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>! I'll try that out.</p>
+
+
+
+<a name="21714"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21714" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21714">(Nov 18 2020 at 00:38)</a>:</h4>
+<p>Of course! Let me know how it goes.. I don't know how much memory you have access to, but it looks like you need at least 10GB to load all 200+ files in memory...  or you could chunk the files (which will allow you to take advantage of dask's parallelism) by changing this line </p>
+<div class="codehilite"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</pre></div>
+
+
+<p>to </p>
+<div class="codehilite"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{})</span>
+</pre></div>
+
+
+
+<a name="21715"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21715" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21715">(Nov 18 2020 at 00:51)</a>:</h4>
+<p>Oh, thanks! Do I specify a value in <code>chunks={}</code>, or does leaving it open also work?</p>
+
+
+
+<a name="21731"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21731" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21731">(Nov 18 2020 at 19:09)</a>:</h4>
+<p>Leaving <code>chunks={}</code> open works too. Each file will be loaded in a single chunk of <code>~ 50MB</code></p>
+
+
+
+<a name="22882"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22882" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22882">(Dec 10 2020 at 21:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> : I am circling back to trying to figure out regridding using the information you provided here but still having trouble.  I am trying to use the <code>latlon_to_scrip</code> function you wrote (from <a href="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292" target="_blank" title="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292">https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292</a>), but when I apply it to my data, I get an error message.</p>
+<div class="codehilite"><pre><span></span>ds
+&lt;xarray.DataArray (sif_gpp: 216, band: 1, y: 3600, x: 7200)&gt;
+dask.array&lt;shape=(216, 1, 3600, 7200), dtype=uint16, chunksize=(1, 1, 3600, 7200)&gt;
+Coordinates:
+  * band     (band) int64 1
+  * y        (y) float64 89.97 89.92 89.88 89.83 ... -89.83 -89.88 -89.93 -89.98
+  * x        (x) float64 -180.0 -179.9 -179.9 -179.8 ... 179.8 179.9 179.9 180.0
+Dimensions without coordinates: sif_gpp
+Attributes:
+    transform:   (0.05, 0.0, -180.0, 0.0, -0.05, 90.0)
+    crs:         +init=epsg:4326
+    res:         (0.05, 0.05)
+    is_tiled:    1
+    nodatavals:  (nan,)
+
+
+
+latlon_to_scrip(ds.x, ds.y)
+
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+&lt;ipython-input-40-a2db51e14aae&gt; in &lt;module&gt;
+----&gt; 1 latlon_to_scrip(ds.x, ds.y)
+
+&lt;ipython-input-39-4e3c68adb9d8&gt; in latlon_to_scrip(nx, ny, lon0, grid_imask, file_out)
+     27     dx = 360. / nx
+     28     dy = 180. / ny
+---&gt; 29     lat = np.arange(-90. + dy / 2., 90., dy)
+     30     lon = np.arange(lon0 + dx / 2., lon0 + 360., dx)
+     31
+
+~/miniconda/envs/analysis/lib/python3.7/site-packages/xarray/core/common.py in __bool__(self)
+     80
+     81     def __bool__(self):
+---&gt; 82         return bool(self.values)
+     83
+     84     # Python 3 uses __bool__, Python 2 uses __nonzero__
+
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()
+</pre></div>
+
+
+<p>Any idea what is going wrong here? </p>
+<p>Also, do you have any examples of applying this function and then regridding high resolution data? I'm not confident that I'll know how to apply the mask properly once it's created.</p>
+
+
+
+<a name="22883"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22883" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22883">(Dec 10 2020 at 22:13)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, the function signature for <code>latlon_to_scrip</code> expects <code>nx</code> and <code>ny</code>, which are number of  of grid cells in the x and y directions, respectively. It looks to me like you are passing in <code>x</code> and <code>y</code> themselves.</p>
+
+
+
+<a name="22884"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22884" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22884">(Dec 10 2020 at 22:16)</a>:</h4>
+<p>Here's a hi-res-regridding weigh generation step:<br>
+<a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/esmf_gen_weights_etopo1_to_POP.pbs" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/esmf_gen_weights_etopo1_to_POP.pbs">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/esmf_gen_weights_etopo1_to_POP.pbs</a></p>
+
+
+
+<a name="22924"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22924" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22924">(Dec 11 2020 at 00:01)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span> . I was able to get the <code>latlon_to_scrip</code> function to work and create the files. I've submitted a script similar to the example you shared to generate the weights. </p>
+<p>Assuming this works, I'm still not sure how to to apply these weights using the xESMF regridder. The documentation shows <code>xe.Regridder(grid_in, grid_out, method)</code>, with options to reuse and clean weights, but I don't see an option to use or specify a weights file. Do you know how to do this or have an example? Thanks!</p>
+
+
+
+<a name="22928"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22928" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22928">(Dec 11 2020 at 00:04)</a>:</h4>
+<p>My latest incarnation of this is here:<br>
+<a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb</a></p>
+<p>Relying on a module <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/regrid_tools/core.py" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/regrid_tools/core.py">regrid_tools</a></p>
+<p>Again, not well documented...but I think you can probably follow reasonably well.</p>
+
+
+
+<a name="22930"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22930" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22930">(Dec 11 2020 at 00:07)</a>:</h4>
+<p>Thanks! I'll give it a shot tomorrow -- hopefully the script to create the weights will be done by then!</p>
+
+
+
+<a name="23165"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/23165" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#23165">(Dec 16 2020 at 18:28)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> Thanks for all your help so far. I'm still struggling with the <code>regrid</code> function from your regrid_tools module and was hoping you can point me in the right direction. I created the <code>src</code>, <code>dst</code>, and <code>weights</code> files, but I think I'm likely specifying the inputs for <code>regrid</code> incorrectly.  Note that the <code>src</code> (<a href="http://sifgrid_latlon_0.05x0.05_180W.nc" target="_blank" title="http://sifgrid_latlon_0.05x0.05_180W.nc">sifgrid_latlon_0.05x0.05_180W.nc</a>) and <code>dst</code> (<a href="http://CESM_latlon_1x1_180W.nc" target="_blank" title="http://CESM_latlon_1x1_180W.nc">CESM_latlon_1x1_180W.nc</a>) files are here: /glade/work/dll/esmlab-regrid and the <code>weights</code> file is here: /glade/work/dll/esmlab-regrid/weights.</p>
+<div class="codehilite"><pre><span></span>ds
+
+&lt;xarray.DataArray (sif_gpp: 216, band: 1, y: 3600, x: 7200)&gt;
+dask.array&lt;shape=(216, 1, 3600, 7200), dtype=uint16, chunksize=(1, 1, 3600, 7200)&gt;
+Coordinates:
+  * band     (band) int64 1
+  * y        (y) float64 89.97 89.92 89.88 89.83 ... -89.83 -89.88 -89.93 -89.98
+  * x        (x) float64 -180.0 -179.9 -179.9 -179.8 ... 179.8 179.9 179.9 180.0
+Dimensions without coordinates: sif_gpp
+Attributes:
+    transform:   (0.05, 0.0, -180.0, 0.0, -0.05, 90.0)
+    crs:         +init=epsg:4326
+    res:         (0.05, 0.05)
+    is_tiled:    1
+    nodatavals:  (nan,)
+
+regrid_dir = f&#39;/glade/work/dll/esmlab-regrid/weights&#39;
+src_grid   = &#39;sifgrid_latlon_0.05x0.05_180W&#39;
+dst_grid   = &#39;CESM_latlon_1x1_180W&#39;
+method     = &#39;conserve&#39;
+
+sif_1deg = regridder.regrid(ds, renormalize=True, apply_mask=True)
+sif_1deg
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+&lt;ipython-input-19-828097d1ff00&gt; in &lt;module&gt;
+      2 # https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb
+      3
+----&gt; 4 sif_1deg = regridder.regrid(ds, renormalize=True, apply_mask=True)
+      5 sif_1deg
+
+TypeError: regrid() missing 1 required positional argument: &#39;obj&#39;
+</pre></div>
+
+
+<p>I also tried </p>
+<div class="codehilite"><pre><span></span>grid_file  = &#39;sifgrid_latlon_0.05x0.05_180W_to_CESM_latlon_1x1_180W_conservative.nc&#39;
+regridder  = regrid_utils.regridder(src_grid, dst_grid, method, clobber=False)
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+&lt;ipython-input-22-31fc67c0dae3&gt; in &lt;module&gt;
+      1 grid_file  = &#39;sifgrid_latlon_0.05x0.05_180W_to_CESM_latlon_1x1_180W_conservative.nc&#39;
+----&gt; 2 regridder  = regrid_utils.regridder(src_grid, dst_grid, method, clobber=False)
+
+/glade/work/dll/CTSM_py/ctsm_py/regrid_utils.py in __init__(self, src_grid, dst_grid, method, clobber)
+    126     def __init__(self, src_grid, dst_grid, method=&#39;bilinear&#39;, clobber=False):
+    127
+--&gt; 128         self.src_grid_file = src_grid.grid_file
+    129         self.dst_grid_file = dst_grid.grid_file
+    130         self.method = method
+
+AttributeError: &#39;str&#39; object has no attribute &#39;grid_file&#39;
+</pre></div>
+
+
+<p>I used this code as an example: <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb</a></p>
+<p>Where am I going wrong?</p>
+
+
+
+<a name="23320"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/23320" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#23320">(Dec 21 2020 at 22:11)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, sorry, I probably won't have time to get back to you until the New Year.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

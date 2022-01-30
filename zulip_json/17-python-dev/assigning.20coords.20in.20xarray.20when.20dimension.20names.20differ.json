@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>I'm doing some analysis of CESM coupler history files with python. The metadata is a bit awkward. I'm trying to clean it up with xarray and I'm stumped. A subset of ncdump from an example file is</p>\n<blockquote>\n<div class=\"codehilite\"><pre><span></span>    doma_nx = 640 ;\n    doma_ny = 320 ;\n    a2x_nx = 640 ;\n    a2x_ny = 320 ;\n    double doma_lat(time, doma_ny, doma_nx) ;\n            doma_lat:_FillValue = 1.e+30 ;\n            doma_lat:units = &quot;degrees north&quot; ;\n            doma_lat:long_name = &quot;latitude&quot; ;\n            doma_lat:standard_name = &quot;latitude&quot; ;\n            doma_lat:internal_dname = &quot;dom_ax&quot; ;\n    double doma_lon(time, doma_ny, doma_nx) ;\n            doma_lon:_FillValue = 1.e+30 ;\n            doma_lon:units = &quot;degrees east&quot; ;\n            doma_lon:long_name = &quot;longitude&quot; ;\n            doma_lon:standard_name = &quot;longitude&quot; ;\n            doma_lon:internal_dname = &quot;dom_ax&quot; ;\n    double a2x_Faxa_bcphidry(time, a2x_ny, a2x_nx) ;\n            a2x_Faxa_bcphidry:_FillValue = 1.e+30 ;\n            a2x_Faxa_bcphidry:units = &quot;kg m-2 s-1&quot; ;\n            a2x_Faxa_bcphidry:long_name = &quot;Hydrophylic black carbon dry deposition flux&quot; ;\n            a2x_Faxa_bcphidry:standard_name = &quot;dry_deposition_flux_of_hydrophylic_black_carbon&quot; ;\n            a2x_Faxa_bcphidry:internal_dname = &quot;a2x_ax&quot; ;\n</pre></div>\n\n\n</blockquote>\n<p>I would like to assign the coordinate variables <code>doma_lat</code> and <code>doma_lon</code> as coordinates for the variable <code>a2x_Faxa_bcphidry</code>. When I try the command</p>\n<blockquote>\n<p>var_ctrl.assign_coords({\"lon\": ds_CTRL[\"doma_lon\"], \"lat\": ds_CTRL[\"doma_lat\"]})</p>\n</blockquote>\n<p>I get the error message</p>\n<blockquote>\n<p>ValueError: cannot add coordinates with new dimensions to a DataArray</p>\n</blockquote>\n<p>I suspect this is because the dimension names for the variable differ from the dimension names for the coordinate variables, but it's also possible that I'm not understanding the API of assign_coords. Assuming the former, I'd like versions of the <code>doma_lon</code> and <code>doma_lat</code> variables on the <code>a2x_nx</code> and <code>a2x_ny</code> dimensions. I can't figure out how to do that in xarray.</p>\n<p>Suggestions on how to proceed?</p>\n<p>FYI, the file I'm looking at is located at<br>\n/glade/scratch/mvertens/SMS_Vmct_Ld1.TL319_g17.G1850ECOIAF_JRA_PHYS_DEV.cheyenne_intel.pop-ecosys.validate00/run/SMS_Vmct_Ld1.TL319_g17.G1850ECOIAF_JRA_PHYS_DEV.cheyenne_intel.pop-ecosys.validate00.cpl.hi.0001-01-01-03600.nc</p>",
+        "id": 32240,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621695330
+    },
+    {
+        "content": "<p>Try <a href=\"https://xarray.pydata.org/en/stable/generated/xarray.Dataset.rename_dims.html?highlight=rename_dims\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/generated/xarray.Dataset.rename_dims.html?highlight=rename_dims\"><code>rename_dims</code></a> to rename the  <code>doma_*</code> dimensions to <code>a2x_*</code>. (<code>rename_dims</code> was contributed by <span class=\"user-mention\" data-user-id=\"12\">@Julia Kent</span>).</p>",
+        "id": 32241,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1621717297
+    },
+    {
+        "content": "<p>When I try <code>rename_dims</code> on the Dataset, I get the error message</p>\n<blockquote>\n<p>ValueError: Cannot rename doma_nx to a2x_nx because a2x_nx already exists. Try using swap_dims instead.</p>\n</blockquote>\n<p><code>swap_dims</code> on the Dataset seems to do what I want. I had previously read the docstring for <code>swap_dims</code></p>\n<blockquote>\n<p>Returns a new DataArray with swapped dimensions</p>\n</blockquote>\n<p>and thought that it wasn't what I wanted. I think of swap as exchanging 2 labels, while the rename seems more like a substitution. I guess swap means different things to different people.</p>\n<p>I think it's unfortunate that user code needs to use a different method for rename if the desired name already exists.</p>\n<p>That said, thanks for pointing me on a path that led to what works.</p>",
+        "id": 32242,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621719460
+    },
+    {
+        "content": "<p>I think the core issue here is you're trying to rename to a \"dimension name\" for which coordinate values already exist. Instead of potentially overwriting values, it raises an error. So <code>ds.drop_vars([\"doma_nx\", \"doma_ny\"]).rename_dims</code> <em>should</em> work. <code>swap_dims</code> is also a good solution.</p>",
+        "id": 32243,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1621724464
+    },
+    {
+        "content": "<p>The aren't any variables named <code>doma_nx</code> or <code>doma_ny</code> in the Dataset, just dimensions. So <code>ds.drop_vars([\"doma_nx\", \"doma_ny\"])</code> generates the error</p>\n<blockquote>\n<p>ValueError: One or more of the specified variables cannot be found in this dataset</p>\n</blockquote>\n<p>The metadata in this file is awkward/lacking enough that xarray doesn't detect/deduce that any variables are coordinates, except for <code>time</code>.</p>",
+        "id": 32244,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621725372
+    },
+    {
+        "content": "<p>Ah sorry I got confused between <code>doma_lon</code> (for which there is a variable) and <code>doma_nx</code></p>",
+        "id": 32245,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1621725770
+    },
+    {
+        "content": "<p>No worries, <code>swap_dims</code> works.</p>",
+        "id": 32246,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1621726018
+    }
+]

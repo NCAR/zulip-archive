@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>here's  a quick test that suggests its better to hash the dask variable instead of the function + args + kwargs. If you run this cell multiple times, <code>func</code> is redefined and its token changes. But the dask graph isn't changing so that token for the output of <code>func(a,b)</code> is invariant (and accessible with the name attribute of dask arrays)</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">func</span><span class=\"p\">(</span><span class=\"n\">a</span><span class=\"p\">,</span> <span class=\"n\">b</span><span class=\"p\">):</span>\n    <span class=\"k\">return</span> <span class=\"n\">a</span> <span class=\"o\">*</span> <span class=\"n\">b</span> <span class=\"o\">+</span> <span class=\"mi\">10</span>\n\n<span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"n\">a</span> <span class=\"o\">=</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">((</span><span class=\"mi\">10</span><span class=\"p\">,</span>  <span class=\"mi\">1</span><span class=\"p\">))</span>\n<span class=\"n\">b</span> <span class=\"o\">=</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"o\">.</span><span class=\"n\">ones</span><span class=\"p\">((</span><span class=\"mi\">10</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">))</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">base</span><span class=\"o\">.</span><span class=\"n\">tokenize</span><span class=\"p\">(</span><span class=\"n\">func</span><span class=\"p\">,</span> <span class=\"n\">a</span><span class=\"p\">,</span> <span class=\"n\">b</span><span class=\"p\">))</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">base</span><span class=\"o\">.</span><span class=\"n\">tokenize</span><span class=\"p\">(</span><span class=\"n\">func</span><span class=\"p\">(</span><span class=\"n\">a</span><span class=\"p\">,</span><span class=\"n\">b</span><span class=\"p\">)))</span>\n</pre></div>\n\n\n<p>I run the above cell multiple times. Here are the outputs<br>\nfirst run:</p>\n<div class=\"codehilite\"><pre><span></span>aef9da9c2d23c57b78705c645bd30087\nb241f225ffe8f6d84e1b97981dfe96e2\n</pre></div>\n\n\n<p>second run</p>\n<div class=\"codehilite\"><pre><span></span>457d0d1b307cfcae61947f108d97a8e5\nb241f225ffe8f6d84e1b97981dfe96e2\n</pre></div>\n\n\n<p>restart kernel.</p>\n<div class=\"codehilite\"><pre><span></span>8934369653f9ff6cfc2fe14f038433fe\nb241f225ffe8f6d84e1b97981dfe96e2\n</pre></div>",
+        "id": 8353,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1589394109
+    },
+    {
+        "content": "<p><code>dask.base.tokenize(func(a,b))</code> is redundant actually. <code>func(a,b).name</code> works just as well (<code>add-933890fbb1484cc1eb3fbd568e967cfd</code>). This is what xarray uses to avoid expensive equality checks. </p>\n<p>The problem with this approach is that copies have different names: <code>func(a,b).copy().name = copy-1e2375ec589dad4ad50d1abfe5d00bdd</code></p>",
+        "id": 8356,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1589394798
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>!  Great suggestion.</p>\n<p>cc <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span></p>",
+        "id": 8445,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1589404743
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> , it looks like the code you wrote end up evaluating <code>func(a,b)</code> to get the token. This seems to defeat the purpose of avoiding the function evaluation via a cache. Maybe I'm missing something that you're implying.</p>\n<p>That said, in an attempt to explore this, I tried to run the code you wrote. I get an error message:</p>\n<div class=\"codehilite\"><pre><span></span>AttributeError: module &#39;dask&#39; has no attribute &#39;array&#39;\n</pre></div>",
+        "id": 24126,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1611330943
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>  </p>\n<p>You need an explicit import: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">dask.array</span>\n</pre></div>",
+        "id": 24127,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1611331010
+    },
+    {
+        "content": "<p>Oops yeah, I was assuming that it was dask-aware function that was cheap. If not, you can do <code>dask.base.tokenize((func, a, b))</code> or something like that since the output is a unique function of the inputs.</p>\n<p>EDIT: this only works if <code>func</code> is not redefined (looking at my first post in this thread)</p>\n<p><code>dask.base.tokenize(func(a, b))</code> hashes the output of the function so it's more robust.</p>",
+        "id": 24135,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1611335042
+    }
+]

@@ -1,0 +1,123 @@
+<html>
+<head><meta charset="utf-8"><title>pop tools DZU, DZT · python-dev · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html">pop tools DZU, DZT</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="5924"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5924" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5924">(Apr 03 2020 at 17:01)</a>:</h4>
+<p>cc <span class="user-mention" data-user-id="14">@Matt Long</span> <span class="user-mention" data-user-id="44">@Frank Bryan</span> </p>
+<p>So I had to do this to get it to work:</p>
+<div class="codehilite"><pre><span></span>dzt = ... (matches exactly)
+dzu = 4 point min of dzt
+
+# this is the funny part
+dzu = xr.where(
+        fortran_zindex &gt;= KMU,   # fortran_zindex is integer in range [1, 62]
+        dzt, # when condition is true
+        dzu, # when condition is false
+    )
+</pre></div>
+<p>Is this sensible? i.e. setting <code>DZU</code> at <code>KMU</code> and deeper to <code>DZT</code></p>
+
+
+
+<a name="5938"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5938" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5938">(Apr 03 2020 at 18:07)</a>:</h4>
+<p>Frank, </p>
+<p>With</p>
+<div class="codehilite"><pre><span></span><span class="p">(</span>
+    <span class="n">expected</span><span class="p">[[</span><span class="s2">&quot;DZU&quot;</span><span class="p">,</span> <span class="s2">&quot;DZT&quot;</span><span class="p">]]</span>
+    <span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">nlon</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="n">nlat</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">70</span><span class="p">),</span> <span class="n">z_t</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">to_array</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+
+
+<p>I get<br>
+<a href="/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png"></a></div><p>which seems totally wrong. These points are all land so it doesn't matter (does matter for testing though).<br>
+Once I set <code>DZU = DZT</code> in this region; everything is equal!</p>
+
+
+
+<a name="5939"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5939" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5939">(Apr 03 2020 at 18:07)</a>:</h4>
+<p><code>expected</code> is the grid file you shared</p>
+
+
+
+<a name="5955"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5955" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5955">(Apr 05 2020 at 20:48)</a>:</h4>
+<p>DZU should be the minimum of the 4 surrounding DZT no matter where you are. I'm not sure what the backstory is here - are you trying to avoid reading from the file and computing online?</p>
+
+
+
+<a name="5957"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5957" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5957">(Apr 05 2020 at 20:48)</a>:</h4>
+<p>If it is helpful, here is the IDL code that generated DZT &amp; DZU in the netCDF grid file. IDL is zero-based indexing</p>
+<p>;;; Create 3D cell thickness and cell volume arrays<br>
+  for k=0,ndep-1 do begin<br>
+     DWORK2D(<em>,</em>) = dz(k)<br>
+     indx = where(k EQ KMT-1)<br>
+     if ( max(indx) GE 0 ) then begin<br>
+        DWORK2D(indx)=DZBC(indx)<br>
+     endif<br>
+     DZT(<em>,</em>,k) = DWORK2D</p>
+<div class="codehilite"><pre><span></span> ;;; DZU=min(DZT(i,j),DZT(i+1,j),DZT(i,j+1),DZT(i+1,j+1))
+ DZU(*,*,k) = DWORK2D
+ indx = where(shift(DWORK2D,-1,0) LT DZU(*,*,k))
+ DZU(indx,k) = DWORK2D(indx)
+ indx = where(shift(DWORK2D,0,-1) LT DZU(*,*,k))
+ DZU(indx,k) = DWORK2D(indx)
+ indx = where(shift(DWORK2D,-1,-1) LT DZU(*,*,k))
+ DZU(indx,k) = DWORK2D(indx)
+</pre></div>
+
+
+
+<a name="5962"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5962" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5962">(Apr 06 2020 at 14:15)</a>:</h4>
+<p>The backstory is that I am trying to calculate <code>DZU</code> and <code>DZT</code> in python to avoid the need to generate "augmented" grid files. I am using your augmented grid file as a test case. See: <a href="https://github.com/NCAR/pop-tools/pull/44/files" target="_blank" title="https://github.com/NCAR/pop-tools/pull/44/files">https://github.com/NCAR/pop-tools/pull/44/files</a> .</p>
+<p>I get equal results (my python code compared to your grid file) once I fix <code>DZU</code> at the surface. In this image: <a href="user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png" target="_blank" title="user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png">https://zulip.cloud.ucar.edu/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png</a><br>
+<code>DZU</code> in the augmented grid file has values that are not the 4-point minimum of <code>DZT</code> (which is all 1000). Once I set <code>DZU</code> in this region to be 1000 everything works. So there is a bug somewhere.</p>
+<div class="message_inline_image"><a href="user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png" target="_blank" title="https://zulip.cloud.ucar.edu/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png"><img src="user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png"></a></div>
+
+
+
+<a name="5964"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/5964" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#5964">(Apr 06 2020 at 14:36)</a>:</h4>
+<p>Your result is correct. All DZT and DZU in the first layer should be 10m.</p>
+<p>I'll look at the code I used to generate the augmented file (a mess of IDL and netCDF operators) to see where the problem arises. <br>
+I know that there will be a problem along the tripole seam across the top of the grid. The neighbors across the seam are on the same row on the opposite side in the i-direction. I'll try to write out the proper operator in index notation . We might be able to work this into the differential operators themselves.</p>
+
+
+
+<a name="6063"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/6063" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#6063">(Apr 06 2020 at 19:48)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I indeed see the spurious values in my netCDF file. There are 46 values in a cluster on the right edge of the grid (i=3599, j=16:61,k=0) that are bad. Somehow, they are getting munged when I write them out to netCDF. They are correct in the loop that computes them.</p>
+<p>Looking at how I might fix this.</p>
+
+
+
+<a name="6086"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/6086" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#6086">(Apr 07 2020 at 15:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="44">@Frank Bryan</span> thanks. FYI this error isn't blocking me right now so there's no urgency.</p>
+
+
+
+<a name="6087"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop%20tools%20DZU%2C%20DZT/near/6087" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop.20tools.20DZU.2C.20DZT.html#6087">(Apr 07 2020 at 15:52)</a>:</h4>
+<p>determined that something weird was going on in the IDL shift operations that was overwriting some values. I was able to get correct results with a fully unrolled loop and array index notation. I'll replace the augmented grid file later today.<br>
+[more questions about TPOS MITgcm coming your way]</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

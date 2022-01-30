@@ -1,0 +1,347 @@
+<html>
+<head><meta charset="utf-8"><title>intake_esm to_dask() error · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html">intake_esm to_dask() error</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="14944"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14944" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14944">(Aug 05 2020 at 15:34)</a>:</h4>
+<p>Hi all, I'm currently trying to look for some variables in the OMIP experiment on glade using intake_esm and I'm getting an error I haven't seen before. I have loaded the columns </p>
+<div class="codehilite"><pre><span></span>catalog_path = &quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&quot;
+col = intake.open_esm_datastore(catalog_path)
+</pre></div>
+
+
+<p>and then my catalog</p>
+<div class="codehilite"><pre><span></span>cat = col.search(
+    experiment_id=[&quot;omip1&quot;],
+)
+</pre></div>
+
+
+<p>I get 24 keys and choose one to get my dataset</p>
+<div class="codehilite"><pre><span></span>ds_cnrm = cat[&#39;OMIP.CNRM-CERFACS.CNRM-CM6-1.omip1.Omon.gn&#39;](zarr_kwargs={&#39;consolidated&#39;: True, &#39;decode_times&#39;: True})
+ds_cnrm
+&lt;intake_esm.source.ESMGroupDataSource at 0x2b113f634150&gt;
+</pre></div>
+
+
+<p>but when I try to add .to_dask I get </p>
+<div class="codehilite"><pre><span></span>ds_cnrm.to_dask()
+ValueError                                Traceback (most recent call last)
+&lt;ipython-input-26-1333ad1b871a&gt; in &lt;module&gt;
+----&gt; 1 ds_cnrm.to_dask()
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/source.py in to_dask(self)
+     91     def to_dask(self):
+     92         &quot;&quot;&quot;Return xarray object (which will have chunks)&quot;&quot;&quot;
+---&gt; 93         self._load_metadata()
+     94         return self._ds
+     95
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake/source/base.py in _load_metadata(self)
+    115         &quot;&quot;&quot;load metadata only if needed&quot;&quot;&quot;
+    116         if self._schema is None:
+--&gt; 117             self._schema = self._get_schema()
+    118             self.datashape = self._schema.datashape
+    119             self.dtype = self._schema.dtype
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/source.py in _get_schema(self)
+     54
+     55         if self._ds is None:
+---&gt; 56             self._open_dataset()
+     57
+     58             metadata = {
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/source.py in _open_dataset(self)
+     83             self.zarr_kwargs,
+     84             self.cdf_kwargs,
+---&gt; 85             self.preprocess,
+     86         )
+     87         ds.attrs[&#39;intake_esm_dataset_key&#39;] = self.name
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in _aggregate(aggregation_dict, agg_columns, n_agg, v, lookup, mapper_dict, zarr_kwargs, cdf_kwargs, preprocess)
+    168             return ds
+    169
+--&gt; 170     return apply_aggregation(v)
+    171
+    172
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in apply_aggregation(v, agg_column, key, level)
+    159                     f&#39;Merging {len(dsets)} dataset(s) into a single Dataset with options={agg_options}.\ndsets={dsets}&#39;
+    160                 )
+--&gt; 161                 ds = union(dsets, options=agg_options)
+    162
+    163             ds.attrs = attrs
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in union(dsets, options)
+     39     except Exception as e:
+     40         logger.error(f&#39;Failed to merge datasets.&#39;)
+---&gt; 41         raise e
+     42
+     43
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in union(dsets, options)
+     36 def union(dsets, options={}):
+     37     try:
+---&gt; 38         return xr.merge(dsets, **options)
+     39     except Exception as e:
+     40         logger.error(f&#39;Failed to merge datasets.&#39;)
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/merge.py in merge(objects, compat, join, fill_value)
+    791         dict_like_objects.append(obj)
+    792
+--&gt; 793     merge_result = merge_core(dict_like_objects, compat, join, fill_value=fill_value)
+    794     merged = Dataset._construct_direct(**merge_result._asdict())
+    795     return merged
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/merge.py in merge_core(objects, compat, join, priority_arg, explicit_coords, indexes, fill_value)
+    548     coerced = coerce_pandas_values(objects)
+    549     aligned = deep_align(
+--&gt; 550         coerced, join=join, copy=False, indexes=indexes, fill_value=fill_value
+    551     )
+    552     collected = collect_variables_and_indexes(aligned)
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/alignment.py in deep_align(objects, join, copy, indexes, exclude, raise_on_invalid, fill_value)
+    407         indexes=indexes,
+    408         exclude=exclude,
+--&gt; 409         fill_value=fill_value,
+    410     )
+    411
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/alignment.py in align(join, copy, indexes, exclude, fill_value, *objects)
+    335             new_obj = obj.copy(deep=copy)
+    336         else:
+--&gt; 337             new_obj = obj.reindex(copy=copy, fill_value=fill_value, **valid_indexers)
+    338         new_obj.encoding = obj.encoding
+    339         result.append(new_obj)
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/dataset.py in reindex(self, indexers, method, tolerance, copy, fill_value, **indexers_kwargs)
+   2495             fill_value,
+   2496             sparse=False,
+-&gt; 2497             **indexers_kwargs,
+   2498         )
+   2499
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/dataset.py in _reindex(self, indexers, method, tolerance, copy, fill_value, sparse, **indexers_kwargs)
+   2526             copy=copy,
+   2527             fill_value=fill_value,
+-&gt; 2528             sparse=sparse,
+   2529         )
+   2530         coord_names = set(self._coord_names)
+/glade/work/deppenme/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/core/alignment.py in reindex_variables(variables, sizes, indexes, indexers, method, tolerance, copy, fill_value, sparse)
+    547                 raise ValueError(
+    548                     &quot;cannot reindex or align along dimension %r because the &quot;
+--&gt; 549                     &quot;index has duplicate values&quot; % dim
+    550                 )
+    551
+ValueError: cannot reindex or align along dimension &#39;time&#39; because the index has duplicate values
+</pre></div>
+
+
+<p>If I try to load another dataset </p>
+<div class="codehilite"><pre><span></span>ds_ncar = cat[&#39;OMIP.NCAR.CESM2.omip1.Omon.gn&#39;](zarr_kwargs={&#39;consolidated&#39;: True, &#39;decode_times&#39;: True})
+ds_ncar
+&lt;intake_esm.source.ESMGroupDataSource at 0x2b113fa81a90&gt;
+</pre></div>
+
+
+<p>and use .to_dask() I get </p>
+<div class="codehilite"><pre><span></span>MergeError: conflicting values for variable &#39;lon&#39; on objects to be combined. You can skip this check by specifying compat=&#39;override&#39;.
+</pre></div>
+
+
+<p>and I haven't been able to add <code>compat='override'</code> anywhere so that the error goes away. The <code>intake.__version__</code> I am using is '0.5.4'<br>
+I have used this before and it worked, and now it doesn't. any tips?</p>
+
+
+
+<a name="14980"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14980" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14980">(Aug 05 2020 at 17:53)</a>:</h4>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, I am looking into this. So far, I have been able to isolate  some of the problematic files/datasets by loading each variable in its own dataset instead of merging  multiple variables into a single dataset:</p>
+<p><a href="/user_uploads/2/c8/k_4VuQyJ7agMbCJOEj8ERwKQ/Screen-Shot-2020-08-05-at-11.46.38-AM.png" target="_blank" title="Screen-Shot-2020-08-05-at-11.46.38-AM.png">Screen-Shot-2020-08-05-at-11.46.38-AM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/c8/k_4VuQyJ7agMbCJOEj8ERwKQ/Screen-Shot-2020-08-05-at-11.46.38-AM.png" target="_blank" title="Screen-Shot-2020-08-05-at-11.46.38-AM.png"><img src="/user_uploads/2/c8/k_4VuQyJ7agMbCJOEj8ERwKQ/Screen-Shot-2020-08-05-at-11.46.38-AM.png"></a></div><p>As you can see below, some of the time axes aren't monotonic and have duplicate time values:</p>
+<p><a href="/user_uploads/2/b7/yq-u4BrbeAmHl9QLzHhP21XG/Screen-Shot-2020-08-05-at-11.46.45-AM.png" target="_blank" title="Screen-Shot-2020-08-05-at-11.46.45-AM.png">Screen-Shot-2020-08-05-at-11.46.45-AM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/b7/yq-u4BrbeAmHl9QLzHhP21XG/Screen-Shot-2020-08-05-at-11.46.45-AM.png" target="_blank" title="Screen-Shot-2020-08-05-at-11.46.45-AM.png"><img src="/user_uploads/2/b7/yq-u4BrbeAmHl9QLzHhP21XG/Screen-Shot-2020-08-05-at-11.46.45-AM.png"></a></div>
+
+
+
+<a name="14981"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14981" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14981">(Aug 05 2020 at 17:53)</a>:</h4>
+<p>I will get back to you once I have a working solution</p>
+
+
+
+<a name="14982"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14982" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14982">(Aug 05 2020 at 17:55)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> how about adding a <code>.debug_catalog</code> function that prints these diagnostics to screen?</p>
+
+
+
+<a name="14983"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14983" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14983">(Aug 05 2020 at 17:56)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span> how about adding a <code>.debug_catalog</code> function that prints these diagnostics to screen?</p>
+</blockquote>
+<p><span aria-label="+1" class="emoji emoji-1f44d" role="img" title="+1">:+1:</span></p>
+
+
+
+<a name="14984"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14984" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14984">(Aug 05 2020 at 17:57)</a>:</h4>
+<p>I've been working on some utilities that will allow us to expose some debugging information to the user</p>
+
+
+
+<a name="14985"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14985" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14985">(Aug 05 2020 at 17:58)</a>:</h4>
+<p>E.g.. Turning <code>aggregations</code> off on the fly</p>
+
+
+
+<a name="14986"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14986" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14986">(Aug 05 2020 at 18:00)</a>:</h4>
+<p>I think the next step is to catch some of these recurring errors (duplicated time axis, coordinates mismatches, etc) and provide the user with some suggestions on how to address them.</p>
+
+
+
+<a name="14987"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14987" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14987">(Aug 05 2020 at 18:44)</a>:</h4>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, I think I now know where the time axis duplication is coming from: </p>
+<p><a href="/user_uploads/2/de/nBIeDbY-huIk0lCnW8MSEzMY/Screen-Shot-2020-08-05-at-12.32.15-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-12.32.15-PM.png">Screen-Shot-2020-08-05-at-12.32.15-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/de/nBIeDbY-huIk0lCnW8MSEzMY/Screen-Shot-2020-08-05-at-12.32.15-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-12.32.15-PM.png"><img src="/user_uploads/2/de/nBIeDbY-huIk0lCnW8MSEzMY/Screen-Shot-2020-08-05-at-12.32.15-PM.png"></a></div><p>Notice how for these two files, their time axes are overlapping:</p>
+<p>File1: <code>1750-01 ---&gt; 1796-12</code><br>
+File2: <code>1750-01 ---&gt; 1799-12</code> </p>
+<p>Could this have been a mistake when the model wrote the output or how the data was produced???  I did a quick search on ESGFs website, and found the two problematic files: </p>
+<p><a href="/user_uploads/2/70/O9FpWGreZNpi_pRnTacpjzUg/Screen-Shot-2020-08-05-at-12.42.49-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-12.42.49-PM.png">Screen-Shot-2020-08-05-at-12.42.49-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/70/O9FpWGreZNpi_pRnTacpjzUg/Screen-Shot-2020-08-05-at-12.42.49-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-12.42.49-PM.png"><img src="/user_uploads/2/70/O9FpWGreZNpi_pRnTacpjzUg/Screen-Shot-2020-08-05-at-12.42.49-PM.png"></a></div>
+
+
+
+<a name="14994"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14994" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14994">(Aug 05 2020 at 19:37)</a>:</h4>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, I have two recommendations:</p>
+<ul>
+<li>
+<p>Option 1) You can work with a subset of variables <code>['hfds', 'mlotst', 'obvfsq', 'thetao', 'wo']</code> by excluding problematic variables  <code>["so", 'tauuo', 'tauvo', 'uo', 'vo'] # duplicated time-axis and x-axis</code>. Here, the variables that are okay, are merged into a single dataset.   </p>
+<ul>
+<li>
+<p>Things seem to be working fine: <br>
+<a href="/user_uploads/2/ad/4lLka0aYbGdiqcqM4bJjH8HI/Screen-Shot-2020-08-05-at-1.15.38-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-1.15.38-PM.png">Screen-Shot-2020-08-05-at-1.15.38-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/ad/4lLka0aYbGdiqcqM4bJjH8HI/Screen-Shot-2020-08-05-at-1.15.38-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-1.15.38-PM.png"><img src="/user_uploads/2/ad/4lLka0aYbGdiqcqM4bJjH8HI/Screen-Shot-2020-08-05-at-1.15.38-PM.png"></a></div></li>
+<li>
+<p>Dask appears to have messed up the chunking  though. This may have to do with <a href="https://github.com/pydata/xarray/issues/4112" target="_blank" title="https://github.com/pydata/xarray/issues/4112">https://github.com/pydata/xarray/issues/4112</a> and <a href="https://github.com/intake/intake-esm/issues/225" target="_blank" title="https://github.com/intake/intake-esm/issues/225">https://github.com/intake/intake-esm/issues/225</a>     <br>
+<a href="/user_uploads/2/b2/C70S5ZaoLbvlgmfS_IjfpGDN/Screen-Shot-2020-08-05-at-1.15.59-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-1.15.59-PM.png">Screen-Shot-2020-08-05-at-1.15.59-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/b2/C70S5ZaoLbvlgmfS_IjfpGDN/Screen-Shot-2020-08-05-at-1.15.59-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-1.15.59-PM.png"><img src="/user_uploads/2/b2/C70S5ZaoLbvlgmfS_IjfpGDN/Screen-Shot-2020-08-05-at-1.15.59-PM.png"></a></div></li>
+</ul>
+</li>
+<li>
+<p>Option 2) Disable variable merging, and load each variable in its own datasets.  For this option,  <code>variable_ids = ['hfds', 'mlotst', 'obvfsq', 'thetao', 'wo', 'tauuo', 'tauvo', 'uo', 'vo']</code> appear to be okay, and <code>problematic_variable_ids = ["so"] # duplicated time axis</code> is still problematic.  Here, you get 9 datasets for the "okay" variables. </p>
+</li>
+</ul>
+<p><a href="/user_uploads/2/6a/tN_LNjf2jq51mtOUx9X31vk6/Screen-Shot-2020-08-05-at-1.26.10-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-1.26.10-PM.png">Screen-Shot-2020-08-05-at-1.26.10-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/6a/tN_LNjf2jq51mtOUx9X31vk6/Screen-Shot-2020-08-05-at-1.26.10-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-1.26.10-PM.png"><img src="/user_uploads/2/6a/tN_LNjf2jq51mtOUx9X31vk6/Screen-Shot-2020-08-05-at-1.26.10-PM.png"></a></div>
+
+
+
+<a name="14995"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14995" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14995">(Aug 05 2020 at 19:37)</a>:</h4>
+<p>Note: </p>
+<ul>
+<li>for option 2) to work, you will need intake-esm <code>v2020.08.15</code> (which hasn't been released yet) and later or you can use the master branch of intake-esm (<code>python -m pip install git+https://github.com/intake/intake-esm.git</code>)</li>
+<li>I used <a href="https://github.com/jbusecke/cmip6_preprocessing" target="_blank" title="https://github.com/jbusecke/cmip6_preprocessing"><code>cmip6preprocessing</code> package</a>. If you don't have it installed, you may want to install via pip or conda.</li>
+</ul>
+
+
+
+<a name="14996"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14996" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#14996">(Aug 05 2020 at 19:37)</a>:</h4>
+<p>Thank you <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> I will try that</p>
+
+
+
+<a name="15136"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15136" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#15136">(Aug 07 2020 at 19:08)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , it worked.  What I actually want to find out, though, is which variables there are for which model (I am okay with specifying the experiment, I can go through the ones that interest me iteratively). Is there a clever way to do that?</p>
+
+
+
+<a name="15307"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15307" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#15307">(Aug 11 2020 at 17:49)</a>:</h4>
+<blockquote>
+<p>What I actually want to find out, though, is which variables there are for which model (I am okay with specifying the experiment, I can go through the ones that interest me iteratively). Is there a clever way to do that?</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>,  the following may provide what you are looking for:</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="n">col</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;source_id&quot;</span><span class="p">)[</span><span class="s2">&quot;variable_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
+<span class="n">source_id</span>
+<span class="n">ACCESS</span><span class="o">-</span><span class="n">CM2</span>        <span class="p">[</span><span class="n">clivi</span><span class="p">,</span> <span class="n">clt</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">hus</span><span class="p">,</span> <span class="n">huss</span><span class="p">,</span> <span class="n">pr</span><span class="p">,</span> <span class="n">prc</span><span class="p">,</span> <span class="n">prsn</span><span class="p">,</span> <span class="n">p</span><span class="o">...</span>
+<span class="n">ACCESS</span><span class="o">-</span><span class="n">ESM1</span><span class="o">-</span><span class="mi">5</span>     <span class="p">[</span><span class="n">prsn</span><span class="p">,</span> <span class="n">tas</span><span class="p">,</span> <span class="n">tasmax</span><span class="p">,</span> <span class="n">tasmin</span><span class="p">,</span> <span class="n">zg</span><span class="p">,</span> <span class="n">mrsol</span><span class="p">,</span> <span class="n">cLitter</span><span class="o">...</span>
+<span class="n">AWI</span><span class="o">-</span><span class="n">CM</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">MR</span>     <span class="p">[</span><span class="n">clivi</span><span class="p">,</span> <span class="n">clt</span><span class="p">,</span> <span class="n">clwvi</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">hus</span><span class="p">,</span> <span class="n">huss</span><span class="p">,</span> <span class="n">pr</span><span class="p">,</span> <span class="n">prc</span><span class="p">,</span> <span class="o">...</span>
+<span class="n">AWI</span><span class="o">-</span><span class="n">ESM</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">LR</span>    <span class="p">[</span><span class="n">clivi</span><span class="p">,</span> <span class="n">clt</span><span class="p">,</span> <span class="n">clwvi</span><span class="p">,</span> <span class="n">evspsbl</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">pr</span><span class="p">,</span> <span class="n">prc</span><span class="p">,</span> <span class="n">pr</span><span class="o">...</span>
+<span class="n">BCC</span><span class="o">-</span><span class="n">CSM2</span><span class="o">-</span><span class="n">MR</span>       <span class="p">[</span><span class="n">clt</span><span class="p">,</span> <span class="n">co2</span><span class="p">,</span> <span class="n">evspsbl</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">hfss</span><span class="p">,</span> <span class="n">hus</span><span class="p">,</span> <span class="n">huss</span><span class="p">,</span> <span class="n">pr</span><span class="p">,</span><span class="o">...</span>
+                                        <span class="o">...</span>
+<span class="n">NorESM2</span><span class="o">-</span><span class="n">LM</span>        <span class="p">[</span><span class="n">mmrbc</span><span class="p">,</span> <span class="n">mmrdust</span><span class="p">,</span> <span class="n">mmroa</span><span class="p">,</span> <span class="n">mmrso4</span><span class="p">,</span> <span class="n">mmrss</span><span class="p">,</span> <span class="n">od550ae</span><span class="o">...</span>
+<span class="n">NorESM2</span><span class="o">-</span><span class="n">MM</span>        <span class="p">[</span><span class="n">clivi</span><span class="p">,</span> <span class="n">clt</span><span class="p">,</span> <span class="n">clwvi</span><span class="p">,</span> <span class="n">co2mass</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">pr</span><span class="p">,</span> <span class="n">prc</span><span class="p">,</span> <span class="n">pr</span><span class="o">...</span>
+<span class="n">SAM0</span><span class="o">-</span><span class="n">UNICON</span>       <span class="p">[</span><span class="n">clivi</span><span class="p">,</span> <span class="n">clt</span><span class="p">,</span> <span class="n">clwvi</span><span class="p">,</span> <span class="n">co2mass</span><span class="p">,</span> <span class="n">evspsbl</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">hf</span><span class="o">...</span>
+<span class="n">TaiESM1</span>           <span class="p">[</span><span class="n">od550aer</span><span class="p">,</span> <span class="n">clivi</span><span class="p">,</span> <span class="n">clt</span><span class="p">,</span> <span class="n">clwvi</span><span class="p">,</span> <span class="n">co2mass</span><span class="p">,</span> <span class="n">hfls</span><span class="p">,</span> <span class="n">p</span><span class="o">...</span>
+<span class="n">UKESM1</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="n">LL</span>       <span class="p">[</span><span class="n">mmrbc</span><span class="p">,</span> <span class="n">mmrdust</span><span class="p">,</span> <span class="n">mmroa</span><span class="p">,</span> <span class="n">mmrso4</span><span class="p">,</span> <span class="n">mmrss</span><span class="p">,</span> <span class="n">od550ae</span><span class="o">...</span>
+<span class="n">Name</span><span class="p">:</span> <span class="n">variable_id</span><span class="p">,</span> <span class="n">Length</span><span class="p">:</span> <span class="mi">76</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="nb">object</span>
+</pre></div>
+
+
+<p>As you can see, for brevity Pandas shows the first and last few values. For detailed information, you can just turn the results into a dictionary with:</p>
+<div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">col</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;source_id&quot;</span><span class="p">)[</span><span class="s2">&quot;variable_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">8</span><span class="p">]:</span>
+<span class="p">{</span><span class="s1">&#39;ACCESS-CM2&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="s1">&#39;clivi&#39;</span><span class="p">,</span> <span class="s1">&#39;clt&#39;</span><span class="p">,</span> <span class="s1">&#39;hfls&#39;</span><span class="p">,</span> <span class="s1">&#39;hus&#39;</span><span class="p">,</span> <span class="s1">&#39;huss&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">,</span> <span class="s1">&#39;prc&#39;</span><span class="p">,</span> <span class="s1">&#39;prsn&#39;</span><span class="p">,</span> <span class="s1">&#39;prw&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;ps&#39;</span><span class="p">,</span> <span class="s1">&#39;psl&#39;</span><span class="p">,</span> <span class="s1">&#39;rlds&#39;</span><span class="p">,</span> <span class="s1">&#39;rlus&#39;</span><span class="p">,</span> <span class="s1">&#39;rlut&#39;</span><span class="p">,</span> <span class="s1">&#39;rlutcs&#39;</span><span class="p">,</span> <span class="s1">&#39;rsdt&#39;</span><span class="p">,</span> <span class="s1">&#39;rsut&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rsutcs&#39;</span><span class="p">,</span> <span class="s1">&#39;sfcWind&#39;</span><span class="p">,</span> <span class="s1">&#39;ta&#39;</span><span class="p">,</span> <span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;tasmax&#39;</span><span class="p">,</span> <span class="s1">&#39;tasmin&#39;</span><span class="p">,</span> <span class="s1">&#39;ts&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;uas&#39;</span><span class="p">,</span> <span class="s1">&#39;va&#39;</span><span class="p">,</span> <span class="s1">&#39;vas&#39;</span><span class="p">,</span> <span class="s1">&#39;wap&#39;</span><span class="p">,</span> <span class="s1">&#39;zg&#39;</span><span class="p">,</span> <span class="s1">&#39;mrsol&#39;</span><span class="p">,</span> <span class="s1">&#39;mrro&#39;</span><span class="p">,</span> <span class="s1">&#39;mrros&#39;</span><span class="p">,</span> <span class="s1">&#39;mrso&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;mrsos&#39;</span><span class="p">,</span> <span class="s1">&#39;areacello&#39;</span><span class="p">,</span> <span class="s1">&#39;sftof&#39;</span><span class="p">,</span> <span class="s1">&#39;agessc&#39;</span><span class="p">,</span> <span class="s1">&#39;bigthetao&#39;</span><span class="p">,</span> <span class="s1">&#39;evs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;fsitherm&#39;</span><span class="p">,</span> <span class="s1">&#39;masscello&#39;</span><span class="p">,</span> <span class="s1">&#39;mlotst&#39;</span><span class="p">,</span> <span class="s1">&#39;msftbarot&#39;</span><span class="p">,</span> <span class="s1">&#39;msftmrho&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;msftyrho&#39;</span><span class="p">,</span> <span class="s1">&#39;pbo&#39;</span><span class="p">,</span> <span class="s1">&#39;prra&#39;</span><span class="p">,</span> <span class="s1">&#39;rlntds&#39;</span><span class="p">,</span> <span class="s1">&#39;rsntds&#39;</span><span class="p">,</span> <span class="s1">&#39;so&#39;</span><span class="p">,</span> <span class="s1">&#39;sos&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;thetao&#39;</span><span class="p">,</span> <span class="s1">&#39;tos&#39;</span><span class="p">,</span> <span class="s1">&#39;umo&#39;</span><span class="p">,</span> <span class="s1">&#39;uo&#39;</span><span class="p">,</span> <span class="s1">&#39;vmo&#39;</span><span class="p">,</span> <span class="s1">&#39;vo&#39;</span><span class="p">,</span> <span class="s1">&#39;volcello&#39;</span><span class="p">,</span> <span class="s1">&#39;volo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;wfo&#39;</span><span class="p">,</span> <span class="s1">&#39;wmo&#39;</span><span class="p">,</span> <span class="s1">&#39;zos&#39;</span><span class="p">,</span> <span class="s1">&#39;siarean&#39;</span><span class="p">,</span> <span class="s1">&#39;siareas&#39;</span><span class="p">,</span> <span class="s1">&#39;siconc&#39;</span><span class="p">,</span> <span class="s1">&#39;siconca&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;siextentn&#39;</span><span class="p">,</span> <span class="s1">&#39;sisnconc&#39;</span><span class="p">,</span> <span class="s1">&#39;sisnthick&#39;</span><span class="p">,</span> <span class="s1">&#39;sithick&#39;</span><span class="p">,</span> <span class="s1">&#39;sivol&#39;</span><span class="p">,</span> <span class="s1">&#39;sivoln&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sivols&#39;</span><span class="p">,</span> <span class="s1">&#39;sftlf&#39;</span><span class="p">,</span> <span class="s1">&#39;pfull&#39;</span><span class="p">,</span> <span class="s1">&#39;evspsbl&#39;</span><span class="p">,</span> <span class="s1">&#39;snw&#39;</span><span class="p">,</span> <span class="s1">&#39;basin&#39;</span><span class="p">,</span> <span class="s1">&#39;thkcello&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;hfds&#39;</span><span class="p">,</span> <span class="s1">&#39;msftmz&#39;</span><span class="p">,</span> <span class="s1">&#39;obvfsq&#39;</span><span class="p">,</span> <span class="s1">&#39;tauuo&#39;</span><span class="p">,</span> <span class="s1">&#39;tauvo&#39;</span><span class="p">,</span> <span class="s1">&#39;zostoga&#39;</span><span class="p">,</span> <span class="s1">&#39;hfss&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rsds&#39;</span><span class="p">,</span> <span class="s1">&#39;rsdscs&#39;</span><span class="p">,</span> <span class="s1">&#39;rsus&#39;</span><span class="p">,</span> <span class="s1">&#39;rsuscs&#39;</span><span class="p">,</span> <span class="s1">&#39;areacella&#39;</span><span class="p">,</span> <span class="s1">&#39;od550aer&#39;</span><span class="p">],</span>
+       <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+ <span class="s1">&#39;ACCESS-ESM1-5&#39;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="s1">&#39;prsn&#39;</span><span class="p">,</span> <span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;tasmax&#39;</span><span class="p">,</span> <span class="s1">&#39;tasmin&#39;</span><span class="p">,</span> <span class="s1">&#39;zg&#39;</span><span class="p">,</span> <span class="s1">&#39;mrsol&#39;</span><span class="p">,</span> <span class="s1">&#39;cLitter&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;cVeg&#39;</span><span class="p">,</span> <span class="s1">&#39;gpp&#39;</span><span class="p">,</span> <span class="s1">&#39;lai&#39;</span><span class="p">,</span> <span class="s1">&#39;mrro&#39;</span><span class="p">,</span> <span class="s1">&#39;mrros&#39;</span><span class="p">,</span> <span class="s1">&#39;mrso&#39;</span><span class="p">,</span> <span class="s1">&#39;mrsos&#39;</span><span class="p">,</span> <span class="s1">&#39;chl&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;detoc&#39;</span><span class="p">,</span> <span class="s1">&#39;dfe&#39;</span><span class="p">,</span> <span class="s1">&#39;dissic&#39;</span><span class="p">,</span> <span class="s1">&#39;dissicnat&#39;</span><span class="p">,</span> <span class="s1">&#39;eparag100&#39;</span><span class="p">,</span> <span class="s1">&#39;epc100&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;evs&#39;</span><span class="p">,</span> <span class="s1">&#39;fgco2&#39;</span><span class="p">,</span> <span class="s1">&#39;fgco2nat&#39;</span><span class="p">,</span> <span class="s1">&#39;fgo2&#39;</span><span class="p">,</span> <span class="s1">&#39;fsitherm&#39;</span><span class="p">,</span> <span class="s1">&#39;masscello&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;mlotst&#39;</span><span class="p">,</span> <span class="s1">&#39;no3&#39;</span><span class="p">,</span> <span class="s1">&#39;o2&#39;</span><span class="p">,</span> <span class="s1">&#39;pbo&#39;</span><span class="p">,</span> <span class="s1">&#39;po4&#39;</span><span class="p">,</span> <span class="s1">&#39;prra&#39;</span><span class="p">,</span> <span class="s1">&#39;rlntds&#39;</span><span class="p">,</span> <span class="s1">&#39;rsntds&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;so&#39;</span><span class="p">,</span> <span class="s1">&#39;spco2&#39;</span><span class="p">,</span> <span class="s1">&#39;spco2nat&#39;</span><span class="p">,</span> <span class="s1">&#39;thetao&#39;</span><span class="p">,</span> <span class="s1">&#39;umo&#39;</span><span class="p">,</span> <span class="s1">&#39;uo&#39;</span><span class="p">,</span> <span class="s1">&#39;vmo&#39;</span><span class="p">,</span> <span class="s1">&#39;vo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;volo&#39;</span><span class="p">,</span> <span class="s1">&#39;wmo&#39;</span><span class="p">,</span> <span class="s1">&#39;cLeaf&#39;</span><span class="p">,</span> <span class="s1">&#39;nbp&#39;</span><span class="p">,</span> <span class="s1">&#39;npp&#39;</span><span class="p">,</span> <span class="s1">&#39;ra&#39;</span><span class="p">,</span> <span class="s1">&#39;chlos&#39;</span><span class="p">,</span> <span class="s1">&#39;tos&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;siconc&#39;</span><span class="p">,</span> <span class="s1">&#39;sisnconc&#39;</span><span class="p">,</span> <span class="s1">&#39;sisnthick&#39;</span><span class="p">,</span> <span class="s1">&#39;sithick&#39;</span><span class="p">,</span> <span class="s1">&#39;hfds&#39;</span><span class="p">,</span> <span class="s1">&#39;sos&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;clivi&#39;</span><span class="p">,</span> <span class="s1">&#39;clt&#39;</span><span class="p">,</span> <span class="s1">&#39;hfls&#39;</span><span class="p">,</span> <span class="s1">&#39;hus&#39;</span><span class="p">,</span> <span class="s1">&#39;huss&#39;</span><span class="p">,</span> <span class="s1">&#39;pr&#39;</span><span class="p">,</span> <span class="s1">&#39;prc&#39;</span><span class="p">,</span> <span class="s1">&#39;prw&#39;</span><span class="p">,</span> <span class="s1">&#39;ps&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;psl&#39;</span><span class="p">,</span> <span class="s1">&#39;rlds&#39;</span><span class="p">,</span> <span class="s1">&#39;rlus&#39;</span><span class="p">,</span> <span class="s1">&#39;rlut&#39;</span><span class="p">,</span> <span class="s1">&#39;rlutcs&#39;</span><span class="p">,</span> <span class="s1">&#39;rsdt&#39;</span><span class="p">,</span> <span class="s1">&#39;rsut&#39;</span><span class="p">,</span> <span class="s1">&#39;rsutcs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sfcWind&#39;</span><span class="p">,</span> <span class="s1">&#39;ta&#39;</span><span class="p">,</span> <span class="s1">&#39;ts&#39;</span><span class="p">,</span> <span class="s1">&#39;ua&#39;</span><span class="p">,</span> <span class="s1">&#39;uas&#39;</span><span class="p">,</span> <span class="s1">&#39;va&#39;</span><span class="p">,</span> <span class="s1">&#39;vas&#39;</span><span class="p">,</span> <span class="s1">&#39;wap&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;areacello&#39;</span><span class="p">,</span> <span class="s1">&#39;sftof&#39;</span><span class="p">,</span> <span class="s1">&#39;agessc&#39;</span><span class="p">,</span> <span class="s1">&#39;msftbarot&#39;</span><span class="p">,</span> <span class="s1">&#39;msftmrho&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;msftyrho&#39;</span><span class="p">,</span> <span class="s1">&#39;talk&#39;</span><span class="p">,</span> <span class="s1">&#39;volcello&#39;</span><span class="p">,</span> <span class="s1">&#39;wfo&#39;</span><span class="p">,</span> <span class="s1">&#39;zos&#39;</span><span class="p">,</span> <span class="s1">&#39;arag&#39;</span><span class="p">,</span> <span class="s1">&#39;siarean&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;siareas&#39;</span><span class="p">,</span> <span class="s1">&#39;siconca&#39;</span><span class="p">,</span> <span class="s1">&#39;siextentn&#39;</span><span class="p">,</span> <span class="s1">&#39;sivol&#39;</span><span class="p">,</span> <span class="s1">&#39;sivoln&#39;</span><span class="p">,</span> <span class="s1">&#39;sivols&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sftlf&#39;</span><span class="p">,</span> <span class="s1">&#39;cProduct&#39;</span><span class="p">,</span> <span class="s1">&#39;bigthetao&#39;</span><span class="p">,</span> <span class="s1">&#39;evspsbl&#39;</span><span class="p">,</span> <span class="s1">&#39;msftmz&#39;</span><span class="p">,</span> <span class="s1">&#39;snw&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;basin&#39;</span><span class="p">,</span> <span class="s1">&#39;thkcello&#39;</span><span class="p">,</span> <span class="s1">&#39;dfeos&#39;</span><span class="p">,</span> <span class="s1">&#39;dissicnatos&#39;</span><span class="p">,</span> <span class="s1">&#39;intpp&#39;</span><span class="p">,</span> <span class="s1">&#39;no3os&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;obvfsq&#39;</span><span class="p">,</span> <span class="s1">&#39;phycos&#39;</span><span class="p">,</span> <span class="s1">&#39;po4os&#39;</span><span class="p">,</span> <span class="s1">&#39;tauuo&#39;</span><span class="p">,</span> <span class="s1">&#39;tauvo&#39;</span><span class="p">,</span> <span class="s1">&#39;zostoga&#39;</span><span class="p">,</span> <span class="s1">&#39;hfss&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;rldscs&#39;</span><span class="p">,</span> <span class="s1">&#39;rsds&#39;</span><span class="p">,</span> <span class="s1">&#39;rsdscs&#39;</span><span class="p">,</span> <span class="s1">&#39;rsus&#39;</span><span class="p">,</span> <span class="s1">&#39;rsuscs&#39;</span><span class="p">,</span> <span class="s1">&#39;areacella&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;od550aer&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">),</span>
+<span class="o">....</span>
+<span class="o">....</span>
+<span class="o">...</span>
+</pre></div>
+
+
+
+<a name="15311"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15311" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#15311">(Aug 11 2020 at 17:51)</a>:</h4>
+<p>Let me know if this accomplishes what you want</p>
+
+
+
+<a name="15312"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15312" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#15312">(Aug 11 2020 at 17:53)</a>:</h4>
+<p>Thanks Anderson I will try it -- at first glance it seems to be exactly what I was looking for!</p>
+
+
+
+<a name="15313"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15313" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20to_dask().20error.html#15313">(Aug 11 2020 at 18:01)</a>:</h4>
+<p>Great! </p>
+<p>By the way, when using the <code>search()</code> method, you may find the <code>require_all_on</code> argument to be useful in some cases:  <a href="https://intake-esm.readthedocs.io/en/latest/notebooks/tutorial.html#Enhanced-search:-enforce-query-criteria-via-require_all_on-argument" target="_blank" title="https://intake-esm.readthedocs.io/en/latest/notebooks/tutorial.html#Enhanced-search:-enforce-query-criteria-via-require_all_on-argument">https://intake-esm.readthedocs.io/en/latest/notebooks/tutorial.html#Enhanced-search:-enforce-query-criteria-via-require_all_on-argument</a></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,72 @@
+<html>
+<head><meta charset="utf-8"><title>speeding up a script · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/speeding.20up.20a.20script.html">speeding up a script</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="45744"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/speeding%20up%20a%20script/near/45744" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/speeding.20up.20a.20script.html#45744">(Oct 26 2021 at 23:14)</a>:</h4>
+<p>Hi </p>
+<p>I have the following script</p>
+<p>/glade/u/home/lamar/Python/CMIP6_analysis/PM2.5/health_ssp.py that goes through a (very) long list of files (from CMIP6) and computes health impacts from PM2.5.  I don't want to change the main functions GEMM and MORBIDITY,  so the only speed up I can think of would be to parallelize on the files themselves.  Thoughts?</p>
+
+
+
+<a name="45764"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/speeding%20up%20a%20script/near/45764" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/speeding.20up.20a.20script.html#45764">(Oct 27 2021 at 16:43)</a>:</h4>
+<p>Seems like a good candidate for dask. Eliminate the for loop, perhaps write a wrapper function that reads &amp; processes files, then have each dask worker call the function. I'm not sure how to implement this, but am interested in the solution to this problem.</p>
+
+
+
+<a name="45776"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/speeding%20up%20a%20script/near/45776" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/speeding.20up.20a.20script.html#45776">(Oct 27 2021 at 17:42)</a>:</h4>
+<p>A simple implementation could look something like this:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">def</span> <span class="nf">process_one_file</span><span class="p">(</span><span class="n">file_in</span><span class="p">):</span>
+   <span class="c1"># do the analysis here</span>
+
+<span class="n">delayed_objs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+   <span class="n">delayed_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+       <span class="n">dask</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">process_one_file</span><span class="p">)(</span><span class="n">f</span><span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="o">*</span><span class="n">delayed_objs</span><span class="p">)</span>
+</code></pre></div>
+<p>You can also use a decorator:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="nd">@dask</span><span class="o">.</span><span class="n">delayed</span>
+<span class="k">def</span> <span class="nf">process_one_file</span><span class="p">(</span><span class="n">file_in</span><span class="p">):</span>
+   <span class="c1"># do the analysis here</span>
+
+<span class="n">delayed_objs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">:</span>
+   <span class="n">delayed_objs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process_one_file</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="o">*</span><span class="n">delayed_objs</span><span class="p">)</span>
+</code></pre></div>
+<p>A common pitfall, see here:<br>
+<a href="https://docs.dask.org/en/latest/delayed-best-practices.html#avoid-too-many-tasks">https://docs.dask.org/en/latest/delayed-best-practices.html#avoid-too-many-tasks</a></p>
+
+
+
+<a name="46065"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/speeding%20up%20a%20script/near/46065" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/speeding.20up.20a.20script.html#46065">(Nov 01 2021 at 19:12)</a>:</h4>
+<p>This is great.  Do I need to specify multiple MPI tasks when requesting a cluster?</p>
+<p>Update: I tried by setting up the number of CPUs to 8 and MPI tasks to 8.  It seems to work.</p>
+
+
+
+<a name="46066"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/speeding%20up%20a%20script/near/46066" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/speeding.20up.20a.20script.html#46066">(Nov 01 2021 at 19:52)</a>:</h4>
+<p>You may want to configure a dask cluster; you can use <code>ncar_jobqueue</code> to do this:<br>
+<a href="https://github.com/NCAR/ncar-jobqueue">https://github.com/NCAR/ncar-jobqueue</a></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

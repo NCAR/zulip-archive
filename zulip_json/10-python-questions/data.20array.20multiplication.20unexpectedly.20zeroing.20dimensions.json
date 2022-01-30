@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I am running into a problem when multiplying two data arrays. In particular, the multiplication is collapsing one of the variable dimensions. The code is a simple multiplication of two variables that are both </p>\n<p>#sub_gpp: xarray.DataArray (years: 319, month: 12, pft: 64, lat: 192, lon: 288)<br>\n#cropwtsmask: xarray.DataArray (years: 319, pft: 64, lat: 192, lon: 288)</p>\n<p>gridded_wts    = sub_gpp * cropwtsmask</p>\n<p>The 'gridded_wts' variable keeps all the dimensions the same size <em>except</em> the 'pft' dimension:<br>\ngridded_wts: xarray.DataArray (years: 319, month: 12, pft: 0, lat: 192, lon: 288)</p>\n<p>Any idea why this is happening and what I might be doing incorrectly? Help is very much appreciated!</p>",
+        "id": 5884,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1585869277
+    },
+    {
+        "content": "<blockquote>\n<p>I am running into a problem when multiplying two data arrays. In particular, the multiplication is collapsing one of the variable dimensions. The code is a simple multiplication of two variables that are both </p>\n<p>#sub_gpp: xarray.DataArray (years: 319, month: 12, pft: 64, lat: 192, lon: 288)<br>\n#cropwtsmask: xarray.DataArray (years: 319, pft: 64, lat: 192, lon: 288)</p>\n<p>gridded_wts    = sub_gpp * cropwtsmask</p>\n<p>The 'gridded_wts' variable keeps all the dimensions the same size <em>except</em> the 'pft' dimension:<br>\ngridded_wts: xarray.DataArray (years: 319, month: 12, pft: 0, lat: 192, lon: 288)</p>\n<p>Any idea why this is happening and what I might be doing incorrectly? Help is very much appreciated!</p>\n</blockquote>\n<p>Hi Danica, have you checked that your pft dimension has the same values? If you were to multiply to columns with each dimension depth:15, but one of them would have coordinates [1m, 2m, 3m..] and  the other [1.5m, 2.5m, 3.5m] it would not multiply them.</p>",
+        "id": 5887,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1585869701
+    },
+    {
+        "content": "<blockquote>\n<blockquote>\n<p>I am running into a problem when multiplying two data arrays. In particular, the multiplication is collapsing one of the variable dimensions. The code is a simple multiplication of two variables that are both </p>\n<p>#sub_gpp: xarray.DataArray (years: 319, month: 12, pft: 64, lat: 192, lon: 288)<br>\n#cropwtsmask: xarray.DataArray (years: 319, pft: 64, lat: 192, lon: 288)</p>\n<p>gridded_wts    = sub_gpp * cropwtsmask</p>\n<p>The 'gridded_wts' variable keeps all the dimensions the same size <em>except</em> the 'pft' dimension:<br>\ngridded_wts: xarray.DataArray (years: 319, month: 12, pft: 0, lat: 192, lon: 288)</p>\n<p>Any idea why this is happening and what I might be doing incorrectly? Help is very much appreciated!</p>\n</blockquote>\n<p>Hi Danica, have you checked that your pft dimension has the same values? If you were to multiply to columns with each dimension depth:15, but one of them would have coordinates [1m, 2m, 3m..] and  the other [1.5m, 2.5m, 3.5m] it would not multiply them.</p>\n</blockquote>\n<p>Thanks for this tip! I thought the dimensions were identical, but they in fact were not. Setting them equal fixed the problem!</p>",
+        "id": 6406,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1586546485
+    }
+]

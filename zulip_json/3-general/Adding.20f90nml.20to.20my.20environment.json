@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I am trying to add f90nml to my environment using conda but am getting the following error message.  Thoughts?</p>\n<p>[lamar@crhtc45 ~/Python]$ conda install f90nml<br>\nCollecting package metadata (current_repodata.json): done<br>\nSolving environment: failed with initial frozen solve. Retrying with flexible solve.<br>\nCollecting package metadata (repodata.json): done<br>\nSolving environment: failed with initial frozen solve. Retrying with flexible solve.</p>\n<p>PackagesNotFoundError: The following packages are not available from current channels:</p>\n<p>- f90nml</p>\n<p>Current channels:</p>\n<p>- <a href=\"https://repo.anaconda.com/pkgs/main/linux-64\" target=\"_blank\" title=\"https://repo.anaconda.com/pkgs/main/linux-64\">https://repo.anaconda.com/pkgs/main/linux-64</a><br>\n  - <a href=\"https://repo.anaconda.com/pkgs/main/noarch\" target=\"_blank\" title=\"https://repo.anaconda.com/pkgs/main/noarch\">https://repo.anaconda.com/pkgs/main/noarch</a><br>\n  - <a href=\"https://repo.anaconda.com/pkgs/r/linux-64\" target=\"_blank\" title=\"https://repo.anaconda.com/pkgs/r/linux-64\">https://repo.anaconda.com/pkgs/r/linux-64</a><br>\n  - <a href=\"https://repo.anaconda.com/pkgs/r/noarch\" target=\"_blank\" title=\"https://repo.anaconda.com/pkgs/r/noarch\">https://repo.anaconda.com/pkgs/r/noarch</a></p>\n<p>To search for alternate channels that may provide the conda package you're<br>\nlooking for, navigate to</p>\n<div class=\"codehilite\"><pre><span></span>https://anaconda.org\n</pre></div>\n\n\n<p>and use the search bar at the top of the page.</p>",
+        "id": 30989,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1620321231
+    },
+    {
+        "content": "<p>What happens when you add the option <code>-c conda-forge</code>?</p>",
+        "id": 30990,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1620321384
+    },
+    {
+        "content": "<blockquote>\n<p>What happens when you add the option <code>-c conda-forge</code>?</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"72\">@Jean-Francois Lamarque</span>  Running the following should work</p>\n<div class=\"codehilite\"><pre><span></span>conda install -c conda-forge f90nml\n</pre></div>",
+        "id": 30991,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1620322125
+    },
+    {
+        "content": "<p>Works like a charm!! Thank you <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> and <span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span></p>",
+        "id": 30994,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1620322627
+    },
+    {
+        "content": "<p>Yes, that worked for me - see example ~/marsh/python/demo/read_atm_in.ipynb</p>",
+        "id": 30995,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1620323138
+    },
+    {
+        "content": "<p>Path should be</p>\n<p>~marsh/python/demo/read_atm_in.ipynb</p>",
+        "id": 30996,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1620323230
+    }
+]

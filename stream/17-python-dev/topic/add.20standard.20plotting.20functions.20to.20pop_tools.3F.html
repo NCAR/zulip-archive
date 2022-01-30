@@ -1,0 +1,118 @@
+<html>
+<head><meta charset="utf-8"><title>add standard plotting functions to pop_tools? · python-dev · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html">add standard plotting functions to pop_tools?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="6347"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6347" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6347">(Apr 09 2020 at 16:13)</a>:</h4>
+<p>mom6_tools has some nice plotting functionality in m6plot.py. It would be nice if those of us analyzing POP didn't have to individually reinvent the wheel to generate standard plots. How hard would it be to add a version of m6plot.py to pop_tools?</p>
+
+
+
+<a name="6413"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6413" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6413">(Apr 10 2020 at 19:42)</a>:</h4>
+<blockquote>
+<p>mom6_tools has some nice plotting functionality in m6plot.py. It would be nice if those of us analyzing POP didn't have to individually reinvent the wheel to generate standard plots. How hard would it be to add a version of m6plot.py to pop_tools?</p>
+</blockquote>
+<p>Adding a version of m6plot.py into pop_tools would not be hard. However, as shown below, it seems some of the plotting capabilities need to be adjusted to work properly with the gx1v7 grid. I am not sure what's happening here...<br>
+<a href="/user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png"></a></div>
+
+
+
+<a name="6416"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6416" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6416">(Apr 10 2020 at 19:50)</a>:</h4>
+<p>This may need the <code>add_cyclic_point</code> workaround</p>
+
+
+
+<a name="6436"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6436" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6436">(Apr 10 2020 at 20:26)</a>:</h4>
+<p>Yes. The longitude in POP grid are not monotonic and most plotting tools don't like that.  We came up with the a workaround. Matt wrapped it in the following function.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">pop_add_cyclic</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+
+    <span class="n">nj</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">TLAT</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">ni</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">TLONG</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">xL</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ni</span><span class="o">/</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">xR</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">xL</span> <span class="o">+</span> <span class="n">ni</span><span class="p">)</span>
+
+    <span class="n">tlon</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">TLONG</span><span class="o">.</span><span class="n">data</span>
+    <span class="n">tlat</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">TLAT</span><span class="o">.</span><span class="n">data</span>
+
+    <span class="n">tlon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">greater_equal</span><span class="p">(</span><span class="n">tlon</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">tlon</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])),</span> <span class="n">tlon</span><span class="o">-</span><span class="mf">360.</span><span class="p">,</span> <span class="n">tlon</span><span class="p">)</span>
+    <span class="n">lon</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">tlon</span><span class="p">,</span> <span class="n">tlon</span> <span class="o">+</span> <span class="mf">360.</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[:,</span> <span class="n">xL</span><span class="p">:</span><span class="n">xR</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="mi">320</span><span class="p">:</span>
+        <span class="n">lon</span><span class="p">[</span><span class="mi">367</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[</span><span class="mi">367</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">360.</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">lon</span> <span class="o">-</span> <span class="mf">360.</span>
+
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">lon</span><span class="p">,</span> <span class="n">lon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">360.</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">ni</span> <span class="o">==</span> <span class="mi">320</span><span class="p">:</span>
+        <span class="n">lon</span><span class="p">[</span><span class="mi">367</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[</span><span class="mi">367</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mf">360.</span>
+
+    <span class="c1">#-- trick cartopy into doing the right thing:</span>
+    <span class="c1">#   it gets confused when the cyclic coords are identical</span>
+    <span class="n">lon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1e-8</span>
+
+    <span class="c1">#-- periodicity</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">tlat</span><span class="p">,</span> <span class="n">tlat</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">lat</span><span class="p">[:,</span> <span class="n">xL</span><span class="p">:</span><span class="n">xR</span><span class="p">]</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">lat</span><span class="p">,</span> <span class="n">lat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="n">TLAT</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">,</span> <span class="s1">&#39;nlon&#39;</span><span class="p">))</span>
+    <span class="n">TLONG</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">,</span> <span class="s1">&#39;nlon&#39;</span><span class="p">))</span>
+
+    <span class="n">dso</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s1">&#39;TLAT&#39;</span><span class="p">:</span> <span class="n">TLAT</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">:</span> <span class="n">TLONG</span><span class="p">})</span>
+
+    <span class="c1"># copy vars</span>
+    <span class="n">varlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;TLAT&#39;</span><span class="p">,</span> <span class="s1">&#39;TLONG&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">varlist</span><span class="p">:</span>
+        <span class="n">v_dims</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="s1">&#39;nlat&#39;</span> <span class="ow">in</span> <span class="n">v_dims</span> <span class="ow">and</span> <span class="s1">&#39;nlon&#39;</span> <span class="ow">in</span> <span class="n">v_dims</span><span class="p">):</span>
+            <span class="n">dso</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># determine and sort other dimensions</span>
+            <span class="n">other_dims</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">v_dims</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="s1">&#39;nlat&#39;</span><span class="p">,</span> <span class="s1">&#39;nlon&#39;</span><span class="p">}</span>
+            <span class="n">other_dims</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">v_dims</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">other_dims</span><span class="p">])</span>
+            <span class="n">lon_dim</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;nlon&#39;</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">field</span><span class="p">,</span> <span class="n">field</span><span class="p">),</span> <span class="n">lon_dim</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">field</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="n">xL</span><span class="p">:</span><span class="n">xR</span><span class="p">]</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">field</span><span class="p">,</span> <span class="n">field</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]),</span> <span class="n">lon_dim</span><span class="p">)</span>
+            <span class="n">dso</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">other_dims</span><span class="o">+</span><span class="p">(</span><span class="s1">&#39;nlat&#39;</span><span class="p">,</span> <span class="s1">&#39;nlon&#39;</span><span class="p">),</span>
+                                  <span class="n">attrs</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+
+
+    <span class="c1"># copy coords</span>
+    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">da</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">coords</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="s1">&#39;nlat&#39;</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">dims</span> <span class="ow">and</span> <span class="s1">&#39;nlon&#39;</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
+            <span class="n">dso</span> <span class="o">=</span> <span class="n">dso</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">da</span><span class="p">})</span>
+
+
+    <span class="k">return</span> <span class="n">dso</span>
+</pre></div>
+
+
+
+<a name="6437"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6437" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6437">(Apr 10 2020 at 20:30)</a>:</h4>
+<p>That should go into pop_tools if it is not already there.</p>
+
+
+
+<a name="6723"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6723" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6723">(Apr 16 2020 at 20:03)</a>:</h4>
+<p>On a related note, Ben Johnson (who will join soon), apparently has a plotting function that handles the tripole seam. cc <span class="user-mention" data-user-id="26">@Dan Amrhein</span></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

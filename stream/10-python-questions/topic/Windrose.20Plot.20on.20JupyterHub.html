@@ -1,0 +1,56 @@
+<html>
+<head><meta charset="utf-8"><title>Windrose Plot on JupyterHub · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Windrose.20Plot.20on.20JupyterHub.html">Windrose Plot on JupyterHub</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="48565"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Windrose%20Plot%20on%20JupyterHub/near/48565" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Windrose.20Plot.20on.20JupyterHub.html#48565">(Dec 29 2021 at 22:42)</a>:</h4>
+<p>Hey everyone!</p>
+<p>I was curious if anyone is familiar with plotting data using a windrose on the Glade JupyterHub? This is my first time trying to plot a windrose and the only function that I have seen used in examples is from the "windrose" library (<a href="https://windrose.readthedocs.io/en/latest/index.html">https://windrose.readthedocs.io/en/latest/index.html</a>), but when I try importing this library in Jupyter it seems to not recognize it. I have tried to download this library on JupyterHub as well although it seems that did not do the trick either, so I figured I'd hop on here and see if anyone has run into this before and knows how to make "windrose" work or if there is a better way to plot a windrose on JupyterHub?</p>
+<p>Best,<br>
+Brendan</p>
+
+
+
+<a name="48631"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Windrose%20Plot%20on%20JupyterHub/near/48631" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Windrose.20Plot.20on.20JupyterHub.html#48631">(Jan 03 2022 at 23:50)</a>:</h4>
+<p>This will depend on what kernel you're using on JupyterHub and if the library has been installed. The default slim Python kernel doens't have this library, but the NPL might (I haven't looked). Alternatively, you could create your own environment via <code>conda</code> or tool of choice.</p>
+
+
+
+<a name="48709"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Windrose%20Plot%20on%20JupyterHub/near/48709" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Windrose.20Plot.20on.20JupyterHub.html#48709">(Jan 05 2022 at 18:12)</a>:</h4>
+<p>Thanks for all the tips Jared! That makes sense, I've been using the CMIP6 kernel and just checked the NPL kernel and none of the kernels I've tried seem to have "windrose" installed... Any tips and tricks on creating my own kernel in JupyterHub or any resources that you know of that I can use to figure it out?</p>
+
+
+
+<a name="48824"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Windrose%20Plot%20on%20JupyterHub/near/48824" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Windrose.20Plot.20on.20JupyterHub.html#48824">(Jan 07 2022 at 03:19)</a>:</h4>
+<p><span class="user-mention" data-user-id="193">@Brendan Myers</span>  Here are my steps to clone a NPL conda environment and install windrose into it (I'm a bash user):</p>
+<div class="codehilite"><pre><span></span><code>ml conda
+. $(dirname $(which conda))/../etc/profile.d/conda.sh
+conda env list
+conda env create -n my-npl --clone npl-2201
+conda create -n my-npl --clone npl-2201
+conda activate my-npl
+conda search -c conda-forge windrose
+conda install -c conda-forge windrose
+python -c &#39;import windrose&#39;
+</code></pre></div>
+
+
+
+<a name="49279"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Windrose%20Plot%20on%20JupyterHub/near/49279" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Windrose.20Plot.20on.20JupyterHub.html#49279">(Jan 13 2022 at 22:42)</a>:</h4>
+<p>Wow great! That worked! Sorry for the slow response but thank you so much for the help, I really appreciate it!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

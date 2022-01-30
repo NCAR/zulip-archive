@@ -1,0 +1,140 @@
+[
+    {
+        "content": "<p>Hi All,</p>\n<p>The GeoCAT team, with the help of some terrific summer interns, has been hard at work to expand the GeoCAT plotting gallery with documented examples that demonstrate how to plot geosciences data with Python, using Python packages such as Xarray, MatPlotLib, and Cartopy. We encourage you to check out the current gallery offerings:</p>\n<p><a href=\"https://geocat-examples.readthedocs.io/en/latest/\" target=\"_blank\" title=\"https://geocat-examples.readthedocs.io/en/latest/\">https://geocat-examples.readthedocs.io/en/latest/</a></p>\n<p>and would welcome suggestions for new plots. Most of the current plots are based on NCL examples, but ideas for novel plots are also encouraged.</p>\n<p>The GeoCAT Team</p>",
+        "id": 12598,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1593044578
+    },
+    {
+        "content": "<p>Do you have any that plot CAM-SE data?</p>",
+        "id": 12667,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1593101860
+    },
+    {
+        "content": "<p>Excellent question. Unfortunately the answer is no. Obviously CAM-SE data needs to be a priority for GeoCAT. We'd love to hear from anyone who has had experience plotting CAM-SE data using the Python ecosystem.</p>",
+        "id": 13075,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1593186809
+    },
+    {
+        "content": "<p>What about GeoCAT examples for lat-lon contour plots of POP output that demonstrate how to deal with 2D curvilinear, non-monotonic mesh coordinates?</p>",
+        "id": 21748,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1605740548
+    },
+    {
+        "content": "<p>Not GeoCat, but this gist shows an approach to plotting contour plots on the POP grid:<br>\n<a href=\"https://gist.github.com/matt-long/50433da346da8ac17cde926eec90a87c\" target=\"_blank\" title=\"https://gist.github.com/matt-long/50433da346da8ac17cde926eec90a87c\">https://gist.github.com/matt-long/50433da346da8ac17cde926eec90a87c</a></p>",
+        "id": 21749,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1605740661
+    },
+    {
+        "content": "<p>Just following up to see if there is any progress on plotting CAM-SE data with GeoCAT tools?  (Or other python tools)</p>",
+        "id": 23307,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1608571732
+    },
+    {
+        "content": "<p>There is a draft PR for an example that uses stock MatPlotLib to produce plots for both CAM-SE and MPAS-A grids here: <a href=\"https://github.com/NCAR/GeoCAT-examples/pull/264\" target=\"_blank\" title=\"https://github.com/NCAR/GeoCAT-examples/pull/264\">https://github.com/NCAR/GeoCAT-examples/pull/264</a>. <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> may be able to comment about plans to clean this up and include it in the repo. However, it may still be useful to you in draft form. Note, the current example does not make use of a CAM-SE grid file, and simply uses Delaunay triangulation to triangulate the data. Obviously, it would be better to use the original grid if you have it. The MPAS examples included in this PR use the MPAS grid and might be a helpful reference. </p>\n<p>Coincidentally, we're exploring submitting an Earth Cube proposal aimed at improving the tool landscape for visualizing/analyzing unstructured dat a from geoscience climate and weather models. Perhaps we should talk.</p>",
+        "id": 23347,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1608598135
+    },
+    {
+        "content": "<p>Thanks - I'll take a look.  It sounds similar to what I have tried (the Delaunay triangulation), and I think I may want to use the grid like MPAS, so that may be helpful! Yes let's talk about your proposal - you may be interested in out ldcpy tool: <a href=\"https://github.com/NCAR/ldcpy\" target=\"_blank\" title=\"https://github.com/NCAR/ldcpy\">https://github.com/NCAR/ldcpy</a></p>",
+        "id": 23366,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1608669571
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> our draft PR is yet to be finalized to merge into our repo, but MPAS grid with its current version may be of some use for you. We are turning our attention more to the unstructured grids recently, and as John mentioned, we are in the middle of a proposal plan. So, let us talk some time, probably in the new year (Though I am in office on December  28th and 29th)?</p>\n<p>Btw, I skimmed through your ldcpy tutorial notebooks, and there seems to be a lot of useful metrics that we can utilize. I will have a deeper look. Thanks for sharing!</p>",
+        "id": 23408,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1608838257
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> , I'm curious if there's been any progress on plotting unstructured CAM-SE data using GeoCAT? I recently posted a question on this topic pointing to this example notebook: /glade/u/home/yeager/analysis/python/Robinson.ipynb<br>\nThis showcases problems encountered using matplotlib+cartopy for generating fast CAM-SE map plots.</p>",
+        "id": 39438,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628553340
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> there is good news that we were awarded the Project Raijin, which will be our data analysis and visualization efforts on unstructured grids. It is expected to start around mid-October; I will keep you posted on that.</p>\n<p>Other than that, honestly, we couldn't further our existing draft PR work in our gallery. That's because, as we mentioned previously in this topic, the capabilities and performance of existing Python packages (matplotlib + cartopy) are limited, and we aimed increasing our efforts with Project Raijin.</p>\n<p>I will be sure to look into your notebook (/glade/u/home/yeager/analysis/python/Robinson.ipynb); however, I couldn't recall it was mentioned. Could you please remind me if there were specific points of yours on that?</p>",
+        "id": 39468,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1628609845
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span>  I started a new thread under python-questions (\"Robinson plot of CAM ne120\") before finding this discussion. The notebook is mentioned in the new thread and simply showcases different problems encountered when using matplotlib+cartopy to plot CAM-SE data (different projections generate different problems).</p>",
+        "id": 39477,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628613252
+    },
+    {
+        "content": "<p>Ok, I thought it was our \"GeoCAT plotting gallery\" topic. I will check your topic, your work, and the notebook.</p>",
+        "id": 39482,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1628614472
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> have you tried using the CAM-SE grid file to explicitly triangulate your data? I would suspect that the Delaunay triangulation is struggling with degenerate triangles that occur under different projections. </p>\n<p>Re \"fast\" plotting: for higher resolution grids I'd suggest looking at Datashader rather than Matplotlib. The former was designed for performance with larger data sets, the latter was most definitely not. The GeoCAT team should have a Datashader example with 3.75km global MPAS data soon, at least in the form of a PR.</p>",
+        "id": 39742,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1628818051
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> I personally have not made any progress on this, but am still interested.  I will take a look at the example notebook.</p>",
+        "id": 39766,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1628873551
+    },
+    {
+        "content": "<p>I plotted up an example of using that dataset using holoviews + datashader... would it be okay to post this as an example on an ESDS blog post? I will be sure to give proper credit for the dataset!</p>",
+        "id": 39767,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628873729
+    },
+    {
+        "content": "<p>Here is a screenshot from the notebook, using geoviews + datashader <a href=\"/user_uploads/2/ea/2ir6dUaypPqeYehg2eXBKRvj/Screen-Shot-2021-08-13-at-11.50.55-AM.png\">Screen-Shot-2021-08-13-at-11.50.55-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/ea/2ir6dUaypPqeYehg2eXBKRvj/Screen-Shot-2021-08-13-at-11.50.55-AM.png\" title=\"Screen-Shot-2021-08-13-at-11.50.55-AM.png\"><img src=\"/user_uploads/2/ea/2ir6dUaypPqeYehg2eXBKRvj/Screen-Shot-2021-08-13-at-11.50.55-AM.png\"></a></div>",
+        "id": 39775,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628877105
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> do you have a good test file to use? Otherwise <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> is it okay if I use this one?</p>",
+        "id": 39777,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628877485
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>  This looks great, thanks!  No problem using the dataset I was using--it's just an anonymous TREFHT field.</p>",
+        "id": 39798,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628884947
+    },
+    {
+        "content": "<p>Here is the <a href=\"https://nbviewer.jupyter.org/github/NCAR/esds/blob/c0866eec7ad617a0fd2808f7940b49717157cdd7/posts/cesm-datashader.ipynb\">example notebook</a> with some added documentation... any feedback would be greatly appreciated! I can chat with the GeoCAT team about getting this example into the gallery...</p>",
+        "id": 39799,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628885094
+    },
+    {
+        "content": "<p>I might suggest you add %%time to the key cells doing the heavy lifting, like the call to triangulate.</p>",
+        "id": 39802,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1628885815
+    },
+    {
+        "content": "<p>Oh good point - yeah I can add that there and in the actual plotting cell.</p>",
+        "id": 39803,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628885838
+    },
+    {
+        "content": "<p>Here is the blog post! Thanks <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>  and the GeoCAT team for the inspiration and data <a href=\"https://ncar.github.io/esds/posts/cesm-datashader/\">https://ncar.github.io/esds/posts/cesm-datashader/</a></p>",
+        "id": 39816,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1628891591
+    }
+]

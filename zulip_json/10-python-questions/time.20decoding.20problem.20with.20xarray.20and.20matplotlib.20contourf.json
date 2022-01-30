@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I am running into a problem trying to plot a Hovmoller diagram of data  form a Tropical Pacific mooring using contourf.  Looking for suggestions for a work around. A simplifed version of the code follows:</p>\n<div class=\"codehilite\"><pre><span></span>ds_tao = xr.open_dataset(&#39;/glade/work/bryan/Observations/TAO/adcp0n140w_dy.cdf&#39;)\nu = ds_tao.u_1205.squeeze().transpose()\nu = u.where(u&lt;1.0e35) # missing value=1.0e35\n\n# This works fine and correctly decodes the dates\nu.plot(robust=True).\n\n# This creates a plot but does not decode the dates\nulev = np.arange(-100.,100.,5.0)\nfig,ax = plt.subplots()\ncf = ax.contourf(u,levels=np.arange(-100.,100.,5.0))\n\n# This fails\nfig,ax = plt.subplots()\ncf = ax.contour(ds_tao.time,ds_tao.depth,u,levels=ulev)\n</pre></div>\n\n\n<p>The final part of the traceback is</p>\n<div class=\"codehilite\"><pre><span></span>/glade/work/bryan/miniconda3/envs/analysis/lib/python3.7/site-packages/matplotlib/dates.py in _from_ordinalf(x, tz)\n    286                          &#39;non-datetime values are passed to an axis that &#39;\n    287                          &#39;expects datetime objects.&#39;.format(ix))\n--&gt; 288     dt = datetime.datetime.fromordinal(ix).replace(tzinfo=UTC)\n    289\n    290     # Since the input date *x* float is unable to preserve microsecond\n\nOverflowError: signed integer is greater than maximum\n</pre></div>",
+        "id": 6731,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1587076017
+    },
+    {
+        "content": "<p>Try:</p>\n<div class=\"codehilite\"><pre><span></span> cf = ax.contour(ds_tao.time.values,ds_tao.depth,u,levels=ulev)\n</pre></div>",
+        "id": 6734,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1587080782
+    },
+    {
+        "content": "<p>Worked! Thanks Gustavo.</p>",
+        "id": 6735,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1587082014
+    },
+    {
+        "content": "<p>Great!! That is way easier than my workaround.</p>",
+        "id": 6736,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1587082231
+    },
+    {
+        "content": "<p>Alternatively <code>ds_tao.u.plot.contourf(x=\"time\", y=\"depth\", levels=ulev)</code>?</p>",
+        "id": 6740,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1587140823
+    },
+    {
+        "content": "<p>Also works. Thanks Deepak.</p>",
+        "id": 6748,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1587150585
+    }
+]

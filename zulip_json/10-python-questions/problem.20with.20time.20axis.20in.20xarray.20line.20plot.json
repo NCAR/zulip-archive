@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Hi,<br>\nWhen I run the following code in a notebook, the horizontal <code>time</code> axis in the generated plot runs from 0 to ~4, instead of from 1 to 4 like the <code>time</code> values do. Any idea what's going wrong?</p>\n<div class=\"codehilite\"><pre><span></span>import cftime\nimport xarray as xr\n\ntime_vals = [cftime.DatetimeNoLeap(1+year, 1+month, 15)\n             for year in range(3) for month in range(12)]\n\nx_vals = [time_val.year + time_val.dayofyr / 365.0\n          for time_val in time_vals]\n\nx_da = xr.DataArray(x_vals, coords=[time_vals], dims=[&quot;time&quot;])\n\nx_da.plot();\n</pre></div>\n\n\n<p><a href=\"/user_uploads/2/e5/bkVjKn7WYYD-4wyhZGmytYL4/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/e5/bkVjKn7WYYD-4wyhZGmytYL4/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/e5/bkVjKn7WYYD-4wyhZGmytYL4/pasted_image.png\"></a></div>",
+        "id": 16438,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1598917389
+    },
+    {
+        "content": "<p>FYI, I've filed an issue with xarray regarding this at<br>\n<a href=\"https://github.com/pydata/xarray/issues/4401\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/4401\">https://github.com/pydata/xarray/issues/4401</a></p>",
+        "id": 16685,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1599080147
+    },
+    {
+        "content": "<p><span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span>, this appears to be a bug somewhere in xarray--&gt;nc-time-axis--&gt;matplotlib.</p>",
+        "id": 16687,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1599080202
+    }
+]

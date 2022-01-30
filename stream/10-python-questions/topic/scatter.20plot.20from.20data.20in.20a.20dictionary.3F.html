@@ -1,0 +1,151 @@
+<html>
+<head><meta charset="utf-8"><title>scatter plot from data in a dictionary? · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html">scatter plot from data in a dictionary?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="23942"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/23942" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#23942">(Jan 14 2021 at 21:00)</a>:</h4>
+<p>Does anyone have experience creating a scatter plot using data in a dictionary? </p>
+<p>I've tried plotting variables from two separate dictionaries (with the same keys and number of values), and plotting two different values from within a single dictionary (each key has an x and a y value) but can't seem to figure out how to create a plot. If anyone has ideas or an example, I'd really appreciate it!</p>
+
+
+
+<a name="23943"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/23943" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#23943">(Jan 14 2021 at 21:26)</a>:</h4>
+<p>Hi Danica, I think I know how to do that in either case, but I do end up having to use the keys() and values() methods on the dictionary. </p>
+<p>If you have one dictionary with keys being the x-points and values being the y-points, then you could just do something like</p>
+<div class="codehilite"><pre><span></span>plt.scatter(your_dict.keys(), your_dict.values())
+</pre></div>
+
+
+<p>(As long as both keys and values are numeric types.)</p>
+<p>In the case where you might have two dicts that have the same keys and different values, here's an example:</p>
+<div class="codehilite"><pre><span></span>import numpy as np
+import matplotlib.pyplot as plt
+
+keyvals = np.array([1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30, 20, 10, 7, 5, 3, 2, 1])
+dict1 = {k: np.random.randn() for k in keyvals}
+dict2 = {k: np.random.randn() for k in keyvals}
+
+fig, ax = plt.subplots()
+ax.scatter(dict1.values(), dict2.values())
+ax.set_xlabel(&quot;DICT1&quot;)
+ax.set_ylabel(&quot;DICT2&quot;)
+</pre></div>
+
+
+<p>In this case the keys are numbers, but they didn't need to be, they could well have been strings. </p>
+<p>Does this help? Maybe I didn't understand your question.</p>
+
+
+
+<a name="23944"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/23944" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#23944">(Jan 14 2021 at 21:33)</a>:</h4>
+<p>Oh, in case each key in the dictionary has values that are a sequence, you could loop through to get the ones you want like this, where each key points to a list of values, and then I plot the 6th value of the lists from each dictionary's matching key against each other.</p>
+<div class="codehilite"><pre><span></span>keyvals = np.array([1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30, 20, 10, 7, 5, 3, 2, 1])
+dict1 = {k: np.random.randn(10) for k in keyvals}
+dict2 = {k: np.random.randn(10) for k in keyvals}
+
+special_index = 5
+fig, ax = plt.subplots()
+for k in dict1.keys():
+    ax.plot(dict1[k][special_index], dict2[k][special_index], marker=&#39;o&#39;)
+ax.set_xlabel(&quot;DICT1&quot;)
+ax.set_ylabel(&quot;DICT2&quot;)
+</pre></div>
+
+
+
+<a name="23945"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/23945" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#23945">(Jan 14 2021 at 21:51)</a>:</h4>
+<p>Thanks so much <span class="user-mention" data-user-id="61">@Brian Medeiros</span> ! This was super helpful, and I was able to make the plot I wanted! <br>
+<a href="/user_uploads/2/71/LHAdhVewcGnWp9XM0fBbCmbf/Screen-Shot-2021-01-14-at-2.49.39-PM.png" target="_blank" title="Screen-Shot-2021-01-14-at-2.49.39-PM.png">scatter.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/71/LHAdhVewcGnWp9XM0fBbCmbf/Screen-Shot-2021-01-14-at-2.49.39-PM.png" target="_blank" title="scatter.png"><img src="/user_uploads/2/71/LHAdhVewcGnWp9XM0fBbCmbf/Screen-Shot-2021-01-14-at-2.49.39-PM.png"></a></div>
+
+
+
+<a name="31067"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/31067" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#31067">(May 10 2021 at 16:41)</a>:</h4>
+<p>Is there a straightforward way to change the sequence colors in a scatter plot like this example? I've unsuccessfully tried several different methods. The below code plots the figure with default colors</p>
+<div class="codehilite"><pre><span></span>fig, ax = plt.subplots()
+for k in nbp_mean.keys():
+    ax.plot(nbp_mean[k], pct_diff[k], marker=&#39;o&#39;)
+    ax.errorbar(nbp_mean[k], pct_diff[k], xerr=nbp_std[k], linestyle=&quot;None&quot;, color=&#39;lightgray&#39;, linewidth=2)
+ax.set_ylabel(&quot;Change [%]&quot;)
+ax.set_xlabel(&quot;2010-2015 Mean [ppm]&quot;)
+</pre></div>
+
+
+<p>I'd like to change the colors so that I can set the observation (last data point) to black. I've  made several attempts to manually change point colors through changing code in the <code>ax.plot</code> line, with error messages each time. Examples of the changes to this line (and various attempts at coding RBG values correctly) include:</p>
+<div class="codehilite"><pre><span></span>colors=[&#39;slateblue&#39;,&#39;seagreen&#39;,&#39;peru&#39;,&#39;indianred&#39;,&#39;black&#39;]
+colors_RBG={&#39;106-90-205&#39;, &#39;46-139-87&#39;, &#39;205-133-63&#39;, &#39;205-92-92&#39;, &#39;0-0-0&#39;}
+#colors_RBG={&#39;10690205&#39;, &#39;4613987&#39;, &#39;20513363&#39;, &#39;2059292&#39;, &#39;000&#39;}
+#colors_RBG=[(106,90,205),(46,139,87),(205,133,63), (205,92,92), (0,0,0)]
+
+ax.plot(nbp_mean[k], pct_diff[k], marker=&#39;o&#39;, color=colors)
+ax.plot(nbp_mean[k], pct_diff[k], marker=&#39;o&#39;, color=colors[k])
+ax.plot(nbp_mean[k], pct_diff[k], marker=&#39;o&#39;, color=colors_RBG)
+ax.plot(nbp_mean[k], pct_diff[k], marker=&#39;o&#39;, color=colors_RBG[k])
+</pre></div>
+
+
+<p>I can change so that all points have the same color (color='black'), but I want each point to be a different color. Each of the above lines results in an error (<code>RGBA sequence should have length 3 or 4</code>; <code>list indices must be integers or slices, not str</code>; <code>'set' object is not subscriptable</code>).</p>
+<p>How can I change the sequence of colors so that I can specify the color for each point?</p>
+
+
+
+<a name="31074"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/31074" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#31074">(May 10 2021 at 16:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> , I take it that <code>nbp_mean[k]</code> is a vector?</p>
+<p>Does this help?</p>
+<div class="codehilite"><pre><span></span><span class="c1"># generate pseudo data</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># get default color sequence</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.prop_cycle&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">by_key</span><span class="p">()[</span><span class="s1">&#39;color&#39;</span><span class="p">]</span>
+
+<span class="c1"># loop over data and plot each point</span>
+<span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="31089"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/31089" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#31089">(May 10 2021 at 17:33)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span> . <code>npb_mean</code> and <code>pct_diff</code> are dictionaries. In the example you share, I don't quite understand how to include the colors in the <code>for</code> loop while looping over the dictionary.</p>
+
+
+
+<a name="31090"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/31090" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#31090">(May 10 2021 at 17:34)</a>:</h4>
+<p>is this what you are looking for?</p>
+<div class="codehilite"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">nbp_mean</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">pct_diff</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="31091"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/31091" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#31091">(May 10 2021 at 17:36)</a>:</h4>
+<p>I think the confusion is arising because <code>colors</code> is not a dictionary, but it probably should be.... It's at least being treated like a dictionary <code>ax.plot(nbp_mean[k], pct_diff[k], marker='o', color=colors[k])</code></p>
+<p>Also <code>colors_RGB</code> is a set which looks like a typo <code>{}</code> instead of <code>[]</code>.</p>
+
+
+
+<a name="31094"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/scatter%20plot%20from%20data%20in%20a%20dictionary%3F/near/31094" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/scatter.20plot.20from.20data.20in.20a.20dictionary.3F.html#31094">(May 10 2021 at 17:51)</a>:</h4>
+<p>Thanks! Changing <code>colors</code> to a dictionary did the trick!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

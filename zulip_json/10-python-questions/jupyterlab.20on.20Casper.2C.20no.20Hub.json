@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>JupyterHub is down, but Casper is up.  As a reminder, here are the steps to start a JLab session with SSH tunnels, presuming you have a conda environment setup.</p>\n<p>1. ssh into casper</p>\n<div class=\"codehilite\"><pre><span></span>ssh -Y USERNAME@casper.ucar.edu\n</pre></div>\n\n\n<p>2. On casper, do this:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"nb\">source</span> activate base\njupyter lab --no-browser --ip<span class=\"o\">=</span><span class=\"k\">$(</span>hostname<span class=\"k\">)</span>\n</pre></div>\n\n\n<p>3. On local machine (replace \"casper01\" with which ever host you are on)</p>\n<div class=\"codehilite\"><pre><span></span>ssh -N -L <span class=\"m\">8888</span>:localhost:8888 casper01.ucar.edu\n</pre></div>\n\n\n<p>4. Navigate to <code>http://localhost:8888</code> in your local browser.</p>",
+        "id": 1853,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1582651096
+    },
+    {
+        "content": "<p>Reminder: It's likely that there will be more than one Jupyter Lab session on any given casper login node. So, to avoid port collision during Jupyter lab launch, you may end up getting another port other than <code>8888</code>.  Replace the <code>8888</code> with the assigned port: <code>ssh -N -L ASSIGNED_PORT:localhost:8888 casper01.ucar.edu</code></p>",
+        "id": 1856,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1582651461
+    },
+    {
+        "content": "<p><strong>Revision</strong><br>\n3. On local machine (replace \"casper01\" with which ever host you are on)</p>\n<div class=\"codehilite\"><pre><span></span>ssh -N -L <span class=\"m\">8888</span>:casper01:8888 casper01.ucar.edu\n</pre></div>",
+        "id": 1895,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1582662497
+    }
+]

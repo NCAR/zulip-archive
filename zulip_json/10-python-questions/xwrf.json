@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>Hi, I'm having issues with the xwrf example. I have tried to recreate it verbatim with my own conda environment and there seems to be an xarray backend problem - way beyond my expertise. I update xarray in my env. but it didn't help.Here's the error message after 'wrf_ds = xr.open_dataset(files[0])' in the example on <a href=\"https://ncar.github.io/esds/posts/2021/xarray-wrf-example/\">https://ncar.github.io/esds/posts/2021/xarray-wrf-example/</a></p>\n<p>ValueError                                Traceback (most recent call last)<br>\n/glade/scratch/rneale/ipykernel_116200/1424271191.py in &lt;module&gt;<br>\n      1 print(files[0])<br>\n----&gt; 2 wrf_ds = xr.open_dataset(files[0])<br>\n      3 print(wrf_ds)</p>\n<p>/glade/work/rneale/python/miniconda3/envs/neale_wrf/lib/python3.9/site-packages/xarray/backends/api.py in open_dataset(filename_or_obj, engine, chunks, cache, decode_cf, mask_and_scale, decode_times, decode_timedelta, use_cftime, concat_characters, decode_coords, drop_variables, backend_kwargs, *args, **kwargs)<br>\n    477 <br>\n    478     if engine is None:<br>\n--&gt; 479         engine = plugins.guess_engine(filename_or_obj)<br>\n    480 <br>\n    481     backend = plugins.get_backend(engine)</p>\n<p>/glade/work/rneale/python/miniconda3/envs/neale_wrf/lib/python3.9/site-packages/xarray/backends/plugins.py in guess_engine(store_spec)<br>\n    154         )<br>\n    155 <br>\n--&gt; 156     raise ValueError(error_msg)<br>\n    157 <br>\n    158 </p>\n<p>ValueError: found the following matches with the input file in xarray's IO backends: ['netcdf4', 'h5netcdf']. But their dependencies may not be installed, see:<br>\n<a href=\"http://xarray.pydata.org/en/stable/user-guide/io.html\">http://xarray.pydata.org/en/stable/user-guide/io.html</a> <br>\n<a href=\"http://xarray.pydata.org/en/stable/getting-started-guide/installing.html\">http://xarray.pydata.org/en/stable/getting-started-guide/installing.html</a></p>",
+        "id": 46421,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1636148606
+    },
+    {
+        "content": "<p>Sorry there was a regression in the most recent xarray release. I've pushed a bugfix release but it hasn't reached conda-forge yet. IDowngrading to <code>xarray=0.19.0</code> should work.</p>",
+        "id": 46422,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1636148673
+    },
+    {
+        "content": "<p>Sweet that worked. Thanks Deepak!</p>",
+        "id": 46512,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1636407992
+    },
+    {
+        "content": "<p>I another question on xwrf. Can I control the range of the colorbar/contouring as arguments to the hvplot.quadmesh widget, because the range jumps around with each frame, which is not that useful. I couldn't find anything about counting range arguments. Thanks!</p>",
+        "id": 47345,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1637420656
+    },
+    {
+        "content": "<p>I think its <code>cmin</code> and <code>cmax</code> to control range.</p>",
+        "id": 47346,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1637426841
+    },
+    {
+        "content": "<p>You can pass ‘clim = (min, max)’ into the arguements</p>",
+        "id": 47347,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1637533726
+    },
+    {
+        "content": "<p>Thanks. Literally 10 seconds after I posted, I saw it used in an example!</p>",
+        "id": 47381,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1637626443
+    }
+]

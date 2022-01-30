@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>Hi all, I'm struggling with this: I'd like to put a legend on my plot that is not see through. I tried facecolor white, frameaalpha=1, whichever I do the legend it still see through. I also tried to put a white patch where the legend is and put the legend on top, but I can't make it go over the patch. =/ anyone knows how to make it so that my legend sits in a nice white box on top / covering that part of the figure?</p>",
+        "id": 31140,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1620689692
+    },
+    {
+        "content": "<p><code>facealpha</code> or <code>alpha</code>?</p>",
+        "id": 31141,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620689785
+    },
+    {
+        "content": "<p>nope, facealpha doesn't exist, alpha is an unexpected keyword</p>",
+        "id": 31142,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1620697555
+    },
+    {
+        "content": "<p>Try <code>plt.legend(facecolor='white', framealpha=1)</code>, from <a href=\"https://stackoverflow.com/questions/19863368/matplotlib-legend-background-color\" target=\"_blank\" title=\"https://stackoverflow.com/questions/19863368/matplotlib-legend-background-color\">https://stackoverflow.com/questions/19863368/matplotlib-legend-background-color</a></p>",
+        "id": 31144,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1620709871
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a>  doesn't work for me, the same with plt. doesn't work either</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png\"></a></div>",
+        "id": 31146,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1620741934
+    },
+    {
+        "content": "<p>Try this</p>\n<div class=\"codehilite\"><pre><span></span>legend = plt.legend(loc=&#39;upper left&#39;, frameon=1, framealpha=1)\nframe = legend.get_frame()\nframe.set_color(&#39;white&#39;)\n</pre></div>",
+        "id": 31147,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1620742494
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , that works. I think the key here is that I have two axes, so I have to gather my labels and use <code>plt.legend()</code> rather than <code>ax.legend()</code>. <a href=\"/user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png\"></a></div>",
+        "id": 31148,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1620743671
+    },
+    {
+        "content": "<p>Awesome- I will add this onto the FAQ page. Thanks for bringing up this question - I am sure plenty of other people have had similar struggles with the nuances of matplotlib!</p>",
+        "id": 31150,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1620743778
+    },
+    {
+        "content": "<blockquote>\n<p><a href=\"/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a>  doesn't work for me, the same with plt. doesn't work either</p>\n</blockquote>\n<p>ah I see what's happening, the second axis is on top of the first axis (which has the legend), so those colored bars are on top of the legend. if you change the <code>zorder</code> for the second axis, it should work the easy way. I bet Max's solution is adding the legend on the second axis, so it works. I also bet the <code>get_frame</code> workaround isn't doing anything.</p>",
+        "id": 31181,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620749614
+    },
+    {
+        "content": "<p>correct, it works with the commented line as well (though that way it has a frame around the legend that I didn't like). How do I change <code>zorder</code></p>",
+        "id": 31183,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1620749662
+    },
+    {
+        "content": "<p><code>ax.set_zorder(-1)</code>? There's some subtlety here. If the background for the first axis is not transparent, you wouldn't see it. I would just add the legend after doing the <code>fill_*</code> call (which is what <code>plt.legend</code> is doing)</p>",
+        "id": 31184,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620749808
+    }
+]

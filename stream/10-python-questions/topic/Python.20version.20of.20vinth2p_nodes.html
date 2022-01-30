@@ -1,0 +1,471 @@
+<html>
+<head><meta charset="utf-8"><title>Python version of vinth2p_nodes · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html">Python version of vinth2p_nodes</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="10479"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10479" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sheri Mickelson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10479">(Jun 04 2020 at 15:37)</a>:</h4>
+<p>Does anyone know if there's a Python function similar to the vinth2p_nodes function in NCL?  This function interpolates CESM hybrid coordinates to pressure coordinates on an unstructured grid.</p>
+
+
+
+<a name="10490"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10490" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10490">(Jun 04 2020 at 16:24)</a>:</h4>
+<p><span class="user-mention" data-user-id="37">@Sheri Mickelson</span>, I wrote some functions that do this sort of thing...but are not packaged up nicely...nor are they fully tested or as flexible as I would like. </p>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span>, I think this is a high-priority capability.</p>
+<div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">remap_vertical_coord</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">da_new_levels</span><span class="p">,</span> <span class="n">da_coord_field</span><span class="p">,</span> <span class="n">levdim</span><span class="o">=</span><span class="s1">&#39;lev&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span>
+                         <span class="n">include_coord_field</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Interpolate to new vertical coordinate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ds :  xarray Dataset</span>
+<span class="sd">        xarray dataset with data to be remapped</span>
+<span class="sd">    da_new_levels : xarray DataArray</span>
+<span class="sd">        The levels upon which to remap</span>
+<span class="sd">    da_coord_field : xarray DataArray</span>
+<span class="sd">        4d da_coord_field field</span>
+<span class="sd">    levdim : str, optional</span>
+<span class="sd">        The name of the &quot;level&quot; dimension</span>
+<span class="sd">    method : str</span>
+<span class="sd">        log or linear</span>
+<span class="sd">    include_coord_field : boolean</span>
+<span class="sd">        Remap the coordinate field itself</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dso : xr.Dataset</span>
+<span class="sd">        Interpolated dataset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;linear&#39;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">metpy.interpolate</span> <span class="kn">import</span> <span class="n">interpolate_1d</span>
+        <span class="n">interpolate</span> <span class="o">=</span> <span class="n">interpolate_1d</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;log&#39;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">metpy.interpolate</span> <span class="kn">import</span> <span class="n">log_interpolate_1d</span>
+        <span class="n">interpolate</span> <span class="o">=</span> <span class="n">log_interpolate_1d</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unknown option for interpolation: </span><span class="si">{method}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">da_coord_field</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">da_coord_field</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">da_coord_field</span><span class="p">]</span>
+
+    <span class="c1"># determine output dims</span>
+    <span class="n">dims_in</span> <span class="o">=</span> <span class="n">da_coord_field</span><span class="o">.</span><span class="n">dims</span>
+    <span class="n">interp_axis</span> <span class="o">=</span> <span class="n">dims_in</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">levdim</span><span class="p">)</span>
+    <span class="n">dims_out</span> <span class="o">=</span> <span class="n">dims_in</span><span class="p">[:</span><span class="n">interp_axis</span><span class="p">]</span> <span class="o">+</span> <span class="n">da_new_levels</span><span class="o">.</span><span class="n">dims</span> <span class="o">+</span> <span class="n">dims_in</span><span class="p">[</span><span class="n">interp_axis</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">len_interp_dim</span> <span class="o">=</span> <span class="n">da_coord_field</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">interp_axis</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">len_interp_dim</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">da_new_levels</span><span class="p">),</span> <span class="p">(</span>
+        <span class="sa">f</span><span class="s1">&#39;new_levels must be the same length as the </span><span class="si">{levdim}</span><span class="s1"> &#39;</span>
+        <span class="sa">f</span><span class="s1">&#39;in input data (limitation of application of apply_ufunc)&#39;</span>
+    <span class="p">)</span>
+
+    <span class="c1"># loop over vars and interpolate</span>
+    <span class="n">dso</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="n">da_coord_field</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">da_coord_field</span><span class="o">.</span><span class="n">coords</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">levdim</span><span class="p">}</span>
+    <span class="n">coords</span><span class="p">[</span><span class="n">da_new_levels</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">da_new_levels</span>
+
+    <span class="k">def</span> <span class="nf">interp_func</span><span class="p">(</span><span class="n">da_coord_field</span><span class="p">,</span> <span class="n">data_field</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Define interpolation function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">interpolate</span><span class="p">(</span><span class="n">da_new_levels</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">da_coord_field</span><span class="p">,</span> <span class="n">data_field</span><span class="p">,</span>
+                           <span class="n">axis</span><span class="o">=</span><span class="n">interp_axis</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="n">da</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">da_coord_field</span><span class="o">.</span><span class="n">name</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">include_coord_field</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="n">da</span><span class="o">.</span><span class="n">dims</span> <span class="o">!=</span> <span class="n">dims_in</span><span class="p">:</span>
+            <span class="n">dso</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span><span class="n">interp_func</span><span class="p">,</span> <span class="n">da_coord_field</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span>
+                                  <span class="n">output_dtypes</span><span class="o">=</span><span class="p">[</span><span class="n">da</span><span class="o">.</span><span class="n">dtype</span><span class="p">],</span>
+                                  <span class="n">dask</span><span class="o">=</span><span class="s1">&#39;parallelized&#39;</span><span class="p">)</span>
+            <span class="n">dso</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims_out</span><span class="p">,</span>
+                                     <span class="n">attrs</span><span class="o">=</span><span class="n">da</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dso</span>
+
+
+<span class="k">def</span> <span class="nf">pressure_from_hybrid_levels</span><span class="p">(</span><span class="n">dsi</span><span class="p">,</span> <span class="n">layer_center</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Calculate pressure at the hybrid levels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dsi : xarray Dataset</span>
+<span class="sd">       Dataset must contain P0,PS,and hybrid coefficients hya[m,i] hyb[m,i]</span>
+<span class="sd">    layer_center : logical, optional</span>
+<span class="sd">       compute pressure on cell centers, otherwise compute interface pressure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">dsi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">layer_center</span><span class="p">:</span>
+        <span class="n">hya</span> <span class="o">=</span> <span class="s1">&#39;hyam&#39;</span>
+        <span class="n">hyb</span> <span class="o">=</span> <span class="s1">&#39;hybm&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Pm&#39;</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s1">&#39;Pressure (layer center)&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hya</span> <span class="o">=</span> <span class="s1">&#39;hyai&#39;</span>
+        <span class="n">hyb</span> <span class="o">=</span> <span class="s1">&#39;hybi&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Pi&#39;</span>
+        <span class="n">long_name</span> <span class="o">=</span> <span class="s1">&#39;Pressure (interface)&#39;</span>
+
+    <span class="n">require_variables</span><span class="p">(</span><span class="n">ds</span><span class="p">,[</span><span class="s1">&#39;P0&#39;</span><span class="p">,</span> <span class="s1">&#39;PS&#39;</span><span class="p">,</span> <span class="n">hya</span><span class="p">,</span> <span class="n">hyb</span><span class="p">])</span>
+
+    <span class="c1"># compute pressure</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">P0</span> <span class="o">*</span> <span class="n">ds</span><span class="p">[</span><span class="n">hya</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">PS</span> <span class="o">*</span> <span class="n">ds</span><span class="p">[</span><span class="n">hyb</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.01</span> <span class="c1"># kg m/m^2/s^2 = Pa,*0.01 convert to hPa</span>
+    <span class="n">P</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="c1"># put the time dimension first</span>
+    <span class="k">if</span> <span class="s1">&#39;time&#39;</span> <span class="ow">in</span> <span class="n">P</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+        <span class="n">newdims</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">P</span><span class="o">.</span><span class="n">dims</span> <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="s1">&#39;time&#39;</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">*</span><span class="n">newdims</span><span class="p">)</span>
+
+    <span class="c1"># set the attributes</span>
+    <span class="n">P</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;long_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">long_name</span>
+    <span class="n">P</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;hPa&#39;</span>
+
+    <span class="k">return</span> <span class="n">P</span>
+
+
+<span class="k">def</span> <span class="nf">require_variables</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">req_var</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;ensure that variables are present&quot;&quot;&quot;</span>
+    <span class="n">missing_var_error</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">req_var</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">v</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR: Missing required variable: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">missing_var_error</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">missing_var_error</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;missing variables&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+
+<a name="10493"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10493" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sheri Mickelson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10493">(Jun 04 2020 at 16:37)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span> .  I'll take a look at it.</p>
+
+
+
+<a name="10494"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10494" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10494">(Jun 04 2020 at 16:38)</a>:</h4>
+<p><span class="user-mention" data-user-id="61">@Brian Medeiros</span> may have something better in hand.</p>
+
+
+
+<a name="10496"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10496" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10496">(Jun 04 2020 at 16:38)</a>:</h4>
+<p>I have charging time to help to some degree.   I'm still learning the python libraries, however.</p>
+
+
+
+<a name="10776"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10776" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sheri Mickelson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10776">(Jun 08 2020 at 15:01)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span>  I was able to take a closer look at your code and I was hoping you could help with a question I have in regards to these lines</p>
+<div class="codehilite"><pre><span></span>    assert len_interp_dim == len(da_new_levels), (
+        f&#39;new_levels must be the same length as the {levdim} &#39;
+        f&#39;in input data (limitation of application of apply_ufunc)&#39;
+    )
+</pre></div>
+
+
+<p>Is there a requirement that that new levels and the old levels must be the same length?</p>
+
+
+
+<a name="10777"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10777" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10777">(Jun 08 2020 at 15:06)</a>:</h4>
+<p>yes, that is a limitation of <code>apply_ufunc</code> (or at least my application of it)</p>
+
+
+
+<a name="10779"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10779" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sheri Mickelson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10779">(Jun 08 2020 at 15:09)</a>:</h4>
+<p>Got it, thanks.</p>
+
+
+
+<a name="10793"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/10793" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#10793">(Jun 08 2020 at 18:40)</a>:</h4>
+<p>This example I wrote should help extend it to avoid that restriction: <a href="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html" target="_blank" title="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html">https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html</a></p>
+
+
+
+<a name="23906"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23906" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23906">(Jan 13 2021 at 23:52)</a>:</h4>
+<p>Totally missed this thread over the summer. This topic came up at a meeting today, which led me here. I'm currently favoring using xarray's <code>interp</code> method. Here is what I use:</p>
+<div class="codehilite"><pre><span></span>def pres_from_hybrid(psfc, hya, hyb, p0=100000.):
+    # p = a(k)*p0 + b(k)*ps.
+    return hya*p0 + hyb*psfc
+
+def lev_to_plev(data, ps, hyam, hybm, P0=100000., new_levels=None):
+    &quot;&quot;&quot;Interpolate data from hybrid-sigma levels to isobaric levels.&quot;&quot;&quot;
+    pressure = pres_from_hybrid(ps, hyam, hybm, P0)
+    if new_levels is None:
+        pnew = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30, 20, 10, 7, 5, 3, 2, 1]  # mandatory levels
+    else:
+        pnew = new_levels
+    data_interp = data.interp(lev=pnew)
+    return data_interp
+</pre></div>
+
+
+<p>It's not <em>too</em> slow, and is about linear in number of levels in my experience. Using my Mac Mini, going from a field of size (time: 361, lev: 32, lat: 192, lon: 288)  to 21 standard pressure levels took 46 s, and interpolating to 101 levels took 5min 18s.</p>
+
+
+
+<a name="23909"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23909" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23909">(Jan 14 2021 at 12:28)</a>:</h4>
+<p><span class="user-mention" data-user-id="61">@Brian Medeiros</span>, you compute <code>pressure</code> from the hybrid coordinate, but I don't see where your function uses it. It looks to me like you are simply interpolating the <code>lev</code> dimension at the new values in <code>pnew</code>, but not actually generating a field on constant pressure levels. I don't see how to do this with <a href="http://xarray.pydata.org/en/stable/interpolation.html#advanced-interpolation" target="_blank" title="http://xarray.pydata.org/en/stable/interpolation.html#advanced-interpolation">xarray's interpolation method</a>. <code>pressure</code> is a fully 3D field, so every <code>i, j</code> point has a different index vector, i.e. </p>
+<div class="codehilite"><pre><span></span><span class="n">data_interp</span><span class="p">[:,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">pnew</span><span class="p">,</span> <span class="n">pressure</span><span class="p">[:,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+</pre></div>
+
+
+<p>What am I missing?</p>
+<p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span> (this remains a high-priority function!)</p>
+
+
+
+<a name="23916"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23916" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23916">(Jan 14 2021 at 15:32)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> , I see what you mean. Maybe this was a typo. I'll take a look this morning. I have (at least) 3 other methods that do the same thing, so I can do a quick comparison.</p>
+
+
+
+<a name="23933"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23933" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23933">(Jan 14 2021 at 18:01)</a>:</h4>
+<p>Okay, sorry about that. <span class="user-mention" data-user-id="14">@Matt Long</span> , your comment was completely right. I must have copied an unfinished function. I obviously wasn't paying much attention. I just spent some time exploring options. Here is a version that I think works (very limited testing). See comment about speed below:</p>
+<div class="codehilite"><pre><span></span>from pathlib import Path
+import os
+import numpy as np
+import xarray as xr
+from numba import njit, prange
+import matplotlib.pyplot as plt
+
+
+def pres_from_hybrid(psfc, hya, hyb, p0=100000.):
+    # p = a(k)*p0 + b(k)*ps.
+    # this will be in Pa
+    return hya*p0 + hyb*psfc
+
+
+def vert_remap(x_mdl, p_mdl, plev):
+    &quot;&quot;&quot;Apply simple 1-d interpolation to a field, x
+       given the pressure p and the new pressures plev.
+       x_mdl, p_mdl are numpy arrays of shape (nlevel, spacetime).
+    &quot;&quot;&quot;
+    out_shape = (plev.shape[0], x_mdl.shape[1])
+    print(f&#39;output shape is {out_shape}&#39;)
+    output = np.full(out_shape, np.nan)
+    for i in range(out_shape[1]):
+        output[:,i] = np.interp(plev, p_mdl[:,i], x_mdl[:,i])
+    return output
+
+
+@njit(parallel=True)
+def vert_remap2(x_mdl, p_mdl, plev):
+    &quot;&quot;&quot;Apply simple 1-d interpolation to a field, x
+       given the pressure p and the new pressures plev.
+       x_mdl, p_mdl are numpy arrays of shape (nlevel, spacetime).
+    &quot;&quot;&quot;
+    out_shape = (plev.shape[0], x_mdl.shape[1])
+    output = np.full(out_shape, np.nan)
+    for i in prange(out_shape[1]):
+        output[:,i] = np.interp(plev, p_mdl[:,i], x_mdl[:,i])
+    return output
+
+
+def lev_to_plev(data, ps, hyam, hybm, P0=100000., new_levels=None, parallel=False):
+    &quot;&quot;&quot;Interpolate data from hybrid-sigma levels to isobaric levels.
+
+    data : DataArray with a &#39;lev&#39; coordinate
+    ps   : DataArray of surface pressure (Pa), same time/space shape as data
+    hyam, hybm : hybrid coefficients, size of len(lev)
+    P0 : reference pressure
+    new_levels : the output pressure levels (Pa)
+    parallel : if True, use the Numba version to parallelize interpolation step.
+    &quot;&quot;&quot;
+    pressure = pres_from_hybrid(ps, hyam, hybm, P0)  # Pa
+    if new_levels is None:
+        pnew = 100.0 * np.array([1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100, 70, 50, 30, 20, 10, 7, 5, 3, 2, 1])  # mandatory levels, converted to Pa
+    else:
+        pnew = new_levels
+    # reshape data and pressure assuming &quot;lev&quot; is the name of the coordinate
+    zdims = [i for i in data.dims if i != &#39;lev&#39;]
+    dstack = data.stack(z=zdims)
+    pstack = pressure.stack(z=zdims)
+    if parallel:
+        output = vert_remap2(dstack.values, pstack.values, pnew)
+    else:
+        output = vert_remap(dstack.values, pstack.values, pnew)
+    output = xr.DataArray(output, dims=(&quot;plev&quot;, &quot;z&quot;), coords={&quot;plev&quot;:pnew, &quot;z&quot;:pstack[&#39;z&#39;]})
+    output = output.unstack()
+    return output
+</pre></div>
+
+
+<p>In terms of speed, I tested this on some CAM6 output. The dataset is <code>(time: 361, lev: 32, lat: 192, lon: 288)</code>. On my Mac Mini, just using a loop with the numpy function, interpolating to the 21 mandatory levels takes 1min 32s. Using the parallelized Numba version dramatically reduces that to 24.1 s (including the compiling time, this is from a single run of the function). Just for fun, I also re-ran the Numba version with 100 levels, and it finished in 56s (I think that <strong>does not</strong> count compiling time).</p>
+<p>I see that <span class="user-mention" data-user-id="14">@Matt Long</span> used xarray's <code>apply_ufunc</code>, which I initially tried to use, but was having trouble. I think I might misunderstand how that works. I suspect that Matt's version and my version produce about the same answers. I also experimented with MetPy's interpolation, and it seemed to work well. Matt's version is in <strong>much </strong> better shape in terms of structure.</p>
+
+
+
+<a name="23934"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23934" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23934">(Jan 14 2021 at 18:08)</a>:</h4>
+<p>Great! @geocat, would be great to have a pure-python implementation of this function. Do you see a home for this functionality?</p>
+
+
+
+<a name="23936"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23936" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23936">(Jan 14 2021 at 19:05)</a>:</h4>
+<p>Agreed. <span class="user-mention" data-user-id="18">@Orhan Eroglu</span>  are you seeing this?</p>
+
+
+
+<a name="23937"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23937" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23937">(Jan 14 2021 at 19:15)</a>:</h4>
+<blockquote>
+<p>Great! @geocat, would be great to have a pure-python implementation of this function. Do you see a home for this functionality?</p>
+</blockquote>
+<p>Hi Matt,</p>
+<p>Yes this function is in our first priority list. We are going to release the newer version of GeoCAT-comp soon (in 1-2 weeks) including all of our structural changes, and then will be releasing in about monthly periods. vinth2p is planned for the first monthly release, which likely be around early March.</p>
+
+
+
+<a name="23970"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23970" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23970">(Jan 15 2021 at 19:32)</a>:</h4>
+<p><span class="user-mention" data-user-id="61">@Brian Medeiros</span> your code looks great and I'd like to have a deeper look at it soon. <code>vinth2p</code> is a high priority function we 'd like to add to the GeoCAT stack asap, so please let me know if you'd be insterested to further contribute to it or colalborate with us anyway.</p>
+
+
+
+<a name="23974"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/23974" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#23974">(Jan 15 2021 at 19:48)</a>:</h4>
+<p><span class="user-mention" data-user-id="18">@Orhan Eroglu</span> , help yourself to whatever is useable in that code, I hope it helps. In terms of additional value that GeoCAT could offer, I think including more sophisticated options that are efficient would be terrific. In this case, i'm thinking of NCL's <code>vinth2p_ecmwf</code> function, which also provides a sensible way to extrapolate below the surface level. <br>
+I am interested in helping/contributing/collaborating however I can, so don't hesitate to get in touch as you all proceed.</p>
+
+
+
+<a name="25729"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25729" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25729">(Feb 23 2021 at 17:07)</a>:</h4>
+<p>All,</p>
+<p>We are working on <code>vinth2p</code>, and the initial tests were great with Brian's codes. We have refactored them to clean up the code to some degree and to provide improved documentation. I think the current code can be a good start point to replicate at least the NCL's original 'vinth2p', but we will need to work further to achieve cases such as <code>vinth2p_nodes</code> (i.e. unstructured grids) and <code>vinth2p_ecmwf</code> (i.e. extrapolate values below ground). This coming version of GeoCAT-comp at the end of February will likely only include the <code>vinth2p</code> case though.  </p>
+<p>I have a quick question: What about the naming of Python version of this <code>vinth2p</code>? Existing NCL users might be liking it with its original name, though, it does not sound much Pythonic. Brian already named it <code>lev_to_plev</code> in his existing code. Any thoughts for the name to be included in geocat.comp namespace? cc: <span class="user-mention" data-user-id="61">@Brian Medeiros</span> <span class="user-mention" data-user-id="14">@Matt Long</span> <span class="user-mention" data-user-id="37">@Sheri Mickelson</span></p>
+
+
+
+<a name="25751"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25751" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25751">(Feb 23 2021 at 19:58)</a>:</h4>
+<p><span class="user-mention" data-user-id="18">@Orhan Eroglu</span>, <br>
+I think it's worth noting that <code>vinth2p</code> is a special case of vertical remapping, essentially folding conversion from  hybrid to pressure levels in. I think it's important to support access to the general <code>remap_coord</code> operation. As for a name, you might consider something more explicit: <code>interp_hybrid_to_pressure</code>.</p>
+
+
+
+<a name="25760"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25760" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25760">(Feb 23 2021 at 20:37)</a>:</h4>
+<p>The NCL names are cryptic, and in most cases only meaningful to experienced NCL users. I'd suggest looking forward and coming up with names that better convey the operation that a function performs (i.e. more "pythonic"). One way to help NCL users transition would be to provide links on the NCL web site from the old function to the closest GetCAT equivalent.</p>
+
+
+
+<a name="25772"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25772" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25772">(Feb 23 2021 at 22:51)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="18">Orhan Eroglu</span>, <br>
+I think it's worth noting that <code>vinth2p</code> is a special case of vertical remapping, essentially folding conversion from  hybrid to pressure levels in. I think it's important to support access to the general <code>remap_coord</code> operation. As for a name, you might consider something more explicit: <code>interp_hybrid_to_pressure</code>.</p>
+</blockquote>
+<p>Yes, I agree with this! In our continuous delivery model, starting with <code>vinth2p</code> will help us (1) address user requests at least for hybrid-to-pressure case and then start getting feedbacks, (2) warm up the team for the general vertical remapping problem, and (3) use <code>vinth2p</code> cas as a template for other cases and achieve incremental improvements onto it. </p>
+<p>The name <code>interp_hybrid_to_pressure</code> makes sense.</p>
+<p>UPDATE: Please see <a href="https://github.com/NCAR/geocat-comp/blob/vinth2p/src/geocat/comp/vinth2p.py" target="_blank" title="https://github.com/NCAR/geocat-comp/blob/vinth2p/src/geocat/comp/vinth2p.py">GeoCAT-comp vinth2p branch</a> to see its current shape and let me know if you have any thoughts. (FYI: I was able to use xarray.appy_ufunc and Dask parallelization but I could not make a performance test yet ). A preliminary test case was written to see its outputs visually but a number of unit tests would be added soon.</p>
+
+
+
+<a name="25773"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25773" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25773">(Feb 23 2021 at 22:52)</a>:</h4>
+<p>xgcm calls it transform: <a href="https://xgcm.readthedocs.io/en/latest/transform.html" target="_blank" title="https://xgcm.readthedocs.io/en/latest/transform.html">https://xgcm.readthedocs.io/en/latest/transform.html</a></p>
+
+
+
+<a name="25774"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25774" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25774">(Feb 23 2021 at 22:54)</a>:</h4>
+<blockquote>
+<p>The NCL names are cryptic, and in most cases only meaningful to experienced NCL users. I'd suggest looking forward and coming up with names that better convey the operation that a function performs (i.e. more "pythonic"). One way to help NCL users transition would be to provide links on the NCL web site from the old function to the closest GetCAT equivalent.</p>
+</blockquote>
+<p>Thanks John! I agree with this. </p>
+<p>We could even provide the original function name with a <code>DeprecationWarning</code> in the user API. With this, we can both help NCL users to find the name in their first uses and direct them to get rid of that function name and use the newer one instead. </p>
+<p>Thoughts on this?</p>
+
+
+
+<a name="25775"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25775" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25775">(Feb 23 2021 at 22:56)</a>:</h4>
+<blockquote>
+<p>xgcm calls it transform: <a href="https://xgcm.readthedocs.io/en/latest/transform.html" target="_blank" title="https://xgcm.readthedocs.io/en/latest/transform.html">https://xgcm.readthedocs.io/en/latest/transform.html</a></p>
+</blockquote>
+<p>Thanks Deepak! I wasn't aware of this transform method from xgcm and will have a look at its details as well.</p>
+
+
+
+<a name="25776"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25776" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25776">(Feb 23 2021 at 22:59)</a>:</h4>
+<p>Re: the implementation, you need not <code>stack</code> and provide 2 core dimensions. This interpolation is fundamentally 1D, so there's only one core dimension. See <a href="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html" target="_blank" title="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html">https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html</a></p>
+<p>it's good to avoid stack since xarray's stack is a reshape which can sometimes not work so well (<a href="https://github.com/dask/dask/issues/5544" target="_blank" title="https://github.com/dask/dask/issues/5544">https://github.com/dask/dask/issues/5544</a>)</p>
+
+
+
+<a name="25786"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25786" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25786">(Feb 24 2021 at 01:29)</a>:</h4>
+<blockquote>
+<p>Re: the implementation, you need not <code>stack</code> and provide 2 core dimensions. This interpolation is fundamentally 1D, so there's only one core dimension. See <a href="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html" target="_blank" title="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html">https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html</a></p>
+<p>it's good to avoid stack since xarray's stack is a reshape which can sometimes not work so well (<a href="https://github.com/dask/dask/issues/5544" target="_blank" title="https://github.com/dask/dask/issues/5544">https://github.com/dask/dask/issues/5544</a>)</p>
+</blockquote>
+<p>Deepak, thanks a lot for looking into it! It helped me not only correct a flaw but also further cleanup the code and probably speed up the code (haven't tested though) as well as added logarithmic interpolation. Feel free to give it another look and let me know if you have any concerns.</p>
+
+
+
+<a name="25805"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25805" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25805">(Feb 24 2021 at 17:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="18">@Orhan Eroglu</span>, do you mind creating a draft PR for the work in <code>vinth2p</code> branch when you get a moment? It'd make it easy to provide some feedback within GitHub</p>
+
+
+
+<a name="25806"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25806" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25806">(Feb 24 2021 at 17:43)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="18">Orhan Eroglu</span>, do you mind creating a draft PR for the work in <code>vinth2p</code> branch when you get a moment? It'd make it easy to provide some feedback within GitHub</p>
+</blockquote>
+<p>Sure Anderson, I will do so right after I can make a simple initial unit test running for it (in a few hours today). Will let you know</p>
+
+
+
+<a name="25808"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25808" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25808">(Feb 24 2021 at 18:15)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="18">Orhan Eroglu</span>, do you mind creating a draft PR for the work in <code>vinth2p</code> branch when you get a moment? It'd make it easy to provide some feedback within GitHub</p>
+</blockquote>
+<p>Done. See it here: <a href="https://github.com/NCAR/geocat-comp/pull/111" target="_blank" title="https://github.com/NCAR/geocat-comp/pull/111">https://github.com/NCAR/geocat-comp/pull/111</a></p>
+
+
+
+<a name="25809"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Python%20version%20of%20vinth2p_nodes/near/25809" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Python.20version.20of.20vinth2p_nodes.html#25809">(Feb 24 2021 at 18:21)</a>:</h4>
+<blockquote>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="18">Orhan Eroglu</span>, do you mind creating a draft PR for the work in <code>vinth2p</code> branch when you get a moment? It'd make it easy to provide some feedback within GitHub</p>
+</blockquote>
+<p>Done. See it here: <a href="https://github.com/NCAR/geocat-comp/pull/111" target="_blank" title="https://github.com/NCAR/geocat-comp/pull/111">https://github.com/NCAR/geocat-comp/pull/111</a></p>
+</blockquote>
+<p>All,</p>
+<p>Feel free to give it a review!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

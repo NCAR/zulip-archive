@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>I'm trying to extract a subset of years for a variable using the tried-and-true <code>.sel</code> method. I've used the same code block in a different script without any problems, but I'm getting an error message:</p>\n<div class=\"codehilite\"><pre><span></span>TypeError: cannot compare cftime.datetime(1992, 7, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;) and cftime.datetime(1950, 1, 1, 0, 0, 0, 0, calendar=&#39;gregorian&#39;) (different calendars)\n</pre></div>\n\n\n<p>The error message corresponds to the last line of this code:</p>\n<div class=\"codehilite\"><pre><span></span>dat = xr.open_dataset(&#39;/glade/p/cesm/lmwg_dev/dll/CESM2_Coupled_NoCrop/b.e21.BHIST_BPRP.f09_g17.CMIP6-esm-hist.001.cam.h0.CO2.185001-201412.nc&#39;)\nCESM2ppm = dat.CO2\nCESM2ppm.sel(time=slice(&#39;1950&#39;,&#39;2014&#39;))\n</pre></div>\n\n\n<p>The time array is <code>noleap</code>, and I'm not sure why using either <code>sel</code> or <code>slice</code> is comparing to a gregorian calendar. </p>\n<div class=\"codehilite\"><pre><span></span>time\n(time)\nobject\n1850-01-16 12:00:00 ... 2014-12-...\narray([cftime.datetime(1850, 1, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;),\n       cftime.datetime(1850, 2, 15, 0, 0, 0, 0, calendar=&#39;noleap&#39;),\n       cftime.datetime(1850, 3, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;), ...,\n       cftime.datetime(2014, 10, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;),\n       cftime.datetime(2014, 11, 16, 0, 0, 0, 0, calendar=&#39;noleap&#39;),\n       cftime.datetime(2014, 12, 16, 12, 0, 0, 0, calendar=&#39;noleap&#39;)],\n      dtype=object)\n</pre></div>\n\n\n<p>Any ideas what the problem is or how I can work around this?  Thanks in advance!</p>",
+        "id": 36346,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1625260863
+    },
+    {
+        "content": "<p>Hi Danica! I tried the same code in a notebook and it worked for me. Could it be your version of xarray or something else in your environment? For example, I'm wondering if you need to have <a href=\"https://cf-xarray.readthedocs.io/en/latest/\" target=\"_blank\" title=\"https://cf-xarray.readthedocs.io/en/latest/\">cf-xarray</a> installed -- sometimes that does the trick for me.</p>",
+        "id": 36362,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1625262513
+    },
+    {
+        "content": "<p>Thanks Katie! Adding cf-xarray didn't do the trick (or maybe I don't know how to install it properly -- I'm still learning how to manage environments), but I switched to a different environment and it worked. I'll have to see if I can figure out what's different about the environments that is making the difference.</p>",
+        "id": 36369,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1625268028
+    },
+    {
+        "content": "<p>it's probably the <code>cftime</code> version.</p>",
+        "id": 36370,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625268076
+    },
+    {
+        "content": "<p>Thanks! I'll give that a try next!</p>",
+        "id": 36371,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1625268316
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> Maybe some tips here with your cftime slice issue?</p>",
+        "id": 44188,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1633119718
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> for pointing me here. I encountered what appears to be the same issue and documented it here:<br>\n<a href=\"#narrow/stream/10-python-questions/topic/datetime.20index/near/44187\">https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/datetime.20index/near/44187</a></p>\n<p>This seems like a bug, though perhaps there is a <code>cftime</code> version works.</p>",
+        "id": 44214,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1633129211
+    },
+    {
+        "content": "<p>note that I have a work-around</p>",
+        "id": 44215,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1633129228
+    }
+]

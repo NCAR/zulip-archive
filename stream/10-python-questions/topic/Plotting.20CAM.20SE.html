@@ -1,0 +1,74 @@
+<html>
+<head><meta charset="utf-8"><title>Plotting CAM SE · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Plotting.20CAM.20SE.html">Plotting CAM SE</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="41844"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Plotting%20CAM%20SE/near/41844" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Plotting.20CAM.20SE.html#41844">(Sep 03 2021 at 15:50)</a>:</h4>
+<p>Hi, I saw several questions about plotting CAM SE. I wrote this small function to facilitate plotting the CAM SE grid with matplotlib and cartopy. It's far from perfect and doesn't work with all the projection but it's a start...</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">def</span> <span class="nf">camse_shift_cnt_lon</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">central_longitude</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">):</span>
+    <span class="n">dso</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># cnt_lon-180 &lt; lon &lt; cnt_lon+180</span>
+    <span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">&gt;</span> <span class="mf">180.0</span><span class="p">,</span> <span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">-</span> <span class="mf">360.0</span><span class="p">,</span> <span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">central_longitude</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">&gt;</span> <span class="n">central_longitude</span><span class="o">+</span><span class="mf">180.0</span><span class="p">,</span> <span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">-</span> <span class="mf">360.0</span><span class="p">,</span> <span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">central_longitude</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">&lt;</span> <span class="n">central_longitude</span><span class="o">-</span><span class="mf">180.0</span><span class="p">,</span> <span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">+</span> <span class="mf">360.0</span><span class="p">,</span> <span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
+    <span class="n">dso</span> <span class="o">=</span> <span class="n">dso</span><span class="o">.</span><span class="n">sortby</span><span class="p">(</span><span class="n">dso</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
+    <span class="c1"># periodicity</span>
+    <span class="n">ds1</span> <span class="o">=</span> <span class="n">dso</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">&lt;</span> <span class="n">central_longitude</span><span class="o">-</span><span class="mi">180</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'ncol'</span><span class="p">)</span>
+    <span class="n">ds2</span> <span class="o">=</span> <span class="n">dso</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">dso</span><span class="o">.</span><span class="n">lon</span> <span class="o">&gt;</span> <span class="n">central_longitude</span><span class="o">+</span><span class="mi">180</span><span class="o">-</span><span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'ncol'</span><span class="p">)</span>
+    <span class="n">ds1</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">central_longitude</span><span class="o">+</span><span class="mi">180</span>
+    <span class="n">ds2</span><span class="o">.</span><span class="n">lon</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">central_longitude</span><span class="o">-</span><span class="mi">180</span>
+    <span class="c1"># Concatenate</span>
+    <span class="n">dso</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">ds2</span><span class="p">,</span> <span class="n">dso</span><span class="p">,</span> <span class="n">ds1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'ncol'</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dso</span>
+</code></pre></div>
+<p>And here is an example of how I used it </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">ccrs</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">scrdir</span> <span class="o">=</span> <span class="s1">'/glade/work/fredc/'</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">scrdir</span><span class="o">+</span><span class="s1">'TREFHT_CAMne120.nc'</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span>
+<span class="n">clevs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span><span class="o">+</span><span class="mi">200</span>
+
+<span class="n">cnt_lon</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">ds1</span> <span class="o">=</span> <span class="n">camse_shift_cnt_lon</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">central_longitude</span><span class="o">=</span><span class="n">cnt_lon</span><span class="p">)</span>
+<span class="n">fig1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=</span><span class="n">cnt_lon</span><span class="p">))</span>
+<span class="n">cf1</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">ds1</span><span class="o">.</span><span class="n">lon</span><span class="p">,</span> <span class="n">ds1</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">ds1</span><span class="o">.</span><span class="n">TREFHT</span><span class="p">,</span>
+                     <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
+                     <span class="n">norm</span><span class="o">=</span><span class="n">mpl</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">clevs</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="n">cmap</span><span class="o">.</span><span class="n">N</span><span class="p">),</span>
+                     <span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()</span>
+                     <span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">coastlines</span><span class="p">()</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_global</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf1</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+</code></pre></div>
+<p><a href="/user_uploads/2/63/FwegSm8k0Wr-3Wenx7UeE2JB/TREFHT_ne120.png">TREFHT_ne120.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/63/FwegSm8k0Wr-3Wenx7UeE2JB/TREFHT_ne120.png" title="TREFHT_ne120.png"><img src="/user_uploads/2/63/FwegSm8k0Wr-3Wenx7UeE2JB/TREFHT_ne120.png"></a></div>
+
+
+
+<a name="41853"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Plotting%20CAM%20SE/near/41853" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Plotting.20CAM.20SE.html#41853">(Sep 03 2021 at 16:08)</a>:</h4>
+<p>With the figure this time...</p>
+<p><a href="/user_uploads/2/17/kBUSk3_gaecgz0XK7PiMxKDa/TREFHT_ne120.png">TREFHT_ne120.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/17/kBUSk3_gaecgz0XK7PiMxKDa/TREFHT_ne120.png" title="TREFHT_ne120.png"><img src="/user_uploads/2/17/kBUSk3_gaecgz0XK7PiMxKDa/TREFHT_ne120.png"></a></div>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

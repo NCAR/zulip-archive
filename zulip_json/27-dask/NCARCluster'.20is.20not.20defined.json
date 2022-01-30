@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>I am a python/jupyterbook/dask novice and had been running the command below without any problems. <br>\nHowever, now I get an error 'NameError: name 'NCARCluster' is not defined'.<br>\nI tried restarting the kernel and it dod not help. <br>\nThanks, Judith <br>\n============================</p>\n<h1>Casper</h1>\n<p>NUMNODES = 3<br>\nnum_processes = 9<br>\nnum_threads = 18<br>\nMEM = \"200GB\"<br>\n​</p>\n<h1>Cheyenne</h1>\n<h1>NUMNODES = 5</h1>\n<h1>num_processes = 18</h1>\n<h1>num_threads = 36</h1>\n<h1>MEM = \"100GB\"</h1>\n<p>​<br>\ncluster = NCARCluster(cores=num_threads, <br>\n                      processes=num_processes, <br>\n                      memory=MEM, walltime=\"04:00:00\", <br>\n                      project=\"p93300642\")<br>\n​<br>\n#cluster = NCARCluster(cores=num_threads,</p>\n<h1>processes=num_processes,</h1>\n<h1>memory=MEM,</h1>\n<h1>walltime=\"02:00:00\",</h1>\n<h1>)</h1>\n<p>cluster.scale(NUMNODES * num_processes)</p>\n<hr>\n<p>NameError                                 Traceback (most recent call last)<br>\n&lt;ipython-input-1-42c1a3093f35&gt; in &lt;module&gt;<br>\n     11 # MEM = \"100GB\"<br>\n     12 <br>\n---&gt; 13 cluster = NCARCluster(cores=num_threads, <br>\n     14                       processes=num_processes,<br>\n     15                       memory=MEM, walltime=\"04:00:00\",</p>\n<p>NameError: name 'NCARCluster' is not defined</p>",
+        "id": 24758,
+        "sender_full_name": "Judith Berner",
+        "timestamp": 1612472763
+    },
+    {
+        "content": "<p>I repeat the error message with the comments removed (it made bold letters which must be confusing):</p>\n<h1>Casper</h1>\n<p>NUMNODES = 3<br>\nnum_processes = 9<br>\nnum_threads = 18<br>\nMEM = \"200GB\"<br>\ncluster = NCARCluster(cores=num_threads, <br>\n                      processes=num_processes, <br>\n                      memory=MEM, walltime=\"04:00:00\", <br>\n                      project=\"p93300642\")</p>\n<hr>\n<p>NameError                                 Traceback (most recent call last)<br>\n&lt;ipython-input-1-42c1a3093f35&gt; in &lt;module&gt;<br>\n     11 # MEM = \"100GB\"<br>\n     12 <br>\n---&gt; 13 cluster = NCARCluster(cores=num_threads, <br>\n     14                       processes=num_processes,<br>\n     15                       memory=MEM, walltime=\"04:00:00\",</p>\n<p>NameError: name 'NCARCluster' is not defined</p>",
+        "id": 24759,
+        "sender_full_name": "Judith Berner",
+        "timestamp": 1612472846
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/2b/Roe2R9cujYoJXSaUPlAB5nc9/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/2b/Roe2R9cujYoJXSaUPlAB5nc9/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/2b/Roe2R9cujYoJXSaUPlAB5nc9/pasted_image.png\"></a></div>",
+        "id": 24760,
+        "sender_full_name": "Judith Berner",
+        "timestamp": 1612473062
+    },
+    {
+        "content": "<p>Hi Judith,</p>",
+        "id": 24761,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1612473306
+    },
+    {
+        "content": "<p>Was the cell with \"import NCARCluster\" executed when this happened?</p>",
+        "id": 24762,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1612473339
+    },
+    {
+        "content": "<p>Hi, <span class=\"user-mention\" data-user-id=\"48\">@Judith Berner</span>!  Brian is correct.  In order to use the <code>NCARCluster</code> object, you need to import it from somewhere.  There should be a cell above this cell with something like the following in it:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">from</span> <span class=\"nn\">ncar_jobqueue</span> <span class=\"kn\">import</span> <span class=\"n\">NCARCluster</span>\n<span class=\"kn\">from</span> <span class=\"nn\">dask.distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">NCARCluster</span><span class=\"p\">()</span>\n<span class=\"n\">cluster</span>\n</pre></div>\n\n\n<p>If you add a cell like this above your cell <code>[1]</code>, what happens?</p>",
+        "id": 24763,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1612473491
+    },
+    {
+        "content": "<p>Thanks so much!!! I am glad I prefaced this with \"I am a novice\".  I must have deleted the lines accidentally (it ain't \"vi\", ain't it?\"). <br>\nPlease mute this conversation if applicable.</p>",
+        "id": 24768,
+        "sender_full_name": "Judith Berner",
+        "timestamp": 1612474442
+    },
+    {
+        "content": "<p>I'm glad we can help.  <span aria-label=\"smile\" class=\"emoji emoji-263a\" role=\"img\" title=\"smile\">:smile:</span></p>",
+        "id": 24769,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1612474479
+    }
+]

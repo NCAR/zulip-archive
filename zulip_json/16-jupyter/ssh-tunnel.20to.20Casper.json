@@ -1,0 +1,158 @@
+[
+    {
+        "content": "<p>Hi,</p>",
+        "id": 2813,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584032488
+    },
+    {
+        "content": "<p>I'm unable to start JupyterHub on Casper today through my web browser.   Can someone point me to the instructions for SSH tunneling to Casper, in order to start a Jupyter session?</p>",
+        "id": 2814,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584032565
+    },
+    {
+        "content": "<p>Google points me to this page: <a href=\"https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/software/jupyter-and-ipython\" target=\"_blank\" title=\"https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/software/jupyter-and-ipython\">https://www2.cisl.ucar.edu/resources/computational-systems/cheyenne/software/jupyter-and-ipython</a></p>",
+        "id": 2816,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584032716
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> Matt Long posted instructions in the <a class=\"stream\" data-stream-id=\"10\" href=\"/#narrow/stream/11-python-questions\">#python-questions</a> channel - see the \"jupyterlab on Casper, no Hub\" topic: <a href=\"#narrow/stream/11-python-questions/topic/jupyterlab.20on.20Casper.2C.20no.20Hub\" title=\"#narrow/stream/11-python-questions/topic/jupyterlab.20on.20Casper.2C.20no.20Hub\">https://zulip.cloud.ucar.edu/#narrow/stream/11-python-questions/topic/jupyterlab.20on.20Casper.2C.20no.20Hub</a></p>",
+        "id": 2817,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1584032716
+    },
+    {
+        "content": "<p>Thanks Michael, I knew I had seen something somewhere.</p>",
+        "id": 2818,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584032787
+    },
+    {
+        "content": "<p>Perhaps I made a mistake, but I'm unable to connect to my Jupyter session in a local browser window.   In one terminal,  I did this: </p>\n<div class=\"codehilite\"><pre><span></span>$ ssh -Y bonnland@casper.ucar.edu\nToken_Response:\nWarning: No xauth data<span class=\"p\">;</span> using fake authentication data <span class=\"k\">for</span> X11 forwarding.\nLast login: Thu Mar <span class=\"m\">12</span> <span class=\"m\">10</span>:42:09 <span class=\"m\">2020</span> from <span class=\"m\">128</span>.117.9.129\n******************************************************************************\n*                 Welcome to Casper - March <span class=\"m\">12</span>, <span class=\"m\">2020</span>\n******************************************************************************\n                 Today in the Daily Bulletin <span class=\"o\">(</span>dailyb.cisl.ucar.edu<span class=\"o\">)</span>\n\n        - Advance Computing <span class=\"k\">for</span> Social Change institute oppertunities <span class=\"k\">for</span> students\n\nQuick Start:          www2.cisl.ucar.edu/resources/cheyenne/quick-start-cheyenne\nUser environment:     www2.cisl.ucar.edu/resources/cheyenne/user-environment\nKey module commands:  module list, module avail, module spider, module <span class=\"nb\">help</span>\nCISL Help:            support.ucar.edu -- <span class=\"m\">303</span>-497-2400\n------------------------------------------------------------------------------------\n\n\nResetting modules to system default\n<span class=\"o\">(</span>base<span class=\"o\">)</span> casper26:~$ jupyter lab --no-browser --ip<span class=\"o\">=</span><span class=\"k\">$(</span>hostname<span class=\"k\">)</span>\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:13.194 LabApp<span class=\"o\">]</span> <span class=\"o\">[</span>nb_conda_kernels<span class=\"o\">]</span> enabled, <span class=\"m\">7</span> kernels found\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:16.001 LabApp<span class=\"o\">]</span> The port <span class=\"m\">8888</span> is already in use, trying another port.\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:16.002 LabApp<span class=\"o\">]</span> The port <span class=\"m\">8889</span> is already in use, trying another port.\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:16.002 LabApp<span class=\"o\">]</span> The port <span class=\"m\">8890</span> is already in use, trying another port.\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:16.002 LabApp<span class=\"o\">]</span> The port <span class=\"m\">8891</span> is already in use, trying another port.\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:16.002 LabApp<span class=\"o\">]</span> The port <span class=\"m\">8892</span> is already in use, trying another port.\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.643 LabApp<span class=\"o\">]</span> <span class=\"o\">[</span>jupyter_nbextensions_configurator<span class=\"o\">]</span> enabled <span class=\"m\">0</span>.4.1\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.717 LabApp<span class=\"o\">]</span> JupyterLab extension loaded from /glade/u/home/bonnland/miniconda3/lib/python3.7/site-packages/jupyterlab\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.717 LabApp<span class=\"o\">]</span> JupyterLab application directory is /glade/u/home/bonnland/miniconda3/share/jupyter/lab\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.719 LabApp<span class=\"o\">]</span> Serving notebooks from <span class=\"nb\">local</span> directory: /glade/u/home/bonnland\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.719 LabApp<span class=\"o\">]</span> The Jupyter Notebook is running at:\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.719 LabApp<span class=\"o\">]</span> http://casper26:8930/?token<span class=\"o\">=</span>dd7e9771449d71cee8ce5d225d208a4198b3db49092da386\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.719 LabApp<span class=\"o\">]</span>  or http://127.0.0.1:8930/?token<span class=\"o\">=</span>dd7e9771449d71cee8ce5d225d208a4198b3db49092da386\n<span class=\"o\">[</span>I <span class=\"m\">11</span>:10:17.719 LabApp<span class=\"o\">]</span> Use Control-C to stop this server and shut down all kernels <span class=\"o\">(</span>twice to skip confirmation<span class=\"o\">)</span>.\n<span class=\"o\">[</span>C <span class=\"m\">11</span>:10:17.797 LabApp<span class=\"o\">]</span>\n\n    To access the notebook, open this file in a browser:\n        file:///glade/u/home/bonnland/.local/share/jupyter/runtime/nbserver-36686-open.html\n    Or copy and paste one of these URLs:\n        http://casper26:8930/?token<span class=\"o\">=</span>dd7e9771449d71cee8ce5d225d208a4198b3db49092da386\n     or http://127.0.0.1:8930/?token<span class=\"o\">=</span>dd7e9771449d71cee8ce5d225d208a4198b3db49092da386\n</pre></div>\n\n\n<p>And then in another window, I got this: </p>\n<div class=\"codehilite\"><pre><span></span>$ ssh -N -L <span class=\"m\">8930</span>:localhost:8888 casper26.ucar.edu\nThe authenticity of host <span class=\"s1\">&#39;casper26.ucar.edu (128.117.181.206)&#39;</span> can<span class=\"s1\">&#39;t be established.</span>\n<span class=\"s1\">ECDSA key fingerprint is SHA256:zH2MWNf39A459aI/iHdTszsWqhmRcGtgD3krCrGHT7s.</span>\n<span class=\"s1\">Are you sure you want to continue connecting (yes/no)? yes</span>\n<span class=\"s1\">Warning: Permanently added &#39;</span>casper26.ucar.edu<span class=\"err\">&#39;</span> <span class=\"o\">(</span>ECDSA<span class=\"o\">)</span> to the list of known hosts.\nToken_Response:\nchannel <span class=\"m\">2</span>: open failed: connect failed: Connection refused\nchannel <span class=\"m\">3</span>: open failed: connect failed: Connection refused\nchannel <span class=\"m\">2</span>: open failed: connect failed: Connection refused\n</pre></div>\n\n\n<p>Has anyone seen this before, or did I do anything wrong?</p>",
+        "id": 2819,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584033604
+    },
+    {
+        "content": "<p>I've also tried this URL in my browser, and it hangs with the message \"Connecting....\":   <a href=\"http://casper26.ucar.edu:8930/?token=dd7e9771449d71cee8ce5d225d208a4198b3db49092da386\" target=\"_blank\" title=\"http://casper26.ucar.edu:8930/?token=dd7e9771449d71cee8ce5d225d208a4198b3db49092da386\">http://casper26.ucar.edu:8930/?token=dd7e9771449d71cee8ce5d225d208a4198b3db49092da386</a></p>",
+        "id": 2821,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584033845
+    },
+    {
+        "content": "<p>The second window should be</p>\n<div class=\"codehilite\"><pre><span></span>$ ssh -N -L 8930:casper26:8888 casper26.ucar.edu\n</pre></div>\n\n\n<p>(replace <code>localhost</code> with <code>casper26</code> between the port numbers)</p>",
+        "id": 2823,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1584034160
+    },
+    {
+        "content": "<p>OK, thanks for that!   I am supposing that the result of the \"ssh -N\" command is that you are asked for a Token_Response, and then it doesn't return to the command prompt, and there is no further output.   This is what I'm seeing.    I still can't connect to localhost:8888 or casper26:8888 in my browser, however.</p>",
+        "id": 2824,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584034558
+    },
+    {
+        "content": "<p>there shouldn't be any output from the ssh tunnel command, but I would expect <a href=\"http://localhost:8888\" target=\"_blank\" title=\"http://localhost:8888\">http://localhost:8888</a> to work. Is the first window showing that jupyterlab is still running?</p>",
+        "id": 2825,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1584034637
+    },
+    {
+        "content": "<p>Oh, swap the port numbers:</p>\n<div class=\"codehilite\"><pre><span></span>$ ssh -N -L 8888:casper26:8930 casper26.ucar.edu\n</pre></div>",
+        "id": 2827,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1584034853
+    },
+    {
+        "content": "<p>(I always get those reversed so I typically just use the same port locally)</p>",
+        "id": 2828,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1584034881
+    },
+    {
+        "content": "<p>OK, that works!   Thank you Michael!</p>",
+        "id": 2829,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584035075
+    },
+    {
+        "content": "<p>FYI, Casper was being hammered this morning by a renegade user. I couldn't get a session all morning. The help desk has dealt with the issue.</p>",
+        "id": 2847,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1584042134
+    },
+    {
+        "content": "<p>What a thankless job.     They need a way of preventing users from blindly firing off identical processes.    On my casper node, I'm seeing this for Jupyter lab sessions: </p>\n<div class=\"codehilite\"><pre><span></span>(base) casper26:~$ ps aux | grep jupyter\nvgarza    18304  0.0  0.0 113148  1588 ?        S    Mar06   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    18308  0.0  0.0 353008 57460 ?        S    Mar06   0:00 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nvgarza    18592  0.0  0.0 113148  1592 ?        S    Mar06   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    18596  0.0  0.0 966740 64004 ?        Sl   Mar06   2:07 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nvgarza    18914  0.0  0.0 1133832 185200 ?      Ssl  Mar06   0:21 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-de0ab2a1-43a8-40b7-beea-dd8a1337fba0.json\nvgarza    18917  0.0  0.0 1416876 202428 ?      Ssl  Mar06   0:28 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-28dfa765-7906-41bb-b6db-143d5729c872.json\nvgarza    18920  0.0  0.0 737476 43508 ?        Ssl  Mar06   0:19 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-8e552a3a-b80a-4b90-ba15-ffe246580fec.json\nvgarza    18923  0.0  0.0 737476 46912 ?        Ssl  Mar06   0:20 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-34f06f3f-8e8c-4138-b515-d369603b5e75.json\nbryan     21528  0.0  0.0 611908 57884 ?        Ssl  10:40   0:01 /glade/work/bryan/miniconda3/envs/analysis/bin/python -m ipykernel_launcher -f /glade/u/home/bryan/.local/share/jupyter/runtime/kernel-2d7a6f62-e10c-4a84-82a7-6c893dd5921c.json\nbryan     23085  0.0  0.0 611896 55016 ?        Ssl  10:44   0:01 /glade/work/bryan/miniconda3/envs/analysis/bin/python -m ipykernel_launcher -f /glade/u/home/bryan/.local/share/jupyter/runtime/kernel-6c42044f-6fdc-45b4-a866-b6983d346b37.json\nvgarza    27955  0.0  0.0 113148  1592 ?        S    Mar05   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    27959  0.0  0.0 968376 63256 ?        Sl   Mar05   2:11 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nvgarza    28428  0.0  0.0 1044340 89856 ?       Ssl  Mar05   0:23 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-2b19e44d-5386-4d23-9c69-b4e201374ea7.json\nvgarza    28431  0.0  0.0 737476 44572 ?        Ssl  Mar05   0:22 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-c041311a-bfbe-4bfc-9124-efc518925aec.json\nvgarza    28434  0.0  0.0 737476 44552 ?        Ssl  Mar05   0:22 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-d4d2b099-fdc1-4874-bcad-7c516232f943.json\nvgarza    28437  0.0  0.0 1273584 134344 ?      Ssl  Mar05   0:23 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-32dfeaba-4541-42ba-a470-2318c78ac851.json\nvgarza    29172  0.0  0.0 113148  1592 ?        S    Mar06   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    29176  0.0  0.0 353004 54464 ?        S    Mar06   0:00 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nvgarza    30228  0.0  0.0 113148  1588 ?        S    Mar06   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    30232  0.0  0.0 353004 54456 ?        S    Mar06   0:00 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nmkbren    31551  0.0  0.0 113272  1660 pts/85   S+   10:58   0:00 bash start_jupyter.sh\nmkbren    31598  0.0  0.0 113152  1640 pts/85   S+   10:58   0:00 /bin/bash /glade/work/mkbren/my_npl_clone/bin/start-jupyter\nmkbren    31602  0.0  0.0 574588 64220 pts/85   Sl+  10:58   0:09 /glade/work/mkbren/my_npl_clone/bin/python3.6 /glade/work/mkbren/my_npl_clone/bin/jupyter-lab --no-browser --ip=casper26\nvgarza    31612  0.0  0.0 113148  1584 ?        S    Mar06   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    31616  0.0  0.0 1035504 66384 ?       Sl   Mar06   2:05 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nmkbren    31839 10.8  0.6 6456208 2344264 ?     Ssl  10:59  18:00 /glade/work/mkbren/my_npl_clone/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/mkbren/.local/share/jupyter/runtime/kernel-e91a106f-fa63-4595-a75f-dc968683f912.json\nvgarza    32006  0.0  0.0 737476 45700 ?        Ssl  Mar06   0:19 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-ef8afca0-a6f5-4518-942b-80dda108aa2e.json\nvgarza    32009  0.0  0.1 1800732 584604 ?      Ssl  Mar06   1:18 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-8a47d30d-5842-45f0-948e-c5fe6c17b0d1.json\nvgarza    32012  0.1  0.3 7418124 1397100 ?     Ssl  Mar06  16:03 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-82961952-9747-421f-a8a9-68c83b63e875.json\nvgarza    32015  0.0  0.0 737476 43648 ?        Ssl  Mar06   0:18 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/vgarza/.local/share/jupyter/runtime/kernel-22f10abf-5985-4484-906c-1f50b4bd77f8.json\nvgarza    36070  0.0  0.0 113148  1124 ?        S    Feb28   0:00 /bin/bash /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/start-jupyter\nvgarza    36074  0.0  0.0 353004  2208 ?        S    Feb28   0:00 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/python3.6 /gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/bin/jupyter-lab --no-browser --ip=casper26\nbonnland  36686  0.0  0.0 604824 71708 pts/90   Sl   11:10   0:07 /glade/u/home/bonnland/miniconda3/bin/python3.7 /glade/u/home/bonnland/miniconda3/bin/jupyter-lab --no-browser --ip=casper26\nbryan     38085  0.0  0.0 611896 52760 ?        Ssl  11:13   0:01 /glade/work/bryan/miniconda3/envs/analysis/bin/python -m ipykernel_launcher -f /glade/u/home/bryan/.local/share/jupyter/runtime/kernel-f082343c-bcee-475c-b299-c61929037222.json\nbonnland  51662  0.0  0.0 578280 42164 ?        Ssl  11:44   0:00 /glade/u/home/bonnland/miniconda3/envs/analysis/bin/python -m ipykernel_launcher -f /glade/u/home/bonnland/.local/share/jupyter/runtime/kernel-5113a544-266b-45eb-a7eb-a63f4b6d6687.json\nbonnland  51666  0.0  0.0 1021812 234988 ?      Ssl  11:44   0:04 /glade/u/home/bonnland/miniconda3/envs/analysis/bin/python -m ipykernel_launcher -f /glade/u/home/bonnland/.local/share/jupyter/runtime/kernel-20508bd8-4627-4bdf-a21b-b2e843af6a96.json\nbryan     54133  0.1  0.1 1111512 393148 ?      Ssl  11:48   0:13 /glade/work/bryan/miniconda3/envs/analysis/bin/python -m ipykernel_launcher -f /glade/u/home/bryan/.local/share/jupyter/runtime/kernel-f37c2161-9240-4085-92d4-ba119a9760fe.json\nzephyrs   81981  0.1  0.0 1022384 80516 pts/32  Sl+  12:25   0:08 /glade/work/zephyrs/miniconda3/bin/python3.7 /glade/work/zephyrs/miniconda3/bin/jupyter-lab --no-browser --ip=casper26\nwkrantz   83077  0.0  0.0 113148  1592 pts/101  S+   12:27   0:00 /bin/bash /glade/work/wkrantz/wk_npl_casper/bin/start-jupyter\nwkrantz   83081  0.2  0.0 1251496 71728 pts/101 Sl+  12:27   0:10 /glade/work/wkrantz/wk_npl_casper/bin/python3.6 /glade/work/wkrantz/wk_npl_casper/bin/jupyter-lab --no-browser --ip=casper26\nwkrantz   84533  0.0  0.0 744652 43908 ?        Ssl  12:29   0:00 /glade/work/wkrantz/wk_npl_casper/bin/python -m ipykernel_launcher -f /glade/u/home/wkrantz/.local/share/jupyter/runtime/kernel-d11cc587-4e87-4263-a19a-b03943e7e26a.json\nwkrantz   84536  0.0  0.0 744652 43900 ?        Ssl  12:29   0:00 /glade/work/wkrantz/wk_npl_casper/bin/python -m ipykernel_launcher -f /glade/u/home/wkrantz/.local/share/jupyter/runtime/kernel-1b3cca21-03ba-40a2-b9bc-2c4bd8b4b376.json\nwkrantz   84539  0.0  0.0 744652 43904 ?        Ssl  12:29   0:00 /glade/work/wkrantz/wk_npl_casper/bin/python3.6 -m ipykernel_launcher -f /glade/u/home/wkrantz/.local/share/jupyter/runtime/kernel-a963694d-7f4f-4d35-a3be-fe589734ea69.json\n</pre></div>",
+        "id": 2855,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584042579
+    },
+    {
+        "content": "<p>I think it's acceptable to run multiple instance of JLab; I sometimes do that when I am multi-tasking...but generally not on the same node.</p>",
+        "id": 2856,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1584042804
+    },
+    {
+        "content": "<p>I think the best way to keep the login nodes free is to use <code>execdav</code>. I couldn't get the command to work in a single line, but did the following:</p>\n<div class=\"codehilite\"><pre><span></span>[localhost] $ ssh casper.ucar.edu\n[casper01] $ execdav\n[casper02] $ jupyter lab --no-browser --ip=$(hostname)\n</pre></div>\n\n\n<p>Then in a separate window</p>\n<div class=\"codehilite\"><pre><span></span>[localhost] $ ssh -N -L 8888:casper02:$PORT casper01\n</pre></div>\n\n\n<p>where <code>$PORT</code> is whatever port on <code>casper02</code> got assigned to my lab. In the example above, I really did end up logged in to <code>casper01</code> and then dropped on <code>casper02</code> by <code>execdav</code>, but you may see different node names there.</p>",
+        "id": 2857,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1584043142
+    },
+    {
+        "content": "<p>I typed \"ssh -N -L 8847:localhost:8889 <a href=\"mailto:haiyingx@casper21.ucar.edu\" title=\"mailto:haiyingx@casper21.ucar.edu\">haiyingx@casper21.ucar.edu</a>\", and typed the password, and click duo-button. But it is just hanging there and cannot log in. Do you have this problem?</p>",
+        "id": 13956,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1594662614
+    },
+    {
+        "content": "<p>The Token Authentication server was down for maintenance earlier today; it should be working again now.</p>",
+        "id": 13957,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1594662718
+    },
+    {
+        "content": "<blockquote>\n<p>I typed \"ssh -N -L 8847:localhost:8889 <a href=\"mailto:haiyingx@casper21.ucar.edu\" title=\"mailto:haiyingx@casper21.ucar.edu\">haiyingx@casper21.ucar.edu</a>\", and typed the password, and click duo-button. But it is just hanging there and cannot log in. Do you have this problem?</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"38\">@Haiying Xu</span> I think you want to replace <code>localhost</code> with the casper host: <code>ssh -N -L 8847:casper21:8889 haiyingx@casper21.ucar.edu</code></p>",
+        "id": 13961,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1594664268
+    },
+    {
+        "content": "<p>although I'm confused about why you would be asked for your duo confirmation - what machine did you issue the <code>ssh</code> call from?</p>",
+        "id": 13962,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1594664359
+    },
+    {
+        "content": "<p>Still hang. And I want to open from my local laptop, why shall I replace localhost with casper21?</p>",
+        "id": 13963,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1594664886
+    },
+    {
+        "content": "<p>The way we are using the <code>-L</code> option, it wants an argument of the form <code>[bind_address:]port:host:hostport</code>; we're omitting <code>bind_address</code>, but that's where you would put localhost.</p>\n<p>Also, I think \"hanging\" is what we expect -- the <code>ssh</code> command shouldn't be putting anything to <code>stdout</code> it's just staying open to forward the port. What happens if you open <a href=\"https://localhost:8847\" target=\"_blank\" title=\"https://localhost:8847\">https://localhost:8847</a> in your browser? (edit to add the part <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> recommends :)</p>",
+        "id": 13964,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1594665277
+    },
+    {
+        "content": "<p>...in your browser, that is.</p>",
+        "id": 13965,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1594665390
+    },
+    {
+        "content": "<p>Thanks lot, Mike. I saw your explanation and switch 8847 and 8889, and it worked.</p>",
+        "id": 13968,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1594668592
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> , I issued the ssh from my laptop to casper.</p>",
+        "id": 13970,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1594670016
+    }
+]

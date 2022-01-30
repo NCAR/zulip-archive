@@ -1,0 +1,93 @@
+<html>
+<head><meta charset="utf-8"><title>memoryview is too large error · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html">memoryview is too large error</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="35289"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35289" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35289">(Jun 22 2021 at 20:43)</a>:</h4>
+<p>Hi there, </p>
+<p>I am discovering new errors <span aria-label="nerd" class="emoji emoji-1f913" role="img" title="nerd">:nerd:</span><br>
+I am calculating the beloved heat budget, and there's this line</p>
+<div class="codehilite"><pre><span></span><span class="n">budget</span><span class="p">[</span><span class="s2">&quot;DIA_IMPVF_TEMP&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">((</span><span class="n">SRF_TEMP_FLUX</span> <span class="o">*</span> <span class="n">dsxgcm</span><span class="o">.</span><span class="n">TAREA</span>
+                                         <span class="o">-</span>
+                                         <span class="n">dsxgcm</span><span class="o">.</span><span class="n">DIA_IMPVF_TEMP</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">z_w_bot</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">dsxgcm</span><span class="o">.</span><span class="n">TAREA</span><span class="p">)</span>
+                                        <span class="o">/</span>
+                                        <span class="n">dsxgcm</span><span class="o">.</span><span class="n">VOL</span><span class="o">.</span><span class="n">values</span><span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span>
+</pre></div>
+
+
+<p>which requires me to load <code>budget["DIA_IMPVF_TEMP"]</code> to be able to assign something. Now that seems to work, but once I want to plot, or just load a single column at a single time I am getting this error that I haven't seen before:</p>
+<div class="codehilite"><pre><span></span><span class="n">msgpack</span><span class="o">/</span><span class="n">_packer</span><span class="o">.</span><span class="n">pyx</span> <span class="ow">in</span> <span class="n">msgpack</span><span class="o">.</span><span class="n">_cmsgpack</span><span class="o">.</span><span class="n">Packer</span><span class="o">.</span><span class="n">_pack</span><span class="p">()</span>
+
+<span class="ne">ValueError</span><span class="p">:</span> <span class="nb">memoryview</span> <span class="ow">is</span> <span class="n">too</span> <span class="n">large</span>
+</pre></div>
+
+
+<p>(the upper line repeats a good number of times) . </p>
+<p>I was thinking I might have to "reverse" the <code>.load </code> because that's the only memory issue I could come up with (<code>budget.DIA_IMPVF_TEMP</code> is 14GB large)</p>
+<p>Pinging <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  and <span class="user-mention" data-user-id="25">@Deepak Cherian</span>  as per <span class="user-mention" data-user-id="134">@Max Grover</span>'s suggestion</p>
+
+
+
+<a name="35291"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35291" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35291">(Jun 22 2021 at 20:54)</a>:</h4>
+<p>examples for when the error comes up:</p>
+<div class="codehilite"><pre><span></span><span class="n">subset</span> <span class="o">=</span> <span class="n">budget</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">nlon_t</span><span class="o">=</span><span class="n">lola_inds</span><span class="p">[</span><span class="s2">&quot;i_140_w&quot;</span><span class="p">],</span> <span class="n">nlat_t</span><span class="o">=</span><span class="n">lola_inds</span><span class="p">[</span><span class="s2">&quot;j_0n&quot;</span><span class="p">],</span> <span class="n">time</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+
+
+<p>or</p>
+<div class="codehilite"><pre><span></span><span class="n">subset</span><span class="o">.</span><span class="n">VDIF</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;z_t&quot;</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mf">300e2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;VDIF&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+
+
+<a name="35297"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35297" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35297">(Jun 22 2021 at 21:04)</a>:</h4>
+<p>What are the dimension sizes of <code>budget["DIA_IMPVF_TEMP"]</code> and does it contain a <code>dask.array</code>?</p>
+
+
+
+<a name="35303"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35303" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35303">(Jun 22 2021 at 21:16)</a>:</h4>
+<p><code>('time', 'z_t', 'nlat_t', 'nlon_t')</code> and it's a <code>xarray.DataArray</code> -- presumably because I had to </p>
+<div class="codehilite"><pre><span></span><span class="n">budget</span><span class="p">[</span><span class="s2">&quot;DIA_IMPVF_TEMP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">gridxgcm</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">dsxgcm</span><span class="o">.</span><span class="n">DIA_IMPVF_TEMP</span> <span class="o">*</span> <span class="n">dsxgcm</span><span class="o">.</span><span class="n">TAREA</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;Z&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="n">dsxgcm</span><span class="o">.</span><span class="n">VOL</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+
+
+<p>inorder to make the assignment above</p>
+
+
+
+<a name="35304"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35304" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35304">(Jun 22 2021 at 21:17)</a>:</h4>
+<p>another variable of <code>budget</code> is a dask array:</p>
+
+
+
+<a name="35305"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35305" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35305">(Jun 22 2021 at 21:17)</a>:</h4>
+<p><a href="/user_uploads/2/18/0gRv5lXhUZuQT_uDl-mW1OLR/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/18/0gRv5lXhUZuQT_uDl-mW1OLR/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/18/0gRv5lXhUZuQT_uDl-mW1OLR/pasted_image.png"></a></div>
+
+
+
+<a name="35321"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/memoryview%20is%20too%20large%20error/near/35321" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/memoryview.20is.20too.20large.20error.html#35321">(Jun 22 2021 at 22:12)</a>:</h4>
+<p>What's the output of </p>
+<div class="codehilite"><pre><span></span><span class="n">xr</span><span class="o">.</span><span class="n">show_versions</span><span class="p">()</span>
+</pre></div>
+
+
+<p>?</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Can anyone share an example of how to use matplotlib with cartopy to generate a regional conic projection plot like the attached?<br>\n<a href=\"/user_uploads/2/6d/9uTz7VLX8F1H3aWvvH4vilUf/plot_example.png\" target=\"_blank\" title=\"plot_example.png\">plot_example.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/6d/9uTz7VLX8F1H3aWvvH4vilUf/plot_example.png\" target=\"_blank\" title=\"plot_example.png\"><img src=\"/user_uploads/2/6d/9uTz7VLX8F1H3aWvvH4vilUf/plot_example.png\"></a></div>",
+        "id": 23499,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1609438636
+    },
+    {
+        "content": "<p>Here's a solution with a time slice of POP SST, though it's a bit hacky. Had to pre-trim the data to approximately fit the region bounds to get the regional map to fill the figure. Would love to know if there's a way to do this that doesn't require pre-trimming.</p>\n<div class=\"codehilite\"><pre><span></span>import cartopy.crs as ccrs\nimport matplotlib.pyplot as plt\nfrom matplotlib.path import Path\nimport xarray as xr\nimport numpy as np\n\nlonw=-80; lone=20; lats=45; latn=70 #corners for conic projection\nxw=50; xe=175; ys=312; yn=380       #for trimming POP data to region\n\nsst=ds[&#39;SST&#39;].roll(nlon=100).isel({&#39;nlat&#39;:slice(ys,yn),&#39;nlon&#39;:slice(xw,xe)})\ntlong=sst[&#39;TLONG&#39;]\ntlat=sst[&#39;TLAT&#39;]\n\nax=plt.axes(projection=ccrs.LambertConformal(central_longitude=(lonw+lone)/2, \\\n                                             central_latitude=(lats+latn)/2))  #AlbersEqualArea also works\n\nsbnd=[[ee,lats] for ee in np.arange(lonw,lone,1)]  #make vertices for regional map boundary\nnbnd=[[ww,latn] for ww in np.arange(lone,lonw,-1)]\nverts=sbnd+nbnd\npath=Path(verts)\nax.set_boundary(path, transform=ccrs.PlateCarree()) #reset projection boundary\n\nplt.pcolormesh(tlong, tlat, sst, transform=ccrs.PlateCarree())\nax.coastlines()\ncb=plt.colorbar(orientation=&#39;horizontal&#39;, label=&#39;SST ($^{\\circ}$C)&#39;)\n</pre></div>\n\n\n<p>GridSpec can be used to adjust the colorbar size relative to the map.<br>\n<a href=\"/user_uploads/2/45/rl6gjhR7xeXPHVwu0Cbl1gUk/almostconic.png\" target=\"_blank\" title=\"almostconic.png\">almostconic.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/45/rl6gjhR7xeXPHVwu0Cbl1gUk/almostconic.png\" target=\"_blank\" title=\"almostconic.png\"><img src=\"/user_uploads/2/45/rl6gjhR7xeXPHVwu0Cbl1gUk/almostconic.png\"></a></div>",
+        "id": 23502,
+        "sender_full_name": "Elizabeth Maroon",
+        "timestamp": 1609625838
+    },
+    {
+        "content": "<p>Thanks Liz. This is a good workaround, but I agree that it's quite awkward to have to pre-trim the data.</p>",
+        "id": 23503,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1609693153
+    }
+]

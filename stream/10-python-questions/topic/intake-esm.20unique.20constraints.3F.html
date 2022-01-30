@@ -1,0 +1,82 @@
+<html>
+<head><meta charset="utf-8"><title>intake-esm unique constraints? · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html">intake-esm unique constraints?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="24036"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24036" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24036">(Jan 20 2021 at 17:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  Does intake-esm require any columns in an intake catalog to have unique values?   I am considering building a catalog where the path to a Zarr store will appear more than once, as a way of describing the list of ensemble members for that store.  This list varies across the different Zarr stores described by the catalog.</p>
+
+
+
+<a name="24063"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24063" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24063">(Jan 20 2021 at 21:25)</a>:</h4>
+<blockquote>
+<p>Does intake-esm require any columns in an intake catalog to have unique values? </p>
+</blockquote>
+<p>You can have duplicate values in intake-esm catalog columns. </p>
+<blockquote>
+<p>I am considering building a catalog where the path to a Zarr store will appear more than once, as a way of describing the list of ensemble members for that store. </p>
+</blockquote>
+<p>Do you mind elaborating on this with a small example (for instance what will a single row look like)?</p>
+
+
+
+<a name="24064"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24064" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24064">(Jan 20 2021 at 21:42)</a>:</h4>
+<blockquote>
+<p>Do you mind elaborating on this with a small example (for instance what will a single row look like)?</p>
+</blockquote>
+<p>OK, I am imagining that the first few lines of the catalog CSV file would look like the following, with the same path for all lines, and differences only in the RCM or Driver columns, because the same Zarr store contains all these different simulation runs:</p>
+<div class="codehilite"><pre><span></span>,path,variable,scenario,driver,rcm,frequency,grid,biascorrection,common,longname,units,member_id
+0,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,MPI-ESM-MR,CRCM5-UQAM,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,MPI-ESM-MR.CRCM5-UQAM
+1,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,GEMatm-Can,CRCM5-UQAM,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,GEMatm-Can.CRCM5-UQAM
+2,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,CNRM-CM5,CRCM5-OUR,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,CNRM-CM5.CRCM5-OUR
+3,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,GFDL-ESM2M,CRCM5-OUR,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,GFDL-ESM2M.CRCM5-OUR
+4,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,HadGEM2,RegCM4,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,HadGEM2-ES.RegCM4
+</pre></div>
+
+
+
+<a name="24065"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24065" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24065">(Jan 20 2021 at 21:53)</a>:</h4>
+<p>So essentially the catalog rows describe individual simulation runs, rather than individual Zarr stores.   Multiple runs would map to a single Zarr store.   I am hoping this doesn't break any of the intake-esm search behavior...it sounds like it would not.</p>
+
+
+
+<a name="24066"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24066" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24066">(Jan 20 2021 at 21:53)</a>:</h4>
+<p>Thank you for the clarification! Have you had a chance to look at the multi-variable example here: <a href="https://intake-esm.readthedocs.io/en/latest/user-guide/multi-variable-assets.html" target="_blank" title="https://intake-esm.readthedocs.io/en/latest/user-guide/multi-variable-assets.html">https://intake-esm.readthedocs.io/en/latest/user-guide/multi-variable-assets.html</a> </p>
+<p>I am asking because I think you may avoid the entry duplication by putting iterables (list, tuple, et...) in the RCM or Driver columns. I imagine something along these lines  would work ( I combine the first two rows into a single entry):</p>
+<div class="codehilite"><pre><span></span>0,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist, &quot;(MPI-ESM-MR, GEMatm-Can)&quot;, CRCM5-UQAM,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,&quot;(MPI-ESM-MR.CRCM5-UQAM, GEMatm-Can.CRCM5-UQAM)&quot;
+</pre></div>
+
+
+
+<a name="24067"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24067" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24067">(Jan 20 2021 at 21:55)</a>:</h4>
+<p>Aha, that is good to know.   We could design the catalog that way also.   Would the search and discovery behavior change depending on the choice of catalog implementation?</p>
+
+
+
+<a name="24068"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake-esm%20unique%20constraints%3F/near/24068" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake-esm.20unique.20constraints.3F.html#24068">(Jan 20 2021 at 21:59)</a>:</h4>
+<p>The search should work regardless of the types of items in a row/columns. The only caveat is that we have to tell pandas how to parse these "special columns":</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">intake</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span>
+    <span class="s2">&quot;my-catalog.json&quot;</span><span class="p">,</span>
+    <span class="n">csv_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;converters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;driver&quot;</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">,</span> <span class="s2">&quot;member_id&quot;</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">}},</span>
+<span class="p">)</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

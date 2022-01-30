@@ -1,0 +1,62 @@
+<html>
+<head><meta charset="utf-8"><title>Weighted Averages · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Weighted.20Averages.html">Weighted Averages</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="34520"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Weighted%20Averages/near/34520" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rose Craker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Weighted.20Averages.html#34520">(Jun 15 2021 at 21:01)</a>:</h4>
+<p>Hi all. I'm working with some monthly data formatted as an <code>xarray.DataArray</code>, and I'm trying to compute three month averages for the seasons DJF, MAM, JJA, and SON. The tricky part is that I'd like to make these averages weighted based on the number of days in each month. So far, I have the following dummy data and code which computes seasonal averages from the monthly data, but it isn't weighted.</p>
+<div class="codehilite"><pre><span></span>time = pd.date_range(&#39;2020-01-01&#39;, &#39;2020-12-31&#39;, freq=&#39;M&#39;)
+temp_data = np.arange(len(time))
+da = xr.DataArray(data=temp_data,
+                  coords=dict(time=time,),
+                  dims=[&#39;time&#39;],
+                  attrs=dict(description=&#39;Dummy Data&#39;))
+
+avgs = da.rolling({&#39;time&#39;: 3}, center=True)\
+         .construct(&#39;window_dim&#39;, stride=3)\
+         .mean(&#39;window_dim&#39;)
+print(avgs)
+</pre></div>
+
+
+<p>Output</p>
+<div class="codehilite"><pre><span></span>&lt;xarray.DataArray (time: 4)&gt;
+array([0.5, 3. , 6. , 9. ])
+Coordinates:
+  * time     (time) datetime64[ns] 2020-01-31 2020-04-30 2020-07-31 2020-10-31
+Attributes:
+    description:  Dummy Data
+</pre></div>
+
+
+<p>I've tried following the last example in the <a href="http://xarray.pydata.org/en/stable/user-guide/computation.html#rolling-window-operations" target="_blank" title="http://xarray.pydata.org/en/stable/user-guide/computation.html#rolling-window-operations">rolling window operations section</a> of the xarray documentation, but I haven't gotten anywhere. Does anyone know how of xarray functions that can help me do what I want? Thanks in advance!</p>
+
+
+
+<a name="34524"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Weighted%20Averages/near/34524" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Weighted.20Averages.html#34524">(Jun 15 2021 at 21:09)</a>:</h4>
+<p>This problem is actually featured in a <code>groupby</code> example in the xarray docs gallery! <a href="http://xarray.pydata.org/en/stable/examples/monthly-means.html" target="_blank" title="http://xarray.pydata.org/en/stable/examples/monthly-means.html">link</a></p>
+
+
+
+<a name="34576"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Weighted%20Averages/near/34576" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rose Craker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Weighted.20Averages.html#34576">(Jun 16 2021 at 14:26)</a>:</h4>
+<p>Huh for some reason I never found this page. Thanks! I think it's exactly what I need.</p>
+
+
+
+<a name="43678"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Weighted%20Averages/near/43678" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Judith Berner <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Weighted.20Averages.html#43678">(Sep 27 2021 at 20:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="127">@Abby Jaye</span></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,75 @@
+<html>
+<head><meta charset="utf-8"><title>xwrf · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html">xwrf</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="46421"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/46421" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#46421">(Nov 05 2021 at 21:43)</a>:</h4>
+<p>Hi, I'm having issues with the xwrf example. I have tried to recreate it verbatim with my own conda environment and there seems to be an xarray backend problem - way beyond my expertise. I update xarray in my env. but it didn't help.Here's the error message after 'wrf_ds = xr.open_dataset(files[0])' in the example on <a href="https://ncar.github.io/esds/posts/2021/xarray-wrf-example/">https://ncar.github.io/esds/posts/2021/xarray-wrf-example/</a></p>
+<p>ValueError                                Traceback (most recent call last)<br>
+/glade/scratch/rneale/ipykernel_116200/1424271191.py in &lt;module&gt;<br>
+      1 print(files[0])<br>
+----&gt; 2 wrf_ds = xr.open_dataset(files[0])<br>
+      3 print(wrf_ds)</p>
+<p>/glade/work/rneale/python/miniconda3/envs/neale_wrf/lib/python3.9/site-packages/xarray/backends/api.py in open_dataset(filename_or_obj, engine, chunks, cache, decode_cf, mask_and_scale, decode_times, decode_timedelta, use_cftime, concat_characters, decode_coords, drop_variables, backend_kwargs, *args, **kwargs)<br>
+    477 <br>
+    478     if engine is None:<br>
+--&gt; 479         engine = plugins.guess_engine(filename_or_obj)<br>
+    480 <br>
+    481     backend = plugins.get_backend(engine)</p>
+<p>/glade/work/rneale/python/miniconda3/envs/neale_wrf/lib/python3.9/site-packages/xarray/backends/plugins.py in guess_engine(store_spec)<br>
+    154         )<br>
+    155 <br>
+--&gt; 156     raise ValueError(error_msg)<br>
+    157 <br>
+    158 </p>
+<p>ValueError: found the following matches with the input file in xarray's IO backends: ['netcdf4', 'h5netcdf']. But their dependencies may not be installed, see:<br>
+<a href="http://xarray.pydata.org/en/stable/user-guide/io.html">http://xarray.pydata.org/en/stable/user-guide/io.html</a> <br>
+<a href="http://xarray.pydata.org/en/stable/getting-started-guide/installing.html">http://xarray.pydata.org/en/stable/getting-started-guide/installing.html</a></p>
+
+
+
+<a name="46422"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/46422" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#46422">(Nov 05 2021 at 21:44)</a>:</h4>
+<p>Sorry there was a regression in the most recent xarray release. I've pushed a bugfix release but it hasn't reached conda-forge yet. IDowngrading to <code>xarray=0.19.0</code> should work.</p>
+
+
+
+<a name="46512"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/46512" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#46512">(Nov 08 2021 at 21:46)</a>:</h4>
+<p>Sweet that worked. Thanks Deepak!</p>
+
+
+
+<a name="47345"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/47345" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#47345">(Nov 20 2021 at 15:04)</a>:</h4>
+<p>I another question on xwrf. Can I control the range of the colorbar/contouring as arguments to the hvplot.quadmesh widget, because the range jumps around with each frame, which is not that useful. I couldn't find anything about counting range arguments. Thanks!</p>
+
+
+
+<a name="47346"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/47346" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#47346">(Nov 20 2021 at 16:47)</a>:</h4>
+<p>I think its <code>cmin</code> and <code>cmax</code> to control range.</p>
+
+
+
+<a name="47347"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/47347" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#47347">(Nov 21 2021 at 22:28)</a>:</h4>
+<p>You can pass ‘clim = (min, max)’ into the arguements</p>
+
+
+
+<a name="47381"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xwrf/near/47381" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xwrf.html#47381">(Nov 23 2021 at 00:14)</a>:</h4>
+<p>Thanks. Literally 10 seconds after I posted, I saw it used in an example!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,145 @@
+<html>
+<head><meta charset="utf-8"><title>usage interp_hybrid_to_pressure · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html">usage interp_hybrid_to_pressure</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30872"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/30872" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#30872">(May 04 2021 at 19:29)</a>:</h4>
+<p>Hi all, but especially <span class="user-mention" data-user-id="18">@Orhan Eroglu</span> :<br>
+I'm getting an error <code>numpy.AxisError: axis 1 is out of bounds for array of dimension 1</code> when trying to use GeoCAT's interp_hybrid_to_pressure. Here's what I'm trying:</p>
+<div class="codehilite"><pre><span></span>import geocat.comp as gc
+import xarray as xr
+loc = &quot;/glade/p/cesm/pcwg/jenkay/COSP/cesm21/f.e21.FHIST_BGC.f09_f09_mg17.CMIP6-AMIP.001_cosp1/atm/proc/tseries/month_1/&quot;
+ds_ps = xr.open_dataset(loc+&quot;f.e21.FHIST_BGC.f09_f09_mg17.CMIP6-AMIP.001_cosp1.cam.h0.PS.197901-201412.nc&quot;)
+ds_t = xr.open_dataset(loc+&quot;f.e21.FHIST_BGC.f09_f09_mg17.CMIP6-AMIP.001_cosp1.cam.h0.T.197901-201412.nc&quot;)
+temp = ds_t[&quot;T&quot;]
+ps = ds_ps[&quot;PS&quot;]
+temp_plev = gc.interp_hybrid_to_pressure(temp, ps, ds_t[&#39;hyam&#39;], ds_t[&#39;hybm&#39;], lev_dim=&#39;lev&#39;)
+</pre></div>
+
+
+<p>This is with python 3.9.2 in a brand new geocat environment on casper (with the addition of conda install netcdf4).</p>
+<p>Any idea what is happening?</p>
+
+
+
+<a name="30873"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/30873" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#30873">(May 04 2021 at 19:33)</a>:</h4>
+<p><a href="https://github.com/NCAR/geocat-comp/blob/eae0d27f353db2bfae9ae36ad2b615fdca66cf44/src/geocat/comp/interp_hybrid_to_pressure.py#L70" target="_blank" title="https://github.com/NCAR/geocat-comp/blob/eae0d27f353db2bfae9ae36ad2b615fdca66cf44/src/geocat/comp/interp_hybrid_to_pressure.py#L70">https://github.com/NCAR/geocat-comp/blob/eae0d27f353db2bfae9ae36ad2b615fdca66cf44/src/geocat/comp/interp_hybrid_to_pressure.py#L70</a></p>
+<p>This is a bug. <code>interp_axis</code> should always be -1, since <code>lev_dim</code> is a core dim, apply_ufunc will transpose so that <code>lev_dim</code> is the last dimension.</p>
+<p><span class="user-mention" data-user-id="61">@Brian Medeiros</span> try <code>gc.interp_hybrid_to_pressure(temp.transpose(..., "lev"), ...)</code>.</p>
+
+
+
+<a name="30915"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/30915" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#30915">(May 04 2021 at 21:38)</a>:</h4>
+<p>Thanks, <span class="user-mention" data-user-id="25">@Deepak Cherian</span> ! That makes sense. Applying transpose appears to be working.</p>
+
+
+
+<a name="30917"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/30917" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#30917">(May 04 2021 at 22:22)</a>:</h4>
+<p>I spoke too soon. I can get it to work for a single column, but it seems like as soon as I use an actual multidimensional array it is giving a similar kind of error. I tried to use a subset of the data:</p>
+<div class="codehilite"><pre><span></span>ntime = 2
+temp_sample = temp.isel(time=slice(None,ntime)).transpose(&quot;time&quot;,&quot;lat&quot;,&quot;lon&quot;,&quot;lev&quot;)
+ps_sample = ps.isel(time=slice(None,ntime))
+print(temp_sample.shape)  # (2, 192, 288, 32)
+print(ps_sample.shape)  # (2, 192, 288)
+tmp = gc.interp_hybrid_to_pressure(temp_sample, ps_sample, ds_t[&#39;hyam&#39;], ds_t[&#39;hybm&#39;])
+tmp
+</pre></div>
+
+
+<p>and it says <code>AxisError: axis 3 is out of bounds for array of dimension 1</code></p>
+
+
+
+<a name="30926"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/30926" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#30926">(May 05 2021 at 02:52)</a>:</h4>
+<p>Well, I don't completely understand what is going on, but I can share a workaround for this issue. I switched from the MetPy interpolation to just plain old numpy <code>interp</code>:</p>
+<div class="codehilite"><pre><span></span>    if method == &#39;linear&#39;:
+#         func_interpolate = metpy.interpolate.interpolate_1d
+        func_interpolate = np.interp
+</pre></div>
+
+
+<p>and corresponding adjustment of the vertical remapper:</p>
+<div class="codehilite"><pre><span></span>    def _vertical_remap(data, pressure):
+        &quot;&quot;&quot;Define interpolation function.&quot;&quot;&quot;
+        return func_interpolate(new_levels, pressure, data, left=np.nan, right=np.nan)
+</pre></div>
+
+
+<p>This appears to behave nicely.</p>
+
+
+
+<a name="30935"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/30935" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#30935">(May 05 2021 at 15:36)</a>:</h4>
+<p>I will be looking into it soon</p>
+
+
+
+<a name="31230"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/31230" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#31230">(May 11 2021 at 19:53)</a>:</h4>
+<p>If you find we're doing something wrong, please don't hesitate to open an issue.</p>
+
+
+
+<a name="31825"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/31825" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#31825">(May 18 2021 at 21:35)</a>:</h4>
+<p>Especially <span class="user-mention" data-user-id="61">@Brian Medeiros</span> and <span class="user-mention" data-user-id="41">@Ryan May</span> , and also others, sorry for the late report back. I have had some findings now:</p>
+<p>1) The <code>pressure</code> and <code>data</code> were not of the same shape (after <code>_pressure_from_hybrid</code> call) though it is required by <code>metpy.interpolate.interpolate_1d</code>. I first corrected this one:</p>
+<div class="codehilite"><pre><span></span># Calculate pressure levels at the hybrid levels
+    pressure = _pressure_from_hybrid(ps, hyam, hybm, p0)  # Pa
+
+    pressure = pressure.transpose(*data.dims)
+</pre></div>
+
+
+<p>2) After that, the code was still failing within the <code>xarray.apply_ufunc</code> call. I wanted to first see how <code>metpy.interpolate.interpolate_1d</code> or <code>metpy.interpolate.log_interpolate_1d</code> is behaving when data is of type numpy.ndarray or xarray.DataArray. So, I tested the following cases:</p>
+<p><strong>a- Numpy Inputs</strong>: When I converted Brian's inputs to Numpy and called metpy functions directly (i.e. no <code>xarray.apply_ufunc</code>), the code ran successfully.</p>
+<div class="codehilite"><pre><span></span>    # Calling with Numpy is successful
+    output_np = _vertical_remap(data.values, pressure.values)
+</pre></div>
+
+
+<p><strong>b- Xarray Inputs</strong>: When I kept Brian's inputs as is ( i.e. Xarray) and called metpy functions directly (i.e. no <code>xarray.apply_ufunc</code>), the code failed.</p>
+<div class="codehilite"><pre><span></span>    # Calling with Xarray is failing!!!
+    output_xr = _vertical_remap(data, pressure)
+</pre></div>
+
+
+<p>Here is the failure message, which is clearer than the failure messages that were output while calling via <code>xarray.apply_ufunc</code> (Though, the original failure Brian found in the original code, i.e. via <code>xarray.apply_ufunc</code>, was due to this same <code>xarray</code> thing I think):</p>
+<div class="codehilite"><pre><span></span>  File &quot;/Users/oero/miniconda3/envs/geocat_comp_build/lib/python3.9/site-packages/geocat/comp/interp_hybrid_to_pressure.py&quot;, line 89, in _vertical_remap
+    return func_interpolate(new_levels, pressure, data, axis=interp_axis)
+  File &quot;/Users/oero/miniconda3/envs/geocat_comp_build/lib/python3.9/site-packages/metpy/xarray.py&quot;, line 1206, in wrapper
+    result = func(*bound_args.args, **bound_args.kwargs)
+  File &quot;/Users/oero/miniconda3/envs/geocat_comp_build/lib/python3.9/site-packages/metpy/interpolate/one_dimension.py&quot;, line 127, in interpolate_1d
+    minv = np.apply_along_axis(np.searchsorted, axis, xp, x[sort_x])
+  File &quot;&lt;__array_function__ internals&gt;&quot;, line 5, in apply_along_axis
+TypeError: no implementation found for &#39;numpy.apply_along_axis&#39; on types that implement __array_function__: [&lt;class &#39;pint.quantity.build_quantity_class.&lt;locals&gt;.Quantity&#39;&gt;]
+</pre></div>
+
+
+<p>I couldn't dig into the actual issue with <code>metpy</code> &amp; <code>xarray</code> for the time; I will continue my investigation into it.</p>
+<p><span class="user-mention" data-user-id="41">@Ryan May</span> : I can create an issue in metpy repo, but I am not sure how to provide them/you with an easily replicable GeoCAT-comp run of this (i.e. it may require you to setup GeoCAT-comp etc.). Maybe I could create a branch/PR from these changes I have made under our code, and metpy folks would like to step in? Let me know what is more convenient for you (if you think it is a metpy issue).</p>
+
+
+
+<a name="32822"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/usage%20interp_hybrid_to_pressure/near/32822" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/usage.20interp_hybrid_to_pressure.html#32822">(May 27 2021 at 03:21)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="61">@Brian Medeiros</span> </p>
+<p>Please see <a href="https://github.com/NCAR/geocat-comp/pull/155" target="_blank" title="https://github.com/NCAR/geocat-comp/pull/155">GeoCAT-comp PR #155</a> for a workaround to get <code>interp_hybrid_to_pressure</code> successfully for Xarray inputs of 4D or more dims. With this new version of the code, your original script (i.e. without transposing data) should work successfully. I already tested it. Please let me know if you can test it with the code in the PR; otherwise, you can also give it a try with our newer version via conda around end of May or early June.  By the way, I tested both unchunked and chunked versions of your data and got dramatically different performances, which I could share with you.</p>
+<p><span class="user-mention" data-user-id="41">@Ryan May</span> I think that this is related to metpy.interpolate's xarray interface; thus, I have created an issue with a minimal code that does directly run on metpy functions (i.e. no geocat-comp functionality). Please see the <a href="https://github.com/Unidata/MetPy/issues/1889" target="_blank" title="https://github.com/Unidata/MetPy/issues/1889">Metpy Issue #1889 here</a></p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

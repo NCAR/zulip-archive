@@ -1,0 +1,154 @@
+<html>
+<head><meta charset="utf-8"><title>assigning values with dask · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html">assigning values with dask</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="35411"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35411" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35411">(Jun 23 2021 at 17:27)</a>:</h4>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span> can you provide your dask version? Dask allows assignment , but only with very recent versions: <a href="https://docs.dask.org/en/latest/array-assignment.html" target="_blank" title="https://docs.dask.org/en/latest/array-assignment.html">https://docs.dask.org/en/latest/array-assignment.html</a></p>
+
+
+
+<a name="35412"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35412" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35412">(Jun 23 2021 at 17:28)</a>:</h4>
+<p>'2021.02.0'</p>
+
+
+
+<a name="35413"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35413" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35413">(Jun 23 2021 at 17:28)</a>:</h4>
+<blockquote>
+<p>What's the output of </p>
+<div class="codehilite"><pre><span></span><span class="n">xr</span><span class="o">.</span><span class="n">show_versions</span><span class="p">()</span>
+</pre></div>
+
+
+<p>?</p>
+</blockquote>
+<p>INSTALLED VERSIONS</p>
+<hr>
+<p>commit: None<br>
+python: 3.8.8 | packaged by conda-forge | (default, Feb 20 2021, 16:22:27) <br>
+[GCC 9.3.0]<br>
+python-bits: 64<br>
+OS: Linux<br>
+OS-release: 3.10.0-1160.25.1.el7.x86_64<br>
+machine: x86_64<br>
+processor: x86_64<br>
+byteorder: little<br>
+LC_ALL: None<br>
+LANG: en_US.UTF-8<br>
+LOCALE: ('en_US', 'UTF-8')<br>
+libhdf5: 1.10.6<br>
+libnetcdf: 4.7.4</p>
+<p>xarray: 0.18.2<br>
+pandas: 1.2.2<br>
+numpy: 1.20.1<br>
+scipy: 1.5.3<br>
+netCDF4: 1.5.6<br>
+pydap: None<br>
+h5netcdf: 0.10.0<br>
+h5py: 3.1.0<br>
+Nio: None<br>
+zarr: 2.6.1<br>
+cftime: 1.4.1<br>
+nc_time_axis: 1.2.0<br>
+PseudoNetCDF: None<br>
+rasterio: None<br>
+cfgrib: None<br>
+iris: 2.4.0<br>
+bottleneck: 1.3.2<br>
+dask: 2021.02.0<br>
+distributed: 2021.02.0<br>
+matplotlib: 3.3.4<br>
+cartopy: 0.18.0<br>
+seaborn: 0.11.1<br>
+numbagg: None<br>
+pint: None<br>
+setuptools: 49.6.0.post20210108<br>
+pip: 21.0.1<br>
+conda: 4.9.2<br>
+pytest: 6.2.2<br>
+IPython: 7.21.0<br>
+sphinx: 3.5.1</p>
+
+
+
+<a name="35414"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35414" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35414">(Jun 23 2021 at 17:30)</a>:</h4>
+<p>Looks like it went in on FEb 10, and is in 2021.03.0</p>
+
+
+
+<a name="35426"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35426" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35426">(Jun 23 2021 at 17:35)</a>:</h4>
+<p>ok I will update</p>
+
+
+
+<a name="35428"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35428" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35428">(Jun 23 2021 at 17:40)</a>:</h4>
+<p>I update like this <code>conda install -c conda-forge dask==2021.03.0</code> correct? Asking because it's taking forever to solve environment <code>Solving environment: failed with initial frozen solve. Retrying with flexible solve.</code><br>
+and <code>conda update dask</code> told me all requested packages already installed.</p>
+
+
+
+<a name="35429"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35429" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35429">(Jun 23 2021 at 17:43)</a>:</h4>
+<p>try <code>mamba</code> instead of <code>conda</code>?</p>
+
+
+
+<a name="35430"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35430" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35430">(Jun 23 2021 at 17:43)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> can you put your usual tricks for this scenario in a FAQ entry?</p>
+
+
+
+<a name="35432"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35432" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35432">(Jun 23 2021 at 17:55)</a>:</h4>
+<p><code>mamba</code> worked (and looks super fancy) and the assignment also works now <span aria-label="tada" class="emoji emoji-1f389" role="img" title="tada">:tada:</span></p>
+
+
+
+<a name="35436"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35436" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35436">(Jun 23 2021 at 17:56)</a>:</h4>
+<p>Nice! Let's add a note to the top of the notebook then. We should consider distributing some environment files.</p>
+
+
+
+<a name="35438"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35438" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35438">(Jun 23 2021 at 17:56)</a>:</h4>
+<p>definitely</p>
+
+
+
+<a name="35439"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35439" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35439">(Jun 23 2021 at 17:57)</a>:</h4>
+<p>will do that after lunch.</p>
+
+
+
+<a name="35440"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35440" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35440">(Jun 23 2021 at 18:30)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span> can you put your usual tricks for this scenario in a FAQ entry?</p>
+</blockquote>
+<p>Done. The PR resides here: <a href="https://github.com/NCAR/esds/pull/71" target="_blank" title="https://github.com/NCAR/esds/pull/71">https://github.com/NCAR/esds/pull/71</a></p>
+
+
+
+<a name="35441"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/assigning%20values%20with%20dask/near/35441" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/assigning.20values.20with.20dask.html#35441">(Jun 23 2021 at 18:32)</a>:</h4>
+<p>awesome thanks!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

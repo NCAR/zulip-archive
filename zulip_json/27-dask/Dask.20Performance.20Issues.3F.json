@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hello, Dask Users!</p>\n<p>I'm writing this to solicit feedback from Dask+Xarray users about any performance issues you have when attempting to do parallel operations with Dask.  If you have any particular issues, please respond to this message with a detailed description of the problem you are having.  If you can provide a \"minimal example\" of the problem so that others can reproduce the problem, that is even better.  And if someone responds with an issue that <em>you</em> are experiencing, too, then tag their message with a <span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span>.</p>\n<p>Thanks for the feedback!</p>\n<p>-- Kevin</p>",
+        "id": 8007,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1588784236
+    },
+    {
+        "content": "<p>I don't know how simple I can make this, but it is reproducible and relatively easy to set up.   </p>\n<p>We have a notebook we use to create Zarr stores from NetCDF files here:  <a href=\"https://github.com/NCAR/cesm-lens-zarrification/blob/master/notebooks/zarrify.ipynb\" target=\"_blank\" title=\"https://github.com/NCAR/cesm-lens-zarrification/blob/master/notebooks/zarrify.ipynb\">https://github.com/NCAR/cesm-lens-zarrification/blob/master/notebooks/zarrify.ipynb</a>. .   In this same folder is a config.yaml file that specifies which LENS variables we wish to work with.   When saving a particularly large Zarr store, for example SALT for the 20C experiment, the Zarr creation step will fail if the task graph is created with 2-4 workers allocated, even if within a minute or two there are &gt; 10 workers available.   The 10 workers must be available when the task graph is first created, or a KilledWorker and failed Zarr save are the result.   </p>\n<p>It would seem that Dask is not redistributing tasks evenly when more workers become available.  I realize that there is probably a subjective choice that must be made around when to redistribute tasks, and of course I don't understand the underlying technical issues that might prevent something like this from being a simple matter.   </p>\n<p>Let me know if I can provide more information.</p>",
+        "id": 8012,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1588788637
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> Yeah.  That's odd.</p>",
+        "id": 8028,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1588795129
+    },
+    {
+        "content": "<p>Dask version being used is 2.14.0, partly because 2.15.0 seems to cause dask dashboard issues on Casper.   I have seen something in the discussions around recent changes in Dask concurrent futures.  I'm not sure if the problem goes away with newer versions.</p>",
+        "id": 8030,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1588795381
+    },
+    {
+        "content": "<p>Ok.  Let's keep an eye on this, then.</p>",
+        "id": 8032,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1588795423
+    },
+    {
+        "content": "<p>And to be clear, the problem I'm having is not minor because the load on Casper is pretty high most of the time.   That means that I have to try creating these stores at strange hours, because 2-4 workers is often all that is available until evening hours.</p>",
+        "id": 8036,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1588795542
+    },
+    {
+        "content": "<p>Understood.</p>",
+        "id": 8039,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1588795745
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span> Are you rechunking? This smells like a memory management problem which is common in rechunking workloads (see <a href=\"https://discourse.pangeo.io/t/best-practices-to-go-from-1000s-of-netcdf-files-to-analyses-on-a-hpc-cluster/588\" target=\"_blank\" title=\"https://discourse.pangeo.io/t/best-practices-to-go-from-1000s-of-netcdf-files-to-analyses-on-a-hpc-cluster/588\">https://discourse.pangeo.io/t/best-practices-to-go-from-1000s-of-netcdf-files-to-analyses-on-a-hpc-cluster/588</a>)</p>",
+        "id": 8058,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1588797218
+    },
+    {
+        "content": "<p>Yes, there is rechunking as part of the overall graph, and the workers are killed when memory runs out  for one of the original workers.  But it appears that the other workers that are added after the initial graph is created have plenty of memory.   Thanks for the link; I will look at it today when I have a chance.</p>",
+        "id": 8061,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1588797989
+    }
+]

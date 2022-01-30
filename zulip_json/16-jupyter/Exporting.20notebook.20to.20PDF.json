@@ -1,0 +1,80 @@
+[
+    {
+        "content": "<p>Does anyone have experience exporting Jupyter notebooks to PDF? I found information to do this (<a href=\"https://nbconvert.readthedocs.io/en/latest/install.html#installing-tex\" target=\"_blank\" title=\"https://nbconvert.readthedocs.io/en/latest/install.html#installing-tex\">https://nbconvert.readthedocs.io/en/latest/install.html#installing-tex</a>), although it seems to require the use of 'sudo' (sudo apt-get install texlive-xetex texlive-fonts-recommended texlive-generic-recommended), which I believe we are not encouraged (or allowed?) to do on Cheyenne or Casper.</p>",
+        "id": 23094,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1608068078
+    },
+    {
+        "content": "<p>you could sync to your local machine and do it there. I haven't done it on CISL systems</p>",
+        "id": 23096,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1608069608
+    },
+    {
+        "content": "<p>Alternatively, it looks like <code>texlive</code> is on conda: <a href=\"https://anaconda.org/conda-forge/texlive-core\" target=\"_blank\" title=\"https://anaconda.org/conda-forge/texlive-core\">https://anaconda.org/conda-forge/texlive-core</a> so</p>\n<div class=\"codehilite\"><pre><span></span>$ conda install -c conda-forge texlive-core\n</pre></div>\n\n\n<p>might be enough (I'm not familiar with it, so I don't know if <code>xetex</code> and those fonts are needed... if so, there's a chance they're included in <code>-core</code> on conda)</p>",
+        "id": 23097,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608069850
+    },
+    {
+        "content": "<p>I think you'd want to install that package in a new environment rather than the one you run the notebook in, so maybe</p>\n<div class=\"codehilite\"><pre><span></span>$ conda create -c conda-forge --name nb_to_pdf texlive-core\n</pre></div>\n\n\n<p>would be a better suggestion</p>",
+        "id": 23098,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608069991
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> ! I installed the new environment as suggested, but I can't figure out how to use it. I typically use JupyterHub and restarted my session but don't see it available as a kernel. I can activate it on Cheyenne, but I'm not sure how to open and convert a notebook from the command line. Any suggestions?</p>",
+        "id": 23108,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1608072903
+    },
+    {
+        "content": "<p>A quick follow up: I did try <code>jupyter nbconvert --to pdf notebook.ipynb</code>, but got an error message that I need to install xelatex (<code>OSError: xelatex not found on PATH, if you have not installed xelatex you may need to do so.</code>). You had mentioned that they may be in <code>-core</code> on conda, but I'm not sure how to check and potentially use this.</p>",
+        "id": 23109,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1608073215
+    },
+    {
+        "content": "<p>It looks like there's a <code>texlive-selected</code> package: <a href=\"https://anaconda.org/pkgw/texlive-selected\" target=\"_blank\" title=\"https://anaconda.org/pkgw/texlive-selected\">https://anaconda.org/pkgw/texlive-selected</a> that might include <code>xetex</code> but I can't find any documentation on it (also, I don't know what the <code>pkgw/label/superseded</code> channel is)</p>\n<div class=\"codehilite\"><pre><span></span>$  conda install -c pkgw/label/superseded texlive-selected\n</pre></div>",
+        "id": 23113,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608075176
+    },
+    {
+        "content": "<p>Hmm, <code>pkgw</code> might be a person, and he says</p>\n<blockquote>\n<p>The set of Texlive packages in my texlive-selected recipe has enough to run nbconvert</p>\n</blockquote>\n<p><a href=\"https://github.com/conda-forge/texlive-core-feedstock/issues/3#issuecomment-227024540\" target=\"_blank\" title=\"https://github.com/conda-forge/texlive-core-feedstock/issues/3#issuecomment-227024540\">https://github.com/conda-forge/texlive-core-feedstock/issues/3#issuecomment-227024540</a></p>\n<p>but that's pretty vague...</p>",
+        "id": 23114,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608075320
+    },
+    {
+        "content": "<p>I'm beginning to think that my suggestion to bring in texlive via conda was a bad one, sorry</p>",
+        "id": 23115,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608075365
+    },
+    {
+        "content": "<p>Have you tried the <code>texlive</code> module that CISL is maintaining? Does it have xelatex?</p>\n<div class=\"codehilite\"><pre><span></span>$ module spider texlive\n\n--------------------------------------------------------------------------------------------------------\n  texlive: texlive/2018\n--------------------------------------------------------------------------------------------------------\n\n    This module can be loaded directly: module load texlive/2018\n</pre></div>",
+        "id": 23116,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608075426
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span>, in case the PDF creation via Latex option doesn't work, you may find the <a href=\"https://github.com/betatim/notebook-as-pdf\" target=\"_blank\" title=\"https://github.com/betatim/notebook-as-pdf\"><code>notebook-as-pdf</code></a> package to be an easier alternative. <strong>It doesn't require Latex</strong> and is easy to set up:</p>\n<ul>\n<li>Step 1: create environment (if you have an environment, skip to step 2)</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span>conda create -c conda-forge --name nb_to_pdf jupyterlab pip\n</pre></div>\n\n\n<ul>\n<li>Step 2: Install jupyterlab, pip and notebook-as-pdf</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span>conda activate nb_to_pdf\nconda install -c conda-forge jupyterlab pip\npython -m pip install -U notebook-as-pdf\npyppeteer-install\n</pre></div>\n\n\n<ul>\n<li>Step 3: Convert notebook to PDF</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span>jupyter-nbconvert --to PDFviaHTML mynotebook.ipynb\n</pre></div>",
+        "id": 23117,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1608076036
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> ! That did the trick! I appreciate all the help from both you and <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> !</p>",
+        "id": 23144,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1608077447
+    },
+    {
+        "content": "<p>Of course! Glad it was successful</p>",
+        "id": 23145,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1608077553
+    }
+]

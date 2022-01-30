@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hello all! I'm a student from CU Boulder working with Dr. Shields this semester to look at and study anemometer data from the Sonic versus the WXT. I just wanted to ask a question about some list conversion issues I'm having. To keep it very brief, Time, Wind Speed, and Wind Direction are being read in as a list of strings.<br>\nFor instance, Wind Speed looks something like ['2.0', '1.98', '3.04'] etc.<br>\nNow I have wanted to convert Wind Speed into a list of floating points, however... not all the data in my list is actually floats. There's missing data.<br>\nSo in reality, Wind Speed looks like ['3.40', ' ', '9.02', ' ', '6.78], and so on.<br>\nI've tried a bunch of list comprehensions, I've tried .replace and all sorts of other things but can't for the life of me figure out how to replace all these ' ' values with some temporary float value like '99.99'. As you can see from my code I've tried this lambda thing but for some reason that messed up my data and started conjoining floats together, so i'd end up with 99.99899.99599.99 and weird data like that.<br>\nDoes anyone have any idea on how I can replace these empty string values with a float so that I can convert my list to floats? (Also you can ignore the CWindSpd2 array, that was something I deleted because the lambda function wasnt properly cleaning my list)  <a href=\"/user_uploads/2/c3/BS1wHW1EG0UWU0AFdlzGWffI/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/c3/BS1wHW1EG0UWU0AFdlzGWffI/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/c3/BS1wHW1EG0UWU0AFdlzGWffI/Capture.PNG\"></a></div>",
+        "id": 18498,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1601572765
+    },
+    {
+        "content": "<p>Welcome, <span class=\"user-mention\" data-user-id=\"121\">@Muntaha Pasha</span>!  Thanks for the question.</p>\n<p>This kind of problem happens a lot with data.  There are always errors or unexpected values in the data that need to be dealt with in post-processing.  It is the messiest thing about data analysis.</p>\n<p>Try changing your <code>CWindSpd</code> calculation to the following:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">CWindSpd</span> <span class=\"o\">=</span> <span class=\"nb\">list</span><span class=\"p\">(</span><span class=\"nb\">map</span><span class=\"p\">(</span><span class=\"k\">lambda</span> <span class=\"n\">s</span><span class=\"p\">:</span> <span class=\"nb\">float</span><span class=\"p\">(</span><span class=\"n\">s</span><span class=\"p\">)</span> <span class=\"k\">if</span> <span class=\"n\">s</span> <span class=\"k\">else</span> <span class=\"kc\">None</span><span class=\"p\">,</span> <span class=\"n\">WindSpd</span><span class=\"p\">))</span>\n</pre></div>",
+        "id": 18499,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1601573249
+    },
+    {
+        "content": "<p>The <code>lambda</code> function that I wrote will return the string <code>s</code> converted to a <code>float</code> <em>if</em> the string evaluates to <code>True</code>, otherwise it will return <code>None</code>.  You could also replace <code>None</code> with your \"missing value\" of <code>99.99</code>.</p>",
+        "id": 18500,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1601573370
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> Thank you so much! That did the trick.</p>",
+        "id": 18501,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1601573498
+    },
+    {
+        "content": "<p>Note that in Python, it is typical that anything that contains multiple \"items\" in it (strings, lists, dicts, etc.) will evaluate to <code>False</code> if it is \"empty\" (i.e., <code>len(x) == 0</code>).  So, the line <code>if s else None</code> is equivalent to <code>if len(s) &gt; 0 else None</code>.</p>",
+        "id": 18502,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1601573505
+    },
+    {
+        "content": "<p>Ohh, I see. Yeah, that's a better way to go about it. At first I tried crazy for loops to iterate through empty spots and then try and replace the values there, but this is definitely more condensed and makes a lot more sense to me. Thanks again for the help!</p>",
+        "id": 18503,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1601573575
+    },
+    {
+        "content": "<p>You're very welcome.</p>\n<p>Since you are reading your data from a CSV file, you might consider working with <a href=\"https://pandas.pydata.org/\" target=\"_blank\" title=\"https://pandas.pydata.org/\">Pandas</a>.  Pandas has a builtin function <a href=\"https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html\" target=\"_blank\" title=\"https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html\"><code>read_csv</code></a> that will automatically read a CSV file and return a \"spreadsheet-like\" data structure for you.  The advantage of Pandas is that it will automatically try to detect the type of data.  In your case, it will automatically detect <code>float</code>s.</p>\n<p>It also allows you to do computations with missing values, which it will replace with <code>NaN</code>s.</p>",
+        "id": 18504,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1601573758
+    },
+    {
+        "content": "<p>You can also easily extract \"columns\" from your Pandas \"spreadsheet\" (called a <code>Dataframe</code>) into NumPy arrays, which are great for computation.</p>",
+        "id": 18505,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1601573822
+    },
+    {
+        "content": "<p>...But start with what you know and go from there once you have it working the way you want.  <span aria-label=\"smiley\" class=\"emoji emoji-1f603\" role=\"img\" title=\"smiley\">:smiley:</span></p>",
+        "id": 18506,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1601573856
+    }
+]

@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>Does anyone have an example of getting ufunc to work for scipy.stats?  Specifically I'm trying to calculate a correlation coefficient (r) and p-values for two xarray data arrays.  This example is good for for the correlation coefficient,  <a href=\"http://xarray.pydata.org/en/stable/dask.html\" target=\"_blank\" title=\"http://xarray.pydata.org/en/stable/dask.html\">http://xarray.pydata.org/en/stable/dask.html</a>, but I'd like to just use scipy.stats</p>",
+        "id": 13274,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1593606885
+    },
+    {
+        "content": "<p>xarray even has a .corr function now, but still not sure how to get significance levels from this?</p>",
+        "id": 13275,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1593607837
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> , I use <code>xr.apply_ufunc</code> to compute regression slope in <a href=\"https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/7d17d5cd8a555f1992f45d59764241d455cfe291/src/utils.py#L210-L244\" target=\"_blank\" title=\"https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/7d17d5cd8a555f1992f45d59764241d455cfe291/src/utils.py#L210-L244\">this code</a>. I'm passing <code>regression_slope_np_1d_2d</code>, a function I wrote that works on plain numpy arrays, to <code>xr.apply_ufunc</code>. This might serve as a template for you, where you would similarly pass a scipy.stats function to <code>xr.apply_ufunc</code>.</p>",
+        "id": 13276,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1593608392
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> do you have an example notebook with your attempt? One complication here is that <code>apply_ufunc</code> cannot deal with multiple return values with dask arrays yet. so you'll have to write a wrapper function that stacks <code>r</code> and <code>p</code> into a (2xN) array and return that. And then unpack it to two dataarrays. </p>\n<p>This example (<a href=\"https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html\">https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html</a>) discusses a lot of the errors you may run in to while doing this.</p>",
+        "id": 13277,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1593614987
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> --</p>\n<p>(1) A non-apply-ufunc solution would be to use <code>xskillscore</code> (<a href=\"https://github.com/raybellwaves/xskillscore/\" target=\"_blank\" title=\"https://github.com/raybellwaves/xskillscore/\">https://github.com/raybellwaves/xskillscore/</a>). I've done a lot of development here, and we have it working pretty efficiently. We use <code>apply_ufunc</code> and pure numpy functions under the hood. And it works with <code>dask</code>. So you could just do <code>r = xskillscore.pearson_r(da1, da2, 'time')</code> to get gridded results of correlation coefficients. Then <code>p = xskillscore.pearson_r_p_value(da1, da2, 'time')</code> to get the significance values.</p>\n<p>(2) Getting at what <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> is saying, you can get around the multiple output issue with <code>dask</code>/<code>apply_ufunc</code> with the following:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">from</span> <span class=\"nn\">scipy</span> <span class=\"kn\">import</span> <span class=\"n\">stats</span>\n<span class=\"k\">def</span> <span class=\"nf\">new_linregress</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">y</span><span class=\"p\">):</span>\n    <span class=\"c1\"># Wrapper around scipy linregress to use in apply_ufunc</span>\n    <span class=\"n\">slope</span><span class=\"p\">,</span> <span class=\"n\">intercept</span><span class=\"p\">,</span> <span class=\"n\">r_value</span><span class=\"p\">,</span> <span class=\"n\">p_value</span><span class=\"p\">,</span> <span class=\"n\">std_err</span> <span class=\"o\">=</span> <span class=\"n\">stats</span><span class=\"o\">.</span><span class=\"n\">linregress</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">y</span><span class=\"p\">)</span>\n    <span class=\"k\">return</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"p\">([</span><span class=\"n\">slope</span><span class=\"p\">,</span> <span class=\"n\">intercept</span><span class=\"p\">,</span> <span class=\"n\">r_value</span><span class=\"p\">,</span> <span class=\"n\">p_value</span><span class=\"p\">,</span> <span class=\"n\">std_err</span><span class=\"p\">])</span>\n\n<span class=\"c1\"># return a new DataArray</span>\n<span class=\"n\">stats</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">apply_ufunc</span><span class=\"p\">(</span><span class=\"n\">new_linregress</span><span class=\"p\">,</span> <span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">x</span><span class=\"p\">],</span> <span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"n\">y</span><span class=\"p\">],</span>\n                        <span class=\"n\">input_core_dims</span><span class=\"o\">=</span><span class=\"p\">[[</span><span class=\"s1\">&#39;time&#39;</span><span class=\"p\">],</span> <span class=\"p\">[</span><span class=\"s1\">&#39;time&#39;</span><span class=\"p\">]],</span>\n                        <span class=\"n\">output_core_dims</span><span class=\"o\">=</span><span class=\"p\">[[</span><span class=\"s2\">&quot;parameter&quot;</span><span class=\"p\">]],</span>\n                        <span class=\"n\">vectorize</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">,</span>\n                        <span class=\"n\">dask</span><span class=\"o\">=</span><span class=\"s2\">&quot;parallelized&quot;</span><span class=\"p\">,</span>\n                        <span class=\"n\">output_dtypes</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">&#39;float64&#39;</span><span class=\"p\">],</span>\n                        <span class=\"n\">output_sizes</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s2\">&quot;parameter&quot;</span><span class=\"p\">:</span> <span class=\"mi\">5</span><span class=\"p\">},</span>\n                        <span class=\"p\">)</span>\n</pre></div>\n\n\n<p>This will return a dataset with dimension <code>parameter</code> that has slope, intercept, etc. in it.</p>",
+        "id": 13287,
+        "sender_full_name": "Riley Brady",
+        "timestamp": 1593618308
+    },
+    {
+        "content": "<p>Thanks for the suggestions.  I'll give this  a  try.  For the the purposes of  my current project I  just manually calculated  the critical values for p&lt;0.05 and masked out grid cells that didn't meet this criteria.</p>",
+        "id": 13305,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1593621821
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"40\">@Riley Brady</span> thanks for this example. It's really helpful!  Can more examples like this be provided in the xarray documentation?!</p>",
+        "id": 13316,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1593624463
+    }
+]

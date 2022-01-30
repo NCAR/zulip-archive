@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>cc <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> <span class=\"user-mention\" data-user-id=\"44\">@Frank Bryan</span> </p>\n<p>So I had to do this to get it to work:</p>\n<div class=\"codehilite\"><pre><span></span>dzt = ... (matches exactly)\ndzu = 4 point min of dzt\n\n# this is the funny part\ndzu = xr.where(\n        fortran_zindex &gt;= KMU,   # fortran_zindex is integer in range [1, 62]\n        dzt, # when condition is true\n        dzu, # when condition is false\n    )\n</pre></div>\n<p>Is this sensible? i.e. setting <code>DZU</code> at <code>KMU</code> and deeper to <code>DZT</code></p>",
+        "id": 5924,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1585933298
+    },
+    {
+        "content": "<p>Frank, </p>\n<p>With</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"p\">(</span>\n    <span class=\"n\">expected</span><span class=\"p\">[[</span><span class=\"s2\">&quot;DZU&quot;</span><span class=\"p\">,</span> <span class=\"s2\">&quot;DZT&quot;</span><span class=\"p\">]]</span>\n    <span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">nlon</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"o\">-</span><span class=\"mi\">10</span><span class=\"p\">,</span> <span class=\"bp\">None</span><span class=\"p\">),</span> <span class=\"n\">nlat</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">70</span><span class=\"p\">),</span> <span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"mi\">0</span><span class=\"p\">)</span>\n    <span class=\"o\">.</span><span class=\"n\">to_array</span><span class=\"p\">(</span><span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s2\">&quot;variable&quot;</span><span class=\"p\">)</span>\n    <span class=\"o\">.</span><span class=\"n\">plot</span><span class=\"p\">(</span><span class=\"n\">col</span><span class=\"o\">=</span><span class=\"s2\">&quot;variable&quot;</span><span class=\"p\">)</span>\n<span class=\"p\">)</span>\n</pre></div>\n\n\n<p>I get<br>\n<a href=\"/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\"></a></div><p>which seems totally wrong. These points are all land so it doesn't matter (does matter for testing though).<br>\nOnce I set <code>DZU = DZT</code> in this region; everything is equal!</p>",
+        "id": 5938,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1585937235
+    },
+    {
+        "content": "<p><code>expected</code> is the grid file you shared</p>",
+        "id": 5939,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1585937248
+    },
+    {
+        "content": "<p>DZU should be the minimum of the 4 surrounding DZT no matter where you are. I'm not sure what the backstory is here - are you trying to avoid reading from the file and computing online?</p>",
+        "id": 5955,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1586119723
+    },
+    {
+        "content": "<p>If it is helpful, here is the IDL code that generated DZT &amp; DZU in the netCDF grid file. IDL is zero-based indexing</p>\n<p>;;; Create 3D cell thickness and cell volume arrays<br>\n  for k=0,ndep-1 do begin<br>\n     DWORK2D(<em>,</em>) = dz(k)<br>\n     indx = where(k EQ KMT-1)<br>\n     if ( max(indx) GE 0 ) then begin<br>\n        DWORK2D(indx)=DZBC(indx)<br>\n     endif<br>\n     DZT(<em>,</em>,k) = DWORK2D</p>\n<div class=\"codehilite\"><pre><span></span> ;;; DZU=min(DZT(i,j),DZT(i+1,j),DZT(i,j+1),DZT(i+1,j+1))\n DZU(*,*,k) = DWORK2D\n indx = where(shift(DWORK2D,-1,0) LT DZU(*,*,k))\n DZU(indx,k) = DWORK2D(indx)\n indx = where(shift(DWORK2D,0,-1) LT DZU(*,*,k))\n DZU(indx,k) = DWORK2D(indx)\n indx = where(shift(DWORK2D,-1,-1) LT DZU(*,*,k))\n DZU(indx,k) = DWORK2D(indx)\n</pre></div>",
+        "id": 5957,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1586119723
+    },
+    {
+        "content": "<p>The backstory is that I am trying to calculate <code>DZU</code> and <code>DZT</code> in python to avoid the need to generate \"augmented\" grid files. I am using your augmented grid file as a test case. See: <a href=\"https://github.com/NCAR/pop-tools/pull/44/files\" target=\"_blank\" title=\"https://github.com/NCAR/pop-tools/pull/44/files\">https://github.com/NCAR/pop-tools/pull/44/files</a> .</p>\n<p>I get equal results (my python code compared to your grid file) once I fix <code>DZU</code> at the surface. In this image: <a href=\"user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\" target=\"_blank\" title=\"user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\">https://zulip.cloud.ucar.edu/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png</a><br>\n<code>DZU</code> in the augmented grid file has values that are not the 4-point minimum of <code>DZT</code> (which is all 1000). Once I set <code>DZU</code> in this region to be 1000 everything works. So there is a bug somewhere.</p>\n<div class=\"message_inline_image\"><a href=\"user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\" target=\"_blank\" title=\"https://zulip.cloud.ucar.edu/user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\"><img src=\"user_uploads/2/IwMX9KsyFEYsBV_5OkvRvXQk/pasted_image.png\"></a></div>",
+        "id": 5962,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1586182514
+    },
+    {
+        "content": "<p>Your result is correct. All DZT and DZU in the first layer should be 10m.</p>\n<p>I'll look at the code I used to generate the augmented file (a mess of IDL and netCDF operators) to see where the problem arises. <br>\nI know that there will be a problem along the tripole seam across the top of the grid. The neighbors across the seam are on the same row on the opposite side in the i-direction. I'll try to write out the proper operator in index notation . We might be able to work this into the differential operators themselves.</p>",
+        "id": 5964,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1586183792
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> I indeed see the spurious values in my netCDF file. There are 46 values in a cluster on the right edge of the grid (i=3599, j=16:61,k=0) that are bad. Somehow, they are getting munged when I write them out to netCDF. They are correct in the loop that computes them.</p>\n<p>Looking at how I might fix this.</p>",
+        "id": 6063,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1586202506
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"44\">@Frank Bryan</span> thanks. FYI this error isn't blocking me right now so there's no urgency.</p>",
+        "id": 6086,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1586274540
+    },
+    {
+        "content": "<p>determined that something weird was going on in the IDL shift operations that was overwriting some values. I was able to get correct results with a fully unrolled loop and array index notation. I'll replace the augmented grid file later today.<br>\n[more questions about TPOS MITgcm coming your way]</p>",
+        "id": 6087,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1586274768
+    }
+]

@@ -1,0 +1,45 @@
+<html>
+<head><meta charset="utf-8"><title>trouble with time axis using open_mfdataset · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/trouble.20with.20time.20axis.20using.20open_mfdataset.html">trouble with time axis using open_mfdataset</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="19378"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/trouble%20with%20time%20axis%20using%20open_mfdataset/near/19378" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/trouble.20with.20time.20axis.20using.20open_mfdataset.html#19378">(Oct 14 2020 at 14:14)</a>:</h4>
+<p>Hello, I'm having some trouble reading in the files here on the CGD machines... /project/cmip6/ssp585/Amon/ua/IPSL-CM6A-LR/r1i1p1f1/gr/.  I am doing the following...</p>
+<p>dat.xr_open_mfdataset(filepath+"*.nc", coords="minimal", join="override", decode_times = False)</p>
+<p>where filepath is the above path.  I am setting decode_times=False because the calendar goes to 2300 so I'm decoding the times manually afterwards.  There are two files in this directory.  One that goes from 2015-2100 and one that goes from 2101-2300.  For some reason when I do this, it is only reading the second file.  I'm not sure if it has something to do with the fact that the time attributes for the first file are "days since 2015-01-01" while those for the second one are "days since 2100-01-01", so the values of time in both files start from 0.  So if it doesn't account for the attributes it'll see the dates in the first and second file as being the same.  Can anyone help me with this?  Thanks!</p>
+
+
+
+<a name="19379"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/trouble%20with%20time%20axis%20using%20open_mfdataset/near/19379" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/trouble.20with.20time.20axis.20using.20open_mfdataset.html#19379">(Oct 14 2020 at 14:17)</a>:</h4>
+<p>I think <code>join="override"</code> results in overwriting here. Does <code>decode_times=True, use_cftime=True</code> not work with this range of dates?</p>
+
+
+
+<a name="19380"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/trouble%20with%20time%20axis%20using%20open_mfdataset/near/19380" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/trouble.20with.20time.20axis.20using.20open_mfdataset.html#19380">(Oct 14 2020 at 14:29)</a>:</h4>
+<p>Thanks Deepak.  Yes, indeed decode_times = True, use_cftime = True does work.  When I was first trying to read it with decoding the time axis I had tried dat = xr.open_mfdataset(filepath+"*.nc", coords="minimal", join="override") and this didn't work.  But it is working now if I set decode_times  = True and use_cftime = True.  Thanks a lot!</p>
+
+
+
+<a name="19381"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/trouble%20with%20time%20axis%20using%20open_mfdataset/near/19381" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/trouble.20with.20time.20axis.20using.20open_mfdataset.html#19381">(Oct 14 2020 at 14:30)</a>:</h4>
+<p>yeah <code>use_cftime=True</code> was the trick there, <code>decode_times=True</code> is the default</p>
+
+
+
+<a name="19382"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/trouble%20with%20time%20axis%20using%20open_mfdataset/near/19382" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/trouble.20with.20time.20axis.20using.20open_mfdataset.html#19382">(Oct 14 2020 at 14:49)</a>:</h4>
+<p>Excellent, thanks a lot.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

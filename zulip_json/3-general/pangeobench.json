@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I have pangeobench, the first three line are: <br>\n#!/usr/bin/env python3</p>\n<p>import click</p>\n<p>from benchmarks.utils import Runner</p>\n<p>This cannot pass the isort test. After I removed the first line and the following bland line, it passed the isort test. How can I have the first line and still pass the isort test?</p>",
+        "id": 5765,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1585782041
+    },
+    {
+        "content": "<p>This post should go in the <a class=\"stream\" data-stream-id=\"17\" href=\"/#narrow/stream/19-python-dev\">#python-dev</a> Stream, not in <a class=\"stream\" data-stream-id=\"3\" href=\"/#narrow/stream/4-general\">#general</a>.  </p>\n<p>As for the question you posed, if you are referring to the file here:</p>\n<p><a href=\"https://github.com/pangeo-data/benchmarking/blob/master/pangeobench\" target=\"_blank\" title=\"https://github.com/pangeo-data/benchmarking/blob/master/pangeobench\">https://github.com/pangeo-data/benchmarking/blob/master/pangeobench</a></p>\n<p>Then it passes the isort test for me.  What is your isort configuration?</p>",
+        "id": 5767,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1585782539
+    },
+    {
+        "content": "<p>But click is third party, benchmarks is belong to benchmarking package. So should be import click placed before from benchmarks?</p>\n<p>Here is isort configuration:<br>\n[isort]<br>\nknown_first_party=benchmarking<br>\nknown_third_party=dask,distributed,numpy,pandas,pkg_resources,setuptools,xarray<br>\nmulti_line_output=3<br>\ninclude_trailing_comma=True<br>\nforce_grid_wrap=0<br>\ncombine_as_imports=True<br>\nline_length=100<br>\nskip=<br>\n    setup.py</p>",
+        "id": 5770,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1585787462
+    },
+    {
+        "content": "<p>Yes. I’m sorry. After you reorder those lines and separate them by a blank line, it should pass isort.</p>",
+        "id": 5774,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1585831862
+    },
+    {
+        "content": "<p>The order that I showed can pass isort from pre-commit-config, but it cannot pass the actions that I setup in main.yaml.</p>",
+        "id": 5784,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1585845552
+    },
+    {
+        "content": "<p>Let's move this to a private conversation...</p>",
+        "id": 5785,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1585845625
+    }
+]

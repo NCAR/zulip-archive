@@ -1,0 +1,66 @@
+<html>
+<head><meta charset="utf-8"><title>dashboard showing mystery activity · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html">dashboard showing mystery activity</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="30606"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30606" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30606">(Apr 30 2021 at 14:05)</a>:</h4>
+<p>When I logged on to jupyterhub this morning, I had several dask dashboard windows open from my last session that show lots of activity even before I've initiated a cluster :<br>
+<a href="/user_uploads/2/41/CmJInrAyPvMYV6dYkZfz_gh4/Screen-Shot-2021-04-30-at-8.01.33-AM.png" target="_blank" title="Screen-Shot-2021-04-30-at-8.01.33-AM.png">Screen-Shot-2021-04-30-at-8.01.33-AM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/41/CmJInrAyPvMYV6dYkZfz_gh4/Screen-Shot-2021-04-30-at-8.01.33-AM.png" target="_blank" title="Screen-Shot-2021-04-30-at-8.01.33-AM.png"><img src="/user_uploads/2/41/CmJInrAyPvMYV6dYkZfz_gh4/Screen-Shot-2021-04-30-at-8.01.33-AM.png"></a></div><p>When I do <code>qstat -u yeager</code>, I don't see any dask workers. My dashboard is pointing to <a href="https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/" target="_blank" title="https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/">https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/</a>.  Is my dashboard somehow reflecting another user's job? What's going on?</p>
+
+
+
+<a name="30610"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30610" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30610">(Apr 30 2021 at 15:13)</a>:</h4>
+<p>Is it still showing up?</p>
+
+
+
+<a name="30611"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30611" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30611">(Apr 30 2021 at 15:13)</a>:</h4>
+<p>Also, are you on the login node?</p>
+
+
+
+<a name="30612"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30612" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30612">(Apr 30 2021 at 15:15)</a>:</h4>
+<p>I stopped my server and then restarted, and then the dask dashboard went inactive. Both times, I logged into casper batch queue.</p>
+
+
+
+<a name="30613"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30613" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30613">(Apr 30 2021 at 15:30)</a>:</h4>
+<p>So the dashboard isn't showing at all for you anymore? Does it spawn a new dashboard link?</p>
+
+
+
+<a name="30614"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30614" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30614">(Apr 30 2021 at 15:37)</a>:</h4>
+<p>The dashboard is now working. I just initiated a new cluster on casper and the link (<a href="https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/" target="_blank" title="https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/">https://jupyterhub.hpc.ucar.edu/stable/user/yeager/proxy/8787/</a>) now shows activity on my cluster.</p>
+
+
+
+<a name="30615"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30615" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30615">(Apr 30 2021 at 15:37)</a>:</h4>
+<p>Still a mystery why I already had an active dashboard when first logging in to casper.</p>
+
+
+
+<a name="30630"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/dashboard%20showing%20mystery%20activity/near/30630" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/dashboard.20showing.20mystery.20activity.html#30630">(Apr 30 2021 at 15:40)</a>:</h4>
+<blockquote>
+<p>Still a mystery why I already had an active dashboard when first logging in to casper.</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> the port-forwarding for the dashboard does not require authentication, so somebody else must have spun up a cluster on the node you were logged in with and been assigned the port you had previously used. This is pretty common if your dashboard was pointing to 8787 (the default), because once you stop your cluster the next person on the node to start one will then get 8787 instead</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

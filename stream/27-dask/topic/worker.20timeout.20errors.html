@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="utf-8"><title>worker timeout errors · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/worker.20timeout.20errors.html">worker timeout errors</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="44235"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/worker%20timeout%20errors/near/44235" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/worker.20timeout.20errors.html#44235">(Oct 04 2021 at 16:42)</a>:</h4>
+<p>A dask notebook that was working last week is failing today with failed connection errors:<br>
+asyncio.exceptions.TimeoutError</p>
+<p>The error log files are here:<br>
+/glade/scratch/yeager/*.casper-pbs.ER</p>
+
+
+
+<a name="44237"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/worker%20timeout%20errors/near/44237" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/worker.20timeout.20errors.html#44237">(Oct 04 2021 at 16:43)</a>:</h4>
+<p>I think there is something up with the PBS scheduler on Casper this morning. I had similar issues yesterday; I submitted a help ticket with CISL, and I believe <span class="user-mention" data-user-id="28">@Kristen Krumhardt</span>  is planning on doing so as well.</p>
+
+
+
+<a name="44238"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/worker%20timeout%20errors/near/44238" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/worker.20timeout.20errors.html#44238">(Oct 04 2021 at 16:44)</a>:</h4>
+<p>cc <span class="user-mention" data-user-id="154">@Jared Baker</span></p>
+
+
+
+<a name="44247"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/worker%20timeout%20errors/near/44247" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/worker.20timeout.20errors.html#44247">(Oct 04 2021 at 17:16)</a>:</h4>
+<p>It seems that the <a href="https://www2.cisl.ucar.edu/user-support/cisl-resource-status"><code>CISL Resource Status</code></a> page indicates that:</p>
+<div class="codehilite"><pre><span></span><code>The Casper job scheduling system was not responding as of 11:11 10/04/2021.
+If the problem persists, users will receive email updates through our Notifier service.
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

@@ -1,0 +1,212 @@
+<html>
+<head><meta charset="utf-8"><title>Code examples for plotting CLM Plant Functional Types · ESDS · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html">Code examples for plotting CLM Plant Functional Types</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="35626"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/35626" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#35626">(Jun 24 2021 at 19:25)</a>:</h4>
+<p>Sorry if this isn't the best forum to ask this question, but is anyone aware of code examples that plot the various land model plant types, such as deciduous forests, etc from the CLM model?   It appears there is a fairly complicated sparse indexing scheme used to store these types in NetCDF, and I'm trying to figure out how this scheme works.  </p>
+<p>Background description: <a href="https://www.cesm.ucar.edu/models/clm/surface.heterogeneity.html" target="_blank" title="https://www.cesm.ucar.edu/models/clm/surface.heterogeneity.html">https://www.cesm.ucar.edu/models/clm/surface.heterogeneity.html</a></p>
+<p>Example NetCDF file:  /glade/scratch/bonnland/DART/ds345.0/lnd/0001/f.e21.FHIST_BGC.f09_025.CAM6assim.011.clm2_0001.h1.2015.nc</p>
+<p>Variables using this scheme include:  GPP, GRAINC_TO_FOOD, GSSHALN, GSSUNLN, NPP, NPP_NUPTAKE, PLANT_NDEMAND, QVEGT, TLAI</p>
+<p>Thanks for any advice!</p>
+
+
+
+<a name="35664"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/35664" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#35664">(Jun 24 2021 at 22:33)</a>:</h4>
+<blockquote>
+<p>It appears there is a fairly complicated sparse indexing scheme used to store these types in NetCDF, and I'm trying to figure out how this scheme works.</p>
+</blockquote>
+<p>yeah this is definitely a thing! <span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> or <span class="user-mention" data-user-id="67">@Will Wieder</span> might have some code examples in python. Here is Danica's example notebook from the <a href="https://github.com/NCAR/ctsm_python_gallery" target="_blank" title="https://github.com/NCAR/ctsm_python_gallery">ctsm-py repo</a>:<br>
+<a href="https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb" target="_blank" title="https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb">https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb</a></p>
+
+
+
+<a name="35666"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/35666" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#35666">(Jun 24 2021 at 22:35)</a>:</h4>
+<p>I think <span class="user-mention" data-user-id="179">@Zhonghua Zheng</span> had a similar question last week?</p>
+
+
+
+<a name="35976"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/35976" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#35976">(Jun 29 2021 at 21:30)</a>:</h4>
+<p>Hi again, I have more questions about how to interpret PFT-related variables in the CLM history files.</p>
+<p>I'm looking at this file, for example: <br>
+<code>/glade/scratch/bonnland/temp/lnd/0001/f.e21.FHIST_BGC.f09_025.CAM6assim.011.clm2_0001.h1.2011.nc</code></p>
+<p>In it, there is the variable  <code>TLAI(time, pft)</code>.   I was originally thinking that the <code>pft</code> dimension can be expanded from 1D to 3D by mapping to the dimensions <code>(lat, lon, veg_type)</code>, but it appears that this mapping is not enough:  there are many cases where the same <code>(lat, lon, veg_type)</code> index values. appear more than once.   For example, in the file above:</p>
+<ul>
+<li>the last few values of <code>pfts1d_lat </code>are             83.403145</li>
+<li>the last few values of <code>pfts1d_lon</code> are            335.0</li>
+<li>the last few values of <code>pfts1d_itype_veg</code> are  0</li>
+</ul>
+<p>Is there some other dimension needed to keep these indexes from referring to the same <code>(lat, lon, veg_type) </code>combination more than once?   Or should these be viewed as duplicate values that can be removed?   </p>
+<p>Thanks for any insights!</p>
+
+
+
+<a name="36014"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36014" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36014">(Jun 30 2021 at 16:41)</a>:</h4>
+<p>Tagging <span class="user-mention" data-user-id="120">@Daniel Kennedy</span> as well here for any relevant code examples of PFT regridding in python</p>
+
+
+
+<a name="36340"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36340" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36340">(Jul 02 2021 at 21:05)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="9">@Brian Bonnlander</span> : Did you look at my script that Katie pointed you to earlier (here for reference: <a href="https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb" target="_blank" title="https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb">https://github.com/NCAR/ctsm_python_gallery/blob/master/notebooks/PFT-Gridding.ipynb</a>)? </p>
+<p>The relevant line of code for what you're trying to do is in cell 15 (look for 'Creating gridded array' in the text). I'm happy to talk more if you'd like</p>
+
+
+
+<a name="36347"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36347" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36347">(Jul 02 2021 at 21:25)</a>:</h4>
+<p>Hi Danica!  This is embarrassing but I keep hitting a key by accident that erases my reply; I've written it twice now!    So I'm going to write a bunch of smaller parts, which should end with a question.</p>
+
+
+
+<a name="36348"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36348" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36348">(Jul 02 2021 at 21:29)</a>:</h4>
+<p>I found your notebook very helpful, I was getting nowhere until I got to look at it.   <br>
+I'm looking into whether the PFT-related data can be organized in Zarr format, where we have the ability to organize the data by <code>(lat, lon, vegtype)</code> for example.    If we do that, then someone interested in just evergreen forests in North America can load 1% of the data they otherwise need to with the data as it is organized now.    It can be expensive, resource-wise, to load all available data and then throw away 99% of it to get the subset you're interested in.</p>
+
+
+
+<a name="36349"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36349" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36349">(Jul 02 2021 at 21:31)</a>:</h4>
+<p>But when I tried doing this, I discovered that there are many elements along the <code>pft</code> dimension in the original data with the same <code>(lat, lon, vegtype)</code> combination.   This prevents the data from being reorganized along just these three dimensions.</p>
+
+
+
+<a name="36350"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36350" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36350">(Jul 02 2021 at 21:33)</a>:</h4>
+<p>To reorganize the data, each element along the <code>pft</code> dimension needs its own unique combination of indexed values.   What I've discovered is that every element <em>does</em> have a unique combination of <code>(lat, lon, vegtype, coltype, lunittype, active)</code>.   These are other potential dimensions available in the NetCDF files I am using.</p>
+
+
+
+<a name="36352"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36352" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36352">(Jul 02 2021 at 21:35)</a>:</h4>
+<p>I think my question(s) are "Does what I'm saying make any sense based on your understanding of the data?" and "Is it possible I've added too many dimensions?"     If what I'm saying isn't clear, I'm happy to explain more.</p>
+
+
+
+<a name="36364"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36364" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36364">(Jul 02 2021 at 22:30)</a>:</h4>
+<p>To be totally honest, the PFT-level data has always confused me! We may have to iterate on this a few times. I agree that this is a resource-intensive process, and I will be super excited if you figure out a way to pull just the PFTs of interest. This will be particularly helpful for LENS2 analysis!</p>
+<p>The data from CLM can be a little confusing, but you may be on the right track. One upfront question: are all the duplicates 0, like in the example you shared? </p>
+<p>Historically, all PFTs were on the same column, but this changed when we added crops. With the active crop model, each crop has its own soil column. I am surprised that the indices appear more than once, however. Even though different plant types may be on different soil columns, I don't think that any should be specified twice in a grid cell. </p>
+<p>Have you looked at whether <code>(lat, lon, vegtype, coltype)</code> has duplicates? I ask because I wouldn't expect lunittype (land unit type) to be important in this context, because all the plants should be on the vegetated land unit (others include glacier, lake, etc). The 'active' variable is probably related to whether the crop type is active or not (even though we have 64 crop PFTs on the file, only 16 are actually simulated), so I wouldn't expect that to matter either. </p>
+<p>I wonder if it's worth comparing the processing of a full dataset (similar to my script) and then data processing using your method, ignoring duplicate values. It may give us a better sense for whether the duplicates matter, especially if they are 0 values.</p>
+
+
+
+<a name="36365"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36365" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36365">(Jul 02 2021 at 22:32)</a>:</h4>
+<p>Excellent info, thank you!   I will try to find out the answers to your questions, but it may be next week!</p>
+
+
+
+<a name="36366"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36366" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36366">(Jul 02 2021 at 22:48)</a>:</h4>
+<p>Thinking more about your answer, is it possibly a good idea to remove all points that are not marked as active?   Could you imagine anyone wanting to look at values where active = 0?   Maybe these are also zero for non-crop vegtypes, however, in which case we want to keep them?</p>
+
+
+
+<a name="36367"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36367" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36367">(Jul 02 2021 at 22:52)</a>:</h4>
+<p>I do remember that when I tried using just the <code>(lat, lon, vegtype)</code> dimensions, there were around 65,000 elements in the <code>pft</code> dimension (~800,000 total elements for that dimension) that were marked as having non-unique index values.    But I don't know what the <code>coltype</code> values were for those points.   I will see if I can figure that out soon.</p>
+
+
+
+<a name="36368"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36368" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36368">(Jul 02 2021 at 22:56)</a>:</h4>
+<p>I'm not entirely sure about <code>active</code>. I can't think of a reason where people would want to use an inactive PFT, but that doesn't mean they don't exist! The inactive PFTs get merged into the active crop types, so I don't think there would be any useful information for the inactive PFTs.</p>
+
+
+
+<a name="36482"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36482" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36482">(Jul 06 2021 at 20:08)</a>:</h4>
+<p>Brian, The notebook that <span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> pointed to has 1D indexes <code>pfts1d_ixy</code> and <code>pfts1d_jxy</code>.  If your dataset has that too, you can use that directly in the <code>sparse.COO</code> constructor and avoid all the expense in create the MultiIndex.</p>
+
+
+
+<a name="36483"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36483" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36483">(Jul 06 2021 at 20:15)</a>:</h4>
+<p>Yes, I have those too, and I will give that a try, thank you!   Eventually I hope the points can be indexed by lat/lon instead of array indexes, but perhaps this can be accomplished easily at a later step.</p>
+
+
+
+<a name="36484"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36484" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36484">(Jul 06 2021 at 20:22)</a>:</h4>
+<p>hmmm.. there's some misconception here. Let me write up an example</p>
+
+
+
+<a name="36485"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36485" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36485">(Jul 06 2021 at 20:56)</a>:</h4>
+<p>I appreciate that!   From looking at the sparse docs, it appears that simple indexing is supported, and xarray would have to provide the coordinate index mapping if you wanted to store the variable as <code>TLAI(lat, lon, vegtype)</code> for example.   It seems possible in principle, since there is a 1:1 relationship between sparse array indexes and lat/lon coordinate indexes (at least for gridded data).</p>
+
+
+
+<a name="36494"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36494" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36494">(Jul 06 2021 at 21:58)</a>:</h4>
+<p>Done. <a href="https://github.com/NCAR/ctsm_python_gallery/pull/36" target="_blank" title="https://github.com/NCAR/ctsm_python_gallery/pull/36">https://github.com/NCAR/ctsm_python_gallery/pull/36</a></p>
+
+
+
+<a name="36496"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36496" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36496">(Jul 06 2021 at 21:59)</a>:</h4>
+<p>(the dask repr is wrong, it still think its a numpy array but if you compute you get a sparse array; I havent updated dask in a while <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>)</p>
+
+
+
+<a name="36501"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36501" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36501">(Jul 06 2021 at 22:11)</a>:</h4>
+<p>Wow!   Great stuff in that notebook!    I have to try soon and see whether it can be saved to Zarr, unless you're fairly confident that sparse arrays like these are supported by Zarr.     I really appreciate your work on this!  It should help the wider community have access to these interesting variables.</p>
+
+
+
+<a name="36502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36502" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36502">(Jul 06 2021 at 22:14)</a>:</h4>
+<p>fairly certain you can't write sparse directly to zarr. I bet this is more useful as a utility function that is applied after a dataset is read</p>
+
+
+
+<a name="36503"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36503" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36503">(Jul 06 2021 at 22:17)</a>:</h4>
+<p>OK, but if the entire variable needs to be processed this way each time, it makes the memory requirements much higher than it otherwise would need to be.</p>
+
+
+
+<a name="36504"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36504" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36504">(Jul 06 2021 at 22:24)</a>:</h4>
+<p>it's parallelized using dask so it's just an extra compute step with much lower memory usage: <a href="/user_uploads/2/f4/7_X9irlIWTa2nvfPZGgwrYKe/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/f4/7_X9irlIWTa2nvfPZGgwrYKe/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/f4/7_X9irlIWTa2nvfPZGgwrYKe/pasted_image.png"></a></div>
+
+
+
+<a name="36505"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36505" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36505">(Jul 06 2021 at 22:27)</a>:</h4>
+<p>Yes, I meant something different.    I am imagining that analysis will rarely involve the full data, so if we could arrange the data on disk in useful slices, then there is potentially some real savings in core hours and/or memory in the long run.</p>
+
+
+
+<a name="36506"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36506" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36506">(Jul 06 2021 at 23:04)</a>:</h4>
+<p>Ah I see. Another way would be to chunk along <code>pft</code> before unstacking it which would require some interesting logic =)</p>
+
+
+
+<a name="36507"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/Code%20examples%20for%20plotting%20CLM%20Plant%20Functional%20Types/near/36507" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types.html#36507">(Jul 06 2021 at 23:26)</a>:</h4>
+<p>It might not be bad, not sure about this but sparse arrays can be combined by summing them together if the points in the two sparse arrays are disjoint, as they are in this case.   It just might work...</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

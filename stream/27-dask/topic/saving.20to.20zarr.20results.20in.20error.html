@@ -1,0 +1,60 @@
+<html>
+<head><meta charset="utf-8"><title>saving to zarr results in error · dask · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/saving.20to.20zarr.20results.20in.20error.html">saving to zarr results in error</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="49738"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/saving%20to%20zarr%20results%20in%20error/near/49738" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/saving.20to.20zarr.20results.20in.20error.html#49738">(Jan 26 2022 at 23:52)</a>:</h4>
+<p>Hi,</p>
+<p>I'm trying to save a dataArray to a zarr file, and have been able to do this in the past with similar code.  However, lately I've run into this issue which I cannot seem to resolve.</p>
+<p>Say my DataArray looks like this: </p>
+<p>aw_oceanT_global<br>
+xarray.DataArraytime: 3600 z_t:  60<br>
+                     Array  Chunk<br>
+Bytes   1.65 MiB    480 B<br>
+Shape   (3600, 60)  (1, 60)<br>
+Count   154875 Tasks    3600 Chunks<br>
+Type    float64 numpy.ndarray   </p>
+<p>I do :</p>
+<p>aw_oceanT_global.unify_chunks()<br>
+aw_oceanT_global.to_dataset(name='TEMP').chunk({'z_t':-1}).to_zarr('/glade/scratch/mberdahl/127kaH11/TEMP/aw_oceanT_global_timeseries_H11.zarr', mode='w')</p>
+<p>But receive the following error (just the top bit of it):<br>
+distributed.utils - ERROR - 'str' object has no attribute 'text'<br>
+Traceback (most recent call last):<br>
+  File "/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/utils.py", line 681, in log_errors<br>
+    yield<br>
+  File "/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/dashboard/components/scheduler.py", line 346, in update<br>
+    self.root.title.text = title<br>
+AttributeError: 'str' object has no attribute 'text'<br>
+distributed.utils - ERROR - 'str' object has no attribute 'text'<br>
+Traceback (most recent call last):<br>
+  File "/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/utils.py", line 681, in log_errors<br>
+    yield<br>
+  File "/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/dashboard/components/scheduler.py", line 3417, in status_doc<br>
+    cluster_memory.update()</p>
+<p>Looks like I'm running into memory issues maybe?bBut this DataArray isn't any bigger than other arrays I've had success with with the same methods.  Any thoughts appreciated!</p>
+
+
+
+<a name="49741"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/saving%20to%20zarr%20results%20in%20error/near/49741" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/saving.20to.20zarr.20results.20in.20error.html#49741">(Jan 27 2022 at 00:25)</a>:</h4>
+<p><span class="user-mention" data-user-id="259">@Mira Berdahl</span>, I don't know why this is failing by looking at the traceback. Can you provide a reproducible test case or a pointer to the notebook you're using?</p>
+
+
+
+<a name="49743"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/saving%20to%20zarr%20results%20in%20error/near/49743" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/saving.20to.20zarr.20results.20in.20error.html#49743">(Jan 27 2022 at 02:51)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , the path to the notebook is:<br>
+/glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/TryAreaWeightingAvg.ipynb<br>
+Thanks for taking a look!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

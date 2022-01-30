@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>  Does intake-esm require any columns in an intake catalog to have unique values?   I am considering building a catalog where the path to a Zarr store will appear more than once, as a way of describing the list of ensemble members for that store.  This list varies across the different Zarr stores described by the catalog.</p>",
+        "id": 24036,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1611165468
+    },
+    {
+        "content": "<blockquote>\n<p>Does intake-esm require any columns in an intake catalog to have unique values? </p>\n</blockquote>\n<p>You can have duplicate values in intake-esm catalog columns. </p>\n<blockquote>\n<p>I am considering building a catalog where the path to a Zarr store will appear more than once, as a way of describing the list of ensemble members for that store. </p>\n</blockquote>\n<p>Do you mind elaborating on this with a small example (for instance what will a single row look like)?</p>",
+        "id": 24063,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1611177905
+    },
+    {
+        "content": "<blockquote>\n<p>Do you mind elaborating on this with a small example (for instance what will a single row look like)?</p>\n</blockquote>\n<p>OK, I am imagining that the first few lines of the catalog CSV file would look like the following, with the same path for all lines, and differences only in the RCM or Driver columns, because the same Zarr store contains all these different simulation runs:</p>\n<div class=\"codehilite\"><pre><span></span>,path,variable,scenario,driver,rcm,frequency,grid,biascorrection,common,longname,units,member_id\n0,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,MPI-ESM-MR,CRCM5-UQAM,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,MPI-ESM-MR.CRCM5-UQAM\n1,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,GEMatm-Can,CRCM5-UQAM,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,GEMatm-Can.CRCM5-UQAM\n2,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,CNRM-CM5,CRCM5-OUR,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,CNRM-CM5.CRCM5-OUR\n3,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,GFDL-ESM2M,CRCM5-OUR,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,GFDL-ESM2M.CRCM5-OUR\n4,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist,HadGEM2,RegCM4,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,HadGEM2-ES.RegCM4\n</pre></div>",
+        "id": 24064,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1611178953
+    },
+    {
+        "content": "<p>So essentially the catalog rows describe individual simulation runs, rather than individual Zarr stores.   Multiple runs would map to a single Zarr store.   I am hoping this doesn't break any of the intake-esm search behavior...it sounds like it would not.</p>",
+        "id": 24065,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1611179596
+    },
+    {
+        "content": "<p>Thank you for the clarification! Have you had a chance to look at the multi-variable example here: <a href=\"https://intake-esm.readthedocs.io/en/latest/user-guide/multi-variable-assets.html\" target=\"_blank\" title=\"https://intake-esm.readthedocs.io/en/latest/user-guide/multi-variable-assets.html\">https://intake-esm.readthedocs.io/en/latest/user-guide/multi-variable-assets.html</a> </p>\n<p>I am asking because I think you may avoid the entry duplication by putting iterables (list, tuple, et...) in the RCM or Driver columns. I imagine something along these lines  would work ( I combine the first two rows into a single entry):</p>\n<div class=\"codehilite\"><pre><span></span>0,s3://ncar/na-cordex/tasmin.hist.day.NAM-22i.raw.zarr,tasmin,hist, &quot;(MPI-ESM-MR, GEMatm-Can)&quot;, CRCM5-UQAM,day,NAM-22i,raw,common,Daily Minimum Near-Surface Air Temperature,K,&quot;(MPI-ESM-MR.CRCM5-UQAM, GEMatm-Can.CRCM5-UQAM)&quot;\n</pre></div>",
+        "id": 24066,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1611179604
+    },
+    {
+        "content": "<p>Aha, that is good to know.   We could design the catalog that way also.   Would the search and discovery behavior change depending on the choice of catalog implementation?</p>",
+        "id": 24067,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1611179725
+    },
+    {
+        "content": "<p>The search should work regardless of the types of items in a row/columns. The only caveat is that we have to tell pandas how to parse these \"special columns\":</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">import</span> <span class=\"nn\">ast</span>\n<span class=\"kn\">import</span> <span class=\"nn\">intake</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span>\n    <span class=\"s2\">&quot;my-catalog.json&quot;</span><span class=\"p\">,</span>\n    <span class=\"n\">csv_kwargs</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s2\">&quot;converters&quot;</span><span class=\"p\">:</span> <span class=\"p\">{</span><span class=\"s2\">&quot;driver&quot;</span><span class=\"p\">:</span> <span class=\"n\">ast</span><span class=\"o\">.</span><span class=\"n\">literal_eval</span><span class=\"p\">,</span> <span class=\"s2\">&quot;member_id&quot;</span><span class=\"p\">:</span> <span class=\"n\">ast</span><span class=\"o\">.</span><span class=\"n\">literal_eval</span><span class=\"p\">}},</span>\n<span class=\"p\">)</span>\n</pre></div>",
+        "id": 24068,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1611179978
+    }
+]

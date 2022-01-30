@@ -1,0 +1,25 @@
+<html>
+<head><meta charset="utf-8"><title>pop-tools, xgcm, grid seams · python-dev · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop-tools.2C.20xgcm.2C.20grid.20seams.html">pop-tools, xgcm, grid seams</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="6281"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop-tools%2C%20xgcm%2C%20grid%20seams/near/6281" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop-tools.2C.20xgcm.2C.20grid.20seams.html#6281">(Apr 08 2020 at 18:29)</a>:</h4>
+<p>For those interested, here's xgcm's attempt to represent the LLC grid: <a href="https://xgcm.readthedocs.io/en/latest/grid_topology.html" target="_blank" title="https://xgcm.readthedocs.io/en/latest/grid_topology.html">https://xgcm.readthedocs.io/en/latest/grid_topology.html</a>  and here's an example using face connections to do calculations: <a href="https://xgcm.readthedocs.io/en/latest/example_eccov4.html#Spatial-Derivatives:-Heat-Budget" target="_blank" title="https://xgcm.readthedocs.io/en/latest/example_eccov4.html#Spatial-Derivatives:-Heat-Budget">https://xgcm.readthedocs.io/en/latest/example_eccov4.html#Spatial-Derivatives:-Heat-Budget</a></p>
+
+
+
+<a name="6282"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/pop-tools%2C%20xgcm%2C%20grid%20seams/near/6282" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/pop-tools.2C.20xgcm.2C.20grid.20seams.html#6282">(Apr 08 2020 at 19:55)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span> .  Without really understanding the code on the example pages, I will put out there that the tripole grid may be best thought of as a special kind of periodic boundary. The basic idea (not necessarily coded this way) is that for a scalar point on the most j-ward row at (i,nlat-1), its neighbor across the cell face in the j-ward direction is at point (nlon-i,nlat-1) using zero-based indexing. That is, there is a reflection across the mid-point of the center of the most j-ward row. With vector quantities you need to keep track of changes in directionality. Unfortunately, this is buried very deep in the POP communication structures where halo updates handle all of this.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

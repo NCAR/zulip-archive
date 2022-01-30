@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Why are xarray Dataset dimensions not transposable?  xarray.Dataset.transpose changes the dimension order for each array, but not for the dataset itself. I don't see any way to re-order dataset dimensions, which is sometimes desirable.</p>",
+        "id": 41942,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1631035790
+    },
+    {
+        "content": "<p>The dimension order for a dataset is meaningless because the DataArrays in a Dataset can have a different dimension order.</p>\n<blockquote>\n<p>dataset dimensions, which is sometimes desirable.</p>\n</blockquote>\n<p>What are you trying to do?</p>",
+        "id": 41947,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1631041864
+    },
+    {
+        "content": "<p>Turns out that what I was trying can be accomplished using DataArray dimensions, but I still find it aesthetically unpleasing that when I transpose a Dataset to convert DataArray dimensions to have a certain order (Y,L,M,ncol), the Dataset dimensions won't necessarily reflect my preference (Y,L,ncol,M).</p>",
+        "id": 41953,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1631051357
+    }
+]

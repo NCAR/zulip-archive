@@ -1,0 +1,76 @@
+<html>
+<head><meta charset="utf-8"><title>polar plotting · ESDS · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html">polar plotting</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="49654"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49654" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49654">(Jan 24 2022 at 23:19)</a>:</h4>
+<p>I have been trying to plot some scalar and vector fields with a North Stereographic projection and running into issues both with contours and vectors. I have a standard sea ice data from CESM - sea ice speed and the u and v vectors.</p>
+<p>I just tried to plot the contours and they are creating weird polygons over the pole, though they look fine further south. Any idea what's going on? I have used contourf this same way with CAM data, so I'm wondering if it has to do with the ice/ocean grid?<br>
+<a href="/user_uploads/2/9e/7jt_CmswgOeWFsUkEPEOWap7/Screen-Shot-2022-01-24-at-4.11.05-PM.png">Screen-Shot-2022-01-24-at-4.11.05-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/9e/7jt_CmswgOeWFsUkEPEOWap7/Screen-Shot-2022-01-24-at-4.11.05-PM.png" title="Screen-Shot-2022-01-24-at-4.11.05-PM.png"><img src="/user_uploads/2/9e/7jt_CmswgOeWFsUkEPEOWap7/Screen-Shot-2022-01-24-at-4.11.05-PM.png"></a></div><p>Here I plotted the scalar speed with pcolormesh and then tried to overlay just contour labels. Same issue as above probably.<br>
+<a href="/user_uploads/2/24/vRoCeW9xQD760BAMrPbjru4e/Screen-Shot-2022-01-24-at-4.12.04-PM.png">Screen-Shot-2022-01-24-at-4.12.04-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/24/vRoCeW9xQD760BAMrPbjru4e/Screen-Shot-2022-01-24-at-4.12.04-PM.png" title="Screen-Shot-2022-01-24-at-4.12.04-PM.png"><img src="/user_uploads/2/24/vRoCeW9xQD760BAMrPbjru4e/Screen-Shot-2022-01-24-at-4.12.04-PM.png"></a></div><p>Finally, I tried to overlay vectors on the pcolormesh using quiver and I am seeing some weird, non-physical, convergence at the North Pole. <br>
+<a href="/user_uploads/2/9e/mUj75JI5h35vWhXI-jP4XY-Q/Screen-Shot-2022-01-24-at-4.12.27-PM.png">Screen-Shot-2022-01-24-at-4.12.27-PM.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/9e/mUj75JI5h35vWhXI-jP4XY-Q/Screen-Shot-2022-01-24-at-4.12.27-PM.png" title="Screen-Shot-2022-01-24-at-4.12.27-PM.png"><img src="/user_uploads/2/9e/mUj75JI5h35vWhXI-jP4XY-Q/Screen-Shot-2022-01-24-at-4.12.27-PM.png"></a></div><p><span class="user-mention" data-user-id="10">@Michael Levy</span> and I worked on this briefly during office hours today and couldn't find a solution.  I have also looked through the GeoCat webpage and googled in general and not found a clear solution. I am hoping I am just missing something minor. But this github quiver issue (<a href="https://github.com/SciTools/cartopy/issues/1179">https://github.com/SciTools/cartopy/issues/1179</a>) makes me concerned that there wasn't actually an existing solution for the vectors. </p>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> do you have any suggestions? I  think in a pervious session you were named as the visualization guru.</p>
+
+
+
+<a name="49655"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49655" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49655">(Jan 25 2022 at 13:56)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span> I can dig into this later today - Ill post any updates in this stream</p>
+
+
+
+<a name="49673"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49673" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49673">(Jan 25 2022 at 16:33)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> , <span class="user-mention" data-user-id="153">@Alice DuVivier</span> , if something comes out of this effort that you think would benefit a broader community, please consider contributing to the GeoCAT gallery: <a href="https://geocat-examples.readthedocs.io/en/latest/">https://geocat-examples.readthedocs.io/en/latest/</a></p>
+
+
+
+<a name="49675"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49675" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49675">(Jan 25 2022 at 18:00)</a>:</h4>
+<p>Sure, it would be good to figure out the weird details with high latitude plots. <span class="user-mention" data-user-id="134">@Max Grover</span> today is not good, but I'm a lot more flexible in the coming days if it would help to hop on a zoom and talk through what's going on. :)</p>
+
+
+
+<a name="49689"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49689" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49689">(Jan 25 2022 at 21:05)</a>:</h4>
+<p>Do you have a path to the notebook you are using <span class="user-mention" data-user-id="153">@Alice DuVivier</span></p>
+
+
+
+<a name="49691"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49691" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49691">(Jan 25 2022 at 22:00)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> Yes, but I asked <span class="user-mention" data-user-id="198">@Lorenzo Zampieri</span> today and he might have a solution. So I'm going to wait to send it and maybe save you some time/effort. :)</p>
+
+
+
+<a name="49734"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/polar%20plotting/near/49734" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/polar.20plotting.html#49734">(Jan 26 2022 at 23:12)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="153">Alice DuVivier</span> <a href="#narrow/stream/41-ESDS/topic/polar.20plotting/near/49691">said</a>:</p>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="134">Max Grover</span> Yes, but I asked <span class="user-mention silent" data-user-id="198">Lorenzo Zampieri</span> today and he might have a solution. So I'm going to wait to send it and maybe save you some time/effort. :)</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> , <span class="user-mention" data-user-id="198">@Lorenzo Zampieri</span> and I figured this out. You have to do a fairly simple rotation from the CICE grid to the "real" map. There are a few keys that I think can be posted somewhere (blog post, geocat example, etc.) and probably something that could be added to pop_tools. </p>
+<p>1) You need to have the ANGLE value from the pop grid. This is not currently in the grid from pop_tools, but could be added.<br>
+2) Then you rotate the raw u and v vectors using the following:</p>
+<div class="codehilite"><pre><span></span><code>u_rot = (u_raw*np.cos(angle)) - (v_raw*np.sin(angle))
+v_rot = (u_raw*np.sin(angle)) + (v_raw*np.cos(angle))
+</code></pre></div>
+<p>That's it. Pretty simple, but it took a while to sort out. See below for the comparison of rotated and non-rotated vectors. I also wrote it up simply in the following notebook that might be useful as well. <br>
+/glade/p/cgd/ppc/duvivier/cesm2_arctic_cyclones/rufmod_analysis/version_2/ice_transport/vector_tests/testing3.ipynb<br>
+<a href="/user_uploads/2/6b/a8_DZ9_MYvzhD0K1WcC0Ozm5/Screen-Shot-2022-01-26-at-4.07.50-PM.png">Screen-Shot-2022-01-26-at-4.07.50-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/6b/a8_DZ9_MYvzhD0K1WcC0Ozm5/Screen-Shot-2022-01-26-at-4.07.50-PM.png" title="Screen-Shot-2022-01-26-at-4.07.50-PM.png"><img src="/user_uploads/2/6b/a8_DZ9_MYvzhD0K1WcC0Ozm5/Screen-Shot-2022-01-26-at-4.07.50-PM.png"></a></div>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

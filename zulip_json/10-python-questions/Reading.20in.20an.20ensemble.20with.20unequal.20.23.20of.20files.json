@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>Hello,  To read in an ensemble of simulations I have been doing something like...</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">filelist</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"nb\">sorted</span><span class=\"p\">(</span><span class=\"n\">glob</span><span class=\"o\">.</span><span class=\"n\">glob</span><span class=\"p\">(</span><span class=\"n\">topdir</span><span class=\"o\">+</span><span class=\"s2\">\"b.e11.BRCP85C5CNBDRD.f09_g16.\"</span><span class=\"o\">+</span><span class=\"n\">imem</span><span class=\"o\">+</span><span class=\"s2\">\".*.nc\"</span><span class=\"p\">))</span> <span class=\"k\">for</span> <span class=\"n\">imem</span> <span class=\"ow\">in</span> <span class=\"n\">memstr</span><span class=\"p\">]</span>\n<span class=\"n\">dat</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_mfdataset</span><span class=\"p\">(</span><span class=\"n\">filelist</span><span class=\"p\">,</span> <span class=\"n\">combine</span><span class=\"o\">=</span><span class=\"s2\">\"nested\"</span><span class=\"p\">,</span> <span class=\"n\">concat_dim</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'M'</span><span class=\"p\">,</span><span class=\"s1\">'time'</span><span class=\"p\">],</span>\n   <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span> <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'TREFHT'</span><span class=\"p\">,</span> <span class=\"s1\">'time_bnds'</span><span class=\"p\">],</span> <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s1\">'override'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>where \"memstr\" is the list of the members.  However, I'm running into issues when each member doesn't have the same number of files, even though it has the same time axis.  e.g., if the record for member 1 is divided up into 2 and the record for member 2 is just one file.  </p>\n<p>I get the following error...</p>\n<p>ValueError: The supplied objects do not form a hypercube because sub-lists do not have consistent depths</p>\n<p>It seems related to this post <a href=\"https://github.com/pydata/xarray/issues/3648\">https://github.com/pydata/xarray/issues/3648</a> but I'm not following what the solution would be in the context of open_mfdataset.</p>\n<p>Thanks in advance for any help on this.<br>\nIsla</p>",
+        "id": 39696,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628800441
+    },
+    {
+        "content": "<p>Can you try using <code>combine=\"by_coords\"</code>? that will try to do something sensible by looking at coordinate values along dimensions. It sounds like this could work for your case.</p>",
+        "id": 39697,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628804143
+    },
+    {
+        "content": "<p>Hmm, that doesn't seem to work.  If I simply switch to combine=\"by_coords\" in the above, it gives me an array of (time,lat,lon) whereas I'm looking to get an array of (M,time,lat,lon) where M would be the member number.  I'm not quite sure what it's doing with all the other members in this case.   I'm showing a simplified example with only two members in the attached png <a href=\"/user_uploads/2/73/TJbY02QK7SQm8lSS-qnQoeTx/concatissue.png\">concatissue.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/73/TJbY02QK7SQm8lSS-qnQoeTx/concatissue.png\" title=\"concatissue.png\"><img src=\"/user_uploads/2/73/TJbY02QK7SQm8lSS-qnQoeTx/concatissue.png\"></a></div><p>Thanks!</p>",
+        "id": 39702,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628806181
+    },
+    {
+        "content": "<p>I could, of course, just do a loop over the members and fill the M dimension of an empty xarray data array, but I found it very convenient that open_mfdataset would do that for me if I had an equal number of files for each member.</p>",
+        "id": 39716,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628806944
+    },
+    {
+        "content": "<p>is <code>M</code> an existing dimension in these files?</p>",
+        "id": 39719,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628807041
+    },
+    {
+        "content": "<p>No, it's not.  It's the new dimension that I wanted to create for the different members.  But if I remove M from the concat_dims the same thing happens.  I'm basically trying to read in those two lists of files that are dat1(time,lat,lon) and dat2(time,lat,lon) and end up with dat(M,time,lat,lon) where M as size 2 and M=0 will be dat1 and M=1 will be dat2.</p>",
+        "id": 39724,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628807228
+    },
+    {
+        "content": "<p>ah I think this is the case open_mfdataset cannot handle yet</p>\n<p>I think you want something like</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">members</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_mfdataset</span><span class=\"p\">(</span><span class=\"n\">single_member</span><span class=\"p\">,</span> <span class=\"n\">combine</span><span class=\"o\">=</span><span class=\"s2\">\"nested\"</span><span class=\"p\">,</span> <span class=\"n\">concat_dim</span><span class=\"o\">=</span><span class=\"s2\">\"time\"</span><span class=\"p\">)</span> <span class=\"k\">for</span> <span class=\"n\">single_member</span> <span class=\"ow\">in</span> <span class=\"n\">file_list</span><span class=\"p\">]</span>\n<span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">members</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s2\">\"M\"</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>Alternatively you could try writing a pre-process function that assigns a member number based on file name together with <code>by_coords</code></p>",
+        "id": 39731,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628807582
+    },
+    {
+        "content": "<p>Ah thanks.  You solution is more elegant than the loop that I was thinking of.  That will do nicely!  Thanks once again for your help!</p>",
+        "id": 39732,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628807688
+    },
+    {
+        "content": "<p>Sorry to bother again but I'm having a problem which I thought I knew how to solve but I'm failing.  An issue is that some of the members have slightly different latitudes far down the decimal places.  Normally I would set compat='override' and coords='minimal' and this then uses the latitudes from the first dataset.  But for this case that's not working.  If I do...</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">filelist</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"nb\">sorted</span><span class=\"p\">(</span><span class=\"n\">glob</span><span class=\"o\">.</span><span class=\"n\">glob</span><span class=\"p\">(</span><span class=\"n\">topdir</span><span class=\"o\">+</span><span class=\"s2\">\"b.e11.B20TRC5CNBDRD.f09_g16.\"</span><span class=\"o\">+</span><span class=\"n\">imem</span><span class=\"o\">+</span><span class=\"s2\">\".*.nc\"</span><span class=\"p\">))</span> <span class=\"k\">for</span> <span class=\"n\">imem</span> <span class=\"ow\">in</span> <span class=\"n\">memstr</span><span class=\"p\">]</span>\n<span class=\"n\">members</span> <span class=\"o\">=</span> <span class=\"p\">[</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">open_mfdataset</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"p\">,</span> <span class=\"n\">combine</span><span class=\"o\">=</span><span class=\"s2\">\"nested\"</span><span class=\"p\">,</span> <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s1\">'override'</span><span class=\"p\">,</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span> <span class=\"n\">concat_dim</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'time'</span><span class=\"p\">])</span> <span class=\"k\">for</span> <span class=\"n\">i</span> <span class=\"ow\">in</span> <span class=\"n\">filelist</span> <span class=\"p\">]</span>\n<span class=\"n\">dat</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">members</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s1\">'M'</span><span class=\"p\">,</span> <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'TREFHT'</span><span class=\"p\">,</span><span class=\"s1\">'time_bnds'</span><span class=\"p\">],</span>\n   <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s1\">'override'</span><span class=\"p\">,</span><span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s1\">'minimal'</span><span class=\"p\">,</span> <span class=\"n\">combine_attrs</span><span class=\"o\">=</span><span class=\"s1\">'override'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>even though all the files have 192 latitudes, I end up with 289 latitudes in my dat dataset because it's merging all the latitudes that aren't equal to the original ones.  Any idea why the compat='override' and coords='minimal' options wouldn't work to avoid this issue in this case?</p>",
+        "id": 39791,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628882591
+    },
+    {
+        "content": "<p>If latitude is a dimension coordinate, then you want <code>join=\"override\"</code>. <code>compat</code> controls non-dimension coordinate variables.</p>",
+        "id": 39797,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1628884839
+    },
+    {
+        "content": "<p>Ohhh, yup - that was it.  Awesome.  Thanks!</p>",
+        "id": 39800,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1628885352
+    }
+]

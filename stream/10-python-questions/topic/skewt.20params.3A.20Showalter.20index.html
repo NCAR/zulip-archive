@@ -1,0 +1,70 @@
+<html>
+<head><meta charset="utf-8"><title>skewt params: Showalter index · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html">skewt params: Showalter index</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="24197"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24197" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24197">(Jan 25 2021 at 23:10)</a>:</h4>
+<p>Anyone has an understanding of Showalter Index?</p>
+<p>We are currently implementing a function in GeoCAT-comp to provide <code>skewt</code> parameters. Most of such parameters are simply outputted as a call to MetPy's existing functions; however, one significant contribution of our function would be the calculation of Showalter Index (i.e. shox). </p>
+<p>To demonstrate our function's results, we are comparing against NCL'S skewt_2_2 (<a href="https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png" target="_blank" title="https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png">https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png</a>), but we are having significant difference between ours and NCL (NCL <code>shox</code>=3, ours= -7). </p>
+<div class="message_inline_image"><a href="https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png" target="_blank" title="https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png"><img src="https://www.ncl.ucar.edu/Applications/Images/skewt_2_2_lg.png"></a></div><p>The details of our implementation, what we are struggling currently, and what our findings are can be seen in this PR: <a href="https://github.com/NCAR/geocat-comp/pull/96" target="_blank" title="https://github.com/NCAR/geocat-comp/pull/96">https://github.com/NCAR/geocat-comp/pull/96</a><br>
+Briefly, NCL function seems to have a number of assumptions when calculating <code>shox</code>, which is likely the reason of the difference with the results. We couldn't decide how to proceed further with our implementation (either apply NCL-like hard-coded assumptions to the data, or get rid of such assumptions at the risk of generating much different results than NCL), we would appreciate a scientific perspective here.</p>
+<p>cc: <span class="user-mention" data-user-id="14">@Matt Long</span></p>
+
+
+
+<a name="24199"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24199" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24199">(Jan 26 2021 at 00:13)</a>:</h4>
+<p>Perhaps <span class="user-mention" data-user-id="41">@Ryan May</span> has some useful perspective?</p>
+
+
+
+<a name="24206"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24206" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24206">(Jan 26 2021 at 18:05)</a>:</h4>
+<p>I don't have anything to offer with regards to GeoCAT vs. NCL, but I will say that adding Showalter Index to MetPy has been an open issue for awhile: <a href="https://github.com/Unidata/MetPy/issues/630" target="_blank" title="https://github.com/Unidata/MetPy/issues/630">https://github.com/Unidata/MetPy/issues/630</a><br>
+The main holdup was waiting on MetPy's improved xarray integration so that we can have a straightforward interface for it in MetPy. I think at this point it should be a straightforward calculation to implement in MetPy.</p>
+
+
+
+<a name="24210"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24210" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24210">(Jan 26 2021 at 19:14)</a>:</h4>
+<p>Thank you <span class="user-mention" data-user-id="41">@Ryan May</span></p>
+<p>We had found this open issue and thought that it wouldn't be implemented in the future since issue was old and there was no much conversation in it.  It's good news for us to know it would be done in the future. </p>
+<p>That being said, for <strong>showalter index</strong>, we can provide our own implementation to the user for now, and when it is implemented in MetPy, we can just convert it to a function call from upstream.</p>
+
+
+
+<a name="24212"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24212" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24212">(Jan 26 2021 at 19:43)</a>:</h4>
+<p>We try to make sure that if an issue is still open on MetPy it's very much still relevant. If you're feeling ambitious, you could open a Pull Request with your own implementation. We're always happy to have community contributions to MetPy, and that would help ensure it's implemented in MetPy sooner rather than later.</p>
+
+
+
+<a name="24213"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24213" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24213">(Jan 26 2021 at 19:56)</a>:</h4>
+<p>Yeah, this sounds good; we would like to make upstream contributions. I will talk to our teammate who made the implementation. Thanks!</p>
+
+
+
+<a name="24224"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24224" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michaela Sizemore <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24224">(Jan 26 2021 at 22:04)</a>:</h4>
+<p><span class="user-mention" data-user-id="41">@Ryan May</span>  Orhan spun me up on this conversation, but I just wanted to let you know that I'm going to refine what we have currently with respect to calculating Showalter and create a PR on the MetPy repo. If there's anything else I need to know before submitting that PR, please feel free to send me a DM!</p>
+
+
+
+<a name="24226"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/skewt%20params%3A%20Showalter%20index/near/24226" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/skewt.20params.3A.20Showalter.20index.html#24226">(Jan 26 2021 at 22:38)</a>:</h4>
+<p>Excellent! We have a Contributor's Guide that may be helpful: <a href="https://github.com/Unidata/MetPy/blob/master/CONTRIBUTING.md" target="_blank" title="https://github.com/Unidata/MetPy/blob/master/CONTRIBUTING.md">https://github.com/Unidata/MetPy/blob/master/CONTRIBUTING.md</a>  One thing up front is that we'd want to have a simple test or two that we can run to validate that the calculation is working, and making sure we don't break it in the future (see this test for precipitable water <a href="https://github.com/Unidata/MetPy/blob/9ed0829f308bb86374f389994d0bfe9ed2303159/tests/calc/test_indices.py#L89-L96" target="_blank" title="https://github.com/Unidata/MetPy/blob/9ed0829f308bb86374f389994d0bfe9ed2303159/tests/calc/test_indices.py#L89-L96">https://github.com/Unidata/MetPy/blob/9ed0829f308bb86374f389994d0bfe9ed2303159/tests/calc/test_indices.py#L89-L96</a>)<br>
+Otherwise, don't worry about making sure the PR is perfect or anything--PRs are generally a good collaborative, iterative process. Thanks for considering contributing!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

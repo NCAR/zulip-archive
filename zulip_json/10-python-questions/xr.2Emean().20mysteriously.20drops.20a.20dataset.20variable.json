@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I have a dataset with two variables that have an 'L' dimension, and I want to take the mean over a slice of 'L'.  One of these variables (\"time\") is an array of cftime objects. Here, \"time\" is a variable, not a coordinate, because this is an initialized prediction dataset. When I apply the 'mean' method, the \"time\" variable gets dropped from the dataset for some reason:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">hrdp_ds</span><span class=\"p\">[[</span><span class=\"s1\">'TEMP'</span><span class=\"p\">,</span><span class=\"s1\">'time'</span><span class=\"p\">]]</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">L</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span><span class=\"mi\">12</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"s1\">'L'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>However, the mean method does work when applied to \"time\". The following returns good values that I want included in the dataset:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">hrdp_ds</span><span class=\"o\">.</span><span class=\"n\">time</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">L</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span><span class=\"mi\">12</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"s1\">'L'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p><a href=\"/user_uploads/2/28/Isd9_uO8HKNu4mui-J1ZaJ_v/Screen-Shot-2021-10-25-at-12.04.01-PM.png\">Screen-Shot-2021-10-25-at-12.04.01-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/28/Isd9_uO8HKNu4mui-J1ZaJ_v/Screen-Shot-2021-10-25-at-12.04.01-PM.png\" title=\"Screen-Shot-2021-10-25-at-12.04.01-PM.png\"><img src=\"/user_uploads/2/28/Isd9_uO8HKNu4mui-J1ZaJ_v/Screen-Shot-2021-10-25-at-12.04.01-PM.png\"></a></div>",
+        "id": 45605,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1635185542
+    },
+    {
+        "content": "<blockquote>\n<p>When I apply the 'mean' method, the \"time\" variable gets dropped from the dataset for some reason:</p>\n</blockquote>\n<p>Reduce methods such as mean drop non-numeric data variables ( <a href=\"https://github.com/pydata/xarray/blob/fdabf3bea5c750939a4a2ae60f80ed34a6aebd58/xarray/core/duck_array_ops.py#L370\">ref</a>)</p>\n<p>Since you are reducing over <code>dim='L'</code>, any non-numeric data variables with this dimension are going to be dropped prior to applying the mean.</p>",
+        "id": 45608,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1635192656
+    },
+    {
+        "content": "<p>Note that this happens when invoking <code>reduce</code> methods on <code>xr.Dataset</code>. You should be able to get the mean for the <code>time</code> dataarray:</p>",
+        "id": 45610,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1635192976
+    },
+    {
+        "content": "<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">temp_ds</span> <span class=\"o\">=</span> <span class=\"n\">hrdp_ds</span><span class=\"p\">[[</span><span class=\"s1\">'TEMP'</span><span class=\"p\">,</span> <span class=\"s1\">'time'</span><span class=\"p\">]]</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">L</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mi\">12</span><span class=\"p\">))</span>\n<span class=\"n\">result</span> <span class=\"o\">=</span> <span class=\"n\">temp_ds</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"s1\">'L'</span><span class=\"p\">)</span>\n<span class=\"n\">result</span><span class=\"p\">[</span><span class=\"s1\">'time'</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"n\">temp_ds</span><span class=\"o\">.</span><span class=\"n\">time</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"s1\">'L'</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 45611,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1635193003
+    },
+    {
+        "content": "<p>Thanks. I think this would be useful information to include here: <a href=\"http://xarray.pydata.org/en/stable/generated/xarray.Dataset.mean.html?highlight=mean\">http://xarray.pydata.org/en/stable/generated/xarray.Dataset.mean.html?highlight=mean</a></p>",
+        "id": 45612,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1635195614
+    }
+]

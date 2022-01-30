@@ -1,0 +1,284 @@
+[
+    {
+        "content": "<p>I'm getting this stack track on Casper using NCAR_JobQueue.   It looks like opening an intake-esm catalog is failing.</p>",
+        "id": 3323,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584380564
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/core.py in to_dataset_dict(self, zarr_kwargs, cdf_kwargs, preprocess, aggregate, storage_options, progressbar)\n    390             self.progressbar = progressbar\n    391\n--&gt; 392         return self._open_dataset()\n    393\n    394     def _open_dataset(self):\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/core.py in _open_dataset(self)\n    501                 progress(futures)\n    502\n--&gt; 503             dsets = client.gather(futures)\n    504\n    505         self._ds = {group_id: ds for (group_id, ds) in dsets}\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/distributed/client.py in gather(self, futures, errors, direct, asynchronous)\n   1891                 direct=direct,\n   1892                 local_worker=local_worker,\n-&gt; 1893                 asynchronous=asynchronous,\n   1894             )\n   1895\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/distributed/client.py in sync(self, func, asynchronous, callback_timeout, *args, **kwargs)\n    778         else:\n    779             return sync(\n--&gt; 780                 self.loop, func, *args, callback_timeout=callback_timeout, **kwargs\n    781             )\n    782\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/distributed/utils.py in sync(loop, func, callback_timeout, *args, **kwargs)\n    346     if error[0]:\n    347         typ, exc, tb = error[0]\n--&gt; 348         raise exc.with_traceback(tb)\n    349     else:\n    350         return result[0]\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/distributed/utils.py in f()\n    330             if callback_timeout is not None:\n    331                 future = asyncio.wait_for(future, callback_timeout)\n--&gt; 332             result[0] = yield future\n    333         except Exception as exc:\n    334             error[0] = sys.exc_info()\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/tornado/gen.py in run(self)\n    733\n    734                     try:\n--&gt; 735                         value = future.result()\n    736                     except Exception:\n    737                         exc_info = sys.exc_info()\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/distributed/client.py in _gather(self, futures, errors, direct, local_worker)\n   1750                             exc = CancelledError(key)\n   1751                         else:\n-&gt; 1752                             raise exception.with_traceback(traceback)\n   1753                         raise exc\n   1754                     if errors == &quot;skip&quot;:\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/core.py in _load_group_dataset()\n    582         zarr_kwargs,\n    583         cdf_kwargs,\n--&gt; 584         preprocess,\n    585     )\n    586\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in _aggregate()\n    162             return ds\n    163\n--&gt; 164     return apply_aggregation(v)\n    165\n    166\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in apply_aggregation()\n    109             dsets = [\n    110                 apply_aggregation(value, agg_column, key=key, level=level + 1)\n--&gt; 111                 for key, value in v.items()\n    112             ]\n    113             keys = list(v.keys())\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in &lt;listcomp&gt;()\n    109             dsets = [\n    110                 apply_aggregation(value, agg_column, key=key, level=level + 1)\n--&gt; 111                 for key, value in v.items()\n    112             ]\n    113             keys = list(v.keys())\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in apply_aggregation()\n    109             dsets = [\n    110                 apply_aggregation(value, agg_column, key=key, level=level + 1)\n--&gt; 111                 for key, value in v.items()\n    112             ]\n    113             keys = list(v.keys())\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in &lt;listcomp&gt;()\n    109             dsets = [\n    110                 apply_aggregation(value, agg_column, key=key, level=level + 1)\n--&gt; 111                 for key, value in v.items()\n    112             ]\n    113             keys = list(v.keys())\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in apply_aggregation()\n    109             dsets = [\n    110                 apply_aggregation(value, agg_column, key=key, level=level + 1)\n--&gt; 111                 for key, value in v.items()\n    112             ]\n    113             keys = list(v.keys())\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in &lt;listcomp&gt;()\n    109             dsets = [\n    110                 apply_aggregation(value, agg_column, key=key, level=level + 1)\n--&gt; 111                 for key, value in v.items()\n    112             ]\n    113             keys = list(v.keys())\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in apply_aggregation()\n     91                 zarr_kwargs=zarr_kwargs,\n     92                 cdf_kwargs=cdf_kwargs,\n---&gt; 93                 preprocess=preprocess,\n     94             )\n     95             ds.attrs[&#39;intake_esm_varname&#39;] = varname\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in _open_asset()\n    194         except Exception as e:\n    195             logger.error(f&#39;Failed to open netCDF/HDF dataset.&#39;)\n--&gt; 196             raise e\n    197\n    198     if preprocess is None:\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/intake_esm/merge_util.py in _open_asset()\n    191         logger.info(f&#39;Opening netCDF/HDF dataset: {root} - protocol: {protocol}&#39;)\n    192         try:\n--&gt; 193             ds = xr.open_dataset(path, **cdf_kwargs)\n    194         except Exception as e:\n    195             logger.error(f&#39;Failed to open netCDF/HDF dataset.&#39;)\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/backends/api.py in open_dataset()\n    527                 &quot;with engine=&#39;scipy&#39; or &#39;h5netcdf&#39;&quot;\n    528             )\n--&gt; 529         engine = _get_engine_from_magic_number(filename_or_obj)\n    530         if engine == &quot;scipy&quot;:\n    531             store = backends.ScipyDataStore(filename_or_obj, **backend_kwargs)\n\n~/miniconda3/envs/analysis/lib/python3.7/site-packages/xarray/backends/api.py in _get_engine_from_magic_number()\n    115         magic_number = filename_or_obj[:8]\n    116     else:\n--&gt; 117         if filename_or_obj.tell() != 0:\n    118             raise ValueError(\n    119                 &quot;file-like object read/write pointer not at zero &quot;\n\nAttributeError: &#39;FSMap&#39; object has no attribute &#39;tell&#39;\n</pre></div>",
+        "id": 3325,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584380578
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span>, that was a bug (introduced by me a few weeks ago <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span>). I fixed it earlier this week-end... </p>\n<div class=\"codehilite\"><pre><span></span>python -m pip install git+https://github.com/NCAR/intake-esm.git\n</pre></div>",
+        "id": 3330,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584380673
+    },
+    {
+        "content": "<p>Update to the HEAD of intake-esm's master branch</p>",
+        "id": 3332,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584380738
+    },
+    {
+        "content": "<p>Well, thanks for fixing it!  :)<br>\nTrying to write some LENS ocean data to Zarr today...</p>",
+        "id": 3335,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584380848
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>  Do I have to restart my kernel after the pip install?   I am still getting the same error using the same kernel.</p>",
+        "id": 3339,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584380933
+    },
+    {
+        "content": "<p>Yes, you will need to restart you kernel</p>",
+        "id": 3340,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584380958
+    },
+    {
+        "content": "<p>unless you are using the autoreload magic </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"o\">%</span><span class=\"n\">laod_ext</span> <span class=\"n\">autoreload</span>\n<span class=\"o\">%</span><span class=\"n\">autoreload</span> <span class=\"mi\">2</span>\n</pre></div>",
+        "id": 3342,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584380983
+    },
+    {
+        "content": "<p>Thanks for your help so far today.   Is it bad when the Dask status tabs stop working in a JupyterHub session?  In the middle of starting the first Zarr store save, the tabs went blank.</p>",
+        "id": 3352,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584381525
+    },
+    {
+        "content": "<p>You are welcome!</p>",
+        "id": 3353,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381575
+    },
+    {
+        "content": "<p>I wouldn't worry about the dashboard freezing..</p>",
+        "id": 3354,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381603
+    },
+    {
+        "content": "<p>It tends to happen when a huge amount of information is being sent to the bokeh server on which the dashboard is running on</p>",
+        "id": 3356,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381665
+    },
+    {
+        "content": "<p>If you wait a little bit, things may normalize and the dashboard may go back to working as usual</p>",
+        "id": 3357,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381729
+    },
+    {
+        "content": "<p>OK, but I am also not seeing my Zarr folder growing in size.  After about 5 minutes, it is stuck at around 250K bytes.   Can it sometimes take a while for the in-memory work to finish before starting a write?</p>",
+        "id": 3359,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584381742
+    },
+    {
+        "content": "<p>It sounds like something went wrong</p>",
+        "id": 3363,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381793
+    },
+    {
+        "content": "<p>I would restart everything</p>",
+        "id": 3365,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381807
+    },
+    {
+        "content": "<p>tornado.websocket.WebSocketClosedError</p>",
+        "id": 3366,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584381813
+    },
+    {
+        "content": "<p>Restart the entire hub?</p>",
+        "id": 3367,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584381833
+    },
+    {
+        "content": "<blockquote>\n<p>tornado.websocket.WebSocketClosedError</p>\n</blockquote>\n<p>That's the bokeh server</p>",
+        "id": 3368,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381846
+    },
+    {
+        "content": "<blockquote>\n<p>Restart the entire hub? </p>\n</blockquote>\n<p>Just the kernel</p>",
+        "id": 3369,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584381854
+    },
+    {
+        "content": "<p>How much data are you writing? what is <code>len(dataset.__dask_graph__())</code> → This is the number of tasks. If it's more than 2 million or so, it's too big</p>",
+        "id": 3370,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1584381891
+    },
+    {
+        "content": "<p>So, I go back to the tab to kill everything, and now the Dask tabs are working again!</p>",
+        "id": 3372,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584381910
+    },
+    {
+        "content": "<p>But the number of Dask workers is staying at 2.   Everything looks really slow.   Restart?</p>",
+        "id": 3373,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584382027
+    },
+    {
+        "content": "<p>As Deepak pointed out, I would also check the number of tasks before writing to zarr</p>",
+        "id": 3374,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584382048
+    },
+    {
+        "content": "<p>Aha, I have to interrupt the Zarr write to find this out, right?   Change the code to print this?</p>",
+        "id": 3375,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584382135
+    },
+    {
+        "content": "<blockquote>\n<p>But the number of Dask workers is staying at 2. Everything looks really slow. Restart? </p>\n</blockquote>\n<p>This is normal. You are competing for resources with others...... If the queue is full, dask-workers have to wait to get in</p>",
+        "id": 3376,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584382198
+    },
+    {
+        "content": "<p>OK, number of worker just jumped to around 10.</p>",
+        "id": 3377,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584382225
+    },
+    {
+        "content": "<p>Things should scale as you get more workers</p>",
+        "id": 3378,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584382241
+    },
+    {
+        "content": "<p>Do you have the dashboard open?</p>",
+        "id": 3379,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584382266
+    },
+    {
+        "content": "<p>Yes, dashboard is open</p>",
+        "id": 3380,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584382277
+    },
+    {
+        "content": "<p>If yes, if you look at the dashboard <code>/status</code> page or <code>progress</code> frame, you should be able to see the number of tasks</p>",
+        "id": 3381,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584382377
+    },
+    {
+        "content": "<p>Dask progress tab says total: 27,621.   Is this the tasks?</p>",
+        "id": 3382,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584382387
+    },
+    {
+        "content": "<p>Yes</p>",
+        "id": 3383,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584382405
+    },
+    {
+        "content": "<p>OK, it looks like progress is being made.</p>",
+        "id": 3384,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584382434
+    },
+    {
+        "content": "<p>I can't remember how to authenticate with Globus File Transfer.   Did we use a special account, or our own Google identity, or something else?</p>",
+        "id": 3389,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584385265
+    },
+    {
+        "content": "<p>Ah, I meant to make that a private message...sorry.</p>",
+        "id": 3390,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584385342
+    },
+    {
+        "content": "<p>You can delete messages. FYI.</p>",
+        "id": 3391,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1584386350
+    },
+    {
+        "content": "<p>I expected to find a little trash can icon in the upper right menu, but it's not there.</p>",
+        "id": 3392,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584386505
+    },
+    {
+        "content": "<p>There is a 10 minute time limit to delete, by default.</p>",
+        "id": 3393,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584386575
+    },
+    {
+        "content": "<p>I think an \"organization admin\" is needed to change that.</p>",
+        "id": 3394,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1584386639
+    },
+    {
+        "content": "<p>I've been using the following code successfully for several months:<br>\n<code>catalog = intake.open_esm_datastore(\"/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json\")</code></p>\n<p>I am now getting an error message <code>FileNotFoundError: [Errno 2] No such file or directory: 'glade-cmip6.csv.gz'</code></p>\n<p>I've checked that the file exists in the directory, and I also update as suggested above: <code>pip install git+https://github.com/NCAR/intake-esm.git</code> and restarted the kernel. This fix does not work, and I get the same error message. Did something else change or get updated that I'm not aware of?</p>",
+        "id": 19284,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1602537053
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span> , </p>\n<p>I am unable to reproduce the issue:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]:</span> <span class=\"kn\">import</span> <span class=\"nn\">intake</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">2</span><span class=\"p\">]:</span> <span class=\"n\">catalog</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"s2\">&quot;/glade/collections/cmip/catalog/intake-esm-datasto</span>\n   <span class=\"o\">...</span><span class=\"p\">:</span> <span class=\"n\">re</span><span class=\"o\">/</span><span class=\"n\">catalogs</span><span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">-</span><span class=\"n\">cmip6</span><span class=\"o\">.</span><span class=\"n\">json</span><span class=\"s2\">&quot;)</span>\n\n<span class=\"n\">In</span> <span class=\"p\">[</span><span class=\"mi\">3</span><span class=\"p\">]:</span> <span class=\"n\">catalog</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">head</span><span class=\"p\">()</span>\n<span class=\"n\">Out</span><span class=\"p\">[</span><span class=\"mi\">3</span><span class=\"p\">]:</span>\n  <span class=\"n\">activity_id</span> <span class=\"n\">institution_id</span>  <span class=\"o\">...</span>     <span class=\"n\">time_range</span>                                               <span class=\"n\">path</span>\n<span class=\"mi\">0</span>  <span class=\"n\">AerChemMIP</span>            <span class=\"n\">BCC</span>  <span class=\"o\">...</span>  <span class=\"mi\">201501</span><span class=\"o\">-</span><span class=\"mi\">205512</span>  <span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">collections</span><span class=\"o\">/</span><span class=\"n\">cmip</span><span class=\"o\">/</span><span class=\"n\">CMIP6</span><span class=\"o\">/</span><span class=\"n\">AerChemMIP</span><span class=\"o\">/</span><span class=\"n\">BCC</span><span class=\"o\">/</span><span class=\"n\">B</span><span class=\"o\">...</span>\n<span class=\"mi\">1</span>  <span class=\"n\">AerChemMIP</span>            <span class=\"n\">BCC</span>  <span class=\"o\">...</span>  <span class=\"mi\">201501</span><span class=\"o\">-</span><span class=\"mi\">205512</span>  <span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">collections</span><span class=\"o\">/</span><span class=\"n\">cmip</span><span class=\"o\">/</span><span class=\"n\">CMIP6</span><span class=\"o\">/</span><span class=\"n\">AerChemMIP</span><span class=\"o\">/</span><span class=\"n\">BCC</span><span class=\"o\">/</span><span class=\"n\">B</span><span class=\"o\">...</span>\n<span class=\"mi\">2</span>  <span class=\"n\">AerChemMIP</span>            <span class=\"n\">BCC</span>  <span class=\"o\">...</span>  <span class=\"mi\">201501</span><span class=\"o\">-</span><span class=\"mi\">205512</span>  <span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">collections</span><span class=\"o\">/</span><span class=\"n\">cmip</span><span class=\"o\">/</span><span class=\"n\">CMIP6</span><span class=\"o\">/</span><span class=\"n\">AerChemMIP</span><span class=\"o\">/</span><span class=\"n\">BCC</span><span class=\"o\">/</span><span class=\"n\">B</span><span class=\"o\">...</span>\n<span class=\"mi\">3</span>  <span class=\"n\">AerChemMIP</span>            <span class=\"n\">BCC</span>  <span class=\"o\">...</span>  <span class=\"mi\">201501</span><span class=\"o\">-</span><span class=\"mi\">205512</span>  <span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">collections</span><span class=\"o\">/</span><span class=\"n\">cmip</span><span class=\"o\">/</span><span class=\"n\">CMIP6</span><span class=\"o\">/</span><span class=\"n\">AerChemMIP</span><span class=\"o\">/</span><span class=\"n\">BCC</span><span class=\"o\">/</span><span class=\"n\">B</span><span class=\"o\">...</span>\n<span class=\"mi\">4</span>  <span class=\"n\">AerChemMIP</span>            <span class=\"n\">BCC</span>  <span class=\"o\">...</span>  <span class=\"mi\">201501</span><span class=\"o\">-</span><span class=\"mi\">205512</span>  <span class=\"o\">/</span><span class=\"n\">glade</span><span class=\"o\">/</span><span class=\"n\">collections</span><span class=\"o\">/</span><span class=\"n\">cmip</span><span class=\"o\">/</span><span class=\"n\">CMIP6</span><span class=\"o\">/</span><span class=\"n\">AerChemMIP</span><span class=\"o\">/</span><span class=\"n\">BCC</span><span class=\"o\">/</span><span class=\"n\">B</span><span class=\"o\">...</span>\n</pre></div>\n\n\n<p>and I can confirm that the necessary files are available:</p>\n<div class=\"codehilite\"><pre><span></span>abanihi at casper26 in /glade/collections/cmip/catalog/intake-esm-datastore/catalogs on master <span class=\"o\">[</span>!<span class=\"o\">]</span>\n$ ls glade-cmip*\nglade-cmip5.csv.gz  glade-cmip5.json  glade-cmip6.csv.gz  glade-cmip6.json\n</pre></div>",
+        "id": 19301,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602545156
+    },
+    {
+        "content": "<p>When you get a chance, could you post here the <strong>full traceback</strong> of the error you are getting?</p>",
+        "id": 19302,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602545256
+    },
+    {
+        "content": "<p>Really? Well, I wonder what's going on. I'm having the same issue in two of my scripts. I've been using the CMIP62019.10a kernel. Below is more information on the problem I am encountering.</p>\n<p>I import several functions:</p>\n<div class=\"codehilite\"><pre><span></span>import xarray as xr\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport esmlab\n\n#Tried below install, unsuccessful at fixing the intake error\n#pip install git+https://github.com/NCAR/intake-esm.git\n\nimport intake\n</pre></div>\n\n\n<p>Then I attempt to import the data:</p>\n<div class=\"codehilite\"><pre><span></span>catalog = intake.open_esm_datastore(&quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&quot;)\ncatalog.df.head()\n</pre></div>\n\n\n<p>Which results in the below error message</p>\n<div class=\"codehilite\"><pre><span></span>---------------------------------------------------------------------------\nFileNotFoundError                         Traceback (most recent call last)\n&lt;ipython-input-3-1231c631f29f&gt; in &lt;module&gt;\n----&gt; 1 catalog = intake.open_esm_datastore(&quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&quot;)\n      2 catalog.df.head()\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/intake_esm/core.py in __init__(self, esmcol_path, **kwargs)\n     68         self.esmcol_path = esmcol_path\n     69         self._col_data = _fetch_and_parse_file(esmcol_path)\n---&gt; 70         self.df = self._fetch_catalog()\n     71         self._entries = {}\n     72         self.urlpath = &#39;&#39;\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/intake_esm/core.py in _fetch_catalog(self)\n    113         &quot;&quot;&quot;Get the catalog file and cache it.\n    114         &quot;&quot;&quot;\n--&gt; 115         return pd.read_csv(self._col_data[&#39;catalog_file&#39;])\n    116\n    117     def nunique(self):\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/pandas/io/parsers.py in parser_f(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)\n    683         )\n    684\n--&gt; 685         return _read(filepath_or_buffer, kwds)\n    686\n    687     parser_f.__name__ = name\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/pandas/io/parsers.py in _read(filepath_or_buffer, kwds)\n    455\n    456     # Create the parser.\n--&gt; 457     parser = TextFileReader(fp_or_buf, **kwds)\n    458\n    459     if chunksize or iterator:\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/pandas/io/parsers.py in __init__(self, f, engine, **kwds)\n    893             self.options[&quot;has_index_names&quot;] = kwds[&quot;has_index_names&quot;]\n    894\n--&gt; 895         self._make_engine(self.engine)\n    896\n    897     def close(self):\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/pandas/io/parsers.py in _make_engine(self, engine)\n   1133     def _make_engine(self, engine=&quot;c&quot;):\n   1134         if engine == &quot;c&quot;:\n-&gt; 1135             self._engine = CParserWrapper(self.f, **self.options)\n   1136         else:\n   1137             if engine == &quot;python&quot;:\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/site-packages/pandas/io/parsers.py in __init__(self, src, **kwds)\n   1915         kwds[&quot;usecols&quot;] = self.usecols\n   1916\n-&gt; 1917         self._reader = parsers.TextReader(src, **kwds)\n   1918         self.unnamed_cols = self._reader.unnamed_cols\n   1919\n\npandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader.__cinit__()\n\npandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._setup_parser_source()\n\n/ncar/usr/jupyterhub/envs/cmip6-201910a/lib/python3.7/gzip.py in __init__(self, filename, mode, compresslevel, fileobj, mtime)\n    161             mode += &#39;b&#39;\n    162         if fileobj is None:\n--&gt; 163             fileobj = self.myfileobj = builtins.open(filename, mode or &#39;rb&#39;)\n    164         if filename is None:\n    165             filename = getattr(fileobj, &#39;name&#39;, &#39;&#39;)\n\nFileNotFoundError: [Errno 2] No such file or directory: &#39;glade-cmip6.csv.gz&#39;\n</pre></div>",
+        "id": 19303,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1602545685
+    },
+    {
+        "content": "<p>Thank you, Danica! I now know what's going on <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span> </p>\n<p>1) The environment  ( <code>cmip6-201910a</code>) you are using is outdated and unfortunately <code>pip install ....</code> doesn't have any effect towards fixing the issue </p>\n<p>2) You actually want to use the <strong><code>cmip6-201910</code></strong> environment instead of <code>cmip6-201910a</code> (notice the <code>a</code> at the end). The <code>cmip6-2019</code> has an up-to-date version of <code>intake-esm</code> that knows how to resolve the absolute path of the <code>glade-cmip6-csv.gz</code> file when given the path to the JSON.</p>",
+        "id": 19304,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602546325
+    },
+    {
+        "content": "<p>Aha! That did the trick! Thanks for the update. I thought that <code>cmip6-201910a</code> was the more up-to-date version, so it's good to know that I shouldn't use it.</p>",
+        "id": 19305,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1602546662
+    },
+    {
+        "content": "<p>Awesome! </p>\n<blockquote>\n<p>I thought that cmip6-201910a was the more up-to-date version</p>\n</blockquote>\n<p>This was the original idea, however, for administrative reasons the two environments ended up diverging over time (as far as package versions are concerned)..<br>\nI happen to have admin permissions on the <code>cmip6-2019</code> environment. As a result, I try to keep it up-to-date. However, I don't have control over the <code>cmip6-2019a</code> environment</p>",
+        "id": 19307,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1602547500
+    }
+]

@@ -1,0 +1,98 @@
+[
+    {
+        "content": "<p>Not sure to or where to start this conversation, but following the ESDS discussion yesterday it sounded like we should continue the conversation either here or on ESDS github page <a href=\"https://github.com/NCAR/esds/\" target=\"_blank\" title=\"https://github.com/NCAR/esds/\">https://github.com/NCAR/esds/</a> . I'd recommend making this move sooner rather than later, as I find github issues and project easier to organize and track than threads on this forum.</p>\n<p>I've also looped in some users who may have more interest in this topic, but the list is not exhaustive. (I'm also assuming that others in Zulip can see this)?</p>\n<p>I thought this would be under #ESDS , but was not successful... suggestions here are welcome</p>",
+        "id": 30343,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1619524243
+    },
+    {
+        "content": "<p>I liked <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> suggestion to build a generalized workflow for CESM model diagnostics packages.  Broadly this should include: </p>\n<ul>\n<li>Time series generation (taking raw history files and generating single variable time series.</li>\n<li>Regridding variables of interest from unstructured grids to coordinate grids.  <ul>\n<li><em>Maybe this also involves changing resolution to match observations?</em></li>\n</ul>\n</li>\n<li>Aggregating data over space &amp; time (e.g. annual averages, &amp; global or regional sums)</li>\n<li>Comparing with observational data</li>\n<li>Visualization tools to display results (e.g. web page generations)</li>\n</ul>\n<p>There's a lot complexity in these points, but maybe some of these can be accomplished in a focused <em>sprint</em>, especially to generate time series.</p>",
+        "id": 30344,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1619524673
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span>. </p>\n<p>I think we might consider putting a design document together. We could do this on a google doc or HackMD, for example. We will soon have a repo together for the timeseries generation, I hope. That will provide a venue enabling discussion of the specifics of that piece. </p>\n<p>Regridding is something we've been working on a bit too. xESMF provides a partial solution, but other pieces include some curation of grid and mapping files.</p>",
+        "id": 30351,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619526881
+    },
+    {
+        "content": "<p>I'd like to get <span class=\"user-mention\" data-user-id=\"140\">@Jesse Nusbaumer</span> included here too. From what Max and Matt have described, it sounds like we are all doing pretty similar things for time series generation, but I agree we should get some kind of requirements document put together so we are all on the same page.</p>",
+        "id": 30362,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1619536349
+    },
+    {
+        "content": "<p>I went ahead and created a repository for the history --&gt; timeseries generation. This is based on <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> 's scripts. We can move discussion on this \"component\" of the diagnostics workflow to this repository <a href=\"https://github.com/NCAR/cesm-hist2tseries\" target=\"_blank\" title=\"https://github.com/NCAR/cesm-hist2tseries\">https://github.com/NCAR/cesm-hist2tseries</a>. Feel free to add issues/comments on what we should name this, how we should separate the workflow, improvements on the api/documentation.  Looking forward to moving forward on this.</p>",
+        "id": 30364,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619536818
+    },
+    {
+        "content": "<p>Again - this is a prototype for now, collaboration on improving this will be helpful and it is not ready to be used yet.</p>",
+        "id": 30371,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1619537333
+    },
+    {
+        "content": "<p>We don't have anything for creating time series data from history data, but in our ldcpy package (<a href=\"https://github.com/NCAR/ldcpy\" target=\"_blank\" title=\"https://github.com/NCAR/ldcpy\">https://github.com/NCAR/ldcpy</a>), we have utilities for aggregating time series data over time and space (and both) and calculating various statistical quantities.  (We have been using CAM-FV data and POP data from CESM-LENS)  There are a number of sample notebooks to see the capabilities, but we would love feedback and are happy to add more features that would be useful to you all.  We don't yet support CAMSE data but its on the \"to do\" list.</p>",
+        "id": 30393,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1619542454
+    },
+    {
+        "content": "<p>I am happy with a sprint for time-series generation, but before we start should we make a concerted effort to list/organize all of our needs/wants/requirements for this new package?  I can already think of a few aspects I would personally like to see (e.g. meta-data conserving, able to scale in parallel but still runnable in serial).  My fear is that otherwise we'll get ~80% of the way done before realizing there is some major requirement we forgot about that won't be easily implementable in the routine as written.  I can start an issue in <a href=\"https://github.com/NCAR/cesm-hist2tseries\" target=\"_blank\" title=\"https://github.com/NCAR/cesm-hist2tseries\">https://github.com/NCAR/cesm-hist2tseries</a> to get that conversation going if that is preferred.  </p>\n<p>Also, although I am happy to contribute to any design discussion, I sadly will be MIA coding-wise until about mid-May, as all of the AMP engineers have been explicitly directed to work on implementing new infrastructure in CAM/SIMA.  So if you want to exclude me from this particular sprint that is totally fine.  However, once this SIMA project is done I should be able to actually contribute coding help to whatever we collectively want to focus on then.  Thanks!</p>",
+        "id": 30415,
+        "sender_full_name": "Jesse Nusbaumer",
+        "timestamp": 1619549936
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"140\">@Jesse Nusbaumer</span>, I wholeheartedly agree that we should develop a design before jumping in!</p>",
+        "id": 30424,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619552047
+    },
+    {
+        "content": "<p>I think the concept of moving forward with common pieces is a great idea. But I would like to see some overall coordination. Having volunteers from the different sections to coordinate would be good. Fine if we use a google doc or something else to put things down.  It would be good (as I think <span class=\"user-mention\" data-user-id=\"140\">@Jesse Nusbaumer</span> suggested below) to make sure we have some requirements for any pieces before we do a sprint. Not that a sprint would be required to do everything, but at least we don't miss major points.  The list of items: (Timeseries, Regridding, Visualization) are I think a great initial list, almost in priority order. </p>\n<p>I'm happy to help. We have documentation for what we are aiming for in AMP, and that can feed into this discussion.</p>",
+        "id": 30427,
+        "sender_full_name": "Andrew Gettelman",
+        "timestamp": 1619553345
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"126\">@Andrew Gettelman</span></p>",
+        "id": 30428,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619553406
+    },
+    {
+        "content": "<p>We'll share a design doc for timeseries tool soon. I think it's really important that we think about assembling the workflow from modular components—these can serve needs as standalone entities in ad hoc workflows too.</p>",
+        "id": 30429,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1619553464
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"126\">@Andrew Gettelman</span> and <span class=\"user-mention\" data-user-id=\"140\">@Jesse Nusbaumer</span>  <a href=\"https://github.com/NCAR/cesm-hist2tseries/issues/13\" target=\"_blank\" title=\"https://github.com/NCAR/cesm-hist2tseries/issues/13\">we collected some of our thoughts here</a> in regards to the design/dependencies for the history to timeseries tool - feel free to check out the documents linked in that issue, I think it will be good to continue this discussion there</p>",
+        "id": 30825,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1620136516
+    },
+    {
+        "content": "<p>For CMIP6 we used this code <a href=\"https://github.com/ncar/pyreshaper\" target=\"_blank\" title=\"https://github.com/ncar/pyreshaper\">https://github.com/ncar/pyreshaper</a> to convert to timeseries and it might be important to understand why there's a need to develop something new so that you don't run into the same issues.  A couple issues that I would like to point out would be that the code relies on mpi4py which <em>can</em> be difficult to port.  Another issue is that the code is slow converting high frequency output and you'll have to be careful about how you parallelize over the problem or a dask implementation could run into the same issue.  The bottleneck is writing out the file in netcdf and there's not a great option to do this in parallel unless you're writing out in zarr.  And my 2 cents ... if at all possible, this operation should really be done by PIO coming out of the model.  Ignoring legacy runs or developement runs that turn into production runs, this operation creates duplicate data when disk space is already at a premium and this operation is hard to do without an email to cisl asking for more disk space.  You might also want to talk to Gary Strand for his advice on how this should be developed, especially because this task usually falls onto his to-do list.</p>",
+        "id": 30827,
+        "sender_full_name": "Sheri Mickelson",
+        "timestamp": 1620139951
+    },
+    {
+        "content": "<p>I just posted this week's blog post detailing how to create intake-esm catalogs from CESM history file output... I think this will be helpful in generalizing data ingestion throughout the different model diagnostic workflows. If you are interested, here is the post <a href=\"https://ncar.github.io/esds/posts/ecgtools-history-files-example/\" target=\"_blank\" title=\"https://ncar.github.io/esds/posts/ecgtools-history-files-example/\">https://ncar.github.io/esds/posts/ecgtools-history-files-example/</a></p>",
+        "id": 33519,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1622840357
+    },
+    {
+        "content": "<p>There will be a group discussion focused on CESM diagnostics at the CESM workshop during the Software Engineering Working Group (SEWG) session. We put together an agenda for the session, with links to the presentations we will be using to spark discussion/gather information. Feel free to check it out, and leave feedback. <a href=\"https://docs.google.com/document/d/1wpqMhOEXnYM7WcXpKzQH7TU8B8LA7ZNsWR0D44ym8dk/edit?usp=sharing\" target=\"_blank\" title=\"https://docs.google.com/document/d/1wpqMhOEXnYM7WcXpKzQH7TU8B8LA7ZNsWR0D44ym8dk/edit?usp=sharing\">https://docs.google.com/document/d/1wpqMhOEXnYM7WcXpKzQH7TU8B8LA7ZNsWR0D44ym8dk/edit?usp=sharing</a></p>",
+        "id": 33556,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1623075965
+    }
+]

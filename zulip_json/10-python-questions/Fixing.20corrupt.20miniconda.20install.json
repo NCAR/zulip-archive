@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>I think I may have corrupted by laptop's miniconda environment by giving a keyboard interrupt during a \"conda env create\" command. Now when I switch environments, my command prompt does not update, and I am not sure if this is bad. But I can recreate all of my local environments if needed.  Any recommendations on how to best fix or reinstall? Is recreating the base environment sufficient?    I gave the command <code>conda update -n base</code>, and a bunch of  packages including conda were updated successfully, but there is still a problem with the command prompt, and I just want to be safe.</p>",
+        "id": 8366,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1589398573
+    },
+    {
+        "content": "<p>The problem persists in a new bash shell / terminal window?</p>",
+        "id": 8367,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1589398631
+    },
+    {
+        "content": "<p>Yes.</p>",
+        "id": 8368,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1589398637
+    },
+    {
+        "content": "<p>Freaky.  <span aria-label=\"half frown\" class=\"emoji emoji-1f615\" role=\"img\" title=\"half frown\">:half_frown:</span></p>",
+        "id": 8369,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1589398664
+    },
+    {
+        "content": "<p>It is, kind of.   Perhaps it's a superficial problem, but I have no way of knowing if something will bite me later.</p>",
+        "id": 8370,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1589398725
+    },
+    {
+        "content": "<p>Maybe I just download the installer program and clobber the existing install, provided that is not a recipe for disaster.</p>",
+        "id": 8371,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1589398800
+    },
+    {
+        "content": "<p>What is the output of the following?</p>\n<div class=\"codehilite\"><pre><span></span>conda config --show <span class=\"p\">|</span> grep changeps1\n</pre></div>",
+        "id": 8372,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1589398937
+    },
+    {
+        "content": "<p><code>changeps1: False</code></p>",
+        "id": 8373,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1589398961
+    },
+    {
+        "content": "<p>That's it.  Change it to:</p>\n<div class=\"codehilite\"><pre><span></span>conda config  --set changeps1 True\n</pre></div>",
+        "id": 8374,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1589399010
+    },
+    {
+        "content": "<p>That did it!  I guess it was a superficial symptom.   Strange that it would have changed by itself somehow.   Maybe that file was being changed when I gave the interrupt.</p>",
+        "id": 8375,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1589399106
+    },
+    {
+        "content": "<p>Yeah.  I'm wondering if that is the case.  Could be some other config options were changed at the same time, so keep an eye out.</p>",
+        "id": 8376,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1589399140
+    }
+]

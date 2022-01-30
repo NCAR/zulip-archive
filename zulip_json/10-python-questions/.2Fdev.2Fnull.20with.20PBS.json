@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Is anyone else having problems with the new /dev/null output restrictions on PBS?  After some digging we have found that there are some python packages that write to /dev/null including IPython and numba.  How are you avoiding getting your jobs killed?</p>",
+        "id": 42812,
+        "sender_full_name": "Matthew Hayman",
+        "timestamp": 1631724184
+    },
+    {
+        "content": "<p>You can still write to <code>/dev/null</code>, just don't make it part of the PBS directive in job scripts from what I gather. I.e., <code>PBS -o /dev/null</code> or <code>PBS -e /dev/null</code> should not be used (long story about how PBS is capable of doing data staging), but you can certainly send output to local <code>/dev/null</code> as part of normal bash/tcsh unless you are seeing different. Do you have a specific example?</p>",
+        "id": 42831,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1631727538
+    },
+    {
+        "content": "<p>Thanks for the reply Jared.  It provides some focus on where we should look for the problem.</p>",
+        "id": 42837,
+        "sender_full_name": "Matthew Hayman",
+        "timestamp": 1631729546
+    },
+    {
+        "content": "<p>Something like this is completely valid. Like I said, as long as it's not final place for PBS, then you're fine. If you really don't want your files around, an alternative to not having them persist is to look at the <code>-R</code> option to qsub or <code>#PBS -R [o|e|oe|eo]</code></p>\n<div class=\"codehilite\"><pre><span></span><code><span class=\"ch\">#!/bin/bash</span>\n\n<span class=\"c1\">#PBS -l walltime=5:00</span>\n<span class=\"c1\">#PBS -l select=1:ncpus=2</span>\n<span class=\"c1\">#PBS -q casper</span>\n<span class=\"c1\">#PBS -j oe</span>\n\n<span class=\"nb\">echo</span> hello world\n<span class=\"nb\">echo</span> hi there &gt; /dev/null\ndate\n\n<span class=\"o\">(</span>\ncurl -sL <span class=\"s2\">&quot;https://en.wikipedia.org/api/rest_v1/page/random/summary&quot;</span>\ndate\n<span class=\"o\">)</span> &gt; /dev/null\n\n<span class=\"nb\">echo</span> finished!!\n</code></pre></div>",
+        "id": 42839,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1631730097
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I'm trying to use xesmf to regrid onto a curvilinear ROMS grid. It is telling me:</p>\n<div class=\"codehilite\"><pre><span></span>  File &quot;/import/c1/AKWATERS/kate/.conda/envs/snowdrifts/lib/python3.7/site-packages/xesmf/frontend.py&quot;, line 94, in ds_to_ESMFlocstream\n    raise ValueError(&quot;lon can only be 1d&quot;)\nValueError: lon can only be 1d\n</pre></div>\n\n\n<p>The test code:</p>\n<div class=\"codehilite\"><pre><span></span>import xarray as xr\nimport xesmf\n\ndef regrid_tracer(fld, method=&#39;bilinear&#39;):\n    coords = xr.open_dataset(&#39;/import/AKWATERS/kshedstrom/gridpak/Arctic2/grid_Arctic_4.nc&#39;)\n    coords = coords.rename({&#39;lon_rho&#39;: &#39;lon&#39;, &#39;lat_rho&#39;: &#39;lat&#39;})\n    gsource = xr.open_dataset(&#39;/import/AKWATERS/kshedstrom/HYCOM/Svalbard/data/HYCOM_GLBv0.08_2018_001.nc&#39;)\n\n    regrid = xesmf.Regridder(\n        gsource,\n        coords,\n        method=method,\n        locstream_out=True,\n        periodic=False,\n        filename=&#39;regrid_t.nc&#39;,\n        reuse_weights=True\n    )\n    tdest = regrid(gsource.ssh)\n    return tdest\n\nmyssh = regrid_tracer(&#39;ssh&#39;)\nmyssh.to_netcdf(&#39;myssh.nc&#39;)\n</pre></div>\n\n\n<p>What am I doing wrong?</p>",
+        "id": 21048,
+        "sender_full_name": "Kate Hedstrom",
+        "timestamp": 1604645618
+    },
+    {
+        "content": "<p>I wonder why <code>ds_to_ESMFlocstream</code> is involved. I would have expected an ESMF grid object. The locstream is indeed a 1D thing. I think xesmf must be getting confused and not instantiating an ESMF grid object from your data. <br>\ncc <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span></p>",
+        "id": 21053,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1604680065
+    },
+    {
+        "content": "<p>Oh, I was copying from a code that had locstream set to true. It works without that. Thanks!</p>",
+        "id": 21055,
+        "sender_full_name": "Kate Hedstrom",
+        "timestamp": 1604681882
+    },
+    {
+        "content": "<p>Ah, had I looked more closely at your code, I would have seen that. Glad it's working!</p>",
+        "id": 21056,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1604681943
+    }
+]

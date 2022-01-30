@@ -1,0 +1,92 @@
+<html>
+<head><meta charset="utf-8"><title>Trouble running on Casper · jupyter · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/index.html">jupyter</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html">Trouble running on Casper</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="41346"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/41346" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#41346">(Aug 30 2021 at 17:41)</a>:</h4>
+<p>Hi I am having trouble running on Cheyenne this morning. Getting weird error messages( like "error: can't start new thread").  Also I can't seem to be able to launch a server on Casper.Any thoughts?</p>
+
+
+
+<a name="41350"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/41350" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#41350">(Aug 30 2021 at 17:53)</a>:</h4>
+<p>Never mind.  Working now</p>
+
+
+
+<a name="41404"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/41404" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#41404">(Aug 30 2021 at 20:22)</a>:</h4>
+<p>Hmmm, trying to launch a jubyterhub session on casper - getting pending in queue for a while now.</p>
+<p>edit: timed out so I launched a server on cheyenne instead. Is caper really this over-subscribed?</p>
+
+
+
+<a name="41454"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/41454" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maria Molina <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#41454">(Aug 30 2021 at 22:24)</a>:</h4>
+<p>I submitted a CISL ticket about this and apparently the issue for Casper login nodes is that people spawn them and then leave them idle, then others get timeout errors.</p>
+
+
+
+<a name="45901"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/45901" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#45901">(Oct 28 2021 at 18:44)</a>:</h4>
+<p>I'm having this problem today (timeout, can't get on jupyterhub via casper login node). I submitted a CISL ticket as well. I wonder if there needs to be a time limit so that idle jupyterhub sessions don't take up spots in the jhublogin queue. I can't switch to cheyenne because my data is on campaign.  Kind of frustrating...</p>
+
+
+
+<a name="45911"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/45911" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#45911">(Oct 28 2021 at 22:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="47">@Katie Dagon</span>, I was helping <span class="user-mention" data-user-id="39">@Zephyr Sylvester</span> today and discovered that if your project number is oversubscribed, the behavior of the spawner on the login node can be a little mysterious. I didn't fully test the behavior, but I think the spawner may just hang rather than giving a clear message regarding an overspent account. </p>
+<p>In this case, the solution was to ensure that <code>DAV_PROJECT</code> was specified in the dot files and set to another project number that was not oversubscribed.  So in this case, we modified Zephyr's .profile file to include</p>
+<div class="codehilite" data-code-language="Bash"><pre><span></span><code><span class="nb">export</span> <span class="nv">DAV_PROJECT</span><span class="o">=</span>NCGD0011
+</code></pre></div>
+<p>Not sure if this is your problem or not. <br>
+cc <span class="user-group-mention" data-user-group-id="6">@hpcd</span></p>
+
+
+
+<a name="45913"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/45913" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#45913">(Oct 28 2021 at 23:39)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span>. I think in this case it was that the jupyterhub was oversubscribed and there are a limited number of sessions that can run simultaneously (using <code>qstat -Q</code> it looks like that number might be 108?). I did chat briefly with Rory Kelly about this and the time limit is long (7 days) since it's the same as a standard terminal session on a login node. So it's probably good if people remember to close out their jupyterhub sessions so others can get on during busy times <span aria-label="smile" class="emoji emoji-1f642" role="img" title="smile">:smile:</span></p>
+<p>The <code>DAV_PROJECT</code> info is still helpful, since I should probably set that environment variable anyway. Taking a closer look at SAM, it appears that in the absence of this setting, the spawner on the login node selects from any of the project codes that I have access to, seemingly at random.</p>
+
+
+
+<a name="45914"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/45914" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#45914">(Oct 29 2021 at 00:03)</a>:</h4>
+<p>Hi Katie. Yes, Matt's advice is definitely good to heed regarding <code>DAV_PROJECT</code>. You are correct though that there was a cap hit on the number of Casper login sessions. This is something we need to find a robust solution to in the long term, but I'll go through the current sessions tonight and see if any can be cleaned up to free some slots for tomorrow.</p>
+
+
+
+<a name="45915"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/45915" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#45915">(Oct 29 2021 at 00:37)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="141">@Brian Vanderwende</span>, much appreciated!</p>
+
+
+
+<a name="46091"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/46091" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#46091">(Nov 02 2021 at 14:55)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="47">Katie Dagon</span> <a href="#narrow/stream/16-jupyter/topic/Trouble.20running.20on.20Casper/near/45913">said</a>:</p>
+<blockquote>
+<p>So it's probably good if people remember to close out their jupyterhub sessions so others can get on during busy times <span aria-label="smile" class="emoji emoji-1f642" role="img" title="smile">:smile:</span><br>
+</p>
+</blockquote>
+<p>I'm not sure I know how to properly close out my sessions! What's the best way to ensure that we're quitting properly and not hogging sessions?</p>
+
+
+
+<a name="46092"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/Trouble%20running%20on%20Casper/near/46092" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/Trouble.20running.20on.20Casper.html#46092">(Nov 02 2021 at 14:58)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> <code>File</code> &gt; <code>Hub Control Panel</code></p>
+<p>That will take you to a page where you can stop your severs.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

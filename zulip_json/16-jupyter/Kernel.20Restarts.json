@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I'm encountering a consistent error with a Kernel restarting on a file I've run in this past just fine. <a href=\"/user_uploads/2/95/hPWZMNd6jesKHTKxeixtqnWJ/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\">Capture.PNG</a> <br>\nBasically when I try to load in a big data file into a dataframe, the Kernel always seems to die on me. Anyone know why this is? I just recently got handed updated data files with wind records from 2021, and since I copied those files into my repo, disregarded the old ones, and ran the new data, my Kernel always seems to just reset. It also always happens in the exact same spot- while loading data into the dF.<br>\nIs this because maybe something went wrong while copying the data? Or because of the kernel itself? Any help would be great, thanks!</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/95/hPWZMNd6jesKHTKxeixtqnWJ/Capture.PNG\" target=\"_blank\" title=\"Capture.PNG\"><img src=\"/user_uploads/2/95/hPWZMNd6jesKHTKxeixtqnWJ/Capture.PNG\"></a></div>",
+        "id": 31616,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1621287720
+    },
+    {
+        "content": "<p>Could be that you are blowing memory. How big is the file? How much memory do you have? (asked rhetorically)</p>",
+        "id": 31617,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1621287817
+    },
+    {
+        "content": "<p>Im running this on my glade/u/home, and when I ran the gladequota command it seems its 41.5% used (21G/50G). The file size im ingesting itself is around 5-6 GB. That shouldn't be an issue right?</p>",
+        "id": 31619,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1621288331
+    },
+    {
+        "content": "<p>When you are loading the data, it is the memory limitation you need to consider, not disk space. If you are running on a login node, reading a 5 GB file could possibly blow memory. </p>\n<p>Try spawing a server on Casper PBS Batch, for example, and specify 25 GB as the memory request.</p>",
+        "id": 31620,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1621288511
+    },
+    {
+        "content": "<p>For reference, see this thread which also suggested switching from the login node to Casper PBS Batch <a href=\"#narrow/stream/16-jupyter/topic/can't.20start.20new.20thread.20error/near/31342\" title=\"#narrow/stream/16-jupyter/topic/can't.20start.20new.20thread.20error/near/31342\">https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/can't.20start.20new.20thread.20error/near/31342</a></p>",
+        "id": 31621,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1621288612
+    },
+    {
+        "content": "<p>Ah, got it! Thanks, I'll try that out now and see if it fixes the issue!</p>",
+        "id": 31624,
+        "sender_full_name": "Muntaha Pasha",
+        "timestamp": 1621288917
+    }
+]

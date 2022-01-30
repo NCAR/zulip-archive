@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>Hello all,</p>\n<p>I seem to be having a hard time figuring out how to put a vertical timeseries onto a regular geopotential/geometric grid for comparison to ground-based observations.<br>\nIf I have a model output on pressure levels, e.g., T(lev,time) and geopotential height Z3(lev,time) how best to create an new variable Tz interploted onto a regular Z3 grid (e.g. every 1e3m)? I tried something like:</p>\n<p>from scipy import interpolate</p>\n<p>zkm = np.arange(1.,50.,2.)<br>\nf = interpolate.interp2d(Z3*1e-3, X, zkm)</p>\n<p>where Z3 and X are single location timeseries from a CESM run, and so just level and time. In this example, I am trying to put it on a 2 km grid.<br>\nBut it expects zkm to be the same size as Z3,X. I really just need to do 1-D interpolation in the vertical, so interp2d seems overkill. Apart from looping over time and doing 1d interpolation is there an elegant way to do this?</p>\n<p>thanks,</p>\n<p>Dan</p>",
+        "id": 48528,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1640213008
+    },
+    {
+        "content": "<p>Well, looping over time seems to be pretty quick, so I have gone with that. Just had to remember that np.interp expects x to be increasing, so had to np.flip the vertical arrays.</p>",
+        "id": 48532,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1640218410
+    }
+]

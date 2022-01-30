@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I'm having an issue getting CESM-Le data to load using intake_esm on Cheyenne, it works fine on Casper but currently overwhelmed; can't get nodes on casper <br>\nSome issue with the json file accessing the data </p>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>catalog = intake.open_esm_datastore('/glade/work/mlevy/intake-esm-collection/json/glade-cesm1-le.json')<br>\nlens_temp = catalog.search(experiment='20C',component='ocn', variable=['TEMP'], member_id=1) </p>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n<p>def preprocess(ds):<br>\n    keep_vars_temp = ['REGION_MASK', 'z_t', 'z_w','dz', 'TAREA', 'TLONG', 'TLAT', 'time', 'time_bound', 'member_id', 'TEMP', 'O2','SALT']<br>\n    ds = ds.drop([v for v in ds.variables if v not in keep_vars_temp])<br>\n    return ds</p>\n<p>dq_temp = lens_temp.to_dataset_dict(cdf_kwargs={\"chunks\": {\"time\": 12}}, preprocess=preprocess)</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>Error message I get;<br>\nNo such file or directory: b'/glade/campaign/cesm/collections/cesmLE/CESM-CAM5-BGC-LE/ocn/proc/tseries/monthly/TEMP/b.e11.B20TRC5CNBDRD.f09_g16.001.pop.h.TEMP.185001-200512.nc'</p>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n</blockquote>\n<p>have anyone dealt with this before or can help?</p>",
+        "id": 3794,
+        "sender_full_name": "Precious Mongwe",
+        "timestamp": 1584565319
+    },
+    {
+        "content": "<p>catalog = intake.open_esm_datastore('/glade/work/mlevy/intake-esm-collection/json/glade-cesm1-le.json')</p>\n<p>lens_temp = catalog.search(experiment='20C',component='ocn', variable=['TEMP'], member_id=1)</p>\n<p>def preprocess(ds):<br>\n    keep_vars_temp = ['REGION_MASK', 'z_t', 'z_w','dz', 'TAREA', 'TLONG', 'TLAT', 'time', 'time_bound', 'member_id', 'TEMP', 'O2','SALT']<br>\n    ds = ds.drop([v for v in ds.variables if v not in keep_vars_temp])<br>\n    return ds</p>\n<p>dq_temp = lens_temp.to_dataset_dict(cdf_kwargs={\"chunks\": {\"time\": 12}}, preprocess=preprocess)</p>",
+        "id": 3801,
+        "sender_full_name": "Precious Mongwe",
+        "timestamp": 1584566025
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"35\">@Precious Mongwe</span>, it looks like you are attempting to access a file that is on campaign storage. Campaign storage is only accessible from casper or globus. You cannot access it directly from cheyenne (unless you're using globus).</p>",
+        "id": 3804,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1584566532
+    },
+    {
+        "content": "<p>Noted, Thanks Keith</p>",
+        "id": 3806,
+        "sender_full_name": "Precious Mongwe",
+        "timestamp": 1584566639
+    }
+]

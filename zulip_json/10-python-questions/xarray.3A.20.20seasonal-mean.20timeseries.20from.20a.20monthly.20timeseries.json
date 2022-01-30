@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I'm struggling to find clear web documentation on how to convert a monthly DataArray (time: 720) into a yearly DataArray(time:60) that represents a seasonal average ('DJF' or 'JFM', etc). Apparently, this requires using the resample method, but I find the documentation of <code>xarray.Dataset.resample</code> to be unhelpful. Can anyone share a clear example of how this is done?</p>",
+        "id": 21905,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1606080743
+    },
+    {
+        "content": "<p>I'm sure there's a slicker way to do this with resample and/or groupby('time.season'), but here's how I've done this in the past using rolling to calculate running 3-month-means then grabbing every 12th mean:</p>\n<div class=\"codehilite\"><pre><span></span>startmonth=11 #for DJF, if first month = January; D=11 w/0-indexing\nendmonth=len(ds[&#39;time&#39;])\n\ndjfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))\n</pre></div>",
+        "id": 21906,
+        "sender_full_name": "Elizabeth Maroon",
+        "timestamp": 1606081842
+    },
+    {
+        "content": "<p>Oops - look like I had the startmonth off; for DJF should be 13 (for February). By default, rolling using the right side of the window as the time index.</p>",
+        "id": 21907,
+        "sender_full_name": "Elizabeth Maroon",
+        "timestamp": 1606082643
+    },
+    {
+        "content": "<p>I came up with the following which seems to work: </p>\n<div class=\"codehilite\"><pre><span></span>def jfm_mean(ds):\n    month_length = ds.time.dt.days_in_month\n    result = ((ds * month_length).resample(time=&#39;QS-JAN&#39;).sum() /\n          month_length.resample(time=&#39;QS-JAN&#39;).sum())\n    return result.sel(time=result[&#39;time.month&#39;]==1)\n</pre></div>",
+        "id": 21908,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1606087180
+    },
+    {
+        "content": "<p>Appears to work on a test dataset over here.</p>",
+        "id": 21909,
+        "sender_full_name": "Elizabeth Maroon",
+        "timestamp": 1606087493
+    }
+]

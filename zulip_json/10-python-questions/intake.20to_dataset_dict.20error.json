@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I'm using intake-esm to ingest CMIP6 OMIP data using:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">catalog_file</span> <span class=\"o\">=</span> <span class=\"s1\">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_file</span><span class=\"p\">)</span>\n<span class=\"n\">cat_so</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span>\n    <span class=\"n\">experiment_id</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'omip1'</span><span class=\"p\">,</span> <span class=\"s1\">'omip2'</span><span class=\"p\">],</span>\n    <span class=\"n\">variable_id</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'so'</span><span class=\"p\">],</span>\n    <span class=\"n\">table_id</span><span class=\"o\">=</span><span class=\"s1\">'Omon'</span>\n<span class=\"p\">)</span>\n<span class=\"n\">dset_dict_so</span> <span class=\"o\">=</span> <span class=\"n\">cat_so</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">(</span>\n    <span class=\"n\">cdf_kwargs</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">'chunks'</span><span class=\"p\">:</span> <span class=\"p\">{</span><span class=\"s1\">'time'</span><span class=\"p\">:</span><span class=\"mi\">12</span><span class=\"p\">},</span><span class=\"s1\">'decode_times'</span><span class=\"p\">:</span> <span class=\"kc\">True</span><span class=\"p\">,</span> <span class=\"s1\">'use_cftime'</span><span class=\"p\">:</span> <span class=\"kc\">True</span><span class=\"p\">}</span>\n<span class=\"p\">)</span>\n</code></pre></div>\n<p>This returns an xarray.concat() error for key '<a href=\"http://OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn\">OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn</a>'. The catalog for that key (<a href=\"/user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png\">Screen-Shot-2021-10-15-at-4.41.26-PM.png</a>) shows duplicate entries (different versions) as well as missing data for one member_id. I don't know if this is related to ongoing updates to OMIP data holdings or if the json catalog needs updating. Who should I ask about this?</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png\" title=\"Screen-Shot-2021-10-15-at-4.41.26-PM.png\"><img src=\"/user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png\"></a></div>",
+        "id": 45176,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1634337766
+    },
+    {
+        "content": "<blockquote>\n<p>This returns an xarray.concat() error for key '<a href=\"http://OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn\">OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn</a>'. The catalog for that key (Screen-Shot-2021-10-15-at-4.41.26-PM.png) shows duplicate entries (different versions) </p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>,  It appears that there's a bug in the catalog generation code. Some of these files should be excluded from the catalog. I will look into it. For a temporary workaround, you can use the <code>.drop()</code> method to modify the dataframe:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">indices_to_drop</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"o\">...</span><span class=\"p\">]</span>\n<span class=\"n\">cat_so</span><span class=\"o\">.</span><span class=\"n\">df</span> <span class=\"o\">=</span> <span class=\"n\">cat_so</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">drop</span><span class=\"p\">(</span><span class=\"n\">indices_to_drop</span><span class=\"p\">)</span>\n</code></pre></div>\n<blockquote>\n<p>as well as missing data for one member_id. I don't know if this is related to ongoing updates to OMIP data holdings</p>\n</blockquote>\n<p>I just checked the directories on Glade, and the data are just missing on the filesystem:</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>$ ls /glade/collections/cmip/CMIP6/OMIP/IPSL/IPSL-CM6A-LR/omip1/r2i1p1f1/Omon/so/gn/v20191120/so\nso_Omon_IPSL-CM6A-LR_omip1_r2i1p1f1_gn_180001-189912.nc\n</code></pre></div>",
+        "id": 45182,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1634564902
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> . Shiquan Su informed me that the update to OMIP data holdings on glade is still ongoing. Will the glade-cmip6.json file get updated automatically as data is added?</p>",
+        "id": 45193,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1634577519
+    },
+    {
+        "content": "<blockquote>\n<p>Will the glade-cmip6.json file get updated automatically as data is added?</p>\n</blockquote>\n<p>Unfortunately not... I have to run the script.</p>",
+        "id": 45201,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1634580819
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"16\">@Eric Nienhouse</span>, there is a growing community using <code>intake-esm</code> to access data on the CMIP AP. Would be great to discuss with @xdev how to automate the process of keep catalogs up to date.</p>",
+        "id": 45250,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1634598447
+    },
+    {
+        "content": "<p>I'd like to be part of this discussion. <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> wrote a blog post discussing a problem I was having using <code>intake-esm</code> for CMIP6 OMIP data (<a href=\"https://ncar.github.io/esds/posts/2021/intake_cmip6_debug/\">https://ncar.github.io/esds/posts/2021/intake_cmip6_debug/</a>). The root of the problem was missing data on the CMIP AP. I put in a request for a full update of OMIP data on CMIP AP back in late September, and am finding that this process takes a very long time, to the point that <code>intake-esm</code> may not be a viable solution for me.</p>",
+        "id": 45537,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1634921630
+    }
+]

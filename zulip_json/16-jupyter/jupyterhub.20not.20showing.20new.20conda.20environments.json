@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>I'm starting a new suite of notebooks and have created a new conda environment that I intend to use for them.<br>\nHowever, when I create a new notebook with jupyterhub, and go to change the kernel, the new conda environment is not listed.<br>\nI have this problem with conda and/or mamba created environments.<br>\nI've tried new jhub sessions on casper login and batch nodes, and cheyenne login nodes and still don't see the new environments.<br>\nI haven't created new conda environments in quite awhile.<br>\nIs there something I need to do these days to get jupyterhub to recognize new conda environments as potential kernels?</p>\n<p>I did have problems with inconsistencies in my base conda environment and re-installed a handful of packages. It's possible that I inadvertently changed a setting related to jhub recognizing conda environments. I don't know how this recognization works, so I don't know if my actions broke it.</p>",
+        "id": 49534,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1642779259
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>, I think you need to include the <code>nb_conda_kernels</code> package in your kernel environments. I usually just include the <code>jupyterlab</code> package in my environment.yml file, which has also includes this package.</p>",
+        "id": 49535,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1642779375
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>,  adding <code>jupyterlab</code> to the environment enabled jhub recognization (though it did not add <code>nb_conda_kernels</code>).</p>\n<p>I was previously thinking, but hadn't mentioned it, that an ESDS blog on minimal packages for conda environments would be useful.<br>\nThis gotcha reinforces that thought enough for me to mention it.</p>",
+        "id": 49536,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1642780309
+    },
+    {
+        "content": "<p>Great idea on the ESDS blog post.</p>",
+        "id": 49537,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1642780364
+    },
+    {
+        "content": "<p>cc <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span></p>",
+        "id": 49538,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1642780371
+    },
+    {
+        "content": "<p>Typically, the package required to use your environment using the hub is <code>ipykernel</code>, which is mentioned within the <a href=\"https://arc.ucar.edu/knowledge_base/83853599#UsingcondaenvironmentsforPythonaccess-PersonalcondaenvironmentsandJupyterkernels\">NCAR HPC documention</a>, and within the video tutorial of how to setup your custom conda environment on NCAR HPC resources displayed on the <a href=\"https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment\">ESDS FAQ page</a>... perhaps including this requirement a bit more explicitly within the text on the FAQ would be better? Open to suggestions.</p>",
+        "id": 49540,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1642781235
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> -- Keith and I had a conversation yesterday about best-practices for spinning up a new environment. It seemed like there were a few options, each with pros and cons:</p>\n<ol>\n<li>Start with an <code>environment.yaml</code> file that contains a large list of recommended packages, and is likely to contain every package you might need (and then some). It's easy, since you probably only need to run <code>conda</code> once (to create the environment)... but the install will likely take a while (especially if you haven't started using <code>mamba</code> yet)</li>\n<li>Start with a barebones <code>environment.yaml</code> file where you set up packages you know you will need (<code>ipykernel</code>, probably <code>xarray</code>, <code>numpy</code>, etc), and then add more packages as the need arises. This will get you up and running faster, but increases the chance of user error (oh, I need <code>cartopy</code> so I'll just run <code>conda install cartopy</code> but oops, I forgot update the YAML file). Also, install new packages piecemeal might change versions of other packages depending on when new releases are made available.</li>\n<li>Create the environment by hand, and then generate <code>environment.yaml</code> at the end. As far as I know, <code>conda env export</code> doesn't always play nicely between operating systems, though?</li>\n</ol>\n<p>There's also the question of \"should I pin versions of packages?\" It seems useful, especially given the propensity of packages (cough cough <code>xarray</code> cough cough) to break backwards compatibility with new releases, but on the other hand most of us tend to reuse environment files from project to project and I imagine we don't want users to be creating environments using <code>xarray</code> 0.15.0 today just because that's what they used in their first project two years ago.</p>\n<p>So I think a blog post that encompasses best practices regarding (a) when / how to create your <code>environment.yaml</code> file, and (b) whether to pin releases of all / some / none of the packages listed in the yaml file would be extremely useful. There should definitely be a group conversation, either among ESDS or maybe just <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span>, to form a consensus... and I suspect the answers to all of the questions will be \"it depends\" but maybe we can provide rough guidance on how to know which process is right for a specific task?</p>",
+        "id": 49541,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1642782383
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , thank you for pointing out where this is documented.</p>\n<p>As a user, I find it challenging that documentation/advice on the python/analysis stack is scattered across so many disparate locations. I don't know what I don't know, and I don't know where to discover it. This is probably a reflection of the stack actually being composed of disparate pieces, so I don't see an easy solution to the disjointed documentation. But it makes it hard to find info on tidbits that span the pieces, like this gotcha that stumped me for a couple of hours.</p>",
+        "id": 49544,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1642785046
+    },
+    {
+        "content": "<p>A variant on (2) in Mike's post is to add the package to <code>environment.yaml</code> and then call <code>conda env update -f environment.yaml</code> (IIRC). That way the environment and the file stay in sync, it requires some discipline though <span aria-label=\"smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"smile\">:smile:</span></p>",
+        "id": 49545,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1642787163
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> <a href=\"#narrow/stream/16-jupyter/topic/jupyterhub.20not.20showing.20new.20conda.20environments/near/49545\">said</a>:</p>\n<blockquote>\n<p>A variant on (2) in Mike's post is to add the package to <code>environment.yaml</code> and then call <code>conda env update -f environment.yaml</code> (IIRC). That way the environment and the file stay in sync, it requires some discipline though :)</p>\n</blockquote>\n<p>I create environments so infrequently that when I try to manage everything strictly through the yaml file  I invariably slip up and use <code>conda install</code> for at least one package. It would be nice if <code>conda</code> had a per-environment option to require using the environment file to update (especially if that flag could be set in the environment file itself). I don't feel too bad about it, though, because I've also been on the other side of the issue and been pointed to code with an incomplete environment file. So for now I don't think many of us have the discipline required but at least it's usually an easy problem to fix :)</p>",
+        "id": 49548,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1642787753
+    },
+    {
+        "content": "<p>For now, I updated the FAQ page to reflect this requirement of having <code>ipykernel</code> installed <a href=\"https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment\">see the section here</a>, and I agree that a more detailed blog post would also help... <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> we are always open to contributors to the blog <span aria-label=\"grinning face with smiling eyes\" class=\"emoji emoji-1f601\" role=\"img\" title=\"grinning face with smiling eyes\">:grinning_face_with_smiling_eyes:</span> seems like you have a good idea of the structure!</p>",
+        "id": 49549,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1642790370
+    }
+]

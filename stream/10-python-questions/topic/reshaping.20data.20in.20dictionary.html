@@ -1,0 +1,267 @@
+<html>
+<head><meta charset="utf-8"><title>reshaping data in dictionary · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html">reshaping data in dictionary</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="6925"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6925" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6925">(Apr 21 2020 at 16:25)</a>:</h4>
+<p>A question from a new python convert: I have a dictionary of 4 CMIP6 models and I'm trying to reshape the time dimension into year x month. I've done this successfully in the past, but using similar code I'm getting an error that I can't figure out. </p>
+<div class="codehilite"><pre><span></span>for sim_name, data in dict.items():
+    num_years = data.values.shape[0]//12
+    reshaped = data.values.reshape(num_years, 12, *data.values.shape[1:])
+</pre></div>
+
+
+<p>The error message I get is related to the "num_years": "'function' object has no attribute 'shape'".  Any idea why I'm getting this error message and how to fix the problem? Thanks!</p>
+
+
+
+<a name="6926"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6926" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6926">(Apr 21 2020 at 16:43)</a>:</h4>
+<p>It thinks <code>data</code> is a <code>function</code> object which does not have shape. What does <code>data</code> look like? <br>
+Also using <code>dict</code> as variable name is really weird. You will overwrite pythons built-in <code>dict</code> → the consequences are probably quite bad.</p>
+
+
+
+<a name="6928"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6928" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6928">(Apr 21 2020 at 18:26)</a>:</h4>
+<p>I'm not sure how to tell what <code>data</code> looks like. It is a dictionary with 4 keys and 4 groups (each for a different model).  I'm new to python and haven't used dictionaries much. How do I find out this information? </p>
+<p>Note that I don't actually use <code>dict</code> as the name of the dictionary -- I just used this in the example so that it was more obvious. I will make a note to never use <code>dict</code> as a name. </p>
+<p>I've been trying to get the script onto my GitHub repository, but still having some trouble with that. If you'd like to look at it in the meantime, you can find it on cheyenne here: <code>/glade/work/dll/CTSM_py/notebooks/CMIP6_CO2.ipynb</code>. All I've done so far is read the catalog and put the data into a dictionary. Reshaping the data is the first step I need to start my analysis.</p>
+<p>Thanks so much for your help!</p>
+
+
+
+<a name="6929"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6929" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6929">(Apr 21 2020 at 18:51)</a>:</h4>
+<p>Hi Danica<br>
+I'm not sure if you were aware of the locally (Cheyenne glade/cloud also works) hosted CMIP6 catalog, and intakeesm a python-based platform we use to interact with the data.<br>
+Below is a GitHub repo example we wrote as part of the CMIP6 hackathon;  it shows how to access the data and do basic operations including reshaping year x month.  hope this helps</p>
+<p><a href="https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb" target="_blank" title="https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb">https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb</a></p>
+
+
+
+<a name="6955"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6955" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6955">(Apr 21 2020 at 19:46)</a>:</h4>
+<p>ah so <code>data</code> is a <code>Dataset</code>. Each of the <code>DataArray</code>s in a <code>Dataset</code> have a shape attribute but because all DataArrays in a Dataset need not have the same shape, <code>Dataset.shape</code> does not exist.</p>
+
+
+
+<a name="6956"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6956" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6956">(Apr 21 2020 at 19:47)</a>:</h4>
+<p>changing data to <code>data.co2</code> should do what you want</p>
+
+
+
+<a name="6962"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6962" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6962">(Apr 21 2020 at 20:06)</a>:</h4>
+<blockquote>
+<p>I'm not sure how to tell what data looks like. </p>
+</blockquote>
+<p>Sticking <code>print(data)</code> in the loop is what I did :D</p>
+
+
+
+<a name="6970"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6970" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6970">(Apr 21 2020 at 21:45)</a>:</h4>
+<blockquote>
+<p>Hi Danica<br>
+I'm not sure if you were aware of the locally (Cheyenne glade/cloud also works) hosted CMIP6 catalog, and intakeesm a python-based platform we use to interact with the data.<br>
+Below is a GitHub repo example we wrote as part of the CMIP6 hackathon;  it shows how to access the data and do basic operations including reshaping year x month.  hope this helps</p>
+<p><a href="https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb" target="_blank" title="https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb">https://github.com/mara-freilich/cmip6hack-ocean-bgc/blob/master/notebooks/final_analysis.ipynb</a></p>
+</blockquote>
+<p>Thanks for sharing this example Precious! I have been using the CMIP6 catalog, although it seems quite incomplete (only a few models have CO2 data for the historical simulation, and some of these don't have the associated area and land fraction variables required for analysis. It looks like the script you pointed me to might have examples of more powerful ways of searching the catalog than I was previously aware of, so I will play around with some of those!</p>
+
+
+
+<a name="6971"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6971" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6971">(Apr 21 2020 at 21:51)</a>:</h4>
+<blockquote>
+<p>changing data to <code>data.co2</code> should do what you want</p>
+</blockquote>
+<p>Looks like this did the trick! It hasn't actually finished yet (it's taking a long time!), but didn't immediately exit with an error. I didn't have to do this in my other script, but I did create the dictionary in a different way. I think I still have to figure out the difference between a <code>Dataset</code> and a dictionary, and when to use each. It seems that a dictionary can actually be a <code>Dataset</code>, at least in this case it is. Thanks for your help!</p>
+
+
+
+<a name="6972"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6972" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6972">(Apr 21 2020 at 21:52)</a>:</h4>
+<blockquote>
+<blockquote>
+<p>I'm not sure how to tell what data looks like. </p>
+</blockquote>
+<p>Sticking <code>print(data)</code> in the loop is what I did :D</p>
+</blockquote>
+<p>Thanks! This helped me realize that the time dimension is actually the last dimension, not the first. Will save me a headache later on!</p>
+
+
+
+<a name="6974"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6974" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6974">(Apr 21 2020 at 22:11)</a>:</h4>
+<p>Well <code>Dataset</code> mimics a dictionary mapping variable names to <code>DataArrays</code>. This makes it both confusing and convenient. In your case you have a dictionary mapping a simulation name to a Dataset containing simulation output (this dataset is in turn a mapping from variable name to actual values).</p>
+
+
+
+<a name="6977"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6977" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6977">(Apr 21 2020 at 22:19)</a>:</h4>
+<blockquote>
+<p>Well <code>Dataset</code> mimics a dictionary mapping variable names to <code>DataArrays</code>. This makes it both confusing and convenient. In your case you have a dictionary mapping a simulation name to a Dataset containing simulation output (this dataset is in turn a mapping from variable name to actual values).</p>
+</blockquote>
+<p>Thanks Deepak! I appreciate this explanation! I think it will take a bit for me to fully wrap my head around this, and this is a great start!</p>
+
+
+
+<a name="6991"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6991" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6991">(Apr 22 2020 at 15:38)</a>:</h4>
+<p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, I wonder: are your intentions with reshaping the data to ultimately compute annual means? Here's gist that demonstrates how one might do this in xarray:<br/>
+<a href="https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c" target="_blank" title="https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c">https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c</a></p>
+<p>I expect this capability will be available in GeoCAT.<br/>
+cc <span class="user-group-mention" data-user-group-id="4">@xdev</span>, <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
+
+
+
+<a name="6992"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6992" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6992">(Apr 22 2020 at 15:50)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="74">Danica Lombardozzi</span>, I wonder: are your intentions with reshaping the data to ultimately compute annual means? Here's gist that demonstrates how one might do this in xarray:<br/>
+<a href="https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c" target="_blank" title="https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c">https://gist.github.com/matt-long/9c1efa02ad08e5f5d29539b4cab54d3c</a></p>
+<p>I expect this capability will be available in GeoCAT.<br/>
+cc <span class="user-group-mention" data-user-group-id="4">@xdev</span>, <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
+</blockquote>
+<p>Thanks Matt! I will take a look to see if it gives me some ideas. I'm actually trying to difference the max and min value for each year, so a bit different from annual means.</p>
+
+
+
+<a name="6993"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/6993" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#6993">(Apr 22 2020 at 15:53)</a>:</h4>
+<p>That's even easier. You should be able to apply <code>min</code> and <code>max</code> functions to the <code>xarray.groupby</code> objects. <br>
+<a href="http://xarray.pydata.org/en/stable/groupby.html" target="_blank" title="http://xarray.pydata.org/en/stable/groupby.html">http://xarray.pydata.org/en/stable/groupby.html</a></p>
+
+
+
+<a name="7000"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7000" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7000">(Apr 22 2020 at 16:59)</a>:</h4>
+<p>since you want 'each year' I'd look at resample instead (<a href="https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations" target="_blank" title="https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations">https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations</a>) and do .. <code>data.resample(time="Y").max() - data.resample(time="Y").min()</code></p>
+
+
+
+<a name="7009"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7009" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7009">(Apr 22 2020 at 18:20)</a>:</h4>
+<blockquote>
+<p>since you want 'each year' I'd look at resample instead (<a href="https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations" target="_blank" title="https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations">https://xarray.pydata.org/en/stable/time-series.html#resampling-and-grouped-operations</a>) and do .. <code>data.resample(time="Y").max() - data.resample(time="Y").min()</code></p>
+</blockquote>
+<p>Thanks for all these great suggestions! Looking forward to trying them out this afternoon!</p>
+
+
+
+<a name="7030"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7030" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7030">(Apr 22 2020 at 21:06)</a>:</h4>
+<p>Sorry!  I spaced the time!  Be right there.</p>
+
+
+
+<a name="7203"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7203" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7203">(Apr 24 2020 at 21:34)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I've successfully figured out the use of <code>resample</code> (thanks!), but I'm getting an error with the subtraction that I can't seem to figure out. I'm wondering if there is something basic that I'm missing here. </p>
+<div class="codehilite"><pre><span></span>for sim_name, data in co2_ds.items():
+    datamax = data.resample(time="Y").max()
+    datamin = data.resample(time="Y").min()
+    amp     = datamax - datamin
+</pre></div>
+<p>I printed both <code>datamax</code> and <code>datamin</code> to ensure they are the same size, but I still get an error pointing to <code>amp = datamax - datamin</code><br/>
+<code>TypeError: unsupported operand type(s) for -: 'Array' and 'Array'</code><br/>
+I can't figure out why I can't subtract two arrays that are the same size. Any thoughts why this might be happening? Note that I also tried<br/>
+<code>amp = data.resample(time="Y").max() - data.resample(time="Y").min()</code> with the same error message. </p>
+<p>Thank you!</p>
+
+
+
+<a name="7204"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7204" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7204">(Apr 24 2020 at 21:35)</a>:</h4>
+<p>what does <code>print(datamax)</code> show?</p>
+
+
+
+<a name="7205"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7205" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7205">(Apr 24 2020 at 21:36)</a>:</h4>
+<blockquote>
+<p>what does <code>print(datamax)</code> show?</p>
+</blockquote>
+<p>Here is the output:</p>
+<div class="codehilite"><pre><span></span>&lt;xarray.Dataset&gt;
+Dimensions:    (bnds: 2, lat: 64, lon: 128, member_id: 1, plev: 19, time: 165)
+Coordinates:
+  * time       (time) object 1850-12-31 00:00:00 ... 2014-12-31 00:00:00
+  * plev       (plev) float64 1e+05 9.25e+04 8.5e+04 7e+04 ... 1e+03 500.0 100.0
+  * lon        (lon) float64 0.0 2.812 5.625 8.438 ... 348.8 351.6 354.4 357.2
+  * lat        (lat) float64 -87.86 -85.1 -82.31 -79.53 ... 82.31 85.1 87.86
+  * member_id  (member_id) &lt;U8 &#39;r1i1p1f1&#39;
+Dimensions without coordinates: bnds
+Data variables:
+    lon_bnds   (time, lon, bnds) float64 dask.array&lt;chunksize=(1, 128, 2), meta=np.ndarray&gt;
+    lat_bnds   (time, lat, bnds) float64 dask.array&lt;chunksize=(1, 64, 2), meta=np.ndarray&gt;
+    time_bnds  (time, bnds) object dask.array&lt;chunksize=(1, 2), meta=np.ndarray&gt;
+    co2        (time, member_id, plev, lat, lon) float32 dask.array&lt;chunksize=(1, 1, 19, 64, 128), meta=np.ndarray&gt;
+</pre></div>
+
+
+
+<a name="7206"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7206" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7206">(Apr 24 2020 at 21:38)</a>:</h4>
+<p>hmm... I think <code>time_bnds</code> is the culprit. Notice it says <code>object</code> instead of <code>float64</code>. Can you try with <code>amp = datamax.co2 - datamin.co2</code></p>
+
+
+
+<a name="7207"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7207" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7207">(Apr 24 2020 at 21:38)</a>:</h4>
+<blockquote>
+<p>what does <code>print(datamax)</code> show?</p>
+</blockquote>
+<p>Oh, is this because it's a Dataset? So I have to use <code>amp = datamax.co2 - datamin.co2</code>. </p>
+<p>Looks like this works. Since I only have one variable here, is there a way to convert these to DataArrays?</p>
+
+
+
+<a name="7208"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7208" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7208">(Apr 24 2020 at 21:38)</a>:</h4>
+<p>You can subtract datasets... it will subtract corresponding arrays.</p>
+
+
+
+<a name="7209"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7209" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7209">(Apr 24 2020 at 21:39)</a>:</h4>
+<blockquote>
+<p>You can subtract datasets... it will subtract corresponding arrays.</p>
+</blockquote>
+<p>Oh, I see! I'm not sure why the time_bnds are an object, but knowing the solution works. Thanks for your help!</p>
+
+
+
+<a name="7210"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7210" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7210">(Apr 24 2020 at 21:40)</a>:</h4>
+<p>Hopefully this is right, but these days I think of Xarray objects as logically equivalent to NetCDF files.   You could conceptually subtract one file from another, but rarely is that what you want.</p>
+
+
+
+<a name="7225"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7225" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7225">(Apr 25 2020 at 13:59)</a>:</h4>
+<p><code>time_bnds</code> is an object because time has been decoded.  You could do something like</p>
+<div class="codehilite"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s1">'time_bnds'</span><span class="p">,</span> <span class="s1">'lat_bnds'</span><span class="p">,</span> <span class="s1">'lon_bnds'</span><span class="p">])</span>
+</pre></div>
+<p>xarray will not apply the subtraction to the coordinate variables.  <span class="user-mention" data-user-id="9">@Brian Bonnlander</span>, actually it's quite convenient and common to do math on datasets.</p>
+
+
+
+<a name="7259"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/reshaping%20data%20in%20dictionary/near/7259" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/reshaping.20data.20in.20dictionary.html#7259">(Apr 27 2020 at 16:33)</a>:</h4>
+<p>Thanks Matt! It's helpful to know how to set the coordinate variables.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

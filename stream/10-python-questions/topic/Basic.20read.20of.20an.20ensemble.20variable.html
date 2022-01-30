@@ -1,0 +1,101 @@
+<html>
+<head><meta charset="utf-8"><title>Basic read of an ensemble variable · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html">Basic read of an ensemble variable</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="39993"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39993" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39993">(Aug 17 2021 at 22:32)</a>:</h4>
+<p>Greetings, sorry for the silly question, but I'm having a really hard time trying to read an ensemble of files. I'm just trying to read timeseries files of a variable which is a standard 1deg atmosphere variable, 60 timesamples but 250 ensemble members. </p>
+<p>I can do a standard loop with single level variables, but with a multiple level variable, the whole thing comes to a halt.</p>
+<p>So I make an array of files and case names and tried to apply some dask techniques. I thought it worked by now it keeps failing.   And it never seems to use more than 1GB of memory, which may be the problem.</p>
+<p>The read snippet is here:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">varn</span><span class="o">=</span><span class="p">[</span><span class="s1">'CCN3'</span><span class="p">]</span>
+<span class="c1">#varn=['TGCLDLWP','SWCF','ACTNL','ACTREL']</span>
+<span class="n">nv</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">varn</span><span class="p">)</span>
+
+<span class="n">Write</span><span class="o">=</span><span class="kc">False</span>
+
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numens</span><span class="p">):</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="s1">''</span>
+    <span class="n">ne</span><span class="o">=</span><span class="n">neall</span><span class="p">[</span><span class="n">r</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nv</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">])</span>
+        <span class="n">files</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">cases</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ne</span><span class="p">):</span>
+            <span class="n">enum</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="s1">'0'</span><span class="p">)</span>
+            <span class="n">ecase</span><span class="o">=</span><span class="n">prefix</span><span class="o">+</span><span class="n">ens</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">+</span><span class="s1">'.'</span><span class="o">+</span><span class="n">enum</span>
+            <span class="n">infile</span><span class="o">=</span><span class="n">pth</span><span class="o">+</span><span class="n">ecase</span><span class="o">+</span><span class="n">psuffix</span><span class="o">+</span><span class="s1">'cc_'</span><span class="o">+</span><span class="n">ecase</span><span class="o">+</span><span class="s1">'.h0.'</span><span class="o">+</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">+</span><span class="s1">'_comp2.nc'</span>
+            <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+            <span class="n">cases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ecase</span><span class="p">)</span>
+        <span class="n">dset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">),</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s1">'ensemble'</span><span class="p">,</span>
+                         <span class="n">combine</span><span class="o">=</span><span class="s2">"nested"</span><span class="p">,</span> <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="p">[</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]],</span>
+                         <span class="n">engine</span><span class="o">=</span><span class="s2">"netcdf4"</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s1">'time'</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+<span class="c1"># Add coordinate labels for the newly created `ensemble_member` dimension</span>
+        <span class="n">dset</span><span class="p">[</span><span class="s2">"ensemble"</span><span class="p">]</span> <span class="o">=</span> <span class="n">cases</span>
+
+<span class="c1"># Vertical sum...</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">==</span><span class="s1">'CCN3'</span> <span class="ow">or</span> <span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">==</span><span class="s1">'so4_a1'</span> <span class="ow">or</span> <span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">==</span><span class="s1">'soa_a1'</span><span class="p">):</span>
+            <span class="n">dout</span><span class="o">=</span><span class="n">dset</span><span class="p">[</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'lev'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'lon'</span><span class="p">)</span>
+<span class="c1">## Single level (or no sum)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dout</span><span class="o">=</span><span class="n">dset</span><span class="p">[</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'lon'</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">dset</span><span class="p">,</span><span class="n">cases</span><span class="p">,</span><span class="n">files</span>
+<span class="c1">## Write</span>
+        <span class="k">if</span> <span class="n">write</span><span class="p">:</span>
+            <span class="n">dout</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">opth</span><span class="o">+</span><span class="s1">'zmall_'</span><span class="o">+</span><span class="n">ens</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">+</span><span class="s1">'.'</span><span class="o">+</span><span class="n">varn</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">+</span><span class="s1">'.nc'</span><span class="p">)</span>
+</code></pre></div>
+<p>And the whole notebook is here:</p>
+<p>/glade/u/home/andrew/python/ppe/read_ppe.ipynb</p>
+<p>Why is this so tough. What am I doing wrong?</p>
+<p>Thanks for the help. </p>
+<p>Andrew</p>
+
+
+
+<a name="39998"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39998" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39998">(Aug 17 2021 at 23:08)</a>:</h4>
+<p><span class="user-mention" data-user-id="126">@Andrew Gettelman</span>, it appears accessing data in question is restricted i.e. I'm getting a <code>permission denied error</code>.  Are you able to adjust the read permissions?</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">src</span><span class="o">/</span><span class="n">netCDF4</span><span class="o">/</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">pyx</span> <span class="ow">in</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">_ensure_nc_success</span><span class="p">()</span>
+
+<span class="ne">PermissionError</span><span class="p">:</span> <span class="p">[</span><span class="n">Errno</span> <span class="mi">13</span><span class="p">]</span> <span class="n">Permission</span> <span class="n">denied</span><span class="p">:</span> <span class="sa">b</span><span class="s1">'/glade/campaign/cgd/projects/ppe/cam_ppe/PPE_250/control/control_timeseries/PPE_250_ensemble.001/atm/hist/cc_PPE_250_ensemble.001.h0.CCN3_comp2.nc'</span>
+</code></pre></div>
+
+
+
+<a name="39999"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39999" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39999">(Aug 17 2021 at 23:25)</a>:</h4>
+<p>Thanks Anderson. Sorry about that. I cannot change the permissions, but let me see if I can get them changed for read access.</p>
+
+
+
+<a name="40000"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40000" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40000">(Aug 18 2021 at 02:25)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , the permissions have been changed. Note that after some further digging the variable 'CCN3' does not work, but another variable (e.g. varn='soa_a1') does work. I'm wondering if I can speed it up more than I have, or there is a better way.  Thanks!</p>
+
+
+
+<a name="40253"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40253" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40253">(Aug 20 2021 at 02:17)</a>:</h4>
+<p>Usually this means that the coordinate variables in your files don't line up exactly. (the various warnings about splitting large chunks are a sign that something has gone wrong and you need to investigate).</p>
+<p>I checked this by adding <code>join="exact"</code> to your <code>open_mfdataset</code> call. That raised an error saying that the values for <code>lat</code> in the different files didn't agree exactly. (unfortunately xarray is a bit stupid here for now and doesn't allow you to change tolerance for this comparison yet)</p>
+<p>I then read two different files at random, it looked like the all dimensions: <code>lat, lon, time, lev</code> are exactly the same and all you are doing is concatenating along a new dimension <code>ensemble</code>.</p>
+<p>So I set <code>join="override"</code>... this avoids any comparisons, only uses coordinate values from the first file, and only checks that sizes along all dimensions are the same in each file (which is True).</p>
+<p>Then I can read <code>CCN3</code>.</p>
+
+
+
+<a name="40299"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40299" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40299">(Aug 20 2021 at 19:45)</a>:</h4>
+<p>Thanks Deepak!  This is very helpful to know. I appreciate the help very much!</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

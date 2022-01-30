@@ -1,0 +1,109 @@
+<html>
+<head><meta charset="utf-8"><title>timedelta support for nonstandard calendars · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html">timedelta support for nonstandard calendars</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="36579"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/36579" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#36579">(Jul 07 2021 at 17:48)</a>:</h4>
+<p>Hi all. I'm trying to do some timedelta operations on <code>cftime.datetime</code> objects so I can write a computation function that supports non-standard calendars (i.e <code>noleap</code>, <code>all_leap</code>, <code>julian</code>, etc.). All I need to do is be able to add one day to a preexisting <code>cftime.datetime</code> object. The <a href="https://unidata.github.io/cftime/api.html#cftime.datetime" target="_blank" title="https://unidata.github.io/cftime/api.html#cftime.datetime">documentation page</a> for <code>cftime.datetime</code> says the following:</p>
+<blockquote>
+<p>This class mimics datetime.datetime but support calendars other than the proleptic Gregorian calendar.</p>
+<p>Supports timedelta operations by overloading +/-, and comparisons with other instances using the same calendar.</p>
+</blockquote>
+<p>I don't think the <code>+</code> and <code>-</code> operators are actually overloaded, because I recieve a TypeError when I run the code below. On top of that, there is no way to define one day in <code>cftime</code> since the month must be between 1 and 12.</p>
+<div class="codehilite"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="n">cftime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">calendar</span><span class="o">=</span><span class="s1">&#39;gregorian&#39;</span><span class="p">)</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="n">cftime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">calendar</span><span class="o">=</span><span class="s1">&#39;gregorian&#39;</span><span class="p">,</span> <span class="n">has_year_zero</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">time</span> <span class="o">+</span> <span class="n">delta</span><span class="p">)</span>
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>TypeError: unsupported operand type(s) for +: &#39;cftime._cftime.datetime&#39; and &#39;cftime._cftime.datetime&#39;
+</pre></div>
+
+
+<p>Does anyone now if there is an existing package that supports this kind of operation? Pandas has timedeltas and datetime offsets, but it only supports one kind of calendar. Any help is appreciated! Thanks!</p>
+
+
+
+<a name="36581"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/36581" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#36581">(Jul 07 2021 at 17:53)</a>:</h4>
+<p>Does <a href="https://github.com/pydata/xarray/discussions/4999" target="_blank" title="https://github.com/pydata/xarray/discussions/4999">https://github.com/pydata/xarray/discussions/4999</a> help?</p>
+
+
+
+<a name="36582"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/36582" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#36582">(Jul 07 2021 at 18:09)</a>:</h4>
+<blockquote>
+<p>delta = cftime.datetime</p>
+</blockquote>
+<p>Ah you're creating a <code>datetime</code> not a <code>timedelta</code></p>
+
+
+
+<a name="36583"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/36583" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#36583">(Jul 07 2021 at 18:11)</a>:</h4>
+<p>Oh I see the problem now. Using <code>datetime.timedelta</code> I can add one day to my <code>cftime.datetime</code> object.</p>
+
+
+
+<a name="36585"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/36585" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#36585">(Jul 07 2021 at 18:12)</a>:</h4>
+<p>I just remembered that I have another case where I will need to add a month to a datetime, but <code>datetime.timedelta</code> does not support months. Do you know of something that does? Depending on which month is next, I want to add 28, 29, 30, or 31 days.</p>
+
+
+
+<a name="39140"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/39140" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#39140">(Aug 04 2021 at 23:41)</a>:</h4>
+<p>I want to do this too! <br>
+I tried this package and couldn't get it to work.<br>
+<a href="https://stackoverflow.com/questions/12433233/what-is-the-difference-between-datetime-timedelta-and-dateutil-relativedelta">https://stackoverflow.com/questions/12433233/what-is-the-difference-between-datetime-timedelta-and-dateutil-relativedelta</a></p>
+
+
+
+<a name="39173"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/39173" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#39173">(Aug 05 2021 at 17:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="137">@Rich Neale</span> can you describe what you're trying to do in more detail?</p>
+
+
+
+<a name="39368"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/39368" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#39368">(Aug 09 2021 at 17:31)</a>:</h4>
+<p>Just to re-label (FEB) by 1 backwards (JAN) as par of the var.time.dt.strftime("%b")</p>
+
+
+
+<a name="39428"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/39428" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#39428">(Aug 09 2021 at 20:30)</a>:</h4>
+<p>is the time vector always starting at day 1 of the month? If so, does this work</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">time</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">"1 day"</span><span class="p">))</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%b"</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+<a name="39436"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/39436" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#39436">(Aug 09 2021 at 23:06)</a>:</h4>
+<p>Oh sorry, no. Knowing the name of the month from the time object (var.time) I want to realign the time object to be one month earlier. Can I just do pd.timedelta("1 month") ?</p>
+
+
+
+<a name="39448"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/timedelta%20support%20for%20nonstandard%20calendars/near/39448" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/timedelta.20support.20for.20nonstandard.20calendars.html#39448">(Aug 10 2021 at 14:44)</a>:</h4>
+<p>Unfortunately not, because <code>pd.timedelta</code> tries to convert that to an absolute number of nanoseconds, which fails ...</p>
+<p>But how about this:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">time</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">xr</span><span class="o">.</span><span class="n">cftime_range</span><span class="p">(</span><span class="s2">"1000-01-01"</span><span class="p">,</span> <span class="s2">"1000-05-01"</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"MS"</span><span class="p">,</span> <span class="n">calendar</span><span class="o">=</span><span class="s2">"360_day"</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"time"</span>
+<span class="p">)</span>
+<span class="n">time</span> <span class="o">-</span> <span class="n">xr</span><span class="o">.</span><span class="n">coding</span><span class="o">.</span><span class="n">cftime_offsets</span><span class="o">.</span><span class="n">MonthEnd</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<p>Does this do what you want? If so, I can open an issue about making those offsets more public</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

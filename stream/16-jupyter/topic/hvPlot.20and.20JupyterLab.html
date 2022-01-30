@@ -1,0 +1,242 @@
+<html>
+<head><meta charset="utf-8"><title>hvPlot and JupyterLab · jupyter · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/index.html">jupyter</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html">hvPlot and JupyterLab</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="31419"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31419" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31419">(May 14 2021 at 13:54)</a>:</h4>
+<p>I'm trying to explore using hvPlot for interactive graphics in jupyter notebooks, using the JupyterLab interface. The <a href="https://hvplot.holoviz.org/getting_started/index.html" target="_blank" title="https://hvplot.holoviz.org/getting_started/index.html">hvPlot docs</a> instruct one to run the command</p>
+<blockquote>
+<p>jupyter labextension install @pyviz/jupyterlab_pyviz</p>
+</blockquote>
+<p>in order to use hvPlot with JupyterLab. When I run this command, I get the error message</p>
+<blockquote>
+<p>An error occured.<br>
+ValueError: The extension "@pyviz/jupyterlab_pyviz" does not yet support the current version of JupyterLab.<br>
+Conflicting Dependencies:<br>
+JupyterLab                        Extension       Package<br>
+=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/application<br>
+=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/apputils<br>
+=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/notebook<br>
+=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/rendermime-interfaces<br>
+=6.0.8 &lt;6.1.0                    &gt;=5.0.0 &lt;6.0.0  @jupyterlab/services<br>
+See the log file for details:  /glade/scratch/klindsay/tmp/jupyterlab-debug-hwnqf8_b.log</p>
+</blockquote>
+<p>My conda environment has jupyterlab version 3.0.15.  I don't understand this error message, so I don't see what I can do to work around this problem. Suggestions?</p>
+<p>The yaml file for my conda environment is at<br>
+<code>/glade/work/klindsay/analysis/notebooks/environment.yml</code>.</p>
+
+
+
+<a name="31421"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31421" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31421">(May 14 2021 at 14:37)</a>:</h4>
+<p>I see now that zulip munged my cut-n-paste error message. It is</p>
+<div class="codehilite"><pre><span></span>Conflicting Dependencies:
+JupyterLab                        Extension       Package
+&gt;=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/application
+&gt;=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/apputils
+&gt;=3.0.10 &lt;3.1.0                   &gt;=2.0.0 &lt;3.0.0  @jupyterlab/notebook
+&gt;=3.0.8 &lt;3.1.0                    &gt;=2.0.0 &lt;3.0.0  @jupyterlab/rendermime-interfaces
+&gt;=6.0.8 &lt;6.1.0                    &gt;=5.0.0 &lt;6.0.0  @jupyterlab/services
+</pre></div>
+
+
+
+<a name="31434"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31434" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31434">(May 14 2021 at 15:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> have you tried using holoviews without the extension? Are you accessing this through the JupyterHub?</p>
+
+
+
+<a name="31435"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31435" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31435">(May 14 2021 at 15:52)</a>:</h4>
+<p>Here is an example of the imports I used, the only additional package you will need is pooch to get the sample dataset</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">holoviews</span> <span class="k">as</span> <span class="nn">hv</span>
+<span class="kn">from</span> <span class="nn">holoviews</span> <span class="kn">import</span> <span class="n">opts</span>
+<span class="n">hv</span><span class="o">.</span><span class="n">extension</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span>
+
+<span class="n">xr_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">tutorial</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s2">&quot;air_temperature&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="n">hv_ds</span> <span class="o">=</span> <span class="n">hv</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">xr_ds</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="s2">&quot;2013-01-01&quot;</span><span class="p">]</span>
+
+<span class="n">airtemp</span> <span class="o">=</span> <span class="n">hv_ds</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">hv</span><span class="o">.</span><span class="n">Image</span><span class="p">,</span> <span class="n">kdims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">,</span> <span class="s2">&quot;lat&quot;</span><span class="p">],</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">airtemp</span><span class="p">[:,</span> <span class="mi">220</span><span class="p">:</span><span class="mi">320</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fig_size</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+
+
+<p>This should return a plot inline which has an interactive slider</p>
+
+
+
+<a name="31436"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31436" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31436">(May 14 2021 at 15:54)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> I don't think you need install jupyterlab_pyviz if you had jupyterlab in your environment already. You can run pip install holoviews and hvplot based on your existing environment.</p>
+
+
+
+<a name="31442"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31442" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31442">(May 14 2021 at 16:01)</a>:</h4>
+<p>I have to admit that I'm a bit confused about how hvPlot, holoviews, and bokeh fit together, and what part of that puzzle is providing the interactive framework.</p>
+<p>I hadn't tried using hvPlot yet. I was taking their word for it that I needed to install the extension before proceeding. I'll give it a try.</p>
+
+
+
+<a name="31443"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31443" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31443">(May 14 2021 at 16:27)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> , I'm able to run your example and get a plot with a time slider.<br>
+What I'm really interested in the ability to zoom.<br>
+It appears like the examples at <a href="https://hvplot.holoviz.org/" target="_blank" title="https://hvplot.holoviz.org/">https://hvplot.holoviz.org/</a> have this functionality,<br>
+though I might be misunderstanding what the icons mean.<br>
+I think, but am not certain that these icons are from the bokeh interface.<br>
+Unfortunately, I've been unable to get their example that includes an xr dataset to work in my notebook.<br>
+When I cut-n-paste their example, I get the error</p>
+<div class="codehilite"><pre><span></span>...
+/glade/work/klindsay/miniconda3/envs/analysis_notebooks/lib/python3.7/site-packages/holoviews/core/data/grid.py in init(cls, eltype, data, kdims, vdims)
+    146                 raise error(&#39;Key dimension values and value array %s &#39;
+    147                             &#39;shapes do not match. Expected shape %s, &#39;
+--&gt; 148                             &#39;actual shape: %s&#39; % (vdim, valid_shape, shape), cls)
+    149         return data, {&#39;kdims&#39;:kdims, &#39;vdims&#39;:vdims}, {}
+    150
+
+DataError: Key dimension values and value array air shapes do not match. Expected shape (1325, 1325), actual shape: (53, 25)
+
+GridInterface expects gridded data, for more information on supported datatypes see http://holoviews.org/user_guide/Gridded_Datasets.html
+</pre></div>
+
+
+<p>So I'm kinda stumped on that front.</p>
+<p>Any suggestions for creating interactive plots with zoom capability?</p>
+
+
+
+<a name="31444"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31444" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31444">(May 14 2021 at 16:29)</a>:</h4>
+<p>Can you share what dataset you working with?</p>
+
+
+
+<a name="31445"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31445" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31445">(May 14 2021 at 16:32)</a>:</h4>
+<p>Try this</p>
+<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">holoviews</span> <span class="k">as</span> <span class="nn">hv</span>
+<span class="kn">from</span> <span class="nn">holoviews</span> <span class="kn">import</span> <span class="n">opts</span>
+<span class="n">hv</span><span class="o">.</span><span class="n">extension</span><span class="p">(</span><span class="s1">&#39;bokeh&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span><span class="o">,</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">crs</span>
+<span class="kn">import</span> <span class="nn">hvplot.xarray</span>  <span class="c1"># noqa</span>
+
+<span class="n">air_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">tutorial</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s1">&#39;air_temperature&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">proj</span> <span class="o">=</span> <span class="n">crs</span><span class="o">.</span><span class="n">Orthographic</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="n">air_ds</span><span class="o">.</span><span class="n">air</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">hvplot</span><span class="o">.</span><span class="n">quadmesh</span><span class="p">(</span>
+    <span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="n">proj</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">global_extent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">rasterize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">coastline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">frame_width</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+
+
+<p>the key is replacing matplotlib with bokeh since bokeh allows the zooming ability</p>
+
+
+
+<a name="31446"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31446" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31446">(May 14 2021 at 16:32)</a>:</h4>
+<p>I found out this: "You no longer require the extension for JupyterLab 3.0, it'll be automatically installed if you have pyviz_comms&gt;=2.0 installed. The docs have been updated but the website hasn't been rebuilt since".</p>
+
+
+
+<a name="31447"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31447" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31447">(May 14 2021 at 16:33)</a>:</h4>
+<p>I cut-n-pasted their example code</p>
+<div class="codehilite"><pre><span></span>import xarray as xr, cartopy.crs as crs
+import hvplot.xarray  # noqa
+
+air_ds = xr.tutorial.open_dataset(&#39;air_temperature&#39;).load()
+proj = crs.Orthographic(-90, 30)
+
+air_ds.air.isel(time=slice(0, 9, 3)).hvplot.quadmesh(
+    &#39;lon&#39;, &#39;lat&#39;, projection=proj, project=True, global_extent=True,
+    cmap=&#39;viridis&#39;, rasterize=True, dynamic=False, coastline=True,
+    frame_width=500)
+</pre></div>
+
+
+<p>I'm generating my conda environment from <code>/glade/work/klindsay/analysis/notebooks/environment.yml</code>.</p>
+
+
+
+<a name="31449"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31449" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31449">(May 14 2021 at 16:38)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> You have to set active_tools in plotting as this example:<br>
+  self.plot = self.df.hvplot.scatter(x='x',y='y',c=self.color_val).opts(active_tools=['pan','wheel_zoom'])</p>
+
+
+
+<a name="31450"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31450" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31450">(May 14 2021 at 16:48)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> , when I cut-n-paste your code into a notebook, I still get the error</p>
+<div class="codehilite"><pre><span></span>...
+/glade/work/klindsay/miniconda3/envs/analysis_notebooks/lib/python3.7/site-packages/holoviews/core/data/grid.py in init(cls, eltype, data, kdims, vdims)
+    146                 raise error(&#39;Key dimension values and value array %s &#39;
+    147                             &#39;shapes do not match. Expected shape %s, &#39;
+--&gt; 148                             &#39;actual shape: %s&#39; % (vdim, valid_shape, shape), cls)
+    149         return data, {&#39;kdims&#39;:kdims, &#39;vdims&#39;:vdims}, {}
+    150
+
+DataError: Key dimension values and value array air shapes do not match. Expected shape (1325, 1325), actual shape: (53, 25)
+
+GridInterface expects gridded data, for more information on supported datatypes see http://holoviews.org/user_guide/Gridded_Datasets.html
+</pre></div>
+
+
+
+<a name="31451"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31451" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31451">(May 14 2021 at 16:51)</a>:</h4>
+<p><span class="user-mention" data-user-id="38">@Haiying Xu</span> , I don't understand what I need to do to set <code>active_tools</code>. I don't see how to relate <code>self</code> and <code>self.df</code> in your example to the code that I've posted.</p>
+
+
+
+<a name="31452"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31452" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31452">(May 14 2021 at 17:00)</a>:</h4>
+<p>update: If I drop all of the arguments to <code>quadmesh</code> in the hvPlot example, I get a <code>bokeh</code> interface with zoom capability. This gives me something to start with to modify their example to apply it to my dataset. Thanks <span class="user-mention" data-user-id="134">@Max Grover</span> and <span class="user-mention" data-user-id="38">@Haiying Xu</span> for your assistance.</p>
+
+
+
+<a name="31453"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31453" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31453">(May 14 2021 at 17:05)</a>:</h4>
+<p>Yes, that's what I get to pan, wheel_zoom and box_zoom as well.</p>
+
+
+
+<a name="31454"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/31454" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#31454">(May 14 2021 at 17:09)</a>:</h4>
+<p><span class="user-mention" data-user-id="134">@Max Grover</span> , <span class="user-mention" data-user-id="31">@Keith Lindsay</span> I would kindly encourage you to consider contributing your results (once they're working :-) to the GeoCAT-examples repo. We're presently lacking interactive content and would love to have some. I'm sure it would benefit others in the community.</p>
+<p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
+
+
+
+<a name="32011"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/32011" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#32011">(May 20 2021 at 16:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> I agree with <span class="user-mention" data-user-id="19">@John Clyne</span> . We could help include this example under GeoCAT-examples if you would be interested. </p>
+<p>In addition, your last message sounds like you figured out some workaround for the time, I'd be happy to help if any further help is needed.</p>
+
+
+
+<a name="37027"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/hvPlot%20and%20JupyterLab/near/37027" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/hvPlot.20and.20JupyterLab.html#37027">(Jul 12 2021 at 21:41)</a>:</h4>
+<p>I replied Keith Lindsay before: I found out this online: "You no longer require the extension for JupyterLab 3.0, it'll be automatically installed if you have pyviz_comms&gt;=2.0 installed. The docs have been updated but the website hasn't been rebuilt since".</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

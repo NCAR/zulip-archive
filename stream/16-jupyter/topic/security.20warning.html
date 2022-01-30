@@ -1,0 +1,76 @@
+<html>
+<head><meta charset="utf-8"><title>security warning · jupyter · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/index.html">jupyter</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html">security warning</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="24158"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24158" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24158">(Jan 23 2021 at 15:28)</a>:</h4>
+<p>I was booted off Jupyterhub yesterday afternoon, and ever since then Chrome is giving me a "Not Secure" warning when trying to access <a href="http://jupyterhub.ucar.edu" target="_blank" title="http://jupyterhub.ucar.edu">jupyterhub.ucar.edu</a>  (either Cheyenne or DAV). Can anyone tell me what's going on?<br>
+<a href="/user_uploads/2/52/HbNbCe-LZJpwGHF3-umXy-47/Jupyter-Warning.png" target="_blank" title="Jupyter-Warning.png">Jupyter-Warning.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/52/HbNbCe-LZJpwGHF3-umXy-47/Jupyter-Warning.png" target="_blank" title="Jupyter-Warning.png"><img src="/user_uploads/2/52/HbNbCe-LZJpwGHF3-umXy-47/Jupyter-Warning.png"></a></div>
+
+
+
+<a name="24159"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24159" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24159">(Jan 23 2021 at 19:09)</a>:</h4>
+<p>I get the same message. It looks like the certificate for <a href="http://jupyterhub.ucar.edu" target="_blank" title="http://jupyterhub.ucar.edu">jupyterhub.ucar.edu</a> expired yesterday (Expired: Friday, January 22, 2021 at 4:59:59 PM Mountain Standard Time). I just sent an email to <a href="mailto:cislhelp@ucar.edu" title="mailto:cislhelp@ucar.edu">cislhelp@ucar.edu</a> asking them to look into this.</p>
+
+
+
+<a name="24160"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24160" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24160">(Jan 23 2021 at 19:32)</a>:</h4>
+<p>Thank you, <span class="user-mention" data-user-id="31">@Keith Lindsay</span>!</p>
+
+
+
+<a name="24161"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24161" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24161">(Jan 24 2021 at 04:03)</a>:</h4>
+<p>CISL reports back: I've requested an updated certificate form the security office. I'll put the new certificate in place as soon as I get it.<br>
+and<br>
+that a workaround is to use the ssh tunnel as documented at <a href="https://www2.cisl.ucar.edu/resources/jupyter-and-ipython" target="_blank" title="https://www2.cisl.ucar.edu/resources/jupyter-and-ipython">https://www2.cisl.ucar.edu/resources/jupyter-and-ipython</a></p>
+
+
+
+<a name="24162"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24162" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24162">(Jan 25 2021 at 13:31)</a>:</h4>
+<p>For anyone who wants to use the Hub in the meantime, there's a "hidden" browser feature that allows bypassing the SSL certificate warning. While <em>you're on the certificate issue page</em>, type <code>thisisunsafe</code> or <code>badidea</code> on your keyboard. </p>
+<p>Needless to say use of this "feature" is a bad idea and is unsafe <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span></p>
+
+
+
+<a name="24163"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24163" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24163">(Jan 25 2021 at 13:39)</a>:</h4>
+<blockquote>
+<p>CISL reports back: I've requested an updated certificate form the security office. I'll put the new certificate in place as soon as I get it.<br>
+and<br>
+that a workaround is to use the ssh tunnel as documented at <a href="https://www2.cisl.ucar.edu/resources/jupyter-and-ipython" target="_blank" title="https://www2.cisl.ucar.edu/resources/jupyter-and-ipython">https://www2.cisl.ucar.edu/resources/jupyter-and-ipython</a></p>
+</blockquote>
+<p><span aria-label="megaphone" class="emoji emoji-1f4e3" role="img" title="megaphone">:megaphone:</span> Shameless plug <span aria-label="megaphone" class="emoji emoji-1f4e3" role="img" title="megaphone">:megaphone:</span> ;) :  check out <a href="https://jupyter-forward.readthedocs.io/en/latest/index.html" target="_blank" title="https://jupyter-forward.readthedocs.io/en/latest/index.html">jupyter-forward</a> - Jupyter-forward simplifies the process of running jupyter lab on a remote machine by performing tedious tasks (such as setting the SSH Tunnel, etc,) on behalf of the users:</p>
+<p>Here are some examples:</p>
+<ul>
+<li>Launching Jupyter Lab on a remote host’s login node: <a href="https://jupyter-forward.readthedocs.io/en/latest/examples.html#launching-jupyter-lab-on-a-remote-host-s-login-node" target="_blank" title="https://jupyter-forward.readthedocs.io/en/latest/examples.html#launching-jupyter-lab-on-a-remote-host-s-login-node">https://jupyter-forward.readthedocs.io/en/latest/examples.html#launching-jupyter-lab-on-a-remote-host-s-login-node</a></li>
+<li>Launching Jupyter Lab on a remote host’s compute node: <a href="https://jupyter-forward.readthedocs.io/en/latest/examples.html#launching-jupyter-lab-on-a-remote-host-s-compute-node" target="_blank" title="https://jupyter-forward.readthedocs.io/en/latest/examples.html#launching-jupyter-lab-on-a-remote-host-s-compute-node">https://jupyter-forward.readthedocs.io/en/latest/examples.html#launching-jupyter-lab-on-a-remote-host-s-compute-node</a></li>
+</ul>
+
+
+
+<a name="24164"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24164" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24164">(Jan 25 2021 at 13:43)</a>:</h4>
+<p><span aria-label="warning" class="emoji emoji-26a0" role="img" title="warning">:warning:</span>️ Note: If you are interested in using <code>jupyter-forward</code>, You should install <code>jupyter-forward</code> on your local computer and all commands must be run from your local computer instead of the remote host (Cheyenne, Casper, etc...)</p>
+
+
+
+<a name="24177"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/security%20warning/near/24177" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/security.20warning.html#24177">(Jan 25 2021 at 17:06)</a>:</h4>
+<p>Jupyterhub is back.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

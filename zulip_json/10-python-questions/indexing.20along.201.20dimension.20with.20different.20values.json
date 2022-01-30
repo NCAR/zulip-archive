@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>Hi all, I'm trying to index a <code>dataarray</code> with dimensions <code>time</code> and <code>depth</code> with a varying depth index. So imagine my <code>da</code> has dims <code>time:5, z_t:5</code>, and I want to  get the values for the [12,13,14,12,11]th z_t level per time step -- so time=0 at z_t=12, time=1 at z_t=13, time=2 at z_t=14 etc. If I just pass <code>da.isel(z_t=[12,13,14,12,11])</code> it will give me all those indices per timestep. I've been reading the doc (<a href=\"https://xarray.pydata.org/en/stable/user-guide/indexing.html#vectorized-indexing\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/user-guide/indexing.html#vectorized-indexing\">https://xarray.pydata.org/en/stable/user-guide/indexing.html#vectorized-indexing</a>)  but so far no luck, can someone help?</p>",
+        "id": 33994,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623263575
+    },
+    {
+        "content": "<p>Oops I pointed you to the wrong place. Try <a href=\"https://xarray.pydata.org/en/stable/user-guide/indexing.html#more-advanced-indexing\" target=\"_blank\" title=\"https://xarray.pydata.org/en/stable/user-guide/indexing.html#more-advanced-indexing\">https://xarray.pydata.org/en/stable/user-guide/indexing.html#more-advanced-indexing</a></p>",
+        "id": 34020,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1623264964
+    },
+    {
+        "content": "<p>ok, this explains how to index these things <code>(ix, iy) = ((0, 0), (1, 1), (6, 0))</code>, but I would like to index all x elements with varying y indices.</p>",
+        "id": 34027,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623265879
+    },
+    {
+        "content": "<p>It seems to allow me to set a new dimension for the indexed values, but I can't see how to specify that I want to index subsequently along time, and not extract all those indices for each time step.</p>",
+        "id": 34028,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623266132
+    },
+    {
+        "content": "<p>I think it's a problem with how I'm finding the index. In another example, I have found the index of the EUC maximum <br>\n<code>euc_idz_max = (ds_uvwjq_months.UVEL\n               .isel(nlat=lola_inds['j_0n'],\n                     nlon=lola_inds['i_140_w']).argmax(dim='z_t')\n              .compute())</code><br>\n and then used <code>euc_idz_max</code> to plot the actual velocity when it's maximum in the column. <br>\n<code>euc_idz_max</code> looks like the attached first image.<br>\n<a href=\"/user_uploads/2/c5/PA6a-cXJ8c8RNnylxiBHo4AL/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a><br>\nI am able to plot using this array (see next image).<br>\n<a href=\"/user_uploads/2/85/Yo_HVi4LcGxpZ45RhlZlH2Ha/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> <br>\nThe index I am creating now is finding the level where the temperature is closest to 20C:<br>\n<code>(np.abs(20-(t_5day_140W_test.isel(time=slice(0,10)))).argmin(dim=[\"z_t\"]))</code><br>\nand this looks like the next image <br>\n<a href=\"/user_uploads/2/b2/4r-aXABstGmBC-rNCls5GvFV/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a> <br>\nmaybe that's why it's not working the same way? if I index my other array with this I get an error.</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/c5/PA6a-cXJ8c8RNnylxiBHo4AL/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/c5/PA6a-cXJ8c8RNnylxiBHo4AL/pasted_image.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/85/Yo_HVi4LcGxpZ45RhlZlH2Ha/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/85/Yo_HVi4LcGxpZ45RhlZlH2Ha/pasted_image.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/b2/4r-aXABstGmBC-rNCls5GvFV/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/b2/4r-aXABstGmBC-rNCls5GvFV/pasted_image.png\"></a></div>",
+        "id": 34029,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623267926
+    },
+    {
+        "content": "<p>Can you create a simple example of what you're trying to do? (your first three comments in this thread seem to contradict each other)</p>",
+        "id": 34032,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1623270990
+    },
+    {
+        "content": "<p>hm. I don't think I can provide a simpler example, because what I'm trying to do works in one example and doesnt' work in another, and I don't know what the difference is and how to manipulate it so that it works on one case and not in another. </p>\n<p>I can try to summarize and be clearer:<br>\nI am trying to find an index which is based on one quantity (e.g. EUC max, which is the example that works, or 20C isotherm, which is the example that does not work).<br>\nThen I would like to use that list of indices (list because it evolves in time) and pass it to <code>.isel</code> so that it selects per time step the index (in both cases depth). For the EUC example this works, for the 20C example it doesn't. The difference I can see is that my EUC index looks different from my 20C index, and I'm thinking this might be the problem. But I don't know why it's different.</p>",
+        "id": 34033,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623272555
+    },
+    {
+        "content": "<p>Does this help?</p>",
+        "id": 34034,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623272687
+    },
+    {
+        "content": "<p>well the first one is a dataArray and the second one is a dictionary.</p>",
+        "id": 34035,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1623273373
+    },
+    {
+        "content": "<p>because you provided <code>dim='z_t'</code> in the first one, and <code>dim=['z_t']</code> in the second one.</p>",
+        "id": 34036,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1623273493
+    },
+    {
+        "content": "<p>That was it. Now it works. Thank you! I knew I was making some kind of silly mistake..</p>",
+        "id": 34037,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1623273631
+    }
+]

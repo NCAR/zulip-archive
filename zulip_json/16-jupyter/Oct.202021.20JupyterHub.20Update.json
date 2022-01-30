@@ -1,0 +1,86 @@
+[
+    {
+        "content": "<p>We're starting to look at updates for JupyterHub that will be targeted for October. If there are any desired updates / changes / pain points, we'd certainly like to get some feedback. Please let us know.</p>",
+        "id": 42805,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1631721721
+    },
+    {
+        "content": "<p>If time permits,  could you add the <a href=\"https://github.com/mamba-org/gator\"><code>gator</code></a> jupyterlab extension to the Hub's base environment?</p>",
+        "id": 42806,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1631722573
+    },
+    {
+        "content": "<p>If it's not already there, including <code>fsspec</code> or similar packages for connecting to s3 endpoints would be nice.</p>",
+        "id": 42828,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1631727278
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"9\">@Brian Bonnlander</span>:  Do you mean in the base JupyterLab kernels?  You can always install <code>fsspec</code> yourself in your own Conda environments, right?</p>",
+        "id": 42829,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1631727342
+    },
+    {
+        "content": "<p>Absolutely correct; I manage my own conda environments on JupyterHub, but other users cannot run the notebooks I create unless they are good at managing conda environments, and this might create a pain point for them.</p>",
+        "id": 42830,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1631727492
+    },
+    {
+        "content": "<p><span aria-label=\"thumbs up\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"thumbs up\">:thumbs_up:</span> I think that might be a good discussion to have around what the \"base environments\" should contain.</p>",
+        "id": 42832,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1631727543
+    },
+    {
+        "content": "<p>If you consider adding jupyterlab extensions, could you have a look at <a href=\"https://github.com/ryantam626/jupyterlab_sublime\">https://github.com/ryantam626/jupyterlab_sublime</a>?<br>\nUntil jupyterlab implements additional key maps for editing notebooks, lab extensions are the only workaround.</p>\n<p>I do realise that some key bindings might change the default behaviour, which could be annoying for many users. Is there a way to make an extension like this one available to users, but only if they choose to use it and not by default?</p>",
+        "id": 42879,
+        "sender_full_name": "Sebastian Milinski",
+        "timestamp": 1631745795
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"181\">@Sebastian Milinski</span> I've added that specific extension on the development instance, but can you test? I'm not sure if this enhances anything since there is a Sublime keymap already, so I'm not sure if this negatively affects the overall hub (enables these key binding for everybody by default).</p>",
+        "id": 47293,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1637342954
+    },
+    {
+        "content": "<p>Thanks a lot <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span> ! I just tested it and it works perfectly.</p>",
+        "id": 47300,
+        "sender_full_name": "Sebastian Milinski",
+        "timestamp": 1637344430
+    },
+    {
+        "content": "<p>I'm not sure it's a good idea. Seems to be no way to explicitly enable / disable it and all users aren't sublime users.</p>",
+        "id": 47301,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1637344626
+    },
+    {
+        "content": "<p>Hm, that could theoretically be a problem. But I'm not sure how many shortcuts actually interfere with commonly used shortcuts. </p>\n<p>The main features that are introduced by this extension are multiple selection and multiple cursors. The way it behaves is consistent with many modern text editors/IDEs (sublime text, atom, pycharm, VS code,...).<br>\nOn a mac, CMD+D selects the next occurrence of the selection and add a cursor. Ususally, CMD+D would delete the line (but so does CTRL+K, which is probably the better known shortcut for this operation.)<br>\nCTRL+SHIFT+DOWN/UP add an additional cursor below/above. This would usually select everything above/below the current cursor. For the selection, CMD+SHIFT+UP/DOWN still behaves as expected.</p>",
+        "id": 47318,
+        "sender_full_name": "Sebastian Milinski",
+        "timestamp": 1637346615
+    },
+    {
+        "content": "<p>It's still not great to deviate from the defaults when it's a shared resource like this, at least at the site level. I've disabled the extension for now, but you should be able to enable it with:</p>\n<p><code>jupyter labextension enable --level=user @ryantam626/jupyterlab_sublime</code></p>\n<p>from a terminal session as long as there is a <code>jupyter</code> binary on your path or use a full path to a system one should work:</p>\n<div class=\"codehilite\"><pre><span></span><code>/ncar/usr/jupyterhub.hpc.ucar.edu/dev/bin/jupyter labextension enable --level=user @ryantam626/jupyterlab_sublime\n</code></pre></div>",
+        "id": 47321,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1637350835
+    },
+    {
+        "content": "<p>What would the steps be to enable it? Just do the above in a terminal once and then it applies automatically every time when I log in to jupyterhub?</p>\n<p>When I run the command using the path to the jupyterhub binary, it throws an error:</p>\n<div class=\"codehilite\"><pre><span></span><code>Config option `kernel_spec_manager_class` not recognized by `EnableLabExtensionsApp`.\n[W 2021-11-19 14:33:53.798 LabApp] Config option `kernel_spec_manager_class` not recognized by `LabApp`.\n</code></pre></div>\n<p>I can run it using a jupyter binary in one of my conda environments, but that doesn't enable the extension when I use jupyterhub.</p>",
+        "id": 47331,
+        "sender_full_name": "Sebastian Milinski",
+        "timestamp": 1637357578
+    },
+    {
+        "content": "<p>Yeah, so that command basically just writes a configuration file in your $HOME directory that is JSON and since JSON can be prone to human error in some sense, it's easy to have the application do it. You'd have to restart your Jupyter Session (fully, stop the server and start a new one).</p>",
+        "id": 47358,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1637596655
+    }
+]

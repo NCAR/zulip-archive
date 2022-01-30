@@ -1,0 +1,170 @@
+[
+    {
+        "content": "<p>Hi,</p>\n<p>Up until a few days ago, when I would request a cluster of Dask workers using NCARCluster on Casper, I would see pending requests for those workers using the <code>squeue --me</code> command.   Lately, however, I am not seeing the pending request for workers, and I am never granted those workers.   </p>\n<p>Is anyone aware of the issue?   Does SLURM not add worker requests to the queue if it's too full, maybe?</p>",
+        "id": 27613,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1616697040
+    },
+    {
+        "content": "<p>Are you having trouble accessing the actual JupyterHub? Accessing an environment with ncar_jobqueue installed?</p>",
+        "id": 27615,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616697290
+    },
+    {
+        "content": "<p>Is it moreso an issue of being able to actually access compute nodes?</p>",
+        "id": 27617,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616697309
+    },
+    {
+        "content": "<p>I am using my own conda environment with JupyterLab installed.   It has been working great for months until recently.</p>",
+        "id": 27618,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1616697337
+    },
+    {
+        "content": "<p>So are you able to get into jupyterlab/notebook? Or is this issue of actually running the notebook? When you login, are you able to request the resources you need?</p>",
+        "id": 27620,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616697424
+    },
+    {
+        "content": "<p>My question is about whether others have ever seen Dask worker requests not show up as pending in the SLURM queue.   I am running JupyterLab without issues using <code>execdav</code>, as recommended.</p>",
+        "id": 27621,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1616697450
+    },
+    {
+        "content": "<p>have you run <code>cluster.scale(...)</code>?</p>",
+        "id": 27622,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1616697561
+    },
+    {
+        "content": "<p>Could it be also the migration to PBS from SLURM on Casper? <a href=\"https://www2.cisl.ucar.edu/resources/computational-systems/casper/migrating-casper-jobs-slurm-pbs\" target=\"_blank\" title=\"https://www2.cisl.ucar.edu/resources/computational-systems/casper/migrating-casper-jobs-slurm-pbs\">https://www2.cisl.ucar.edu/resources/computational-systems/casper/migrating-casper-jobs-slurm-pbs</a></p>",
+        "id": 27623,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1616697612
+    },
+    {
+        "content": "<p>Ah, I commented out the cluster.scale() line!   I didn't realize its importance.  I take it that this is what actually creates the SLURM reqeusts.</p>",
+        "id": 27624,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1616697665
+    },
+    {
+        "content": "<p>If we use scale(), do we still need to use wait_for_workers?</p>",
+        "id": 27630,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1616699210
+    },
+    {
+        "content": "<blockquote>\n<p>If we use scale(), do we still need to use wait_for_workers?</p>\n</blockquote>\n<p>It depends... By default, dask doesn't mind proceeding with work if it has access to one worker at least. So, if your workload requires a minimum amount of resources/workers, you may still need the <code>wait_for_workers()</code> call because there's no guarantee that the requested resources (via <code>.scale()</code>) will be available at the same time.</p>",
+        "id": 27632,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1616699954
+    },
+    {
+        "content": "<p>But recently, I scale to the specific total number of workers, but my codes still stuck at wait_for_workers, then one of the node retired after some timeout time, thus my codes stuck forever.</p>",
+        "id": 27637,
+        "sender_full_name": "Haiying Xu",
+        "timestamp": 1616700393
+    },
+    {
+        "content": "<blockquote>\n<p>But recently, I scale to the specific total number of workers, but my codes still stuck at wait_for_workers, then one of the node retired after some timeout time, thus my codes stuck forever.</p>\n</blockquote>\n<p>Could you share a minimal script to reproduce or point me to the code you are currently using? It's hard to know what's going on unless I see your code</p>",
+        "id": 27638,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1616700584
+    },
+    {
+        "content": "<p>I feel really daft asking this question, but I'm requesting 10 workers and 400 Gb of memory with the following <br>\nI'd assumed the cluster.scale(2) would get me 20 workers and 800 GB of memory, but this isn't happening.<br>\nWhat am I doing wrong?</p>\n<p>from dask_jobqueue import PBSCluster<br>\nfrom dask.distributed import Client<br>\ncluster = PBSCluster(<br>\n      cores=ncores, # The number of cores you want<br>\n      memory=nmem, # Amount of memory<br>\n      processes=ncores, # How many processes<br>\n      queue='casper', # The type of queue to utilize (/glade/u/apps/dav/opt/usr/bin/execcasper)<br>\n      resource_spec='select=1:ncpus='+str(ncores)+':mem='+nmem, # Specify resources<br>\n      project='P93300641', # Input your project ID here<br>\n      walltime='1:00:00', # Amount of wall time<br>\n      interface='ib0', # Interface to use<br>\n      extra=[\"--lifetime\", \"55m\", \"--lifetime-stagger\", \"4m\"],<br>\n    )<br>\n    # Scale up<br>\n    cluster.scale(2)</p>",
+        "id": 29082,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1617985983
+    },
+    {
+        "content": "<p>are you on Casper PBS Batch?</p>",
+        "id": 29083,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617986024
+    },
+    {
+        "content": "<p>yes</p>",
+        "id": 29084,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1617986562
+    },
+    {
+        "content": "<p>What <em>is</em> happening?</p>",
+        "id": 29085,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617986703
+    },
+    {
+        "content": "<p>I have a little wrapper for convenience (since <code>ncar-jobqueue</code> is currently broken):</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">get_ClusterClient</span><span class=\"p\">():</span>\n    <span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n    <span class=\"kn\">from</span> <span class=\"nn\">dask_jobqueue</span> <span class=\"kn\">import</span> <span class=\"n\">PBSCluster</span>\n    <span class=\"kn\">from</span> <span class=\"nn\">dask.distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n    <span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">PBSCluster</span><span class=\"p\">(</span>\n        <span class=\"n\">cores</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span>\n        <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"s1\">&#39;25GB&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span>\n        <span class=\"n\">queue</span><span class=\"o\">=</span><span class=\"s1\">&#39;casper&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">local_directory</span><span class=\"o\">=</span><span class=\"s1\">&#39;$TMPDIR&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">log_directory</span><span class=\"o\">=</span><span class=\"s1\">&#39;$TMPDIR&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">resource_spec</span><span class=\"o\">=</span><span class=\"s1\">&#39;select=1:ncpus=1:mem=25GB&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">project</span><span class=\"o\">=</span><span class=\"s1\">&#39;NCGD0011&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">walltime</span><span class=\"o\">=</span><span class=\"s1\">&#39;01:00:00&#39;</span><span class=\"p\">,</span>\n        <span class=\"n\">interface</span><span class=\"o\">=</span><span class=\"s1\">&#39;ib0&#39;</span><span class=\"p\">,)</span>\n\n    <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">({</span>\n        <span class=\"s1\">&#39;distributed.dashboard.link&#39;</span><span class=\"p\">:</span>\n        <span class=\"s1\">&#39;https://jupyterhub.hpc.ucar.edu/stable/user/</span><span class=\"si\">{USER}</span><span class=\"s1\">/proxy/</span><span class=\"si\">{port}</span><span class=\"s1\">/status&#39;</span>\n    <span class=\"p\">})</span>\n    <span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n    <span class=\"k\">return</span> <span class=\"n\">cluster</span><span class=\"p\">,</span> <span class=\"n\">client</span>\n</pre></div>\n\n\n<p>Which I call like this</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">cluster</span><span class=\"p\">,</span> <span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">utils</span><span class=\"o\">.</span><span class=\"n\">get_ClusterClient</span><span class=\"p\">()</span>\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"mi\">12</span><span class=\"p\">)</span> <span class=\"c1\">#adapt(minimum_jobs=0, maximum_jobs=24)</span>\n</pre></div>\n\n\n<p>Works!  </p>\n<div class=\"codehilite\"><pre><span></span>qstat -u $USER\n</pre></div>\n\n\n<p>tells me my worker jobs are running. Dashboard is active, etc.</p>",
+        "id": 29086,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617986811
+    },
+    {
+        "content": "<p>So are you requesting 40 GB of memory per worker then? Or are you looking for 400 GB per worker?</p>",
+        "id": 29089,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617987512
+    },
+    {
+        "content": "<p>The following </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">from</span> <span class=\"nn\">dask_jobqueue</span> <span class=\"kn\">import</span> <span class=\"n\">PBSCluster</span>\n<span class=\"kn\">from</span> <span class=\"nn\">dask.distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n<span class=\"n\">ncores</span><span class=\"o\">=</span><span class=\"mi\">1</span>\n<span class=\"n\">nmem</span> <span class=\"o\">=</span> <span class=\"s1\">&#39;40GB&#39;</span>\n\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">PBSCluster</span><span class=\"p\">(</span>\n    <span class=\"n\">cores</span><span class=\"o\">=</span><span class=\"n\">ncores</span><span class=\"p\">,</span> <span class=\"c1\"># The number of cores you want</span>\n    <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"n\">nmem</span><span class=\"p\">,</span> <span class=\"c1\"># Amount of memory</span>\n    <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"n\">ncores</span><span class=\"p\">,</span> <span class=\"c1\"># How many processes</span>\n    <span class=\"n\">queue</span><span class=\"o\">=</span><span class=\"s1\">&#39;casper&#39;</span><span class=\"p\">,</span> <span class=\"c1\"># The type of queue to utilize (/glade/u/apps/dav/opt/usr/bin/execcasper)</span>\n    <span class=\"n\">resource_spec</span><span class=\"o\">=</span><span class=\"s1\">&#39;select=1:ncpus=&#39;</span><span class=\"o\">+</span><span class=\"nb\">str</span><span class=\"p\">(</span><span class=\"n\">ncores</span><span class=\"p\">)</span><span class=\"o\">+</span><span class=\"s1\">&#39;:mem=&#39;</span><span class=\"o\">+</span><span class=\"n\">nmem</span><span class=\"p\">,</span> <span class=\"c1\"># Specify resources</span>\n    <span class=\"n\">project</span><span class=\"o\">=</span><span class=\"s1\">&#39;NCGD0011&#39;</span><span class=\"p\">,</span> <span class=\"c1\"># Input your project ID here</span>\n    <span class=\"n\">walltime</span><span class=\"o\">=</span><span class=\"s1\">&#39;1:00:00&#39;</span><span class=\"p\">,</span> <span class=\"c1\"># Amount of wall time</span>\n    <span class=\"n\">interface</span><span class=\"o\">=</span><span class=\"s1\">&#39;ib0&#39;</span><span class=\"p\">,</span> <span class=\"c1\"># Interface to use</span>\n<span class=\"p\">)</span>\n\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>results in 10 workers w/ 10 cores and 400 GB of memory. If you increase <code>cluster.scale(n)</code>  to <code> n=20</code>, the result is 20 workers with 800 GB of memory.</p>",
+        "id": 29090,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617987692
+    },
+    {
+        "content": "<p>no, 40 GB / worker.  Matt's example feems to work fine, if I  use <code>.scale(20)</code> I get the 800 GB of memory needed</p>",
+        "id": 29091,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1617987695
+    },
+    {
+        "content": "<p>I guess the key would be take however much memory you are looking for in total, divided by the number of workers you would like to get the suggested <code>nmem</code>. Thanks for asking this question!</p>",
+        "id": 29092,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1617987808
+    },
+    {
+        "content": "<p>THanks <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> and <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span></p>",
+        "id": 29093,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1617988894
+    },
+    {
+        "content": "<p>FYI I'm using NCARCluster for the first time, launching a \"casper batch\" session via <a href=\"https://jupyterhub.hpc.ucar.edu/\" target=\"_blank\" title=\"https://jupyterhub.hpc.ucar.edu/\">https://jupyterhub.hpc.ucar.edu/</a>, and finding that 'identify_host()' cannot identify casper as \"casper\".</p>",
+        "id": 29268,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1618007717
+    },
+    {
+        "content": "<p>This is a known issue, related to the switch to PBS. See here: <a href=\"https://github.com/NCAR/ncar-jobqueue/issues/40\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue/issues/40\">https://github.com/NCAR/ncar-jobqueue/issues/40</a></p>",
+        "id": 29270,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618063225
+    },
+    {
+        "content": "<blockquote>\n<p>This is a known issue, related to the switch to PBS. See here: <a href=\"https://github.com/NCAR/ncar-jobqueue/issues/40\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue/issues/40\">https://github.com/NCAR/ncar-jobqueue/issues/40</a></p>\n</blockquote>\n<p>This issue has been resolved in the latest release of <code>ncar-jobqueue</code>. You can upgrade to the latest version via </p>\n<div class=\"codehilite\"><pre><span></span>conda install -c conda-forge ncar-jobqueue<span class=\"o\">==</span><span class=\"m\">2021</span>.4.14\n</pre></div>\n\n\n<p>or </p>\n<div class=\"codehilite\"><pre><span></span>python -m pip install ncar-jobqueue --upgrade\n</pre></div>\n\n\n<hr>\n<p><strong>NOTE</strong></p>\n<ul>\n<li><strong>Please report any issues you might experience with this version</strong> by opening new issues here: <a href=\"https://github.com/NCAR/ncar-jobqueue/issues\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue/issues\">https://github.com/NCAR/ncar-jobqueue/issues</a></li>\n<li>There is some limited docs <a href=\"https://github.com/NCAR/ncar-jobqueue#configuration\" target=\"_blank\" title=\"https://github.com/NCAR/ncar-jobqueue#configuration\">here</a> ;)</li>\n</ul>",
+        "id": 29558,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1618439995
+    },
+    {
+        "content": "<p>You're awesome, <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>!  Thank you!</p>",
+        "id": 29560,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1618441259
+    },
+    {
+        "content": "<p>I second that assessment!!</p>",
+        "id": 29561,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1618442698
+    }
+]

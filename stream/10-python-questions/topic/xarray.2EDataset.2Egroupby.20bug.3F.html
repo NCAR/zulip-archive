@@ -1,0 +1,33 @@
+<html>
+<head><meta charset="utf-8"><title>xarray.Dataset.groupby bug? · python-questions · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.2EDataset.2Egroupby.20bug.3F.html">xarray.Dataset.groupby bug?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="31305"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray.Dataset.groupby%20bug%3F/near/31305" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.2EDataset.2Egroupby.20bug.3F.html#31305">(May 12 2021 at 17:07)</a>:</h4>
+<p>Creating a monthly climatology of time-dependent variables in an xarray Dataset using groupby has the undesirable effect of introducing a monthly dimension in data variables that did not have time dimension to begin with. In the example below, I do not want 'depth_bnds' to acquire the 'month' dimension (squeeze=True does not help).<br>
+<a href="/user_uploads/2/f5/PERcJJkrGBnlbzd_egrYk9kL/Screen-Shot-2021-05-12-at-11.00.59-AM.png" target="_blank" title="Screen-Shot-2021-05-12-at-11.00.59-AM.png">Screen-Shot-2021-05-12-at-11.00.59-AM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/f5/PERcJJkrGBnlbzd_egrYk9kL/Screen-Shot-2021-05-12-at-11.00.59-AM.png" target="_blank" title="Screen-Shot-2021-05-12-at-11.00.59-AM.png"><img src="/user_uploads/2/f5/PERcJJkrGBnlbzd_egrYk9kL/Screen-Shot-2021-05-12-at-11.00.59-AM.png"></a></div>
+
+
+
+<a name="31311"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray.Dataset.groupby%20bug%3F/near/31311" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.2EDataset.2Egroupby.20bug.3F.html#31311">(May 12 2021 at 17:19)</a>:</h4>
+<p>This is slighlty hard to fix: <a href="https://github.com/pydata/xarray/issues/2145#issuecomment-391114129" target="_blank" title="https://github.com/pydata/xarray/issues/2145#issuecomment-391114129">https://github.com/pydata/xarray/issues/2145#issuecomment-391114129</a> . I recommend dropping it before the groupby and adding it back if you need it. Does it help if <code>depth_bounds</code> is a coordinate variable instead?</p>
+
+
+
+<a name="31318"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xarray.Dataset.groupby%20bug%3F/near/31318" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xarray.2EDataset.2Egroupby.20bug.3F.html#31318">(May 12 2021 at 18:45)</a>:</h4>
+<p>Yes.  If I replace 'ds_en4' with 'ds_en4.set_coords('depth_bnds')', everything looks good.</p>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>

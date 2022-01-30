@@ -1,0 +1,465 @@
+<html>
+<head><meta charset="utf-8"><title>slow pip install · jupyter · Zulip Chat Archive</title></head>
+<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/index.html">jupyter</a></h2>
+<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html">slow pip install</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu/">
+
+<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+
+<a name="8008"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8008" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8008">(May 06 2020 at 17:12)</a>:</h4>
+<p>This is more of a general question for Cheyenne/Casper rather than jupyter specific. Does anyone have a sense of what causes such sluggish <code>pip install</code> times sometimes? I use <code>conda</code> for my environment, but when developing e.g. project-specific packages of code, I need to run <code>pip install . --upgrade</code> on the main package directory.</p>
+<p>Some days this seems to be instantaneous. Other days it will take minutes to run. Any thoughts on this in general or how to speed it up? Today is a day that it's taking minutes. It seems to happen on the login node and compute nodes.</p>
+
+
+
+<a name="8009"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8009" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8009">(May 06 2020 at 17:55)</a>:</h4>
+<blockquote>
+<p>It seems to happen on the login node and compute nodes.</p>
+</blockquote>
+<p>This is likely due to some GLADE/filesystem issue</p>
+
+
+
+<a name="8010"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8010" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8010">(May 06 2020 at 17:56)</a>:</h4>
+<p>Can you try running <code>pip install</code> with the <code>--verbose</code> option on to see if there is any useful information about the problem</p>
+<div class="codehilite"><pre><span></span>pip install . --upgrade --verbose
+</pre></div>
+
+
+
+<a name="8011"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8011" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8011">(May 06 2020 at 17:59)</a>:</h4>
+<p>P.S.:  Apparently the <code>--verbose</code> option is additive. Beware <span aria-label="grinning" class="emoji emoji-1f600" role="img" title="grinning">:grinning:</span></p>
+<div class="codehilite"><pre><span></span>$ pip --help
+  -v, --verbose               Give more output. Option is additive, and can be
+                              used up to <span class="m">3</span> times.
+</pre></div>
+
+
+
+<a name="8022"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8022" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8022">(May 06 2020 at 19:56)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>, the <code>--verbose</code> option doesn't give enlightening information. It hangs here for 30s-1min (sometimes longer):</p>
+<div class="codehilite"><pre><span></span>$ pip install . --upgrade --verbose
+Non-user install because site-packages writeable
+Created temporary directory: /glade/scratch/rbrady/tmp/pip-ephem-wheel-cache-qljvs7i7
+Created temporary directory: /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56
+Initialized build tracking at /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56
+Created build tracker: /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56
+Entered build tracker: /glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56
+Created temporary directory: /glade/scratch/rbrady/tmp/pip-install-deditwzg
+Processing /glade/work/rbrady/projects/carbonpathways
+  Created temporary directory: /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe
+</pre></div>
+
+
+<p>Then cranks through this:</p>
+<div class="codehilite"><pre><span></span>Processing /glade/work/rbrady/projects/carbonpathways
+  Created temporary directory: /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe
+  Added file:///glade/work/rbrady/projects/carbonpathways to build tracker <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56&#39;</span>
+    Running setup.py <span class="o">(</span>path:/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/setup.py<span class="o">)</span> egg_info <span class="k">for</span> package from file:///glade/work/rbrady/projects/carbonpathways
+    Running <span class="nb">command</span> python setup.py egg_info
+    running egg_info
+    creating /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info
+    writing /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/PKG-INFO
+    writing dependency_links to /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/dependency_links.txt
+    writing top-level names to /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/top_level.txt
+    writing manifest file <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/SOURCES.txt&#39;</span>
+    reading manifest file <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/SOURCES.txt&#39;</span>
+    reading manifest template <span class="s1">&#39;MANIFEST.in&#39;</span>
+    writing manifest file <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/pip-egg-info/carbonpathways.egg-info/SOURCES.txt&#39;</span>
+  Source in /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe has version <span class="m">0</span>.1.0, which satisfies requirement <span class="nv">carbonpathways</span><span class="o">==</span><span class="m">0</span>.1.0 from file:///glade/work/rbrady/projects/carbonpathways
+  Removed <span class="nv">carbonpathways</span><span class="o">==</span><span class="m">0</span>.1.0 from file:///glade/work/rbrady/projects/carbonpathways from build tracker <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56&#39;</span>
+Building wheels <span class="k">for</span> collected packages: carbonpathways
+  Created temporary directory: /glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1
+  Building wheel <span class="k">for</span> carbonpathways <span class="o">(</span>setup.py<span class="o">)</span> ...   Destination directory: /glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1
+  Running <span class="nb">command</span> /glade/work/rbrady/miniconda3/envs/carbonpathways/bin/python3.8 -u -c <span class="s1">&#39;import sys, setuptools, tokenize; sys.argv[0] = &#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/setup.py&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;; __file__=&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe/setup.py&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;;f=getattr(tokenize, &#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;open&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;, open)(__file__);code=f.read().replace(&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;\r\n&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;, &#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;\n&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;);f.close();exec(compile(code, __file__, &#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;exec&#39;</span><span class="s2">&quot;&#39;&quot;</span><span class="s1">&#39;))&#39;</span> bdist_wheel -d /glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1
+  running bdist_wheel
+  running build
+  running build_py
+  creating build
+  creating build/lib
+  creating build/lib/carbonpathways
+  copying carbonpathways/memory.py -&gt; build/lib/carbonpathways
+  copying carbonpathways/parallel.py -&gt; build/lib/carbonpathways
+  copying carbonpathways/__init__.py -&gt; build/lib/carbonpathways
+  copying carbonpathways/regions.py -&gt; build/lib/carbonpathways
+  copying carbonpathways/subset.py -&gt; build/lib/carbonpathways
+  copying carbonpathways/preprocess.py -&gt; build/lib/carbonpathways
+  creating build/lib/carbonpathways/visualization
+  copying carbonpathways/visualization/visualize.py -&gt; build/lib/carbonpathways/visualization
+  copying carbonpathways/visualization/__init__.py -&gt; build/lib/carbonpathways/visualization
+  creating build/lib/carbonpathways/data
+  copying carbonpathways/data/make_dataset.py -&gt; build/lib/carbonpathways/data
+  copying carbonpathways/data/__init__.py -&gt; build/lib/carbonpathways/data
+  running egg_info
+  creating carbonpathways.egg-info
+  writing carbonpathways.egg-info/PKG-INFO
+  writing dependency_links to carbonpathways.egg-info/dependency_links.txt
+  writing top-level names to carbonpathways.egg-info/top_level.txt
+  writing manifest file <span class="s1">&#39;carbonpathways.egg-info/SOURCES.txt&#39;</span>
+  reading manifest file <span class="s1">&#39;carbonpathways.egg-info/SOURCES.txt&#39;</span>
+  reading manifest template <span class="s1">&#39;MANIFEST.in&#39;</span>
+  writing manifest file <span class="s1">&#39;carbonpathways.egg-info/SOURCES.txt&#39;</span>
+  copying carbonpathways/particle_test_file.nc -&gt; build/lib/carbonpathways
+  installing to build/bdist.linux-x86_64/wheel
+  running install
+  running install_lib
+  creating build/bdist.linux-x86_64
+  creating build/bdist.linux-x86_64/wheel
+  creating build/bdist.linux-x86_64/wheel/carbonpathways
+  copying build/lib/carbonpathways/memory.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  copying build/lib/carbonpathways/parallel.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  copying build/lib/carbonpathways/__init__.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  copying build/lib/carbonpathways/regions.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  copying build/lib/carbonpathways/particle_test_file.nc -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  copying build/lib/carbonpathways/subset.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  creating build/bdist.linux-x86_64/wheel/carbonpathways/visualization
+  copying build/lib/carbonpathways/visualization/visualize.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/visualization
+  copying build/lib/carbonpathways/visualization/__init__.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/visualization
+  creating build/bdist.linux-x86_64/wheel/carbonpathways/data
+  copying build/lib/carbonpathways/data/make_dataset.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/data
+  copying build/lib/carbonpathways/data/__init__.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways/data
+  copying build/lib/carbonpathways/preprocess.py -&gt; build/bdist.linux-x86_64/wheel/carbonpathways
+  running install_egg_info
+  Copying carbonpathways.egg-info to build/bdist.linux-x86_64/wheel/carbonpathways-0.1.0-py3.8.egg-info
+  running install_scripts
+  adding license file <span class="s2">&quot;LICENSE&quot;</span> <span class="o">(</span>matched pattern <span class="s2">&quot;LICEN[CS]E*&quot;</span><span class="o">)</span>
+  creating build/bdist.linux-x86_64/wheel/carbonpathways-0.1.0.dist-info/WHEEL
+  creating <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-wheel-8jdqqqq1/carbonpathways-0.1.0-py3-none-any.whl&#39;</span> and adding <span class="s1">&#39;build/bdist.linux-x86_64/wheel&#39;</span> to it
+  adding <span class="s1">&#39;carbonpathways/__init__.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/memory.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/parallel.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/particle_test_file.nc&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/preprocess.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/regions.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/subset.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/data/__init__.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/data/make_dataset.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/visualization/__init__.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways/visualization/visualize.py&#39;</span>
+  adding <span class="s1">&#39;carbonpathways-0.1.0.dist-info/LICENSE&#39;</span>
+  adding <span class="s1">&#39;carbonpathways-0.1.0.dist-info/METADATA&#39;</span>
+  adding <span class="s1">&#39;carbonpathways-0.1.0.dist-info/WHEEL&#39;</span>
+  adding <span class="s1">&#39;carbonpathways-0.1.0.dist-info/top_level.txt&#39;</span>
+  adding <span class="s1">&#39;carbonpathways-0.1.0.dist-info/RECORD&#39;</span>
+  removing build/bdist.linux-x86_64/wheel
+<span class="k">done</span>
+  Created wheel <span class="k">for</span> carbonpathways: <span class="nv">filename</span><span class="o">=</span>carbonpathways-0.1.0-py3-none-any.whl <span class="nv">size</span><span class="o">=</span><span class="m">52801</span> <span class="nv">sha256</span><span class="o">=</span>0e3e90d90d10e3861cdd426b74b357a77785d693cbc22aae06885f3fc32983b0
+  Stored in directory: /glade/scratch/rbrady/tmp/pip-ephem-wheel-cache-qljvs7i7/wheels/64/2a/a6/9dc322f41f7002c714ffef0f74000ba1384978c0591cfd84be
+Successfully built carbonpathways
+Installing collected packages: carbonpathways
+  Attempting uninstall: carbonpathways
+    Found existing installation: carbonpathways <span class="m">0</span>.1.0
+    Uninstalling carbonpathways-0.1.0:
+      Created temporary directory: /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/~arbonpathways-0.1.0.dist-info
+      Removing file or directory /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/carbonpathways-0.1.0.dist-info/
+      Created temporary directory: /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/~arbonpathways
+      Removing file or directory /glade/work/rbrady/miniconda3/envs/carbonpathways/lib/python3.8/site-packages/carbonpathways/
+      Successfully uninstalled carbonpathways-0.1.0
+  Created temporary directory: /glade/scratch/rbrady/tmp/pip-unpacked-wheel-7qxfk_no
+
+Successfully installed carbonpathways-0.1.0
+Cleaning up...
+  Removing <span class="nb">source</span> in /glade/scratch/rbrady/tmp/pip-req-build-7vwn7mxe
+Removed build tracker: <span class="s1">&#39;/glade/scratch/rbrady/tmp/pip-req-tracker-dzd7io56&#39;</span>
+</pre></div>
+
+
+<p>This is about as lightweight of a package as you can get. I notice that some days it will install in order seconds. Other days, minutes. Also, what does additive mean in this case? Just for my own knowledge.</p>
+
+
+
+<a name="8037"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8037" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8037">(May 06 2020 at 20:07)</a>:</h4>
+<ul>
+<li>What version of <code>pip</code> are you running?</li>
+<li>What is the size of your directory?</li>
+</ul>
+
+
+
+<a name="8038"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8038" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8038">(May 06 2020 at 20:08)</a>:</h4>
+<ul>
+<li>What is the output of <code>time pip install . --upgrade</code>?</li>
+</ul>
+
+
+
+<a name="8040"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8040" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8040">(May 06 2020 at 20:09)</a>:</h4>
+<ul>
+<li>Since you are installing the package from a local directory, do you need the <code>--upgrade</code> flag?</li>
+</ul>
+
+
+
+<a name="8041"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8041" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8041">(May 06 2020 at 20:12)</a>:</h4>
+<p>Additive might mean that <code>--verbose ---verbose</code> will give you even more information.</p>
+
+
+
+<a name="8042"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8042" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8042">(May 06 2020 at 20:13)</a>:</h4>
+<blockquote>
+<p>Additive might mean that <code>--verbose ---verbose</code> will give you even more information.</p>
+</blockquote>
+<p>Yep.. and the short version looks like: <code>pip install -vvv ....</code></p>
+
+
+
+<a name="8043"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8043" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8043">(May 06 2020 at 20:16)</a>:</h4>
+<ol>
+<li>Version is pip 20.0.2</li>
+<li>Which directory? Scratch (where <code>--verbose</code> implies temporary things are being installed) is at 9% full. Work, where pip/conda installs to is 57% full. The interior <code>carbonpathways</code> folder with python code is 252 kb. Although the main folder is 66GB since I have a <code>./data</code> folder with some post-processed output for now. That's not included whatsoever in the <code>setup.py</code> file so I figured it ignored that kind of stuff.</li>
+<li>It takes 1 min 6s to install.</li>
+<li>I guess I'm not changing the version name, but I am adding code and modules. So I figured <code>--upgrade</code> overwrote the current installation. As opposed to doing uninstall then reinstall. </li>
+</ol>
+<p>Also this is independent of cheyenne or casper node.</p>
+
+
+
+<a name="8044"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8044" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8044">(May 06 2020 at 20:17)</a>:</h4>
+<p>I think even with that large <code>/data</code> folder I have some days where this sort of install works in a second or two.</p>
+
+
+
+<a name="8046"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8046" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8046">(May 06 2020 at 20:20)</a>:</h4>
+<blockquote>
+<p>I guess I'm not changing the version name, but I am adding code and modules. So I figured --upgrade overwrote the current installation. As opposed to doing uninstall then reinstall. </p>
+</blockquote>
+<p><code>-e</code>, or <code>--editable</code> option might be a better alternative to <code>--upgrade</code> i.e. <code>pip install . -e</code>. When using <code>-e</code> option, pip will just link the package to the original location, meaning any changes to the original package would reflect directly in your environment.</p>
+
+
+
+<a name="8051"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8051" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8051">(May 06 2020 at 20:24)</a>:</h4>
+<p>Hm. I need to read up on that. That installs instantaneously but isn't working with <code>autoreload</code>. In the <code>pip install . --upgrade</code> case, I don't have to restart my notebook. If I run <code>pip install -e .</code>  with and without <code>--upgrade</code> I don't get updates to functions in my notebook.</p>
+
+
+
+<a name="8055"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8055" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8055">(May 06 2020 at 20:26)</a>:</h4>
+<blockquote>
+<p>It takes 1 min 6s to install.</p>
+</blockquote>
+<p>I am assuming this is the real (wall clock) time. When you get a chance, can you post the full output of <code>time pip install . --upgrade</code>? When I first asked for this, I was going for the <code>user</code>, and <code>sys</code>times as well.</p>
+
+
+
+<a name="8057"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8057" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8057">(May 06 2020 at 20:29)</a>:</h4>
+<blockquote>
+<p>Hm. I need to read up on that. That installs instantaneously but isn't working with <code>autoreload</code>. In the <code>pip install . --upgrade</code> case, I don't have to restart my notebook. If I run <code>pip install -e .</code>  with and without <code>--upgrade</code> I don't get updates to functions in my notebook.</p>
+</blockquote>
+<p>Ooooh I see... I didn't know you were using the <code>autoreload</code> magic as well.. <code>%autoreload</code> has some caveats...</p>
+
+
+
+<a name="8059"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8059" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8059">(May 06 2020 at 20:34)</a>:</h4>
+<div class="codehilite"><pre><span></span>real    1m6.161s
+user    0m1.715s
+sys 1m2.335s
+</pre></div>
+
+
+
+<a name="8060"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8060" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8060">(May 06 2020 at 20:35)</a>:</h4>
+<p>I'm using <code>autoreload</code> since I'm working with <code>dask_jobqueue</code> and don't want to have to kill and restart all my workers every time I update my local package.</p>
+
+
+
+<a name="8062"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8062" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8062">(May 06 2020 at 20:55)</a>:</h4>
+<p>As I suspected, <code>-e</code> is way faster: </p>
+<div class="codehilite"><pre><span></span>$ <span class="nb">time</span> pip install -e .
+Obtaining file:///glade/scratch/abanihi/carbonpathways
+Installing collected packages: carbonpathways
+  Running setup.py develop <span class="k">for</span> carbonpathways
+Successfully installed carbonpathways
+
+real    0m4.519s
+user    0m1.941s
+sys      0m0.639s
+</pre></div>
+
+
+<p>My takeaway from this is that you either have to trade <code>pip install . --upgrade</code> speed for the  flexibility provided by <code>%autoreload</code> magic or go with <code>pip install -e .</code> at the expense of having to rerun your notebook from scratch <span aria-label="frown" class="emoji emoji-1f641" role="img" title="frown">:frown:</span></p>
+
+
+
+<a name="8063"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8063" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8063">(May 06 2020 at 21:01)</a>:</h4>
+<p>Thanks for the input! Wasn't sure if I was missing something. I'll ping you in this thread if a day comes up soon where the timings are drastically different. If that doesn't happen for awhile maybe I'll try moving my <code>data</code> folder out of there to see if <code>setup</code> is somehow including it. Although I don't think that's the case.</p>
+
+
+
+<a name="8064"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8064" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8064">(May 06 2020 at 21:02)</a>:</h4>
+<p>By the way, the <code>data</code> directory may be the culprit here....</p>
+
+
+
+<a name="8065"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8065" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8065">(May 06 2020 at 21:02)</a>:</h4>
+<p>During <code>pip install . --upgrade</code>, you will notice that pip creates a temporary directory</p>
+
+
+
+<a name="8066"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8066" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8066">(May 06 2020 at 21:03)</a>:</h4>
+<p>It then copies everything from <code>carbonpathways</code> main directory into this temporary directory</p>
+
+
+
+<a name="8067"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8067" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8067">(May 06 2020 at 21:03)</a>:</h4>
+<p>Hm I'll move that tomorrow and see what happens. I'm following more of a cookiecutter repo format (<a href="https://github.com/bradyrx/cookiecutter-climate-science" target="_blank" title="https://github.com/bradyrx/cookiecutter-climate-science">https://github.com/bradyrx/cookiecutter-climate-science</a>) to keep everything nice and together . Data isn't going up to git of course but is nice to have consolidated there rather than in scratch. So maybe I should forego that for speed.</p>
+
+
+
+<a name="8068"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8068" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8068">(May 06 2020 at 21:05)</a>:</h4>
+<p>Removing the <code>data</code> directory reduces the wall clock time to </p>
+<div class="codehilite"><pre><span></span>real    0m5.541s
+user    0m1.894s
+sys 0m0.863s
+</pre></div>
+
+
+
+<a name="8069"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8069" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8069">(May 06 2020 at 21:06)</a>:</h4>
+<p>That's a huge improvement compared to the original</p>
+<div class="codehilite"><pre><span></span>real    1m6.161s
+user    0m1.715s
+sys 1m2.335s
+</pre></div>
+
+
+
+<a name="8070"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8070" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8070">(May 06 2020 at 21:06)</a>:</h4>
+<p>Hm, okay. That's it then. i'm wondering if there's some flag or way to have pip ignore certain sub-directorries. Because it is convenient to keep my post-proc data there for the project.</p>
+
+
+
+<a name="8071"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8071" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8071">(May 06 2020 at 21:06)</a>:</h4>
+<p>So, you may want to move <code>data</code>somewhere else</p>
+
+
+
+<a name="8072"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8072" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8072">(May 06 2020 at 21:07)</a>:</h4>
+<blockquote>
+<p>Data isn't going up to git of course but is nice to have consolidated there rather than in scratch</p>
+</blockquote>
+<p>could you keep data elsewhere on <code>/glade/work</code> and then softlink it in your git clone?</p>
+
+
+
+<a name="8073"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8073" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8073">(May 06 2020 at 21:08)</a>:</h4>
+<p>That's a good idea <span class="user-mention" data-user-id="10">@Michael Levy</span> . I'll just do a soft link into my repo. Thanks! Well, I'll check that pip doesn't try to copy that linked directory.</p>
+
+
+
+<a name="8074"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8074" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8074">(May 06 2020 at 21:09)</a>:</h4>
+<blockquote>
+<p>Well, I'll check that pip doesn't try to copy that linked directory.</p>
+</blockquote>
+<p>yeah, I don't know <code>pip</code> well enough to know what it'll do, but <span aria-label="fingers crossed" class="emoji emoji-1f91e" role="img" title="fingers crossed">:fingers_crossed:</span></p>
+
+
+
+<a name="8075"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8075" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8075">(May 06 2020 at 21:10)</a>:</h4>
+<p><del>Another solution is to edit your <code>MANIFEST.in</code> file and add the following line</del></p>
+<div class="codehilite"><pre><span></span>prune data*
+</pre></div>
+
+
+<p><del>I haven't tested this yet though</del></p>
+
+
+
+<a name="8076"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8076" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8076">(May 06 2020 at 21:14)</a>:</h4>
+<p>it does not work</p>
+
+
+
+<a name="8081"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8081" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8081">(May 06 2020 at 21:26)</a>:</h4>
+<p>Give <code>python setup.py install</code> a try</p>
+
+
+
+<a name="8082"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8082" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8082">(May 06 2020 at 21:27)</a>:</h4>
+<p>You may not need to move your <code>data</code> directory after all</p>
+
+
+
+<a name="8083"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8083" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8083">(May 06 2020 at 21:28)</a>:</h4>
+<p>I was thinking about that instead of pip! Will give that a try tomorrow and let you know.</p>
+
+
+
+<a name="8085"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8085" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8085">(May 06 2020 at 21:36)</a>:</h4>
+<p>I ended up going down a rabbit hole, and  I think it paid off... <span aria-label="grinning" class="emoji emoji-1f600" role="img" title="grinning">:grinning:</span>  </p>
+<p><strong>Good News</strong>:</p>
+<p>If you upgrade to <code>pip&gt;=20.1</code>, you should be good... It appears that this issue (<a href="https://github.com/pypa/pip/issues/2195" target="_blank" title="https://github.com/pypa/pip/issues/2195">https://github.com/pypa/pip/issues/2195</a>) was addressed in <a href="https://github.com/pypa/pip/pull/7882" target="_blank" title="https://github.com/pypa/pip/pull/7882">https://github.com/pypa/pip/pull/7882</a></p>
+
+
+
+<a name="8086"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8086" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8086">(May 06 2020 at 21:37)</a>:</h4>
+<p>I tested it, and here's what I got</p>
+
+
+
+<a name="8087"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8087" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8087">(May 06 2020 at 21:37)</a>:</h4>
+<div class="codehilite"><pre><span></span>real    0m4.362s
+user    0m1.857s
+sys 0m0.553s
+</pre></div>
+
+
+
+<a name="8088"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8088" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8088">(May 06 2020 at 21:38)</a>:</h4>
+<p>That's it for me for today <span aria-label="grinning" class="emoji emoji-1f600" role="img" title="grinning">:grinning:</span> .... I won't spam this stream/topic again at least for today...</p>
+
+
+
+<a name="8103"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyter/topic/slow%20pip%20install/near/8103" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="https://ncar.github.io/zulip-archive/stream/16-jupyter/topic/slow.20pip.20install.html#8103">(May 07 2020 at 14:00)</a>:</h4>
+<p>Works great, thanks so much <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>. The old update-the-package trick. Well, if you just do standard upgrade it only seems to go to 20.0.2 or so. So one does have to force <code>&gt;=20.1</code> in the conda environment.</p>
+<div class="codehilite"><pre><span></span>real    0m1.833s
+user    0m1.387s
+sys 0m0.388s
+</pre></div>
+
+
+
+<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
+</html></div>
