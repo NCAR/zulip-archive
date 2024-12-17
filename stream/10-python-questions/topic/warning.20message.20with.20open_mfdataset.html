@@ -1,0 +1,122 @@
+<html>
+<head><meta charset="utf-8"><title>warning message with open_mfdataset · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html">warning message with open_mfdataset</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="51823"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51823" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cecile Hannay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51823">(Mar 09 2022 at 21:29)</a>:</h4>
+<p>I am reading a variable: <br>
+<code>ref_t = xr.open_mfdataset(fils)['T'].sel(lat=lat, lon=lon).compute() </code><br>
+and I am getting teh warning: </p>
+<div class="codehilite"><pre><span></span><code>/glade/work/hannay/miniconda3/envs/python-tutorial/lib/python3.7/site-packages/xarray/backends/api.py:783: FutureWarning: In xarray version 0.13 `auto_combine` will be deprecated.
+  coords=coords)
+/glade/work/hannay/miniconda3/envs/python-tutorial/lib/python3.7/site-packages/xarray/backends/api.py:783: FutureWarning: The datasets supplied have global dimension coordinates. You may want
+to use the new `combine_by_coords` function (or the
+`combine=&#39;by_coords&#39;` option to `open_mfdataset` to order the datasets
+before concatenation. Alternatively, to continue concatenating based
+on the order the datasets are supplied in in future, please use the
+new `combine_nested` function (or the `combine=&#39;nested&#39;` option to
+open_mfdataset).
+  coords=coords)
+</code></pre></div>
+<p>I have tried to change the syntax  and use <code>combine='nested'</code> or <code>combine='by_coords'</code> but anything I try, I will get an error. </p>
+<p>Any advice? Thanks.</p>
+
+
+
+<a name="51826"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51826" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51826">(Mar 09 2022 at 21:35)</a>:</h4>
+<blockquote>
+<p>/glade/work/hannay/miniconda3/envs/python-tutorial/lib/python3.7/site-packages/xarray/backends/api.py:783: FutureWarning: In xarray version 0.13 <code>auto_combine</code></p>
+</blockquote>
+<p><code>xarray 0.13</code> is quite outdated (more than 2 years old). Have you considered upgrading to a more recent version?</p>
+
+
+
+<a name="51832"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51832" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cecile Hannay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51832">(Mar 09 2022 at 21:45)</a>:</h4>
+<p>Hi Anderson,<br>
+I can certainly update if I know how to do it and the scripts I am using still work. Sorry to be so clueless. Thanks a bunch.</p>
+
+
+
+<a name="51834"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51834" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51834">(Mar 09 2022 at 21:48)</a>:</h4>
+<p>Okay... In the meantime, we can try to diagnose the issue you are running into. Do you mind posting the full traceback/error message you are getting? I'm asking because your previous message contains <code>warnings</code> from xarray (Warnings are usually harmless) but you do mention that you are getting some <code>errors</code></p>
+
+
+
+<a name="51836"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51836" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cecile Hannay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51836">(Mar 09 2022 at 22:00)</a>:</h4>
+<p>I am not getting error with:<br>
+<code>ref_t = xr.open_mfdataset(fils)['T'].sel(lat=lat, lon=lon).compute() </code><br>
+Just warning. </p>
+<p>I get error when I try change the syntax to include <code>combine='nested'</code> but maybe I need to update xarray first.</p>
+
+
+
+<a name="51854"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51854" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cecile Hannay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51854">(Mar 10 2022 at 00:00)</a>:</h4>
+<p>I was able to solve my issue by doing:</p>
+<p>module unload python<br>
+module load conda<br>
+conda activate npl<br>
+python -m ipykernel install --user --name=my-ADF</p>
+
+
+
+<a name="51857"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51857" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cecile Hannay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51857">(Mar 10 2022 at 00:07)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> : I am just curious. Is there a way to check the version of xarray I am using with that setting. </p>
+<p>Also, I just want to mention a broken link. I was following documentation at: <br>
+<a href="https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment">https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment</a></p>
+<p>It says somewhere on that page:</p>
+<hr>
+<h1>Conda Environments on JupyterHub</h1>
+<p>The Computational and Information Systems Lab (CISL) at NCAR put together some <code>good documentation</code> on dealing with environments on Casper/Cheyenne</p>
+<hr>
+<p>But the link to  <code>good documentation</code> is not there anymore.  I thought I would mention it in case you want to fix it.</p>
+
+
+
+<a name="51858"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51858" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51858">(Mar 10 2022 at 00:16)</a>:</h4>
+<blockquote>
+<p>Is there a way to check the version of xarray I am using with that setting. </p>
+</blockquote>
+<p>Within your notebook, try the following </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="c1"># gets xarray version</span>
+
+<span class="c1"># or</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">show_versions</span><span class="p">())</span> <span class="c1"># outputs xarray version plus other related packages</span>
+</code></pre></div>
+
+
+
+<a name="51859"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51859" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51859">(Mar 10 2022 at 00:17)</a>:</h4>
+<blockquote>
+<p>Also, I just want to mention a broken link. I was following documentation at:<br>
+<a href="https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment">https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment</a><br>
+But the link to good documentation is not there anymore. I thought I would mention it in case you want to fix it.</p>
+</blockquote>
+<p>Good catch. That link has moved to <a href="https://arc.ucar.edu/knowledge_base/83853599">https://arc.ucar.edu/knowledge_base/83853599</a>.</p>
+
+
+
+<a name="51860"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/warning%20message%20with%20open_mfdataset/near/51860" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/warning.20message.20with.20open_mfdataset.html#51860">(Mar 10 2022 at 00:17)</a>:</h4>
+<p>I'm going to update that page</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

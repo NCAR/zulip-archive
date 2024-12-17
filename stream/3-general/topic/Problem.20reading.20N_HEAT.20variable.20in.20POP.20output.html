@@ -1,0 +1,73 @@
+<html>
+<head><meta charset="utf-8"><title>Problem reading N_HEAT variable in POP output · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html">Problem reading N_HEAT variable in POP output</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="53987"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/53987" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#53987">(Apr 21 2022 at 19:30)</a>:</h4>
+<p>Hi, </p>
+<p>I'm trying to read the N_HEAT variable from POP ocean output for the first time, and having an issue when specifying the transport region. The data looks fine when I choose transport_reg = 0 (global).  However, when I choose transport_reg (atlantic), all the data comes back as nans.  When I look at the file in ncview, I see some nan's (which I expected to see), but there are also actual data there as well that apparently aren't being read or detected. I have attached a screenshot showing a simple example of this.</p>
+<p>Does anyone have experience with reading N_HEAT and know how to get around this?<br>
+Thanks!</p>
+<p><a href="/user_uploads/2/5c/apHXx8ufK-BI_0zI_2seztU9/Screen-Shot-2022-04-21-at-12.23.46-PM-2.png">Screen-Shot-2022-04-21-at-12.23.46-PM-2.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/5c/apHXx8ufK-BI_0zI_2seztU9/Screen-Shot-2022-04-21-at-12.23.46-PM-2.png" title="Screen-Shot-2022-04-21-at-12.23.46-PM-2.png"><img src="/user_uploads/2/5c/apHXx8ufK-BI_0zI_2seztU9/Screen-Shot-2022-04-21-at-12.23.46-PM-2.png"></a></div>
+
+
+
+<a name="54004"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54004" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54004">(Apr 21 2022 at 21:24)</a>:</h4>
+<p>This is because the diffusion component is missing for the Atlantic region and so the "Total" component is also missing. The diffusion component is generally small, so a good approximation is to compute the total advection. This will yield a reasonable plot:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">N_HEAT</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">transport_reg</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">transport_comp</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="s1">'transport_comp'</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+<a name="54005"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54005" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54005">(Apr 21 2022 at 21:28)</a>:</h4>
+<p>Oh, excellent. Thanks for the explanation!</p>
+
+
+
+<a name="54006"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54006" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54006">(Apr 21 2022 at 22:24)</a>:</h4>
+<p>Actually, one follow-up... any idea why this component is missing? How worrisome is it that we don't know the diffusion component's contribution?</p>
+
+
+
+<a name="54013"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54013" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54013">(Apr 22 2022 at 01:55)</a>:</h4>
+<p>Or was this omission intentional for some reason?</p>
+
+
+
+<a name="54016"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54016" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54016">(Apr 22 2022 at 12:51)</a>:</h4>
+<p>I've forgotten why this component is missing. Perhaps <span class="user-mention" data-user-id="31">@Keith Lindsay</span> knows? I can also ask Gokhan when I get a chance.</p>
+
+
+
+<a name="54017"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54017" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54017">(Apr 22 2022 at 13:33)</a>:</h4>
+<p>There is a comment in the code that states</p>
+<div class="codehilite"><pre><span></span><code>!  - because southern boundary diffusive transports are not available,
+!    the total and diffusive transport components are not computed
+!    for regions.
+</code></pre></div>
+<p>This comment was last modified in March 2006. So it was either written then, or predates that. I think the meridional transport was written by Gokhan. I later wrote code to write out lateral diffusive tracer fluxes. This was added to the code in April 2010. It seems that one could have gone back and updated the meridional transport code to use the lateral diffusive tracers fluxes on the regional boundary, but this was never done.</p>
+
+
+
+<a name="54037"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Problem%20reading%20N_HEAT%20variable%20in%20POP%20output/near/54037" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Problem.20reading.20N_HEAT.20variable.20in.20POP.20output.html#54037">(Apr 22 2022 at 16:50)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="34">@Stephen Yeager</span> and <span class="user-mention" data-user-id="31">@Keith Lindsay</span> , this is good to know.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

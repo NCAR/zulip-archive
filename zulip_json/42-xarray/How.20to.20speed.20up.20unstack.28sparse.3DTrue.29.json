@@ -1,0 +1,92 @@
+[
+    {
+        "content": "<p>I have a large pandas MultiIndex (800,000 rows) that is taking a long time to unstack to sparse form.</p>\n<div class=\"codehilite\"><pre><span></span>### Preprocessing Steps for each input dataset before merge\ndef preprocess(ds):\n    &quot;&quot;&quot;Pare down each input dataset to a single variable.\n       The subsequent merge will eliminate unused coordinates automatically.\n\n        This function does not allow additional arguments, so the target\n        output variable needs to be defined globally in TARGET_VAR.\n    &quot;&quot;&quot;\n    drop_vars = [var for var in ds.data_vars\n                 if var != TARGET_VAR]\n\n    ds_fixed = ds.drop_vars(drop_vars)\n\n    lats = list(ds.pfts1d_lat.astype(&#39;float32&#39;).data)\n    lons = list(ds.pfts1d_lon.astype(&#39;float32&#39;).data)\n    vegtype = list(ds.pfts1d_itype_veg.data)\n    coltype = list(ds.pfts1d_itype_col.data)\n    lunittype = list(ds.pfts1d_itype_lunit.data)\n    active = list(ds.pfts1d_active.data)\n\n    # Redefine the &#39;pft&#39; dimension as a multi-index, which will increase the number of dimensions.\n    index = pd.MultiIndex.from_arrays([lats, lons, vegtype, coltype, lunittype, active],\n                                  names=(&#39;pftlat&#39;, &#39;pftlon&#39;, &#39;vegtype&#39;, &#39;coltype&#39;, &#39;lunittype&#39;, &#39;active&#39;))\n    ds_fixed[&#39;pft&#39;] = index\n\n\n    # Keep the data sparse if possible to avoid memory shortages.\n    ds_fixed = ds_fixed.unstack(sparse=True)\n    return ds_fixed\n</pre></div>\n\n\n<p>Does anyone know if there is a way to speed up unstack() with Dask?</p>",
+        "id": 36229,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625174852
+    },
+    {
+        "content": "<p>I should add that the source data comes from a Zarr store where I tried to chunk the 'pft' dimension (the one being unstacked) into chunks of 10,000 elements each.   I don't know if this helps or hurts.</p>",
+        "id": 36230,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625175471
+    },
+    {
+        "content": "<p>No. the fast way requires \"advanced indexing\" over multiple dimensions which is not supported by both dask and sparse. See discussion here: <a href=\"https://github.com/pydata/xarray/blob/c472f8a4c79f872edb9dcd7825f786ecb9aff5c0/xarray/core/dataset.py#L4129-L4152\" target=\"_blank\" title=\"https://github.com/pydata/xarray/blob/c472f8a4c79f872edb9dcd7825f786ecb9aff5c0/xarray/core/dataset.py#L4129-L4152\">https://github.com/pydata/xarray/blob/c472f8a4c79f872edb9dcd7825f786ecb9aff5c0/xarray/core/dataset.py#L4129-L4152</a></p>",
+        "id": 36231,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625175558
+    },
+    {
+        "content": "<p>Thanks for that info!  Much appreciated.</p>",
+        "id": 36232,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625175606
+    },
+    {
+        "content": "<p>One more related question: is it possible that chunking the \"pft\" dimension ahead of time just creates extra work for the unstack() operation?</p>",
+        "id": 36233,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625176095
+    },
+    {
+        "content": "<p>yes it's forced to take the slow path. You'll want to call <code>unstack</code> on a numpy-backed Xarray thing for max speed. You could use <code>xarray.map_blocks</code> for this as long as you're not chunked along <code>pft</code> You'll also want to pass only variables required by <code>preprocess</code> to the <code>map_blocks</code> call.</p>",
+        "id": 36236,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625176326
+    },
+    {
+        "content": "<p>Hi Deepak, </p>\n<p>I just want to make sure I followed your advice properly, but it looks like the slow behavior is unchanged with the following code.   Did I do anything wrong here?</p>\n<p>If there is any other way to produce sparse results that might be faster, I would be interested.   Otherwise, we may decide to wait on producing these variables for the cloud.   </p>\n<div class=\"codehilite\"><pre><span></span>def compute_index(ds):\n    &quot;&quot;&quot;Compute the transform from 1D to sparse 6D\n    &quot;&quot;&quot;\n    lats = list(ds.pfts1d_lat.astype(&#39;float32&#39;).data)\n    lons = list(ds.pfts1d_lon.astype(&#39;float32&#39;).data)\n    vegtype = list(ds.pfts1d_itype_veg.data)\n    coltype = list(ds.pfts1d_itype_col.data)\n    lunittype = list(ds.pfts1d_itype_lunit.data)\n    active = list(ds.pfts1d_active.data)\n\n    # Redefine the &#39;pft&#39; dimension as a multi-index, which will increase the number of dimensions.\n    index = pd.MultiIndex.from_arrays([lats, lons, vegtype, coltype, lunittype, active],\n                                  names=(&#39;pftlat&#39;, &#39;pftlon&#39;, &#39;vegtype&#39;, &#39;coltype&#39;, &#39;lunittype&#39;, &#39;active&#39;))\n\n    return index\n\ndef sparsify(chunk):\n    chunk = chunk.unstack(sparse=True)\n    return chunk\n\ndef preprocess(ds):\n    index = compute_index(ds)\n    ds[&#39;pft&#39;] = index\n\n    # Drop all but one PFT-related variable to make conversion faster\n    drop_vars = [var for var in ds.data_vars\n                 if var not in PFT_VARS]\n    ds = ds.drop_vars(drop_vars)\n\n    ds = ds.chunk(chunks={&quot;time&quot;: 100})\n\n   # I also tried loading the data to see if it could reduce what looks like pulling small chunks from disk.\n   #  ds = ds.load()\n    ds_fixed = xr.map_blocks(sparsify, ds)\n\n    return ds_fixed\n</pre></div>",
+        "id": 36312,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625231385
+    },
+    {
+        "content": "<p>I'm surprised you could do <code>map_blocks</code> without passing <code>template</code>. Does <code>ds_fixed</code> (before computing) look like what you expect? Is <code>compute_index</code> slow? Does it help to move <code>compute_index</code> in to the <code>sparsify</code> call?</p>",
+        "id": 36324,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625241091
+    },
+    {
+        "content": "<p><code>compute_index()</code> takes 3-4 minutes.  It appears that the call to <code>unstack()</code> is taking a long time (more than 3 hours for a single variable).   The dask task graphs look like they are processing one timestep at a time, despite my efforts to chunk the dataset along the time dimension.   When 50 workers are present, each worker cpu is at around 10%, which suggests to me that 90% of the time is spent waiting for values to come from disk.  Of course, I'm not fully confident that I'm seeing things correctly.</p>",
+        "id": 36329,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625242570
+    },
+    {
+        "content": "<p>I'm also not aware of how to check <code>ds_fixed</code>.   In the past when I tried putting in print statements in <code>preprocess()</code>, I was not getting anything printed.   Perhaps I should try again somehow?</p>",
+        "id": 36330,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625242713
+    },
+    {
+        "content": "<p>If you want to put <code>print</code> statements, use <code>.compute(scheduler=\"single-threaded\")</code> this will run it in serial. Otherwise, I think we should push this to the next office hours.</p>",
+        "id": 36331,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625242771
+    },
+    {
+        "content": "<p>Another possible explanation for the 10% cpu per worker is that the <code>unstack()</code> operation is being done serially, over a huge MultiIndex, and even with chunking in time, it is always going to be slow going through the MultiIndex in a serial way.   </p>\n<p>Perhaps <code>unstack()</code> would be much faster if we can pull the data into memory all at once?   I thought that <code>ds = ds.load()</code> just before the unstack would force this, but it doesn't seem to change the speed for <code>unstack()</code>.     Is this a possible issue to raise, or am I misunderstanding something?</p>",
+        "id": 36333,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625251687
+    },
+    {
+        "content": "<p>When you wrap a function in <code>map_blocks</code> , at compute-time that function will receive an xarray object with data loaded into memory. so in theory it's using the fast-path for numpy objects.</p>\n<p>You can test out the speed of unstacking by loading one timestep in to memory and profiling the <code>unstack</code> call.</p>",
+        "id": 36336,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1625252527
+    },
+    {
+        "content": "<p>After reducing to one timestep, I'm still getting the same dask pattern and speed.   Profile says that 96% of the time is spent in <code>compute_index()</code>.   Of that, 46% of the time is for <code>slice_array()</code> and the rest is for <code>factorize_for_iterables()</code>.   The code now looks like this, I hope I have done things correctly and the intent is obvious:</p>\n<div class=\"codehilite\"><pre><span></span>def preprocess(ds):\n    TARGET_CHUNKS = {&#39;time&#39;: 10}\n    PFT_VARS = [&#39;TLAI&#39;]\n\n    index = compute_index(ds)\n    ds[&#39;pft&#39;] = index\n\n    # Drop unneeded variables as soon as possible.\n    drop_vars = [var for var in ds.data_vars\n                 if var not in PFT_VARS]\n    ds = ds.drop_vars(drop_vars)\n\n    ds = ds.load()\n\n    ds = ds.chunk(chunks=TARGET_CHUNKS)\n\n    for var in PFT_VARS:\n        # Try limiting to one timestep.\n        ds[var] = ds[var].isel(time=0)\n        ds[var] = xr.map_blocks(sparsify, ds[var])\n\n    return ds\n</pre></div>",
+        "id": 36338,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625257382
+    },
+    {
+        "content": "<p>I think the profile results suggest that unstack() is looping over the MultiIndex and processing one element (of 800,000) at a time in order.</p>",
+        "id": 36339,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1625257696
+    }
+]

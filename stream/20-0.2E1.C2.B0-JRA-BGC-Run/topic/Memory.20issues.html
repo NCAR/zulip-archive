@@ -1,0 +1,70 @@
+<html>
+<head><meta charset="utf-8"><title>Memory issues · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html">Memory issues</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="10782"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10782" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10782">(Jun 08 2020 at 15:39)</a>:</h4>
+<p>I've run into my first set big issue with the high resolution run -- trying to use <code>shr_stream</code> to read the tracer restoring fields blows memory. I talked with <span class="user-mention" data-user-id="31">@Keith Lindsay</span> about it on Friday, and the best we can figure is that the share code reads the stream file on master task and then distributes it. From <code>cesm.log</code> in <code>/glade/scratch/mlevy/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.019/run</code>:</p>
+<div class="codehilite"><pre><span></span>828:MCT::m_AttrVect::init_: allocate() error, stat =41
+828:33C.MCT(MPEU)::die.: from MCT::m_AttrVect::init_()
+828:MPT ERROR: Rank 828(g:828) is aborting with error code 2.
+...
+828:MPT: #6  0x00000000010e6a2f in m_dropdead_mp_die__ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/externals/mct/mpeu/m_dropdead.F90:87
+828:MPT: #7  0x00000000010e5bff in m_die_mp_die2__ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/externals/mct/mpeu/m_die.F90:165
+828:MPT: #8  0x000000000106d57d in m_attrvect_mp_init__ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/externals/mct/mct/m_AttrVect.F90:346
+828:MPT: #9  0x000000000106d1c0 in m_attrvect_mp_initv__ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/externals/mct/mct/m_AttrVect.F90:434
+828:MPT: #10 0x000000000109b5d8 in m_generalgrid_mp_initgg__ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/externals/mct/mct/m_GeneralGrid.F90:853
+828:MPT: #11 0x0000000000dfba30 in shr_dmodel_mod_mp_shr_dmodel_readgrid_ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/share/streams/shr_dmodel_mod.F90:433
+828:MPT: #12 0x0000000000eae6d3 in shr_strdata_mod_mp_shr_strdata_init_streams_ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/share/streams/shr_strdata_mod.F90:480
+828:MPT: #13 0x0000000000eaa309 in shr_strdata_mod_mp_shr_strdata_create_oldway_ ()
+828:MPT:     at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/src/share/streams/shr_strdata_mod.F90:219
+828:MPT: #14 0x0000000000ac1582 in strdata_interface_mod_mp_pop_strdata_create_ ()
+828:MPT:     at /glade/scratch/mlevy/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.019/bld/ocn/source/strdata_interface_mod.F90:184
+828:MPT: #15 0x000000000095a1a4 in ecosys_forcing_mod_mp_ecosys_forcing_set_interior_time_varying_forcing_data_ ()
+828:MPT:     at /glade/scratch/mlevy/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.019/bld/ocn/source/ecosys_forcing_mod.F90:1576
+</pre></div>
+
+
+<p>There is an <code>allocate()</code> call in <a href="https://github.com/ESMCI/cime/blob/cime5.8.19/src/externals/mct/mct/m_AttrVect.F90#L345" target="_blank" title="https://github.com/ESMCI/cime/blob/cime5.8.19/src/externals/mct/mct/m_AttrVect.F90#L345"><code>m_AttrVect.F90</code></a> that is failing, and additional tests is showing that <code>nRA = 7 n = 535680000</code> (so <code>n = 3600*2400*62</code>). Working under the assumption that "just don't restore" is not a good plan, I think there are three paths forward:</p>
+<ol>
+<li>See if there's a way to parallelize the read in <code>shr_stream</code></li>
+<li>See if the CMEPS (formerly NUOPC, formerly ESMF) cap is available, and, if so, if it parallelizes this read</li>
+<li>Update <code>ecosys_forcing_mod.F90</code> in POP to allow restoring to a constant value, and compute average value over the marginal seas in the file we are currently trying to restore to</li>
+</ol>
+
+
+
+<a name="10783"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10783" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10783">(Jun 08 2020 at 15:45)</a>:</h4>
+<p>I meant to add that <code>aV%rAttr</code> is ~28 GB in size, and <code>allocate() error, stat =41</code> indicates <a href="https://software.intel.com/content/www/us/en/develop/documentation/fortran-compiler-developer-guide-and-reference/top/compiler-reference/error-handling/handling-run-time-errors/list-of-run-time-error-messages.html" target="_blank" title="https://software.intel.com/content/www/us/en/develop/documentation/fortran-compiler-developer-guide-and-reference/top/compiler-reference/error-handling/handling-run-time-errors/list-of-run-time-error-messages.html">"[i]nsufficient virtual memory"</a></p>
+
+
+
+<a name="10785"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10785" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10785">(Jun 08 2020 at 15:55)</a>:</h4>
+<p>Option 4. Don't apply the restoring. I think this is worth considering.</p>
+
+
+
+<a name="10794"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10794" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10794">(Jun 08 2020 at 20:02)</a>:</h4>
+<p>I asked about this on the CIME slack board, and Jim said "We are developing new esmf based data models with issues like this in mind.  Are you willing to try some bleeding edge code in your experiment?" That won't be available in 2.2.0, so I think proceeding without restoring for now and then trying the new infrastructure seems like a good path forward.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

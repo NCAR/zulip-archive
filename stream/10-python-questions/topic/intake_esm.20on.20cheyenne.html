@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>intake_esm on cheyenne · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html">intake_esm on cheyenne</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html">intake_esm on cheyenne</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="3794"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3794" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3794">(Mar 18 2020 at 21:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3794" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3794">(Mar 18 2020 at 21:01)</a>:</h4>
 <p>I'm having an issue getting CESM-Le data to load using intake_esm on Cheyenne, it works fine on Casper but currently overwhelmed; can't get nodes on casper <br>
 Some issue with the json file accessing the data </p>
 <blockquote>
@@ -69,7 +69,7 @@ No such file or directory: b'/glade/campaign/cesm/collections/cesmLE/CESM-CAM5-B
 
 
 <a name="3801"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3801" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3801">(Mar 18 2020 at 21:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3801" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3801">(Mar 18 2020 at 21:13)</a>:</h4>
 <p>catalog = intake.open_esm_datastore('/glade/work/mlevy/intake-esm-collection/json/glade-cesm1-le.json')</p>
 <p>lens_temp = catalog.search(experiment='20C',component='ocn', variable=['TEMP'], member_id=1)</p>
 <p>def preprocess(ds):<br>
@@ -81,16 +81,16 @@ No such file or directory: b'/glade/campaign/cesm/collections/cesmLE/CESM-CAM5-B
 
 
 <a name="3804"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3804" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3804">(Mar 18 2020 at 21:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3804" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3804">(Mar 18 2020 at 21:22)</a>:</h4>
 <p><span class="user-mention" data-user-id="35">@Precious Mongwe</span>, it looks like you are attempting to access a file that is on campaign storage. Campaign storage is only accessible from casper or globus. You cannot access it directly from cheyenne (unless you're using globus).</p>
 
 
 
 <a name="3806"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3806" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3806">(Mar 18 2020 at 21:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20on%20cheyenne/near/3806" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Precious Mongwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20on.20cheyenne.html#3806">(Mar 18 2020 at 21:23)</a>:</h4>
 <p>Noted, Thanks Keith</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

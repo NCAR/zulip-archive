@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Trying to use intake for pretty much the first time and getting the error below. I think I have pretty much reproduced this example <a href=\"https://ncar.github.io/esds/posts/2021/kay-et-al-cesm2-le/?highlight=intake%20cesm\">https://ncar.github.io/esds/posts/2021/kay-et-al-cesm2-le/?highlight=intake%20cesm</a> but am getting the following error message.<br>\nIs it package incompatibility as I have just installed intake.</p>\n<p>Cheers<br>\nRich</p>\n<hr>\n<p>KeyError                                  Traceback (most recent call last)<br>\n/glade/work/rneale/python/miniconda3/envs/neale_myenv/lib/python3.8/site-packages/intake/__init__.py in __getattr__(attr)<br>\n     60     try:<br>\n---&gt; 61         return gl[attr]<br>\n     62     except KeyError:</p>\n<p>KeyError: 'open_esm_datastore'</p>\n<p>During handling of the above exception, another exception occurred:</p>\n<p>AttributeError                            Traceback (most recent call last)<br>\n/glade/scratch/rneale/ipykernel_206413/457533812.py in &lt;module&gt;<br>\n----&gt; 1 catalog = intake.open_esm_datastore(<br>\n      2     '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>\n      3 )<br>\n      4 catalog</p>\n<p>/glade/work/rneale/python/miniconda3/envs/neale_myenv/lib/python3.8/site-packages/intake/__init__.py in __getattr__(attr)<br>\n     61         return gl[attr]<br>\n     62     except KeyError:<br>\n---&gt; 63         raise AttributeError(attr)<br>\n     64 <br>\n     65 </p>\n<p>AttributeError: open_esm_datastore</p>",
+        "id": 52062,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1647272428
+    },
+    {
+        "content": "<p>It’s looks like it is saying it can’t find <code>intake-esm</code> in your Python environment.</p>",
+        "id": 52063,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1647272522
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"137\">@Rich Neale</span> -- to expand on <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span>'s comment, you need to install both <code>intake</code> and <code>intake-esm</code> in your environment. Even though there is no direct <code>import</code> statement to use it, without <code>intake-esm</code> installed the <code>intake.open_esm_datastore()</code> function won't be available</p>",
+        "id": 52069,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1647275180
+    },
+    {
+        "content": "<p>(Thanks, <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>!)</p>",
+        "id": 52070,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1647275209
+    },
+    {
+        "content": "<p>Oh great, missed that, thanks both!</p>",
+        "id": 52071,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1647276262
+    }
+]

@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I am working on a Linux workstation (not HPC) so tend to use Python's multiprocessing module frequently. Recently I encountered an error I do not understand, when passing a Dataset object to a function being called via <code>multiprocessing.Pool</code>. What's more interesting, is that if I subset the Dataset (via <code>isel</code> or <code>sel</code>, or by subsetting by passing a single variable like <code>ds[['variable']]</code>) prior to passing to the function, I do not get the error.</p>\n<p>Here is some pseudocode:</p>\n<div class=\"codehilite\"><pre><span></span><code>def calc_nearest_stat(ds,stat_name):\n  return(ds.where(ds.mask&gt;0).max(dim=[&#39;x0&#39;,&#39;y0&#39;,&#39;z0&#39;]).to_dataframe())\n\ndef preprocess(ds):\n  ds = ds.drop_vars(&#39;z1&#39;)\n  return(ds)\n\nncfiles = glob.glob(&#39;/path/to/files/*.nc&#39;)\ndatasets = [xr.open_mfdataset(f,preprocess=preprocess) for f in ncfiles]\nmp = multiprocessing.Pool(20)\nresults = mp.starmap(calc_nearest_stat,[(ds,&#39;max&#39;) for ds in datasets])\n</code></pre></div>\n<p>The error:</p>\n<div class=\"codehilite\"><pre><span></span><code>  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/multiprocessing/pool.py&quot;, line 372, in starmap\n    return self._map_async(func, iterable, starmapstar, chunksize).get()\n  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/multiprocessing/pool.py&quot;, line 771, in get\n    raise self._value\n  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/multiprocessing/pool.py&quot;, line 537, in _handle_tasks\n    put(task)\n  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/multiprocessing/connection.py&quot;, line 211, in send\n    self._send_bytes(_ForkingPickler.dumps(obj))\n  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/multiprocessing/reduction.py&quot;, line 51, in dumps\n    cls(buf, protocol).dump(obj)\nAttributeError: Can&#39;t pickle local object &#39;open_mfdataset.&lt;locals&gt;.multi_file_closer&#39;\n</code></pre></div>\n<p>If I alter the Dataset object in any manner it works fine. For example, the line using <code>mp.starmap</code> works if I do this:</p>\n<div class=\"codehilite\"><pre><span></span><code>results = mp.starmap(calc_nearest_stat,[(ds.isel(x0=10,y0=20),&#39;max&#39;) for ds in datasets])\n</code></pre></div>\n<p>or</p>\n<div class=\"codehilite\"><pre><span></span><code>results = mp.starmap(calc_nearest_stat,[(ds[[&#39;var_name&#39;]],&#39;max&#39;) for ds in datasets])\n</code></pre></div>\n<p>My main question, is whether there is a way to pass the Dataset as is, but without the <code>multi_file_closer</code> object attached to it, without modifying the Dataset via subsetting? I could get around this by using <code>open_dataset</code> instead of <code>open_mfdataset</code> I suppose, but I like the functionality of <code>preprocess</code> so that's why I chose <code>open_mfdataset</code>.</p>\n<p>Thank you!</p>",
+        "id": 65169,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1664481698
+    },
+    {
+        "content": "<p>Can you post this on the Xarray issue tracker please? This seems like a bug.</p>",
+        "id": 65170,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1664482108
+    },
+    {
+        "content": "<p>Just to confirm you mean here: <a href=\"https://github.com/pydata/xarray/issues\">https://github.com/pydata/xarray/issues</a>? Sure thing, thank you <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> !</p>",
+        "id": 65171,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1664484354
+    },
+    {
+        "content": "<p>Yes. thanks</p>",
+        "id": 65172,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1664484565
+    },
+    {
+        "content": "<p>For reference: <a href=\"https://github.com/pydata/xarray/issues/7109\">https://github.com/pydata/xarray/issues/7109</a></p>",
+        "id": 65175,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1664505868
+    }
+]

@@ -1,0 +1,164 @@
+[
+    {
+        "content": "<p>Hi all, I am not sure who to contact about this, but could we please add <code>intake</code> to the maintained NPL environment(s)? It seems a fairly standard package if you are dealing with CESM output.</p>",
+        "id": 83282,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687389063
+    },
+    {
+        "content": "<p>Great idea <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> ! There is some information <a href=\"https://arc.ucar.edu/knowledge_base/83853599\">here</a> on the NPL update schedule, and I'm thinking that submitting a <a href=\"https://ithelp.ucar.edu/plugins/servlet/desk/site/rc\">research computing help ticket</a> is probably the best way to get <code>intake</code> on their radar and into the next released version.</p>",
+        "id": 83304,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1687450676
+    },
+    {
+        "content": "<p>Thanks for the pointers <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span>, I'll go ahead and submit a ticket!</p>",
+        "id": 83306,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687451305
+    },
+    {
+        "content": "<p>Just checked with Ben Kirk, and the tickets (<a href=\"http://help.ucar.edu\">help.ucar.edu</a>) are the best way of new packages at the moment</p>",
+        "id": 83352,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1687460071
+    },
+    {
+        "content": "<p>We are adding <code>intake</code> and <code>intake-esm</code> to NPL, but the best way for now is creating a new ticket with RC and pursue that. I created a ticket on this today morning. </p>\n<p>In future we are going to update this to a Github repository, so new requests can come through the Github issues. (But not implemented now).</p>",
+        "id": 83388,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687464450
+    },
+    {
+        "content": "<blockquote>\n<p>In future we are going to update this to a Github repository, so new requests can come through the Github issues.</p>\n</blockquote>\n<p>That would be perfect!</p>",
+        "id": 83389,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1687464662
+    },
+    {
+        "content": "<p>We have added <code>intake</code>, <code>intake-esm</code>, <code>intake-xarray</code>, and <code>flox</code> to the base environment. <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> and <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span></p>",
+        "id": 83408,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687469270
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> !</p>",
+        "id": 83409,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1687469286
+    },
+    {
+        "content": "<p>That's fantastic, thanks <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> !!</p>",
+        "id": 83411,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687470408
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span>  I can open a new ticket but wanted to make mention of this here -- <code>intake</code> is hanging , i.e. not working with the NPL environment right now. I tested with <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  and for her it's the same, the NPL environment doesn't work but her own environment is able to process the cells fairly quickly.  I can point you to the yml she installed from (and I am trying to install from right now) if it's of any use.</p>",
+        "id": 83621,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687545444
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> ,  Thanks for raising this issue. I have just tested the <code>npl-2023a</code> (which is the latest NPL flavor) and it seems like that the <code>intake</code> package works. Can you please let me know which environment you use for this? </p>\n<div class=\"codehilite\"><pre><span></span><code>import intake\ncatalog_url = &#39;https://ncar-cesm-lens.s3-us-west-2.amazonaws.com/catalogs/aws-cesm1-le.json&#39;\ncol = intake.open_esm_datastore(catalog_url)\ncol\n</code></pre></div>",
+        "id": 83924,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687810335
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> , this also works for me, the line that is hanging is this after having created a catalogue: </p>\n<div class=\"codehilite\"><pre><span></span><code>%%time\ncatalog = intake.open_esm_datastore(\n    &#39;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json&#39;)\ncatalog.df.experiment.unique()\n</code></pre></div>\n<p>works, </p>\n<div class=\"codehilite\"><pre><span></span><code>%%time\nvar = [&#39;TEMP&#39;,&#39;SALT&#39;]\n# get the historical\nsubset_hist = catalog.search(component=&#39;ocn&#39;,\n                        variable=var,\n                        experiment=&#39;historical&#39;,\n                        forcing_variant=&#39;cmip6&#39;)\n</code></pre></div>\n<p>works, but </p>\n<div class=\"codehilite\"><pre><span></span><code>%%time\nwith dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: True}):\n    dsets = subset_hist.to_dataset_dict(preprocess=preprocess)\n</code></pre></div>\n<p>hangs. it seems to actually open the data, i can see dask processes moving, but it never completes the cell. note that I tried with different definitions for preprocessing and it didn't work for either, but the same command runs fine in my personal environment.<br>\nThanks for looking into it!</p>",
+        "id": 83925,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687810508
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> This looks like an issue with Dask rather than intake. But please let me take a closer look at this.</p>",
+        "id": 83926,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687810905
+    },
+    {
+        "content": "<p>Oh yeah that makes sense! There have been other issues with dask too, it would be great to get to the bottom of this. Thanks!</p>",
+        "id": 83927,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687810965
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> , Interestingly when I explore other catalogs this environment works without any issues with Dask. But with this catalog, I am experiencing an issue similar to what you reports and Dask workers are stay idle. </p>\n<p>Here is an example that works fine with npl-2023a +dask : </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">intake</span>\n<span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"kn\">from</span> <span class=\"nn\">dask_jobqueue</span> <span class=\"kn\">import</span> <span class=\"n\">PBSCluster</span>\n<span class=\"kn\">from</span> <span class=\"nn\">dask.distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n\n<span class=\"c1\"># Create a PBS cluster object</span>\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">PBSCluster</span><span class=\"p\">(</span>\n    <span class=\"n\">job_name</span> <span class=\"o\">=</span> <span class=\"s1\">'dask-wk23-hpc'</span><span class=\"p\">,</span>\n    <span class=\"n\">cores</span> <span class=\"o\">=</span> <span class=\"mi\">1</span><span class=\"p\">,</span>\n    <span class=\"n\">memory</span> <span class=\"o\">=</span> <span class=\"s1\">'4GiB'</span><span class=\"p\">,</span>\n    <span class=\"n\">processes</span> <span class=\"o\">=</span> <span class=\"mi\">1</span><span class=\"p\">,</span>\n    <span class=\"n\">local_directory</span> <span class=\"o\">=</span> <span class=\"s1\">'/local_scratch/pbs.$PBS_JOBID/dask/spill'</span><span class=\"p\">,</span>\n    <span class=\"n\">resource_spec</span> <span class=\"o\">=</span> <span class=\"s1\">'select=1:ncpus=1:mem=4GB'</span><span class=\"p\">,</span>\n    <span class=\"n\">queue</span> <span class=\"o\">=</span> <span class=\"s1\">'casper'</span><span class=\"p\">,</span>\n    <span class=\"n\">walltime</span> <span class=\"o\">=</span> <span class=\"s1\">'30:00'</span><span class=\"p\">,</span>\n    <span class=\"n\">interface</span> <span class=\"o\">=</span> <span class=\"s1\">'ib0'</span>\n<span class=\"p\">)</span>\n\n\n<span class=\"n\">catalog_url</span> <span class=\"o\">=</span> <span class=\"s1\">'https://ncar-cesm-lens.s3-us-west-2.amazonaws.com/catalogs/aws-cesm1-le.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_url</span><span class=\"p\">)</span>\n<span class=\"n\">col</span>\n\n<span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n<span class=\"n\">client</span>\n\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"mi\">4</span><span class=\"p\">)</span>\n\n<span class=\"n\">client</span><span class=\"o\">.</span><span class=\"n\">wait_for_workers</span><span class=\"p\">(</span><span class=\"mi\">4</span><span class=\"p\">)</span>\n\n<span class=\"n\">col_subset</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">frequency</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s2\">\"daily\"</span><span class=\"p\">,</span> <span class=\"s2\">\"monthly\"</span><span class=\"p\">],</span> <span class=\"n\">component</span><span class=\"o\">=</span><span class=\"s2\">\"atm\"</span><span class=\"p\">,</span> <span class=\"n\">variable</span><span class=\"o\">=</span><span class=\"s2\">\"TREFHT\"</span><span class=\"p\">,</span>\n                        <span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s2\">\"20C\"</span><span class=\"p\">,</span> <span class=\"s2\">\"RCP85\"</span><span class=\"p\">,</span> <span class=\"s2\">\"HIST\"</span><span class=\"p\">])</span>\n\n<span class=\"n\">col_subset</span>\n\n<span class=\"n\">dsets</span> <span class=\"o\">=</span> <span class=\"n\">col_subset</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">()</span>\n<span class=\"n\">dsets</span>\n</code></pre></div>\n<p>So I think the problem is either with the catalog or some other packages missing that is required for transforming the data. Can you please confirm that the catalog works with another environment? I am still looking at this to find out what is causing this issue.</p>",
+        "id": 83985,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687817408
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> , yes this catalogue works with other environments. I could point you to an example environment file that I know it works with if that's helpful?</p>",
+        "id": 83988,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687818860
+    },
+    {
+        "content": "<p>Yes , <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> , Can you please point me to the exact code and environment where this works?</p>",
+        "id": 83991,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687825032
+    },
+    {
+        "content": "<p>When I try reading in a subset of data it worked without any issue with two workers in <code>npl-2023a</code>.<br>\n Please feel free to try it: </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">catalog_url</span> <span class=\"o\">=</span> <span class=\"s1\">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_url</span><span class=\"p\">)</span>\n<span class=\"n\">col</span>\n\n<span class=\"c1\"># get the historical</span>\n<span class=\"n\">col_subset</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">component</span><span class=\"o\">=</span><span class=\"s2\">\"ocn\"</span><span class=\"p\">,</span> <span class=\"n\">variable</span><span class=\"o\">=</span><span class=\"s2\">\"TEMP\"</span><span class=\"p\">,</span>\n                        <span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"s2\">\"historical\"</span><span class=\"p\">,</span> <span class=\"n\">forcing_variant</span><span class=\"o\">=</span><span class=\"s1\">'cmip6'</span><span class=\"p\">,</span><span class=\"n\">member_id</span><span class=\"o\">=</span><span class=\"s1\">'r1i1001p1f1'</span><span class=\"p\">)</span>\n\n<span class=\"k\">with</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">(</span><span class=\"o\">**</span><span class=\"p\">{</span><span class=\"s1\">'array.slicing.split_large_chunks'</span><span class=\"p\">:</span> <span class=\"kc\">True</span><span class=\"p\">}):</span>\n    <span class=\"n\">dsets</span> <span class=\"o\">=</span> <span class=\"n\">col_subset</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">()</span>\n</code></pre></div>",
+        "id": 83992,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687825515
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> , can you do the same for two variables?  I don't know the syntax in the block of code above to modify it to two variables, will it be <code>variable=['TEMP', 'SALT']</code>? Also do you think it works better with less workers (you mention two)? I will need more than two workers to eventually do anything with the dataset, but I guess I could load it with 2 and then <code>cluster.scale(12)</code>?</p>",
+        "id": 83996,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687878032
+    },
+    {
+        "content": "<p>also do you still need the environment since it's working for you now?</p>",
+        "id": 83997,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687878238
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> , if you use the list (i.e. ['TEMP','SALT'] ) instead of 'TEMP' this should work too.<br>\n I have tested the following (adding SALT) and it worked fine. I am using 8 dask workers and overall I usually set the number of dask workers based on the memory/CPU needs of a notebook. </p>\n<p>Here is my code: </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">catalog_url</span> <span class=\"o\">=</span> <span class=\"s1\">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_url</span><span class=\"p\">)</span>\n<span class=\"c1\"># get the historical</span>\n<span class=\"n\">col_subset</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">component</span><span class=\"o\">=</span><span class=\"s2\">\"ocn\"</span><span class=\"p\">,</span> <span class=\"n\">variable</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'TEMP'</span><span class=\"p\">,</span><span class=\"s1\">'SALT'</span><span class=\"p\">],</span>\n                        <span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"s2\">\"historical\"</span><span class=\"p\">,</span> <span class=\"n\">forcing_variant</span><span class=\"o\">=</span><span class=\"s1\">'cmip6'</span><span class=\"p\">,</span><span class=\"n\">member_id</span><span class=\"o\">=</span><span class=\"s1\">'r1i1001p1f1'</span><span class=\"p\">)</span>\n<span class=\"k\">with</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">(</span><span class=\"o\">**</span><span class=\"p\">{</span><span class=\"s1\">'array.slicing.split_large_chunks'</span><span class=\"p\">:</span> <span class=\"kc\">True</span><span class=\"p\">}):</span>\n    <span class=\"n\">dsets</span> <span class=\"o\">=</span> <span class=\"n\">col_subset</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">()</span>\n</code></pre></div>\n<p>Please note that I am still reading in a subset (2%) of the data ( see the <code>member_id</code>argument) and it takes a few minutes to complete. <br>\nI am wondering if you can point me to the environment that you used that read in the data quickly. <br>\nThanks!<br>\nNegin</p>",
+        "id": 84431,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1687984004
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> ! The environment file is here: <code>/glade/u/home/deppenme/analysis6_versions.yml</code></p>",
+        "id": 84436,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687984895
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> , Thanks for sending the environment.<br>\nI did several different test with this catalogue and it seems like althought the Dask workers are not hung, they are extremely slow. I cannot see high CPU or mem usage on any workers. But for example reading in half of your data took ~32 minutes on 60+ workers. </p>\n<p>Can you please confirm that how much memory do you typically request for the main server you start up (if it's a login server, you'd get 4 GB)? Although I don't think this is causing the issue for you. As I have already tested with higher memory and did not see any improvement. </p>\n<p>I am currently testing your environment to see if I can reproduce your result in loading the dataset quickly as you mentioned earlier. If that is not the case, we can rule out that the source of this issue is the <code>npl</code> environment and look at diagnosing this.</p>",
+        "id": 84543,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1688066219
+    },
+    {
+        "content": "<p>Hi Negin, I request a large amount of memory when I log in, something between 40 and 100GB and I log in via jupyterhub on the acasper PBS system rather than the login node</p>",
+        "id": 84544,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1688066311
+    },
+    {
+        "content": "<p>Good to know. Thanks for confirming that. As we suspect this issue is probably different from what <span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> is experiencing.</p>",
+        "id": 84545,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1688066405
+    },
+    {
+        "content": "<p>ok</p>",
+        "id": 84546,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1688066420
+    },
+    {
+        "content": "<p>I can confirm that your environment is loading half dataset on the same number of workers in 8 seconds! </p>\n<p>The issue might be due to some incompatibility between <code>intake</code> and <code>dask</code> versions. For reference, I am putting the versions of both environments here:</p>\n<p>npl-2023a:</p>\n<div class=\"codehilite\"><pre><span></span><code>dask                      2022.10.0\nintake                    0.7.0\nintake-esm                2023.6.14\nxarray                    2023.1.0\n</code></pre></div>\n<p>analysis6: </p>\n<div class=\"codehilite\"><pre><span></span><code>dask                      2021.11.2\nintake                    0.6.7\nintake-esm                2021.8.17\nxarray                    0.20.2\n</code></pre></div>",
+        "id": 84548,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1688067199
+    }
+]

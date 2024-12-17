@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hopefully this is an easy question for someone to answer! I'm trying to run just the timeseries generation in CUPiD, and just for atm files (for testing). I naively thought that commenting out everything else in examples/coupled_model/config.yml<br>\nwould work but I get an error referencing the ocean_surface</p>\n<blockquote>\n<p>PermissionError: [Errno 13] Permission denied: '/glade/scratch'</p>\n<p>ploomber.exceptions.TaskBuildError: Error when executing task<br>\n'ocean_surface'. Partially executed notebook available at<br>\n/glade/u/home/bundy/cam/diag/cupid/CUPiD.main/examples/coupled_model/computed_notebooks/quick-run/ocean_surface.ipynb<br>\nploomber.exceptions.TaskBuildError: Error building task \"ocean_surface\"</p>\n</blockquote>\n<p>Thanks for any insight!</p>",
+        "id": 97720,
+        "sender_full_name": "Dani Coleman",
+        "timestamp": 1712870911
+    },
+    {
+        "content": "<p>Hi Dani, Just as a first check, were you running with the <code>--time-series</code> (or <code>-ts</code>) flag? If so, the timeseries generation should occur <em>before</em> running through any notebooks. For the time being, if you wanted to run timeseries for just one component, you could also update the list of components which timeseries are run for in <a href=\"https://github.com/NCAR/CUPiD/blob/bf65cdd79ad0c4e6b9a1396a4dee2465f9b3bc40/cupid/run.py#L54\"><code>run.py</code></a>. The notebooks shouldn't be executing until after that point (see <a href=\"https://github.com/NCAR/CUPiD/blob/bf65cdd79ad0c4e6b9a1396a4dee2465f9b3bc40/cupid/run.py#L75\">here</a>). One other note-- <a href=\"https://github.com/NCAR/CUPiD/pull/88\">Lev's PR</a> is going to be changing how we call notebooks (and possibly timeseries generation) for either all or a single component.</p>",
+        "id": 97761,
+        "sender_full_name": "Teagan King",
+        "timestamp": 1712953129
+    },
+    {
+        "content": "<p>I was wondering if this issue is tied to <a href=\"https://github.com/NCAR/CUPiD/issues/36\">https://github.com/NCAR/CUPiD/issues/36</a> -- <span class=\"user-mention\" data-user-id=\"311\">@Lev Romashkov</span> would know more, but I thought there were sometimes conflicts in <code>cupid-run</code> due to mismatches between the jupyter book settings and the <code>compute_notebook</code> section of config.</p>",
+        "id": 97773,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1712956401
+    },
+    {
+        "content": "<p>No pressure to respond over the weekend of course, but I'll give my two cents for now - since Ploomber is throwing the issue I don't think it's the jupyter book stuff referenced in that issue causing the problem, but I don't know for sure without more info. Dani, could you DM me your version of the config.yml file whenever you get around to it?</p>",
+        "id": 97781,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1713037677
+    }
+]

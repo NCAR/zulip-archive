@@ -1,0 +1,194 @@
+[
+    {
+        "content": "<p>In yesterday's call, we discussed extending the JRA-forced hindcasts that <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> has been running, possibly with changes in the ice albedo settings. </p>\n<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> and <span class=\"user-mention\" data-user-id=\"115\">@Marika Holland</span>, let us know when you have these available.  </p>\n<p>I think we are otherwise poised to continue these experiments.</p>",
+        "id": 16762,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1599156485
+    },
+    {
+        "content": "<p>I'm going to have a chat (either this afternoon or tomorrow morning) with Yu-Chiao Liang (WHOI) who successfully implemented sea-ice nudging in fully-coupled CESM2. So, if we could hold off a bit...</p>",
+        "id": 16768,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1599157522
+    },
+    {
+        "content": "<p>Sounds good. Just closing the loop on our conversation so we can move forward when ready.</p>",
+        "id": 16770,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1599157975
+    },
+    {
+        "content": "<p>Do we have sea ice diagnostics for this run? If not, can you point me to the case so I can run them? I need to assess where the sea ice is at before suggesting tuning.</p>",
+        "id": 16775,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1599161967
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> can point you to the data.</p>",
+        "id": 16778,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1599162391
+    },
+    {
+        "content": "<p>There are two JRA-forced hindcast runs that are possibilities. Here are the paths to the output data:</p>\n<p>One with the standard 3 phytoplankton functional types: <code>/glade/scratch/kristenk/archive/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005</code></p>\n<p>And another with 4 phytoplankton functional types: <code>/glade/scratch/kristenk/archive/g.e22b05.G1850ECOIAF_JRA.TL319_g17.cocco.001</code></p>",
+        "id": 16780,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1599162622
+    },
+    {
+        "content": "<p>These both currently have 2 JRA cycles.</p>",
+        "id": 16781,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1599162679
+    },
+    {
+        "content": "<p>Ok. Here are the sea ice diagnostics for the end of the second cycle. The ice is definitely too thin here. I will confer with Marika.</p>\n<p><a href=\"http://webext.cgd.ucar.edu/GIAF/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005/ice/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005-obs/yrs1-122/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005/ice/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005-obs/yrs1-122/\">http://webext.cgd.ucar.edu/GIAF/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005/ice/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005-obs/yrs1-122/</a></p>",
+        "id": 16792,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1599166963
+    },
+    {
+        "content": "<p>Where are the case directories for these? I want to see where the sea ice tunings are set currently.</p>",
+        "id": 16793,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1599167130
+    },
+    {
+        "content": "<p>Here is the case directory for the 005 case:<br>\n<code>/glade/work/kristenk/cesm_work/cesm2.2_tunings_v2_cases/g.e22b05.G1850ECOIAF_JRA.TL319_g17.005</code></p>",
+        "id": 16794,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1599167232
+    },
+    {
+        "content": "<p>and for the other case:<br>\n<code>/glade/work/kristenk/cesm_work/cesm2.2_tunings_v2_cases/g.e22b05.G1850ECOIAF_JRA.TL319_g17.cocco.001</code></p>",
+        "id": 16795,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1599167276
+    },
+    {
+        "content": "<p>Great. Thanks.</p>",
+        "id": 16796,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1599167288
+    },
+    {
+        "content": "<p>Just sent an invite for a zoom next week to discuss possible sensitivity tests branched from Kristen's runs to improve sea ice thickness. Candidate mods are:  high latitude forcing tweaks, strong SST/SSS restoring under sea ice, ice albedo changes, combinations of above.</p>",
+        "id": 16860,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1599249099
+    },
+    {
+        "content": "<p>Is one of Kristen's two cases preferred for branching from for sea-ice sensitivity experiments?</p>",
+        "id": 17103,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1599683402
+    },
+    {
+        "content": "<p>Perhaps just use the 3 PFT one since there are less tracers and I don't think that the sea ice would differ much. So the <code>g.e22b05.G1850ECOIAF_JRA.TL319_g17.005</code> case.</p>",
+        "id": 17109,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1599684288
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> what should albedo settings be for albedo sensitivity run?</p>",
+        "id": 17160,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1599752083
+    },
+    {
+        "content": "<p>Marika and I are discussing this in about 20 minutes.</p>",
+        "id": 17163,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1599752568
+    },
+    {
+        "content": "<p>r_snw = 1.6<br>\ndt_mlt = 0.5<br>\nrsnw_mlt = 1000.</p>\n<p>We are still working on forcing modifications. I am willing to do that run.</p>",
+        "id": 17170,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1599757965
+    },
+    {
+        "content": "<p>To update everyone, Who Kim is going to run 2 cycles of JRA55-do from state of rest using what we think will be our final modified configuration to improve sea ice:  ice albedo changes + strong SST restoring under ice. He'll run it with the retuned kappa. Hopefully we can set up a meeting at end of the week to discuss next steps (moving forward with BGC FOSI for SMYLE).</p>",
+        "id": 19368,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1602623916
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>, The results from this run will not be available until early next week since I cannot start this run until Thursday due to the maintenance of Cheyenne.</p>",
+        "id": 19370,
+        "sender_full_name": "Who Kim",
+        "timestamp": 1602628850
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> <span class=\"user-mention\" data-user-id=\"51\">@Who Kim</span>  I'd be happy to chat about Who's runs next week although my schedule is pretty full</p>",
+        "id": 19401,
+        "sender_full_name": "Marika Holland",
+        "timestamp": 1602701466
+    },
+    {
+        "content": "<p>I'm on target to start the 6th cycle of the JRA FOSI experiment fro SMYLE tonight. I'd like to confirm that I'm setup to generate all ocn/ice restart files needed for SMYLE. It looks like the CSL proposal calls out initializing SMYLE over years 1970-2019, though there is also mention of extensions to pre-1970 start dates. In what forcing year should I start generating monthly restart files?</p>",
+        "id": 20888,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1604513998
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>.  I would save monthly restarts for the entire 6th cycle (1958-2019).  We are also thinking of introducing ocean spread by starting SMYLE hindcasts from lagged ocean states (say, first 5 days of a month, rather than 0Z at 1st of the month). This is probably too complicated to accomplish in your 6th cycle on the first go, but we may want to go back to rerun 5 or 10 day segments of the 6th cycle to save these additional restarts.</p>",
+        "id": 20896,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1604517534
+    },
+    {
+        "content": "<p>Diagnostics from the FOSI experiment for generating SMYLE ICs are now online:<br>\n<a href=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ocn/diag_work.347-366/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ocn/diag_work.347-366/\">popdiag</a><br>\n<a href=\"http://webext.cgd.ucar.edu/GIAF/g.e21.GOMIPECOIAF_JRA.TL319_g17.CMIP6-omip2.001/ocn/diag_work.347-366/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/g.e21.GOMIPECOIAF_JRA.TL319_g17.CMIP6-omip2.001/ocn/diag_work.347-366/\">popdiag for CESM2 OMIP2 (JRA)</a><br>\n<a href=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ocn/adhoc_ts/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ocn/adhoc_ts/\">pop adhoc_ts</a> (005 is SMYLE FOSI run, 004 is like 005, except for 1850 aerosol dep)<br>\n<a href=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ice/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005-obs/yrs1-366/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ice/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005-obs/yrs1-366/\">icediag vs obs</a><br>\n<a href=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ice/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005-g.e21.GOMIPECOIAF_JRA.TL319_g17.CMIP6-omip2.001/yrs1-366/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005/ice/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005-g.e21.GOMIPECOIAF_JRA.TL319_g17.CMIP6-omip2.001/yrs1-366/\">icediag vs CESM2 OMIP2 (JRA)</a></p>",
+        "id": 21569,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1605587531
+    },
+    {
+        "content": "<p>Excellent!  Thanks Keith.  Shall we all have a look at these diagnostics and meet to discuss?</p>",
+        "id": 21616,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1605635998
+    },
+    {
+        "content": "<p>Where can we find the monthly POP/CICE output from SMYLE FOSI as well as CESM2 OMIP to perform some other diagnostic analysis?</p>",
+        "id": 21658,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1605652989
+    },
+    {
+        "content": "<p>SMYLE FOSI info<br>\nCASE=g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005<br>\nCASEROOT=/glade/work/klindsay/cesm22_cases/SMYLE/$CASE<br>\nDOUT_S_ROOT=/glade/scratch/klindsay/archive/$CASE</p>\n<p>I don't think the monthly history files for the CESM2 OMIP2 epxeriment exist any more.<br>\nSingle variable timeseries files from the CESM2 OMIP2 experiment are in the directory<br>\n/glade/collections/cdg/timeseries-cmip6/$CASE/ocn/proc/tseries/month_1<br>\nCASE=g.e21.GOMIPECOIAF_JRA.TL319_g17.CMIP6-omip2.001</p>",
+        "id": 21705,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1605657680
+    },
+    {
+        "content": "<p>Hi all, here are some BGC diagnostics for the SMYLE-FOSI (mean over the 6th  IAF cycle):<br>\n<a href=\"https://nbviewer.jupyter.org/github/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/smyle_omip_diagnostics/MARBL_diagnostic_hist_3PFT.SMYLE-fosi.ipynb\" target=\"_blank\" title=\"https://nbviewer.jupyter.org/github/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/smyle_omip_diagnostics/MARBL_diagnostic_hist_3PFT.SMYLE-fosi.ipynb\">https://nbviewer.jupyter.org/github/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/smyle_omip_diagnostics/MARBL_diagnostic_hist_3PFT.SMYLE-fosi.ipynb</a></p>\n<p>...and a similar notebook for the CESM2 OMIP run for comparison:<br>\n<a href=\"https://nbviewer.jupyter.org/github/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/Biological_diagnostics_OMIP-CESM2.ipynb\" target=\"_blank\" title=\"https://nbviewer.jupyter.org/github/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/Biological_diagnostics_OMIP-CESM2.ipynb\">https://nbviewer.jupyter.org/github/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/Biological_diagnostics_OMIP-CESM2.ipynb</a></p>",
+        "id": 21892,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1605901342
+    },
+    {
+        "content": "<p>SMYLE-FOSI data have been archived on campaign at:<br>\n/glade/campaign/cesm/development/espwg/SMYLE/SMYLE-FOSI/<br>\nThis includes:  spinup restart files, POP/CICE history outputs from cycle 6</p>\n<p>Cycle 6 restarts to be used for SMYLE are on glade here:<br>\n/glade/p/cesm/espwg/CESM2-SMYLE/initial_conditions/pop_cice</p>",
+        "id": 23041,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1607982808
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> SMYLE_FOSI cycle 6 currently extends through 2018 (sim-year 0366). We'd like to extend this through 2020 (and even into 2021) using near real-time updated JRA55-do forcing. Would be good to discuss prior to the April 23 ESP meeting.</p>",
+        "id": 28897,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1617889817
+    },
+    {
+        "content": "<p>I apologize for not getting back to you on SMYLE questions.</p>\n<p>Extending the SMYLE FOSI runs seems doable, with some nml changes. The only code change I'm seeing that might be necessary at this point is increasing the number of years for forcing timeseries extrapolation, currently 4, for cfc's. The cfc timeseries file ends at 2015.5. So we'll need to either extend the dataset or allow the code to extrapolate more than 4 years.</p>\n<p>I'll look into availability of an extension of the cfc dataset. Unfortunately, the DOE site, CDIAC, that hosted the data was cancelled by DOE in 2017 (that was sad), and the PMEL scientist, John Bullister, that collated the cfc obs passed away in 2018 (that was really sad). But maybe it lives on elsewhere.</p>\n<p>How recent do we have JRA forcing?</p>",
+        "id": 28971,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1617914598
+    },
+    {
+        "content": "<p>Thanks Keith. We have official JRA55-do through 2020, and we have the capacity to push JRA55-do_beta up to real time (within a week or so). So far, SMYLE is looking promising, and we'll probably want to extend our May 1st start hindcast set up through 5/1/2021 to generate an actual forecast of 2022 conditions (in time for a reveal at the CESM workshop?).</p>",
+        "id": 28998,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1617930535
+    }
+]

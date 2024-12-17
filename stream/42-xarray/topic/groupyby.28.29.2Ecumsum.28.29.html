@@ -1,0 +1,47 @@
+<html>
+<head><meta charset="utf-8"><title>groupyby().cumsum() · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/groupyby.28.29.2Ecumsum.28.29.html">groupyby().cumsum()</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="31579"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/groupyby%28%29.cumsum%28%29/near/31579" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/groupyby.28.29.2Ecumsum.28.29.html#31579">(May 17 2021 at 16:01)</a>:</h4>
+<p>I'm trying to generate annual timeseries with the cumulative sum of daily runoff from the CESM2-LE.<br>
+This must be a common task, but the code below overload memory.  Is there a more memory efficient way to try this?</p>
+<p>ds.QRUNOFF.groupby('time.year').apply(<br>
+    lambda x: x.cumsum(dim='time')).compute()</p>
+
+
+
+<a name="31587"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/groupyby%28%29.cumsum%28%29/near/31587" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/groupyby.28.29.2Ecumsum.28.29.html#31587">(May 17 2021 at 16:53)</a>:</h4>
+<p>I also found this thread on github <span class="user-mention" data-user-id="25">@Deepak Cherian</span>,   but I can't tell if the issue has been fixed? <a href="https://github.com/pydata/xarray/issues/3141" target="_blank" title="https://github.com/pydata/xarray/issues/3141">https://github.com/pydata/xarray/issues/3141</a></p>
+
+
+
+<a name="31636"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/groupyby%28%29.cumsum%28%29/near/31636" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/groupyby.28.29.2Ecumsum.28.29.html#31636">(May 18 2021 at 01:52)</a>:</h4>
+<p>It's still open so it hasn't been fixed. </p>
+<p>I would do </p>
+<div class="codehilite"><pre><span></span><span class="c1"># calculate full cumsum</span>
+<span class="n">cumsum</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">QRUNOFF</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="c1"># may need xr.cftime_range intead</span>
+<span class="n">year_start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">&quot;31-Dec-year0&quot;</span><span class="p">,</span> <span class="s2">&quot;31-Dec-year1&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+<span class="c1"># index out values at the end of each year and move them to start of the next year</span>
+<span class="n">values_year_start</span> <span class="o">=</span> <span class="n">cumsum</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">year_start</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+<span class="n">values_year_start</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>  <span class="o">=</span> <span class="n">value_year_start</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">&quot;1D&quot;</span><span class="p">)</span>
+<span class="c1"># reindex to full time vector by forward filling</span>
+<span class="n">reindexed</span> <span class="o">=</span> <span class="n">values_year_start</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">cumsum</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;ffill&quot;</span><span class="p">)</span>
+<span class="c1"># get result</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">cumum</span> <span class="o">-</span> <span class="n">reindexed</span>
+</pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,188 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , there is some interest from our NSF project in running FEISTY on the high res model. We could potentially just do the California Current System if that helps with reducing post-processing the high res outputs and storage space.</p>",
+        "id": 52790,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1648507075
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , Sure, this sounds great. I think I could try preparing FEISTY fields globally, but if it gets to be too much, I could subset the california current region. What hi res simulation were you thinking of using? The JRA-forced one (currently 34 years, 1958 to 1991)?</p>",
+        "id": 52797,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1648559890
+    },
+    {
+        "content": "<p>yes, the JRA run</p>",
+        "id": 52829,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1648568672
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>. Piers called me today wanting the output of FEISTY forced by the high res model for the NSF convergence accelerator CATCH website and the prototype demonstration. I think the deadline may be Apr 28th? Is there any chance of getting the outputs post-processed by the end of this week? Subsetting the California Current region might be easiest. If not, don't hesitate to let me know and I will tell Piers that it is not possible. </p>\n<p>Ideally it would be good to have the high res FEISTY runs completed in time for creating figures for the proposal, which is due May 25th.</p>",
+        "id": 53856,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1650410183
+    },
+    {
+        "content": "<p>This should be relatively straightforward. I think you and Kristen were already working on it.</p>",
+        "id": 53858,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1650410244
+    },
+    {
+        "content": "<p>*thought</p>",
+        "id": 53859,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1650411684
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>  Sorry I didn't realize there was a close deadline for this. I will get going on this today and hopefully have the post-processed output by the end of the week. I'll keep you updated.</p>",
+        "id": 53865,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1650459460
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>, I suggest running the process on a (generous) CCS subset first</p>",
+        "id": 53866,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1650459525
+    },
+    {
+        "content": "<p>No worries, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> . The deadline was not clear to me before either.</p>",
+        "id": 53905,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1650475993
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , I've processed hi res output for FEISTY for the California current region. It's here: <code>/glade/work/kristenk/fish-offline/g.e22.G1850ECO_JRA_HR.TL319_t13.004.FIESTY-forcing_hiresJRA_CAcurr.nc</code></p>\n<p>Two things to note: <br>\n1) all means and depth integrals are over the top 100m (rather than the top 150m). This is because the zoo_loss variable was only output for this hi-res model run as a depth integral over the top 100m, so I just did the same with the other variables to be consistent. <br>\n2) there are explicit coccolithophores in this simulation so I added this as an additional biomass variable to the output file. You will need to consider this in your calculation of \"mesozoo\" biomass.  </p>\n<p>Please let me know if you have any questions. I'm also happy to make this type of FEISTY input file for other regions, just let me know :)</p>",
+        "id": 53965,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1650556816
+    },
+    {
+        "content": "<p>Thanks so much, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ! In your opinion (or in your 4P-4Z version), would coccos be a prey item for mesozooplankton?</p>",
+        "id": 53990,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1650571242
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , I think of coccos as in the transition between small phytoplankton and diatoms - some are quite large, some are small. They can be eaten by copepods (e.g., see <a href=\"https://www.nature.com/articles/s41598-018-28073-x\">https://www.nature.com/articles/s41598-018-28073-x</a>) and also by microzooplankton (e.g., see <a href=\"https://www.sciencedirect.com/science/article/pii/S0079661117301593\">https://www.sciencedirect.com/science/article/pii/S0079661117301593</a>). Perhaps you can count around half or maybe 75% of cocco biomass going towards mesozooplankton partitioning?</p>",
+        "id": 54003,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1650576076
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , I also need the bottom depth of each grid cell (HT?). The file you created has KMT, which might have been accidentally saved instead of depth.</p>",
+        "id": 54362,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1651105901
+    },
+    {
+        "content": "<p>Good morning, <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , oh I didn't know you needed that. I found a function for calculating HT in one of Matt's notebooks and added it to my hi-res processing notebook. Now the netcdf should also contain HT: <code>/glade/work/kristenk/fish-offline/g.e22.G1850ECO_JRA_HR.TL319_t13.004.FIESTY-forcing_hiresJRA_CAcurr.nc</code></p>",
+        "id": 54382,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1651154521
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , I transferred 10 years (1964 to 1973) of FEISTY input variables from the hi-res run on Frontera to Cheyenne here: <code>/glade/scratch/kristenk/hi-res-feisty-inputs/</code></p>\n<p>Each monthly timeseries file is 1 year long.</p>\n<p>There are the variables:<br>\n• <code>mesozooC_zint_100m_2</code> (just ignore the 2 in the name, as it's to differentiate it from the daily variable)<br>\n• <code>mesozoo_loss_zint_100m</code><br>\n• <code>pocToFloor</code><br>\n• <code>TEMP_BOTTOM</code><br>\n• <code>TEMP_mean_100m</code></p>\n<p>Please let me know if I'm missing anything. I'll keep putting more files in this directory as the run progresses... thanks!!</p>",
+        "id": 62358,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1661286230
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>, we should perhaps move to campaign. </p>\n<p>Also, can you point <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> to output from the 1° integration</p>",
+        "id": 62943,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1661974047
+    },
+    {
+        "content": "<p>or maybe <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span> has already done this?</p>",
+        "id": 62945,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1661974087
+    },
+    {
+        "content": "<p>Yes I think that <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span> already put the first ~18 years if tseries files on campaign, which includes FEISTY vars: <code>/glade/campaign/collections/cmip/CMIP6/iHESP/FOSI_BGC/HR/g.e22.TL319_t13.G1850ECOIAF_JRA_HR.4p2z.001</code></p>",
+        "id": 62947,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1661974337
+    },
+    {
+        "content": "<p>Hello, I have transferred a 1° companion to the hi-res run to campaign. This simulation has 2 zooplankton and was forced by JRAv1.5 over the period 1958 to 2021. There are both daily and monthly variables for inputs into FEISTY. The run is located here:</p>\n<p><code>/glade/campaign/cesm/development/bgcwg/projects/CESM2-OMIP2-like-4p2z-run/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.001branch</code></p>\n<p>The above run was branched off a 5 IAF cycle spin up (forcing is JRAv1.3, 1958 to 2018), output is here:<br>\n<code>/glade/campaign/cesm/development/bgcwg/projects/CESM2-OMIP2-like-4p2z-run/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.001</code> The spin up does not have FEISTY input variables, as I did this one before Mike and I had those code changes incorporated.</p>",
+        "id": 66065,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1665587000
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , are the paths above the correct place to find the high-res output and the 1 degree companion run?</p>",
+        "id": 82413,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1686160123
+    },
+    {
+        "content": "<p>Hey Colleen, actually the hi res run was moved here: <code>/glade/campaign/cgd/oce/projects/FOSI_BGC/HR/g.e22.TL319_t13.G1850ECOIAF_JRA_HR.4p2z.001</code></p>\n<p>... and I recently re-ran the 1 degree companion because to better match the hi res run (with some better sea ice parameters and to match the riverine BGC runoff that was implemented in the hi res). The new run is still in my scratch space, here: <code>/glade/scratch/kristenk/archive/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch</code></p>",
+        "id": 82414,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1686160377
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> . It looks like the FEISTY forcing variables are integrated 0-150 m in the HR, but 0-100 m in the LR.</p>",
+        "id": 82729,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1686686755
+    },
+    {
+        "content": "<p>Hi Colleen, yes I was just seeing that for some reason I didn't get the daily feisty forcing for this new run. I will have to re-do the simulation... but in the meantime, you can use this one <code>/glade/campaign/cesm/development/bgcwg/projects/CESM2-OMIP2-like-4p2z-run/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.001branch</code></p>",
+        "id": 82731,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1686688184
+    },
+    {
+        "content": "<p>I appear to not have permission for that one, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span></p>",
+        "id": 82732,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1686692367
+    },
+    {
+        "content": "<p>Ok, yep permissions on campaign are rather strict. I'll look into getting you permissions, but in the meantime I put the files you need to force feisty here: <code>/glade/scratch/kristenk/for_Colleen</code></p>",
+        "id": 82733,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1686692938
+    },
+    {
+        "content": "<p>Thank you! Please let me know when the new version with vint-150m is ready.</p>",
+        "id": 82738,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1686700958
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , the new run is done. Daily output (150m means/zint) that is ready for FEISTY can be found here:<br>\n<code>/glade/scratch/kristenk/archive/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch/ocn/proc/tseries/day_1</code></p>\n<p>files:<br>\n<code>g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch.pop.h.ecosys.nday1.mesozooC_zint_150m.19580101-20211231.nc</code><br>\n<code>g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch.pop.h.ecosys.nday1.mesozoo_loss_zint_150m.19580101-20211231.nc</code><br>\n<code>g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch.pop.h.ecosys.nday1.TEMP_mean_150m.19580101-20211231.nc</code><br>\n<code>g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch.pop.h.ecosys.nday1.TEMP_BOTTOM_2.19580101-20211231.nc</code><br>\n<code>g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.4p2z.002branch.pop.h.ecosys.nday1.pocToFloor_2.19580101-20211231.nc</code></p>",
+        "id": 83916,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1687805992
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> . I got those files. We had also talked about saving the mesozooplankton quadratic mortality loss in the one degree run to see if we needed that from the high res also. Did you do that?</p>",
+        "id": 85198,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1688675960
+    },
+    {
+        "content": "<p>No unfortunately I don't think we got the code changes done that would be necessary to output mesozoo quadratic mortality ... I can speak with Mike about it , though and perhaps we could rerun the 1° then...</p>",
+        "id": 85199,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1688676299
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> I'm around this week and then gone for the next two -- happy to chat about adding the quadratic mortality term either in the next few days or in August</p>",
+        "id": 85328,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1689007422
+    },
+    {
+        "content": "<p>Hey Mike, thanks! I'm pretty swamped this week so let's plan on doing this at the beginning of August ...</p>",
+        "id": 85329,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1689007522
+    }
+]

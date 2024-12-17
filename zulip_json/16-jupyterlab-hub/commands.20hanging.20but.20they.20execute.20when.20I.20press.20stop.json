@@ -1,0 +1,176 @@
+[
+    {
+        "content": "<p>Hello, <br>\nI've been experiencing some weird behavior on jupyterhub since the updates.  I've been finding that even fairly basic commands are hanging for ages, perhaps forever - I haven't let it get complete.  When I press the stop button, they finish executing and they appear to do it successfully.  For example, I will plot a plot, and it'll just hang there looking like it's working away for way longer than it should.  I press stop and then the plot appears.  Is anyone experiencing similar issues?<br>\nThanks,<br>\nIsla</p>",
+        "id": 94329,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1705177654
+    },
+    {
+        "content": "<p>Just adding another issue that I'm finding since the updates.  Often when I execute cells the jupyterhub interface jumps around to some other cell such that you lose track of where you are in your code.  I know that I'm not the only one who is experiencing this particular problem since the updates.  But I'm not sure if others are experiencing the same problem as I am encountering above.</p>",
+        "id": 94330,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1705337505
+    },
+    {
+        "content": "<p>I think I'm seeing the skipping around behaviour as well, very confusing</p>",
+        "id": 94389,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1705425917
+    },
+    {
+        "content": "<p>I'm also seeing some weird behavior</p>",
+        "id": 94391,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1705426561
+    },
+    {
+        "content": "<p>Some more weird behavior to add to the list is that I don't seem to be able to undo anything.</p>",
+        "id": 94392,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1705426980
+    },
+    {
+        "content": "<p>and when I try to stop a cell that would have executed two steps it seems that it only stops the first step and then goes through with the second in that cell.</p>",
+        "id": 94418,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1705434628
+    },
+    {
+        "content": "<p>and it might be executing more than one cell though it does not show that it has finished executing the first cell. e.g. i am currenlty trying to load some data, I have four cells that each load one specific field. I started executing all of them, I saw the apporpriate workers on the dask panel. now it seems to be loading the data from the second cell that I am trying to execute, but it does not indicate that it is done with the first one.</p>",
+        "id": 94419,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1705434734
+    },
+    {
+        "content": "<p>Thanks all - and thanks to Isla for pinging me in the NHUG meeting on these issues. I think we'll work these as a ticket for HPCD tracking, but I'll forward the reports to Jared immediately to get eyes on it.</p>",
+        "id": 94421,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1705436399
+    },
+    {
+        "content": "<p>Same issues on my end too, though they come and go randomly on my end...</p>",
+        "id": 94436,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1705446326
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"45\">Isla Simpson</span> <a href=\"#narrow/stream/16-jupyterlab-hub/topic/commands.20hanging.20but.20they.20execute.20when.20I.20press.20stop/near/94329\">said</a>:</p>\n<blockquote>\n<p>Hello, <br>\nI've been experiencing some weird behavior on jupyterhub since the updates.  I've been finding that even fairly basic commands are hanging for ages, perhaps forever - I haven't let it get complete.  When I press the stop button, they finish executing and they appear to do it successfully.  For example, I will plot a plot, and it'll just hang there looking like it's working away for way longer than it should.  I press stop and then the plot appears.  Is anyone experiencing similar issues?<br>\nThanks,<br>\nIsla</p>\n</blockquote>\n<p>I noticed similar behavior before the update. The cell would hang, the kernel activity/progress circle would indicate it was busy. It would slowly empty the progress circle on its own, but if I pressed the stop button, it would empty faster--one little pie piece at a time. It seemed like the more CPUs I used, the more times I had to press the stop button.</p>",
+        "id": 94483,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1705514620
+    },
+    {
+        "content": "<p>another (more minor) degradation, tab completion for file paths (as strings) used to work really nicely for me and now is not very useful</p>",
+        "id": 94527,
+        "sender_full_name": "Daniel Kennedy",
+        "timestamp": 1705523796
+    },
+    {
+        "content": "<p>I'm was having similar, but not exactly the same issues with very slow dask/xarray commands after the JHub updates. For example a notebook that I ran before the update would now take 10x as long to execute, and the dask dashboard seemed to indicate tasks been executed repeatedly (or not \"lazy\"). This appears to be resolved with a fresh environment install, so I suspect for me it might have been the version of dask/xarray (or something else) in my old environment didn't play nicely with something about the updated JHub.</p>",
+        "id": 94554,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705534242
+    },
+    {
+        "content": "<p>Thanks for that data point Katie. We're still looking into things and trying to find patterns, so that type of information is very useful.</p>\n<p><span class=\"user-mention\" data-user-id=\"120\">@Daniel Kennedy</span> - that might be tied to some lab extension that has changed. We'll look into it, but at lower priority than the slowdowns and other strange cell behavior. Thanks for the heads up!</p>",
+        "id": 94555,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1705535162
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> are you saying you created a fresh environment? I am experiencing problems similar to what you have described. So far, I've updated all packages and shut down/restart the server and my laptop, but to no avail.</p>",
+        "id": 94556,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1705535410
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> yes a fresh environment. I also used the CISL supported versions of conda/mamba this time instead of my personal miniconda install (not sure if that made a difference, but just in case!)</p>",
+        "id": 94576,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705595234
+    },
+    {
+        "content": "<p>I also am using a fresh environment but it doesn't seem to help. how did you use the CISL supported version of conda/mamba? I tried installing the env using mamba but it looks like it still was placed in my miniconda</p>",
+        "id": 94577,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1705597581
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"257\">@Adrianna Foster</span> try <code>module load conda</code> and then check <code>which conda</code> before creating the environment. it should not point to your personal miniconda</p>",
+        "id": 94578,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705597935
+    },
+    {
+        "content": "<p>Hey all - it's still unclear to me why this only happens intermittently, but I have come to suspect that a particular JupyterLab extension may be causing the strange behavior with Dask when using Xarray objects. The \"variableinspector\" extension allows you to look at variable values in the GUI. This extension was installed before the Hub upgrade too,  but we are using a newer version that added support for Xarray.</p>\n<p>Variable inspectors have been known to break lazy evaluation (e.g., PyCharm can do this...). So far in my testing turning this extension off has eliminated the problem for me, but I'd love to get some more data points before we make any global changes.</p>\n<p>So if you are seeing issues with Dask notebooks, I encourage you to turn this extension off and report back your findings. You can turn it off by starting a terminal in a Hub session and running:</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>jupyter labextension disable --level<span class=\"o\">=</span>user @lckr/jupyterlab_variableinspector\n</code></pre></div>\n<p>Extensions don't turn on/off without reloading JupyterLab, so you will then need to terminate your running server and start a new server before the extension is turned off.</p>\n<p>Thanks for your patience as we work though issues!</p>",
+        "id": 94683,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1705681757
+    },
+    {
+        "content": "<p>Hi Brian, I tried this but I'm getting </p>\n<p>Unrecognized alias: '--level=user', it will probably have no effect.</p>\n<p>I'll continue assuming this doesn't matter and test it.</p>",
+        "id": 94685,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1705682553
+    },
+    {
+        "content": "<p>I tried after doing this and I'm still having the issue that it won't execute the cell until I press stop.  However, I'm unsure whether the labextension disable command has been executed properly because of the issue I mentioned above.</p>",
+        "id": 94690,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1705685756
+    },
+    {
+        "content": "<p>I am about to try this - but I also wanted to note that I keep getting this error message (and it's happening over and over again in the cell), i'm not sure if this is related or not or just something weird I am doing...</p>\n<div class=\"codehilite\"><pre><span></span><code>Task exception was never retrieved\nfuture: &lt;Task finished name=&#39;Task-434389&#39; coro=&lt;Client._gather.&lt;locals&gt;.wait() done, defined at /glade/work/afoster/conda-envs/ml_analysis/lib/python3.11/site-packages/distributed/client.py:2208&gt; exception=AllExit()&gt;\nTraceback (most recent call last):\n  File &quot;/glade/work/afoster/conda-envs/ml_analysis/lib/python3.11/site-packages/distributed/client.py&quot;, line 2217, in wait\n    raise AllExit()\ndistributed.client.AllExit\nTask exception was never retrieved\nfuture: &lt;Task finished name=&#39;Task-413222&#39; coro=&lt;Client._gather.&lt;locals&gt;.wait() done, defined at /glade/work/afoster/conda-envs/ml_analysis/lib/python3.11/site-packages/distributed/client.py:2208&gt; exception=AllExit()&gt;\nTraceback (most recent call last):\n  File &quot;/glade/work/afoster/conda-envs/ml_analysis/lib/python3.11/site-packages/distributed/client.py&quot;, line 2217, in wait\n    raise AllExit()\ndistributed.client.AllExit\n</code></pre></div>",
+        "id": 94718,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1705696277
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"257\">@Adrianna Foster</span> - I'm not sure that the error is caused by this, but the fact that it happens repeatedly might be triggered by the extension. Let's see how things work for you once the extension is off and if the error remains, hopefully it will be easier to debug.</p>",
+        "id": 94719,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1705696818
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> it didn't seem to stop that error message unfortunately, and I'm still getting the weird behavior</p>",
+        "id": 94725,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1705702439
+    },
+    {
+        "content": "<p>I'm actually noticing now that the whole page seems to freeze and/or crash when stuff like this happens</p>",
+        "id": 94726,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1705702474
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> I'm wondering if you pinned any packages in your environment update? I tried to update my environment and am finding that dask is either extremely slow or unresponsive with v2024.1.0 (for both xarray and dask).</p>",
+        "id": 94760,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1705955246
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> I didn't specify any package versions in my new environment except asking for <code>python=3.11</code>. It looks like it installed dask v2024.1.0. I didn't have any issues initially, but given <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>'s comment above it might be worth checking that labextension if the issues persist.</p>",
+        "id": 94761,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705956146
+    },
+    {
+        "content": "<p>However I just noticed the xarray version I have installed is 2023.12.0. It looks like I just missed the <a href=\"https://docs.xarray.dev/en/stable/whats-new.html#v2024-01-0-17-jan-2024\">latest version v2024.01.0</a> which came out on Jan 17, so that could be a difference.</p>",
+        "id": 94762,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705956254
+    },
+    {
+        "content": "<p>You can check <code>jupyter labextension list</code> to check if the extension is on or off.</p>",
+        "id": 94794,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1705958911
+    },
+    {
+        "content": "<p>Quick update - we've disabled the variableinspector extension for all users. You can still optionally enable it if you like it, but since it impacts Dask behavior when using Xarray, it wasn't tenable to keep it on by default.</p>\n<p>We've also had a few users ask about disabling the LSP/linter that underlines code and adds other IDE-type behaviors. This one is more subjective so it's not clear whether it makes sense to set it off by default, but if you wish to disable it entirely, you can do so by running:</p>\n<div class=\"codehilite\"><pre><span></span><code>jupyter labextension disable --level=user @jupyter-lsp/jupyterlab-lsp\n</code></pre></div>\n<p>This will again require a restart of your JupyterHub server for it to take effect.</p>",
+        "id": 94834,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1706032959
+    }
+]

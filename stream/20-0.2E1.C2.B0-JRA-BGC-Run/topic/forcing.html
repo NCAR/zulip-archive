@@ -1,0 +1,143 @@
+<html>
+<head><meta charset="utf-8"><title>forcing · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html">forcing</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="11473"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11473" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11473">(Jun 16 2020 at 13:17)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span></p>
+<p>I have some forcing files in hand that I think I am happy with.</p>
+<ol>
+<li><code>feventflux_input%filename = '/glade/work/mclong/cesm_inputdata/feventflux_5gmol_POP_tx0.1v3.c200616.nc'</code></li>
+<li><code>fesedflux_input%filename = '/glade/work/mclong/cesm_inputdata/fesedflux_total_reduce_oxic_POP_tx0.1v3.c200616.nc'</code></li>
+<li><code>riv_flux_shr_stream_file = '/glade/work/mclong/cesm_inputdata/riv_nut.gnews_gnm.JRA025m_to_tx0.1v3_nnsm_e333r100_190226.20200616.nc'</code></li>
+</ol>
+
+
+
+<a name="11474"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11474" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11474">(Jun 16 2020 at 13:25)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> Awesome, I'll get them into inputdata and fire off a run. Thanks!</p>
+
+
+
+<a name="11477"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11477" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11477">(Jun 16 2020 at 14:19)</a>:</h4>
+<p>I'm getting <code>NaN</code>s in iron, possibly from the sediment flux file? My test ran in <code>/glade/scratch/mlevy/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.022/run</code> and caseroot is <code>/glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/tests/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.022</code>:</p>
+<div class="codehilite"><pre><span></span>4099:  open_ocean_volume_2_km       1.361132666438881E+24
+4099:  rf_volume_2_km               2.357816520390610E+24
+4099: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(
+4099:        2726 ,        1889 ,           1 )
+4099: (lon,lat)=(   163.117107990667      ,   62.2284853109204      )
+...
+4099: Fe   9.921742583549502E-004                       NaN
+...
+4099: Iron Sediment Flux
+4099:                     NaN
+4099: delta_z =    1000.00000000000
+4099:------------------------------------------------------------------------
+4099:
+4099:POP aborting...
+4099: Stopping in ecosys_driver:ecosys_driver_set_interior
+4099:
+4099:------------------------------------------------------------------------
+</pre></div>
+
+
+
+<a name="11478"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11478" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11478">(Jun 16 2020 at 14:19)</a>:</h4>
+<p>It's happening at several points, and as far as I can tell they are all at the surface</p>
+
+
+
+<a name="11485"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11485" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11485">(Jun 16 2020 at 15:10)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>, I'll fix this. Thanks for checking.</p>
+
+
+
+<a name="11486"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11486" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11486">(Jun 16 2020 at 15:10)</a>:</h4>
+<p>Actually, I wonder if the problem is the land mask in <code>feventflux_5gmol_POP_tx0.1v3.c200616.nc</code>; it looks like it's 38% land at the surface, which seems high:</p>
+<div class="codehilite"><pre><span></span>&gt;&gt;&gt; import xarray as xr
+&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt; ds = xr.open_dataset(&#39;feventflux_5gmol_POP_tx0.1v3.c200616.nc&#39;)
+&gt;&gt;&gt; np.sum(np.isnan(ds.isel(z_t=0)[&#39;FESEDFLUXIN&#39;]).data)/(3600*2400)
+0.3825826388888889
+</pre></div>
+
+
+
+<a name="11491"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11491" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11491">(Jun 16 2020 at 15:14)</a>:</h4>
+<p>I think that's just the land mask:<br>
+<a href="/user_uploads/2/c9/gi7JzEx5cSSFMgXyhhZbeWzj/pasted_image.png" target="_blank" title="pasted_image.png">Fe vent flux</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/c9/gi7JzEx5cSSFMgXyhhZbeWzj/pasted_image.png" target="_blank" title="Fe vent flux"><img src="/user_uploads/2/c9/gi7JzEx5cSSFMgXyhhZbeWzj/pasted_image.png"></a></div>
+
+
+
+<a name="11495"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11495" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11495">(Jun 16 2020 at 15:15)</a>:</h4>
+<p>I am creating a new file right now</p>
+
+
+
+<a name="11503"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11503" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11503">(Jun 16 2020 at 15:23)</a>:</h4>
+<p>Something is wrong...I am applying <code>fillna</code> and everything is reasonable until I write out the dataset and read it back in. Somehow I am getting -Inf's....  I'll sort it out...hopefully quickly.</p>
+
+
+
+<a name="11504"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11504" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11504">(Jun 16 2020 at 15:41)</a>:</h4>
+<p>Ok, <span class="user-mention" data-user-id="10">@Michael Levy</span>, this file<br>
+<code>/glade/work/mclong/cesm_inputdata/feventflux_5gmol_POP_tx0.1v3.c200616.nc</code><br>
+should now be correct.</p>
+
+
+
+<a name="11506"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11506" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11506">(Jun 16 2020 at 15:41)</a>:</h4>
+<p>great, trying it now</p>
+
+
+
+<a name="11509"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11509" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11509">(Jun 16 2020 at 16:15)</a>:</h4>
+<p>Tests with the new file run successfully, thanks for updating it!</p>
+
+
+
+<a name="11511"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11511" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11511">(Jun 16 2020 at 16:15)</a>:</h4>
+<p>thanks, we may still need to change these files...</p>
+
+
+
+<a name="11522"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11522" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11522">(Jun 16 2020 at 17:44)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>, thinking more about this, I would like to have an opportunity to revisit the <code>fesedflux</code> field to ensure comparability with what we use for the 1° spin-up.</p>
+
+
+
+<a name="11523"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11523" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11523">(Jun 16 2020 at 17:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> that makes sense. I want to do a longer run to make sure we're happy with all of the inputdata files (ndep, initial conditions, fesedflux, feventflux, riv_nut), but I'm going to wait until I have updated tunings. For starters, I want to do that check with what we are considering compset defaults (no cocco, OMIP initial conditions)... but then I'll repeat for the experiment setup (with cocco, initial conditions interpolated from the 1 degree spin-up)</p>
+
+
+
+<a name="11524"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/forcing/near/11524" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/forcing.html#11524">(Jun 16 2020 at 17:50)</a>:</h4>
+<p>I should add that I'm open to suggestions on how long the "longer run" should be. 1 year? 2? 5? I'm fairly confident that the 1-day tests I'm currently doing are insufficient :)</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

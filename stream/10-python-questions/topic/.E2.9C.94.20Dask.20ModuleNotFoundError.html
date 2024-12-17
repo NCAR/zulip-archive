@@ -1,0 +1,314 @@
+<html>
+<head><meta charset="utf-8"><title>✔ Dask ModuleNotFoundError · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html">✔ Dask ModuleNotFoundError</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="70486"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70486" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70486">(Dec 15 2022 at 23:01)</a>:</h4>
+<p><span class="user-mention" data-user-id="320">@Elizabeth Yankovsky</span> installed an new environment including <code>dask</code>. On importing <code>dask</code> she gets the following error.</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code> <span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">'dask.widgets''</span>
+</code></pre></div>
+<p>Has anyone else encountered this? </p>
+<p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span>, <span class="user-mention" data-user-id="311">@Elena Romashkova</span></p>
+
+
+
+<a name="70582"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70582" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70582">(Dec 16 2022 at 16:00)</a>:</h4>
+<p>This is might be from the Dask release on December 2nd. Did <span class="user-mention" data-user-id="320">@Elizabeth Yankovsky</span>'s code work in November?</p>
+
+
+
+<a name="70583"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70583" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70583">(Dec 16 2022 at 16:00)</a>:</h4>
+<p>I suspect it is an issue with the dask version</p>
+
+
+
+<a name="70585"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70585" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70585">(Dec 16 2022 at 16:03)</a>:</h4>
+<p>Let me try creating a clean environment with dask on my PC. I'll check if I get the same error</p>
+
+
+
+<a name="70589"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70589" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70589">(Dec 16 2022 at 16:13)</a>:</h4>
+<p>It works on my end with the following environment <a href="/user_uploads/2/fe/ulgu8xkaE6tflu1w-Um0K9_y/dask-test.yml">dask-test.yml</a>. I have Dask v2022.12.0 and Python v3.11. I also tried it with Python v3.10 and that worked too</p>
+
+
+
+<a name="70591"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70591" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70591">(Dec 16 2022 at 16:16)</a>:</h4>
+<p><span class="user-mention" data-user-id="320">@Elizabeth Yankovsky</span> Would you be able to send my your environment file so I can take a closer look? You can do this by:</p>
+<ol>
+<li>activating the chosen environment in your terminal</li>
+<li>typing in <code>conda env export &gt; environment_name.yml</code> where <code>environment_name</code> should be replaced with the name of your environment</li>
+<li>sending me the resulting <code>.yml</code> that will appear in your working directory</li>
+</ol>
+
+
+
+<a name="70598"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70598" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70598">(Dec 16 2022 at 16:28)</a>:</h4>
+<p><span class="user-mention" data-user-id="107">@Heather Craker</span> thanks for your help. Here's the path to that file: <code>/glade/u/home/eyankovsky/my-cesm-experiment/cesm-exp.yml </code></p>
+
+
+
+<a name="70626"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70626" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70626">(Dec 16 2022 at 17:20)</a>:</h4>
+<p>While I'm looking into how your environment is set up, a common fix is running <code>conda update --all --prune</code> when your chosen environment is activated. This updates all packages as much as possible given then various package dependencies. The <code>--prune</code> part is an optional flag that removes any unneeded packages (e.g. package dependencies that are no longer needed after uninstalling a package explicitly)</p>
+
+
+
+<a name="70627"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70627" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70627">(Dec 16 2022 at 17:20)</a>:</h4>
+<p>Can you give that a try and see if it fixes the issues?</p>
+
+
+
+<a name="70630"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70630" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70630">(Dec 16 2022 at 17:52)</a>:</h4>
+<p>It may also help to update your conda environment if you haven't already. You can do this by running <code>conda update conda</code></p>
+
+
+
+<a name="70640"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70640" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70640">(Dec 16 2022 at 18:29)</a>:</h4>
+<p>I tried running <code> conda update --all --prune </code> ; this didn't help. I then tried <code> conda update conda </code> and got the following error (this is from within cesm-exp):</p>
+<div class="codehilite" data-code-language="conda"><pre><span></span><code>PackageNotInstalledError: Package is not installed in prefix.
+  prefix: /glade/u/home/eyankovsky/miniconda3/envs/cesm-exp
+  package name: conda
+</code></pre></div>
+
+
+
+<a name="70641"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70641" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70641">(Dec 16 2022 at 18:30)</a>:</h4>
+<p>I wonder if that's the issue, that the prefix is not correct?</p>
+
+
+
+<a name="70642"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70642" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70642">(Dec 16 2022 at 18:42)</a>:</h4>
+<p>Hmm let me look into that. So far I haven't been able to recreate your environment from the <code>.yml</code> file</p>
+
+
+
+<a name="70646"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70646" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70646">(Dec 16 2022 at 18:51)</a>:</h4>
+<p>Would you be available for an impromptu google meet call to talk about how you made your environment? I might be able to assist more if I can see every step of your process</p>
+
+
+
+<a name="70647"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70647" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70647">(Dec 16 2022 at 18:52)</a>:</h4>
+<p><a href="http://meet.google.com/enf-xjwx-nbw">meet.google.com/enf-xjwx-nbw</a></p>
+
+
+
+<a name="70648"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70648" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70648">(Dec 16 2022 at 18:54)</a>:</h4>
+<p>I think <span class="user-mention" data-user-id="320">@Elizabeth Yankovsky</span> used</p>
+<div class="codehilite"><pre><span></span><code>mamba env create -f environment.yml
+</code></pre></div>
+<p><span class="user-mention" data-user-id="107">@Heather Craker</span>, why can't you recreate that environment?</p>
+
+
+
+<a name="70649"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70649" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70649">(Dec 16 2022 at 18:55)</a>:</h4>
+<p>conda is telling me that it's finding a lot of conflicts</p>
+
+
+
+<a name="70650"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70650" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70650">(Dec 16 2022 at 18:55)</a>:</h4>
+<p>I'll try mamba instead</p>
+
+
+
+<a name="70651"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70651" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70651">(Dec 16 2022 at 18:56)</a>:</h4>
+<p>the environment could be pruned to just the essential packages...but it's installed successfully before</p>
+
+
+
+<a name="70652"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70652" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70652">(Dec 16 2022 at 18:57)</a>:</h4>
+<p>Mamba also gave me an error. This is very strange behavior</p>
+
+
+
+<a name="70653"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70653" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70653">(Dec 16 2022 at 18:58)</a>:</h4>
+<p><span class="user-mention" data-user-id="107">@Heather Craker</span> , I'll join the google meet now and will guide you through the process</p>
+
+
+
+<a name="70654"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70654" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70654">(Dec 16 2022 at 18:58)</a>:</h4>
+<p>Yeah, when we were troubleshooting yesterday we tried having Elizabeth recreate an environment from a conda-lock file I generated and she was getting these errors despite our environments saying they had exactly the same package versions installed</p>
+
+
+
+<a name="70655"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70655" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70655">(Dec 16 2022 at 18:58)</a>:</h4>
+<p>Probably unrelated...but we've had trouble with caching gumming things up previously. Running </p>
+<div class="codehilite"><pre><span></span><code>mamba clean -a
+</code></pre></div>
+<p>should clear the cache...but I doubt that's the problem.</p>
+
+
+
+<a name="70656"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70656" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70656">(Dec 16 2022 at 18:59)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="311">Elena Romashkova</span> <a href="#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70654">said</a>:</p>
+<blockquote>
+<p>Yeah, when we were troubleshooting yesterday we tried having Elizabeth recreate an environment from a conda-lock file I generated and she was getting these errors despite our environments saying they had exactly the same package versions installed</p>
+</blockquote>
+<p>That is totally wierd</p>
+
+
+
+<a name="70657"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70657" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70657">(Dec 16 2022 at 18:59)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="14">Matt Long</span> <a href="#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70655">said</a>:</p>
+<blockquote>
+<p>Probably unrelated...but we've had trouble with caching gumming things up previously. Running </p>
+<div class="codehilite"><pre><span></span><code>mamba clean -a
+</code></pre></div>
+<p>should clear the cache...but I doubt that's the problem.</p>
+</blockquote>
+<p>Also tried this already, we basically went through the whole procedure we used to fix my issues installing this package earlier in the year</p>
+
+
+
+<a name="70658"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70658" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70658">(Dec 16 2022 at 19:00)</a>:</h4>
+<p>blow away miniconda and start over</p>
+
+
+
+<a name="70659"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70659" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70659">(Dec 16 2022 at 20:11)</a>:</h4>
+<p>For anyone following this thread, Heather and I have gone through some troubleshooting and are still unable the issue. Here's what we tried:</p>
+<ul>
+<li>We both cleared our caches</li>
+<li>We both built our environment using conda/latest (I got rid of my miniconda3)</li>
+<li>We created the environment based on the environment.yml file in this directory: <a href="https://github.com/matt-long/my-cesm-experiment">https://github.com/matt-long/my-cesm-experiment</a></li>
+<li>To create the environment we both did mamba env create -f environment.yml </li>
+<li>When we activate cesm-exp and tried to run python in an SSH terminal, the error arises. We can both import dask but I cannot import dask.widgets whereas Heather can. At this point we think the error may have to do with my account so I've submitted a helpdesk ticket.</li>
+</ul>
+
+
+
+<a name="70660"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70660" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70660">(Dec 16 2022 at 20:15)</a>:</h4>
+<p>(Also, when going through these steps we noticed that there is a dependency in environment.yml that's forcing us to use Python 3.7 and dask 2022.2.0. We don't know if that's a problem since it's a somewhat older version of dask)</p>
+
+
+
+<a name="70661"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70661" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70661">(Dec 16 2022 at 20:21)</a>:</h4>
+<p>If anyone wants to copy the same process, here are the exact terminal commands we used:</p>
+<ul>
+<li>ssh into Casper</li>
+<li><code>module load conda/latest</code></li>
+<li><code>mamba clean -a</code></li>
+<li><code>mamba env create -f environment.yml</code></li>
+<li><code>python</code></li>
+<li><code>import dask.widgets</code></li>
+</ul>
+<p>At this point, Elizabeth gets a <code>ModuleNotFoundError</code>, but I do not. We have confirmed that we are using the same versions of dask (v2022.2.0) and python (v3.7)</p>
+
+
+
+<a name="70662"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70662" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70662">(Dec 16 2022 at 20:23)</a>:</h4>
+<p><span class="user-mention" data-user-id="141">@Brian Vanderwende</span>, if you have a moment, let us know what you think about this problem. It's weird.</p>
+
+
+
+<a name="70663"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70663" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David John Gagne <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70663">(Dec 16 2022 at 20:36)</a>:</h4>
+<p>Do you need to include a source activate &lt;env_name&gt; before calling python?</p>
+
+
+
+<a name="70664"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70664" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70664">(Dec 16 2022 at 20:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="150">@David John Gagne</span> yes, we've been doing conda activate cesm-exp (cesm-exp is the name of the environment that's generated by environment.yml above). Would be interesting to see if anyone else can replicate this error!</p>
+
+
+
+<a name="70665"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70665" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70665">(Dec 16 2022 at 20:47)</a>:</h4>
+<p>perhaps try without using <code>mamba</code>?</p>
+
+
+
+<a name="70667"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70667" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70667">(Dec 16 2022 at 20:48)</a>:</h4>
+<p>one difference might be that <span class="user-mention" data-user-id="107">@Heather Craker</span>  appears to be using system <code>conda</code> and <span class="user-mention" data-user-id="320">@Elizabeth Yankovsky</span> is using miniconda?</p>
+
+
+
+<a name="70668"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70668" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70668">(Dec 16 2022 at 20:48)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="150">David John Gagne</span> <a href="#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70663">said</a>:</p>
+<blockquote>
+<p>Do you need to include a source activate &lt;env_name&gt; before calling python?</p>
+</blockquote>
+<p>Yes we did. I forgot to include it. Sorry about that</p>
+
+
+
+<a name="70669"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70669" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70669">(Dec 16 2022 at 20:48)</a>:</h4>
+<p>I suggest pruning the environment file to just the bare bones set of packages.</p>
+
+
+
+<a name="70670"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70670" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70670">(Dec 16 2022 at 20:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span>  I can try without mamba; and yes I was previously using miniconda. But today I removed my miniconda directory entirely and just use the default conda/latest</p>
+
+
+
+<a name="70671"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70671" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70671">(Dec 16 2022 at 20:49)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="14">Matt Long</span> <a href="#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70667">said</a>:</p>
+<blockquote>
+<p>one difference might be that <span class="user-mention silent" data-user-id="107">Heather Craker</span>  appears to be using system <code>conda</code> and <span class="user-mention silent" data-user-id="320">Elizabeth Yankovsky</span> is using miniconda?</p>
+</blockquote>
+<p>We removed commands in her <code>.bashrc</code> file that activated her version of miniconda. Then I had her use the <code>module load conda/latest</code></p>
+
+
+
+<a name="70674"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/70674" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anissa Zacharias <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#70674">(Dec 16 2022 at 21:30)</a>:</h4>
+<p>I just made the environment with conda and I didn't have any problems, so it's not a mamba thing</p>
+
+
+
+<a name="71640"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/71640" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Yankovsky <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#71640">(Jan 11 2023 at 21:41)</a>:</h4>
+<p>Just an update on this issue -- thanks to everyone for the help and suggestions!<br>
+The conflict was arising because I had several user-installed packages, specifically dask, that were creating a conflict (one can see these by doing 'pip list --user' within the activated environment). Once I removed the user-installed dask I was able to successfully import dask.widgets. <span aria-label="tada" class="emoji emoji-1f389" role="img" title="tada">:tada:</span></p>
+
+
+
+<a name="71928"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20Dask%20ModuleNotFoundError/near/71928" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20Dask.20ModuleNotFoundError.html#71928">(Jan 18 2023 at 21:09)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> has marked this topic as resolved.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

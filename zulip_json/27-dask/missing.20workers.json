@@ -1,0 +1,206 @@
+[
+    {
+        "content": "<p>Hi everyone -- I'm trying to run some code to use CESM2, but am having issues getting workers... I'm working with <span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> and I'm trying to run through a notebook he wrote using the same conda environment he uses, but with different results. </p>\n<p>I tried running a cell with the following:</p>\n<div class=\"codehilite\"><pre><span></span><code>cluster, client = get_ClusterClient(nmem=&#39;20GB&#39;)\ncluster.scale(10)\ncluster\n</code></pre></div>\n<p>On Will's machine, a window pops up after the code and workers start appearing in the dask worker window.  I am getting neither of these outputs.  No error messages right now, just no workers.</p>\n<p>Any thoughts?</p>",
+        "id": 52732,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648493820
+    },
+    {
+        "content": "<p>you may want to make sure you have both <code>ipywidgets</code> and <code>dask-labextension</code> installed in the environment you are using within the notebook </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>mamba install -c conda-forge ipywidgets dask-labextension\n</code></pre></div>\n<p>or </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>conda install -c conda-forge ipywidgets dask-labextension\n</code></pre></div>",
+        "id": 52737,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648495316
+    },
+    {
+        "content": "<p>restart the notebook/kernel after the installation</p>",
+        "id": 52738,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648495328
+    },
+    {
+        "content": "<p>Still running into the same issues... Is there a way to double check that I have both of them installed?</p>",
+        "id": 52746,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648495843
+    },
+    {
+        "content": "<p>from the notebook,  do you get any output when you run </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">ipywidgets</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">ipywidgets</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 52747,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648495908
+    },
+    {
+        "content": "<p>I get <br>\n7.6.5</p>",
+        "id": 52751,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648496106
+    },
+    {
+        "content": "<p>okay... looks good.</p>",
+        "id": 52753,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648496150
+    },
+    {
+        "content": "<p>regarding the missing workers, you may want to check if you already have some pending jobs in the queue</p>",
+        "id": 52755,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648496175
+    },
+    {
+        "content": "<p>from the command line </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>qstat -u <span class=\"nv\">$USER</span>\n</code></pre></div>\n<p>or within a notebook cell</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>!qstat -u <span class=\"nv\">$USER</span>\n</code></pre></div>",
+        "id": 52756,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648496223
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span><code>                                                           Req&#39;d  Req&#39;d   Elap\nJob ID          Username Queue    Jobname    SessID NDS TSK Memory Time  S Time\n--------------- -------- -------- ---------- ------ --- --- ------ ----- - -----\n2259179.casper* eschlerm jhublog* cr-login-*  97095   1   1    4gb 720:0 R 454:4\n</code></pre></div>",
+        "id": 52759,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648496383
+    },
+    {
+        "content": "<p>^ This is the output from the command line</p>",
+        "id": 52760,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648496397
+    },
+    {
+        "content": "<p>it appears you don't have any pending dask-worker jobs</p>",
+        "id": 52761,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648496426
+    },
+    {
+        "content": "<p>what's the output of </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">job_script</span><span class=\"p\">())</span>\n</code></pre></div>",
+        "id": 52762,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648496449
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span><code><span class=\"ch\">#!/usr/bin/env bash</span>\n\n<span class=\"c1\">#PBS -N dask-worker</span>\n<span class=\"c1\">#PBS -q casper</span>\n<span class=\"c1\">#PBS -A P93300041</span>\n<span class=\"c1\">#PBS -l select=1:ncpus=1:mem=20GB</span>\n<span class=\"c1\">#PBS -l walltime=2:00:00</span>\n\n/glade/work/eschlerm/opt/miniconda/envs/lens-py/bin/python -m distributed.cli.dask_worker tcp://10.12.1.3:43534 --nthreads <span class=\"m\">1</span> --memory-limit <span class=\"m\">18</span>.63GiB --name dummy-name --nanny --death-timeout <span class=\"m\">60</span> --interface ib0 --protocol tcp://\n</code></pre></div>\n<p>Also I'm now getting the missing qsub error again</p>\n<div class=\"codehilite\"><pre><span></span><code>[Errno 2] No such file or directory: &#39;qsub&#39;: &#39;qsub&#39;\n</code></pre></div>",
+        "id": 52763,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648496573
+    },
+    {
+        "content": "<p>this issue appears to be related to <a href=\"https://zulip.ucar.edu/#narrow/stream/16-jupyterlab-hub/topic/qsub.20missing.20from.20.24PATH.20when.20using.20JupyterHub\">https://zulip.ucar.edu/#narrow/stream/16-jupyterlab-hub/topic/qsub.20missing.20from.20.24PATH.20when.20using.20JupyterHub</a>. <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>, do you happen to have a hint about why <span class=\"user-mention\" data-user-id=\"272\">@Else Schlerman</span> doesn't have <code>qsub</code> on their PATH???</p>",
+        "id": 52764,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648496813
+    },
+    {
+        "content": "<p>I see it on the path for the base jupyter server on crhtc45. Very much in the <code>PATH</code> variable at the end.</p>",
+        "id": 52768,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1648497488
+    },
+    {
+        "content": "<p>when launching the submit job, is that where the error with <code>qsub</code> is coming with? If submitting, I wouldn't guarantee variables in in the environment w/o <code>-V</code> on qsub on in the script.</p>",
+        "id": 52770,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1648497979
+    },
+    {
+        "content": "<blockquote>\n<p>I see it on the path for the base jupyter server on crhtc45. Very much in the PATH variable at the end.</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"272\">@Else Schlerman</span>, are you using the jupyterhub (<code>https://jupyterhub.hpc.ucar.edu/</code>) or launching the jupyter server yourself (via <code>jupyter-forward</code>)?</p>",
+        "id": 52772,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648498311
+    },
+    {
+        "content": "<p>I'm launching the jupyter server via <code>jupyter-forward</code></p>",
+        "id": 52773,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648498664
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span> I'm not quite sure what you're asking, but here is the git repository of the code with the error message, if that is helpful<br>\n<a href=\"https://github.com/eschlerm/permafrost/blob/master/.ipynb_checkpoints/LocalChange-ARC-checkpoint.ipynb\">https://github.com/eschlerm/permafrost/blob/master/.ipynb_checkpoints/LocalChange-ARC-checkpoint.ipynb</a></p>",
+        "id": 52774,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648498796
+    },
+    {
+        "content": "<p>I'm noticing that the qsub error occurs when I add <code>print(cluster.job_script())</code> to the cell and run it, but I'm not currently getting the error otherwise.  However, I am still not getting any workers</p>",
+        "id": 52777,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648499036
+    },
+    {
+        "content": "<p>The only output I get is</p>\n<div class=\"codehilite\"><pre><span></span><code>Tab(children=(HTML(value=&#39;\\n            &lt;div class=&quot;jp-RenderedHTMLCommon jp-RenderedHTML jp-mod-trusted jp-Ou…\n</code></pre></div>",
+        "id": 52778,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648499099
+    },
+    {
+        "content": "<p>can you just add <code>#PBS -V</code> to the dask script?</p>",
+        "id": 52779,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1648499238
+    },
+    {
+        "content": "<p>in jupyter notebooks?</p>",
+        "id": 52780,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648499289
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"272\">@Else Schlerman</span>, you will need to modify the code in <code>get_ClusterClient()</code> function which I assume contains the code responsible for instantiating the dask cluster</p>\n<p>and pass <code>job_extra=[\"-V\"]</code></p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">PBSCluster</span><span class=\"p\">(</span><span class=\"o\">...</span><span class=\"p\">,</span> <span class=\"n\">job_extra</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s2\">\"-V\"</span><span class=\"p\">])</span>\n</code></pre></div>",
+        "id": 52782,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648499519
+    },
+    {
+        "content": "<p>Thank you <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> <br>\nI now have:</p>\n<div class=\"codehilite\"><pre><span></span><code>def get_ClusterClient(ncores=1, nmem=&#39;25GB&#39;):\n    import dask\n    from dask_jobqueue import PBSCluster\n    from dask.distributed import Client\n    ncores=ncores\n    nmem = nmem\n\n    cluster = PBSCluster(\n        cores=ncores, # The number of cores you want\n        memory=nmem, # Amount of memory\n        processes=ncores, # How many processes\n        queue=&#39;casper&#39;, # The type of queue to utilize (/glade/u/apps/dav/opt/usr/bin/execcasper)\n        resource_spec=&#39;select=1:ncpus=&#39;+str(ncores)+&#39;:mem=&#39;+nmem, # Specify resources\n        project=&#39;P93300041&#39;, # Input your project ID here\n        walltime=&#39;2:00:00&#39;, # Amount of wall time\n        interface=&#39;ib0&#39;, # Interface to use\n        job_extra=[&quot;-V&quot;]\n    )\n\n    dask.config.set({\n        &#39;distributed.dashboard.link&#39;:\n        &#39;https://jupyterhub.hpc.ucar.edu/stable/user/{USER}/proxy/{port}/status&#39;\n    })\n\n    client = Client(cluster)\n    return cluster, client\n</code></pre></div>\n<p>This did seem to fix the qsub error when I use the <code>print(cluster.job_script())</code> command, but still not getting any workers</p>",
+        "id": 52783,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648499815
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"272\">@Else Schlerman</span>  It's possible you're missing a <code>cluster.scale(x)</code> command (where x = number of workers) after the <code>cluster = PBSCluster()</code> call. I think that is the call that actually requests the workers.</p>",
+        "id": 52786,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1648504888
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span>  I do have that command in the next cell, not copied above.  However, I went to the xdev office hours last night -- it seems like the issue was coming from my jupyter forwarding configuration and things are now working as expected!</p>",
+        "id": 52799,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648561817
+    },
+    {
+        "content": "<p>to add to this, Else's cloned my conda environment with a .yml  file created from the environment that's working for me.  She's running the identical notebook, but unable to get any workers to show up.  Is there something else we're potentially missing here?</p>",
+        "id": 52827,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1648568593
+    },
+    {
+        "content": "<p>Ah, I posted before reading this last note, I wondered if what was a jupyter forward issue.  Thanks for digging in <span class=\"user-mention\" data-user-id=\"272\">@Else Schlerman</span> !</p>",
+        "id": 52828,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1648568656
+    },
+    {
+        "content": "<p>Yeah, it turned out that <code>juypter-forward</code> was having trouble with the <code>TMPDIR</code> environment variable (<code>printenv TMPDIR</code> was showing the variable pointing to her scratch space, but then when it checked to see if <code>$TMPDIR</code> was writable, it was reverting to an empty string and therefore trying to create files in <code>/</code>). Once we explicitly defined <code>TMPDIR</code> in her <code>.bashrc</code> file, everything worked as expected... though it's still unclear to me why we needed to do that. (I should let <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> know about this <span aria-label=\"smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"smile\">:smile:</span> )</p>",
+        "id": 52832,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648570146
+    },
+    {
+        "content": "<p>Can I ask a general question about when we would want to use <code>jupyter-forward</code> over the jupyterhub? Is it to avoid hub stability issues? I used to do a lot of port forwarding to launch jupyter lab, but since the hub stability has improved I find myself just logging on to the hub. Curious about when <code>jupyter-forward</code> might be preferable though.</p>",
+        "id": 52847,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1648575597
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"47\">Katie Dagon</span> <a href=\"#narrow/stream/27-dask/topic/missing.20workers/near/52847\">said</a>:</p>\n<blockquote>\n<p>Can I ask a general question about when we would want to use <code>jupyter-forward</code> over the jupyterhub? Is it to avoid hub stability issues? I used to do a lot of port forwarding to launch jupyter lab, but since the hub stability has improved I find myself just logging on to the hub. Curious about when <code>jupyter-forward</code> might be preferable though.</p>\n</blockquote>\n<p>At this point, I'm really only using <code>jupyter-forward</code> when the Hub is down. It's proving to be a useful tool for systems that don't have JupyterHub installed - I haven't really done any analysis on <code>andre</code> but suspect <code>jupyter-forward</code> would be the best tool for launching a notebook on that machine</p>",
+        "id": 52867,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648579405
+    },
+    {
+        "content": "<blockquote>\n<p>It's proving to be a useful tool for systems that don't have JupyterHub installed - I haven't really done any analysis on andre but suspect jupyter-forward would be the best tool for launching a notebook on that machine</p>\n</blockquote>\n<p>I agree.</p>",
+        "id": 53000,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648742959
+    }
+]

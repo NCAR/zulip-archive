@@ -1,0 +1,57 @@
+<html>
+<head><meta charset="utf-8"><title>Error importing dask_jobqueue after updating xarray package · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Error.20importing.20dask_jobqueue.20after.20updating.20xarray.20package.html">Error importing dask_jobqueue after updating xarray package</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="94313"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Error%20importing%20dask_jobqueue%20after%20updating%20xarray%20package/near/94313" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Error.20importing.20dask_jobqueue.20after.20updating.20xarray.20package.html#94313">(Jan 12 2024 at 19:29)</a>:</h4>
+<p>Hi, I just updated my xarray package, after which I started a new session on JupyterHub and am receiving a new error when trying to import PBS Cluster</p>
+<p>Here is what I get:</p>
+<div class="codehilite"><pre><span></span><code> dask_jobqueue import PBSCluster
+---------------------------------------------------------------------------
+ImportError                               Traceback (most recent call last)
+Input In [1], in &lt;module&gt;
+     13 from distributed import wait
+     14 #from ncar_jobqueue import NCARCluster
+---&gt; 16 from dask_jobqueue import PBSCluster
+     17 import dask
+
+File /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/dask_jobqueue/__init__.py:3, in &lt;module&gt;
+      1 # flake8: noqa
+      2 from . import config
+----&gt; 3 from .core import JobQueueCluster
+      4 from .moab import MoabCluster
+      5 from .pbs import PBSCluster
+
+File /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/dask_jobqueue/core.py:20, in &lt;module&gt;
+     18 from distributed.deploy.local import nprocesses_nthreads
+     19 from distributed.scheduler import Scheduler
+---&gt; 20 from distributed.utils import tmpfile
+     22 logger = logging.getLogger(__name__)
+     24 job_parameters = &quot;&quot;&quot;
+     25     cores : int
+     26         Total number of cores per job
+   (...)
+     63         Name of Dask worker.  This is typically set by the Cluster
+     64 &quot;&quot;&quot;.strip()
+
+ImportError: cannot import name &#39;tmpfile&#39; from &#39;distributed.utils&#39; (/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/utils.py)
+</code></pre></div>
+<p>Thoughts? Thanks</p>
+
+
+
+<a name="94320"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Error%20importing%20dask_jobqueue%20after%20updating%20xarray%20package/near/94320" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Error.20importing.20dask_jobqueue.20after.20updating.20xarray.20package.html#94320">(Jan 12 2024 at 22:41)</a>:</h4>
+<p>My initial thought would be to try updating <code>dask</code> and/or <code>dask-jobqueue</code>. Sometimes <a href="https://docs.xarray.dev/en/stable/whats-new.html">xarray updates</a> have breaking changes. Looking at the versions of things in your environment can be helpful too, I usually do this with <code>conda list</code>.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

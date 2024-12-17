@@ -1,0 +1,104 @@
+[
+    {
+        "content": "<p>Hi everyone,</p>\n<p>Sorry for this basic question but I've been trying to solve this for a while by messing around with settings and looking on the internet.  I want to turn off the hints which have somehow recently appeared in my jupyter notebooks on jupyter hub.  They weren't there before and I find them really annoying.  I've pasted in a figure of the kind of thing I want to turn off below.  Does anyone know how to disable this feature?  Thanks in advance.</p>\n<p><a href=\"/user_uploads/2/42/gWnmPmuTm4XCwYMAVEe47atI/Screenshot-at-2022-05-12-10-01-11.png\">Screenshot-at-2022-05-12-10-01-11.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/42/gWnmPmuTm4XCwYMAVEe47atI/Screenshot-at-2022-05-12-10-01-11.png\" title=\"Screenshot-at-2022-05-12-10-01-11.png\"><img src=\"/user_uploads/2/42/gWnmPmuTm4XCwYMAVEe47atI/Screenshot-at-2022-05-12-10-01-11.png\"></a></div>",
+        "id": 54830,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652371636
+    },
+    {
+        "content": "<p>I will add, that when I look on Settings --&gt; Code Completion, continuous hinting is unchecked.</p>",
+        "id": 54831,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652371731
+    },
+    {
+        "content": "<p>I am not sure how to fix this issue, but suspect that <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span> knows which jupyterlab extension is providing the service; perhaps knowing the name of the extension will enable identifying the documentation.</p>",
+        "id": 54839,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652389416
+    },
+    {
+        "content": "<p>Might be the LSP server that we had a request to install a few weeks ago.</p>",
+        "id": 54840,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1652391309
+    },
+    {
+        "content": "<p>This one: <a href=\"https://github.com/jupyter-lsp/jupyterlab-lsp\">https://github.com/jupyter-lsp/jupyterlab-lsp</a> ?</p>",
+        "id": 54844,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652394140
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span>, this section of the README might meet your needs:<br>\n<a href=\"https://github.com/jupyter-lsp/jupyterlab-lsp#configuring-the-servers\">https://github.com/jupyter-lsp/jupyterlab-lsp#configuring-the-servers</a></p>",
+        "id": 54845,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652394239
+    },
+    {
+        "content": "<p>Thanks.  Yes, I found that and then found this... You can deactivate the kernel suggestions by adding \"Kernel\" to the disableCompletionsFrom in the completion section of Advanced Settings. Alternatively if you only want kernel completions you can add \"LSP\" to the same setting; Or add both if you like to code in hardcore mode and get no completions, or if another provider has been added.</p>\n<p>When I look in my settings it seems like I have both Kernel and LSP in the \"disableCompletionsFrom\", so what they suggest there doesn't seem to be helping me.  Below is what I have in my settings, so it looks like these are set to me.  Perhaps I will log out of jupyterhub and back in.  See if it takes effect.</p>\n<p><a href=\"/user_uploads/2/14/VuvmofF4gwm5gxHYKHrCCh8x/Screenshot-at-2022-05-12-16-24-48.png\">Screenshot-at-2022-05-12-16-24-48.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/14/VuvmofF4gwm5gxHYKHrCCh8x/Screenshot-at-2022-05-12-16-24-48.png\" title=\"Screenshot-at-2022-05-12-16-24-48.png\"><img src=\"/user_uploads/2/14/VuvmofF4gwm5gxHYKHrCCh8x/Screenshot-at-2022-05-12-16-24-48.png\"></a></div>",
+        "id": 54847,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652394363
+    },
+    {
+        "content": "<p>This hasn't solved this yet.  I must be looking at the wrong thing.  It's not code completion, it's just giving me all this information that's blocking me from seeing the other parts of my code that I want to see.</p>",
+        "id": 54849,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652394720
+    },
+    {
+        "content": "<p>type faster?</p>",
+        "id": 54850,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652394731
+    },
+    {
+        "content": "<p>haha, that is not a viable solution.  But I've fixed it now.  I disabled the code hover.  Thanks for your help!</p>",
+        "id": 54851,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652394866
+    },
+    {
+        "content": "<p>great! glad it works</p>",
+        "id": 54852,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652394901
+    },
+    {
+        "content": "<p>I was mistaken.  It is back today.  Arghh.  There are so many settings and I feel like I've switched off all the relevant things.  If anyone has any thoughts on where the relevant setting might be, I'd be glad to hear.</p>",
+        "id": 54858,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652452935
+    },
+    {
+        "content": "<p>there's got to be a way to configure this. <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>, do you have any suggestions?</p>",
+        "id": 54860,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652453341
+    },
+    {
+        "content": "<p>I feel like this has something to do with the language server protocol, i.e., the jupyterlab-lsp extension. But I haven't been able to get the documentation hints to stop appearing.</p>",
+        "id": 54863,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1652455231
+    },
+    {
+        "content": "<p>pretty sure you're right</p>",
+        "id": 54864,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652456712
+    },
+    {
+        "content": "<p>Possible solution:<br>\nModify settings for Code Signature extension: <code>{\"disable\": true}</code></p>",
+        "id": 54865,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1652456984
+    },
+    {
+        "content": "<p>Thanks.  I think this might have solved it.  At least it hasn't started happening again yet after I restarted my session.</p>",
+        "id": 54869,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1652458595
+    }
+]

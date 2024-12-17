@@ -1,0 +1,63 @@
+<html>
+<head><meta charset="utf-8"><title>status-badges · Project Pythia · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/index.html">Project Pythia</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html">status-badges</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="57460"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/57460" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#57460">(Jun 28 2022 at 15:55)</a>:</h4>
+<ol>
+<li><a href="https://github.com/pangeo-data/pangeo/blob/master/docs/gallery.rst">https://github.com/pangeo-data/pangeo/blob/master/docs/gallery.rst</a></li>
+<li><a href="http://gallery.pangeo.io/">http://gallery.pangeo.io/#</a></li>
+<li><a href="https://github.com/pangeo-gallery">https://github.com/pangeo-gallery</a></li>
+<li><a href="https://github.com/pangeo-gallery/example-gallery">https://github.com/pangeo-gallery/example-gallery</a></li>
+<li><a href="https://github.com/pangeo-gallery/pangeo-gallery">https://github.com/pangeo-gallery/pangeo-gallery</a></li>
+</ol>
+
+
+
+<a name="57486"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/57486" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#57486">(Jun 28 2022 at 16:50)</a>:</h4>
+<p>Pangeo gallery bot - <a href="https://github.com/pangeo-gallery/pangeo-gallery-bot/blob/master/main.py">https://github.com/pangeo-gallery/pangeo-gallery-bot/blob/master/main.py</a></p>
+
+
+
+<a name="70947"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/70947" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#70947">(Dec 21 2022 at 22:26)</a>:</h4>
+<p>Does anyone know why <span class="user-mention" data-user-id="281">@James Morley</span> 's intake-cookbook is failing nightly builds?<br>
+<a href="https://github.com/ProjectPythia/intake-cookbook/blob/main/.github/workflows/nightly-build.yaml">https://github.com/ProjectPythia/intake-cookbook/blob/main/.github/workflows/nightly-build.yaml</a><br>
+<a href="https://github.com/ProjectPythia/intake-cookbook/actions/runs/3745390013/jobs/6359777808">https://github.com/ProjectPythia/intake-cookbook/actions/runs/3745390013/jobs/6359777808</a></p>
+
+
+
+<a name="70967"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/70967" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#70967">(Dec 22 2022 at 18:01)</a>:</h4>
+<p>Looks like it's complaining about versions in the environment. Is that cached or pre-built somewhere?</p>
+
+
+
+<a name="71003"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/71003" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Rose <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#71003">(Dec 27 2022 at 18:21)</a>:</h4>
+<p>No, these are running with a fresh environment each time, e.g the log <a href="https://github.com/ProjectPythia/intake-cookbook/actions/runs/3717648320/jobs/6305214610#step:9:1">here</a>. I did a quick visual scan of the solved environment from the <a href="https://github.com/ProjectPythia/intake-cookbook/actions/runs/3709245100/jobs/6287666086">last successful test</a> and the <a href="https://github.com/ProjectPythia/intake-cookbook/actions/runs/3717648320/jobs/6305214610">first failed test</a> and I noticed that dask changed from 2022.12.0 to 2022.12.1. Is that a useful clue?</p>
+
+
+
+<a name="71004"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/71004" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Rose <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#71004">(Dec 27 2022 at 18:36)</a>:</h4>
+<p>Opened an issue to track this here: <a href="https://github.com/ProjectPythia/intake-cookbook/issues/26">https://github.com/ProjectPythia/intake-cookbook/issues/26</a></p>
+
+
+
+<a name="71241"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/60-Project%20Pythia/topic/status-badges/near/71241" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/60-Project-Pythia/topic/status-badges.html#71241">(Jan 04 2023 at 19:05)</a>:</h4>
+<p><span class="user-mention" data-user-id="107">@Heather Craker</span> and myself are hoping to see an Avalanches NHL game on the 10th. If anyone is interested in coming with us that would be fun. Just lmk so I can grab tickets that are next to each other.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

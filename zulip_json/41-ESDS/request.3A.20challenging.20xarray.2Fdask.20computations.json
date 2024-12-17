@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hi I'm looking for examples of challenging computations with xarray and dask that are requiring workarounds like loops to complete. The goal is to get simplified examples to use to <a href=\"https://github.com/coiled/benchmarks/issues/770\">inform</a> dask.array development. I think a real use case involving a big regridding, rolling window operations, <code>rolling.construct</code>, or <code>groupby.map</code> would be good examples.</p>",
+        "id": 79222,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1681397214
+    },
+    {
+        "content": "<p>I have one that I have been struggling with.  It is interpolating atmospheric model data from one set of hybrid coordinates to another e.g., interpolating ERA5 model level data to the CAM grid.  The issue is that both the original vertical pressure levels and the new vertical pressure levels are a function of longitude latitude and time.  So I end up having to loop over longitude, latitude and time.  I can make a cleaned up example if this is an example you want to follow (am out of town right now so can't do it right now).</p>",
+        "id": 79223,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1681397685
+    },
+    {
+        "content": "<p>I would be surprised if this is still an issue with <code>xgcm.transform</code> (<a href=\"https://xgcm.readthedocs.io/en/latest/transform.html\">https://xgcm.readthedocs.io/en/latest/transform.html</a>).</p>",
+        "id": 79224,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1681397768
+    },
+    {
+        "content": "<p>oh ok, I wasn't area of this.  I'll look into it.  Thanks</p>",
+        "id": 79257,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1681420835
+    },
+    {
+        "content": "<p><a href=\"https://github.com/NCAR/iPOGS/blob/main/notebooks/AMOCsig2_0.1deg_RCP_loop_time.ipynb\">Here</a> is an example of a big dask computation that requires looping over time chunks. This notebook computes MOC(sigma) from 0.1° POP output spanning 2006-2100, and requires multiple 3D fields at monthly resolution. We got it working for 10-year chunks at a time.</p>",
+        "id": 79267,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1681482878
+    },
+    {
+        "content": "<p>I got it to work 2006-2050 at one go (well I didn't complete but its looking good). Let's follow up on the repo</p>",
+        "id": 79301,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1681525675
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> <a href=\"#narrow/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations/near/79224\">said</a>:</p>\n<blockquote>\n<p>I would be surprised if this is still an issue with <code>xgcm.transform</code> (<a href=\"https://xgcm.readthedocs.io/en/latest/transform.html\">https://xgcm.readthedocs.io/en/latest/transform.html</a>).</p>\n</blockquote>\n<p>Nice! This could be very useful. One of the things we need to do all the time is convert constituent mixing ratios on hybrid pressure to density on altitude grids for comparison to observations. This would involve converting ilev and lev to real pressure (1-D to 3-D) using PS, calculating geometric height by adjusting geopotential height (Z3) to take into account the falloff of gravity and then calculating total density on lev using T, so a fair number of steps before this routine can do the conservative remapping. It would be a nice worked example if I could get it all figured out. It's fairly computationally expensive, so would be good to get it working with DASK.</p>",
+        "id": 79488,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1681852132
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> or anyone else really, do you know if there's a full-depth POP 1/10° dataset  on the cloud that I could use to replicate? The <a href=\"https://catalog.pangeo.io/browse/master/ocean/CESM_POP/CESM_POP_hires_RCP8_5/\">Pangeo cloud version</a> seems to have only two depth levels:</p>",
+        "id": 79724,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1682198906
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> I don't know but I'd ask Ryan Abernathy because he was talking to Ping Chang about putting some of the iHESP data on the cloud.</p>",
+        "id": 79862,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1682446466
+    }
+]

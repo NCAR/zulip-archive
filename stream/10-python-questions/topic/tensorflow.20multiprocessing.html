@@ -1,0 +1,80 @@
+<html>
+<head><meta charset="utf-8"><title>tensorflow multiprocessing · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html">tensorflow multiprocessing</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="72083"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/tensorflow%20multiprocessing/near/72083" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Ahijevych <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html#72083">(Jan 20 2023 at 19:30)</a>:</h4>
+<p>my DNN predict script started hanging recently and I wonder if anyone could tell me why this hangs when I execute the predict method in a multiprocessing pool?</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># split into input (X) and output (y) variables</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[:,</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,),</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">))</span>
+<span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># make class predictions with the model</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"predict rows </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,:])</span>
+
+<span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">predict</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+<p>I’m trying to evaluate a DNN model and split the job between processors. I’m running on casper with 3 cpus reserved.</p>
+
+
+
+<a name="72084"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/tensorflow%20multiprocessing/near/72084" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html#72084">(Jan 20 2023 at 19:39)</a>:</h4>
+<p><span class="user-mention" data-user-id="243">@David Ahijevych</span> which version of tensorflow are you using? Would it make sense to use GPUs for distributed prediction (and/or training)?</p>
+
+
+
+<a name="72088"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/tensorflow%20multiprocessing/near/72088" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Ahijevych <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html#72088">(Jan 20 2023 at 20:19)</a>:</h4>
+<p>Hi Katie, <br>
+tensorflow 2.11<br>
+ I tried earlier versions but conda couldn't find a match with the C libraries. Yes, GPUs probably make sense but I've had troubles.  When I run on GPUs my scripts execute faster, but I sometimes get an out-of-memory error that is resolved by using CPUs instead.</p>
+
+
+
+<a name="72095"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/tensorflow%20multiprocessing/near/72095" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html#72095">(Jan 20 2023 at 20:54)</a>:</h4>
+<p>I see. With tensorflow version 1 I had problems with multiprocessing pool but I thought that should be resolved with version 2. There is a <code>use_multiprocessing</code> argument that you can use with keras <code>model.predict</code>, maybe that will help? <a href="https://keras.io/api/models/model_training_apis/#predict-method">https://keras.io/api/models/model_training_apis/#predict-method</a></p>
+
+
+
+<a name="72115"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/tensorflow%20multiprocessing/near/72115" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Ahijevych <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html#72115">(Jan 20 2023 at 23:12)</a>:</h4>
+<p>good idea.. I tried <code>use_multiprocessing</code> but to no avail. According to the method description, <code>use_multiprocessing</code> and <code>workers</code> may help if your input is a <code>generator</code> or <code>keras.utils.Sequence</code> only.  But mine is not a generator and I don't even know what a keras Sequence is. So I might have to look elsewhere.</p>
+
+
+
+<a name="72119"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/tensorflow%20multiprocessing/near/72119" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Ahijevych <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/tensorflow.20multiprocessing.html#72119">(Jan 21 2023 at 00:06)</a>:</h4>
+<p>Going forward, I'll avoid multiprocessing with model.predict().  For my larger files (50M+ rows), I'll simply increase the batch_size from the default 32 to 5000 to get the speedup I want. I had no idea that would help so much, and I don't need multiprocessing.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

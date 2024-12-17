@@ -1,0 +1,41 @@
+<html>
+<head><meta charset="utf-8"><title>File naming conundrum · MARBL · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/28-MARBL/index.html">MARBL</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/File.20naming.20conundrum.html">File naming conundrum</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="11547"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/File%20naming%20conundrum/near/11547" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/File.20naming.20conundrum.html#11547">(Jun 16 2020 at 22:00)</a>:</h4>
+<p><span class="user-mention" data-user-id="28">@Kristen Krumhardt</span> and I are meeting tomorrow morning to put together a PR with her latest tunings for CESM 2.2 with coccolithophores. Currently, the <code>defaults/</code> directory contains</p>
+<div class="codehilite"><pre><span></span>$ ls -1 settings_*
+settings_cesm2.0.yaml
+settings_cesm2.1+cocco.yaml
+settings_cesm2.1.yaml
+settings_latest.yaml
+</pre></div>
+
+
+<p>My preference is to put her 3-autotroph tunings into <code>settings_latest.yaml</code> (rather than change the name of that file), and create <code>settings_with_cocco.yaml</code> for the cocco settings. Does that seem reasonable? Some thoughts:</p>
+<ul>
+<li>Past precedence has been to keep the version number out of the name until post-release tuning require us to create a new file for the old settings... so my initial reaction is that it's premature for <code>settings_cesm2.2+cocco.yaml</code> (though "past precedence" refers to a time when we only had <code>settings_latest</code> to think about)</li>
+<li>There's something about <code>settings_latest+cocco.yaml</code> that rubs me the wrong way. I think it's the idea of having two different files claiming to be <code>latest</code>? I can't quite put my finger on why I dislike it, I just don't like it.</li>
+<li>It may be possible to combine the cocco and non-cocco defaults into the same file; depending on how different the tunings for those two runs are, it may be worth exploring? I'm pretty sure it will introduce an additional layer of complexity into the python tools, but it should be doable</li>
+<li>If we go with <code>settings_with_cocco.yaml</code>, then maybe I should rename <code>settings_cesm2.1+cocco.yaml</code> to <code>settings_cesm2.1_with_cocco.yaml</code>; I don't think that would be terribly difficult, though when I update POP to use the new MARBL tag it'll require some minor tweaks to <code>config_component.xml</code> and <code>namelist_defaults_pop.xml</code></li>
+<li>The <code>defaults/</code> directory also contains <code>diagnostics_latest.yaml</code>, hence the generic directory name.</li>
+</ul>
+
+
+
+<a name="11550"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/File%20naming%20conundrum/near/11550" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/File.20naming.20conundrum.html#11550">(Jun 16 2020 at 22:03)</a>:</h4>
+<p>If we do decide to combine the tunings into a single file, I'll bring in the current tunings as <code>settings_with_cocco.yaml</code> and open a new issue ticket to combine the <code>cocco</code> settings files (both for the 2.1 settings and the new ones) after <code>settings_latest.yaml</code> gets updated</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

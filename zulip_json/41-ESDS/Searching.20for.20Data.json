@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi all. I'm working on a blog post to explain the differences between using xarray and geocat to compute monthly, seasonal, and yearly climate averages. Does anyone have a dataset with a monthly resolution or finer that spans the globe? The data itself can be anything (temperatures, winds, incoming/outgoing radiation).</p>",
+        "id": 68372,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1668456881
+    },
+    {
+        "content": "<p>The dataset I was working with was for a vertical column, and it's harder to communicate the differences in calculations with that kind of contour plot</p>",
+        "id": 68373,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1668456934
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> You could try using CESM2 Large Ensemble output for this. Similar to this <a href=\"https://ncar.github.io/esds/posts/2021/intake-cesm2-le-glade-example/\">previous blog post</a>.</p>\n<p>Monthly atmospheric CESM2-LE output is available on casper here: <code>/glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/month_1/</code><br>\nFor example the <code>TS</code> subdirectory has surface temperature. You could just pick a single netcdf file since you don't need to ingest the entire ensemble (as in that previous blog post). For example the file <code>b.e21.BHISTcmip6.f09_g17.LE2-1001.001.cam.h0.TS.200001-200912.nc</code> I believe represents the first ensemble member from 2000-2009.</p>",
+        "id": 68403,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1668466054
+    },
+    {
+        "content": "<p>Great thank you!</p>",
+        "id": 68404,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1668466712
+    }
+]

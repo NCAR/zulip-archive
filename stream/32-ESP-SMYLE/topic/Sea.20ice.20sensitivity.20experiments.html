@@ -1,0 +1,281 @@
+<html>
+<head><meta charset="utf-8"><title>Sea ice sensitivity experiments · ESP-SMYLE · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/index.html">ESP-SMYLE</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html">Sea ice sensitivity experiments</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="17906"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17906" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17906">(Sep 23 2020 at 22:36)</a>:</h4>
+<p>Venue for ongoing discussion of how to improve FOSI sea ice simulation</p>
+
+
+
+<a name="17911"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17911" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17911">(Sep 23 2020 at 23:15)</a>:</h4>
+<p>I have a question regarding the albedo.<br>
+We are using dt_mlt = 0.5. It was 1 in LENS. <br>
+And r_snw is 1.6. It was 1.75 in LENS.<br>
+Are the changes associated with the change from CICE4 to CICE5?<br>
+If I am not mistaken, I think the LENS parameters will increase the albedo and result in larger sea ice volume/extent. <br>
+If yes, why are we more conservative with those parameters in CESM2 than in LENS?</p>
+
+
+
+<a name="17912"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17912" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17912">(Sep 23 2020 at 23:16)</a>:</h4>
+<p>What we had on the table were:</p>
+<p>1) albedo change + T&amp;S restoring to modeled salinity-dependent Tfrz and observed S under sea ice <br>
+2) albedo change + LWDN reduction (by 5 W m^-2 north of 60N)</p>
+<p>with a possible modification of air temperature and/or further tuning of albedo. </p>
+<p>(1) and (2) show very similar Arctic sea-ice volume and extent. But, it looks to me (1) is slightly better than (2) in the Souther Ocean. <span class="user-mention" data-user-id="115">@Marika Holland</span> suggested that (2) would be a safer option because of summer melting, which increases in time, that could decrease Tfrz, thus can compensate the sea ice decline in the later years. However, in this simulation, S is also restored to observed climatology, so I think we can avoid Tfrz messed up (Could <span class="user-mention" data-user-id="115">@Marika Holland</span> chime in to confirm if my interpretation is right?). We can also restore T to max(Tfrz,Trst), but the caveat is that it is less effective than restoring just to Tfrz. Assuming my interpretation is right, I think (1) or (1) with some further tuning is the most viable option because it has the edge in the Souther Ocean...</p>
+
+
+
+<a name="17917"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17917" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17917">(Sep 23 2020 at 23:25)</a>:</h4>
+<p>I like Bill Large suggestion during the section meeting this morning to look at the albedo used by JRA to come up with the LWDN forcing.</p>
+
+
+
+<a name="17919"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17919" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17919">(Sep 23 2020 at 23:28)</a>:</h4>
+<p><span class="user-mention" data-user-id="51">@Who Kim</span>  Why do we need to restore to SSS under ice in (1)? Your new sensitivities show that it doesn't do much, the SST restoring to Tfrz(S) is what is important. If we eliminate SSS restoring, then I think Marika's worry is eliminated because enhanced summer melting will increase Tfrz, but the model will be restored to that new higher Tfrz (with a weighting by ice fraction).</p>
+
+
+
+<a name="17924"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17924" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17924">(Sep 23 2020 at 23:53)</a>:</h4>
+<p>My concern with the restoring to Tfrz under ice is that as the ice thins and reduces in concentration, the under-ice temperature should in reality become elevated above Tfrz because of absorbed SW. This then impacts the amount of summer melting and the resulting September ice concentration. If we restore to Tfrz throughout the simulations, then the restoring flux will be larger later in the record when thin/low concentration ice is present and this can affect the time evolution of the simulation in non-physical ways. Because of this, I think that adjustments to the forcing (the LW down and/or air temperature) may be "safer".</p>
+
+
+
+<a name="17925"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17925" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17925">(Sep 24 2020 at 00:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="20">@Fred Castruccio</span>    Regarding the question about the albedo values, dt_mlt=0.5 will give a higher albedo than dt_mlt=1 (as in LENS). The dt_mlt defines the temperature below freezing at which the snow transitions to wet snow values (with lower albedos). The R_snw=1.6 is actually equivalent to R_snw=1.75 (as in LENS) because we have a minimum snow grain radius value and the model reaches that for an R_snw value of 1.6. So the albedos in Who's runs are actually higher than the LENS values for snow covered ice.</p>
+
+
+
+<a name="17927"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17927" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17927">(Sep 24 2020 at 00:46)</a>:</h4>
+<p><span class="user-mention" data-user-id="115">@Marika Holland</span> Thanks for the clarification. So dt_mlt is not a delta in temperature but an absolute value? LENS transition to wet snow occurs at  -1C while CESM2 transition occurs -0.5C. Is that right?</p>
+
+
+
+<a name="17928"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17928" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17928">(Sep 24 2020 at 01:10)</a>:</h4>
+<p><span class="user-mention" data-user-id="115">@Marika Holland</span>  The restoring is weighted by the ice fraction. So when the ice start to melt the strength of the restoring will be greatly reduced. An option to make it even safer is to restore to the max between TFRZ and an observational SST product. If we do that, we may want to upgrade to a more recent product than PHC2, like PHC3, or maybe EN4.</p>
+
+
+
+<a name="17930"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17930" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17930">(Sep 24 2020 at 03:27)</a>:</h4>
+<p><span class="user-mention" data-user-id="20">@Fred Castruccio</span> correct - the dt_mlt value is basically an absolute value and so dt_mlt=0.5 means the transition to a melting snow grain radius starts at Tsfc= -0.5C</p>
+
+
+
+<a name="17931"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17931" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17931">(Sep 24 2020 at 03:38)</a>:</h4>
+<p>It's good to know that the restoring is weighted by the ice fraction, that should help. However, I still am uncomfortable with adding a flux that varies over time and can compensate for a real feedback in the system. Given that the ice-ocean heat exchange depends on the salinity dependent freezing temperature (since that will be the temperature of the ice base), I think it can be problematic to use an observed SST product that is referenced to a different freezing temperature. It may make more sense to use the difference from freezing somehow in the restoring.</p>
+
+
+
+<a name="17932"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17932" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17932">(Sep 24 2020 at 04:23)</a>:</h4>
+<p><span class="user-mention" data-user-id="115">@Marika Holland</span> Thanks for the clarification. <span class="user-mention" data-user-id="34">@Stephen Yeager</span> My interpretation might be wrong, but I think S restoring might be needed because SSS  can be fresher (than obs) during summer without restoring under warming because there could be a positive feeback between salinity and Tfrz: that is, weaker sea-ice decline than observed during winter due to strong constrained by Tfrz &gt; freshwater increase during summer due to ice melt &gt; increasing Tfrz &gt; stronger constained by Tfrz during winter.</p>
+
+
+
+<a name="17934"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17934" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17934">(Sep 24 2020 at 14:41)</a>:</h4>
+<p>After all this back and forth, I'm confused about next steps for zeroing in on FOSI mods to hand over to the BGC group. Do we need a zoom call? My takeaway is that Dave/Marika would like to see another sensitivity combining: enhanced albedo mods + LWDN reduction (both hemispheres) + Tair mods (NH only?). Is that correct?</p>
+
+
+
+<a name="17936"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17936" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17936">(Sep 24 2020 at 16:18)</a>:</h4>
+<p>I think a zoom call may be the most efficient way to move forward.</p>
+
+
+
+<a name="17939"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17939" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17939">(Sep 24 2020 at 16:32)</a>:</h4>
+<p><span class="user-mention" data-user-id="115">@Marika Holland</span> I agree that the main complication is that observed SST product don't use a salinity dependent freezing temperature. The model tends to have a higher freezing point (-1.5C or -1.6C) than PHC2 (-1.8C). Using the max between Tfrz and Trst is a simple attend at mitigating the issue. Using the difference from freezing is ultimately a better approach I think but can we get an observed freezing point we can rely on?</p>
+
+
+
+<a name="17946"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17946" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17946">(Sep 24 2020 at 17:15)</a>:</h4>
+<p>Marika and I chatted and we could do additional albedo mods (dt_mlt = 0.2, rsnw_mlt = 800). However, we are both concerned about the Antarctic and we would like to extend the LW changes there as well as potentially temperature changes. As Marika said, she is concerned about the variability in the sea ice with the restoring. So, it would be good to assess the 2010 state in the runs. This is also the initial state we need for the prediction runs right? In terms of the default configuration for G compsets moving forward, we need to do more of a detailed assessment and that should be a longer term goal. We are fine with the albedo changes, but it would be good to assess the forcing changes against observations and also assess variability with the restoring. We are happy to chat on a Zoom call tomorrow if needed.</p>
+
+
+
+<a name="17964"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/17964" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#17964">(Sep 24 2020 at 17:49)</a>:</h4>
+<p>As Dave mentions, I'd be available for a zoom call tomorrow. Perhaps 9am?</p>
+
+
+
+<a name="18119"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18119" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18119">(Sep 28 2020 at 17:09)</a>:</h4>
+<p>I have run a new case (modified albedo + LWDN reduction in both hemispheres) through 2009 (from 1980). I have also extended albedo+restoring through 2009. The attached plots below are some diagnositics from these experiments (label <code>Alb2+LWDN-NS</code> and <code>Alb1+Rest</code>, respectively). For the monthly climatology, the last 20 year mean (1990-2009) is plotted. In time series plots, the first 10 years of the (original) albedo + NH LWDN reduction experiment (<code>Alb1+LWDN-NX</code>) are also plotted as a reference for <code>Alb2+LWDN-NS</code>. in the extent time series, I have also included the extent computed from SSMI remapped onto gx1 (interestingly the extent is significantly different from NSIDC only in March and in the Arctic).  </p>
+<p>In the Arctic, <code>Alb2+LWDN-NS</code> appears to perform overall similar to <code>Alb1+Rest</code>, but better in terms of change (decline).  In the Souther Ocean, <code>Alb2+LWDN-NS</code> appears to be still worse than <code>Alb1+Rest</code> in terms of ice extent, but the too strong March extent interannual variability in <code>Alb1+Rest</code> is somewhat suppressed. </p>
+<p><a href="/user_uploads/2/3a/IhNiZwbtZ5qxVTwlMUGPDY7H/ice_vol_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_vol_NH_Mar_Sep_ts_select.png">ice_vol_NH_Mar_Sep_ts_select.png</a> <br>
+<a href="/user_uploads/2/2/0LAG49jHuNMhNwy-Rscdwoo1/ice_ext_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_ext_NH_Mar_Sep_ts_select.png">ice_ext_NH_Mar_Sep_ts_select.png</a> <br>
+<a href="/user_uploads/2/af/eRfN7pN3jxqmeHcd5NPS288r/ice_ext_SH_Mar_Sep_ts_select.png" target="_blank" title="ice_ext_SH_Mar_Sep_ts_select.png">ice_ext_SH_Mar_Sep_ts_select.png</a><br>
+<a href="/user_uploads/2/57/C3-6jJTAI2zDnBj-DyB35UPx/ice_vol_mon_clim.png" target="_blank" title="ice_vol_mon_clim.png">ice_vol_mon_clim.png</a> <br>
+<a href="/user_uploads/2/58/O9EBtqSFm1HSXMXH2UvqsM4d/ice_ext_mon_clim.png" target="_blank" title="ice_ext_mon_clim.png">ice_ext_mon_clim.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/3a/IhNiZwbtZ5qxVTwlMUGPDY7H/ice_vol_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_vol_NH_Mar_Sep_ts_select.png"><img src="/user_uploads/2/3a/IhNiZwbtZ5qxVTwlMUGPDY7H/ice_vol_NH_Mar_Sep_ts_select.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/2/0LAG49jHuNMhNwy-Rscdwoo1/ice_ext_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_ext_NH_Mar_Sep_ts_select.png"><img src="/user_uploads/2/2/0LAG49jHuNMhNwy-Rscdwoo1/ice_ext_NH_Mar_Sep_ts_select.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/af/eRfN7pN3jxqmeHcd5NPS288r/ice_ext_SH_Mar_Sep_ts_select.png" target="_blank" title="ice_ext_SH_Mar_Sep_ts_select.png"><img src="/user_uploads/2/af/eRfN7pN3jxqmeHcd5NPS288r/ice_ext_SH_Mar_Sep_ts_select.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/57/C3-6jJTAI2zDnBj-DyB35UPx/ice_vol_mon_clim.png" target="_blank" title="ice_vol_mon_clim.png"><img src="/user_uploads/2/57/C3-6jJTAI2zDnBj-DyB35UPx/ice_vol_mon_clim.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/58/O9EBtqSFm1HSXMXH2UvqsM4d/ice_ext_mon_clim.png" target="_blank" title="ice_ext_mon_clim.png"><img src="/user_uploads/2/58/O9EBtqSFm1HSXMXH2UvqsM4d/ice_ext_mon_clim.png"></a></div>
+
+
+
+<a name="18290"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18290" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18290">(Sep 29 2020 at 20:06)</a>:</h4>
+<p>I have run the sea ice diagnostics for this run. Still not quite enough in the SH.</p>
+<p><a href="http://webext.cgd.ucar.edu/GIAF/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.S12/ice/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.S12-g210.G_JRA.v14.gx1v7.01/yrs231-260/" target="_blank" title="http://webext.cgd.ucar.edu/GIAF/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.S12/ice/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.S12-g210.G_JRA.v14.gx1v7.01/yrs231-260/">http://webext.cgd.ucar.edu/GIAF/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.S12/ice/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.S12-g210.G_JRA.v14.gx1v7.01/yrs231-260/</a></p>
+
+
+
+<a name="18313"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18313" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18313">(Sep 29 2020 at 21:20)</a>:</h4>
+<p>What are your thoughts on the discrepancy with PIOMAS trends in recent years in the new runs?  We are going to try a couple other runs before meeting again to discuss.</p>
+
+
+
+<a name="18314"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18314" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18314">(Sep 29 2020 at 22:17)</a>:</h4>
+<p><span class="user-mention" data-user-id="115">@Marika Holland</span> <span class="user-mention" data-user-id="113">@Laura Landrum</span>  I remember helping you setting up a simulation with interior restoring a few years ago in order to investigate Antarctic sea ice trend  and try to better understand the mismatch between the observed trend and the trend simulated by CESM. Can you refresh my memory regarding the details of that experiment? Also do you remember if the restoring had a positive impact on the sea bias? Thanks!</p>
+
+
+
+<a name="18315"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18315" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18315">(Sep 29 2020 at 22:23)</a>:</h4>
+<p><span class="user-mention" data-user-id="20">@Fred Castruccio</span>  We talked about these interior nudging runs but never actually performed them.</p>
+
+
+
+<a name="18318"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18318" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18318">(Sep 29 2020 at 22:40)</a>:</h4>
+<p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> <span class="user-mention" data-user-id="51">@Who Kim</span>  I'm not certain about the discrepancy with the PIOMAS timeseries. Who's runs do seem to have low ice thinning in the Arctic. The PIOMAS data is quite uncertain though. They assimilate ice concentration but no thickness.</p>
+
+
+
+<a name="18321"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18321" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18321">(Sep 30 2020 at 05:14)</a>:</h4>
+<p>I made spatial difference plots between 2005-2009 and 1985-1989 for March and September. In these plots, I am only showing <code>Alb2+LWDN-NS</code> along with observations and <code>REF</code>, but similar differences are found for <code>Alb1+Rest</code>.</p>
+<p>In addition to the difference in the overall amplitude of the thickness decline, the thickness difference plots show a quite different pattern between PIOMAS and FOSIs: FOSIs shows a weaker decline or even an increase around the Beaufort gyre in both seasons, which appears to be the reason for the weaker thickness decline in FOSIs compared to PIOMAS. This seems to be related to a strengthening of the Beaufort gyre in the later period, so that sea ice is converging there in FOSIs. There is no such a sign of a reduced decline near the Beaufort gyre in PIOMAS. </p>
+<p>Unlike thickness, the observed (SSMI) ice concentration difference is reasonably reproduced in FOSIs, except that the September decline takes place near the poleward biased sea-ice edge in FOSIs. </p>
+<p><a href="/user_uploads/2/87/TcjEU_2F93P4xncHv4fuet7e/hi_Mar_diff_NH.png" target="_blank" title="hi_Mar_diff_NH.png">hi_Mar_diff_NH.png</a><br>
+<a href="/user_uploads/2/46/90hlT6BgrbZmDMWh0_QYL5NW/hi_Sep_diff_NH.png" target="_blank" title="hi_Sep_diff_NH.png">hi_Sep_diff_NH.png</a> <br>
+<a href="/user_uploads/2/d2/EqT-ILySlzSG13gMpaeama6s/aice_Mar_diff_NH.png" target="_blank" title="aice_Mar_diff_NH.png">aice_Mar_diff_NH.png</a><br>
+<a href="/user_uploads/2/28/5SQqh1ds5mAh6YgmTPZfmcDR/aice_Sep_diff_NH.png" target="_blank" title="aice_Sep_diff_NH.png">aice_Sep_diff_NH.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/87/TcjEU_2F93P4xncHv4fuet7e/hi_Mar_diff_NH.png" target="_blank" title="hi_Mar_diff_NH.png"><img src="/user_uploads/2/87/TcjEU_2F93P4xncHv4fuet7e/hi_Mar_diff_NH.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/46/90hlT6BgrbZmDMWh0_QYL5NW/hi_Sep_diff_NH.png" target="_blank" title="hi_Sep_diff_NH.png"><img src="/user_uploads/2/46/90hlT6BgrbZmDMWh0_QYL5NW/hi_Sep_diff_NH.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/d2/EqT-ILySlzSG13gMpaeama6s/aice_Mar_diff_NH.png" target="_blank" title="aice_Mar_diff_NH.png"><img src="/user_uploads/2/d2/EqT-ILySlzSG13gMpaeama6s/aice_Mar_diff_NH.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/28/5SQqh1ds5mAh6YgmTPZfmcDR/aice_Sep_diff_NH.png" target="_blank" title="aice_Sep_diff_NH.png"><img src="/user_uploads/2/28/5SQqh1ds5mAh6YgmTPZfmcDR/aice_Sep_diff_NH.png"></a></div>
+
+
+
+<a name="18370"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18370" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gokhan Danabasoglu <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18370">(Sep 30 2020 at 18:51)</a>:</h4>
+<p>Well, the plot thickens, figuratively. If the PIOMAS assimilation does not use "proper" winds, then perhaps increase in volume around 2000 may have a chance of being realistic.</p>
+
+
+
+<a name="18521"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18521" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18521">(Oct 01 2020 at 20:22)</a>:</h4>
+<p>There is a nice paper from Zack Labe that compares PIOMAS to some observational products. Basically, there is a thin bias in the PIOMAS. Who, do you have the extent plots up to 2009? It looks like yours stop at 2005. <a href="/user_uploads/2/96/xowUXA38JEjv41mtJMdkbRAt/jcli-d-17-0436.1.pdf" target="_blank" title="jcli-d-17-0436.1.pdf">jcli-d-17-0436.1.pdf</a></p>
+
+
+
+<a name="18559"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18559" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Marika Holland <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18559">(Oct 01 2020 at 22:56)</a>:</h4>
+<p>I believe that PIOMAS is driven with NCEP forcing. It does assimilate ice concentration though which will modify the ice thickness.</p>
+
+
+
+<a name="18624"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18624" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18624">(Oct 02 2020 at 17:07)</a>:</h4>
+<p><span class="user-mention" data-user-id="93">@David Bailey</span> ,  Attached is the Arctic sea ice volume time series up to 2009. <br>
+<span class="user-mention" data-user-id="34">@Stephen Yeager</span> , <span class="user-mention" data-user-id="20">@Fred Castruccio</span> , <span class="user-mention" data-user-id="62">@Gokhan Danabasoglu</span> , The yellow line in this plot is the experiment with the original albedo change extended to 2009 (<code>Alb1+LWDN</code>) that we discussed early this week. No noticeable difference compared to the red line (<code>Alb2+LWDN</code>)</p>
+<p><a href="/user_uploads/2/f4/aD1TUio3H38Lcp9KqhM9DT5_/ice_vol_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_vol_NH_Mar_Sep_ts_select.png">ice_vol_NH_Mar_Sep_ts_select.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/f4/aD1TUio3H38Lcp9KqhM9DT5_/ice_vol_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_vol_NH_Mar_Sep_ts_select.png"><img src="/user_uploads/2/f4/aD1TUio3H38Lcp9KqhM9DT5_/ice_vol_NH_Mar_Sep_ts_select.png"></a></div>
+
+
+
+<a name="18629"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18629" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18629">(Oct 02 2020 at 17:16)</a>:</h4>
+<p>What about ice area and extent timeseries through 2009?</p>
+
+
+
+<a name="18713"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18713" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18713">(Oct 02 2020 at 22:36)</a>:</h4>
+<p>Ice Area<br>
+<a href="/user_uploads/2/c8/xiUvgUxpI0UOwsJaoUHicqIM/ice_area_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_area_NH_Mar_Sep_ts_select.png">ice_area_NH_Mar_Sep_ts_select.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/c8/xiUvgUxpI0UOwsJaoUHicqIM/ice_area_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_area_NH_Mar_Sep_ts_select.png"><img src="/user_uploads/2/c8/xiUvgUxpI0UOwsJaoUHicqIM/ice_area_NH_Mar_Sep_ts_select.png"></a></div><p>Ice extent<br>
+<a href="/user_uploads/2/8e/aPSkSbCRPWBG5egv2gCNC9TR/ice_ext_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_ext_NH_Mar_Sep_ts_select.png">ice_ext_NH_Mar_Sep_ts_select.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/8e/aPSkSbCRPWBG5egv2gCNC9TR/ice_ext_NH_Mar_Sep_ts_select.png" target="_blank" title="ice_ext_NH_Mar_Sep_ts_select.png"><img src="/user_uploads/2/8e/aPSkSbCRPWBG5egv2gCNC9TR/ice_ext_NH_Mar_Sep_ts_select.png"></a></div>
+
+
+
+<a name="18729"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18729" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18729">(Oct 05 2020 at 15:49)</a>:</h4>
+<p>These look good. These for the SH as well will be good. I think the volume discrepancy after 2000 with the PIOMAS is related to the forcing (JRA versus NCAR-NCEP). Notice that the trends in the original FOSI run are not as strong as PIOMAS.</p>
+
+
+
+<a name="18736"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18736" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18736">(Oct 05 2020 at 16:31)</a>:</h4>
+<p>I just noticed that the sensitivity runs for generating ocean/ice initial state are using <code>kappa_isop_deep=0.2</code>. My recollection was that we were going to go with <code>kappa_isop_deep=0.1</code>, like we did in Kristen's runs.</p>
+<p>I'm concerned that the Southern Ocean sea ice solution, particularly its sensitivity to the various configurations being evaluated, may depend on this parameter in unknown ways.</p>
+
+
+
+<a name="18739"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18739" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18739">(Oct 05 2020 at 17:07)</a>:</h4>
+<p>cc <span class="user-mention" data-user-id="51">@Who Kim</span></p>
+
+
+
+<a name="18741"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18741" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18741">(Oct 05 2020 at 17:22)</a>:</h4>
+<p>Since Who stepped up to perform these sensitivity runs, we decided to use his old JRA55-do case (using 0.2) as the control just to make things easy. We can switch over to the new kappa_isop_deep moving forward.</p>
+
+
+
+<a name="18742"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/18742" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#18742">(Oct 05 2020 at 17:27)</a>:</h4>
+<p>Because we aimed initially a short integration, I didn't care much about kappa difference.  But, I speculate that sea ice could be thicker with 'kappa_isop_deep=0.1' because excessive bottom water formation is reduced (thus, the upper ocean is likely colder).</p>
+
+
+
+<a name="20110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/20110" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#20110">(Oct 21 2020 at 22:00)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> , The case directory of the latest experiment (<code>Alb+Rest+kappa=0.1</code>) is /glade/work/whokim/cesm/cesm2_g/g210.GIAF_JRA.v14.gx1v7.SMYLE.ice_IC.001</p>
+
+
+
+<a name="20135"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/20135" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Who Kim <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#20135">(Oct 22 2020 at 15:08)</a>:</h4>
+<p>AMOC in this experiment is about 2 Sv stronger the the reference case. So, the reduced winter sea ice concentration around the ice edge might be related to stronger heat transport.  I suspect that the restoring under sea ice is responsible for this AMOC increase. In the reference case, the entire Arctic Ocean and Nordic Seas have a fresh bias. The reduced bias with the restoring might enhances deep water formation. </p>
+<p><a href="/user_uploads/2/20/qv9QUXa357SHRmZ9WcF27lY7/amoc_indx_ts_final.png" target="_blank" title="amoc_indx_ts_final.png">amoc_indx_ts_final.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/20/qv9QUXa357SHRmZ9WcF27lY7/amoc_indx_ts_final.png" target="_blank" title="amoc_indx_ts_final.png"><img src="/user_uploads/2/20/qv9QUXa357SHRmZ9WcF27lY7/amoc_indx_ts_final.png"></a></div>
+
+
+
+<a name="20137"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/20137" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#20137">(Oct 22 2020 at 15:22)</a>:</h4>
+<p>Variability looks the same, and <a href="mailto:mean@26.5N" title="mailto:mean@26.5N">mean@26.5N</a>  is a better match to RAPID, so I'm thinking this is OK</p>
+
+
+
+<a name="20193"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Sea%20ice%20sensitivity%20experiments/near/20193" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gokhan Danabasoglu <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Sea.20ice.20sensitivity.20experiments.html#20193">(Oct 22 2020 at 18:36)</a>:</h4>
+<p>I thought a bit more about yesterday's discussion on how we proceed with the fully-coupled simulations. We have 3 sets of albedo settings for the sea-ice model. The default used in our CMIP6 CESM2 simulations; tuned albedos used in CESM2(CAM6) simulations; and the ones used for our CESM2(FOSI) case. As discussed, we will perform some sensitivity simulations for the actual prediction simulations. However, if we decide to go with the second, i.e., the tuned albedos, for these CESM2(CAM6) simulations, if we ever perform prediction simulations with the high-top model version to evaluate prediction sensitivity to model top, that is, CESM2(WACCM6), what albedos will we use? My worry is that we are opening the door to changes potentially in other component models as well with the thinking that we are after the "best possible solutions" in each configuration. This takes me back to the discussions that we had in late 1990s and early 2000s as to what we should do.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

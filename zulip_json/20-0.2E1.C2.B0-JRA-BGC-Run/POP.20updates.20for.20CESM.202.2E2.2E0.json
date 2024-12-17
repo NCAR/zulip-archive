@@ -1,0 +1,8 @@
+[
+    {
+        "content": "<p>Starting this topic to keep track of what I'm hoping to have in POP ahead of the code freeze (originally scheduled for June 19, but pushed back to July 2nd):</p>\n<ol>\n<li>\n<p><code>G1850ECOIAF_JRA_HR</code> compset that uses <code>POP2%ECO</code>, <code>CICE%CICE4</code>, and <code>SWAV</code> </p>\n<ul>\n<li>Will require new defaults for BGC initial conditions, forcing files, etc on <code>tx0.1v3</code> grid</li>\n<li>Also, make sure all <code>G</code> compsets with <code>_HR</code> use <code>CICE%CICE4</code></li>\n<li>New testmods directory for this compset (useful way to track changes between compset defaults and our experiment; e.g. turning off ice age tracer in CICE, minor tweaks to other ice namelist variables)</li>\n</ul>\n</li>\n<li>\n<p>MARBL updates:</p>\n<ul>\n<li>Bugfix: some real values were missing the <code>_r8</code> kind specifier</li>\n<li>Update tunings in <code>settings_latest.yaml</code></li>\n<li>New settings file <code>settings_with_cocco.yaml</code> to get coccolithophores out of the box along with updated parameters (also, update <code>picpoc</code> formulation)</li>\n</ul>\n</li>\n<li>\n<p>Updating MARBL will require POP updates</p>\n<ul>\n<li>Use latest MARBL tag</li>\n<li>allow <code>OCN_BGC_CONFIG=with_cocco</code> (i.e. update <code>valid_values</code> list)</li>\n<li>Create 1 degree initial condition file with coccolithophores (tuning was done using the cesm2.1+cocco initial conditions)</li>\n<li>Add a test for <code>OCN_BGC_CONFIG=with_cocco</code> (maybe modify <code>ecosys_add_cocco</code> and then create <code>ecosys_add_cesm21_cocco</code>?)</li>\n</ul>\n</li>\n</ol>",
+        "id": 11650,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592414625
+    }
+]

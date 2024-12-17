@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>Hi again,<br>\nI'm trying to save some data to zarr, as I usually do.  I'm running into an AssertionError, but no other details are given.<br>\nMy line of code to save is:<br>\nSO_timeseries_iTrace.to_dataset(name='TEMP').chunk({'z_t':-1}).to_zarr('/glade/scratch/mberdahl/iTrace/Ocean/TEMP/SO_timeseries_iTrace.zarr', mode='w')</p>\n<p>Any idea what this error indicates?<br>\nThe info on the DataArray I'm saving is:</p>\n<p>xarray.DataArray<br>\ntime: 8000<br>\nz_t: 60</p>\n<p>Array   Chunk<br>\nBytes   1.83 MiB    240 B<br>\nShape   (8000, 60)  (1, 60)<br>\nCount   368084 Tasks    8000 Chunks<br>\nType    float32 numpy.ndarray   </p>\n<p>Thanks</p>",
+        "id": 56026,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1654286441
+    },
+    {
+        "content": "<p>Seems that restarting the kernel helps.</p>",
+        "id": 56055,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1654365534
+    }
+]

@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>@all, we're planning to repeat a portion of the CESM-LE with different forcing (no Pinatubo). Who has run the LENS tag on Cheyenne? How much do we need to worry about validation?</p>",
+        "id": 21395,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1605214971
+    },
+    {
+        "content": "<p>I've only run that tag on Yellowstone (same with <span class=\"user-mention\" data-user-id=\"37\">@Sheri Mickelson</span> I think).   </p>\n<p>If you are concerned about differences between CESM-LE on Cheyenne vs. Yellowstone, then I would not be concerned (but I would disable AVX2 (FMA) for the Cheyenne compiler) - I did a fair bit of testing with our CESM-ECT tool  at the time Cheyenne was new and all was good...</p>",
+        "id": 21408,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1605220558
+    },
+    {
+        "content": "<p>@nan, have you run the LENS tag on Cheyenne?</p>",
+        "id": 21411,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1605222990
+    },
+    {
+        "content": "<p>I think <a href=\"https://svn-ccsm-models.cgd.ucar.edu/cesm1/exp_tags/cesm1_1_2_LENS_n21/\" target=\"_blank\" title=\"https://svn-ccsm-models.cgd.ucar.edu/cesm1/exp_tags/cesm1_1_2_LENS_n21/\">https://svn-ccsm-models.cgd.ucar.edu/cesm1/exp_tags/cesm1_1_2_LENS_n21/</a> has known problems resolved on cheyenne.<br>\nI have a copy at <code>/glade/work/klindsay/cesm1_tags/cesm1_1_2_LENS_n21</code>.</p>",
+        "id": 21416,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1605224278
+    },
+    {
+        "content": "<p>Hi Matt.  Yes, I've run lots of LENS-tag simulations on cheyenne, using the same tag that Keith Lindsay pointed you to.  I've also coordinated several LEs with this tag; let me know if I can help in any way.</p>",
+        "id": 21652,
+        "sender_full_name": "Nan Rosenbloom",
+        "timestamp": 1605646009
+    },
+    {
+        "content": "<blockquote>\n<p>If you are concerned about differences between CESM-LE on Cheyenne vs. Yellowstone, then I would not be concerned (but I would disable AVX2 (FMA) for the Cheyenne compiler) - I did a fair bit of testing with our CESM-ECT tool  at the time Cheyenne was new and all was good...</p>\n</blockquote>\n<p>Thanks for this tip! How do you disable AVX2? I'm trying to look at the n21 tag to see if it has already been done, but I don't think it has been</p>",
+        "id": 22587,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607359812
+    },
+    {
+        "content": "<p>it looks like maybe I want to add the <code>-no-fma</code> flag, and that it isn't already included? Tagging <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> because I forgot to do that when I quoted her in a reply :)</p>",
+        "id": 22590,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607360167
+    },
+    {
+        "content": "<p>Is it possible that <code>-no-fma</code> is set as a default somewhere for intel 18.0.5? I created two cases and ran them both for one month:</p>\n<ol>\n<li><code>/glade/work/mlevy/codes/pinatubo-LE/cases/b.e11.B20TRC5CNBDRD.f09_g16.001</code></li>\n<li><code>/glade/work/mlevy/codes/pinatubo-LE/cases/b.e11.B20TRC5CNBDRD.f09_g16.002</code></li>\n</ol>\n<p>I didn't make any changes to the first case, but for the second case I added <code>FFLAGS += -no-fma</code> to <code>Macros</code>; this change shows up in the build logs</p>\n<div class=\"codehilite\"><pre><span></span>$ zgrep fma /glade/scratch/mlevy/b.e11.B20TRC5CNBDRD.f09_g16.001/bld/ocn.bldlog.*.gz | wc -l\n0\n$ zgrep fma /glade/scratch/mlevy/b.e11.B20TRC5CNBDRD.f09_g16.002/bld/ocn.bldlog.*.gz | wc -l\n112\n</pre></div>\n\n\n<p>but as far as I can tell, the two runs are bit-for-bit identical.</p>",
+        "id": 22602,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607366825
+    },
+    {
+        "content": "<p>So as long as you don't have the -xCORE-AVX2 flag then you may be OK.  Since -no-fma did not do anything, then you are probably not using avx2.  (If you have -xCORE-AVX2 , then it automatically does fma.  It is possible to have both flags -xCORE-AVX2 -no-fma)</p>",
+        "id": 22604,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1607368000
+    },
+    {
+        "content": "<p>Just for those following along at home -- I talked with <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> and she agrees that it looks like the current default does not use fma; we think at one point early in the process of porting to cheyenne CSEG had enabled AVX2, which turned fma on by default, but it was turned off when it caused issues with the verification tool and is not enabled in the n21 LENS tag. So we can still compare to the yellowstone output and I don't need to modify anything in the build system.</p>",
+        "id": 22608,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607370667
+    }
+]

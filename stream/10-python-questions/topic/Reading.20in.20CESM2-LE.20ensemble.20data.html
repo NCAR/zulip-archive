@@ -1,0 +1,298 @@
+<html>
+<head><meta charset="utf-8"><title>Reading in CESM2-LE ensemble data · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html">Reading in CESM2-LE ensemble data</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="65520"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65520" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65520">(Oct 05 2022 at 15:33)</a>:</h4>
+<p>Reading in CESM2-LE ensemble data<br>
+Hi! I am a bit stuck with reading in CESM2-LE ensemble data. Is there some standard script for opening it, as there should be pretty many users:). Best, Erko</p>
+
+
+
+<a name="65521"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65521" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65521">(Oct 05 2022 at 15:36)</a>:</h4>
+<p>This might be what you're looking for? <a href="https://cookbooks.projectpythia.org/cesm-lens-aws-cookbook/README.html">https://cookbooks.projectpythia.org/cesm-lens-aws-cookbook/README.html</a></p>
+
+
+
+<a name="65522"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65522" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65522">(Oct 05 2022 at 16:02)</a>:</h4>
+<p><span class="user-mention" data-user-id="319">@Erko Jakobson</span> </p>
+<p><a href="https://ncar.github.io/esds/posts/2021/intake-cesm2-le-glade-example/">https://ncar.github.io/esds/posts/2021/intake-cesm2-le-glade-example/</a></p>
+<p>This should also be useful!</p>
+
+
+
+<a name="65532"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65532" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65532">(Oct 05 2022 at 16:23)</a>:</h4>
+<p>I would also suggest looking at one of these examples <a href="https://ncar.github.io/cesm2-le-aws/kay_et_al_lens2.html">https://ncar.github.io/cesm2-le-aws/kay_et_al_lens2.html</a></p>
+
+
+
+<a name="65533"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65533" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65533">(Oct 05 2022 at 16:24)</a>:</h4>
+<p>You can create an interactive diagnostic plot that looks like this, with all the steps outlined <a href="/user_uploads/2/26/Zz_E8ynyfBjAvAcNb4XZ1AUd/Screen-Shot-2022-10-05-at-11.24.06-AM.png">Screen-Shot-2022-10-05-at-11.24.06-AM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/26/Zz_E8ynyfBjAvAcNb4XZ1AUd/Screen-Shot-2022-10-05-at-11.24.06-AM.png" title="Screen-Shot-2022-10-05-at-11.24.06-AM.png"><img src="/user_uploads/2/26/Zz_E8ynyfBjAvAcNb4XZ1AUd/Screen-Shot-2022-10-05-at-11.24.06-AM.png"></a></div>
+
+
+
+<a name="65534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65534">(Oct 05 2022 at 16:26)</a>:</h4>
+<p>One thing to also consider is whether you will be working on the NCAR HPC environment or not, since the data is hosted on /glade/.</p>
+
+
+
+<a name="65535"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65535" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65535">(Oct 05 2022 at 16:29)</a>:</h4>
+<p>Path to the the catalog on GLADE <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code></p>
+
+
+
+<a name="65711"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65711" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65711">(Oct 06 2022 at 18:50)</a>:</h4>
+<p>Thank you all for your help. Still there is a strange error with the code:</p>
+<p>catalog = intake.open_esm_datastore(<br>
+    '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>
+)</p>
+<p>gives errorcode:  FileNotFoundError: [Errno 2] No such file or directory: 'glade-cesm2-le.csv.gz'<br>
+But the file is in the same folder.  Any idea where might be the problem?</p>
+
+
+
+<a name="65740"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65740" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65740">(Oct 06 2022 at 19:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="319">@Erko Jakobson</span> </p>
+<p>Are you working locally or on Casper/Cheyenne?</p>
+
+
+
+<a name="65741"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65741" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65741">(Oct 06 2022 at 19:47)</a>:</h4>
+<p>I am working on Cheyenne</p>
+
+
+
+<a name="65742"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65742" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65742">(Oct 06 2022 at 19:50)</a>:</h4>
+<p>That's strange, I was working with the data earlier and didn't have this error (On Casper though, but shouldn't matter)</p>
+
+
+
+<a name="65753"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65753" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65753">(Oct 06 2022 at 20:51)</a>:</h4>
+<p>Tried Casper, but I didn't find suitable kernel for importing intake and NCARCluster.<br>
+Under Cheyenne, I use kernel "Notebook Gallery 2019.12" and the code is following:</p>
+<p>%matplotlib inline<br>
+import warnings<br>
+warnings.filterwarnings("ignore")<br>
+import intake<br>
+import numpy as np<br>
+import pandas as pd<br>
+import xarray as xr<br>
+import hvplot.pandas, hvplot.xarray<br>
+import holoviews as hv<br>
+from distributed import LocalCluster, Client<br>
+from ncar_jobqueue import NCARCluster<br>
+hv.extension('bokeh')</p>
+<p>cluster = NCARCluster()<br>
+cluster.scale(40)<br>
+client = Client(cluster)</p>
+<p>catalog = intake.open_esm_datastore(<br>
+    '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>
+)</p>
+<p>And the whole error code is:</p>
+<hr>
+<p>FileNotFoundError                         Traceback (most recent call last)<br>
+&lt;ipython-input-3-22448c0d5d6a&gt; in &lt;module&gt;<br>
+      1 catalog = intake.open_esm_datastore(<br>
+----&gt; 2     '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>
+      3 )<br>
+      4 catalog</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/intake_esm/core.py in __init__(self, esmcol_path, progressbar, log_level, **kwargs)<br>
+     79         self.progressbar = progressbar<br>
+     80         self._col_data = _fetch_and_parse_file(esmcol_path)<br>
+---&gt; 81         self.df = self._fetch_catalog()<br>
+     82         self._entries = {}<br>
+     83         self.urlpath = ''</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/intake_esm/core.py in _fetch_catalog(self)<br>
+    127         """Get the catalog file and cache it.<br>
+    128         """<br>
+--&gt; 129         return pd.read_csv(self._col_data['catalog_file'])<br>
+    130 <br>
+    131     def serialize(self, name, directory=None):</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in parser_f(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)<br>
+    683         )<br>
+    684 <br>
+--&gt; 685         return _read(filepath_or_buffer, kwds)<br>
+    686 <br>
+    687     parser_f.__name__ = name</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in _read(filepath_or_buffer, kwds)<br>
+    455 <br>
+    456     # Create the parser.<br>
+--&gt; 457     parser = TextFileReader(fp_or_buf, **kwds)<br>
+    458 <br>
+    459     if chunksize or iterator:</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in __init__(self, f, engine, **kwds)<br>
+    893             self.options["has_index_names"] = kwds["has_index_names"]<br>
+    894 <br>
+--&gt; 895         self._make_engine(self.engine)<br>
+    896 <br>
+    897     def close(self):</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in _make_engine(self, engine)<br>
+   1133     def _make_engine(self, engine="c"):<br>
+   1134         if engine == "c":<br>
+-&gt; 1135             self._engine = CParserWrapper(self.f, **self.options)<br>
+   1136         else:<br>
+   1137             if engine == "python":</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in __init__(self, src, **kwds)<br>
+   1915         kwds["usecols"] = self.usecols<br>
+   1916 <br>
+-&gt; 1917         self._reader = parsers.TextReader(src, **kwds)<br>
+   1918         self.unnamed_cols = self._reader.unnamed_cols<br>
+   1919 </p>
+<p>pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader.__cinit__()</p>
+<p>pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._setup_parser_source()</p>
+<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/gzip.py in __init__(self, filename, mode, compresslevel, fileobj, mtime)<br>
+    161             mode += 'b'<br>
+    162         if fileobj is None:<br>
+--&gt; 163             fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')<br>
+    164         if filename is None:<br>
+    165             filename = getattr(fileobj, 'name', '')</p>
+<p>FileNotFoundError: [Errno 2] No such file or directory: 'glade-cesm2-le.csv.gz'</p>
+
+
+
+<a name="65754"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65754" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65754">(Oct 06 2022 at 20:57)</a>:</h4>
+<p>Try creating your own conda enviroment and use that as your kernel. I presume that the 2019 kernel might be a bit outdated, which could be leading to some issues with intake not recognizing/finding certain files.</p>
+
+
+
+<a name="65755"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65755" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65755">(Oct 06 2022 at 21:00)</a>:</h4>
+<p>Let me know if you need help setting it up and getting it working with JupyterHub! The two additional packages I install wheneve setting up a enviroment on Casper/Cheyenne is <code>ipykernel</code> and <code>nb_conda_kernels</code></p>
+
+
+
+<a name="65759"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65759" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65759">(Oct 06 2022 at 21:09)</a>:</h4>
+<p>As you might have guessed - I have never created own conda or kernel. How to do it?</p>
+
+
+
+<a name="65760"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65760" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65760">(Oct 06 2022 at 21:17)</a>:</h4>
+<p>Does your project have an environment file you can start with?</p>
+<p>Here is a useful <a href="https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf">Conda cheatsheet</a></p>
+
+
+
+<a name="65761"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65761" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65761">(Oct 06 2022 at 21:19)</a>:</h4>
+<p>If you do have a file you can type in the terminal <code>conda env create --file environment.txt</code> (or whatever the name of your file is)</p>
+<p>If not type <code>conda create --name myenv python</code> where myenv is the name of your new environment.</p>
+
+
+
+<a name="65763"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65763" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65763">(Oct 06 2022 at 21:20)</a>:</h4>
+<p>Then download any desired package with <code>conda install packagename</code></p>
+
+
+
+<a name="65772"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65772" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65772">(Oct 06 2022 at 21:31)</a>:</h4>
+<p>This is great advice from Julia, I would just insert a step between her two suggestions:</p>
+<p><span class="user-mention silent" data-user-id="12">Julia Kent</span> <a href="#narrow/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data/near/65761">said</a>:</p>
+<blockquote>
+<p>If not type <code>conda create --name myenv python</code> where myenv is the name of your new environment.</p>
+</blockquote>
+<p>Run <code>conda activate myenv</code> to switch from the <code>(base)</code> environment to your new environment</p>
+<p><span class="user-mention silent" data-user-id="12">Julia Kent</span> <a href="#narrow/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data/near/65763">said</a>:</p>
+<blockquote>
+<p>Then download any desired package with <code>conda install packagename</code></p>
+</blockquote>
+
+
+
+<a name="65773"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65773" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65773">(Oct 06 2022 at 21:33)</a>:</h4>
+<p>And I would't be surprised if the issue you were running into is that the version of <code>intake-esm</code> in <code>Notebook Gallery 2019.12</code> expects a full pathname for <code>catalog_file</code>; I don't remember when Anderson dropped that requirement for how  the json file is structured. So another possibility would be to copy <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code> to your home directory or work directory, and then edit the third line to add the full path to the catalog</p>
+<div class="codehilite" data-code-language="Diff"><pre><span></span><code><span class="w">glade-cesm2-le.json</span>
+<span class="w">{</span>
+<span class="gd">-  "catalog_file": "glade-cesm2-le.csv.gz",</span><span class="w"></span>
+<span class="gi">+  "catalog_file": "/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.csv.gz",</span><span class="w"></span>
+</code></pre></div>
+<p>you should be able to read that json file with the older environment</p>
+
+
+
+<a name="65785"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65785" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65785">(Oct 07 2022 at 13:13)</a>:</h4>
+<p>Conda create resulted for some reason with unexpected error. But changing the catalog_file address in glade-cesm2-le.json worked and I got lists, thank you.<br>
+Still – there is a new problem:<br>
+dsets = catalog_subset.to_dataset_dict(storage_options={'anon':True})<br>
+gave FileNotFoundError: [Errno 2] No such file or directory: b'/glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/day_1/TREFHT/b.e21.BSSP370cmip6.f09_g17.LE2-1181.010.cam.h1.TREFHT.20150101-20241231.nc'</p>
+<p>And indeed – the address is incorrect, it feels that the glade-cesm2-le.csv.gz is outdated. How to solve it?</p>
+
+
+
+<a name="65787"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65787" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65787">(Oct 07 2022 at 14:10)</a>:</h4>
+<p><span class="user-mention" data-user-id="319">@Erko Jakobson</span> the file exists, and it looks like it should be globally readable:</p>
+<div class="codehilite"><pre><span></span><code>$ ls -l /glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/day_1/TREFHT/b.e21.BSSP370cmip6.f09_g17.LE2-1181.010.cam.h1.TREFHT.20150101-20241231.nc
+-rw-r--r--+ 1 strandwg cesm 461900521 Mar 25  2021 /glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/day_1/TREFHT/b.e21.BSSP370cmip6.f09_g17.LE2-1181.010.cam.h1.TREFHT.20150101-20241231.nc
+</code></pre></div>
+<p>are you running your notebook on cheyenne or casper? Cheyenne does not mount campaign storage, so you need to be on casper to access this data -- if you're having trouble on casper, I can make sure permissions are set correctly on all the subdirectories in the path</p>
+
+
+
+<a name="65796"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65796" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65796">(Oct 07 2022 at 15:33)</a>:</h4>
+<p>This seems like it might be easier to solve during an <a href="https://ncar.github.io/esds/office-hours/">office hours</a> appointment. Erko, do you still have a UCAR login?</p>
+
+
+
+<a name="65801"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65801" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65801">(Oct 07 2022 at 16:26)</a>:</h4>
+<p>I just opened a PR to unhide office hours so, once merged, Erko will no longer need a UCAR login to be able to schedule an appointment</p>
+
+
+
+<a name="65803"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65803" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65803">(Oct 07 2022 at 16:41)</a>:</h4>
+<p><span class="user-mention" data-user-id="319">@Erko Jakobson</span> You can make an appointment here: <a href="https://ncar.github.io/esds/office-hours/">https://ncar.github.io/esds/office-hours/</a></p>
+
+
+
+<a name="65847"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65847" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Erko Jakobson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65847">(Oct 10 2022 at 12:52)</a>:</h4>
+<p>I have UCAR login. I worked in Cheyenne, as in Casper I get error with "from ncar_jobqueue import NCARCluster".  And I made appointment for online help.</p>
+
+
+
+<a name="65849"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65849" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65849">(Oct 10 2022 at 14:06)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="319">Erko Jakobson</span> <a href="#narrow/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data/near/65847">said</a>:</p>
+<blockquote>
+<p>I have UCAR login. I worked in Cheyenne, as in Casper I get error with "from ncar_jobqueue import NCARCluster".  And I made appointment for online help.</p>
+</blockquote>
+<p>If you're using an environment from 2019, <code>ncar_jobqueue</code> is probably configured to use the SLURM queue manager for casper but CISL moved casper over to PBS (same queue manager that cheyenne has always used). You could try using <code>from dask_jobqueue import PBSCluster</code> but it would probably be best to walk through that change during your office hours appointment</p>
+
+
+
+<a name="65995"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20CESM2-LE%20ensemble%20data/near/65995" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data.html#65995">(Oct 11 2022 at 17:54)</a>:</h4>
+<p>Hi all. Erko made an ESDS office hour appointment with me, and I also suggested using the PBSCluster. Unfortunately we ran into some errors with that approach. I'm not very familiar with working on the HPC systems, so I'm not of much help. I'm looking around online for a solution, but in the meantime if someone else wants to have a go at this during an office hour appointment, please do.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

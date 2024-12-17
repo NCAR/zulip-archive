@@ -1,0 +1,104 @@
+[
+    {
+        "content": "<p>Hi,</p>\n<p>I'm loading in data with a script that previously worked (maybe a month or two ago). However, now I am getting an error that says Failed to deserialize, screenshot attached of the error.  </p>\n<p><a href=\"/user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png\">Screen-Shot-2022-03-29-at-3.52.45-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png\" title=\"Screen-Shot-2022-03-29-at-3.52.45-PM.png\"><img src=\"/user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png\"></a></div><p>The line of code that it does not seem to like is the first time I call:<br>\nmfds = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={'time':6}, preprocess=fixmonth)</p>\n<p>The cell is copied below in full:</p>\n<div class=\"codehilite\"><pre><span></span><code>from glob import glob\n\n##### READ U Control ####\nddir = &#39;/glade/scratch/mberdahl/127kaControl/WIND/STRESS/&#39;\ndfiles = sorted(glob(ddir + &#39;*.TAUX.*.nc&#39;))  # use sorted to make sure the files are in order for concatenation\ndfiles\nmfds = xr.open_mfdataset(dfiles, combine=&#39;by_coords&#39;, parallel=True , chunks={&#39;time&#39;:6}, preprocess=fixmonth)\n\nmfds = mfds.assign_coords({&#39;TLONG&#39;: ((&#39;nlat&#39;, &#39;nlon&#39;), grid.lon.data),\n                       &#39;TLAT&#39;: ((&#39;nlat&#39;, &#39;nlon&#39;), grid.lat.data)})\n\n# Fix longitudes for better plotting\nmfds_fix = pop_add_cyclic(mfds)\n#ds127kactrl_fix = pop_add_cyclic(ds_127kactrl)\n#ds_127kactrl_CLIM = pop_add_cyclic(ds_127kactrl_CLIM)\nuwnd_ctrl = mfds_fix.TAUX\nuwind_ctrl = mfds_fix.TAUX.mean(&#39;time&#39;)\n\n\n\n#### READ V Control ####\nddir = &#39;/glade/scratch/mberdahl/127kaControl/WIND/STRESS/&#39;\ndfiles = sorted(glob(ddir + &#39;*.TAUY.*.nc&#39;))  # use sorted to make sure the files are in order for concatenation\ndfiles\nmfds2 = xr.open_mfdataset(dfiles, combine=&#39;by_coords&#39;, parallel=True , chunks={&#39;time&#39;:6}, preprocess=fixmonth)\nmfds2\n\nmfds2 = mfds2.assign_coords({&#39;TLONG&#39;: ((&#39;nlat&#39;, &#39;nlon&#39;), grid.lon.data),\n                       &#39;TLAT&#39;: ((&#39;nlat&#39;, &#39;nlon&#39;), grid.lat.data)})\n\nmfds2_fix = pop_add_cyclic(mfds2)\n\nvwnd_ctrl = mfds2_fix.TAUY\nvwind_ctrl = mfds2_fix.TAUY.mean(&#39;time&#39;)\n</code></pre></div>\n<p>Any thoughts on how to proceed are appreciated!</p>",
+        "id": 52903,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648594610
+    },
+    {
+        "content": "<p>This looks like a dask issue. Can you print out <code>dask.__version__</code> The latest one is <code>2022.3.0</code> I think</p>",
+        "id": 53001,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648743028
+    },
+    {
+        "content": "<p>It doesn't seem to even recognize dask,  I get:</p>\n<hr>\n<p>NameError                                 Traceback (most recent call last)<br>\nInput In [25], in &lt;module&gt;<br>\n----&gt; 1 dask.__version__</p>\n<p>NameError: name 'dask' is not defined</p>",
+        "id": 53003,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648743493
+    },
+    {
+        "content": "<p>That means you haven't explicitly imported dask in your notebook. Use <code>import dask</code> first</p>",
+        "id": 53004,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648743802
+    },
+    {
+        "content": "<p>Ok, thanks.  It looks like my version is <br>\n'2022.01.0'<br>\nDo I need to update this?</p>\n<p>In general, do I always have to explicitly import dask into my notebook?  It seems I am using dask arrays im some of my other scripts, even without importing dask.</p>",
+        "id": 53005,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648744362
+    },
+    {
+        "content": "<p>I think it would be good to update.</p>\n<blockquote>\n<p>do I always have to explicitly import dask into my notebook?</p>\n</blockquote>\n<p>Only if you want to do explicitly something with it, like checking the version. Xarray will import and use as necessary for example.</p>",
+        "id": 53006,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648744598
+    },
+    {
+        "content": "<p>OK, that makes sense, thanks.<br>\nDo you recommend I use mamba for the update?</p>",
+        "id": 53009,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648745459
+    },
+    {
+        "content": "<p>yes!</p>",
+        "id": 53012,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648745650
+    },
+    {
+        "content": "<p>Hi Deepak,<br>\nLooks like the same problem persists despite the updated dask package... <br>\nScreenshot shows the updated version is being used:<br>\n<a href=\"/user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png\">Screen-Shot-2022-03-31-at-2.16.33-PM-2.png</a> <br>\nAny other thoughts?<br>\nThanks.</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png\" title=\"Screen-Shot-2022-03-31-at-2.16.33-PM-2.png\"><img src=\"/user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png\"></a></div>",
+        "id": 53026,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648761492
+    },
+    {
+        "content": "<p>Oops sorry. I have seen this before (<a href=\"https://github.com/pydata/xarray/issues/6226\">https://github.com/pydata/xarray/issues/6226</a>). The issue was with <code>cftime</code> and/or <code>pandas</code>. Can you upgrade those two and try again.</p>",
+        "id": 53027,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648762476
+    },
+    {
+        "content": "<p>Unfortunately the issue persists despite updating pandas and cftime...</p>",
+        "id": 53040,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648766107
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span>, which version of <code>pandas</code> are you running?</p>",
+        "id": 53041,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648767682
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> Looks like it is '1.4.1'</p>",
+        "id": 53042,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648767969
+    },
+    {
+        "content": "<p>try downgrading to version earlier than <code>v1.4.0</code> to see if your issue goes away </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>mamba install <span class=\"s1\">'pandas&lt;1.4.0'</span>\n</code></pre></div>",
+        "id": 53043,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648768049
+    },
+    {
+        "content": "<p>edit: i meant to write version earlier than <code>v1.4.0</code></p>",
+        "id": 53044,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648768141
+    },
+    {
+        "content": "<p>That did the trick!  Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span></p>",
+        "id": 53045,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1648768977
+    },
+    {
+        "content": "<p>glad to hear it and thank you for your patience!</p>",
+        "id": 53046,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1648769024
+    }
+]

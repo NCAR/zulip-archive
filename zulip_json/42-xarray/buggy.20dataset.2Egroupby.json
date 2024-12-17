@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>has anyone experienced weirdness with xarray's <code>.groupby(foo).apply(bar)</code>? Specifically it seems to squeeze out the groupby dim in some cases and others.</p>\n<p>I am running the same operations on two isomorphic datasets, just with different lat/lon dimensions (one deg vs quarter deg).  It seems that groupby is not squeezing out the latitude dimension for the larger dataset.</p>\n<p>If anyone is interested i have saved the two datasets in question and a little test.py at </p>\n<div class=\"codehilite\"><pre><span></span><code>/glade/work/dkimpara/xarray-bug\n</code></pre></div>",
+        "id": 98046,
+        "sender_full_name": "Dhamma Kimpara (he/him)",
+        "timestamp": 1713562682
+    },
+    {
+        "content": "<p>It certainly looks like there's some difference in behavior there following the indexing operation (not sure that's a common use case).  </p>\n<p>Are you looking to maintain the dimension or drop it?  With the <code>squeeze</code> parameter in <code>groupby</code> set to <code>False</code> it reliably maintains the dimension.  If you'd rather drop it, you can chain the <code>squeeze</code> method after the indexing.</p>",
+        "id": 98049,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1713797074
+    },
+    {
+        "content": "<p>I'd like to drop the dimension. Yes, for now I am using <code>squeeze</code> to get around this issue after checking that the dim hasn't been squeezed yet</p>",
+        "id": 98057,
+        "sender_full_name": "Dhamma Kimpara (he/him)",
+        "timestamp": 1713807388
+    }
+]

@@ -1,0 +1,63 @@
+<html>
+<head><meta charset="utf-8"><title>Seam 0 dateline (with periodic = True) regridding with xesmf · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Seam.200.20dateline.20.28with.20periodic.20.3D.20True.29.20regridding.20with.20xesmf.html">Seam 0 dateline (with periodic = True) regridding with xesmf</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="99073"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Seam%200%20dateline%20%28with%20periodic%20%3D%20True%29%20regridding%20with%20xesmf/near/99073" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Seam.200.20dateline.20.28with.20periodic.20.3D.20True.29.20regridding.20with.20xesmf.html#99073">(May 09 2024 at 21:55)</a>:</h4>
+<p>I'm trying to regrid some cmip6 models with xesmf regridder.  <br>
+The operation works, but upon plotting some (not all) of the regridded models have a seam in the output at the 0 dateline. I found this post (<a href="https://github.com/JiaweiZhuang/xESMF/issues/101">https://github.com/JiaweiZhuang/xESMF/issues/101</a>), but it appears there was a PR resolution a while back .  Here is a snippet of code and the seam when plotted:</p>
+<div class="codehilite"><pre><span></span><code># define the target grid
+
+starty = 1985; endy = 1986
+year_range = range(starty, endy+1)
+
+# ds = dset_dict[&#39;CMIP.NCC.NorESM2-LM.historical.Amon.gn&#39;]
+ds = dt[&quot;NorESM2-LM&quot;][&quot;historical&quot;].ds.tas
+
+# Read in the output grid from NorESM
+ds_target = ds.sel(time = ds.time.dt.year.isin(year_range)).squeeze()
+ds_target
+
+
+# Define the names of the datasets
+dataset_names = [&quot;ACCESS_CM2_hist&quot;, &quot;ACCESS_CM2_histNat&quot;, &quot;ACCESS_ESM1_5_LM_hist&quot;, &quot;ACCESS_ESM1_5_LM_histNat&quot;, &quot;BCC_CSM2_MR_hist&quot;, &quot;BCC_CSM2_MR_histNat&quot;, &quot;CanESM5_hist&quot;, &quot;CanESM5_histNat&quot;,  &quot;CESM2_hist&quot;, &quot;CESM2_histNat&quot; ,&quot;FGOALS_g3_hist&quot;, &quot;FGOALS_g3_histNat&quot;, &quot;GISS_E2_1_G_hist&quot;, &quot;GISS_E2_1_G_histNat&quot; , &quot;HadGEM3_GC31_L_hist&quot;, &quot;HadGEM3_GC31_L_histNat&quot;, &quot;MIROC6_hist&quot;, &quot;MIROC6_histNat&quot; , &quot;MRI_ESM2_0_hist&quot;, &quot;MRI_ESM2_0_histNat&quot; , &quot;NorESM2_LM_hist&quot;, &quot;NorESM2_LM_histNat&quot;]
+
+# Create an empty dictionary to store the regridded datasets
+regridded_datasets = {}
+
+# Loop through each dataset name
+for dataset_name in dataset_names:
+    print(dataset_name)
+
+    # Define the original dataset
+    original_dataset = globals()[dataset_name]
+
+    # Define the regridder object
+    regridder = xe.Regridder(
+        original_dataset, ds_target, &quot;bilinear&quot;, periodic=True, ignore_degenerate=True,
+    )  # this takes some time to calculate a weight matrix for the regridding
+
+    # Apply regridding and store the regridded dataset in the dictionary
+    regridded_datasets[dataset_name] = regridder(original_dataset.squeeze())  # this is a bit of a lazy operation
+</code></pre></div>
+<p><a href="/user_uploads/2/d4/RjMq57GzByLz6IX-AXTqn7wy/image.png">image.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/d4/RjMq57GzByLz6IX-AXTqn7wy/image.png" title="image.png"><img src="/user_uploads/2/d4/RjMq57GzByLz6IX-AXTqn7wy/image.png"></a></div>
+
+
+
+<a name="99402"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Seam%200%20dateline%20%28with%20periodic%20%3D%20True%29%20regridding%20with%20xesmf/near/99402" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Seam.200.20dateline.20.28with.20periodic.20.3D.20True.29.20regridding.20with.20xesmf.html#99402">(May 16 2024 at 22:25)</a>:</h4>
+<p>For anyone interested, it appears this was a bug.  More information plus a workaround are here:<br>
+<a href="https://github.com/pangeo-data/xESMF/issues/363">https://github.com/pangeo-data/xESMF/issues/363</a></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

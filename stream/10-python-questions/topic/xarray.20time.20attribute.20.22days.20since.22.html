@@ -1,0 +1,113 @@
+<html>
+<head><meta charset="utf-8"><title>xarray time attribute &quot;days since&quot; · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html">xarray time attribute &quot;days since&quot;</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="52733"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52733" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52733">(Mar 28 2022 at 18:59)</a>:</h4>
+<p>Hello, I'm trying to write out a variable with a datetime64 time axis to netcdf and xarray seems to automatically write it out in the units of "hours since whenever".  I'm trying to read this in to the CESM SST time diddling code which only seems to work if the time axis is in units of "days since whenever".  Does anyone know how I can force xarray to write out the time axis to the netcdf in this format?  I have tried ensuring that the time axis only consists of days, but it still writes it out in hours since.  I could manually make the time axis and give it those attributes, but I'm wondering if there's a better way.  Thanks for any help.</p>
+
+
+
+<a name="52735"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52735" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52735">(Mar 28 2022 at 19:11)</a>:</h4>
+<p><span class="user-mention" data-user-id="45">@Isla Simpson</span>:  Can you share the first few elements of the <code>time</code> coordinate?</p>
+
+
+
+<a name="52741"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52741" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52741">(Mar 28 2022 at 19:27)</a>:</h4>
+<p>Isla, please try</p>
+<div class="codehilite"><pre><span></span><code>ds.time.encoding[&quot;units&quot;] = &quot;days since whenever&quot;
+</code></pre></div>
+<p>prior to writing the Dataset out, where <code>ds</code> is the xarray Dataset being written out.<br>
+This tells xarray what units to use for time when it writes it out, instead of letting xarray decide for you.</p>
+
+
+
+<a name="52744"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52744" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52744">(Mar 28 2022 at 19:29)</a>:</h4>
+<p>Or, if you are writing the netcdf files using Xarray's <code>to_netcdf</code> method, you can include the <code>encoding</code> in the <code>to_netcdf</code> function directly:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="s1">'my_netcdf_file.nc'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="p">{</span><span class="s1">'time'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'units'</span><span class="p">:</span> <span class="s1">'days since whenever'</span><span class="p">}})</span>
+</code></pre></div>
+
+
+
+<a name="52757"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52757" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52757">(Mar 28 2022 at 19:37)</a>:</h4>
+<p>super.  Problem solved, thank you both! I also realized that when I'd tried to make the time not have any hours, it was getting overwritten as I was merging the variable in with another one which still had the original time axis.  But it's good to know how to do this using these ways that are more straightforward.  Thank you!</p>
+
+
+
+<a name="52795"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52795" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52795">(Mar 29 2022 at 07:19)</a>:</h4>
+<p>The documentation on this topic is <a href="https://docs.xarray.dev/en/stable/user-guide/io.html#time-units">here</a></p>
+
+
+
+<a name="52796"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/52796" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#52796">(Mar 29 2022 at 13:04)</a>:</h4>
+<p>Ah, thank you.  I had just been looking on the "to_netcdf" documentation page.</p>
+
+
+
+<a name="53186"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/53186" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Else Schlerman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#53186">(Apr 04 2022 at 19:58)</a>:</h4>
+<p>Code in question:</p>
+<div class="codehilite"><pre><span></span><code>plat,plon = 69 , (360.-149.37) # °N, °W
+plotVar = maxALT.isel(year=slice(-10,None)).mean([&#39;ens&#39;,&#39;year&#39;])
+plt.figure(figsize=(8,6), dpi= 90)
+
+
+# Make a new projection, time of class &quot;NorthPolarStereo&quot;
+ax = plt.axes(projection=ccrs.NorthPolarStereo(true_scale_latitude=70))
+
+# here is here you tell Cartopy that the projection
+# of your &#39;x&#39; and &#39;y&#39; are geographic (lons and lats)
+# and that you want to transform those lats and lons
+#into &#39;x&#39; and &#39;y&#39; in the projection
+plt.pcolormesh(maxALT.lon, maxALT.lat, plotVar,
+               transform=ccrs.PlateCarree());
+
+# plot land
+ax.add_feature(cfeature.OCEAN)
+ax.gridlines()
+ax.coastlines()
+plt.colorbar(label=&#39;m&#39;)
+plt.title(&#39;Active Layer Thickness&#39;)
+
+# Limit the map to -60 degrees latitude and below.
+ax.set_extent([-180, 180, 90, 60], ccrs.PlateCarree())
+
+# Compute a circle in axes coordinates, which we can use as a boundary
+# for the map. We can pan/zoom as much as we like - the boundary will be
+# permanently circular.
+theta = np.linspace(0, 2*np.pi, 100)
+center, radius = [0.5, 0.5], 0.5
+verts = np.vstack([np.sin(theta), np.cos(theta)]).T
+#circle = mpath.Path(verts * radius + center)
+
+plt.plot(plon, plat, markersize=4,
+                color=&#39;red&#39;, linewidth=0, marker=&#39;o&#39;,
+                transform=ccrs.Geodetic(),
+                 )
+    #ax.set_boundary(circle, transform=ax.transAxes)
+print(np.round(plotVar.sel(lat=plat,lon=plon,method=&#39;nearest&#39;).values,2))
+</code></pre></div>
+
+
+
+<a name="53214"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20time%20attribute%20%22days%20since%22/near/53214" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20time.20attribute.20.22days.20since.22.html#53214">(Apr 05 2022 at 02:47)</a>:</h4>
+<p>That's just a warning about Cartopy using something that's been deprecated by the latest Shapely. It <em>should</em> be fixed by the Cartopy 0.20.2 release. So you can either update cartopy or safely ignore the warning.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I want to share a few things we've put together that may make creating and sharing Conda environments easier. First, I've put together two helper utilities which are now in the default environment on Cheyenne and Casper:</p>\n<ul>\n<li><strong>create_conda_kernel</strong> - you can use this script to quickly create a personal Jupyter kernel from any accessible conda environment. Let's say a colleague has an environment they are using to run a notebook, and you wish to do the same. Simply run <code>create_conda_kernel /glade/work/colleague/conda-envs/their_env</code> and it will create a kernel you can use that points to their environment. Keep in mind that any changes they make to their environment will impact your usage too.</li>\n<li><strong>compare_env_yaml</strong> - you can use this script to check the status of packages in an environment relative to a specified YAML file. This could be useful if you've deployed an environment from a requirements file but then added packages using conda/mamba, and you want to see the differences between the two. Example: <code>compare_env_yaml -y /path/to/requirements.yml conda-env-name</code> </li>\n</ul>\n<p>Finally, we are now tracking our environment YAML files in a github repo: <a href=\"https://github.com/NCAR/ncar-conda\">https://github.com/NCAR/ncar-conda</a>. Any changes we make to our deployments can be tracked there. You can clone this repo elsewhere if you have reason to use our environments on another system.  And feel free to post GitHub issues there too if you prefer - though we still consider support tickets to be our primary means of support for these environments (our NPL and R environments).</p>",
+        "id": 85099,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1688576385
+    },
+    {
+        "content": "<p>These are great resources, thanks <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>. I was going to suggest we organize an ESDS forum around conda, and then I saw you are already signed up for August 7 <span aria-label=\"smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"smile\">:smile:</span> . Looking forward to it! We could also think about turning that discussion into a blog post or FAQ for the ESDS website, which I think would be broadly useful.</p>",
+        "id": 85145,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1688589863
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span>, the blog post sounds like a great idea. Once I have a decent draft of material, I'll reach out to you to coordinate that part of it.</p>",
+        "id": 85146,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1688592032
+    },
+    {
+        "content": "<p>I also encourage, with approval already provded from Brian, to submit recommended changes or library additions to npl via a GitHub issue at <a href=\"https://github.com/NCAR/ncar-conda/issues\">https://github.com/NCAR/ncar-conda/issues</a>. With any issue, best practice will be to include a record of successful installation of that package to an NPL clone and any important changes, downgrades, dependencies, etc brought in with said install.</p>\n<p>Also of note, here are useful commands <code>conda list --revisions</code> and <code>conda install --revision=REVNUM</code> for investigating changes to an environment over time and reverting changes.</p>",
+        "id": 85195,
+        "sender_full_name": "Daniel Howard",
+        "timestamp": 1688663853
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>  et al. <a href=\"https://conda.store/en/latest/\">conda-store</a> looks like a useful tool for this problem, based on conversations at SciPy.</p>",
+        "id": 85428,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1689174615
+    },
+    {
+        "content": "<p>Thanks for passing that along <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>. At first glance it looks intriguing, though I'll have to play with it some to get a full picture.</p>",
+        "id": 85438,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1689177415
+    }
+]

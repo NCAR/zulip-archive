@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I am trying to form region mask from the MOM6 latitude and longitude arrays. This is a tripole grid, so might be why I am running into problems here. Here is the code and error. I'm guessing it is because there are two regions in the latitude array that meet the criteria of being between 50 and 78 on the tripole grid? Does anyone have experience with this?</p>\n<p>latm = [50.0, 78.0]<br>\nlonm = [284.0, 35.0]</p>\n<p>lon = np.where(TLON &lt; 0, TLON+360.,TLON)</p>\n<p>print(latm)<br>\nprint(lonm)<br>\nprint(np.max(lon))</p>\n<p>mask = np.where(((TLAT &gt; latm[0] and TLAT &lt; latm[1]) and (lon &gt; lonm[0] or lon &lt; lonm[1]),1,0))</p>\n<p>ValueError                                Traceback (most recent call last)<br>\nCell In[103], line 10<br>\n      7 print(lonm)<br>\n      8 print(np.max(lon))<br>\n---&gt; 10 mask = np.where(((TLAT &gt; latm[0] and TLAT &lt; latm[1]) and (lon &gt; lonm[0] or lon &lt; lonm[1]),1.,0))<br>\n     12 ds1_lab = (tarea<em>ds1.aice).sum(dim=['nj','ni'])</em>1.0e-12<br>\n     13 ds2_lab = (tarea<em>ds2.aice).sum(dim=['nj','ni'])</em>1.0e-12</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/common.py:154, in AbstractArray.__bool__(self)<br>\n    153 def __bool__(self: Any) -&gt; bool:<br>\n--&gt; 154     return bool(self.values)</p>\n<p>ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()</p>",
+        "id": 95232,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706556860
+    },
+    {
+        "content": "<p>The error is coming from the <code>and</code> and <code>or</code> statements -- when your conditionals are in arrays, you need to use <code>np.logical_and(cond1, cond2)</code> and <code>np.logical_or(cond1, cond2)</code> instead of <code>cond1 and cond2</code> and <code>cond1 or cond2</code>, respectively.</p>",
+        "id": 95233,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706558081
+    },
+    {
+        "content": "<p>Can you try</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">mask</span> <span class=\"o\">=</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">where</span><span class=\"p\">(</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">logical_and</span><span class=\"p\">(</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">logical_and</span><span class=\"p\">(</span><span class=\"n\">TLAT</span> <span class=\"o\">&gt;</span> <span class=\"n\">latm</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">],</span> <span class=\"n\">TLAT</span> <span class=\"o\">&lt;</span> <span class=\"n\">latm</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">]),</span>\n                               <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">logical_or</span><span class=\"p\">(</span><span class=\"n\">lon</span> <span class=\"o\">&gt;</span> <span class=\"n\">lonm</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">],</span> <span class=\"n\">lon</span> <span class=\"o\">&lt;</span> <span class=\"n\">lonm</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">])),</span><span class=\"mi\">1</span><span class=\"p\">,</span><span class=\"mi\">0</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>(I think I got the parentheses right, but you might need to play with it -- also, should the <code>logical_or</code> be another <code>logical_and</code>?)</p>",
+        "id": 95234,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706558194
+    },
+    {
+        "content": "<p>Got it. I will try that out. I think the longitude condition should be an or.</p>",
+        "id": 95235,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706558265
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"93\">David Bailey</span> <a href=\"#narrow/stream/63-CESM-diagnostics/topic/Region.20Mask/near/95235\">said</a>:</p>\n<blockquote>\n<p>Got it. I will try that out. I think the longitude condition should be an or.</p>\n</blockquote>\n<p>Oh, because it wraps around 0... I think you're right. I didn't actually look at the values in <code>lonm</code> before saying that</p>",
+        "id": 95236,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706558314
+    },
+    {
+        "content": "<p>This works! I think I like this idea, because I can form several masks and multiply them together for more complicated regions.</p>\n<div class=\"codehilite\"><pre><span></span><code>mask1 = np.where(np.logical_and(TLAT &gt; latm[0], TLAT &lt; latm[1]),1.,0.)\nmask2 = np.where(np.logical_or(lon &gt; lonm[0], lon &lt; lonm[1]),1.,0.)\nmask = mask1*mask2\n\nds1_lab = (mask*tarea*ds1.aice).sum(dim=[&#39;nj&#39;,&#39;ni&#39;])*1.0e-12\nds2_lab = (mask*tarea*ds2.aice).sum(dim=[&#39;nj&#39;,&#39;ni&#39;])*1.0e-12\n</code></pre></div>",
+        "id": 95243,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706563947
+    }
+]

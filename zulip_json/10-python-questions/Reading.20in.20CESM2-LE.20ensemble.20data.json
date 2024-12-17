@@ -1,0 +1,170 @@
+[
+    {
+        "content": "<p>Reading in CESM2-LE ensemble data<br>\nHi! I am a bit stuck with reading in CESM2-LE ensemble data. Is there some standard script for opening it, as there should be pretty many users:). Best, Erko</p>",
+        "id": 65520,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1664983990
+    },
+    {
+        "content": "<p>This might be what you're looking for? <a href=\"https://cookbooks.projectpythia.org/cesm-lens-aws-cookbook/README.html\">https://cookbooks.projectpythia.org/cesm-lens-aws-cookbook/README.html</a></p>",
+        "id": 65521,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1664984206
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"319\">@Erko Jakobson</span> </p>\n<p><a href=\"https://ncar.github.io/esds/posts/2021/intake-cesm2-le-glade-example/\">https://ncar.github.io/esds/posts/2021/intake-cesm2-le-glade-example/</a></p>\n<p>This should also be useful!</p>",
+        "id": 65522,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1664985759
+    },
+    {
+        "content": "<p>I would also suggest looking at one of these examples <a href=\"https://ncar.github.io/cesm2-le-aws/kay_et_al_lens2.html\">https://ncar.github.io/cesm2-le-aws/kay_et_al_lens2.html</a></p>",
+        "id": 65532,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1664987031
+    },
+    {
+        "content": "<p>You can create an interactive diagnostic plot that looks like this, with all the steps outlined <a href=\"/user_uploads/2/26/Zz_E8ynyfBjAvAcNb4XZ1AUd/Screen-Shot-2022-10-05-at-11.24.06-AM.png\">Screen-Shot-2022-10-05-at-11.24.06-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/26/Zz_E8ynyfBjAvAcNb4XZ1AUd/Screen-Shot-2022-10-05-at-11.24.06-AM.png\" title=\"Screen-Shot-2022-10-05-at-11.24.06-AM.png\"><img src=\"/user_uploads/2/26/Zz_E8ynyfBjAvAcNb4XZ1AUd/Screen-Shot-2022-10-05-at-11.24.06-AM.png\"></a></div>",
+        "id": 65533,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1664987073
+    },
+    {
+        "content": "<p>One thing to also consider is whether you will be working on the NCAR HPC environment or not, since the data is hosted on /glade/.</p>",
+        "id": 65534,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1664987174
+    },
+    {
+        "content": "<p>Path to the the catalog on GLADE <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code></p>",
+        "id": 65535,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1664987371
+    },
+    {
+        "content": "<p>Thank you all for your help. Still there is a strange error with the code:</p>\n<p>catalog = intake.open_esm_datastore(<br>\n    '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>\n)</p>\n<p>gives errorcode:  FileNotFoundError: [Errno 2] No such file or directory: 'glade-cesm2-le.csv.gz'<br>\nBut the file is in the same folder.  Any idea where might be the problem?</p>",
+        "id": 65711,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1665082203
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"319\">@Erko Jakobson</span> </p>\n<p>Are you working locally or on Casper/Cheyenne?</p>",
+        "id": 65740,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1665085340
+    },
+    {
+        "content": "<p>I am working on Cheyenne</p>",
+        "id": 65741,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1665085675
+    },
+    {
+        "content": "<p>That's strange, I was working with the data earlier and didn't have this error (On Casper though, but shouldn't matter)</p>",
+        "id": 65742,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1665085819
+    },
+    {
+        "content": "<p>Tried Casper, but I didn't find suitable kernel for importing intake and NCARCluster.<br>\nUnder Cheyenne, I use kernel \"Notebook Gallery 2019.12\" and the code is following:</p>\n<p>%matplotlib inline<br>\nimport warnings<br>\nwarnings.filterwarnings(\"ignore\")<br>\nimport intake<br>\nimport numpy as np<br>\nimport pandas as pd<br>\nimport xarray as xr<br>\nimport hvplot.pandas, hvplot.xarray<br>\nimport holoviews as hv<br>\nfrom distributed import LocalCluster, Client<br>\nfrom ncar_jobqueue import NCARCluster<br>\nhv.extension('bokeh')</p>\n<p>cluster = NCARCluster()<br>\ncluster.scale(40)<br>\nclient = Client(cluster)</p>\n<p>catalog = intake.open_esm_datastore(<br>\n    '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>\n)</p>\n<p>And the whole error code is:</p>\n<hr>\n<p>FileNotFoundError                         Traceback (most recent call last)<br>\n&lt;ipython-input-3-22448c0d5d6a&gt; in &lt;module&gt;<br>\n      1 catalog = intake.open_esm_datastore(<br>\n----&gt; 2     '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>\n      3 )<br>\n      4 catalog</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/intake_esm/core.py in __init__(self, esmcol_path, progressbar, log_level, **kwargs)<br>\n     79         self.progressbar = progressbar<br>\n     80         self._col_data = _fetch_and_parse_file(esmcol_path)<br>\n---&gt; 81         self.df = self._fetch_catalog()<br>\n     82         self._entries = {}<br>\n     83         self.urlpath = ''</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/intake_esm/core.py in _fetch_catalog(self)<br>\n    127         \"\"\"Get the catalog file and cache it.<br>\n    128         \"\"\"<br>\n--&gt; 129         return pd.read_csv(self._col_data['catalog_file'])<br>\n    130 <br>\n    131     def serialize(self, name, directory=None):</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in parser_f(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)<br>\n    683         )<br>\n    684 <br>\n--&gt; 685         return _read(filepath_or_buffer, kwds)<br>\n    686 <br>\n    687     parser_f.__name__ = name</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in _read(filepath_or_buffer, kwds)<br>\n    455 <br>\n    456     # Create the parser.<br>\n--&gt; 457     parser = TextFileReader(fp_or_buf, **kwds)<br>\n    458 <br>\n    459     if chunksize or iterator:</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in __init__(self, f, engine, **kwds)<br>\n    893             self.options[\"has_index_names\"] = kwds[\"has_index_names\"]<br>\n    894 <br>\n--&gt; 895         self._make_engine(self.engine)<br>\n    896 <br>\n    897     def close(self):</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in _make_engine(self, engine)<br>\n   1133     def _make_engine(self, engine=\"c\"):<br>\n   1134         if engine == \"c\":<br>\n-&gt; 1135             self._engine = CParserWrapper(self.f, **self.options)<br>\n   1136         else:<br>\n   1137             if engine == \"python\":</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/site-packages/pandas/io/parsers.py in __init__(self, src, **kwds)<br>\n   1915         kwds[\"usecols\"] = self.usecols<br>\n   1916 <br>\n-&gt; 1917         self._reader = parsers.TextReader(src, **kwds)<br>\n   1918         self.unnamed_cols = self._reader.unnamed_cols<br>\n   1919 </p>\n<p>pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader.__cinit__()</p>\n<p>pandas/_libs/parsers.pyx in pandas._libs.parsers.TextReader._setup_parser_source()</p>\n<p>/ncar/usr/jupyterhub/envs/notebook-gallery-2019.12/lib/python3.7/gzip.py in __init__(self, filename, mode, compresslevel, fileobj, mtime)<br>\n    161             mode += 'b'<br>\n    162         if fileobj is None:<br>\n--&gt; 163             fileobj = self.myfileobj = builtins.open(filename, mode or 'rb')<br>\n    164         if filename is None:<br>\n    165             filename = getattr(fileobj, 'name', '')</p>\n<p>FileNotFoundError: [Errno 2] No such file or directory: 'glade-cesm2-le.csv.gz'</p>",
+        "id": 65753,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1665089516
+    },
+    {
+        "content": "<p>Try creating your own conda enviroment and use that as your kernel. I presume that the 2019 kernel might be a bit outdated, which could be leading to some issues with intake not recognizing/finding certain files.</p>",
+        "id": 65754,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1665089830
+    },
+    {
+        "content": "<p>Let me know if you need help setting it up and getting it working with JupyterHub! The two additional packages I install wheneve setting up a enviroment on Casper/Cheyenne is <code>ipykernel</code> and <code>nb_conda_kernels</code></p>",
+        "id": 65755,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1665090016
+    },
+    {
+        "content": "<p>As you might have guessed - I have never created own conda or kernel. How to do it?</p>",
+        "id": 65759,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1665090558
+    },
+    {
+        "content": "<p>Does your project have an environment file you can start with?</p>\n<p>Here is a useful <a href=\"https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf\">Conda cheatsheet</a></p>",
+        "id": 65760,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1665091051
+    },
+    {
+        "content": "<p>If you do have a file you can type in the terminal <code>conda env create --file environment.txt</code> (or whatever the name of your file is)</p>\n<p>If not type <code>conda create --name myenv python</code> where myenv is the name of your new environment.</p>",
+        "id": 65761,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1665091185
+    },
+    {
+        "content": "<p>Then download any desired package with <code>conda install packagename</code></p>",
+        "id": 65763,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1665091215
+    },
+    {
+        "content": "<p>This is great advice from Julia, I would just insert a step between her two suggestions:</p>\n<p><span class=\"user-mention silent\" data-user-id=\"12\">Julia Kent</span> <a href=\"#narrow/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data/near/65761\">said</a>:</p>\n<blockquote>\n<p>If not type <code>conda create --name myenv python</code> where myenv is the name of your new environment.</p>\n</blockquote>\n<p>Run <code>conda activate myenv</code> to switch from the <code>(base)</code> environment to your new environment</p>\n<p><span class=\"user-mention silent\" data-user-id=\"12\">Julia Kent</span> <a href=\"#narrow/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data/near/65763\">said</a>:</p>\n<blockquote>\n<p>Then download any desired package with <code>conda install packagename</code></p>\n</blockquote>",
+        "id": 65772,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1665091898
+    },
+    {
+        "content": "<p>And I would't be surprised if the issue you were running into is that the version of <code>intake-esm</code> in <code>Notebook Gallery 2019.12</code> expects a full pathname for <code>catalog_file</code>; I don't remember when Anderson dropped that requirement for how  the json file is structured. So another possibility would be to copy <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code> to your home directory or work directory, and then edit the third line to add the full path to the catalog</p>\n<div class=\"codehilite\" data-code-language=\"Diff\"><pre><span></span><code><span class=\"w\">glade-cesm2-le.json</span>\n<span class=\"w\">{</span>\n<span class=\"gd\">-  \"catalog_file\": \"glade-cesm2-le.csv.gz\",</span><span class=\"w\"></span>\n<span class=\"gi\">+  \"catalog_file\": \"/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.csv.gz\",</span><span class=\"w\"></span>\n</code></pre></div>\n<p>you should be able to read that json file with the older environment</p>",
+        "id": 65773,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1665092000
+    },
+    {
+        "content": "<p>Conda create resulted for some reason with unexpected error. But changing the catalog_file address in glade-cesm2-le.json worked and I got lists, thank you.<br>\nStill – there is a new problem:<br>\ndsets = catalog_subset.to_dataset_dict(storage_options={'anon':True})<br>\ngave FileNotFoundError: [Errno 2] No such file or directory: b'/glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/day_1/TREFHT/b.e21.BSSP370cmip6.f09_g17.LE2-1181.010.cam.h1.TREFHT.20150101-20241231.nc'</p>\n<p>And indeed – the address is incorrect, it feels that the glade-cesm2-le.csv.gz is outdated. How to solve it?</p>",
+        "id": 65785,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1665148421
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"319\">@Erko Jakobson</span> the file exists, and it looks like it should be globally readable:</p>\n<div class=\"codehilite\"><pre><span></span><code>$ ls -l /glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/day_1/TREFHT/b.e21.BSSP370cmip6.f09_g17.LE2-1181.010.cam.h1.TREFHT.20150101-20241231.nc\n-rw-r--r--+ 1 strandwg cesm 461900521 Mar 25  2021 /glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/day_1/TREFHT/b.e21.BSSP370cmip6.f09_g17.LE2-1181.010.cam.h1.TREFHT.20150101-20241231.nc\n</code></pre></div>\n<p>are you running your notebook on cheyenne or casper? Cheyenne does not mount campaign storage, so you need to be on casper to access this data -- if you're having trouble on casper, I can make sure permissions are set correctly on all the subdirectories in the path</p>",
+        "id": 65787,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1665151801
+    },
+    {
+        "content": "<p>This seems like it might be easier to solve during an <a href=\"https://ncar.github.io/esds/office-hours/\">office hours</a> appointment. Erko, do you still have a UCAR login?</p>",
+        "id": 65796,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1665156829
+    },
+    {
+        "content": "<p>I just opened a PR to unhide office hours so, once merged, Erko will no longer need a UCAR login to be able to schedule an appointment</p>",
+        "id": 65801,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1665159979
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"319\">@Erko Jakobson</span> You can make an appointment here: <a href=\"https://ncar.github.io/esds/office-hours/\">https://ncar.github.io/esds/office-hours/</a></p>",
+        "id": 65803,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1665160878
+    },
+    {
+        "content": "<p>I have UCAR login. I worked in Cheyenne, as in Casper I get error with \"from ncar_jobqueue import NCARCluster\".  And I made appointment for online help.</p>",
+        "id": 65847,
+        "sender_full_name": "Erko Jakobson",
+        "timestamp": 1665406369
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"319\">Erko Jakobson</span> <a href=\"#narrow/stream/10-python-questions/topic/Reading.20in.20CESM2-LE.20ensemble.20data/near/65847\">said</a>:</p>\n<blockquote>\n<p>I have UCAR login. I worked in Cheyenne, as in Casper I get error with \"from ncar_jobqueue import NCARCluster\".  And I made appointment for online help.</p>\n</blockquote>\n<p>If you're using an environment from 2019, <code>ncar_jobqueue</code> is probably configured to use the SLURM queue manager for casper but CISL moved casper over to PBS (same queue manager that cheyenne has always used). You could try using <code>from dask_jobqueue import PBSCluster</code> but it would probably be best to walk through that change during your office hours appointment</p>",
+        "id": 65849,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1665410802
+    },
+    {
+        "content": "<p>Hi all. Erko made an ESDS office hour appointment with me, and I also suggested using the PBSCluster. Unfortunately we ran into some errors with that approach. I'm not very familiar with working on the HPC systems, so I'm not of much help. I'm looking around online for a solution, but in the meantime if someone else wants to have a go at this during an office hour appointment, please do.</p>",
+        "id": 65995,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1665510872
+    }
+]

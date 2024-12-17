@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Hello, I'm trying to get a dask cluster going but it's a command that worked earlier today is now giving an error related to /glade/scratch saying permission denied.  I assume this is because /glade/scratch is no more.   I'm using the PBSCluster command from the dask_jobqueue.  Is it possible that something is hardcoded in here to use /glade/scratch and that this needs to be updated?</p>",
+        "id": 96227,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1709259045
+    },
+    {
+        "content": "<p>I'm also getting that same error</p>",
+        "id": 96228,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1709302563
+    },
+    {
+        "content": "<p>I was able to solve this by modifying the following file<br>\n~/.config/dask/ncar-jobqueue.yaml</p>\n<p>Update the following lines under <code>casper-dav</code><br>\n<code>\n    log-directory: '/glade/derecho/scratch/${USER}/dask/casper-dav/logs'\n    local-directory: '/glade/derecho/scratch/${USER}/dask/casper-dav/local-dir'\n</code></p>",
+        "id": 96236,
+        "sender_full_name": "Gustavo M Marques",
+        "timestamp": 1709314887
+    },
+    {
+        "content": "<p>That fixed it! Thank you so much, Gustavo!! :)</p>",
+        "id": 96237,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1709315560
+    },
+    {
+        "content": "<p>Hmm, this is not resolving the issue for me.  I didn't have an ncar-jobqueue.yml file in ~/.config/dasks.  I had a jobqueue.yml file and I changed all the occurrences of /glade/scratch in there to /glade/derecho/scratch.  That didn't work.  I then copied over Gustavo's ncar-jobqueue.yml file into ~/.config/dask and that still didn't work.  I restarted jupyterhub each time.  Any other thoughts?</p>",
+        "id": 96239,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1709316804
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span> Yes <code>/glade/scratch</code> is not longer available. Your dask default settings are either in ~/.config/dask/ncar-jobqueue.yaml (as <span class=\"user-mention\" data-user-id=\"15\">@Gustavo M Marques</span> suggested ) or in ~/.dask/jobqueueu.yml.</p>\n<p>For you specifically, I checked, and you need to update the local directory or log directory and job extra arguments in the following file:<br>\ncat ~/.dask/jobqueue.yaml</p>\n<div class=\"codehilite\"><pre><span></span><code>distributed:\n  comm:\n    compression: null\n  scheduler:\n    bandwidth: 1000000000\n  worker:\n    memory:\n      pause: 0.8\n      spill: false\n      target: 0.9\n      terminate: 0.95\njobqueue:\n  pbs:\n    cores: 36\n    interface: ib0\n    job-extra: []\n    local-directory: /glade/scratch/islas\n    log-directory: /glade/scratch/islas\n    memory: 109GB\n    name: dask-worker\n    processes: 1\n    queue: regular\n    resource-spec: select=1:ncpus=36:mem=109GB\n    walltime: 01:00:00\n  slurm:\n    cores: 1\n    interface: ib0\n    job-extra:\n    - -C casper\n    - -o /glade/scratch/islas/dask-worker.o%J\n    - -e /glade/scratch/islas/dask-worker.e%J\n    local-directory: /glade/scratch/islas\n    log-directory: /glade/scratch/islas\n    memory: 25GB\n    name: dask-worker\n    processes: 1\n    walltime: 06:00:00\n</code></pre></div>",
+        "id": 96245,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1709322762
+    },
+    {
+        "content": "<p>Also, I noticed the default values in this file are not very optimal. I would argue the following values instead:</p>\n<div class=\"codehilite\"><pre><span></span><code>  pbs:\n    cores: 1\n    interface: ext\n    job-extra: []\n    local-directory: /glade/derecho/scratch/islas\n    log-directory: /glade/derecho/scratch/islas\n    memory: 4GiB\n    name: dask-worker\n    processes: 1\n    queue: casper\n    resource-spec: select=1:ncpus=1:mem=4GB\n    walltime: 01:00:00\n</code></pre></div>\n<p>I would also remove slurm arguments too as we are not using it. Please let m know if you have any questions or concerns on this. :-)</p>",
+        "id": 96246,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1709323039
+    },
+    {
+        "content": "<p>Oh, I see.  I have too jobqueue.yaml files.  On in ~/.dask and one in ~/config/dask and I only changed the one in ~/.config/dask.  I've changed the correct one now and I'm not getting the error any more.  Thanks a lot!</p>",
+        "id": 96248,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1709328410
+    }
+]

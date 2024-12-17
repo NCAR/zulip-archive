@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi,<br>\nWhen I try to change the figsize in the below script, it does not change the size of my figure. Any ideas what is going on?  Interestingly, if I include colorbars, the colorbars change size, but the maps do not.</p>\n<div class=\"codehilite\"><pre><span></span><code>fig, axs = plt.subplots(1,3, figsize = (26,10), subplot_kw=dict(projection=ccrs.Robinson()))\n\naxs[0].coastlines(lw=0.2)\np = axs[0].pcolormesh(grid.TLONG,\n              grid.TLAT,\n              HC_127kaControl_Clim.HeatContent,\n              transform=ccrs.PlateCarree(),\n              vmin=0, vmax=7e12, cmap=&#39;gist_heat_r&#39;)\n\np1 = axs[1].pcolormesh(grid.TLONG,\n              grid.TLAT,\n              HC_PIControl_Clim.HeatContent,\n              transform=ccrs.PlateCarree(),\n              vmin=0, vmax=7e12, cmap=&#39;gist_heat_r&#39;)\n\np2 = axs[2].pcolormesh(grid.TLONG,\n              grid.TLAT,\n              (HC_127kaControl_Clim - HC_PIControl_Clim).HeatContent,\n              transform=ccrs.PlateCarree(),\n              vmin=-1.5e10, vmax=1.5e10, cmap=&#39;RdBu_r&#39;)\n\nplt.tight_layout()\n\naxs[0].set_title(&#39;127ka Control&#39; ,fontsize = 18)\naxs[1].set_title(&#39;PI Control&#39; ,fontsize = 18)\naxs[2].set_title(&#39;127 ka - PI Control&#39; ,fontsize = 18)\n\nland = axs[0].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;, &#39;land&#39;, &#39;110m&#39;,linewidth=0.5, edgecolor=&#39;black&#39;, facecolor=&#39;darkgray&#39;))\nland = axs[1].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;, &#39;land&#39;, &#39;110m&#39;,linewidth=0.5, edgecolor=&#39;black&#39;, facecolor=&#39;darkgray&#39;))\nland = axs[2].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;, &#39;land&#39;, &#39;110m&#39;,linewidth=0.5, edgecolor=&#39;black&#39;, facecolor=&#39;darkgray&#39;))\n</code></pre></div>",
+        "id": 71709,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1673640804
+    },
+    {
+        "content": "<p>Hi Mira, <br>\nI copied and pasted your code into Jupyterlab and added a simple fake dataset. While changing figsize did not affect the figure size in the notebook, it did affect the output image size if I used the savefig method, i.e. fig.savefig().</p>",
+        "id": 71897,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1674072187
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"243\">David Ahijevych</span> <a href=\"#narrow/stream/10-python-questions/topic/figsize.20does.20not.20work.20in.20subplot.20argument/near/71897\">said</a>:</p>\n<blockquote>\n<p>Hi Mira, <br>\nI copied and pasted your code into Jupyterlab and added a simple fake dataset. While changing figsize did not affect the figure size in the notebook, it did affect the output image size if I used the savefig method, i.e. fig.savefig().</p>\n</blockquote>\n<p>Aaah, ok good to know! Thanks for your help <span class=\"user-mention\" data-user-id=\"243\">@David Ahijevych</span></p>",
+        "id": 71985,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1674153111
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> has marked this topic as resolved.</p>",
+        "id": 71986,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1674153591
+    }
+]

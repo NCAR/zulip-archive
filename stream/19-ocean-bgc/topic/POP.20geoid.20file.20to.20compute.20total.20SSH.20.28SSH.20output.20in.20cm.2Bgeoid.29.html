@@ -1,0 +1,63 @@
+<html>
+<head><meta charset="utf-8"><title>POP geoid file to compute total SSH (SSH output in cm+geoid) · ocean-bgc · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/index.html">ocean-bgc</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html">POP geoid file to compute total SSH (SSH output in cm+geoid)</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="22179"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22179" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22179">(Nov 30 2020 at 04:35)</a>:</h4>
+<p>Hi, <br>
+ Is there an output variable or file from POP that saves the geoid for the model (or even input file)? Need to compute total sea surface height (SSH + geoid). Has anyone done such a calculation previously with POP output?</p>
+
+
+
+<a name="22194"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22194" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22194">(Nov 30 2020 at 16:47)</a>:</h4>
+<p>cc <span class="user-mention" data-user-id="20">@Fred Castruccio</span>, <span class="user-mention" data-user-id="44">@Frank Bryan</span></p>
+
+
+
+<a name="22198"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22198" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22198">(Nov 30 2020 at 17:01)</a>:</h4>
+<p>POP uses a uniform gravity field. As a result, the model sea surface height is the same than the dynamic topography.</p>
+
+
+
+<a name="22199"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22199" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22199">(Nov 30 2020 at 17:10)</a>:</h4>
+<p><span class="user-mention" data-user-id="20">@Fred Castruccio</span> , thanks for the reply. So to get the total SSH, do we just add the SSH to the ocean depth at each grid point? Should we use the ocean depth in the topography file? (Something similar to topography_20161215.ieeei4)?</p>
+
+
+
+<a name="22200"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22200" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22200">(Nov 30 2020 at 17:43)</a>:</h4>
+<p><span class="user-mention" data-user-id="85">@Aneesh subramanian</span> I am not sure what quantity you referring to as total SSH. The SSH is the elevation of the sea surface above a reference ellipsoid.  It has two components: (i) the DT which represents the signature of the ocean circulation, and (ii) the geoid which reflects the variation of the Earth’s gravity field. Ocean models use a uniform gravity field and as a result SSH and DT are the same surface in the model ‘‘world’’.  If you are trying to compare satellite altimetry with a model you can use the variable part of the SSH signal (the SLA), or the DT (SSH-geoid) which is the relevant altimetric signal for oceanographers. The issue with DT is that despite the recent gravimetric mission such as GRACE and GOCE the knowledge of the geoid is still relatively poor (errors of a few centimeters at scales of  around 100-150 km). In comparaison SLA is know with centimeter-scale accuracy at spatial scales of around 10km.</p>
+
+
+
+<a name="22216"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22216" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22216">(Nov 30 2020 at 21:44)</a>:</h4>
+<p><span class="user-mention" data-user-id="20">@Fred Castruccio</span> , Thanks for the reply! I'm aware that in data assimilation of SLA into models, we (MITgcm) separate MADT and the SLA to assimilate both separately and just as you say, the geoid is an uncertainty that adds error to this DA. </p>
+<p>The reason I was asking to compute the total actual height of the surface of the ocean was to compute coastal inundation in CMIP6 SSP585 simulations (so how high does the water get over the coastline). Is there a way to compute this using the topography file and the SSH output from CESM? Should I compute the SSH + topography depth to estimate the total height of the water column at a coast? Or is it better to do a relative computation (future - present SSH and see how much land will be under this)? This is for a teaching project. Hope this makes sense.</p>
+
+
+
+<a name="22227"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22227" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22227">(Dec 01 2020 at 01:02)</a>:</h4>
+<p>Hi Aneesh, I'll weigh in here. POP uses the Boussinesq approximation so does not represent the steric component of sea level rise. The model conserves volume not mass. Additionally, it uses virtual salt fluxes rather than an actual addition of water with ice sheet melting. These are the parts that are missing from the calculation I think you are interested in doing. There are work arounds - you need to accumulate the net water flux separately and add a global total and compute the change is mass from temperature changes and add or subtract a layer of equivalent mass. I'd be happy to discuss more by video call or e-mail.</p>
+
+
+
+<a name="22232"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/POP%20geoid%20file%20to%20compute%20total%20SSH%20%28SSH%20output%20in%20cm%2Bgeoid%29/near/22232" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/POP.20geoid.20file.20to.20compute.20total.20SSH.20.28SSH.20output.20in.20cm.2Bgeoid.29.html#22232">(Dec 01 2020 at 06:25)</a>:</h4>
+<p>Hi Frank, Thanks very much for your input. Will email you about this for more details and a video call would be great if you have the time.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

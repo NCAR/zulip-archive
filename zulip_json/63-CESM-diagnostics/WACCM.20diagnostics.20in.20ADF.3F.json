@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"263\">@Teagan King</span> was asked about whether CUPiD would support CESM cases with WACCM / WACCM-X. Is ADF CAM-specific, or will it work with WACCM?</p>",
+        "id": 94598,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1705610923
+    },
+    {
+        "content": "<p>ADF will work with WACCM. There are a few things that might need some user attention if really focusing on WACCM results. The main one is to switch the latitude-pressure (or longitude-pressure) plots to use a log-pressure scale. I think we currently control this in the variable defaults yaml file with a flag. The other thing would be to adapt contour levels to be appropriate if plotting quantities at pressure levels above the troposphere. That's also controlled on a per-variable basis in the variable defaults file.</p>",
+        "id": 94605,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1705611654
+    },
+    {
+        "content": "<p>I just wanted to add that <span class=\"user-mention\" data-user-id=\"277\">@Justin Richling</span> has also added a few diagnostics that are designed for higher-top versions of the model like WACCM.  Specifically they are diagnostics for the QBO, the Transformed Eulerian Mean (TEM) circulation, and the \"tape recorder\" plots for troposphere-&gt;stratosphere water vapor transport.  I am sure Justin can tell you more if you'd like!</p>",
+        "id": 94654,
+        "sender_full_name": "Jesse Nusbaumer",
+        "timestamp": 1705620042
+    },
+    {
+        "content": "<p>And just to be clear those are all diagnostics that can now run automatically in the ADF.</p>",
+        "id": 94655,
+        "sender_full_name": "Jesse Nusbaumer",
+        "timestamp": 1705620090
+    }
+]

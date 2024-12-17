@@ -1,0 +1,90 @@
+<html>
+<head><meta charset="utf-8"><title>contourf and BoundaryNorm · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html">contourf and BoundaryNorm</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="57821"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57821" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57821">(Jun 30 2022 at 17:31)</a>:</h4>
+<p>Hi, I am plotting some precipitation data using the contourf function, and I am trying to specify specific levels for the contours. I am essentially trying to get the same functionality as NCL's ExplicitLevels. However, I can't seem to get it to use the colormap and contour levels in the correct way. In the first way, I am getting it to use the whole colormap but instead of using the contour levels in a proportional way with the colormap, it is still putting the lower values closer together on the colormap. In the second way, I use the BoundaryNorm function to get it to match the contour levels correctly to the colormap, but it is only using the first few colors of the colormap. Does anyone know what could be going on and how to get it to work properly?  Any help is appreciated.<br>
+This is the code. In the first way, I remove the "norm" argument in the contourf function, and in the second way, the "norm" argument is included. I have included the output in the attached images.</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">clevs0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mf">7.5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">80</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">125</span><span class="p">,</span><span class="mi">150</span><span class="p">,</span><span class="mi">175</span><span class="p">,</span><span class="mi">225</span><span class="p">,</span><span class="mi">275</span><span class="p">,</span><span class="mi">350</span><span class="p">,</span><span class="mi">400</span><span class="p">]</span>
+<span class="n">clevs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">40</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">clevs0</span><span class="p">]</span>
+<span class="n">norm</span> <span class="o">=</span> <span class="n">BoundaryNorm</span><span class="p">(</span><span class="n">clevs</span><span class="p">,</span> <span class="n">ncolors</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">clevs</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mf">8.5</span><span class="p">),</span><span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'projection'</span><span class="p">:</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">()})</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">ax_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">xx</span><span class="o">=</span><span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">mm</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="n">ax_count</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span><span class="n">lat</span><span class="p">,</span><span class="n">pr_pxx</span><span class="p">[</span><span class="n">xx</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">pr_pxx</span><span class="p">[</span><span class="n">xx</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="o">...</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">5000</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">pr_pxx</span><span class="p">[</span><span class="n">xx</span><span class="p">,</span><span class="n">mm</span><span class="p">,</span><span class="o">...</span><span class="p">]</span><span class="o">&gt;=</span><span class="mi">0</span><span class="p">)),</span>
+                               <span class="n">clevs</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'YlGnBu'</span><span class="p">,</span>  <span class="n">extend</span><span class="o">=</span><span class="s1">'both'</span><span class="p">,</span>  <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+                               <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">())</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">ax_count</span><span class="p">]</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">ax_count</span><span class="p">]</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">'grey'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">ax_count</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">cd</span><span class="o">.</span><span class="n">month_name</span><span class="p">[</span><span class="n">mm</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">])</span>
+<span class="n">cbar</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span><span class="n">orientation</span><span class="o">=</span><span class="s1">'horizontal'</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s1">'mm/month'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">'2nd percentile monthly precipitation</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year0</span><span class="p">)</span> <span class="o">+</span> <span class="s1">'-'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">year1</span><span class="p">))</span>
+</code></pre></div>
+<p><a href="/user_uploads/2/b1/C8k7-3EoKjLySBG6S3wmg_ae/image.png">with_norm.png</a> <br>
+<a href="/user_uploads/2/e8/zrTqaAXdWsgt2mMdU3J5wL8h/image.png">without_norm.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/b1/C8k7-3EoKjLySBG6S3wmg_ae/image.png" title="with_norm.png"><img src="/user_uploads/2/b1/C8k7-3EoKjLySBG6S3wmg_ae/image.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/e8/zrTqaAXdWsgt2mMdU3J5wL8h/image.png" title="without_norm.png"><img src="/user_uploads/2/e8/zrTqaAXdWsgt2mMdU3J5wL8h/image.png"></a></div>
+
+
+
+<a name="57824"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57824" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anissa Zacharias <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57824">(Jun 30 2022 at 17:49)</a>:</h4>
+<p>Hi Danielle, I can take a look at this! Is it possible for you to send over or point me to the location of the data you're using to make the plots?</p>
+
+
+
+<a name="57825"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57825" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57825">(Jun 30 2022 at 17:50)</a>:</h4>
+<p>You might try a different value for <code>ncolors</code> in the <code>BoundaryNorm</code>—try setting this to 256, for example, and see what happens.</p>
+
+
+
+<a name="57826"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57826" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57826">(Jun 30 2022 at 17:58)</a>:</h4>
+<p>Thanks for the offer, <span class="user-mention" data-user-id="114">@Anissa Zacharias</span> , but <span class="user-mention" data-user-id="14">@Matt Long</span> 's suggestion worked! Matt, if you have a moment, could you help me understand why? When I tried going a bit more extreme (ncolors=500), it seems like it extended the color bar by stretching out the darker colors. I am mystified  <span aria-label="thinking" class="emoji emoji-1f914" role="img" title="thinking">:thinking:</span></p>
+
+
+
+<a name="57827"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57827" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anissa Zacharias <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57827">(Jun 30 2022 at 17:58)</a>:</h4>
+<p>Glad to hear it!</p>
+
+
+
+<a name="57828"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57828" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57828">(Jun 30 2022 at 18:00)</a>:</h4>
+<p>I am not entirely sure, but <code>ncolors</code> refers to the number of colors in the colormap—which you would think should be the number of levels, but it is apparently not.<br>
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.BoundaryNorm.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.BoundaryNorm.html</a></p>
+
+
+
+<a name="57830"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57830" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57830">(Jun 30 2022 at 18:03)</a>:</h4>
+<p>Yes, I was under the impression that it is the number of levels based on examples I was seeing in the matplotlib docs, but it also makes sense that it would be the number of colors in the colormap. So maybe when you put a number that does not match, it tries to subset or extend the colormap. Thanks!</p>
+
+
+
+<a name="57910"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/contourf%20and%20BoundaryNorm/near/57910" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/contourf.20and.20BoundaryNorm.html#57910">(Jul 01 2022 at 16:37)</a>:</h4>
+<p>According to the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.BoundaryNorm.html">Matplotlib docs</a>, <code>ncolors</code> is: "Number of colors in the colormap <em>to be used</em>." As in, the number of colors used from the target colormap. If you have a particular colormap <code>cmap</code> you want to pair this with, you can use <code>cmap.N</code>.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

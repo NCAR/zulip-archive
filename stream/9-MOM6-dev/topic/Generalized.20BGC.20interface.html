@@ -1,0 +1,96 @@
+<html>
+<head><meta charset="utf-8"><title>Generalized BGC interface · MOM6-dev · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/index.html">MOM6-dev</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html">Generalized BGC interface</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="7585"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7585" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7585">(Apr 29 2020 at 17:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> <span class="user-mention" data-user-id="10">@Michael Levy</span> <span class="user-mention" data-user-id="31">@Keith Lindsay</span> </p>
+<p>One thing that I wanted to followup was Matt's generalized BGC model interface. We've been internally discussing trying to make our BGC models (CMOC and CanOE) model-agnostic as there are a number of academic/government applications requiring some kind of BGC module, but are ROMS or FVCOM based. Considering that we're going to need to refactor them anyway to make them compatible with an upgrade to NEMO 4.0, I wanted to know if there would be interest on your side of 1) incorporating the interface into NEMO (which is more similar to POP in terms of timestepping) and 2) including CMOC and CanOE as alternatives to MARBL. When <span class="user-mention" data-user-id="10">@Michael Levy</span> followsup on his hooking up MARBL to MOM6, would <span class="user-mention" data-user-id="14">@Matt Long</span> and <span class="user-mention" data-user-id="31">@Keith Lindsay</span> mind hopping on briefly as well to discuss this?</p>
+
+
+
+<a name="7604"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7604" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7604">(Apr 29 2020 at 18:49)</a>:</h4>
+<p><span class="user-mention" data-user-id="83">@Andrew Shao</span>, <br>
+This sounds good.  I think we've learned things from the MARBL effort that would be useful in this regard. </p>
+<p>Collaborators have started (and stalled out) on implementing MARBL in ROMS, but I don't think we uncovered any fundamental show-stoppers in the implementation path there. </p>
+<p>One path forward here would be to refactor the MARBL code into (1) a General-Interface-for-OBMs (GIOBM)  and (2) the MARBL ecosystem model itself. We could collaborate on development of GIOBM (hard to pronounce, I am finding) and various model groups could choose to implement this and re-write their models in compatible ways. </p>
+<p>I've spoken with Fei Chai at U Maine about this; he develops CoSiNE, which is a model distributed with ROMS. He's interested. </p>
+<p>Funding is a key question for us.</p>
+
+
+
+<a name="7609"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7609" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7609">(Apr 29 2020 at 19:24)</a>:</h4>
+<p>It's an interesting question about how to move forward on GIOBM (aside: maybe we could call it SLOBM, Software Layer for OBMS). It'll be good for me to take a closer look at what <span class="user-mention" data-user-id="10">@Michael Levy</span> has done thus far to scope out for ourselves what we might have to do if we went this route for CMOC and CanOE. Could you point me to your branch?</p>
+
+
+
+<a name="7610"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7610" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7610">(Apr 29 2020 at 19:34)</a>:</h4>
+<p>I'd be happy to participate in this conversation when the time comes.</p>
+
+
+
+<a name="7623"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7623" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7623">(Apr 29 2020 at 19:45)</a>:</h4>
+<p><span class="user-mention" data-user-id="83">@Andrew Shao</span> my branch is <a href="https://github.com/mnlevy1981/MOM6/tree/mnlevy1981/add_MARBL" target="_blank" title="https://github.com/mnlevy1981/MOM6/tree/mnlevy1981/add_MARBL">https://github.com/mnlevy1981/MOM6/tree/mnlevy1981/add_MARBL</a> and I'm also using the issues / projects in my fork to track what's left to do. <a href="https://github.com/mnlevy1981/MOM6/projects/1" target="_blank" title="https://github.com/mnlevy1981/MOM6/projects/1">https://github.com/mnlevy1981/MOM6/projects/1</a> is the main project, and it links to other projects that are a little too big to be a single issue ticket (source: I tried making them a single issue ticket and was having trouble tracking progress)</p>
+
+
+
+<a name="7626"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7626" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7626">(Apr 29 2020 at 19:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> and I have been talking, and two things that we came up with:</p>
+<ol>
+<li>I'll try to keep this channel up to speed on my progress as I go</li>
+<li>We won't push MOM6 back to GFDL without a <code>USE_MARBL_TRACERS</code> macro, but I'll wait until everything else is working to add the CPP</li>
+</ol>
+
+
+
+<a name="7639"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7639" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7639">(Apr 29 2020 at 19:57)</a>:</h4>
+<p>Thanks Mike for that info and for your willingness to let me see the work in progress. Could you send me the link to the MARBL code as well?</p>
+
+
+
+<a name="7641"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7641" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7641">(Apr 29 2020 at 20:02)</a>:</h4>
+<p>MARBL is available at <a href="https://github.com/marbl-ecosys/MARBL" target="_blank" title="https://github.com/marbl-ecosys/MARBL">https://github.com/marbl-ecosys/MARBL</a> -- we'll be using tags off the <code>development</code> branch (<code>stable</code> is the default displayed by github); currently we're using <code>marbl0.35.0</code>, which isn't quite the newest... but <code>marbl0.36.0</code> was just updates to the documentation and a few tweaks to the stand-alone driver code.</p>
+
+
+
+<a name="7645"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/7645" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#7645">(Apr 29 2020 at 20:04)</a>:</h4>
+<p>One thing I just realized is that I need to pull MARBL out of the git submodules and let CESM provide it via <code>manage_externals</code> instead. Can we still bring it in to <code>pkg/</code>when we want to use it?</p>
+
+
+
+<a name="8125"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/8125" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#8125">(May 08 2020 at 04:56)</a>:</h4>
+<p>I came across<br>
+Bruggeman, J., Bolding, K., 2014. A general framework for aquatic biogeochemical models. Environ. Model. Software 61, 249–265.<br>
+<a href="https://doi.org/10.1016/j.envsoft.2014.04.002" target="_blank" title="https://doi.org/10.1016/j.envsoft.2014.04.002">https://doi.org/10.1016/j.envsoft.2014.04.002</a><br>
+<a href="https://github.com/fabm-model/fabm" target="_blank" title="https://github.com/fabm-model/fabm">https://github.com/fabm-model/fabm</a><br>
+<a href="https://github.com/fabm-model/fabm/wiki" target="_blank" title="https://github.com/fabm-model/fabm/wiki">https://github.com/fabm-model/fabm/wiki</a></p>
+<p>It turns out that <span class="user-mention" data-user-id="14">@Matt Long</span> mentioned this to me in an email in 2014, when it was at <a href="http://fabm.sourceforge.net/" target="_blank" title="http://fabm.sourceforge.net/">http://fabm.sourceforge.net/</a>, but I had forgotten about it.</p>
+<p>This group behind this had a poster at Ocean Sciences in 2014. A link to their poster is<br>
+<a href="http://www.eposters.net/poster/model-coupling-with-the-framework-for-aquatic-biogeochemical-models-a-demonstration-with-the" target="_blank" title="http://www.eposters.net/poster/model-coupling-with-the-framework-for-aquatic-biogeochemical-models-a-demonstration-with-the">http://www.eposters.net/poster/model-coupling-with-the-framework-for-aquatic-biogeochemical-models-a-demonstration-with-the</a></p>
+
+
+
+<a name="8243"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Generalized%20BGC%20interface/near/8243" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kate Hedstrom <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Generalized.20BGC.20interface.html#8243">(May 09 2020 at 14:54)</a>:</h4>
+<p>FYI, Charlie Stock and Niki Zadeh at GFDL are looking into regional MOM6 with (COBALT) BGC. Work needs to be done on the tracers with OBCs.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

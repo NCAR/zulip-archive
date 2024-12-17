@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>This is probably a question for <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> -- CESM uses python scripts to set up an appropriate environment and call <code>make</code>; I believe Jim Edwards talked to you yesterday about how using <code>qcmd</code> to call the <code>case.build</code> script on a derecho compute node failed if the <code>conda</code> module was loaded, and now the script runs successfully... but I'm still seeing</p>\n<div class=\"codehilite\"><pre><span></span><code>CommandNotFoundError: Your shell has not been properly configured to use &#39;conda activate&#39;.\nTo initialize your shell, run\n\n$ conda init &lt;SHELL_NAME&gt;\n\nCurrently supported shells are:\n- bash\n- fish\n- tcsh\n- xonsh\n- zsh\n- powershell\n\nSee &#39;conda init --help&#39; for more information and options.\n\nIMPORTANT: You may need to close and restart your shell after running &#39;conda init&#39;.\n</code></pre></div>\n<p>To be clear, I used to see that message and then <code>case.build</code> would abort, now I see the message but <code>case.build</code> continues to run and succesfully builds the model... so there's definite improvement, but I was wondering if there is still something not quite right about loading the conda module on the derecho compute nodes.</p>\n<p>I only see this message when using <code>qcmd</code>; using <code>qinteractive</code> appears to load the module correctly.</p>",
+        "id": 87252,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1692114363
+    },
+    {
+        "content": "<p>Thanks for the heads up Mike. I'm taking a look now.</p>",
+        "id": 87266,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1692118900
+    },
+    {
+        "content": "<p>When I've had this issue before, I've solved it by replacing <code>conda activate envname; python scriptname</code> with <code>conda run -n envname python scriptname</code>.</p>",
+        "id": 87279,
+        "sender_full_name": "Sam Rabin",
+        "timestamp": 1692126422
+    },
+    {
+        "content": "<p>As noted <a href=\"https://www.scivision.dev/conda-run-non-interactive-script/\">here</a>, <code>conda activate</code> is intended for interactive shells only. <code>qcmd</code> is sort of a gray area, but may be affected for this reason.</p>",
+        "id": 87283,
+        "sender_full_name": "Sam Rabin",
+        "timestamp": 1692126697
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"343\">Sam Rabin</span> <a href=\"#narrow/stream/10-python-questions/topic/conda.20on.20derecho/near/87283\">said</a>:</p>\n<blockquote>\n<p>As noted <a href=\"https://www.scivision.dev/conda-run-non-interactive-script/\">here</a>, <code>conda activate</code> is intended for interactive shells only. <code>qcmd</code> is sort of a gray area, but may be affected for this reason.</p>\n</blockquote>\n<p>Huh, interesting. I think the issue is that I have a <code>conda activate</code> call in my <code>.bashrc</code>, which I thought was necessary to standardize which python I was using. On further investigation, <code>qcmd</code> appears to be passing my entire environment, so the <code>conda activate</code> is causing the error I quoted above but the system is already using the conda environment that was active when I called <code>qcmd</code>. So I guess the answer is to only have <code>.bashrc</code> call <code>conda activate</code> for interactive shells?</p>",
+        "id": 87284,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1692127151
+    },
+    {
+        "content": "<p>Yeah, that would explain why <code>qcmd</code> usage gives you that error. <code>qcmd</code> will pass along environment variables, but shell functions (which conda activate) will use do not get propagated, so the init aspects get broken to some degree. I'll see if I can make this a bit more robust, but it shouldn't prevent you from using an environment you have activated before running the qcmd (since all of the modifications conda would do to activate an env are stored in variables).</p>\n<p>It's an edge case, but probably common enough given how the CESM scripts work.</p>",
+        "id": 87285,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1692127316
+    },
+    {
+        "content": "<p>I was able to fix this in my <code>.bashrc</code> by wrapping the <code>conda activate</code> in an if statement:</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code><span class=\"k\">if</span> <span class=\"o\">[</span> -t <span class=\"m\">0</span> <span class=\"o\">]</span><span class=\"p\">;</span> <span class=\"k\">then</span>\n  conda activate\n<span class=\"k\">fi</span>\n</code></pre></div>\n<p>I've verified that this activates conda as expected when I log in to the machine, but does not try to run conda activate when I execute a command via <code>qcmd</code>. <del>I haven't tested it on cheyenne, yet</del> looks like it works on cheyenne, as well (I don't remember ever seeing this error with a cheyenne <code>qcmd</code> call, but <code>qcmd -- which python</code> returns my conda python)</p>",
+        "id": 87286,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1692127629
+    },
+    {
+        "content": "<p>After doing some testing - I think this is working as expected. If you were using miniconda, things would be initialized in your <strong>.bashrc</strong> by the init commands it injects. With our module, it is similar. <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> your workaround should be fine to keep if it meets all of your needs. If you would like <code>conda</code> to work in batch shells to, you could add <code>module load conda</code> to your <strong>.bashrc</strong> before the <code>conda activate</code>, instead of having it loaded by a default module set or your <strong>.profile</strong>.</p>\n<p>This does not happen on Cheyenne because some module reloading tricks are happening on Derecho to bring in CESM-specific modules during the build. These tricks seem to interact with the conda module in ways I didn't anticipate, but hopefully now are harmless.</p>\n<p>Thanks again for raising the concern.</p>",
+        "id": 87289,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1692133274
+    },
+    {
+        "content": "<p>yeah, I'll just stick with what I have since it seems to be working :) Thanks for all the details about why things are working the way they are!</p>",
+        "id": 87290,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1692133613
+    }
+]

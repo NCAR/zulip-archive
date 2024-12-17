@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>Does anyone here have experience converting CESM netcdf data to the GeoTIFF or GeoJSON types of files? For a project where my NGO partner will be making a website they've requested these formats (specifically in the OGC:CRS84 grid projection). If anyone has experience with this or suggestions, please reach out. I'd used an online conversion tool unsuccessfully, but I've also used up my free trials there and I'd rather just have the conversion be part of my Jupyter Notebook workflow. </p>\n<p>Thanks!</p>",
+        "id": 98884,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1715092392
+    },
+    {
+        "content": "<p>If I recall correctly, GeoJSON is used for vector data so may not make sense here.  I know there are more geospatial savvy folks on here though - please chime in if this is incorrect!</p>\n<p>As for netCDF to GeoTIFF, I'd look into GDAL for a command line tool (<a href=\"https://nsidc.org/data/user-resources/help-center/how-convert-netcdf-variables-geotiff\">quick demo from NSIDC</a> or something like <a href=\"https://corteva.github.io/rioxarray/stable/\">rioxarray</a> if you're already working with xarray.  </p>\n<p>This should also be something GIS software can handle e.g. QGIS or ArcGIS the <a href=\"https://gis.ucar.edu/\">NSF NCAR GIS Program</a> might have some resources or suggestions here.</p>",
+        "id": 98889,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1715094579
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"339\">Katelyn FitzGerald</span> <a href=\"#narrow/stream/3-general/topic/GeoTIFF.20and.20GeoJSON/near/98889\">said</a>:</p>\n<blockquote>\n<p>If I recall correctly, GeoJSON is used for vector data so may not make sense here.  I know there are more geospatial savvy folks on here though - please chime in if this is incorrect!</p>\n<p>As for netCDF to GeoTIFF, I'd look into GDAL for a command line tool (<a href=\"https://nsidc.org/data/user-resources/help-center/how-convert-netcdf-variables-geotiff\">quick demo from NSIDC</a> or something like <a href=\"https://corteva.github.io/rioxarray/stable/\">rioxarray</a> if you're already working with xarray.  </p>\n<p>This should also be something GIS software can handle e.g. QGIS or ArcGIS the <a href=\"https://gis.ucar.edu/\">NSF NCAR GIS Program</a> might have some resources or suggestions here.</p>\n</blockquote>\n<p>Thanks, Katelyn.  This is helpful! The way it was explained to me is that the maps where we could click to navigate would use GeoJSON. Then there would be  heatmaps of climate data would use the GeoTIFF format. The GeoTIFF format makes more intuitive sense to me. But if someone in the GIS program (and is on this list) has insight that would be helpful. I did reach out to someone there and have not yet heard back.</p>",
+        "id": 98893,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1715095446
+    },
+    {
+        "content": "<p>Ah, that could make sense or I suppose you could use it to display grids / outlines. </p>\n<p>GDAL should have some conversion tools and in Python I'd look at UXarray / Xarray to <a href=\"https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_json.html\">geopandas</a> or something like that. </p>\n<p>Hopefully the GIS program gets back to you as well!  They're a great resource.</p>",
+        "id": 98896,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1715096300
+    },
+    {
+        "content": "<p>GeoPandas is where I would look if you really want a geoJSON. You set the CRS on output. </p>\n<p>I would also ask them about a COG as well: <a href=\"https://www.cogeo.org/\">https://www.cogeo.org/</a></p>",
+        "id": 98919,
+        "sender_full_name": "Thomas Martin",
+        "timestamp": 1715105364
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"313\">Thomas Martin</span> <a href=\"#narrow/stream/3-general/topic/GeoTIFF.20and.20GeoJSON/near/98919\">said</a>:</p>\n<blockquote>\n<p>GeoPandas is where I would look if you really want a geoJSON. You set the CRS on output. </p>\n<p>I would also ask them about a COG as well: <a href=\"https://www.cogeo.org/\">https://www.cogeo.org/</a></p>\n</blockquote>\n<p>Thanks, <span class=\"user-mention\" data-user-id=\"313\">@Thomas Martin</span> . I'll investigate that further. :)</p>",
+        "id": 98923,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1715112885
+    },
+    {
+        "content": "<p>Hi Alice, I just saw this but I am in the GIS Program and I frequently make these kinds of geospatial data from model outputs. Happy to chat!</p>",
+        "id": 99275,
+        "sender_full_name": "Kevin Sampson",
+        "timestamp": 1715712309
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"276\">@Kevin Sampson</span>  Thanks! I emailed Jenn about this and she's looking at one of my files I'm hoping to convert in the next few days. I'd be happy to get any advice you have as well. I'm not sure how much you and Jenn talk, so I don't want to ask you both the same questions. I am a total newbie at this an mainly want to figure out a workflow so that I can make the files myself since I will have several to make for the GeoTIFFs at least.</p>",
+        "id": 99282,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1715727324
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span>  Do you have a sample file I could look at?</p>",
+        "id": 99303,
+        "sender_full_name": "Kevin Sampson",
+        "timestamp": 1715789673
+    },
+    {
+        "content": "<p>I will email it to you. Thanks!</p>",
+        "id": 99312,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1715794887
+    }
+]

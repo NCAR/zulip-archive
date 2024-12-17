@@ -1,0 +1,128 @@
+[
+    {
+        "content": "<p>Quick update for <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>  <br>\nPostprocessing files of CESM-DPLE are in /glade/work/kristenk/fish-offline for diatC, POC_FLUX_IN_bottom, spC_150m, TEMP_150m, zooC_150m, zoo_loss_150m.  There is no Temp_bottom. There are all original output, not drift corrected.</p>\n<p>So,<br>\n<span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> is running Temp_bottom and POC_bottom preparation and will run drift correction.<br>\n<span class=\"user-mention\" data-user-id=\"274\">@Hyunggyu Lim</span> is running upper_field preparation and will run drift correction code.</p>",
+        "id": 60653,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659386966
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"274\">Hyunggyu Lim</span> <a href=\"#narrow/stream/33-fisheries/topic/CESM-DPLE-postprocessing/near/60653\">said</a>:</p>\n<blockquote>\n<p>There is no Temp_bottom. </p>\n</blockquote>\n<p>This won't help existing runs, but I have a POP sandbox that adds a <code>TEMP_BOTTOM</code> diagnostic field so future POP runs will provide this field</p>",
+        "id": 60656,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1659387087
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , in addition to temp_bottom, FEISTY needs all the individual phyto carbon biomasses (diazC and coccoC if they exist). <br>\n<span class=\"user-mention\" data-user-id=\"274\">@Hyunggyu Lim</span> , Kristen already has a notebook to drift-correct these, which she did a few months back. Why not have Kristen repeat this instead of you doing a new drift correction? Thanks!</p>",
+        "id": 60699,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1659400141
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> I have the notebooks but all the output they produced got scrubbed off scratch so we have to re-run everything. First we have to run preprocessing notebooks to make the FEISTY input variables from each forecast (64 initialization years x 40 ensemble members). <span class=\"user-mention\" data-user-id=\"274\">@Hyunggyu Lim</span> is running the upper fields notebooks which should be pretty fast to run  - these include the plankton biomass (spC, diatC, diazC - no coccoC in this version) as well as zooC, temp 150m mean, zoo loss integral. I am running the bottom fields (TEMP bottom and POC_FLUX_IN bottom) which are much slower to run. I did TEMP_bottom last week and I'm running POC_FLUX_IN this week (they each take several days to complete).. and then we will drift correct all the files. We can move these somewhere other than scratch this time so they don't get deleted after a couple months.</p>",
+        "id": 60700,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1659401732
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>  Yes. <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  want to save her memory in the server due to her other tasks. Problem is that python code of Kristen is not working well from my account due to environmental setting for my python and pbs job submission. I tried environ setting during last week (took 3 days) and submit pbs job in last weekend but it didn't work well.  Yesterday, we met a zoom session to fix it and we run one of her code in my environment. but it didn't work at this point. So we now change environ setting for python once again (it would take 3 days more?). During this period, I hope Kristen will run all codes to generate FEISTY forcing output for you. Hope we have to save these files in safe place. Thank you all!</p>",
+        "id": 60719,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659451278
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> and <span class=\"user-mention\" data-user-id=\"274\">@Hyunggyu Lim</span> . Let me know if you need some of my work or home drive space for storage.</p>",
+        "id": 60755,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1659458528
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  provided FEISTY forcing files in /glade/scratch/kristenk/fish-offline (around 1.2TB). I copied them my scratch and Kristen also had backup in /glade/campaign/cesm/development/bgcwg/projects/DPLE-FEISTY (we can see in casper but not accessible yet) for longterm saving , too. Kristen will ask to open this folder to see them for us. Thank you so much Kristen!!!</p>",
+        "id": 61106,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659926047
+    },
+    {
+        "content": "<p>We can see now in /glade/campaign/cesm/development/bgcwg/projects/DPLE-FEISTY</p>",
+        "id": 61181,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659991805
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"274\">@Hyunggyu Lim</span> and <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>! Let me know when they are drift corrected and ready as inputs to FEISTY.</p>",
+        "id": 61309,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1660152387
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> ! These are drift-corrected anomalies... so I guess you will have to add back in a climatology before running FEISTY? Also, the units are not specified in the netcdf files, so I will work on getting those to you (or I will generate new netcdfs that have the proper metadata)</p>",
+        "id": 61313,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1660152828
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  That's great, I already have the addition to the FOSI added in my workflow. Should I be adding the anomalies to A) the FOSI from that 10-yr period, B) the climatology of that 10-yr period, or C) the climatology over the whole FOSI (68-yrs)? Thanks!</p>",
+        "id": 61317,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1660153004
+    },
+    {
+        "content": "<p>I don't really know what would be best.. I think adding in the climatology over the whole FOSI would be a good start and then we can refine our method to specific decades, if necessary.</p>",
+        "id": 61324,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1660153439
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> and <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> : To re-create the absolute values of plankton biomass and temperature from the anomalies, I would need to add whatever was subtracted from them in the first place to make the anomalies. What was subtracted?</p>",
+        "id": 61343,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1660155711
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>  to make the anomalies I subtracted the climatological drift over the 1964 to 2014 period. See cell 14 in this <a href=\"https://github.com/kristenkrumhardt/fish-offline/blob/kristens_branch/notebooks/DPLE_FEISTY_bottom_fields.ipynb\">https://github.com/kristenkrumhardt/fish-offline/blob/kristens_branch/notebooks/DPLE_FEISTY_bottom_fields.ipynb</a></p>\n<p>This notebook above is for the bottom fields, but the upper fields have the same method: <br>\n<a href=\"https://github.com/kristenkrumhardt/fish-offline/blob/kristens_branch/notebooks/DPLE_FEISTY_upper_fields.ipynb\">https://github.com/kristenkrumhardt/fish-offline/blob/kristens_branch/notebooks/DPLE_FEISTY_upper_fields.ipynb</a></p>",
+        "id": 61344,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1660156612
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>  I'm re-running my notebooks so that the netcdfs contain the proper metadata (units, etc.) and will let you know when they're all ready (probably tomorrow)</p>",
+        "id": 61365,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1660161125
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , the DPLE FEISTY forcing files have the units  in the netcdfs now :) Also, just to be clear about the dimensions:<br>\nM = member (40 ensemble members)<br>\nL = lead month (122 lead months long, Nov and Dec of initialization year + 10 year forecast)<br>\nY = initialization year (64 initialization years, 1954 to 2017)</p>",
+        "id": 61452,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1660247204
+    },
+    {
+        "content": "<p>Thank you <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> !</p>",
+        "id": 61456,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1660250674
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, Sorry for the delayed response; I've been on vacation. </p>\n<p>I think we need a bit more context here, but I am imagining that you are talking about the DPLE forecast integrations. In this case, the subtracted field is a lead-year dependent climatology. Adding this back in, however, would re-introduce drift relative to the hindcast. So perhaps the right thing to add back is the climatology from the hindcast.  </p>\n<p>cc <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span></p>",
+        "id": 61557,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1660579329
+    },
+    {
+        "content": "<p>sorry...for some reason Zulip didn't show me the rest of the thread where it looks like you have this sorted.</p>",
+        "id": 61562,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1660579568
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , as we discussed before, the drift-corrected anomalies need to be transformed into raw values (non-anomalies) of temperature, biomass, etc. The options I proposed were: add to the anomalies A) the FOSI from that 10-yr period, B) the climatology of that 10-yr period, or C) the climatology over the whole FOSI (68-yrs). <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  suggested I start with option C, which is the same as what you suggested in your post, correct?</p>",
+        "id": 61622,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1660591410
+    },
+    {
+        "content": "<p>yes, (C). The anomalies from the forecast runs include the interannual and decadal variability, so the long-term climatology is the right thing</p>",
+        "id": 61639,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1660601469
+    }
+]

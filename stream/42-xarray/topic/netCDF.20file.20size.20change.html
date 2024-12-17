@@ -1,0 +1,61 @@
+<html>
+<head><meta charset="utf-8"><title>netCDF file size change · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/netCDF.20file.20size.20change.html">netCDF file size change</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="91859"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/netCDF%20file%20size%20change/near/91859" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/netCDF.20file.20size.20change.html#91859">(Nov 14 2023 at 21:16)</a>:</h4>
+<p>Hi, I am not sure whats going on. I'm running the same script that I ran about a month ago to analyze and output some large ensemble data using dask and xarray. However, the files that I'm outputting now (using <code>xarray.to_netcdf</code>) are about 10 times the size (1.7GB vs 18GB) than they were when I output them last month. I am 99% sure I did not change my script (other than using  <code>interface = 'ext'</code> for the <code>PBSCluster()</code> function), and when I check for chunking, it is the same between last month's output and these new files - they are in fact identical when inspecting them using <code>ncdump -h -s</code>. Were there any changes in the xarray or netCDF libraries in Casper that could be contributing to this? Or does anyone have any suggestions on how to dig in deeper into the files to see whats going on? Thank you! This is the ncdump output: </p>
+<div class="codehilite"><pre><span></span><code>netcdf CESM2-LE_TREFHTMX_30-day_10-year_100_ens_members_doy001_1980_NWHemi {
+dimensions:
+        lat = 96 ;
+        lon = 144 ;
+        sample = 33000 ;
+variables:
+        double lat(lat) ;
+                lat:_FillValue = -900. ;
+                lat:long_name = &quot;latitude&quot; ;
+                lat:units = &quot;degrees_north&quot; ;
+                lat:_Storage = &quot;chunked&quot; ;
+                lat:_ChunkSizes = 96 ;
+                lat:_Shuffle = &quot;true&quot; ;
+                lat:_DeflateLevel = 1 ;
+                lat:_Endianness = &quot;little&quot; ;
+        double lon(lon) ;
+                lon:_FillValue = -900. ;
+                lon:long_name = &quot;longitude&quot; ;
+                lon:units = &quot;degrees_east&quot; ;
+                lon:_Storage = &quot;chunked&quot; ;
+                lon:_ChunkSizes = 144 ;
+                lon:_Shuffle = &quot;true&quot; ;
+                lon:_DeflateLevel = 1 ;
+                lon:_Endianness = &quot;little&quot; ;
+        float TREFHTMX(sample, lat, lon) ;
+                TREFHTMX:_FillValue = -900.f ;
+                TREFHTMX:units = &quot;K&quot; ;
+                TREFHTMX:long_name = &quot;Maximum reference height temperature over output period&quot; ;
+                TREFHTMX:cell_methods = &quot;time: maximum&quot; ;
+                TREFHTMX:_Storage = &quot;chunked&quot; ;
+                TREFHTMX:_ChunkSizes = 6600, 16, 29 ;
+                TREFHTMX:_Shuffle = &quot;true&quot; ;
+                TREFHTMX:_DeflateLevel = 1 ;
+                TREFHTMX:_Endianness = &quot;little&quot; ;
+
+// global attributes:
+                :_NCProperties = &quot;version=2,netcdf=4.8.1,hdf5=1.12.2&quot; ;
+                :_SuperblockVersion = 2 ;
+                :_IsNetcdf4 = 1 ;
+                :_Format = &quot;netCDF-4&quot; ;
+}
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

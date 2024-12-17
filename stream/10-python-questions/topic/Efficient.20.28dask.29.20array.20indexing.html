@@ -1,0 +1,43 @@
+<html>
+<head><meta charset="utf-8"><title>Efficient (dask) array indexing · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Efficient.20.28dask.29.20array.20indexing.html">Efficient (dask) array indexing</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="59718"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Efficient%20%28dask%29%20array%20indexing/near/59718" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Efficient.20.28dask.29.20array.20indexing.html#59718">(Jul 25 2022 at 16:05)</a>:</h4>
+<p>So I have a nlat x nlon x ndays array - quite large ~3Gb and I am trying paralyze a particular indexing operation<br>
+A bit tricky to explain, but at each lat/lon point I am indexing the time array to be days of the year days=(1,2,...365) and I am rewriting that to an an equivalent sized array that is a randomized version of the days_rand(45,365,...1,3) then my operation seems simple<br>
+The key think is days and days_rand changes for each ilat/ilon.</p>
+<p>var_new(ilat,ilon,days) = var_old(ilat,ilon,days_rand) </p>
+<p>I do this for a multi-year array and days and days_rand are precomputed.<br>
+Dask will not let me compute like this presumably because of this.<br>
+<a href="https://docs.dask.org/en/stable/array-slicing.html">https://docs.dask.org/en/stable/array-slicing.html</a><br>
+And that I cannot slice with more than one dimension (ilat,ilon are still slices I'm presuming).</p>
+<p>So I am then .load() -ing and operating on this with an ilat,ilon  for loops.<br>
+So any ideas on parallelizing this either as dask or numpy?<br>
+Thanks!<br>
+Rich</p>
+
+
+
+<a name="59719"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Efficient%20%28dask%29%20array%20indexing/near/59719" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Efficient.20.28dask.29.20array.20indexing.html#59719">(Jul 25 2022 at 16:17)</a>:</h4>
+<p>Does <code>vindex</code> work? <a href="https://docs.dask.org/en/stable/generated/dask.array.Array.vindex.html#dask.array.Array.vindex">https://docs.dask.org/en/stable/generated/dask.array.Array.vindex.html#dask.array.Array.vindex</a></p>
+<p>If not I would chunk so that all timesteps are in one block; and then map_blocks your permutation.</p>
+
+
+
+<a name="59720"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Efficient%20%28dask%29%20array%20indexing/near/59720" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Efficient.20.28dask.29.20array.20indexing.html#59720">(Jul 25 2022 at 16:19)</a>:</h4>
+<p>Oh this might work: <a href="https://numpy.org/doc/stable/reference/generated/numpy.take_along_axis.html#numpy.take_along_axis">https://numpy.org/doc/stable/reference/generated/numpy.take_along_axis.html#numpy.take_along_axis</a></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

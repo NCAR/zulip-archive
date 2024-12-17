@@ -1,0 +1,38 @@
+<html>
+<head><meta charset="utf-8"><title>Alternative pop_tools.lateral_fill · hack-projects · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/index.html">hack-projects</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/Alternative.20pop_tools.2Elateral_fill.html">Alternative pop_tools.lateral_fill</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="9440"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/Alternative%20pop_tools.lateral_fill/near/9440" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/Alternative.20pop_tools.2Elateral_fill.html#9440">(May 22 2020 at 19:09)</a>:</h4>
+<p>I am looking at implementing an alternative to the current version of pop_tools.lateral_fill that uses a SOR solution of the Laplace equation to do the filling. It has the potential advantage of being easily implemented in array syntax without looping or conditionals in the iteration loop (other than checking for convergence). First step is to figure out how to wrap an old F90 version of this algorithm to be callable from python (question posted in the jupyter channel). Next will be an implementation in pure xarray.</p>
+
+
+
+<a name="9448"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/Alternative%20pop_tools.lateral_fill/near/9448" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/Alternative.20pop_tools.2Elateral_fill.html#9448">(May 22 2020 at 19:13)</a>:</h4>
+<p>it may be easier to port the loopy Fortran version to pure python and then compile with numba rather than convert to array syntax</p>
+
+
+
+<a name="9452"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/Alternative%20pop_tools.lateral_fill/near/9452" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/Alternative.20pop_tools.2Elateral_fill.html#9452">(May 22 2020 at 19:15)</a>:</h4>
+<p>Agreed. This is the way that the current smoother is implemented<br>
+<a href="https://github.com/matt-long/pop-tools/blob/master/pop_tools/fill.py" target="_blank" title="https://github.com/matt-long/pop-tools/blob/master/pop_tools/fill.py">https://github.com/matt-long/pop-tools/blob/master/pop_tools/fill.py</a></p>
+
+
+
+<a name="9455"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/Alternative%20pop_tools.lateral_fill/near/9455" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/Alternative.20pop_tools.2Elateral_fill.html#9455">(May 22 2020 at 19:17)</a>:</h4>
+<p><span class="user-mention" data-user-id="44">@Frank Bryan</span>, note that this provides a generic <code>xarray</code> interface, so your task would be confined to a pure numpy implementation.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,129 @@
+<html>
+<head><meta charset="utf-8"><title>Combining NetCDF history files with date var · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html">Combining NetCDF history files with date var</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="32534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32534">(May 25 2021 at 18:19)</a>:</h4>
+<p>Hi, I could really use some help understanding whether there is an efficient way to combine history files along the time dimension, where the time information is in another variable.    I have a whole lot of history files, so efficiency is a concern.</p>
+<p>Here is what one of the NetCDF history files looks like when opened with Xarray:</p>
+<div class="codehilite"><pre><span></span>&lt;xarray.Dataset&gt;
+Dimensions:  (ilev: 33, lat: 192, lev: 32, lon: 288, slat: 191, slon: 288, time: 1)
+Coordinates:
+  * lon      (lon) float32 0.0 1.25 2.5 3.75 5.0 ... 355.0 356.2 357.5 358.8
+  * slon     (slon) float32 -0.625 0.625 1.875 3.125 ... 354.4 355.6 356.9 358.1
+  * lat      (lat) float32 -90.0 -89.06 -88.12 -87.17 ... 87.17 88.12 89.06 90.0
+  * slat     (slat) float32 -89.53 -88.59 -87.64 -86.7 ... 87.64 88.59 89.53
+  * lev      (lev) float32 3.643 7.595 14.36 24.61 ... 936.2 957.5 976.3 992.6
+  * ilev     (ilev) float32 2.255 5.032 10.16 18.56 ... 947.4 967.5 985.1 1e+03
+Dimensions without coordinates: time
+Data variables: (12/15)
+    hyam     (lev) float32 0.003643 0.007595 0.01436 ... 0.006255 0.001989 0.0
+    hybm     (lev) float32 0.0 0.0 0.0 0.0 0.0 ... 0.9251 0.9512 0.9743 0.9926
+    hyai     (ilev) float32 0.002255 0.005032 0.01016 ... 0.003979 0.0 0.0
+    hybi     (ilev) float32 0.0 0.0 0.0 0.0 0.0 ... 0.9389 0.9636 0.9851 1.0
+    gw       (lat) float32 3.382e-05 0.0002705 0.000541 ... 0.0002705 3.382e-05
+    P0       float32 1e+05
+    ...       ...
+    Q        (time, lev, lat, lon) float64 ...
+    CLDLIQ   (time, lev, lat, lon) float64 ...
+    CLDICE   (time, lev, lat, lon) float64 ...
+    PS       (time, lat, lon) float64 6.853e+04 6.853e+04 ... 9.963e+04
+    date     (time) int32 20110103
+    datesec  (time) int32 0
+Attributes:
+    creation_date:          YYYY MM DD HH MM SS = 2019 07 10 01 31 17
+    model:                  CAM
+</pre></div>
+
+
+<p>The actual time value for this file is found in a variable called date, a length-1 integer array.    </p>
+<p>If I try to open a bunch of these files with open_mfdataset(), is there a way to create a time coordinate axis from these files in that step?   Or is it better to use the intake-esm catalog mechanism of preprocessing each file in order to combine these files into a Zarr store?</p>
+
+
+
+<a name="32539"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32539" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32539">(May 25 2021 at 18:26)</a>:</h4>
+<p>sepcify<code>concat_dim="time"</code>? or <code>concat_dim="date"</code>? What have you tried?</p>
+
+
+
+<a name="32540"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32540" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32540">(May 25 2021 at 18:28)</a>:</h4>
+<p>I'll try them both; I didn't know what options I had.   Thanks!</p>
+
+
+
+<a name="32541"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32541" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32541">(May 25 2021 at 18:30)</a>:</h4>
+<p>OK. If you want to convert <code>date</code> to a proper datetime thing, you'll need to pass a <code>preprocess</code> function that does so.</p>
+
+
+
+<a name="32542"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32542" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32542">(May 25 2021 at 18:34)</a>:</h4>
+<p>Maybe the preprocess step will fix this, but choosing either concat_dim option results in:</p>
+<div class="codehilite"><pre><span></span># Create a dataset and drop all but one variable.
+with dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: False}):
+    ds = xr.open_mfdataset(file_list, data_vars=&#39;minimal&#39;, coords=&#39;minimal&#39;, compat=&#39;override&#39;, concat_dim=&#39;time&#39;)
+
+...
+ValueError: Could not find any dimension coordinates to use to order the datasets for concatenation
+</pre></div>
+
+
+<p>I would presume that the <code>preprocess</code> function could set the time coordinate value and fix this.</p>
+
+
+
+<a name="32543"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32543" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32543">(May 25 2021 at 18:37)</a>:</h4>
+<p><code>combine="nested"</code>? if the list of files is in the right order...</p>
+
+
+
+<a name="32544"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32544" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32544">(May 25 2021 at 18:46)</a>:</h4>
+<p>That worked!    Thanks very much for the help!   </p>
+<div class="codehilite"><pre><span></span># Create a dataset and drop all but one variable.
+with dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: False}):
+    ds = xr.open_mfdataset(file_list, data_vars=&#39;minimal&#39;, coords=&#39;minimal&#39;, compat=&#39;override&#39;, concat_dim=&#39;time&#39;, combine=&#39;nested&#39;)
+
+print(ds)
+
+&lt;xarray.Dataset&gt;
+Dimensions:  (ilev: 33, lat: 192, lev: 32, lon: 288, slat: 191, slon: 288, time: 6)
+Coordinates:
+  * lon      (lon) float32 0.0 1.25 2.5 3.75 5.0 ... 355.0 356.2 357.5 358.8
+  * slon     (slon) float32 -0.625 0.625 1.875 3.125 ... 354.4 355.6 356.9 358.1
+  * lat      (lat) float32 -90.0 -89.06 -88.12 -87.17 ... 87.17 88.12 89.06 90.0
+  * slat     (slat) float32 -89.53 -88.59 -87.64 -86.7 ... 87.64 88.59 89.53
+  * lev      (lev) float32 3.643 7.595 14.36 24.61 ... 936.2 957.5 976.3 992.6
+  * ilev     (ilev) float32 2.255 5.032 10.16 18.56 ... 947.4 967.5 985.1 1e+03
+Dimensions without coordinates: time
+Data variables: (12/15)
+    hyam     (lev) float32 dask.array&lt;chunksize=(32,), meta=np.ndarray&gt;
+    hybm     (lev) float32 dask.array&lt;chunksize=(32,), meta=np.ndarray&gt;
+    hyai     (ilev) float32 dask.array&lt;chunksize=(33,), meta=np.ndarray&gt;
+    hybi     (ilev) float32 dask.array&lt;chunksize=(33,), meta=np.ndarray&gt;
+    gw       (lat) float32 dask.array&lt;chunksize=(192,), meta=np.ndarray&gt;
+    P0       float32 ...
+    ...       ...
+    Q        (time, lev, lat, lon) float64 dask.array&lt;chunksize=(1, 32, 192, 288), meta=np.ndarray&gt;
+    CLDLIQ   (time, lev, lat, lon) float64 dask.array&lt;chunksize=(1, 32, 192, 288), meta=np.ndarray&gt;
+    CLDICE   (time, lev, lat, lon) float64 dask.array&lt;chunksize=(1, 32, 192, 288), meta=np.ndarray&gt;
+    PS       (time, lat, lon) float64 dask.array&lt;chunksize=(1, 192, 288), meta=np.ndarray&gt;
+    date     (time) int32 dask.array&lt;chunksize=(1,), meta=np.ndarray&gt;
+    datesec  (time) int32 dask.array&lt;chunksize=(1,), meta=np.ndarray&gt;
+</pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

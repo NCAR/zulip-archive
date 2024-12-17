@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>Casper and JupyterHub have been returned to service.  All Casper nodes were updated to the  OpenSUSE Version 15.4 for better compatibility with Derecho.  Queued jobs were removed to prevent job conflicts running on the new operating system. The software stack has been entirely refreshed, and is consistent with the evaluation nodes provided over the past months for user checkout.  Plan to recompile applications and you may need to reinstall some personal Conda environments, though this should be atypical.  </p>\n<p>JupyterHub is available on Casper and Cheyenne. Most existing language kernels should continue to work on Casper, though user-installed kernels featuring compiled code (e.g., pip source installs) may need to be recreated first. New curated kernels for Matlab, IDL, and Julia are provided, while some very old kernels have been removed to improve clarity of available options. Note that a few kernels are marked as intended for use on either Casper or Cheyenne only. Please do not load such kernels on an unsupported system - they will not work.</p>\n<p>This is a big update on Casper - feel free to ask questions or report issues with JupyterHub kernels here, along with other usual channels.</p>",
+        "id": 90788,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1698440304
+    },
+    {
+        "content": "<p>Hi Brian, <br>\nI had some issues launching dask on the cluster this morning. There's an error after running \"cluster = PBSCluster\", saying \"'ib0' is not a valid network interface. Valid network interfaces are: ['lo', 'mgt', 'ext', 'eno2']\". I was wondering if it has something to do with the refresh.  Do I need to update something?</p>",
+        "id": 90817,
+        "sender_full_name": "Hui Li",
+        "timestamp": 1698686709
+    },
+    {
+        "content": "<p>Hi Hui,</p>\n<p>Thank you for bringing this up! The ib0 interface which has been recommended for Dask is being deprecated for most workflows on Casper in favor of high-speed ethernet. Please use <strong>ext</strong> as the network inferface moving forward. We will make a point to share this in multiple places so everyone is aware.</p>",
+        "id": 90829,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1698695771
+    },
+    {
+        "content": "<p>Excellent. Thanks, Brian!</p>",
+        "id": 90835,
+        "sender_full_name": "Hui Li",
+        "timestamp": 1698697713
+    },
+    {
+        "content": "<p>Hui, I'm having the same issue and wondering the same thing.  Can we upvote this issue?</p>",
+        "id": 91512,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1699483880
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> does setting <code>interface='ext'</code> in the <code>PBSCluster()</code> command address your issue, or is there something else going on?</p>",
+        "id": 91682,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1699637305
+    },
+    {
+        "content": "<p>Yes, this fixed the issue.  when I posted my question, I wasn't able to read Brian's response for some reason (I'm somewhat zulip challenged). Thanks for asking <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span></p>",
+        "id": 91691,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1699638279
+    }
+]

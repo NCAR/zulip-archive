@@ -1,37 +1,37 @@
 <html>
 <head><meta charset="utf-8"><title>interpolate_na in xarray in 2d? · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html">interpolate_na in xarray in 2d?</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html">interpolate_na in xarray in 2d?</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="31046"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31046" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31046">(May 07 2021 at 19:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31046" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31046">(May 07 2021 at 19:41)</a>:</h4>
 <p>I am trying to figure out if there is a way to have xr.interpolate_na perform 2d interpolation since I have CAM data on a lat/lon grid.   It looks like I have to specify for it to interpolate the nans in <em>either</em> the lat or lon dimension (so 1d interpolation)...(and it seems like it would be location-dependent whether lat or lon was more appropriate...so I'd rather do 2d interpolation)</p>
 
 
 
 <a name="31047"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31047" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31047">(May 07 2021 at 20:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31047" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31047">(May 07 2021 at 20:01)</a>:</h4>
 <p>Based on my limited knowledge, you may have more numerical functions at your disposal if you convert the data from xr to numpy.    Then check out what numpy has to offer, or other libraries built on top of numpy.</p>
 
 
 
 <a name="31048"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31048" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31048">(May 07 2021 at 20:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31048" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31048">(May 07 2021 at 20:14)</a>:</h4>
 <p>Scipy can partial do 2d interpolate, but the edge may still be NAN. <a href="https://stackoverflow.com/questions/37662180/interpolate-missing-values-2d-python" target="_blank" title="https://stackoverflow.com/questions/37662180/interpolate-missing-values-2d-python">https://stackoverflow.com/questions/37662180/interpolate-missing-values-2d-python</a></p>
 
 
 
 <a name="31049"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31049" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31049">(May 07 2021 at 21:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interpolate_na%20in%20xarray%20in%202d%3F/near/31049" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interpolate_na.20in.20xarray.20in.202d.3F.html#31049">(May 07 2021 at 21:48)</a>:</h4>
 <p>ok, thanks.  I don't want the edges to be nan, but I'll take a look ...</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

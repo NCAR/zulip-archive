@@ -1,0 +1,153 @@
+<html>
+<head><meta charset="utf-8"><title>opening a ieeei4 file · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html">opening a ieeei4 file</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="91861"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91861" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91861">(Nov 14 2023 at 22:24)</a>:</h4>
+<p>Hi, I'm looking to open a topography file with the name topography_km62_201209.ieeei4<br>
+I've never opened this file type, and not much is coming up online that is helpful.  Does anyone know a quick way to read these files with python? Thanks in advance!</p>
+
+
+
+<a name="91862"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91862" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91862">(Nov 14 2023 at 22:43)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="259">Mira Berdahl</span> <a href="#narrow/stream/3-general/topic/opening.20a.20ieeei4.20file/near/91861">said</a>:</p>
+<blockquote>
+<p>Hi, I'm looking to open a topography file with the name topography_km62_201209.ieeei4<br>
+I've never opened this file type, and not much is coming up online that is helpful.  Does anyone know a quick way to read these files with python? Thanks in advance!</p>
+</blockquote>
+<p><a href="https://svn-ccsm-inputdata.cgd.ucar.edu/trunk/inputdata/ocn/pop/conventions.html">Looks like a binary file extension specific to the NCAR climate modeling world</a>.</p>
+<p>I don't have an example (some others around here might), but you could try using something like <a href="https://numpy.org/doc/stable/reference/generated/numpy.fromfile.html">numpy.fromfile</a>.</p>
+
+
+
+<a name="91864"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91864" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91864">(Nov 14 2023 at 22:54)</a>:</h4>
+<p>Yeah,  I was just testing out the arguments but I think you want</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">'topography_km62_201209.ieeei4'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'&gt;i'</span><span class="p">)</span>
+</code></pre></div>
+<p>the <code>i</code> in <code>dtype = '&gt;i'</code> tells numpy to read in 4-byte (32-bit) integers, and the <code>&gt;</code> tells it to use big-endian (the file name looks like a CESM input file, which are all big-endian by convention). I would then look at <code>np.min(data)</code> and <code>np.max(data)</code> to make sure the range looks reasonable -- if they look off, try <code>dtype='i'</code> instead. I think little-endian is more common for binary files outside of the CESM world. You should also check <code>np.shape(data)</code> to make sure it is the size you were expecting.</p>
+<p>Note that this will give you a 1D array of data, so you may need to reshape it (<code>data2 = np.reshape(data, (...))</code>, where <code>(...)</code> is an array of the new dim sizes).</p>
+
+
+
+<a name="91879"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91879" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91879">(Nov 15 2023 at 18:38)</a>:</h4>
+<p>This is great <span class="user-mention" data-user-id="10">@Michael Levy</span> &amp; <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span>  thanks for the fast responses! <br>
+I just tried and can open the file, but its 1D as you suggested.  Unfortunately, I don't know what dimensions the data ought to be though, so can't reshape it.  Any idea how to glean this info?</p>
+
+
+
+<a name="91881"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91881" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91881">(Nov 15 2023 at 19:08)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="259">Mira Berdahl</span> <a href="#narrow/stream/3-general/topic/opening.20a.20ieeei4.20file/near/91879">said</a>:</p>
+<blockquote>
+<p>I just tried and can open the file, but its 1D as you suggested.  Unfortunately, I don't know what dimensions the data ought to be though, so can't reshape it.  Any idea how to glean this info?</p>
+</blockquote>
+<p>Can you give a little background on what this file is and how it is used? Also, how big is the 1D array?</p>
+
+
+
+<a name="91926"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91926" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91926">(Nov 16 2023 at 17:12)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , the file is a bathymetry file used in a 0.1deg ocean CESM simulation.   The shape of the binary file is (8640000,).  Thanks!</p>
+
+
+
+<a name="91930"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91930" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91930">(Nov 16 2023 at 17:30)</a>:</h4>
+<p>The 0.1 degree grid is 3600 x 2400 --  Iwould try <code>np.reshape(data, (3600, 2400))</code> and then plot it -- the region where the value is 0 should look like the continents, but if it doesn't then you'll want <code>np.reshape(data, (2400, 3600))</code></p>
+
+
+
+<a name="91946"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91946" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91946">(Nov 16 2023 at 19:39)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>  This works, thanks. It needed to be of the shape (2400,3600).  I am a bit confused, though, since I assumed this file would actually show the bathymetry (in meters), but instead it looks a lot like the KMT field, where the values are 0-62, corresponding to depth levels of the POP grid.  Do you have any thoughts on this? Thanks.</p>
+
+
+
+<a name="91977"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/91977" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#91977">(Nov 16 2023 at 20:15)</a>:</h4>
+<p><span class="user-mention" data-user-id="259">@Mira Berdahl</span>  the data is all integer and it corresponds to the number of active ocean levels at that location. For the 1 degree grid, there is a 1D array of cell-center depths associated with each layer and then you can use the index contained in the bathymetry file to find the depth at that column. For the 0.1 degree ocean simulation, we typically run with "partial bottom cells" turned on and that requires a separate 2D file containing the actual depth. If you have access to the case root for the CESM run itself, look in <code>${CASE_ROOT}/CaseDocs/pop_in</code> and see what <code>bottom_cell_file</code> is set to. For the runs I've done with that grid, the default value is <code>${DIN_ROOT_LOC}/ocn/pop/tx0.1v3/grid/dzbc_pbc_s2.0_20171019.ieeer8</code>, and you can read it in with <code>data = np.reshape(np.fromfile('/path/to/file.ieeer8', '&gt;d'), (2400, 3600))</code> (<code>&gt;</code> for big-endian, and <code>d</code> instead of <code>i</code> since this is double-precision real values instead of integer values). Again, double check the min and max to make sure it read in correctly, and plot it to make sure the reshape was ordered right (but it should list columns in the same order as the bathymetry file). I think you're right about the units, but the max value will also make it obvious if the units are centimeters instead of meters</p>
+
+
+
+<a name="92143"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/92143" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#92143">(Nov 18 2023 at 00:16)</a>:</h4>
+<p><span class="user-mention" data-user-id="259">@Mira Berdahl</span> to fill in anyone who stumbles on this thread later, it sounds like what you really want to do is read the bathymetry used in a POP run. If you have access to any of the POP history (or time series) output files, there is a field <code>HT</code> that will give you ocean depth at a given cell. So <code>bathymetry = xr.open_dataset(pop_netcdf_output)['HT']</code> should do the trick.</p>
+<p>If you want to construct the bathymetry ahead of time, we were on the right track. The first file you read from the CESM input data repository (the <code>.ieeei4</code> file) tell us how many active ocean layers each grid cell has. The second file you read in (the <code>.ieeer8</code> file) is also necessary, but I didn't describe it correctly -- the <code>dzbc_pbc</code> file actually tells you the layer thickness (in centimeters) of the bottom most active layer. So the last thing we need is to know the expected layer thicknesses: then, for each cell, we replace the bottom-most thickness (index based on the value in the <code>bathymetry</code> file) with the value from the <code>dzbc_pbc</code> file and then sum over the thicknesses of the active cells to get the total depth.</p>
+<p>The thicknesses of each layer (not considering the partial bottom cells) come from <a href="https://github.com/ESCOMP/POP2-CESM/blob/master/input_templates/tx0.1v3_vert_grid">a file in the POP repository</a>. Rather than processing it yourself, you can trust me when I tell you</p>
+<div class="codehilite"><pre><span></span><code>dz = [1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1019.6808, 1056.4484, 1105.9951, 1167.807, 1242.4133, 1330.9678, 1435.141, 1557.1259, 1699.6796, 1866.2124, 2060.9023, 2288.8521, 2556.2471, 2870.575, 3240.8372, 3677.7725, 4194.0308, 4804.2236, 5524.7544, 6373.1919, 7366.9448, 8520.8926, 9843.6582, 11332.4658, 12967.1992, 14705.3438, 16480.709, 18209.1348, 19802.2344, 21185.957, 22316.5098, 23186.4941, 23819.4492, 24257.2168, 24546.7793, 24731.0137, 24844.3281, 24911.9746, 24951.291, 24973.5938, 24985.9609, 24992.6738, 24996.2441, 24998.1094, 25000.0, 25000.0]
+</code></pre></div>
+<p>So I think something like</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">num_levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">'topography_km62_201209.ieeei4'</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'&gt;i'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">3600</span><span class="p">))</span>
+<span class="n">dzbc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="s1">'/path/to/file.ieeer8'</span><span class="p">,</span> <span class="s1">'&gt;d'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">3600</span><span class="p">))</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1019.6808</span><span class="p">,</span> <span class="mf">1056.4484</span><span class="p">,</span> <span class="mf">1105.9951</span><span class="p">,</span> <span class="mf">1167.807</span><span class="p">,</span> <span class="mf">1242.4133</span><span class="p">,</span> <span class="mf">1330.9678</span><span class="p">,</span> <span class="mf">1435.141</span><span class="p">,</span> <span class="mf">1557.1259</span><span class="p">,</span> <span class="mf">1699.6796</span><span class="p">,</span> <span class="mf">1866.2124</span><span class="p">,</span> <span class="mf">2060.9023</span><span class="p">,</span> <span class="mf">2288.8521</span><span class="p">,</span> <span class="mf">2556.2471</span><span class="p">,</span> <span class="mf">2870.575</span><span class="p">,</span> <span class="mf">3240.8372</span><span class="p">,</span> <span class="mf">3677.7725</span><span class="p">,</span> <span class="mf">4194.0308</span><span class="p">,</span> <span class="mf">4804.2236</span><span class="p">,</span> <span class="mf">5524.7544</span><span class="p">,</span> <span class="mf">6373.1919</span><span class="p">,</span> <span class="mf">7366.9448</span><span class="p">,</span> <span class="mf">8520.8926</span><span class="p">,</span> <span class="mf">9843.6582</span><span class="p">,</span> <span class="mf">11332.4658</span><span class="p">,</span> <span class="mf">12967.1992</span><span class="p">,</span> <span class="mf">14705.3438</span><span class="p">,</span> <span class="mf">16480.709</span><span class="p">,</span> <span class="mf">18209.1348</span><span class="p">,</span> <span class="mf">19802.2344</span><span class="p">,</span> <span class="mf">21185.957</span><span class="p">,</span> <span class="mf">22316.5098</span><span class="p">,</span> <span class="mf">23186.4941</span><span class="p">,</span> <span class="mf">23819.4492</span><span class="p">,</span> <span class="mf">24257.2168</span><span class="p">,</span> <span class="mf">24546.7793</span><span class="p">,</span> <span class="mf">24731.0137</span><span class="p">,</span> <span class="mf">24844.3281</span><span class="p">,</span> <span class="mf">24911.9746</span><span class="p">,</span> <span class="mf">24951.291</span><span class="p">,</span> <span class="mf">24973.5938</span><span class="p">,</span> <span class="mf">24985.9609</span><span class="p">,</span> <span class="mf">24992.6738</span><span class="p">,</span> <span class="mf">24996.2441</span><span class="p">,</span> <span class="mf">24998.1094</span><span class="p">,</span> <span class="mf">25000.0</span><span class="p">,</span> <span class="mf">25000.0</span><span class="p">]</span>
+
+<span class="n">bathymetry</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">3600</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">62</span><span class="p">):</span>
+  <span class="n">bathymetry</span> <span class="o">=</span> <span class="n">bathymetry</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;</span><span class="n">num_levels</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dz</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">num_levels</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dzbc</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+<p>Note that my network connection is a little flaky so I haven't had a chance to test the above, but the general gist should be right (and it should match <code>HT</code> from a history file). And both of those values will be in cm, not m.</p>
+
+
+
+<a name="92144"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/92144" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#92144">(Nov 18 2023 at 01:04)</a>:</h4>
+<p>Despite <span class="user-mention" data-user-id="31">@Keith Lindsay</span> reminding me to be careful, I'm pretty sure the above code snippet has an off-by-one error because Fortran (and <code>topography_km62_201209.ieeei4</code> start counting at 1 but the python array indices start counting at 0... now that my network is more stable, I'll whip up a quick jupyter notebook that runs on Casper and makes sure everything is correct</p>
+
+
+
+<a name="92145"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/92145" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#92145">(Nov 18 2023 at 01:33)</a>:</h4>
+<p>Okay, it looks like my code above is correct, except I have a <code>dz(k)</code> that should really be <code>dz[k]</code> :) Here's a nicer formatting:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">inputdata</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span>
+                         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">'CESMDATAROOT'</span><span class="p">],</span>
+                         <span class="s1">'inputdata'</span><span class="p">,</span>
+                         <span class="s1">'ocn'</span><span class="p">,</span>
+                         <span class="s1">'pop'</span><span class="p">,</span>
+                         <span class="s1">'tx0.1v3'</span><span class="p">,</span>
+                         <span class="s1">'grid'</span><span class="p">,</span>
+                        <span class="p">)</span>
+
+<span class="c1"># Set dz</span>
+<span class="n">dz</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span>
+      <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span>
+      <span class="mf">1019.6808</span><span class="p">,</span> <span class="mf">1056.4484</span><span class="p">,</span> <span class="mf">1105.9951</span><span class="p">,</span> <span class="mf">1167.807</span><span class="p">,</span> <span class="mf">1242.4133</span><span class="p">,</span> <span class="mf">1330.9678</span><span class="p">,</span>
+      <span class="mf">1435.141</span><span class="p">,</span> <span class="mf">1557.1259</span><span class="p">,</span> <span class="mf">1699.6796</span><span class="p">,</span> <span class="mf">1866.2124</span><span class="p">,</span> <span class="mf">2060.9023</span><span class="p">,</span> <span class="mf">2288.8521</span><span class="p">,</span>
+      <span class="mf">2556.2471</span><span class="p">,</span> <span class="mf">2870.575</span><span class="p">,</span> <span class="mf">3240.8372</span><span class="p">,</span> <span class="mf">3677.7725</span><span class="p">,</span> <span class="mf">4194.0308</span><span class="p">,</span> <span class="mf">4804.2236</span><span class="p">,</span>
+      <span class="mf">5524.7544</span><span class="p">,</span> <span class="mf">6373.1919</span><span class="p">,</span> <span class="mf">7366.9448</span><span class="p">,</span> <span class="mf">8520.8926</span><span class="p">,</span> <span class="mf">9843.6582</span><span class="p">,</span> <span class="mf">11332.4658</span><span class="p">,</span>
+      <span class="mf">12967.1992</span><span class="p">,</span> <span class="mf">14705.3438</span><span class="p">,</span> <span class="mf">16480.709</span><span class="p">,</span> <span class="mf">18209.1348</span><span class="p">,</span> <span class="mf">19802.2344</span><span class="p">,</span> <span class="mf">21185.957</span><span class="p">,</span>
+      <span class="mf">22316.5098</span><span class="p">,</span> <span class="mf">23186.4941</span><span class="p">,</span> <span class="mf">23819.4492</span><span class="p">,</span> <span class="mf">24257.2168</span><span class="p">,</span> <span class="mf">24546.7793</span><span class="p">,</span> <span class="mf">24731.0137</span><span class="p">,</span>
+      <span class="mf">24844.3281</span><span class="p">,</span> <span class="mf">24911.9746</span><span class="p">,</span> <span class="mf">24951.291</span><span class="p">,</span> <span class="mf">24973.5938</span><span class="p">,</span> <span class="mf">24985.9609</span><span class="p">,</span> <span class="mf">24992.6738</span><span class="p">,</span>
+      <span class="mf">24996.2441</span><span class="p">,</span> <span class="mf">24998.1094</span><span class="p">,</span> <span class="mf">25000.0</span><span class="p">,</span> <span class="mf">25000.0</span><span class="p">]</span>
+
+<span class="c1"># Read topography file and dzbc</span>
+<span class="n">num_levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span> <span class="s1">'topography_20170718.ieeei4'</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">'&gt;i'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">3600</span><span class="p">))</span>
+<span class="n">dzbc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputdata</span><span class="p">,</span> <span class="s1">'dzbc_pbc_s2.0_20171019.ieeer8'</span><span class="p">),</span> <span class="s1">'&gt;d'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">3600</span><span class="p">))</span>
+
+<span class="c1"># Compute bathymetry</span>
+<span class="n">bathymetry</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2400</span><span class="p">,</span> <span class="mi">3600</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">62</span><span class="p">):</span>
+    <span class="n">bathymetry</span> <span class="o">=</span> <span class="n">bathymetry</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">k</span><span class="o">&lt;</span><span class="n">num_levels</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dz</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="n">num_levels</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dzbc</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+<p>I also read in <code>HT</code> from an earlier run and verified that <code>HT - bathymetry</code> is zero everywhere</p>
+
+
+
+<a name="92213"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/opening%20a%20ieeei4%20file/near/92213" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/opening.20a.20ieeei4.20file.html#92213">(Nov 21 2023 at 01:38)</a>:</h4>
+<p>This is so helpful, thanks so much <span class="user-mention" data-user-id="10">@Michael Levy</span> !</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,79 @@
+<html>
+<head><meta charset="utf-8"><title>eofs with dask · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html">eofs with dask</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="50639"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50639" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50639">(Feb 15 2022 at 22:36)</a>:</h4>
+<p>I'm trying to use the eofs python package (<a href="https://ajdawson.github.io/eofs/latest/api/eofs.xarray.html">https://ajdawson.github.io/eofs/latest/api/eofs.xarray.html</a>) with a dask DataArray, which is apparently supported (see <a href="https://github.com/ajdawson/eofs/pull/109">https://github.com/ajdawson/eofs/pull/109</a>). The following shows the sequence of commands:<br>
+<a href="/user_uploads/2/7d/olaXu9pqK9d1AZ8f51mmnsyc/Screen-Shot-2022-02-15-at-3.24.45-PM.png">Screen-Shot-2022-02-15-at-3.24.45-PM.png</a> <br>
+This returns the error:  <br>
+ValueError: operands could not be broadcast together with shapes (20080, 20080) (1, nan)<br>
+It's not clear where the nan dimension is coming from. The error goes away if the dask DataArray is first loaded into an xarray DataArray. Has anyone had success using eofs with dask?</p>
+<div class="message_inline_image"><a href="/user_uploads/2/7d/olaXu9pqK9d1AZ8f51mmnsyc/Screen-Shot-2022-02-15-at-3.24.45-PM.png" title="Screen-Shot-2022-02-15-at-3.24.45-PM.png"><img src="/user_uploads/2/7d/olaXu9pqK9d1AZ8f51mmnsyc/Screen-Shot-2022-02-15-at-3.24.45-PM.png"></a></div>
+
+
+
+<a name="50645"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50645" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50645">(Feb 15 2022 at 23:19)</a>:</h4>
+<p><span class="user-mention" data-user-id="34">@Stephen Yeager</span>, I believe this is a bug/ an incompatibility of eofs with dask... eofs is slicing the data <a href="https://github.com/ajdawson/eofs/blob/603ed8ed86e606fcf8e69a9edc756f81544d4f93/lib/eofs/standard.py#L158">here</a> using a <a href="https://github.com/ajdawson/eofs/blob/603ed8ed86e606fcf8e69a9edc756f81544d4f93/lib/eofs/standard.py#L156">dask array as a slice</a></p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ipdb</span><span class="o">&gt;</span> <span class="bp">self</span>
+<span class="o">&lt;</span><span class="n">eofs</span><span class="o">.</span><span class="n">standard</span><span class="o">.</span><span class="n">Eof</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x15a7a31c0</span><span class="o">&gt;</span>
+<span class="n">ipdb</span><span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">reshape</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">56375</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">56375</span><span class="p">),</span> <span class="n">chunktype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+<span class="n">ipdb</span><span class="o">&gt;</span> <span class="n">nonMissingIndex</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">getitem</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nan</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="n">nan</span><span class="p">,),</span> <span class="n">chunktype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+<span class="n">ipdb</span><span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[:,</span> <span class="n">nonMissingIndex</span><span class="p">]</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">slice_with_int_dask_array_aggregate</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="n">nan</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="n">nan</span><span class="p">),</span> <span class="n">chunktype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Notice how after slicing the data, our shape got changed from <code>(36,56375)</code> -&gt; <code>(36, nan)</code>. I am not sure how this used to work when it was first introduced in <code>eofs</code> but It appears that if you eagerly evaluate the slice, things seem to work as expected: </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ipdb</span><span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[:,</span> <span class="n">nonMissingIndex</span><span class="o">.</span><span class="n">compute</span><span class="p">()]</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">array</span><span class="o">&lt;</span><span class="n">getitem</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">25996</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">25996</span><span class="p">),</span> <span class="n">chunktype</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="o">&gt;</span>
+</code></pre></div>
+
+
+
+<a name="50648"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50648" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50648">(Feb 15 2022 at 23:22)</a>:</h4>
+<p>I recommend opening an issue on the eofs issue tracker. If you are looking for a reproducible example, here is one:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">eofs</span><span class="o">,</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">14</span><span class="p">]:</span> <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">tutorial</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s2">"rasm"</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s2">"time"</span><span class="p">:</span> <span class="mi">18</span><span class="p">})</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="n">solver</span> <span class="o">=</span> <span class="n">eofs</span><span class="o">.</span><span class="n">xarray</span><span class="o">.</span><span class="n">Eof</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">Tair</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+<a name="50650"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50650" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50650">(Feb 15 2022 at 23:27)</a>:</h4>
+<p>Ooh. never mind... It's probably not a bug <span aria-label="smile" class="emoji emoji-1f642" role="img" title="smile">:smile:</span>... If you avoid chunking along the <code>time</code> dimension, it seems to work...</p>
+
+
+
+<a name="50651"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50651" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50651">(Feb 15 2022 at 23:28)</a>:</h4>
+<p>You may want to chunk along the <code>lat</code> and <code>lon</code> dimensions instead</p>
+
+
+
+<a name="50652"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50652" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50652">(Feb 15 2022 at 23:29)</a>:</h4>
+<p>Good suggestion!  Thanks.</p>
+
+
+
+<a name="50707"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/eofs%20with%20dask/near/50707" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/eofs.20with.20dask.html#50707">(Feb 16 2022 at 18:21)</a>:</h4>
+<p>I'm not able to get eofs.xarray.Eof() to work with a 2GB dask DataArray, even if I avoid chunking in <code>time</code>. If you want to have a look, here's a notebook that isolates the problem:  /glade/u/home/yeager/analysis/python/toshare/dask_eof.ipynb</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

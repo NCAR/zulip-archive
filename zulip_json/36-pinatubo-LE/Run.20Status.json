@@ -1,0 +1,410 @@
+[
+    {
+        "content": "<p>I submitted the first run in our ensemble; it is running 1990 - 2005 using the 1990 restart files from 001 (and I switched to the <code>prescribed_volcaero_file</code> that omits the Pinatubo eruption).</p>\n<p>Caseroot: <code>/glade/work/mlevy/codes/pinatubo-LE/cases/b.e11.B20TRC5CNBDRD.f09_g16.001</code><br>\nRundir: <code>/glade/scratch/mlevy/b.e11.B20TRC5CNBDRD.f09_g16.001/run</code></p>\n<p>It's set up to run 1990 - 1997, which should take ~11 hours, and then resubmit the job and 1998-2005 (another ~11 hours). Once the current job finishes, it would be useful to have someone look over the output. I think the two important things to verify are</p>\n<ol>\n<li>That the 1990 output looks similar to the original LENS output from yellowstone (I believe the <code>volcaero</code> file is identical until 1991)</li>\n<li>That whatever signature of Pinatubo is evident in the original LENS output is missing from this run</li>\n</ol>\n<p>Once we can confirm that this run setup is what we want, I'll move on to the following:</p>\n<ol>\n<li>Starting the rest of the ensemble members</li>\n<li>Writing a script to set up the RCP portion of the run</li>\n<li>Writing a script to processing output (I think we want to convert to time series and compression the data before moving it to campaign?)</li>\n</ol>",
+        "id": 22699,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607456839
+    },
+    {
+        "content": "<p>cc <span class=\"user-mention\" data-user-id=\"128\">@Galen McKinley</span>, <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span></p>",
+        "id": 22701,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1607456890
+    },
+    {
+        "content": "<p>And I already misconfigured something... switching to the right compset (<code>B20TRLENS</code>) instead of the one I thought was used based on case name (<code>B20TRC5CNBDRD</code>). It looks like I actually created the latter compset myself, and it might be identical to the other but better safe than sorry</p>",
+        "id": 22706,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607457883
+    },
+    {
+        "content": "<p>I will take a look at it later this week. Thanks for getting this set up <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span></p>",
+        "id": 22754,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1607464628
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> After talking with Matt, I've updated the name of the case to include the phrase <code>no_pinatubo</code>. The directories I mentioned previously still exist, but I would recommend looking at the following instead:</p>\n<p>Caseroot: <code>/glade/work/mlevy/codes/pinatubo-LE/cases/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.00\n1</code><br>\nRundir: <code>/glade/scratch/mlevy/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001/run</code><br>\nArchive dir (netcdf gets copied here when run finishes): <code>/glade/scratch/mlevy/archive/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001</code></p>\n<p>The first 8 years of this run have completed and been archived; the second 8-year portion just started running and should finish in around 8:30pm Eastern (you're in NY, right?). My plan is to remove the <code>b.e11.B20TRC5CNBDRD.f09_g16.001</code> directories once the <code>b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001</code> runs finish.</p>",
+        "id": 22838,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607613074
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> Thanks for the update. Taking a look at the files this afternoon to be sure that the atm co2 signature looks as we would expect without pinatubo (shouldnt need more than the 8yrs completed to confirm this). <br>\nI am actually located in MT so Mountain time zone like you. I work in the evening often to make up for missed hours due to child care limitations so I can check on these runs tonight when they finish.</p>",
+        "id": 22867,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1607627984
+    },
+    {
+        "content": "<p>Test run looks good! The ocean is responding as we would expect without a big eruption. <a href=\"/user_uploads/2/71/-1D06Rn76mh-JZGv4Bmnt1CG/CESM_nopinatubo_testrun.png\" target=\"_blank\" title=\"CESM_nopinatubo_testrun.png\">CESM_nopinatubo_testrun.png</a> <br>\nI did want to pick someones brain to understand how dpCO2 is calculated by the model. When I try to do the calculation myself Im getting a different value and wondering if it's the timestep resolution perhaps causing that (Im looking at monthly values). Not time sensitive but just want to understand.</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/71/-1D06Rn76mh-JZGv4Bmnt1CG/CESM_nopinatubo_testrun.png\" target=\"_blank\" title=\"CESM_nopinatubo_testrun.png\"><img src=\"/user_uploads/2/71/-1D06Rn76mh-JZGv4Bmnt1CG/CESM_nopinatubo_testrun.png\"></a></div>",
+        "id": 22996,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1607915188
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>, DpCO2 is computed at every ocean timestep and averaged. The ATM_CO2 forcing is annual (I think), and it is interpolated and passed to the ocean for each coupling timestep (daily). I'd have to check the settings to be sure, but I would guess this is done using linear interpolation in time.</p>",
+        "id": 23001,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1607961205
+    },
+    {
+        "content": "<p>Thanks for looking at <code>001</code>, <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>! I have a script for running the RCP8.5 portion of each run, and should have 2006-2010 from <code>001</code> available late tonight. We'll eventually have 2006 - 2025, but I'm only running the first five years to make sure this portion of the run is set up correctly as well. Tomorrow morning I'll verify that the run finished, and then post a link to the location on glade -- if someone could look at that portion as well, I'd appreciate it. I believe there was some subtlety to account for in making sure I started the RCP run at the right time to recreate a bug in the forcing dataset and I just want to make sure I don't inadvertently introduce discrepancies with the yellowstone run at the seam between the two forcing periods.</p>",
+        "id": 23045,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607987911
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> I'll have time tomorrow to take a look at the rcp 8.5 years. The bug that we want to recreate is that the atm co2 remains constant for jan 2005- dec 2005 and then jumps for jan 2006 as opposed to the linear interpolation that matt referred to. So it's actually in the yr 2005 that we see this issue. I honestly didnt look at post 2000 in the previous files you sent because I was focused on the pinatubo effect but I will take a look at that all tomorrow as well.</p>",
+        "id": 23047,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1607999179
+    },
+    {
+        "content": "<p>The RCP run died toward the end of Dec 2006 [sometime during Dec 14, 2006, to be precise]. The error I'm seeing is coming from CAM:</p>\n<div class=\"codehilite\"><pre><span></span>ENDRUN:\nnot able to increment file name from filenames_list file: oxid_1.9x2.5_L26_clim_list.c090805.txt\n</pre></div>\n\n\n<p>It looks like this is part of <code>&amp;chem_inparm</code> and maybe isn't set quite right by the compset?</p>\n<div class=\"codehilite\"><pre><span></span>$ grep tracer_cnst atm_in\n tracer_cnst_datapath       = &#39;/glade/p/cesmdata/cseg/inputdata/atm/cam/chem/trop_mozart_aero/oxid&#39;\n tracer_cnst_file       = &#39;oxid_rcp85_v1_1.9x2.5_L26_1995-2105_c100202.nc&#39;\n tracer_cnst_filelist       = &#39;oxid_1.9x2.5_L26_clim_list.c090805.txt&#39;\n tracer_cnst_specifier      = &#39;O3&#39;,&#39;OH&#39;,&#39;NO3&#39;,&#39;HO2&#39;\n tracer_cnst_type       = &#39;INTERP_MISSING_MONTHS&#39;\n</pre></div>\n\n\n<p>I'm a little confused because <code>tracer_cnst_file</code> looks like an RCP file but <code>tracer_cnst_filelist</code> doesn't:</p>\n<div class=\"codehilite\"><pre><span></span>$ cat /glade/p/cesmdata/cseg/inputdata/atm/cam/chem/trop_mozart_aero/oxid/oxid_1.9x2.5_L26_clim_list.c090805.txt\noxid_1.9x2.5_L26_1850clim.c090805.nc\noxid_1.9x2.5_L26_1850-1859clim.c090804.nc\noxid_1.9x2.5_L26_1860-1869clim.c090804.nc\noxid_1.9x2.5_L26_1870-1879clim.c090804.nc\noxid_1.9x2.5_L26_1880-1889clim.c090804.nc\noxid_1.9x2.5_L26_1890-1899clim.c090804.nc\noxid_1.9x2.5_L26_1900-1909clim.c090804.nc\noxid_1.9x2.5_L26_1910-1919clim.c090804.nc\noxid_1.9x2.5_L26_1920-1929clim.c090804.nc\noxid_1.9x2.5_L26_1930-1939clim.c090804.nc\noxid_1.9x2.5_L26_1940-1949clim.c090804.nc\noxid_1.9x2.5_L26_1950-1959clim.c090804.nc\noxid_1.9x2.5_L26_1960-1969clim.c090804.nc\noxid_1.9x2.5_L26_1970-1979clim.c090804.nc\noxid_1.9x2.5_L26_1980-1989clim.c090804.nc\noxid_1.9x2.5_L26_1990-1999clim.c090804.nc\noxid_1.9x2.5_L26_2000-2009clim.c090804.nc\n</pre></div>\n\n\n<p>Even still, that last file looks like it should contain data for 2006. Anyone have any ideas? (<span class=\"user-mention\" data-user-id=\"96\">@Nan Rosenbloom</span>? <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>?)</p>",
+        "id": 23050,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608045851
+    },
+    {
+        "content": "<p>CASEROOT: <code>/glade/work/mlevy/codes/pinatubo-LE/cases/b.e11.BRCP85LENS_no_pinatubo.f09_g16.001</code><br>\nRUNDIR: <code>/glade/scratch/mlevy/b.e11.BRCP85LENS_no_pinatubo.f09_g16.001/run</code></p>\n<p>The case was generated via <code>/glade/work/mlevy/codes/pinatubo-LE/case_gen_scripts/RCP_portion</code></p>",
+        "id": 23051,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608045937
+    },
+    {
+        "content": "<p>Hi Mike - I think the problem is that you are starting your RCP run as a branch.  Try starting it as a hybrid, and then I think it should work.</p>",
+        "id": 23052,
+        "sender_full_name": "Nan Rosenbloom",
+        "timestamp": 1608049907
+    },
+    {
+        "content": "<p>Thanks Nan! If I start as a hybrid, do I need to do anything special to make sure all the components start up correctly? I had originally set up by 20C run as a hybrid, but even with <code>OCN_TIGHT_COUPLING=TRUE</code> the hybrid wasn't bit-for-bit with the branch / restart options. (One benefit of starting the run in a kludgy way is that I had a baseline for comparison to make sure the improved set-up was bit-for-bit :)</p>",
+        "id": 23053,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608050079
+    },
+    {
+        "content": "<p>I guess the important part is that my setup matches how the original LENS runs made the switch from 20thC -&gt; RCP, but I haven't been able to find that sort of documentation anywhere (presumably because I'm not looking in the right place)</p>",
+        "id": 23054,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608050293
+    },
+    {
+        "content": "<p>Looking at <code>/glade/campaign/cesm/collections/cesmLE/CESM-CAM5-BGC-LE/ocn/proc/tseries/monthly/TEMP/b.e11.BRCP85C5CNBDRD.f09_g16.001.pop.h.TEMP.200601-208012.nc</code>, the first time stamp is <code>17-Jan-2006 00:29:60</code> and the 13th is <code>16-Jan-2007 12:00:00</code> so I think we actually want <code>OCN_TIGHT_COUPLING=FALSE</code> and the <code>hybrid</code> start-up. Thanks <span class=\"user-mention\" data-user-id=\"96\">@Nan Rosenbloom</span>!</p>\n<p>Also, I updated the casename I'm creating to <code>b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001</code> to be consistent with the original files</p>",
+        "id": 23055,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608051301
+    },
+    {
+        "content": "<p>Hi Mike.  I don't think the hybrid start will ever be B4B with a branch restart because of the way the atm is initialized.  One uses the restart file, the other uses the cam.i file.  But I think that's expected behavior.</p>",
+        "id": 23070,
+        "sender_full_name": "Nan Rosenbloom",
+        "timestamp": 1608056421
+    },
+    {
+        "content": "<blockquote>\n<p>Hi Mike.  I don't think the hybrid start will ever be B4B with a branch restart because of the way the atm is initialized.  One uses the restart file, the other uses the cam.i file.  But I think that's expected behavior.</p>\n</blockquote>\n<p>That makes sense -- for this experiment, we wanted to start with something that would be bit-for-bit the same with the 1990-2005 portion of the run but change answers by swapping out the volcanic forcing... so that used a branch run. For the 2006-2025 portion of the run, we just want to mimic what the original LENS did and it sounds like hybrid is the answer. So I think everything is configured correctly now, and hopefully in ~6 hours we'll have five years of output in the short-term archive to look at</p>",
+        "id": 23072,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608058358
+    },
+    {
+        "content": "<p>Sounds like it's configured the way you want!  Good luck!</p>",
+        "id": 23099,
+        "sender_full_name": "Nan Rosenbloom",
+        "timestamp": 1608070108
+    },
+    {
+        "content": "<p>The first 5 years of the RCP extension (2006 - 2010) are available in <code>/glade/scratch/mlevy/archive/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.001</code>. <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>, is there anything in particular you want to check before I continue the 2011 - 2025 portion of the run, or should I just get that going ASAP? I can also start the 1990 - 2005 portion of a few more ensemble members, but I'd like to figure out the data post-processing step (time series, compression, and dumping onto glade) before I really ramp up those runs. It looks like the uncompressed output is going to be ~5 TB per ensemble member and I'd like to have a process in place before filling up my scratch space :)</p>",
+        "id": 23147,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608081218
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> I'd like to just look at the 2005-2006 atm blip before starting more members. I'll get on that first thing this morning and let you know when im done.</p>",
+        "id": 23152,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1608131548
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> I'd like to just look at the 2005-2006 atm blip before starting more members. I'll get on that first thing this morning and let you know when im done.</p>\n</blockquote>\n<p>I started 002 and 003 already, but was not planning on starting the RCP portion of those runs until hearing back from you. Those two runs finished '90 - '97 over night and started the 1998 - 2005 portion in the last hour... if we need to rerun the 20thC portion to get 2005 - 2006 correct, though, we have plenty of cpu-hrs.</p>",
+        "id": 23153,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608131845
+    },
+    {
+        "content": "<p>great. I confirmed that the 2005-2006 blip from CESM LENS is replicated so all should be good. Looking forward to seeing these additional ensemble members as they finish running.</p>",
+        "id": 23160,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1608137919
+    },
+    {
+        "content": "<p>Thanks for the verification! I'll get 2011 - 2025 going for 001, and should be able to start 2006 - 2025 for 002 and 003 tonight.</p>",
+        "id": 23161,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608138404
+    },
+    {
+        "content": "<p>Okay, I botched the 2011 - 2025 period of 001 (I forgot to set CONTINUE_RUN=TRUE so I ran 2006-2020 but initialized 2006 with the 2011 restarts). Blew away all the data, and resubmitted the case itself now. Argh.</p>",
+        "id": 23200,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608215400
+    },
+    {
+        "content": "<p><code>001</code> and <code>002</code> have run through 2025; <code>009</code> is through <code>2010</code> and still chugging along. History files are in</p>\n<div class=\"codehilite\"><pre><span></span>/glade/scratch/mlevy/archive/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001\n/glade/scratch/mlevy/archive/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.001\n/glade/scratch/mlevy/archive/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.002\n/glade/scratch/mlevy/archive/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.002\n/glade/scratch/mlevy/archive/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.009\n/glade/scratch/mlevy/archive/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.009\n</pre></div>\n\n\n<p>I hope to have the scripts to convert everything to time series done early next month, then I'll point to a directory in campaign storage for the output. In the meantime, I think I have enough scratch space to get another 3 members done so I'll start running <code>010</code>, <code>011</code>, and <code>012</code> but the rest of the runs will need to wait until I can dump output onto campaign.</p>",
+        "id": 23301,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608330968
+    },
+    {
+        "content": "<p>There are 6 completed ensemble members in <code>/glade/scratch/mlevy/archive/</code> if anyone wants to look at history output: 001, 002, 009, 010, 011, and 012; each ensemble member has <code>b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.###</code> (1990 - 2005) and <code>b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.###</code> (2006-2025). Looking at the time series generation now, then I'll get more members running.</p>",
+        "id": 23410,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1608849377
+    },
+    {
+        "content": "<p>I'm converting history files to time series, and it looks like the default output in the <code>cesm1_1_2_LENS_n21</code> tag doesn't match what is available from the original LENS experiment. Below I list the streams I am converting to time series, as well as the number of variables in each stream:</p>\n<div class=\"codehilite\"><pre><span></span>cam.h1: 51\ncam.h0: 136\ncice.h1: 12\ncice.h: 117\nclm2.h1: 10\nclm2.h0: 297\npop.h.ecosys.nyear1: 45\npop.*.nday1: 27\npop.h: 249\nrtm.h1: 2\nrtm.h0: 5\n</pre></div>\n\n\n<p>There are also ~25 variables in a 6-hourly CAM stream that have not been converted to time series yet. If I look in campaign and count the number of <code>b.e11.B20TRC5CNBDRD.f09_g16.001</code> time series files produced, the numbers don't really add up:</p>\n<div class=\"codehilite\"><pre><span></span>atm/proc/tseries/daily: 41\natm/proc/tseries/hourly1: 0\natm/proc/tseries/hourly6: 25\natm/proc/tseries/monthly: 243\nice/proc/tseries/daily: 12\nice/proc/tseries/hourly6: 21\nice/proc/tseries/monthly: 115\nlnd/proc/tseries/daily: 6\nlnd/proc/tseries/monthly: 297\nocn/proc/tseries/annual: 45\nocn/proc/tseries/daily: 27\nocn/proc/tseries/monthly: 273\nrof/proc/tseries/daily: 2\nrof/proc/tseries/monthly: 5\n</pre></div>\n\n\n<p>The only difference with the <code>RCP85</code> case is that there are only 250 monthly POP variables instead of 273.</p>\n<p>I'll just summarize the differences between my time series and LENS. Except where noted, I haven't looked into which fields differ between the two runs.</p>\n<p><strong>CAM</strong></p>\n<ul>\n<li>I produce time series for 51 daily CAM fields; LENS only has 41</li>\n<li>I produce time series for 136 monthly CAM fields, and LENS has 243 (I have a list of the 107 variables I'm missing; some have names like <code>ncl_a2_logm</code> where the <code>ncl_</code> prefix makes me wonder if some values were computed in post-processing)</li>\n</ul>\n<p><strong>CICE</strong></p>\n<ul>\n<li>I produce time series for 117 monthly fields; LENS only has 115</li>\n<li>LENS has 21 6-hourly fields, but my case does not produce any 6-hourly output</li>\n</ul>\n<p><strong>CLM</strong></p>\n<ul>\n<li>I produce time series for 10 daily fields, LENS only has 6</li>\n</ul>\n<p><strong>POP</strong></p>\n<ul>\n<li>I produce time series for 272 monthly fields; LENS has 273 (though this number drops to 250 for the RCP case while my run stays at 272)</li>\n</ul>\n<hr>\n<p>I imagine the fields I include by default that were omitted in the original LENS are fine, but before continuing I'd like to verify that the fields we are interested in comparing between the two runs are available. <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> or <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> -- could one (or both) of you look at the output in <code>/glade/scratch/mlevy/reshaper/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001</code> and make sure all the variables of interest are available? That directory is sorted by POP stream name,  and the output for each stream directory is in <code>proc/COMPLETED</code>. E.g. monthly CAM output is in <code>/glade/scratch/mlevy/reshaper/b.e11.B20TRC5CNBDRD_no_pinatubo.f09_g16.001/cam.h0/proc/COMPLETED</code>. I'll work on converting the 6-hourly data as well, then I'll wait for a greenlight before continuing any more runs.</p>",
+        "id": 23433,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1609198555
+    },
+    {
+        "content": "<p>I've started to put together a spreadsheet to track differences in output between LENS and our experiments: <a href=\"https://docs.google.com/spreadsheets/d/1FwTDM4zk3VlEkviuy6ezG486dfHUFle0FfN4V9fODjQ/edit?usp=sharing\" target=\"_blank\" title=\"https://docs.google.com/spreadsheets/d/1FwTDM4zk3VlEkviuy6ezG486dfHUFle0FfN4V9fODjQ/edit?usp=sharing\">https://docs.google.com/spreadsheets/d/1FwTDM4zk3VlEkviuy6ezG486dfHUFle0FfN4V9fODjQ/edit?usp=sharing</a></p>\n<p>It looks like the only difference in POP is that <code>SST</code> is included in LENS (I believe it's just the top level of <code>TEMP</code>); the 23 variables dropped from 20th C to RCP are the 23 CFC variables. So the two questions I have about output are</p>\n<ol>\n<li>Are any of the missing CAM monthly fields important? If so, I can add them back in and re-run</li>\n<li>Do we want any of the CAM or CICE 6-hourly fields? For CAM, it's just a matter of converting them to time series... though the 3D fields are fairly large and the transpose takes far longer than converting any of the other streams to time series. For the CICE fields, I'd need to add the fields to the history output and re-run.</li>\n</ol>\n<p>Once I have converted the 6-hourly data to time series, I'll check back in with final storage requirements... but I think we'll have plenty of space to store the daily, monthly, and annual fields but will need to pare down the output if we want the 6-hourly output as well</p>\n<p>(spreadsheet is still a work in progress, with the pop daily / annual fields still to do... I hope to finish those tonight)</p>",
+        "id": 23465,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1609277255
+    },
+    {
+        "content": "<p>Okay, the spreadsheet is done (please let me know if you have trouble accessing it, but I believe the link above should give you permission to comment on the file). Also, the time series conversion for 6-hourly data finished so I can give some updated storage numbers:</p>\n<ol>\n<li>We have 50 TB available on <code>/glade/campaign/univ/udeo0005</code></li>\n<li>We need &lt;1 TB to store restarts, assuming we want to hold on to 1990, 2006, and 2025 restarts (the 1990 set should eventually end up in <code>/glade/campaign/cesm/collections</code> since it is the original LENS restart but AFAIK Gary hasn't moved those files off HPSS yet)</li>\n<li>Ignoring the 6-hourly data, we're looking at ~1 TB of compressed time series output per ensemble member</li>\n<li>The 6-hourly CAM data is ~635 GB for the 20thC compset and ~800 GB for the RCP compset. The original LENS only has 6-hourly data for 1990-2005, 2026-2035, and 2071-2080, so maybe we only keep the 20thC portion and ignore the high-frequency output from the RCP years?</li>\n</ol>\n<p>Keeping all the restarts, annual, monthly, and daily output we have plus the 1990-2005 6-hourly data from CAM would require ~48 TB... barely sneaking in under our 50 TB limit but ignoring the fact that these runs don't have the high-frequency CICE output that LENS produced (from 1990 - 2005).  I could probably save some disk space by splitting the CICE output into northern hemisphere and southern hemisphere files that ignore the ice-free portions of the grid; the original LENS output is broken into a 320x104 dataset (northern hemisphere) and a 320x76 dataset (southern hemisphere) rather than a single 320x384 dataset... though the monthly and daily CICE output is &lt;20 GB per ensemble member as it stands so there isn't much to gain.</p>",
+        "id": 23474,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1609289789
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> (and Happy New Year!). </p>\n<p>This looks great. I am not familiar with many of the omitted CAM variables. </p>\n<p>Regarding storage, what's the bottom line? Are we ok with the 50TB limit?</p>",
+        "id": 23505,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609777645
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> </p>\n<blockquote>\n<p>Regarding storage, what's the bottom line? Are we ok with the 50TB limit?</p>\n</blockquote>\n<p>We're okay if we keep the current output. If we want the 6-hourly CICE output from 1990 - 2005 I think we'll still be okay, but I need to rerun a section with that output to be sure</p>",
+        "id": 23506,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1609778004
+    },
+    {
+        "content": "<p>I think my two big questions are both CICE related:</p>\n<ol>\n<li>Should I re-run with CICE high-frequency output?</li>\n<li>Should I split the CICE output into <code>nh</code> and <code>sh</code> files so they are in the same format as the LENS output? This isn't a high priority if we want to use something like intake to read the data, but if we're going to be calling netcdf directly it might make it easier to use the same scripts on both the old and new datasets</li>\n</ol>",
+        "id": 23507,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1609778148
+    },
+    {
+        "content": "<p>yes, Thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> ! This looks great. I found this document that gives a \"long name\" for these CAM variables (https://www.cesm.ucar.edu/models/cesm1.0/cam/docs/ug5_0/hist_flds_fv_cam5.html)- we are not concerned with any of these omitted CAM variables so all good from our side. But let's check with <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>  as well.</p>\n<p>Could someone direct me to where I could find the original LENS output on Cheyenne? I only have a few variables from previous analyses that were shared with me so would like to get additional files for the comparison.</p>",
+        "id": 23508,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1609778439
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> </p>\n<blockquote>\n<p>Could someone direct me to where I could find the original LENS output on Cheyenne? I only have a few variables from previous analyses that were shared with me so would like to get additional files for the comparison.</p>\n</blockquote>\n<p>It's on campaign storage, so it's not mounted on Cheyenne. If you log in to Casper instead, it's <code>/glade/campaign/cesm/collections/cesmLE/CESM-CAM5-BGC-LE</code></p>",
+        "id": 23510,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1609778535
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"115\">@Marika Holland</span> and <span class=\"user-mention\" data-user-id=\"113\">@Laura Landrum</span>: we have a suite of integrations of the CESM-LE without the Mt Pinatubo forcing. Do you have any interest in looking at sea ice dynamics in these runs? </p>\n<p>We are also interested to know how much effort we should make to preserve 6-hr CICE timeseries data.</p>",
+        "id": 23512,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609778651
+    },
+    {
+        "content": "<blockquote>\n<p>yes, Thanks <span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> ! This looks great. I found this document that gives a \"long name\" for these CAM variables (https://www.cesm.ucar.edu/models/cesm1.0/cam/docs/ug5_0/hist_flds_fv_cam5.html)- we are not concerned with any of these omitted CAM variables so all good from our side. But let's check with <span class=\"user-mention silent\" data-user-id=\"84\">Yassir Eddebbar</span>  as well.</p>\n</blockquote>\n<p>This looks awesome <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> ,  Looks good to me too <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> , haven't used and unfamiliar with those fields as well.</p>",
+        "id": 23540,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1609788201
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  We would like to look at the sea ice conditions in these runs. I don't think that the 6-hourly data are very highly utilized though and so it would be ok to remove some of the fields or move them to daily averages if you need to save space.</p>",
+        "id": 23741,
+        "sender_full_name": "Marika Holland",
+        "timestamp": 1610050110
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"115\">@Marika Holland</span>! Much appreciated.</p>\n<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, note that we can remove the 6-hr data.</p>",
+        "id": 23742,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1610053499
+    },
+    {
+        "content": "<blockquote>\n<p>We would like to look at the sea ice conditions in these runs. I don't think that the 6-hourly data are very highly utilized though and so it would be ok to remove some of the fields or move them to daily averages if you need to save space.</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"115\">@Marika Holland</span> I just checked, and it looks like the 21 fields in the 6-hourly stream of LENS are all duplicates of fields in the monthly stream but I don't see any of them in the daily stream. Is that sufficient? I'm happy to add fields to the daily stream if you'd like more frequent output. I posted this link above, but I created <a href=\"https://docs.google.com/spreadsheets/d/1FwTDM4zk3VlEkviuy6ezG486dfHUFle0FfN4V9fODjQ/edit?usp=sharing\" target=\"_blank\" title=\"https://docs.google.com/spreadsheets/d/1FwTDM4zk3VlEkviuy6ezG486dfHUFle0FfN4V9fODjQ/edit?usp=sharing\">a spreadsheet</a> that lists variables in LENS, our run, or both. It is organized by stream, so the <code>cice.h2</code> sheet in that link will list the 6-hourly fields available in the original LENS if you want to use that as a starting point for determining what variables should be added to daily. I think we have enough disk space from this proposal to even write these fields every 6 hours, they were just turned off by default and I didn't notice until I started comparing to the original output.</p>",
+        "id": 23743,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610054085
+    },
+    {
+        "content": "<blockquote>\n<p>Thanks <span class=\"user-mention silent\" data-user-id=\"115\">Marika Holland</span>! Much appreciated.</p>\n</blockquote>\n<p>Also, this ^^</p>",
+        "id": 23744,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610054145
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> I added a comment to the spreadsheet under the daily stream. It'd be fine to remove the 6-hourly fields but then to add some of them to the daily fields (as requested in the comment). Thanks so much!!</p>",
+        "id": 23745,
+        "sender_full_name": "Marika Holland",
+        "timestamp": 1610058417
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"115\">@Marika Holland</span> I can definitely add those fields to daily. One last question -- the 6-hourly output from the original LENS runs is only available for the 1990-2005 portion of our run; should I limit the daily streams to that time period or would it be useful to have daily output from 2006-2025 as well even without high frequency output from LENS to compare with?</p>",
+        "id": 23747,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610061015
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> If you could add the daily fields for the entire run length, that would be great. Thanks!</p>",
+        "id": 23748,
+        "sender_full_name": "Marika Holland",
+        "timestamp": 1610061283
+    },
+    {
+        "content": "<p>Okay, I've run member 013 with 8 additional daily CICE fields. I've also copied all the time series from 013 and 001 (which is missing those 8 fields) to campaign storage (<code>/glade/campaign/univ/udeo0005/cesmLE_no_pinatubo/</code>) and verified the file count for each stream matches what the spreadsheet tells us to expect. In addition to the time series files, I've also copied all of the log files and the restart files from 2006-01-01 and 2026-01-01. I have not copied the <code>pop.d</code> files yet. <strong>Besides those files, am I missing anything else?</strong> Do other components have similar output files to hold on to?</p>\n<p>One thing to note: it looks like I'm on track to need ~70 TB of disk because my scripts copied all the 6-hourly CAM output rather than just the 20thC portion. I was initially thinking we only want to keep output that the original LENS  produced as well, and that run did not have 6-hourly CAM output from 2006-2025. If the 6-hourly output from the RCP run is useful even though it can't be compared with the original datasets, then we'll need to find a place to keep it. This will need to be addressed once we have 20 completed ensemble members, but we have some time to figure it out.</p>",
+        "id": 23844,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610476874
+    },
+    {
+        "content": "<p>Two updates worth mentioning here:</p>\n<ol>\n<li>I've re-run the 1990-2005 portion of 001, 002, 009, 010, and 011 on cheyenne with the original LENS forcing (rather than our \"no pinatubo\" forcing); output from those runs are in <code>/glade/campaign/univ/udeo0005/cesmLE_cheyenne</code>; besides only doing the 20th Century portion of the run, I also did not compute zonal averages (though that's trivial if it would be useful to look at them)</li>\n<li>I have finished running through ensemble member 031 with our \"no pinatubo\" forcing, so I only have four left. Note that 003 - 008 (inclusive) are not available because of the known issue with corrupt ocean BGC output in the original LENS runs (issue dates back to <a href=\"https://www.cesm.ucar.edu/projects/community-projects/LENS/known-issues.html\" target=\"_blank\" title=\"https://www.cesm.ucar.edu/projects/community-projects/LENS/known-issues.html\">October 2013</a>)</li>\n</ol>\n<p>It looks like neither Nikki nor Shana have accounts here; I'll try to invite them. I think it would be great to see Shana's slides from last week updated to include more ensemble members, and also to see how the <code>_cheyenne</code> members compare to the original runs from yellowstone in those metrics.</p>",
+        "id": 36932,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1626114404
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> , I'm on your Zulip now!  So glad that the no-pinatubo runs are coming along -- also that you have 5 runs of the control from cheyenne.  Unfortunately, shana won't be able to incorporate these additional output in to her figures, but we will use them moving forward in the project.  [she's got issues with internet connectivity at her house in Arizona and only a few weeks left in her internship...]</p>",
+        "id": 37057,
+        "sender_full_name": "Nikki Lovenduski",
+        "timestamp": 1626181214
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> <span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> I've finished running members 27, 28, and 29 with the original forcing on cheyenne; output is on campaign and the intake catalog has been updated</p>",
+        "id": 44433,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1633536251
+    },
+    {
+        "content": "<p>I've also started 030 and 031, so by middle of next week we should have 50 total runs -- 25 without pinatubo, and 25 with the original forcing. At that point, we'll have enough compute time for the final eight runs but only enough disk space for one of them</p>",
+        "id": 44435,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1633537027
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/36-pinatubo-LE/topic/Run.20Status/near/44435\">said</a>:</p>\n<blockquote>\n<p>I've also started 030 and 031, so by middle of next week we should have 50 total runs -- 25 without pinatubo, and 25 with the original forcing. At that point, we'll have enough compute time for the final eight runs but only enough disk space for one of them</p>\n</blockquote>\n<p>Oh yay! This is amazing news! Thanks, Mike!</p>",
+        "id": 44438,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1633537688
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/36-pinatubo-LE/topic/Run.20Status/near/44435\">said</a>:</p>\n<blockquote>\n<p>I've also started 030 and 031, so by middle of next week we should have 50 total runs -- 25 without pinatubo, and 25 with the original forcing. At that point, we'll have enough compute time for the final eight runs but only enough disk space for one of them</p>\n</blockquote>\n<p>maybe we can chat with the larger group about how to handle that issue of disk space. Seems like worth figuring out how to store them so we can access all 29 runs from each.</p>",
+        "id": 44441,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1633537861
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/36-pinatubo-LE/topic/Run.20Status/near/44435\">said</a>:</p>\n<blockquote>\n<p>I've also started 030 and 031, so by middle of next week we should have 50 total runs -- 25 without pinatubo, and 25 with the original forcing. At that point, we'll have enough compute time for the final eight runs but only enough disk space for one of them</p>\n</blockquote>\n<p>Just to follow-up on this: all the time series is on campaign, and I've updated the intake catalog (<code>/glade/campaign/univ/udeo0005/catalog/pinatubo_exp.json</code>). I've submitted jobs to create zonal averages as well, so by 10:00 today that data should be available. Zonal averages still aren't available via the catalog, though</p>",
+        "id": 44929,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1634052004
+    },
+    {
+        "content": "<p>I wasn't going to launch any of the 8 remaining cases, though - I'd like to figure out where the output is going first.</p>",
+        "id": 44932,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1634052077
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/36-pinatubo-LE/topic/Run.20Status/near/44929\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/36-pinatubo-LE/topic/Run.20Status/near/44435\">said</a>:</p>\n<blockquote>\n<p>I've also started 030 and 031, so by middle of next week we should have 50 total runs -- 25 without pinatubo, and 25 with the original forcing. At that point, we'll have enough compute time for the final eight runs but only enough disk space for one of them</p>\n</blockquote>\n<p>Just to follow-up on this: all the time series is on campaign, and I've updated the intake catalog (<code>/glade/campaign/univ/udeo0005/catalog/pinatubo_exp.json</code>). I've submitted jobs to create zonal averages as well, so by 10:00 today that data should be available. Zonal averages still aren't available via the catalog, though</p>\n</blockquote>\n<p>saw 30 and 31 were on campaign this morning and updating my figures now with 25 members in each ensemble. thanks mike!</p>",
+        "id": 44934,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1634052543
+    },
+    {
+        "content": "<p>With a lot of help from <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , I created a catalog for the zonal averages: <code>/glade/campaign/univ/udeo0005/catalog/pinatubo_zonal_avgs.json</code> It has zonal averages for all completed runs, and the script that updates the <code>pinatubo_exp.json</code> catalog after new runs will update this one as well</p>",
+        "id": 45022,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1634142882
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>  <span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> 032 and 033 have finished running, and the catalogs in <code>/glade/campaign/univ/udeo0005/catalog</code> (<code>pinatubo_exp.json</code> and <code>pinatubo_zonal_avgs.json</code>) have those ensemble members in them. 034 and 035 are underway</p>",
+        "id": 46432,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1636220490
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span> <span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> 034 and 035 are done. Woohoo!</p>\n<p>There's a chance that the annual averages of ocean BGC diagnostics in <code>ocn/proc/tseries/annual</code> for member 034 (of both the <code>no_pinatubo</code> and LENS rerun ensembles) is a little funny; I didn't catch it at the time, but there was a history restart file for the <code>pop.h.ecosys.nyear1</code> stream (<code>b.e11.B20TRC5CNBDRD.f09_g16.034.pop.rh.ecosys.nyear1.1989-12-01-00000.nc</code>) included in the restarts that I copied over from HPSS, so the 1990 averages from that stream may somehow include some 1989 values in them? It definitely won't impact most of the output we look at (the <code>pop.h</code> stream), but if we start looking closely at the annual output then I can rerun 1990 -- we have just enough compute time to run two or three more years and I'm only concerned about the output from 1990... this type of error won't propagate throughout the run</p>",
+        "id": 46561,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1636481236
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  would it be possible to get permission for the cesm_le_cheyenne netcdf files? ensembles 16-35 are blocked for me, but can access all other ensembles and other runs....</p>",
+        "id": 48888,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1641598716
+    },
+    {
+        "content": "<p>And ensembles 32-35 for the no_pinatubo case as well! <span aria-label=\"pray\" class=\"emoji emoji-1f64f\" role=\"img\" title=\"pray\">:pray:</span></p>",
+        "id": 48889,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1641599003
+    },
+    {
+        "content": "<p>I'm running <code>chmod -R</code> on <code>cesmLE_cheyenne/</code> as we speak -- looks like more recent ensembles are 640 instead of 644 for some reason... will do the same to the <code>no_pinatubo</code> next</p>",
+        "id": 48890,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1641599052
+    },
+    {
+        "content": "<p>you should be able to read all the ensemble members in both directories now, sorry about that!</p>",
+        "id": 48891,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1641599215
+    },
+    {
+        "content": "<p>Up and running!  thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> !</p>",
+        "id": 48892,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1641599423
+    },
+    {
+        "content": "<p>thanks for getting that done <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span></p>",
+        "id": 48920,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1641831771
+    },
+    {
+        "content": "<p>my pleasure, let me know if there's anything else I can do :) <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>, if you're working on the interpolation to ispycnals we should make sure you have write access to those directories as well</p>",
+        "id": 48926,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1641831860
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  that would be great, so far, I'm working off my scratch...</p>",
+        "id": 48964,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1641859697
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span> sorry to sit on this most of the day, but I just filed a ticket and CISL is on it:</p>\n<blockquote>\n<p>User yeddebba has been added to the project on Cheyenne and Casper. The update may take a couple of hours to fully propagate.</p>\n</blockquote>",
+        "id": 49121,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1641943057
+    },
+    {
+        "content": "<p>in an hour or two, you should be in the <code>udeo0005</code> group</p>",
+        "id": 49122,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1641943090
+    },
+    {
+        "content": "<p>Awesome! Thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> !</p>",
+        "id": 49123,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1641944267
+    }
+]

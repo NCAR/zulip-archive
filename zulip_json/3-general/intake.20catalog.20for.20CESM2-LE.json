@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>I have old notebooks that use intake to ingest CESM2-LE data, pointing to this json file that no longer exists: <code>/glade/work/mgrover/intake-esm-catalogs/glade-cesm2-le.json</code>.  Can anyone tell me where the CESM2-LE catalog file now resides?</p>",
+        "id": 95889,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1708102801
+    },
+    {
+        "content": "<p>This is what I've got: /glade/campaign/cgd/cesm/CESM2-LE/</p>",
+        "id": 95890,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1708102940
+    },
+    {
+        "content": "<p>Answered my own question. It's here:  <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code></p>",
+        "id": 95891,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1708103447
+    },
+    {
+        "content": "<p>However, I'm getting an error when trying to use intake v2.0.1 to read in this catalog.</p>\n<div class=\"codehilite\"><pre><span></span><code>catalog_file = &quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json&quot;\ncol = intake.open_esm_datastore(catalog_file)\n</code></pre></div>\n<p>returns this error:</p>\n<div class=\"codehilite\"><pre><span></span><code>super(type, obj): obj must be an instance or subtype of type\n</code></pre></div>\n<p>This is how I have opened catalogs in the past so I'm not sure what changed.</p>",
+        "id": 95895,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1708106368
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> and I got to the point where he was getting a different error</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">pydantic_core</span><span class=\"o\">.</span><span class=\"n\">_pydantic_core</span><span class=\"o\">.</span><span class=\"n\">ValidationError</span><span class=\"p\">:</span> <span class=\"mi\">1</span> <span class=\"n\">validation</span> <span class=\"n\">error</span> <span class=\"k\">for</span> <span class=\"n\">ESMCatalogModel</span>\n<span class=\"n\">aggregation_control</span><span class=\"o\">.</span><span class=\"n\">aggregations</span><span class=\"mf\">.0</span><span class=\"o\">.</span><span class=\"n\">options</span>\n  <span class=\"n\">Input</span> <span class=\"n\">should</span> <span class=\"n\">be</span> <span class=\"n\">a</span> <span class=\"n\">valid</span> <span class=\"n\">dictionary</span> <span class=\"p\">[</span><span class=\"nb\">type</span><span class=\"o\">=</span><span class=\"n\">dict_type</span><span class=\"p\">,</span> <span class=\"n\">input_value</span><span class=\"o\">=</span><span class=\"kc\">None</span><span class=\"p\">,</span> <span class=\"n\">input_type</span><span class=\"o\">=</span><span class=\"n\">NoneType</span><span class=\"p\">]</span>\n    <span class=\"n\">For</span> <span class=\"n\">further</span> <span class=\"n\">information</span> <span class=\"n\">visit</span> <span class=\"n\">https</span><span class=\"p\">:</span><span class=\"o\">//</span><span class=\"n\">errors</span><span class=\"o\">.</span><span class=\"n\">pydantic</span><span class=\"o\">.</span><span class=\"n\">dev</span><span class=\"o\">/</span><span class=\"mf\">2.0.1</span><span class=\"o\">/</span><span class=\"n\">v</span><span class=\"o\">/</span><span class=\"n\">dict_type</span>\n</code></pre></div>\n<p>I opened <a href=\"https://github.com/NCAR/intake-esm-datastore/issues/100\">an issue ticket</a> (in <code>intake-esm-datastore</code> because this seems like a problem with the catalog rather than <code>intake</code> or <code>intake-esm</code>); <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> do either of you monitor that repository (or Zulip?)</p>",
+        "id": 95901,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1708111972
+    },
+    {
+        "content": "<p>I do about once per week <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  (Zulip, not that repo). Thanks for opening an issue!</p>",
+        "id": 96056,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1708976169
+    },
+    {
+        "content": "<p>Interesting, I use intake and haven't had issues. catalog = intake.open_esm_datastore(<br>\n    '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>\n)</p>",
+        "id": 96129,
+        "sender_full_name": "Maurício Rebouças Rocha",
+        "timestamp": 1709058510
+    }
+]

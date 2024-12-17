@@ -1,0 +1,128 @@
+[
+    {
+        "content": "<p>I've got some old but useful code that uses <code>esmlab</code>. I noticed today that it is failing with python 3.10:</p>\n<div class=\"codehilite\"><pre><span></span><code>ImportError: cannot import name &#39;Mapping&#39; from &#39;collections&#39;\n</code></pre></div>\n<p>That could be fixed by changing the import statement to <code>from collections.abc import Mapping</code>, but the esmlab project has been archived , and the repo says the functionality is now in GeoCAT. </p>\n<p>I'm very happy to use GeoCAT, but I'm not totally convinced that the functionality is actually there. The functions I'm using are just the weighted statistics. I know that xarray can do weighted sum/mean/std/var, but not correlation. I don't see this in GeoCAT. I can make my own weighted correlation, but it's convenient to have it in libraries I'm already importing. </p>\n<p>So my question, which is probably for <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> and/or <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> and/or <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> , is whether the recommended path is to use the Xarray weighted class to do weighted computations, and whether GeoCAT already has or plans to have additional weighted computations such as correlation?</p>",
+        "id": 53322,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1649348109
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span> thanks a lot for bringing this to attention! Here are a few background info and suggestions:</p>\n<ul>\n<li>\n<p>The climatology functionalities of ESMLab have been refactored and incorporated into GeoCAT. Please see the functions under the geocat.comp.climatologies namespace in the <a href=\"https://geocat-comp.readthedocs.io/en/latest/user_api/index.html\">GeoCAT-comp User API</a>. This work was implemented by <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> from GeoCAT.<br>\n    - I am not sure though if you were using those basic statistics functions from ESMlab for something else or any climatology computations of your own.</p>\n</li>\n<li>\n<p>However, I find adding the weighted correlation (and other potential functions that are not Xarray's builtin functions) into GeoCAT much useful for its users. The usability of such functions was the motivation behind incorporating ESMLab functionality into GeoCAT-comp. <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> , any thoughts or existing plans on this, if any? Don't worry if not; we can definitely discuss a plan for this in the GeoCAT meeting.</p>\n</li>\n</ul>",
+        "id": 53344,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1649353295
+    },
+    {
+        "content": "<p>In this case I wasn't using the climatology functions, but I did see those, and they seem really useful!</p>",
+        "id": 53354,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1649356822
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> I personally am not working on adding weighted correlation functionality to GeoCAT while I'm still working part time; however, I can make it a priority once I start working full time in the summer. <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span> if you need the functionality sooner rather than later, I recommend opening an issue on our GeoCAT-comp repository requesting this functionality with the expected input and output. That way someone on the team can work on it they are able even if I cannot do so at the moment!</p>",
+        "id": 53475,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1649788755
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span>  -- I'm fine for the time being. I just made my own function to do the weighted correlation, leveraging the weighted class in xarray to do most of the work:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">def</span> <span class=\"nf\">_weighted_corr</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">,</span><span class=\"n\">y</span><span class=\"p\">,</span> <span class=\"n\">w</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"kc\">None</span><span class=\"p\">):</span>\n    <span class=\"n\">xw</span> <span class=\"o\">=</span> <span class=\"n\">x</span><span class=\"o\">.</span><span class=\"n\">weighted</span><span class=\"p\">(</span><span class=\"n\">w</span><span class=\"p\">)</span>\n    <span class=\"n\">yw</span> <span class=\"o\">=</span> <span class=\"n\">y</span><span class=\"o\">.</span><span class=\"n\">weighted</span><span class=\"p\">(</span><span class=\"n\">y</span><span class=\"p\">)</span>\n    <span class=\"c1\"># weighted covariance:</span>\n    <span class=\"n\">devx</span> <span class=\"o\">=</span> <span class=\"n\">x</span> <span class=\"o\">-</span> <span class=\"n\">xw</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"n\">dim</span><span class=\"p\">)</span>\n    <span class=\"n\">devy</span> <span class=\"o\">=</span> <span class=\"n\">y</span> <span class=\"o\">-</span> <span class=\"n\">yw</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"n\">dim</span><span class=\"p\">)</span>\n    <span class=\"n\">devxy</span> <span class=\"o\">=</span> <span class=\"n\">devx</span> <span class=\"o\">*</span> <span class=\"n\">devy</span>\n    <span class=\"n\">covxy</span> <span class=\"o\">=</span> <span class=\"n\">devxy</span><span class=\"o\">.</span><span class=\"n\">weighted</span><span class=\"p\">(</span><span class=\"n\">w</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">(</span><span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"n\">dim</span><span class=\"p\">)</span>\n    <span class=\"n\">denom</span> <span class=\"o\">=</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">sqrt</span><span class=\"p\">(</span><span class=\"n\">xw</span><span class=\"o\">.</span><span class=\"n\">var</span><span class=\"p\">()</span><span class=\"o\">*</span><span class=\"n\">yw</span><span class=\"o\">.</span><span class=\"n\">var</span><span class=\"p\">())</span>\n    <span class=\"k\">return</span> <span class=\"n\">covxy</span> <span class=\"o\">/</span> <span class=\"n\">denom</span>\n</code></pre></div>",
+        "id": 53481,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1649789746
+    },
+    {
+        "content": "<p>That's good to hear! When I do get around to adding this to GeoCAT, would you mind if I base it off of your work? I'll credit you of course.</p>",
+        "id": 53483,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1649789817
+    },
+    {
+        "content": "<p>Of course, feel free to use it! I should admit that I basically copied that from ESMLab's code, so they should get the credit.</p>",
+        "id": 53488,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1649789887
+    },
+    {
+        "content": "<p>xskillscore provides weighted correlation metrics: <a href=\"https://xskillscore.readthedocs.io/en/stable/api.html#correlation-metrics\">https://xskillscore.readthedocs.io/en/stable/api.html#correlation-metrics</a></p>",
+        "id": 53494,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1649861324
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> . I have used xskillscore indirectly before and it seemed good. I'll look at bringing that into my scripts.</p>",
+        "id": 53637,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1649963940
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"61\">Brian Medeiros</span> <a href=\"#narrow/stream/10-python-questions/topic/migrating.20from.20esmlab.20to.20geocat/near/53481\">said</a>:</p>\n<blockquote>\n<p>Thanks <span class=\"user-mention silent\" data-user-id=\"107\">Heather Craker</span>  -- I'm fine for the time being. I just made my own function to do the weighted correlation, leveraging the weighted class in xarray to do most of the work:</p>\n</blockquote>\n<p>Hi Brian. Now that I'm back full time, I'm working on adding this functionality to GeoCAT. Currently, I'm comparing the speeds of different functions that already exists for weighted correlations. Do you have sample input and output data that I can use to run these performance tests?</p>",
+        "id": 56612,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655234903
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span>. If you are able to share with me the inputs and desired outputs you were getting from your function, that would help me add this functionality to GeoCAT. If you can't, a description of the size and shape of the inputs and outputs would help as well.</p>",
+        "id": 56762,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655475498
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> <br>\nTypically the inputs would be (latitude, longitude) arrays being correlated and the weights would be for area of grid cells (i.e., cos(latitude)). In that case, the result would be a scalar number, the correlation coefficient (possibly with auxiliary data like statistical significance). Often there could be additional dimensions, and the expected output is to reduce over the spatial dimensions. Examples would include:</p>\n<ul>\n<li>inputs (time, lat, lon) -&gt; output (time)</li>\n<li>inputs ( lev, lat, lon) -&gt; output (lev)</li>\n<li>inputs (optical_depth, cloud_top_pressure, lat, lon) -&gt; output (optical_depth, cloud_top_pressure)</li>\n</ul>\n<p>Does that make sense? I can provide a specific example using data on glade if that is helpful.</p>",
+        "id": 56798,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1655491954
+    },
+    {
+        "content": "<p>Thank you Brian that helps clarify exactly what you're wanting this function to do with the extra dimensions. Example data from glade would also help. If you can send me a file path, that should work!</p>",
+        "id": 56801,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655492158
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span>. I'm partway through creating a proof of concept and I'd like to do some more thorough testing. If you could send me file paths to example inputs and outputs at your earliest convenience, that would be immensely helpful. Thank you!</p>",
+        "id": 56949,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655913776
+    },
+    {
+        "content": "<p>I'll go look for some examples now, and send them your way shortly.</p>",
+        "id": 56959,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1655916997
+    },
+    {
+        "content": "<p>Just curious: Is there something that xskillscore cannot do for a weighted correlation?</p>",
+        "id": 56964,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1655918653
+    },
+    {
+        "content": "<p>That's what I'm trying to check right now. If xskillscore does everything we want it to do with sufficient speed, then it will be wrapped into GeoCAT-comp for convenience.</p>",
+        "id": 56971,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655919628
+    },
+    {
+        "content": "<p>If it doesn't, then the GeoCAT team can then design something more appropriate. Once I get the example data and can more clearly see how Brian wants the xarray dimensions to be reduced/handled, then I can see if xskillscore is sufficient</p>",
+        "id": 56974,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655919739
+    },
+    {
+        "content": "<p>Sorry ... got distracted with other things. Just some data to start with might be climatology files generated as part of the atmosphere diagnostics:<br>\nlocation: <code>/glade/scratch/brianpm/cam_diag_climo/files</code><br>\nThere are 2 cases in that directory:</p>\n<div class=\"codehilite\"><pre><span></span><code>- `b.e20.BHIST.f09_g16.20thC.125.02`\n- `b.e20.BHIST.f09_g17.20thC.297_05`\n</code></pre></div>\n\n<p>That each have several variables. Examples of model-to-model correlations would be the spatial correlations of any of them. Example:<br>\n<code>COR[b.e20.BHIST.f09_g16.20thC.125.02/b.e20.BHIST.f09_g16.20thC.125.02_PRECC_climo.nc, b.e20.BHIST.f09_g17.20thC.297_05/b.e20.BHIST.f09_g17.20thC.297_05_PRECC_climo.nc]</code><br>\nWhere the variable to be correlated is <code>PRECC</code> in each of those files. It is shaped (12, 192, 288), so I'd expect to be able to get either the total correlation by month and space (i.e., a scalar value) or an array of 12 values that give the spatial correlation for each month, depending on some kwarg like \"dim\".</p>",
+        "id": 56978,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1655920974
+    },
+    {
+        "content": "<p>I also was messing around with the weighted correlation in this notebook:<br>\n<code>/glade/u/home/brianpm/Code/hacknostics/Notebooks/weighted_correlation.ipynb</code></p>\n<p>My previous function has something wrong with it (but I don't know exactly what it is). The XSkillScore version seems to work correctly, and seems fast for this small problem.</p>",
+        "id": 56999,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1655923164
+    },
+    {
+        "content": "<p>Thanks Brian! I'm glad to hear that XSkillScore is working for you. I'll see if it still performs fast enough with larger datasets and if it can benefit from parallelization.</p>",
+        "id": 57001,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1655924033
+    }
+]

@@ -1,0 +1,25 @@
+<html>
+<head><meta charset="utf-8"><title>Dask Dashboard Issue (!) · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Dashboard.20Issue.20.28.21.29.html">Dask Dashboard Issue (!)</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="91655"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Dashboard%20Issue%20%28%21%29/near/91655" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Dashboard.20Issue.20.28.21.29.html#91655">(Nov 10 2023 at 04:24)</a>:</h4>
+<p>Hey all,</p>
+<p>Just a heads up that <span class="user-mention" data-user-id="71">@Negin Sobhani</span> and I are troubleshooting an issue with Dask dashboards not working in newly created conda environments. The timing of things breaking made us initially suspicious that it was some issue with the Casper refresh, but after doing some investigation I believe we are seeing an incompatibility/bug between bokeh 3.3.x and Dask dashboards that a served via a proxy, as we do in the JupyterHub. For more details, see this GitHub issue:</p>
+<p><a href="https://github.com/dask/distributed/issues/8333">https://github.com/dask/distributed/issues/8333</a></p>
+<p>Until this gets resolved with new package releases, make sure you fix the bokeh package to 3.2 or earlier when creating new conda environments that will run Dask. For example:</p>
+<div class="codehilite"><pre><span></span><code>mamba create -n new-env bokeh=3.2 dask ...
+</code></pre></div>
+<p>Hope this helps you avoid some headaches!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

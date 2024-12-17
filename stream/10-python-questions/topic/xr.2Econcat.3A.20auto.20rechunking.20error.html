@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>xr.concat: auto rechunking error · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html">xr.concat: auto rechunking error</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html">xr.concat: auto rechunking error</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="36629"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36629" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36629">(Jul 07 2021 at 19:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36629" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36629">(Jul 07 2021 at 19:59)</a>:</h4>
 <p>I am attempting to concatenate datasets along an existing dimension and getting the following error.</p>
 <div class="codehilite"><pre><span></span><span class="ne">NotImplementedError</span><span class="p">:</span> <span class="n">Can</span> <span class="ow">not</span> <span class="n">use</span> <span class="n">auto</span> <span class="n">rechunking</span> <span class="k">with</span> <span class="nb">object</span> <span class="n">dtype</span><span class="o">.</span> <span class="n">We</span> <span class="n">are</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">estimate</span> <span class="n">the</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">bytes</span> <span class="n">of</span> <span class="nb">object</span> <span class="n">data</span>
 </pre></div>
@@ -21,13 +21,13 @@
 
 
 <a name="36631"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36631" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36631">(Jul 07 2021 at 20:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36631" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36631">(Jul 07 2021 at 20:15)</a>:</h4>
 <p>I've tracked this down to the <code>time_bound</code> variable (dropping this resolves the problem). Still not entirely sure why...</p>
 
 
 
 <a name="36632"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36632" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36632">(Jul 07 2021 at 20:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36632" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36632">(Jul 07 2021 at 20:17)</a>:</h4>
 <p>Since you are using the <code>auto-rechunking</code>,  I don't think there is any workaround other than dropping the <code>time_bound</code> or eagerly loading the <code>time_bound</code> before initiating the concatenation.  E.g.</p>
 <div class="codehilite"><pre><span></span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time_bound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="o">.....</span><span class="p">],</span> <span class="n">dim</span><span class="o">=...</span><span class="p">)</span>
@@ -36,19 +36,19 @@
 
 
 <a name="36633"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36633" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36633">(Jul 07 2021 at 20:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36633" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36633">(Jul 07 2021 at 20:17)</a>:</h4>
 <p>Where is <code>auto-rechunking</code> coming in? All the datasets are identically chunked.</p>
 
 
 
 <a name="36634"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36634" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36634">(Jul 07 2021 at 20:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36634" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36634">(Jul 07 2021 at 20:18)</a>:</h4>
 <p>do I need to switch a dask option to turn off auto-rechunking?</p>
 
 
 
 <a name="36635"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36635" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36635">(Jul 07 2021 at 20:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36635" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36635">(Jul 07 2021 at 20:27)</a>:</h4>
 <blockquote>
 <p>Where is auto-rechunking coming in? </p>
 </blockquote>
@@ -58,13 +58,13 @@
 
 
 <a name="36636"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36636" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36636">(Jul 07 2021 at 20:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36636" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36636">(Jul 07 2021 at 20:27)</a>:</h4>
 <p>nope</p>
 
 
 
 <a name="36638"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36638" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36638">(Jul 07 2021 at 20:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.concat%3A%20auto%20rechunking%20error/near/36638" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Econcat.3A.20auto.20rechunking.20error.html#36638">(Jul 07 2021 at 20:28)</a>:</h4>
 <p>Here's the trace:</p>
 <div class="codehilite"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
 <span class="ne">NotImplementedError</span>                       <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
@@ -166,5 +166,5 @@
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>Reindex + plotting · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html">Reindex + plotting</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html">Reindex + plotting</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="33478"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33478" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33478">(Jun 04 2021 at 18:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33478" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33478">(Jun 04 2021 at 18:39)</a>:</h4>
 <p>I would like to reorder a dataset from alphabetical to a specific order for plotting. I've used the <code>reindex</code> function, but this results in a plotting error.  Plotting works fine without reordering, so it seems that something associated with using <code>reindex</code>. Why doesn't this work for plotting? Is there a better way to reorder a dataset? </p>
 <p>Example code:</p>
 <div class="codehilite"><pre><span></span>ds = df.set_index([&#39;time&#39;, &#39;name&#39;])[[&#39;co2&#39;]].to_xarray()
@@ -44,27 +44,27 @@ for i in range(len(x.name)):
 
 
 <a name="33479"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33479" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33479">(Jun 04 2021 at 18:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33479" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33479">(Jun 04 2021 at 18:40)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> , what do you want to reorder it by? I sort mine by time using this structure: <code>ds_wdt_vmix_iso = ds_wdt_vmix_iso.sortby(ds_wdt_vmix_iso.time)</code><br>
 I've also had the plotting error before, it doesn't seem to recognize the axis against which to plot. Does something like this work <code>plt.plot(data.name, data.*whateveryourvariableis*)</code> ?</p>
 
 
 
 <a name="33482"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33482" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33482">(Jun 04 2021 at 19:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33482" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33482">(Jun 04 2021 at 19:31)</a>:</h4>
 <p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span> , thanks for the suggestion. I challenge is that I'm trying to reorder by the site name, not something continuous like time. It's currently ordered alphabetically, but I want a specific (non-alphabetical) order. </p>
 <p>The only thing that changes in the plotting is the order of the site names (which is also what the plotting is looping over -- one panel per site), so I don't think (or understand why) this should change anything about the plotting axes (time, co2).</p>
 
 
 
 <a name="33483"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33483" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33483">(Jun 04 2021 at 19:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33483" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33483">(Jun 04 2021 at 19:33)</a>:</h4>
 <p>it does plot before you reorder?  I will say I don't think I understand your dataset and it is a bit hard for me to help without seeing what it looks like. can you paste the output of <code>ds</code> before and after reindexing?</p>
 
 
 
 <a name="33493"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33493" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33493">(Jun 04 2021 at 19:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33493" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33493">(Jun 04 2021 at 19:58)</a>:</h4>
 <p>Yes, it does plot before I reorder. I'm attaching a screenshot of the dataset before and after reordering.</p>
 <p><a href="/user_uploads/2/53/dF0ecUkmhVMDB61-CsioGuBI/Screen-Shot-2021-06-04-at-1.57.32-PM.png" target="_blank" title="Screen-Shot-2021-06-04-at-1.57.32-PM.png">Screen-Shot-2021-06-04-at-1.57.32-PM.png</a></p>
 <div class="message_inline_image"><a href="/user_uploads/2/53/dF0ecUkmhVMDB61-CsioGuBI/Screen-Shot-2021-06-04-at-1.57.32-PM.png" target="_blank" title="Screen-Shot-2021-06-04-at-1.57.32-PM.png"><img src="/user_uploads/2/53/dF0ecUkmhVMDB61-CsioGuBI/Screen-Shot-2021-06-04-at-1.57.32-PM.png"></a></div>
@@ -72,19 +72,19 @@ I've also had the plotting error before, it doesn't seem to recognize the axis a
 
 
 <a name="33497"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33497" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33497">(Jun 04 2021 at 20:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33497" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33497">(Jun 04 2021 at 20:00)</a>:</h4>
 <p>Sorry Danica, I can't help you. We need someone who knows more about xarray's plotting intricacies <span class="user-mention" data-user-id="134">@Max Grover</span> <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <span class="user-mention" data-user-id="25">@Deepak Cherian</span></p>
 
 
 
 <a name="33498"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33498" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33498">(Jun 04 2021 at 20:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33498" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33498">(Jun 04 2021 at 20:00)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> could you share a code snippet (or a link to the data to the data you are working with?)</p>
 
 
 
 <a name="33501"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33501" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33501">(Jun 04 2021 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33501" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33501">(Jun 04 2021 at 20:02)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span> Does the code snippet at the top of this thread give you enough information? I'll paste it here, too, so you can see it more easily.</p>
 <p>Example code:</p>
 <div class="codehilite"><pre><span></span>ds = df.set_index([&#39;time&#39;, &#39;name&#39;])[[&#39;co2&#39;]].to_xarray()
@@ -118,20 +118,20 @@ for i in range(len(x.name)):
 
 
 <a name="33505"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33505" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33505">(Jun 04 2021 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33505" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33505">(Jun 04 2021 at 20:02)</a>:</h4>
 <p>It would be helpful to see what dataset you are working with - is it on glade?</p>
 
 
 
 <a name="33514"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33514" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33514">(Jun 04 2021 at 20:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33514" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33514">(Jun 04 2021 at 20:08)</a>:</h4>
 <p>It's one that I've created in my script from data on glade. The script I'm working with is here: /glade/work/dll/CTSM_py/notebooks/CO2Amplitude_ObsVsModel.ipynb</p>
 <p>It's a little messy, but the relevant lines of code I pasted above are just below the markdown cells <code>Obs data: Calculating amplitude for each site</code> and <code>Plotting amplitude time series</code>. The dataset is created near the beginning of the script (well before the above code) under the markdown cell <code>Looping over all observational sites to read in file</code></p>
 
 
 
 <a name="33516"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33516" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33516">(Jun 04 2021 at 20:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33516" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33516">(Jun 04 2021 at 20:47)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> the following seemed to work for me</p>
 <div class="codehilite"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">])[[</span><span class="s1">&#39;co2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_xarray</span><span class="p">()</span>
 <span class="n">grouped</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
@@ -161,13 +161,13 @@ for i in range(len(x.name)):
 
 
 <a name="33538"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33538" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33538">(Jun 05 2021 at 01:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33538" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33538">(Jun 05 2021 at 01:41)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="134">@Max Grover</span> ! I ran out of time to test this today, but I will test it out over the weekend. Good to know that the order of the indexing in the plotting loop was causing the problem.</p>
 
 
 
 <a name="33539"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33539" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33539">(Jun 05 2021 at 18:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33539" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33539">(Jun 05 2021 at 18:51)</a>:</h4>
 <p>This seems to do what you want</p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -197,7 +197,7 @@ for i in range(len(x.name)):
 
 
 <a name="33648"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33648" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33648">(Jun 07 2021 at 18:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33648" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33648">(Jun 07 2021 at 18:06)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span> ! This works to plot the observations in the order I'd like them. However, I want to also overlay values from CESM simulations (3 lines per plot), which are in a python dictionary and I can't figure out how to overlay the dictionary values properly since I can't specify <code>CESM2dictionary.co2.plot</code> for a dictionary (I'm still relatively new to python and plotting). </p>
 <p>I also don't understand the what the <code>.map(lambda g: ... )</code> does (or why it's needed). It works, but if you can help me to understand what it's doing, I'd appreciate it! </p>
 <p>The fix that <span class="user-mention" data-user-id="134">@Max Grover</span> shared works solve the plotting error I was getting, but the values are not plotting in the order I specified using the <code>reindex</code> function.</p>
@@ -205,7 +205,7 @@ for i in range(len(x.name)):
 
 
 <a name="33651"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33651" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33651">(Jun 07 2021 at 18:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33651" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33651">(Jun 07 2021 at 18:12)</a>:</h4>
 <p><code>map</code> is described <a href="https://xarray.pydata.org/en/stable/user-guide/groupby.html#apply" target="_blank" title="https://xarray.pydata.org/en/stable/user-guide/groupby.html#apply">here</a> . It lets you apply a custom function to each group individually and concatenates the results back together (which is what you were doing with that for loop). Your custom function will receive an xarray object corresponding to each group (here for each year)</p>
 <p>What does your dictionary look like?</p>
 <p>If you save the returned object from plot</p>
@@ -218,10 +218,10 @@ for i in range(len(x.name)):
 
 
 <a name="33665"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33665" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33665">(Jun 07 2021 at 18:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reindex%20%2B%20plotting/near/33665" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reindex.20.2B.20plotting.html#33665">(Jun 07 2021 at 18:56)</a>:</h4>
 <p>Thanks for the info on <code>map</code> -- I'll have to play with it to understand it better. I was able to figure out the plotting, too. I appreciate your help!</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

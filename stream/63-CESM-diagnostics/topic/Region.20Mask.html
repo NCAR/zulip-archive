@@ -1,0 +1,82 @@
+<html>
+<head><meta charset="utf-8"><title>Region Mask · CESM-diagnostics · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html">Region Mask</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="95232"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Region%20Mask/near/95232" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html#95232">(Jan 29 2024 at 19:34)</a>:</h4>
+<p>I am trying to form region mask from the MOM6 latitude and longitude arrays. This is a tripole grid, so might be why I am running into problems here. Here is the code and error. I'm guessing it is because there are two regions in the latitude array that meet the criteria of being between 50 and 78 on the tripole grid? Does anyone have experience with this?</p>
+<p>latm = [50.0, 78.0]<br>
+lonm = [284.0, 35.0]</p>
+<p>lon = np.where(TLON &lt; 0, TLON+360.,TLON)</p>
+<p>print(latm)<br>
+print(lonm)<br>
+print(np.max(lon))</p>
+<p>mask = np.where(((TLAT &gt; latm[0] and TLAT &lt; latm[1]) and (lon &gt; lonm[0] or lon &lt; lonm[1]),1,0))</p>
+<p>ValueError                                Traceback (most recent call last)<br>
+Cell In[103], line 10<br>
+      7 print(lonm)<br>
+      8 print(np.max(lon))<br>
+---&gt; 10 mask = np.where(((TLAT &gt; latm[0] and TLAT &lt; latm[1]) and (lon &gt; lonm[0] or lon &lt; lonm[1]),1.,0))<br>
+     12 ds1_lab = (tarea<em>ds1.aice).sum(dim=['nj','ni'])</em>1.0e-12<br>
+     13 ds2_lab = (tarea<em>ds2.aice).sum(dim=['nj','ni'])</em>1.0e-12</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/common.py:154, in AbstractArray.__bool__(self)<br>
+    153 def __bool__(self: Any) -&gt; bool:<br>
+--&gt; 154     return bool(self.values)</p>
+<p>ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()</p>
+
+
+
+<a name="95233"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Region%20Mask/near/95233" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html#95233">(Jan 29 2024 at 19:54)</a>:</h4>
+<p>The error is coming from the <code>and</code> and <code>or</code> statements -- when your conditionals are in arrays, you need to use <code>np.logical_and(cond1, cond2)</code> and <code>np.logical_or(cond1, cond2)</code> instead of <code>cond1 and cond2</code> and <code>cond1 or cond2</code>, respectively.</p>
+
+
+
+<a name="95234"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Region%20Mask/near/95234" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html#95234">(Jan 29 2024 at 19:56)</a>:</h4>
+<p>Can you try</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">TLAT</span> <span class="o">&gt;</span> <span class="n">latm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">TLAT</span> <span class="o">&lt;</span> <span class="n">latm</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                               <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">lon</span> <span class="o">&gt;</span> <span class="n">lonm</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lon</span> <span class="o">&lt;</span> <span class="n">lonm</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<p>(I think I got the parentheses right, but you might need to play with it -- also, should the <code>logical_or</code> be another <code>logical_and</code>?)</p>
+
+
+
+<a name="95235"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Region%20Mask/near/95235" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html#95235">(Jan 29 2024 at 19:57)</a>:</h4>
+<p>Got it. I will try that out. I think the longitude condition should be an or.</p>
+
+
+
+<a name="95236"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Region%20Mask/near/95236" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html#95236">(Jan 29 2024 at 19:58)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="93">David Bailey</span> <a href="#narrow/stream/63-CESM-diagnostics/topic/Region.20Mask/near/95235">said</a>:</p>
+<blockquote>
+<p>Got it. I will try that out. I think the longitude condition should be an or.</p>
+</blockquote>
+<p>Oh, because it wraps around 0... I think you're right. I didn't actually look at the values in <code>lonm</code> before saying that</p>
+
+
+
+<a name="95243"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Region%20Mask/near/95243" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Region.20Mask.html#95243">(Jan 29 2024 at 21:32)</a>:</h4>
+<p>This works! I think I like this idea, because I can form several masks and multiply them together for more complicated regions.</p>
+<div class="codehilite"><pre><span></span><code>mask1 = np.where(np.logical_and(TLAT &gt; latm[0], TLAT &lt; latm[1]),1.,0.)
+mask2 = np.where(np.logical_or(lon &gt; lonm[0], lon &lt; lonm[1]),1.,0.)
+mask = mask1*mask2
+
+ds1_lab = (mask*tarea*ds1.aice).sum(dim=[&#39;nj&#39;,&#39;ni&#39;])*1.0e-12
+ds2_lab = (mask*tarea*ds2.aice).sum(dim=[&#39;nj&#39;,&#39;ni&#39;])*1.0e-12
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

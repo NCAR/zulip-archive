@@ -1,0 +1,71 @@
+<html>
+<head><meta charset="utf-8"><title>Package request for CMIP6.2019.10a · jupyterlab-hub · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html">Package request for CMIP6.2019.10a</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="22151"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22151" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22151">(Nov 25 2020 at 05:50)</a>:</h4>
+<p>Could someone please help install <a href="https://anaconda.org/conda-forge/proplot" target="_blank" title="https://anaconda.org/conda-forge/proplot">proplot</a> on the CMIP5.2019a virtualenv for the Casper DAV jupyterhub? <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <span class="user-mention" data-user-id="14">@Matt Long</span> .</p>
+
+
+
+<a name="22153"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22153" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22153">(Nov 25 2020 at 17:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="85">@Aneesh subramanian</span> </p>
+<p>Unfortunately, I don't have administrative privileges to modify the <code>CMIP6.201910a</code>, but I can modify its sister environment <code>CMIP6.201910</code>.</p>
+
+
+
+<a name="22154"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22154" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22154">(Nov 25 2020 at 17:57)</a>:</h4>
+<p><code>proplot</code> is now available in the <code>CMIP6-201910</code> environment:</p>
+<div class="codehilite"><pre><span></span>$ conda list proplot
+<span class="c1"># packages in environment at /ncar/usr/jupyterhub/envs/cmip6-201910:</span>
+<span class="c1">#</span>
+<span class="c1"># Name                    Version                   Build  Channel</span>
+proplot                   <span class="m">0</span>.6.4                      py_0    conda-forge
+</pre></div>
+
+
+
+<a name="22155"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22155" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22155">(Nov 25 2020 at 17:58)</a>:</h4>
+<p>I highly recommend that you look into installing <code>miniconda</code> in your workspace and creating &amp; managing your own environment...</p>
+
+
+
+<a name="22156"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22156" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22156">(Nov 25 2020 at 17:59)</a>:</h4>
+<blockquote>
+<p>I highly recommend that you look into installing <code>miniconda</code> in your workspace and creating &amp; managing your own environment...</p>
+</blockquote>
+<p>If you need help with this, let me know... I'm happy to help out with the setup...</p>
+
+
+
+<a name="22157"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22157" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22157">(Nov 25 2020 at 20:12)</a>:</h4>
+<p>Thanks very much <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> . It works on my end as well. Will plan on using CMIP6.201910 env for now. This is for a class I'm teaching and hence I would like all students to use the common env available.</p>
+
+
+
+<a name="22158"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Package%20request%20for%20CMIP6.2019.10a/near/22158" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Package.20request.20for.20CMIP6.2E2019.2E10a.html#22158">(Nov 25 2020 at 20:13)</a>:</h4>
+<blockquote>
+<blockquote>
+<p>I highly recommend that you look into installing <code>miniconda</code> in your workspace and creating &amp; managing your own environment...</p>
+</blockquote>
+<p>If you need help with this, let me know... I'm happy to help out with the setup...</p>
+</blockquote>
+<p>I do have my own virtual environment installed for my work but I thought I'll have the students in my class use the CMIP6 env available. May be next time I'll install a virtual env just for the class. Thanks for the suggestion!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

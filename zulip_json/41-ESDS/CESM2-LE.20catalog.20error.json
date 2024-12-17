@@ -1,0 +1,218 @@
+[
+    {
+        "content": "<p>I've been trying to follow Max's write up on importing the CESM2-LE using intake (see here: <a href=\"https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/\">https://ncar.github.io/esds/posts/intake-cesm2-le-glade-example/</a>). I am getting an error with open_esm_datastore. I don't know if this is related to somehow not loading \"intake\" properly at the start of the notebook, but I did not get an error there. The error I'm getting is: </p>\n<hr>\n<p>KeyError                                  Traceback (most recent call last)<br>\n/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake/__init__.py in __getattr__(attr)<br>\n     60     try:<br>\n---&gt; 61         return gl[attr]<br>\n     62     except KeyError:</p>\n<p>KeyError: 'open_esm_datastore'</p>\n<p>During handling of the above exception, another exception occurred:</p>\n<p>AttributeError                            Traceback (most recent call last)<br>\n&lt;ipython-input-6-deb999ed649e&gt; in &lt;module&gt;<br>\n----&gt; 1 cat = intake.open_esm_datastore('/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json')</p>\n<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake/__init__.py in __getattr__(attr)<br>\n     61         return gl[attr]<br>\n     62     except KeyError:<br>\n---&gt; 63         raise AttributeError(attr)<br>\n     64 <br>\n     65 </p>\n<p>AttributeError: open_esm_datastore</p>\n<p>Any advice? Hopefully this is just something about setting up my environment?</p>",
+        "id": 39919,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629139300
+    },
+    {
+        "content": "<p>Did you install intake-esm using the following?</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">conda</span> <span class=\"n\">install</span> <span class=\"o\">-</span><span class=\"n\">c</span> <span class=\"n\">conda</span><span class=\"o\">-</span><span class=\"n\">forge</span> <span class=\"n\">intake</span><span class=\"o\">-</span><span class=\"n\">esm</span>\n</code></pre></div>",
+        "id": 39920,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1629139543
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"134\">Max Grover</span> <a href=\"#narrow/stream/41-ESDS/topic/CESM2-LE/near/39920\">said</a>:</p>\n<blockquote>\n<p>Did you install intake-esm using the following?</p>\n<p><div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">conda</span> <span class=\"n\">install</span> <span class=\"o\">-</span><span class=\"n\">c</span> <span class=\"n\">conda</span><span class=\"o\">-</span><span class=\"n\">forge</span> <span class=\"n\">intake</span><span class=\"o\">-</span><span class=\"n\">esm</span>\n</code></pre></div><br>\n</p>\n</blockquote>\n<p>I'm giving that a try now. It seems to have worked. I'm sure more questions will come up before official office hours. Thanks for helping me get on my way now though. :)</p>",
+        "id": 39921,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629140785
+    },
+    {
+        "content": "<p>Here is my environment path: <br>\nantarctica_som_env    *  /glade/work/duvivier/miniconda3/envs/antarctica_som_env</p>\n<p>Here is the error:</p>\n<hr>\n<p>AttributeError                            Traceback (most recent call last)<br>\n&lt;ipython-input-7-7054c1bae29b&gt; in &lt;module&gt;<br>\n----&gt; 1 cat.search(variable='aice')</p>\n<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake_esm/core.py in search(self, require_all_on, **query)<br>\n    644         \"\"\"<br>\n    645 <br>\n--&gt; 646         results = search(self.df, require_all_on=require_all_on, **query)<br>\n    647         ret = esm_datastore.from_df(<br>\n    648             results,</p>\n<p>/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/intake_esm/search.py in search(df, require_all_on, **query)<br>\n     50         condition_i = np.zeros(len(df), dtype=bool)<br>\n     51         column_is_stringtype = isinstance(<br>\n---&gt; 52             df[key].dtype, (np.object, pd.core.arrays.string_.StringDtype)<br>\n     53         )<br>\n     54         for val_i in val:</p>\n<p>AttributeError: module 'pandas.core.arrays' has no attribute 'string_'</p>",
+        "id": 39943,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629149259
+    },
+    {
+        "content": "<p>I have been able to load the CESM2-LE data, but am running into a hitch when it comes to subsetting the data by year. I've followed the blog post to load the data (historical and future) but when I try to subset the dataset by a limited range of years I get the following errors. I'd done this method of subsetting before on a single ensemble member, so I'm not sure why it's failing now.</p>\n<p><a href=\"/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png\">Screen-Shot-2021-08-24-at-1.43.21-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png\" title=\"Screen-Shot-2021-08-24-at-1.43.21-PM.png\"><img src=\"/user_uploads/2/92/rfTPJjVLm2mlyHuIJkiS6BmV/Screen-Shot-2021-08-24-at-1.43.21-PM.png\"></a></div><p><a href=\"/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png\">Screen-Shot-2021-08-24-at-1.43.31-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png\" title=\"Screen-Shot-2021-08-24-at-1.43.31-PM.png\"><img src=\"/user_uploads/2/2f/FOaZNQ3ps6MPzzHZ4oaX6dHo/Screen-Shot-2021-08-24-at-1.43.31-PM.png\"></a></div>",
+        "id": 40819,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629834289
+    },
+    {
+        "content": "<p>Try <code>ds_ice.sel(time=slice(\"1950\", \"2050\"))</code> [see <a href=\"https://xarray.pydata.org/en/stable/user-guide/time-series.html#datetime-indexing]\">https://xarray.pydata.org/en/stable/user-guide/time-series.html#datetime-indexing]</a></p>",
+        "id": 40821,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1629834538
+    },
+    {
+        "content": "<p>Thanks, Deepak! That was great for years. Max and I worked further on subsetting months too since it wasn't quite so simple, but it looks like I got that working too.</p>",
+        "id": 40857,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1629840747
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> I have been trying to use the intake-esm function with some atmospheric data from the CESM2-LE. I was able to load the data successfully, but it looks like not all the data are consistent. When I try to concatenate all the historical or future members I get an error because not all the members have the same variables. Here's the error:<br>\nValueError: 'zlon_bnds' is not present in all datasets.</p>\n<p>I've tried a number of options with xr.concat to ignore the variable that's not in all of the ensembles, but I haven't been able to figure out a way to ignore that when concatenating. Any thoughts? Also, is this inconsistency in different members something to be concerned about?<br>\nThanks!!</p>\n<p>Notebook location:<br>\n/glade/p/cgd/ppc/duvivier/cesm2_arctic_cyclones/DATA/regional_timeseries/cesm2_le_regional_atmospheric_avgs.ipynb</p>",
+        "id": 42394,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1631300688
+    },
+    {
+        "content": "<p>Using the following settings seemed to have worked (and removed the errors saying there are very large chunks)</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">with</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">(</span><span class=\"o\">**</span><span class=\"p\">{</span><span class=\"s1\">'array.slicing.split_large_chunks'</span><span class=\"p\">:</span> <span class=\"kc\">False</span><span class=\"p\">}):</span>\n    <span class=\"n\">historical_ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">historicals</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s1\">'member_id'</span><span class=\"p\">,</span> <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s2\">\"override\"</span><span class=\"p\">)</span>\n    <span class=\"n\">future_ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">futures</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s1\">'member_id'</span><span class=\"p\">,</span> <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s2\">\"override\"</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>I used some of the suggestions from this part of the ESDS FAQ page:</p>\n<p><a href=\"https://ncar.github.io/esds/faq/#xarray-and-dask\">https://ncar.github.io/esds/faq/#xarray-and-dask</a></p>\n<p>Hope this helps!</p>",
+        "id": 42398,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1631301992
+    },
+    {
+        "content": "<p>It worked! Thanks! :)</p>\n<p><span class=\"user-mention silent\" data-user-id=\"134\">Max Grover</span> <a href=\"#narrow/stream/41-ESDS/topic/CESM2-LE/near/42398\">said</a>:</p>\n<blockquote>\n<p>Using the following settings seemed to have worked (and removed the errors saying there are very large chunks)</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">with</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">(</span><span class=\"o\">**</span><span class=\"p\">{</span><span class=\"s1\">'array.slicing.split_large_chunks'</span><span class=\"p\">:</span> <span class=\"kc\">False</span><span class=\"p\">}):</span>\n    <span class=\"n\">historical_ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">historicals</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s1\">'member_id'</span><span class=\"p\">,</span> <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s2\">\"override\"</span><span class=\"p\">)</span>\n    <span class=\"n\">future_ds</span> <span class=\"o\">=</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">concat</span><span class=\"p\">(</span><span class=\"n\">futures</span><span class=\"p\">,</span> <span class=\"n\">dim</span><span class=\"o\">=</span><span class=\"s1\">'member_id'</span><span class=\"p\">,</span> <span class=\"n\">data_vars</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"s2\">\"minimal\"</span><span class=\"p\">,</span> <span class=\"n\">compat</span><span class=\"o\">=</span><span class=\"s2\">\"override\"</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>I used some of the suggestions from this part of the ESDS FAQ page:</p>\n<p><a href=\"https://ncar.github.io/esds/faq/#xarray-and-dask\">https://ncar.github.io/esds/faq/#xarray-and-dask</a></p>\n<p>Hope this helps!</p>\n</blockquote>",
+        "id": 42403,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1631302875
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> , I wonder the 3-hourly data, especially precip (precc + precl) and TS can be added to this catalog (/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json) . I only found cam.h0, cam.h1, and cam.h2, but I know the 3-hourly data is available here: /glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/hour_3/ . Thanks, I appreciate any help.</p>",
+        "id": 44990,
+        "sender_full_name": "Yakelyn R. Jauregui",
+        "timestamp": 1634069194
+    },
+    {
+        "content": "<p>Sure - I can add that to the catalog!</p>",
+        "id": 44991,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1634069272
+    },
+    {
+        "content": "<p>It should be updated by tomorrow! I rebuilt it today!</p>",
+        "id": 45004,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1634080179
+    },
+    {
+        "content": "<p>The catalog has been updated!! You can use the path <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code></p>",
+        "id": 45168,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1634330584
+    },
+    {
+        "content": "<p>I'm finding that the cesm2-le catalog has gaps. This is dangerous because such gaps are silently filled when aggregating using intake-esm, resulting in analysis errors that are not obvious. For example:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">catalog_file</span> <span class=\"o\">=</span> <span class=\"s1\">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_file</span><span class=\"p\">)</span>\n<span class=\"n\">data</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">component</span><span class=\"o\">=</span><span class=\"s1\">'ocn'</span><span class=\"p\">,</span> <span class=\"n\">variable</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'SHF'</span><span class=\"p\">],</span> <span class=\"n\">frequency</span><span class=\"o\">=</span><span class=\"s1\">'month_1'</span><span class=\"p\">,</span> <span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'historical'</span><span class=\"p\">,</span><span class=\"s1\">'ssp370'</span><span class=\"p\">])</span>\n<span class=\"n\">dsets</span> <span class=\"o\">=</span> <span class=\"n\">data</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">()</span>\n</code></pre></div>\n<p>returns a dataset dictionary that is missing many 10-year chunks, even though the corresponding datafiles exist on glade. A few examples are (cesm_member_id:time_range):<br>\n1231.002:186001-186912<br>\n1231.004:186001-186912<br>\n1011.001:201501-210012<br>\nThe catalog needs to be updated and quality-checked to avoid such gaps.</p>",
+        "id": 47574,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1638388860
+    },
+    {
+        "content": "<p>There was a problem with some of that data originally - here is the note from Gary in late September. </p>\n<p>\"There are some decades from some runs that aren't yet at NCAR due to a problem on the IBS side:</p>\n<p>1850-1859     b.e21.BHISTsmbb.f09_g17.LE2-1251.018    <br>\n1860-1869     b.e21.BHISTcmip6.f09_g17.LE2-1231.002  <br>\n              b.e21.BHISTcmip6.f09_g17.LE2-1231.004<br>\n              b.e21.BHISTcmip6.f09_g17.LE2-1231.005<br>\n              b.e21.BHISTcmip6.f09_g17.LE2-1231.006<br>\n              b.e21.BHISTcmip6.f09_g17.LE2-1231.007<br>\n1890-1899     b.e21.BHISTsmbb.f09_g17.LE2-1251.017    <br>\n1900-1909     b.e21.BHISTsmbb.f09_g17.LE2-1231.020    <br>\n              b.e21.BHISTsmbb.f09_g17.LE2-1251.011<br>\n              b.e21.BHISTsmbb.f09_g17.LE2-1251.012<br>\n              b.e21.BHISTsmbb.f09_g17.LE2-1251.016<br>\n              b.e21.BHISTsmbb.f09_g17.LE2-1251.013<br>\n1910-1919     b.e21.BHISTsmbb.f09_g17.LE2-1251.013<br>\n              b.e21.BHISTsmbb.f09_g17.LE2-1231.019<br>\n1980-1989     b.e21.BHISTsmbb.f09_g17.LE2-1301.017 </p>\n<p>These are being filled in as the IBS folks get to them.\"</p>\n<p>I have been updating it periodically, so I can go head and update it again if there are more files there.</p>",
+        "id": 47575,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1638389294
+    },
+    {
+        "content": "<p>Could you post a notification when you've updated it?  Thank you!</p>",
+        "id": 47577,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1638389712
+    },
+    {
+        "content": "<blockquote>\n<p>This is dangerous because such gaps are silently filled when aggregating using intake-esm,</p>\n</blockquote>\n<p>Can you clarify what you mean by \"silently filling\"? Is it adding NaNs?</p>",
+        "id": 47578,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1638390670
+    },
+    {
+        "content": "<p>Yes.</p>",
+        "id": 47579,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1638390758
+    },
+    {
+        "content": "<p>The catalog is corrected - I tested it across those cases.</p>",
+        "id": 47661,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1638484353
+    },
+    {
+        "content": "<p>Steve, are you concatenating those datasets later? is that when the filling occurs?</p>",
+        "id": 47666,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1638487511
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> Yes, I am concatenating 'historical' with 'ssp370', but that's not the problem. The problem is that there is an aggregation over 'member_id', but some members are missing time blocks (at least, they were in the old catalog). So loading a multimember dataset results in gaps filled with Nan for some members.</p>",
+        "id": 47678,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1638542649
+    },
+    {
+        "content": "<p>This may be related to <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> 's question, but I'm getting a failure using the CESM2-LE catalog and I think it's related to missing files from the 1860's and possibly a name update.</p>\n<p>The piece of code I'm running is here:</p>\n<div class=\"codehilite\"><pre><span></span><code>%%time\n#load the data we selected into a dataset\nwith dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: True}):\n    dsets = subset.to_dataset_dict(cdf_kwargs={&#39;chunks&#39;: {&#39;time&#39;:240}, &#39;decode_times&#39;: True})\n</code></pre></div>\n<p>Here's the error:</p>\n<div class=\"codehilite\"><pre><span></span><code>OSError:\n            Failed to open netCDF/HDF dataset.\n\n            *** Arguments passed to xarray.open_dataset() ***:\n\n            - filename_or_obj: /glade/campaign/cgd/cesm/CESM2-LE/timeseries/ice/proc/tseries/day_1/aice_d/b.e21.BHISTcmip6.f09_g17.LE2-1231.007.cice.h1.aice_d.18600101-18691231.nc\n            - kwargs: {&#39;chunks&#39;: {&#39;time&#39;: 240}, &#39;decode_times&#39;: True}\n\n            *** fsspec options used ***:\n\n            - root: /glade/campaign/cgd/cesm/CESM2-LE/timeseries/ice/proc/tseries/day_1/aice_d/b.e21.BHISTcmip6.f09_g17.LE2-1231.007.cice.h1.aice_d.18600101-18691231.nc\n            - protocol: None\n\n            ********************************************\n</code></pre></div>\n<p>This looks like it's not finding the file for 1860-1869. However, when I look in the directory, it looks like the following file <em>is</em> present, but maybe has been renamed? <br>\n/glade/campaign/cgd/cesm/CESM2-LE/timeseries/ice/proc/tseries/day_1/aice_d/b.e21.BHISTcmip6.f09_g17.LE2-1231.007.cice.h1.aice_d.18600102-18700101.nc</p>\n<p>Honestly, I'm not totally clear what's happened because I've used this piece of code in the past without problems and the only thing I can think has changed is the addition of the new 1860's files.</p>",
+        "id": 48196,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1639437286
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span>  <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>  - the CESM2-LE GLADE catalog has been updated, with fixes for both of the gaps/bugs that you mentioned.</p>",
+        "id": 48351,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1639673444
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span></p>",
+        "id": 48354,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1639673630
+    },
+    {
+        "content": "<p>I'm encountering another issue with  intake and cesm2-le. The following collection returns a dataframe with time out of order:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">catalog_file</span> <span class=\"o\">=</span> <span class=\"s1\">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_file</span><span class=\"p\">)</span>\n<span class=\"n\">cesm2data</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">component</span><span class=\"o\">=</span><span class=\"s1\">'ocn'</span><span class=\"p\">,</span>\n                       <span class=\"n\">variable</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'IFRAC'</span><span class=\"p\">],</span>\n                       <span class=\"n\">frequency</span><span class=\"o\">=</span><span class=\"s1\">'month_1'</span><span class=\"p\">,</span>\n                       <span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'historical'</span><span class=\"p\">,</span><span class=\"s1\">'ssp370'</span><span class=\"p\">],</span>\n                       <span class=\"n\">forcing_variant</span><span class=\"o\">=</span><span class=\"s1\">'smbb'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>When I look at ssp370 files using</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">cesm2data</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"p\">[</span><span class=\"n\">cesm2data</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">experiment</span> <span class=\"o\">==</span> <span class=\"s1\">'ssp370'</span><span class=\"p\">]</span>\n</code></pre></div>\n<p>it appears to return a list that looks complete, but cesm2data.to_dataset_dict()  does not aggregate properly across timestamps (because the dataframe file list is out of order?). Similar error for the 'historical' data.</p>",
+        "id": 49110,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1641931265
+    },
+    {
+        "content": "<p>I believe this is related to this issue <a href=\"https://github.com/intake/intake-esm/issues/343\">https://github.com/intake/intake-esm/issues/343</a> and it should/will be fixed in the upcoming version of <code>intake-esm</code>.  A temporary workaround is to sort the dataframe yourself before loading the data:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">cesm2data</span><span class=\"o\">.</span><span class=\"n\">df</span> <span class=\"o\">=</span> <span class=\"n\">cesm2data</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">sort_values</span><span class=\"p\">(</span><span class=\"n\">by</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'time_range'</span><span class=\"p\">])</span>\n</code></pre></div>\n<p>or just sort the entire catalog after reading it in</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">df</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"o\">.</span><span class=\"n\">sort_values</span><span class=\"p\">(</span><span class=\"n\">by</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'time_range'</span><span class=\"p\">])</span>\n</code></pre></div>",
+        "id": 49112,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1641932101
+    },
+    {
+        "content": "<p>I'm encountering a new issue in a notebook that used to work to process CESM2-LE using intake (v0.6.3).  The following collection query:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">catalog_file</span> <span class=\"o\">=</span> <span class=\"s1\">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'</span>\n<span class=\"n\">col</span> <span class=\"o\">=</span> <span class=\"n\">intake</span><span class=\"o\">.</span><span class=\"n\">open_esm_datastore</span><span class=\"p\">(</span><span class=\"n\">catalog_file</span><span class=\"p\">)</span>\n<span class=\"n\">oceandata</span> <span class=\"o\">=</span> <span class=\"n\">col</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">component</span><span class=\"o\">=</span><span class=\"s1\">'ocn'</span><span class=\"p\">,</span>\n                       <span class=\"n\">variable</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'TEMP'</span><span class=\"p\">],</span>\n                       <span class=\"n\">frequency</span><span class=\"o\">=</span><span class=\"s1\">'month_1'</span><span class=\"p\">,</span>\n                       <span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s1\">'historical'</span><span class=\"p\">,</span><span class=\"s1\">'ssp370'</span><span class=\"p\">])</span>\n</code></pre></div>\n<p>returns incorrect 'experiment' entries. Attached is a snapshot of the output from </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">oceandata</span><span class=\"o\">.</span><span class=\"n\">search</span><span class=\"p\">(</span><span class=\"n\">experiment</span><span class=\"o\">=</span><span class=\"s1\">'historical'</span><span class=\"p\">,</span><span class=\"n\">forcing_variant</span><span class=\"o\">=</span><span class=\"s1\">'cmip6'</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">df</span>\n</code></pre></div>\n<p>Note that some 'BSSP370' cases are labelled as 'historical'. Similarly, some 'BHIST' cases are labelled as 'ssp370'. These errors mess up the aggregation into a dataset dictionary. <a href=\"/user_uploads/2/1c/STgFKbLtcGLK7nLoOcQuXpTm/Screen-Shot-2022-01-14-at-3.46.45-PM.png\">Screen-Shot-2022-01-14-at-3.46.45-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/1c/STgFKbLtcGLK7nLoOcQuXpTm/Screen-Shot-2022-01-14-at-3.46.45-PM.png\" title=\"Screen-Shot-2022-01-14-at-3.46.45-PM.png\"><img src=\"/user_uploads/2/1c/STgFKbLtcGLK7nLoOcQuXpTm/Screen-Shot-2022-01-14-at-3.46.45-PM.png\"></a></div>",
+        "id": 49361,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1642200560
+    },
+    {
+        "content": "<p>I believe this is a bug in the scripts used to build the catalog... Cc <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>, could you please look into this when you have time?</p>",
+        "id": 49362,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1642207865
+    },
+    {
+        "content": "<p>taking a look at this this afternoon</p>",
+        "id": 49408,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1642542772
+    },
+    {
+        "content": "<p>Currently submitting a PR to <a href=\"https://github.com/NCAR/intake-esm-datastore\">intake-esm-datastore</a>... should be good to go later today!</p>",
+        "id": 49415,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1642614946
+    },
+    {
+        "content": "<p>Hi all,<br>\nI am working with a visiting graduate student on loading in some of the CESM2-LE using the intake functions with the CESM2-LE catalog. We've used the following commands and can see the files listed in the subset list we create, but then we are getting an error when it tries to actually read the dataset with dask. I think the error is related to maybe missing files?</p>\n<div class=\"codehilite\"><pre><span></span><code>catalog_file = &#39;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json&#39;\ncat = intake.open_esm_datastore(catalog_file)\nvar_in = &#39;PSL&#39;\nforcing = &#39;smbb&#39;\nfreq = &#39;hour_6&#39;\nsubset = cat.search(variable=var_in, forcing_variant=forcing, frequency=freq)\n#actually load the data we selected into a dataset\nwith dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: True}):\n       dsets = subset.to_dataset_dict(cdf_kwargs={&#39;chunks&#39;: {&#39;time&#39;:240}, &#39;decode_times&#39;: True})\n</code></pre></div>\n<p>The error it returns at this step is:<br>\n\"FileNotFoundError\"<br>\n(lots of other messages)<br>\n\"ESMDataSourceError: Failed to load dataset with key='atm.ssp370.cam.h2.cmip6.PSL'<br>\nYou can use <code>cat['atm.ssp370.camp.h2.smbb.PSL</code>].df` to inspect the assets/files for this key.</p>\n<p>When I use the cat command it shows me the list of the files that are ready to be read in, but they look fine to me. So... I'm not sure how to check which are missing and would appreciate some guidance.</p>",
+        "id": 85655,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1689622614
+    },
+    {
+        "content": "<p>The files as listed in the catalog don't exist. They have been renamed:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">df</span> <span class=\"o\">=</span> <span class=\"n\">cat</span><span class=\"p\">[</span><span class=\"s1\">'atm.historical.cam.h2.smbb.PSL'</span><span class=\"p\">]</span><span class=\"o\">.</span><span class=\"n\">df</span>\n\n<span class=\"kn\">import</span> <span class=\"nn\">os</span>\n\n<span class=\"n\">missing</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"n\">path</span> <span class=\"k\">for</span> <span class=\"n\">path</span> <span class=\"ow\">in</span> <span class=\"n\">df</span><span class=\"p\">[</span><span class=\"s2\">\"path\"</span><span class=\"p\">]</span> <span class=\"k\">if</span> <span class=\"ow\">not</span> <span class=\"n\">os</span><span class=\"o\">.</span><span class=\"n\">path</span><span class=\"o\">.</span><span class=\"n\">exists</span><span class=\"p\">(</span><span class=\"n\">path</span><span class=\"p\">)]</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s2\">\"</span><span class=\"si\">{</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">missing</span><span class=\"p\">)</span><span class=\"si\">}</span><span class=\"s2\"> / </span><span class=\"si\">{</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">df</span><span class=\"p\">)</span><span class=\"si\">}</span><span class=\"s2\"> are missing!\"</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>The catalog has <code>b.e21.BHISTsmbb.f09_g17.LE2-1011.001.cam.h2.PSL.1850010100-1860010100.nc</code> for example but the actual file is <code>b.e21.BHISTsmbb.f09_g17.LE2-1011.001.cam.h2.PSL.1850010100-1859123100.nc</code></p>",
+        "id": 85676,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1689646581
+    },
+    {
+        "content": "<p>Ah, okay, thanks. So... do I need to generate a new catalog? Or... how is this done? I believe in the past someone in ESDS (Max?) had generated the catalogs referenced by intake so I'm not familiar with that process. I did see this documentation:<br>\n<a href=\"https://ncar.github.io/esds/posts/2021/ecgtools-history-files-example/?highlight=catalog\">https://ncar.github.io/esds/posts/2021/ecgtools-history-files-example/?highlight=catalog</a><br>\nBut I'm not sure that's going to work here given I've been referencing a communal catalog.</p>",
+        "id": 85677,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1689648075
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>  thanks for looking into this and checking how to keep these updated regularly. :)</p>",
+        "id": 85681,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1689692295
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> You can try <code>\"/glade/scratch/dcherian/intake-esm-datastore/catalogs/glade-cesm2-le.json\"</code>. I edited the paths manually.</p>\n<p>THere's still something wrong with <code>cat[\"atm.ssp370.cam.h2.smbb.PSL\"]</code> though. One file may be bad but hard to figure out which</p>",
+        "id": 85827,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1689894106
+    }
+]

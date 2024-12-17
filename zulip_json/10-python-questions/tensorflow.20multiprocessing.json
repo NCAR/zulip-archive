@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>my DNN predict script started hanging recently and I wonder if anyone could tell me why this hangs when I execute the predict method in a multiprocessing pool?</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">multiprocessing</span>\n<span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"k\">as</span> <span class=\"nn\">np</span>\n<span class=\"kn\">from</span> <span class=\"nn\">tensorflow.keras.models</span> <span class=\"kn\">import</span> <span class=\"n\">Sequential</span>\n<span class=\"kn\">from</span> <span class=\"nn\">tensorflow.keras.layers</span> <span class=\"kn\">import</span> <span class=\"n\">Dense</span>\n\n<span class=\"n\">dataset</span> <span class=\"o\">=</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">random</span><span class=\"o\">.</span><span class=\"n\">rand</span><span class=\"p\">(</span><span class=\"mi\">50</span><span class=\"p\">,</span><span class=\"mi\">9</span><span class=\"p\">)</span>\n\n<span class=\"c1\"># split into input (X) and output (y) variables</span>\n<span class=\"n\">X</span> <span class=\"o\">=</span> <span class=\"n\">dataset</span><span class=\"p\">[:,</span><span class=\"mi\">0</span><span class=\"p\">:</span><span class=\"mi\">8</span><span class=\"p\">]</span>\n<span class=\"n\">y</span> <span class=\"o\">=</span> <span class=\"n\">dataset</span><span class=\"p\">[:,</span><span class=\"mi\">8</span><span class=\"p\">]</span>\n\n<span class=\"n\">model</span> <span class=\"o\">=</span> <span class=\"n\">Sequential</span><span class=\"p\">()</span>\n<span class=\"n\">model</span><span class=\"o\">.</span><span class=\"n\">add</span><span class=\"p\">(</span><span class=\"n\">Dense</span><span class=\"p\">(</span><span class=\"mi\">12</span><span class=\"p\">,</span> <span class=\"n\">input_shape</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"mi\">8</span><span class=\"p\">,),</span> <span class=\"n\">activation</span><span class=\"o\">=</span><span class=\"s1\">'relu'</span><span class=\"p\">))</span>\n<span class=\"n\">model</span><span class=\"o\">.</span><span class=\"n\">add</span><span class=\"p\">(</span><span class=\"n\">Dense</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">activation</span><span class=\"o\">=</span><span class=\"s1\">'sigmoid'</span><span class=\"p\">))</span>\n\n<span class=\"n\">model</span><span class=\"o\">.</span><span class=\"n\">compile</span><span class=\"p\">(</span><span class=\"n\">loss</span><span class=\"o\">=</span><span class=\"s1\">'binary_crossentropy'</span><span class=\"p\">)</span>\n<span class=\"n\">model</span><span class=\"o\">.</span><span class=\"n\">fit</span><span class=\"p\">(</span><span class=\"n\">X</span><span class=\"p\">,</span> <span class=\"n\">y</span><span class=\"p\">,</span> <span class=\"n\">epochs</span><span class=\"o\">=</span><span class=\"mi\">3</span><span class=\"p\">)</span>\n\n<span class=\"c1\"># make class predictions with the model</span>\n<span class=\"k\">def</span> <span class=\"nf\">predict</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"p\">):</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s2\">\"predict rows </span><span class=\"si\">{</span><span class=\"n\">i</span><span class=\"si\">}</span><span class=\"s2\">:</span><span class=\"si\">{</span><span class=\"n\">i</span><span class=\"o\">+</span><span class=\"mi\">2</span><span class=\"si\">}</span><span class=\"s2\">\"</span><span class=\"p\">)</span>\n    <span class=\"k\">return</span> <span class=\"n\">model</span><span class=\"o\">.</span><span class=\"n\">predict</span><span class=\"p\">(</span><span class=\"n\">X</span><span class=\"p\">[</span><span class=\"n\">i</span><span class=\"p\">:</span><span class=\"n\">i</span><span class=\"o\">+</span><span class=\"mi\">2</span><span class=\"p\">,:])</span>\n\n<span class=\"k\">with</span> <span class=\"n\">multiprocessing</span><span class=\"o\">.</span><span class=\"n\">Pool</span><span class=\"p\">(</span><span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">2</span><span class=\"p\">)</span> <span class=\"k\">as</span> <span class=\"n\">pool</span><span class=\"p\">:</span>\n    <span class=\"n\">data</span> <span class=\"o\">=</span> <span class=\"n\">pool</span><span class=\"o\">.</span><span class=\"n\">map</span><span class=\"p\">(</span><span class=\"n\">predict</span><span class=\"p\">,</span> <span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">,</span><span class=\"mi\">2</span><span class=\"p\">])</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>I’m trying to evaluate a DNN model and split the job between processors. I’m running on casper with 3 cpus reserved.</p>",
+        "id": 72083,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1674243021
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"243\">@David Ahijevych</span> which version of tensorflow are you using? Would it make sense to use GPUs for distributed prediction (and/or training)?</p>",
+        "id": 72084,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1674243577
+    },
+    {
+        "content": "<p>Hi Katie, <br>\ntensorflow 2.11<br>\n I tried earlier versions but conda couldn't find a match with the C libraries. Yes, GPUs probably make sense but I've had troubles.  When I run on GPUs my scripts execute faster, but I sometimes get an out-of-memory error that is resolved by using CPUs instead.</p>",
+        "id": 72088,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1674245973
+    },
+    {
+        "content": "<p>I see. With tensorflow version 1 I had problems with multiprocessing pool but I thought that should be resolved with version 2. There is a <code>use_multiprocessing</code> argument that you can use with keras <code>model.predict</code>, maybe that will help? <a href=\"https://keras.io/api/models/model_training_apis/#predict-method\">https://keras.io/api/models/model_training_apis/#predict-method</a></p>",
+        "id": 72095,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1674248076
+    },
+    {
+        "content": "<p>good idea.. I tried <code>use_multiprocessing</code> but to no avail. According to the method description, <code>use_multiprocessing</code> and <code>workers</code> may help if your input is a <code>generator</code> or <code>keras.utils.Sequence</code> only.  But mine is not a generator and I don't even know what a keras Sequence is. So I might have to look elsewhere.</p>",
+        "id": 72115,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1674256325
+    },
+    {
+        "content": "<p>Going forward, I'll avoid multiprocessing with model.predict().  For my larger files (50M+ rows), I'll simply increase the batch_size from the default 32 to 5000 to get the speedup I want. I had no idea that would help so much, and I don't need multiprocessing.</p>",
+        "id": 72119,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1674259578
+    }
+]

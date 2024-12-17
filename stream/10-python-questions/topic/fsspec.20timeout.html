@@ -1,0 +1,57 @@
+<html>
+<head><meta charset="utf-8"><title>fsspec timeout · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/fsspec.20timeout.html">fsspec timeout</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="50566"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/fsspec%20timeout/near/50566" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/fsspec.20timeout.html#50566">(Feb 14 2022 at 18:04)</a>:</h4>
+<p>I am using <code>intake</code> to point to a data source:</p>
+<div class="codehilite" data-code-language="YAML"><pre><span></span><code>  <span class="nt">fgapo_CarbonScope_apo99X_v2021</span><span class="p">:</span>
+    <span class="nt">driver</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">netcdf</span>
+    <span class="nt">description</span><span class="p">:</span> <span class="s">"Using</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">atmospheric</span><span class="nv"> </span><span class="s">inversion</span><span class="nv"> </span><span class="s">technique</span><span class="nv"> </span><span class="s">similar</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">Jena</span><span class="nv"> </span><span class="s">CO2</span><span class="nv"> </span><span class="s">inversion,</span><span class="nv"> </span><span class="s">sea-air</span><span class="nv"> </span><span class="s">oxygen</span><span class="nv"> </span><span class="s">exchanges</span><span class="nv"> </span><span class="s">have</span><span class="nv"> </span><span class="s">been</span><span class="nv"> </span><span class="s">estimated</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">atmospheric</span><span class="nv"> </span><span class="s">O2/N2</span><span class="nv"> </span><span class="s">measurements</span><span class="nv"> </span><span class="s">(Rödenbeck</span><span class="nv"> </span><span class="s">et</span><span class="nv"> </span><span class="s">al.,</span><span class="nv"> </span><span class="s">2008).</span><span class="nv"> </span><span class="s">In</span><span class="nv"> </span><span class="s">order</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">eliminate</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">influence</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">land</span><span class="nv"> </span><span class="s">processes</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">atmospheric</span><span class="nv"> </span><span class="s">oxygen</span><span class="nv"> </span><span class="s">abundance,</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">tracer</span><span class="nv"> </span><span class="s">Atmospheric</span><span class="nv"> </span><span class="s">Potential</span><span class="nv"> </span><span class="s">Oxygen</span><span class="nv"> </span><span class="s">(APO)</span><span class="nv"> </span><span class="s">has</span><span class="nv"> </span><span class="s">been</span><span class="nv"> </span><span class="s">used</span><span class="nv"> </span><span class="s">(Stephens</span><span class="nv"> </span><span class="s">et</span><span class="nv"> </span><span class="s">al.,</span><span class="nv"> </span><span class="s">1998).</span><span class="nv"> </span><span class="s">DOI:</span><span class="nv"> </span><span class="s">10.17871/CarboScope-apo99X_v2021"</span>
+    <span class="nt">args</span><span class="p">:</span>
+      <span class="nt">urlpath</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">simplecache::https://www.bgc-jena.mpg.de/CarboScope/apo/INVERSION/OUTPUT/apo99X_v2021_daily.nc</span>
+      <span class="nt">xarray_kwargs</span><span class="p">:</span>
+        <span class="nt">decode_times</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+      <span class="nt">chunks</span><span class="p">:</span> <span class="p p-Indicator">{}</span>
+      <span class="nt">storage_options</span><span class="p">:</span>
+        <span class="nt">simplecache</span><span class="p">:</span>
+          <span class="nt">same_names</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+          <span class="nt">cache_storage</span><span class="p">:</span> <span class="s">"{{</span><span class="nv"> </span><span class="s">env(INTAKE_LOCAL_CACHE_DIR)</span><span class="nv"> </span><span class="s">}}"</span>
+</code></pre></div>
+<p>This is a 1.6 GB file and I am getting an error: <code>FSTimeoutError</code>. I presume this means the file transfer is timing out (the transfer does start, but does not complete).</p>
+<p>Anybody know how to set an larger upper limit on acceptable time to avoid this error?</p>
+
+
+
+<a name="50567"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/fsspec%20timeout/near/50567" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/fsspec.20timeout.html#50567">(Feb 14 2022 at 18:51)</a>:</h4>
+<p>This looks a lot like the issue you ran into a while ago... Can you try the suggested solution, and see if it addresses the issue?</p>
+<p>Solution: <a href="#narrow/stream/10-python-questions/topic/intake.20simplecache.20timeout/near/43359">https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/intake.20simplecache.20timeout/near/43359</a></p>
+
+
+
+<a name="50568"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/fsspec%20timeout/near/50568" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/fsspec.20timeout.html#50568">(Feb 14 2022 at 18:52)</a>:</h4>
+<p>Ah, right! I forgot. </p>
+<p>I tried that at the time and it couldn't get it working. Thanks again, anyway, however!</p>
+
+
+
+<a name="50569"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/fsspec%20timeout/near/50569" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/fsspec.20timeout.html#50569">(Feb 14 2022 at 18:54)</a>:</h4>
+<blockquote>
+<p>I tried that at the time and it couldn't get it working. </p>
+</blockquote>
+<p>do you mean encoding the timeout in the YAML catalog or creating the <code>timeout</code> object and passing it to intake?</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

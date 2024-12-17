@@ -1,0 +1,128 @@
+[
+    {
+        "content": "<p>What are some options for ocean initialization? What are the uncertainties / PDFs that we would want to sample over to generate spread in ocean ICs? How important is consistency with JRA55 to avoid initial shocks?</p>",
+        "id": 18731,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1601914222
+    },
+    {
+        "content": "<p>JRA55-do FOSI is the only viable option for ocean initialization for SMYLE. In the future, perhaps we will have a fully-coupled EnKF DA reconstruction (including ocean BGC) that will naturally have spread in each component.  I don't know what the uncertainties should be for the ocean state, but up to now we've assumed it to be zero which is wrong. A lagged ensemble seems to me to be the easiest way to introduce some spread into ocean/ice/BGC, but open to other ideas.</p>",
+        "id": 18737,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1601916565
+    },
+    {
+        "content": "<p>OK, thanks Steve. Re: lagged ensemble, I know you described this in the meeting, but could you clarify again? Do I have it right that the idea would be to take states from the FOSI that are offset in time from the initialization state? Would those states be paired with atmospheric states?</p>\n<p>What is the origin of ocean uncertainties here?</p>",
+        "id": 18749,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1601923143
+    },
+    {
+        "content": "<p>Yes, FOSI states from , say, the first 5 days of the month rather than just start of month.  Those ocean/ice states would be paired with perturbed atm states from 0Z at the start of the month (implying some ocean/atm mismatch).  Perhaps the ocean spread could be interpreted as representing uncertainty in the phase of ocean waves, or perhaps as a reflection of missing mesoscale noise, but mostly it's just an ad hoc way to introduce spread. We could alternatively think about a 'pertlim' method for ocean/ice?</p>",
+        "id": 18757,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1601929842
+    },
+    {
+        "content": "<p>It's interesting to think about how much and where the ocean initialization will matter. I would guess that the relatively rapidly growing perturbation errors in the atmosphere would take over for generating spread soon in many parts of the ocean after initializing. (Maybe different ocean ICs would contribute to the growth of atmospheric spread.) So a goal might be to make sure that regions that may be more insulated from atmospheric influence, e.g. at greater ocean depths, also have a chance to develop spread. If so is it a question of what kinds of perturbations might project onto whatever growing modes might exist? Maybe that's an argument for the lagged ensemble, as those length scales would presumably be present, whereas high wavenumber, pertlim-like perturbations could just get damped out?</p>",
+        "id": 18780,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602006803
+    },
+    {
+        "content": "<p>I'd love some help scouring the literature for a good rationale for different techniques of ensemble generation. I had a chat with Magdalena Balmaseda at the S2D prediction meeting in Boulder. She suggested that our ENSO initialization shock in DPLE may be related to a lack of spread in ocean IC's. I haven't found any paper that clarifies that at all, but I'm not that familiar with ENSO prediction literature. Perhaps we should ask Joe. The ECMWF seasonal forecasting system uses an ocean analysis (OCEAN5) that has 5 members (<a href=\"https://doi.org/10.5194/gmd-12-1087-2019\" target=\"_blank\" title=\"https://doi.org/10.5194/gmd-12-1087-2019\">https://doi.org/10.5194/gmd-12-1087-2019</a>) that adds to the atmosphere IC spread.</p>",
+        "id": 18968,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1602082015
+    },
+    {
+        "content": "<p>Good idea. Pinging <span class=\"user-mention\" data-user-id=\"119\">@Joe Tribbia</span> to get his thoughts. I'll take a look at the OCEAN5 paper.</p>",
+        "id": 18978,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602084850
+    },
+    {
+        "content": "<p>Without an actual ensemble to get the ocean IC spread, a cheap an easy way could be to use the first few EOFs to introduce noise along the dominant mode of variability of the system.</p>",
+        "id": 19011,
+        "sender_full_name": "Fred Castruccio",
+        "timestamp": 1602098117
+    },
+    {
+        "content": "<p>Thanks Fred. How large would you think those perturbations should be?</p>\n<p>Re: ensemble spread as we could get from an EnKF solution, that would have a flavor of \"practical predictability,\" as spread would reflect in part how well-constrained the system was by observations. My impression is that SMYLE and similar experiments are designed more to target the intrinsic predictability of the system, independent of observations, is that right?</p>",
+        "id": 19027,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602104700
+    },
+    {
+        "content": "<p>Dan, that remain to be determined. I think the EOFs can be useful to point where to introduce spread, not sure how to get the magnitude.</p>",
+        "id": 19028,
+        "sender_full_name": "Fred Castruccio",
+        "timestamp": 1602105346
+    },
+    {
+        "content": "<p>Dan, another option could be to rely on an ENOI approach and only run the analysis for the ICs time. In a post-processing fashion. This will actually be much better approach to obtain a meaningful  ensemble of ocean ICs (using the posterior ensemble).</p>",
+        "id": 19031,
+        "sender_full_name": "Fred Castruccio",
+        "timestamp": 1602106015
+    },
+    {
+        "content": "<p>Fred, agreed that's another option. For your EnOI perturbation generation, you drew states at different times from a control JRA-forced run. That seems similar to the lagged ensemble approach, with larger perturbations if they're drawn from a climatological background of variability, rather than a few states that are close in time. </p>\n<p>I looked at a couple of related papers. It looks like the OCEAN5 reanalysis that Steve pointed to generates spread by perturbing the location of ocean observations in a DA procedure, which is designed to sample over and account for observational representativeness error (<a href=\"https://www.ecmwf.int/en/elibrary/17831-generic-ensemble-generation-scheme-data-assimilation-and-ocean-analysis\" target=\"_blank\" title=\"https://www.ecmwf.int/en/elibrary/17831-generic-ensemble-generation-scheme-data-assimilation-and-ocean-analysis\">https://www.ecmwf.int/en/elibrary/17831-generic-ensemble-generation-scheme-data-assimilation-and-ocean-analysis</a>) in addition to the uncertainty in the DA posterior.  Lang et al. (2012) outline strategies used at ECMWF, including work on singular vectors by <span class=\"user-mention\" data-user-id=\"119\">@Joe Tribbia</span>  and SKEB by <span class=\"user-mention\" data-user-id=\"48\">@Judith Berner</span>  et al. Johnson and Wang (<a href=\"https://journals.ametsoc.org/mwr/article/144/7/2579/72331/A-Study-of-Multiscale-Initial-Condition\" target=\"_blank\" title=\"https://journals.ametsoc.org/mwr/article/144/7/2579/72331/A-Study-of-Multiscale-Initial-Condition\">https://journals.ametsoc.org/mwr/article/144/7/2579/72331/A-Study-of-Multiscale-Initial-Condition</a>) suggest that perturbations at varying length scales can improve ensemble performance because they better approximate the true uncertainty in initial conditions in an NWP context.</p>\n<p>It seems to me that the distribution that we want to sample to make initial perturbations is the FOSI - TRUTH distribution. One way to do this that would try to keep the perturbations on the model attractor could be to compute Kalman increments based on misfits between FOSI and observations (or a data product, like Roemmich and Gilson). We'd have to have a time period to compute those statistics that didn't overlap with the prediction interval.</p>",
+        "id": 19122,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602257796
+    },
+    {
+        "content": "<p>The Kalman increments could be computed offline using a stationary covariance and differences between FOSI and obs over some time period, i.e. no need to run actual DA. We might want to think about what to do with the time-mean of the increments, which is an estimate of FOSI bias.</p>",
+        "id": 19132,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602265650
+    },
+    {
+        "content": "<p>Shall we schedule a zoom conversation next week to discuss?</p>",
+        "id": 19202,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1602276619
+    },
+    {
+        "content": "<p>Sounds good.</p>",
+        "id": 19241,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602296878
+    },
+    {
+        "content": "<p>Interesting comment (and paper reference) on this topic from an email exchange with Yuko Okumura:</p>\n<p>Regarding the methods to generate initial condition spread, it would be interesting and useful in terms of ENSO prediction to add noise dominant in the coupled system for each initialization month (for example, Pacific meridional mode in spring and Indian Ocean dipole in fall). The noise structure could be obtained from the ensemble spread of existing hindcasts (NMME and Xian’s CESM1 hindcasts). Kug et al. (2010,<a href=\"https://link.springer.com/article/10.1007/s00382-009-0664-y\" target=\"_blank\" title=\"https://link.springer.com/article/10.1007/s00382-009-0664-y\">https://link.springer.com/article/10.1007/s00382-009-0664-y</a>) seem to talk about a similar idea. I am not too familiar with the technical aspect of forecasts, but this seems like an interesting approach to account for the uncertainty of initial condition.</p>",
+        "id": 19367,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1602623453
+    },
+    {
+        "content": "<p>Another interesting and relevant read:  Palmer&amp;Zanna 2013 (<a href=\"https://iopscience-iop-org.cuucar.idm.oclc.org/article/10.1088/1751-8113/46/25/254018\" target=\"_blank\" title=\"https://iopscience-iop-org.cuucar.idm.oclc.org/article/10.1088/1751-8113/46/25/254018\">https://iopscience-iop-org.cuucar.idm.oclc.org/article/10.1088/1751-8113/46/25/254018</a>)</p>",
+        "id": 19369,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1602627990
+    },
+    {
+        "content": "<p>We had a good conversation yesterday and moving forward the goal is to design some tests and experiments to evaluate how large ocean perturbations should be, and how much they are likely to matter.</p>",
+        "id": 19500,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602794983
+    },
+    {
+        "content": "<p>One takeaway I had from Joe is that the growth of ensemble spread in the ocean is likely to be driven by rapidly growing spread in the atmosphere. <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span> , I took a stab at writing up the procedure I had in mind for using offline EnOI-like DA tools for generating perturbations. Can you take a look and see if this is similar to what you had in mind? And you'll also have a much better notion of what is feasible! I described this to Jeff A today and he also seemed interested, and suggested we could chat early next week. <a href=\"/user_uploads/2/16/00JMpf0kMlJ7te9lveOdlZ6G/One_approach_for_using_offline_DA_to_generate_ocean_IC_perturbations.pdf\" target=\"_blank\" title=\"One_approach_for_using_offline_DA_to_generate_ocean_IC_perturbations.pdf\">One_approach_for_using_offline_DA_to_generate_ocean_IC_perturbations.pdf</a></p>",
+        "id": 19503,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1602795076
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"26\">@Dan Amrhein</span> Any updates on these discussions? Would you have an interest in presenting your thoughts at next Monday's meeting (Nov. 9)?</p>",
+        "id": 20779,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1604357472
+    },
+    {
+        "content": "<p>Hey Steve: <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span>  and I chatted last week, and also looped in Jeff Anderson. We discussed a few different options, including the list from our meeting a couple of weeks ago. Our impression was that the lagged ensembles are probably the way to go now: while we can think of other approaches that could be better in some respects, we weren't sure a) how much of a difference they would make, and b) how feasible they would be given the time frame. I'd be happy to give a brief discussion at the meeting.</p>",
+        "id": 20813,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1604440269
+    }
+]

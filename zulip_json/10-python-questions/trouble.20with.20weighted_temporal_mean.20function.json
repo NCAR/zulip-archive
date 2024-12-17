@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hi,<br>\nI'm trying to use the following function on some CESM2 atmospheric data.  </p>\n<div class=\"codehilite\"><pre><span></span><code>def weighted_temporal_mean(ds, var):\n    &quot;&quot;&quot;\n    weight by days in each month\n    &quot;&quot;&quot;\n    # Determine the month length\n    month_length = ds.time.dt.days_in_month\n    # Calculate the weights\n    wgts = month_length.groupby(&quot;time.year&quot;) / month_length.groupby(&quot;time.year&quot;).sum()\n\n    # Make sure the weights in each year add up to 1\n    np.testing.assert_allclose(wgts.groupby(&quot;time.year&quot;).sum(xr.ALL_DIMS), 1.0)\n    # Subset our dataset for our variable\n    obs = ds[var]\n    # Setup our masking for nan values\n    cond = obs.isnull()\n    ones = xr.where(cond, 0.0, 1.0)\n    # Calculate the numerator\n    obs_sum = (obs * wgts).resample(time=&quot;AS&quot;).sum(dim=&quot;time&quot;)\n    # Calculate the denominator\n    ones_out = (ones * wgts).resample(time=&quot;AS&quot;).sum(dim=&quot;time&quot;)\n    # Return the weighted average\n    return obs_sum / ones_out\n</code></pre></div>\n<p>However, when I use it: </p>\n<div class=\"codehilite\"><pre><span></span><code>Annual_AirT_PIControl = weighted_temporal_mean(mfds, &quot;TS&quot;)\n</code></pre></div>\n<p>I get the following error: </p>\n<div class=\"codehilite\"><pre><span></span><code>TypeError: ufunc &#39;isnan&#39; not supported for the input types, and the inputs could not be safely coerced to any supported types according to the casting rule &#39;&#39;safe&#39;&#39;\n</code></pre></div>\n<p>It seems to appear when taking the .sum in the line:</p>\n<div class=\"codehilite\"><pre><span></span><code> obs_sum = (obs * wgts).resample(time=&quot;AS&quot;).sum(dim=&quot;time&quot;)\n</code></pre></div>\n<p>In the past I've been able to use this on other atmospheric and ocean variables without this issue.  Any thoughts?</p>\n<p>I've attached a screenshot of the details of mfds variable.</p>\n<p><a href=\"/user_uploads/2/4/ByZXu3FjRzHbjzcNBKsDMY3j/Screen-Shot-2022-12-07-at-3.00.01-PM.png\">Screen-Shot-2022-12-07-at-3.00.01-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/4/ByZXu3FjRzHbjzcNBKsDMY3j/Screen-Shot-2022-12-07-at-3.00.01-PM.png\" title=\"Screen-Shot-2022-12-07-at-3.00.01-PM.png\"><img src=\"/user_uploads/2/4/ByZXu3FjRzHbjzcNBKsDMY3j/Screen-Shot-2022-12-07-at-3.00.01-PM.png\"></a></div>",
+        "id": 69660,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1670454115
+    },
+    {
+        "content": "<p>Hmm I don't have a clear answer, but can you check if you have NaN's in your dataset that would be better handled by a different value?<br>\n<a href=\"https://pandas.pydata.org/docs/reference/api/pandas.isna.html\">https://pandas.pydata.org/docs/reference/api/pandas.isna.html</a> <br>\n<a href=\"https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.dropna.html\">https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.dropna.html</a><br>\nThese methods might be useful to you.</p>\n<p>Is there a larger error message?</p>",
+        "id": 69661,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1670454975
+    },
+    {
+        "content": "<p>Since I am using xarray, pd.isna won't work on my array.<br>\nThe xarray equivalent (mfds.TS.isnull)  doesn't seem to give any info on whether or not I have nans in my array:</p>\n<div class=\"codehilite\"><pre><span></span><code>&lt;bound method DataWithCoords.isnull of &lt;xarray.DataArray &#39;TS&#39; (time: 48000, lat: 96, lon: 144)&gt;\ndask.array&lt;concatenate, shape=(48000, 96, 144), dtype=float32, chunksize=(6, 96, 144), chunktype=numpy.ndarray&gt;\nCoordinates:\n  * lat      (lat) float64 -90.0 -88.11 -86.21 -84.32 ... 84.32 86.21 88.11 90.0\n  * lon      (lon) float64 0.0 2.5 5.0 7.5 10.0 ... 350.0 352.5 355.0 357.5\n  * time     (time) object 0001-01-16 12:00:00 ... 4000-12-16 12:00:00\nAttributes:\n    units:         K\n    long_name:     Surface temperature (radiative)\n    cell_methods:  time: mean&gt;\n</code></pre></div>\n<p>And no, the only error I get when trying to use the temporal_mean function has to do with not being able to support isnan.</p>",
+        "id": 69662,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1670455609
+    },
+    {
+        "content": "<p>Hmm maybe one of your data variables is of string type or some other non-numeric type (though datetime and cftime should work just fine).</p>",
+        "id": 69938,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1670643942
+    },
+    {
+        "content": "<p>Turns out the bug was in <a href=\"https://flox.readthedocs.io/en/latest/\">flox</a> v0.3.2 (a package for faster groupby). EIther disable flox with </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">with</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">set_options</span><span class=\"p\">(</span><span class=\"n\">use_flox</span><span class=\"o\">=</span><span class=\"kc\">False</span><span class=\"p\">):</span>\n    <span class=\"c1\"># do groupbys/resamples here</span>\n</code></pre></div>\n<p>Or update flox to the latest version. We figured this out by seeing that the error was raised within flox and not in xarray</p>",
+        "id": 69954,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1670863250
+    }
+]

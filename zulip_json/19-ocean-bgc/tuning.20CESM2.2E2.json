@@ -1,0 +1,194 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>  : Mike told me that the cesm 2.2 code freeze is now July 2. Mike and I are currently working on getting my latest cocco tunings (which I've tested with JRA forcing) into CESM2.2 cocco defaults settings. </p>\n<p>I was wondering if we could meet sometime at the beginning of next week to discuss the 3PFT tuning I've done so far. I've got a couple of decent parameter sets. However, they are somewhat different with respect to certain metrics (e.g., total NPP, POC flux...) , so I'd like to get your opinions to find out which one is better and see if you have suggestions going forward with tuning (or if what I have is good enough).</p>",
+        "id": 11878,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1592505903
+    },
+    {
+        "content": "<p>Sounds good. I have a wrinkle to add, and I apologize for not thinking this thru this sooner: <br>\nThe sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CESM2 has a legacy of ad hoc tweaks from our panicked tuning chasing oxygen biases in the coupled model. These biases are not present in the ocean ice configurations and I think we should be moving to an <code>fesedflux</code> dataset that is documented and reproducible. This will be important as we transition to MOM too. </p>\n<p>So I have a new 1° dataset that I hope you can test out at 1°. Perhaps you can switch to this new forcing and run with your latest tunings? </p>\n<p>I just changed a few things in my workflow and am creating an updated version of this data now.</p>",
+        "id": 11879,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592506193
+    },
+    {
+        "content": "<p>Sounds good. My google calendar is up to date, so feel free to schedule a meeting based on that.</p>",
+        "id": 11880,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1592506268
+    },
+    {
+        "content": "<p>Ok, yes, I could re-run my latest tunings with the new sedimentary Fe forcing over the weekend.</p>",
+        "id": 11881,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1592506348
+    },
+    {
+        "content": "<p>Sounds good. I will figure out a good time and try scheduling a meeting for next week.</p>",
+        "id": 11882,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1592506400
+    },
+    {
+        "content": "<p>Here is the <code>fesedflux</code> dataset:<br>\n/glade/work/mclong/cesm_inputdata/fesedflux_total_reduce_oxic_POP_gx1v7.c200618.nc</p>\n<p>This puts about 14.2 Gmol Fe/yr into the ocean, whereas the CESM2 dataset is more like 20 Gmol/yr.</p>",
+        "id": 11911,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592509531
+    },
+    {
+        "content": "<p>Generation documented here<br>\n<a href=\"https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/master/notebooks/output/POP_gx1v7/Fe_sediment_flux_forcing.ipynb\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/master/notebooks/output/POP_gx1v7/Fe_sediment_flux_forcing.ipynb\">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/master/notebooks/output/POP_gx1v7/Fe_sediment_flux_forcing.ipynb</a></p>",
+        "id": 11912,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592509576
+    },
+    {
+        "content": "<p>Ok cool. I'll give it a try. Thanks!</p>",
+        "id": 11913,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1592509610
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> and / or <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>: The current namelist defaults for <code>kappa_iso_deep</code> are</p>\n<div class=\"codehilite\"><pre><span></span>&lt;!--------------------------------------------------------------&gt;\n&lt;!-- enhanced diffusivity at depth, only default for 1 degree --&gt;\n&lt;!-- until validated at other resolutions                     --&gt;\n&lt;!--------------------------------------------------------------&gt;\n&lt;kappa_thic_deep                               &gt;0.1&lt;/kappa_thic_deep&gt;\n&lt;kappa_isop_deep                               &gt;0.1&lt;/kappa_isop_deep&gt;\n&lt;kappa_isop_deep  ocn_grid=&quot;gx1v6&quot;             &gt;0.2&lt;/kappa_isop_deep&gt;\n&lt;kappa_isop_deep  ocn_grid=&quot;gx1v7&quot;             &gt;0.2&lt;/kappa_isop_deep&gt;\n</pre></div>\n\n\n<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>'s tuning runs are dropping back to <code>kappa_isop_deep = 0.1</code>. So the easiest option for me would be replacing the block of code above with</p>\n<div class=\"codehilite\"><pre><span></span>&lt;kappa_thic_deep&gt;0.1&lt;/kappa_thic_deep&gt;\n&lt;kappa_isop_deep&gt;0.1&lt;/kappa_isop_deep&gt;\n</pre></div>\n\n\n<p>but do I need to preserve the <code>0.2</code> value for any specific runs? The only example I could think of would be something like</p>\n<div class=\"codehilite\"><pre><span></span>&lt;kappa_thic_deep&gt;0.1&lt;/kappa_thic_deep&gt;\n&lt;kappa_isop_deep&gt;0.1&lt;/kappa_isop_deep&gt;\n&lt;kappa_isop_deep ocn_grid=&quot;gx1v7&quot; ocn_bgc_config=&quot;cesm2.1&quot;&gt;0.1&lt;/kappa_isop_deep&gt;\n</pre></div>\n\n\n<p>but that doesn't really make sense to me given that this isn't a BGC-specific parameter and we don't preserve old defaults for any other non-BGC variables.</p>",
+        "id": 12430,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593028200
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, this setting obviously has implications for the physical configuration. I'll open a thread in <a class=\"stream\" data-stream-id=\"8\" href=\"/#narrow/stream/8-CGD-OCE\">#CGD-OCE</a>.</p>",
+        "id": 12444,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1593032454
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>  and <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , here are the zonal mean plots for NO3, PO4, SiO3, and O2 . I did global, Pacific basin, Atlantic basin, and Indian basin. These ones are for the 004 simulation, but I also have them for all the other simulations I did (though they are quite similar). You can see those in my notebooks which are all here:</p>\n<p><a href=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/tree/master/diagnotics_MARBL_tuningV2\" target=\"_blank\" title=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/tree/master/diagnotics_MARBL_tuningV2\">https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/tree/master/diagnotics_MARBL_tuningV2</a></p>\n<p>(see towards the bottom of the  \"mean-state\" notebooks). Also all the other figures I presented yesterday morning are in these notebooks (the 'mean-state' and 'tseries' notebooks).</p>\n<p>Please let me know what you think.</p>\n<p><a href=\"/user_uploads/2/30/Pz-kOu1_jATGjuE07woDs7RX/zonal_biases004.pdf\" target=\"_blank\" title=\"zonal_biases004.pdf\">zonal_biases004.pdf</a></p>",
+        "id": 12828,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593111546
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>. </p>\n<p>I would suggest a run in which we increase<code>parm_SiO2_diss</code>. </p>\n<p>What values do you have for <code>parm_SiO2_gamma</code>?  I think increasing this number effectively puts more Si into the hard subclass, which sinks with a much longer length scale. This is another means of push things deeper in the water column.</p>",
+        "id": 12836,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1593113566
+    },
+    {
+        "content": "<p>Sure I can increase parm SiO2_diss (right now it's at 400m which I think is a change that was brought over from the OMIP run) so I can increase it back to 700m. or is that too much? </p>\n<p>Right now parm_SiO2_gamma is at 0.1</p>",
+        "id": 12837,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593114033
+    },
+    {
+        "content": "<p>parm_SiO2_gamma is zero by default, but I've had it at 0.1 for all my runs. Do you think it should be higher than that?</p>",
+        "id": 13058,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593178145
+    },
+    {
+        "content": "<p>no, I don't think so. I am pretty sure we zeroed it out during the great CESM2 oxygen chase</p>",
+        "id": 13059,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1593179706
+    },
+    {
+        "content": "<p>So do you guys prefer 002 or 004? I would like to use the parameters of one of these runs and then just change the parm_SiO2_diss to 650m (and any other parameters you suggest). I want to start a new simulation this morning so we can see results on Monday. </p>\n<p>The benefits of 002 is that the surface SiO3 in the Southern Ocean has less of a positive bias, but the drawback is that NPP is 48% diatoms. I remember Keith saying that we may need to tolerate a high diatom productivity for better silicate distribution. If so, this is the run we want.</p>\n<p>The benefit of 004 is that we have slightly more overall NPP and it's 40% diatoms, but the drawback is that a positive surface SiO3 bias in the Southern Ocean is still there (albeit much better than the OMIP run).</p>",
+        "id": 13060,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593180728
+    },
+    {
+        "content": "<p>here is a pdf of my presentation from wednesday, in case you guys want to have a look. <a href=\"/user_uploads/2/da/1UVmAJ64RIH_Pkb9u-vEWHCg/CESM2.2_tuning_overview.pdf\" target=\"_blank\" title=\"CESM2.2_tuning_overview.pdf\">CESM2.2_tuning_overview.pdf</a></p>",
+        "id": 13061,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593180769
+    },
+    {
+        "content": "<p>When I inspect the zonal SiO3 bias figures, I see too little SiO3 in the deep Southern Ocean and too much SiO3 in mode waters. I'm inferring that we have too little diatom uptake of SiO3. To my eye, this appears worse in 004 than 002. It looks like the area of the plot that goes off both ends of the colorbar has increased.</p>\n<p>Based on the surface phyto pool plots, it looks like the North Pacific diatom superbloom is larger in 004 than in 002.</p>\n<p>Based on these, I'm leaning towards 002. But I'm skeptical that changing <code>parm_SiO2_diss</code> will improve the SO much. I think we need to reduce sp's competitive advantage in the SO to help out diat. Based on an email from Nov 2019, you found <code>alphaPI_per_day</code> to be a large lever, and I think you're using a larger value in the explicit cocco configuration. How about raising this parameter for diatoms.</p>",
+        "id": 13065,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1593183089
+    },
+    {
+        "content": "<p>Sure, so I will go with the 002 setup for now. I'll try increasing <code>alphaPI_per_day</code> for diatoms. I can also trying increasing <code>parm_SiO2_diss</code> to see if this makes any difference</p>",
+        "id": 13069,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593184361
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> are you in the loop regarding the WW3-forced entrainment changes that Qing is bringing in via <a href=\"https://github.com/ESCOMP/POP2-CESM/pull/31\" target=\"_blank\" title=\"https://github.com/ESCOMP/POP2-CESM/pull/31\">https://github.com/ESCOMP/POP2-CESM/pull/31</a>? Should we be concerned about the effect of that PR on Kristen's tuning runs?</p>",
+        "id": 13133,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593200238
+    },
+    {
+        "content": "<p>That could have a non-trivial impact. What's the intended default setting? On or off?</p>",
+        "id": 13134,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1593200716
+    },
+    {
+        "content": "<p>From the PR, it looks like the default will be on</p>\n<blockquote>\n<p>Testing with a longer simulation is underway.</p>\n<ol>\n<li>Update the CVMix repository to <code>v0.97b-beta</code> but do not turn on Langmuir induced entrainment (<code>langmuir_opt = 'vr12-ma'</code>)</li>\n<li>Turn on the Langmuir induced entrainment (<code>langmuir_opt = 'lf17'</code>)</li>\n</ol>\n<p>...</p>\n<p>The second step is climate changing, making the mixed layer deeper in the extratropical regions</p>\n</blockquote>\n<p>One possibility is that we could keep <code>langmuir_opt = 'vr12-ma'</code> in our compset (the same way we'll keep <code>kappa_isop_deep = 0.1</code>)</p>",
+        "id": 13136,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593200863
+    },
+    {
+        "content": "<p>The first step is not bit-for-bit, but just the changes are all round-off from differences in the order of operations</p>",
+        "id": 13137,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593200954
+    },
+    {
+        "content": "<p>I'm having a hard time telling from the PR if they are proposing that this gets turned on by default or not.</p>\n<p>They ran a case, with BGC, with the new options turned on, with the CESM2 OMIP JRA as a control. Diagnostics from the physics are available at <a href=\"http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/diag_work.42-61/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/diag_work.42-61/\">http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/diag_work.42-61/</a></p>\n<p>I'm currently generating regional timeseries plots for this case, compared to CESM2 OMIP JRA. I'll have a link shortly to post.</p>",
+        "id": 13138,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1593201235
+    },
+    {
+        "content": "<blockquote>\n<p>I'm having a hard time telling from the PR if they are proposing that this gets turned on by default or not.</p>\n</blockquote>\n<p>It looks like the default in the PR is still <code>langmuir_opt = 'vr12-ma'</code> and he's setting <code>langmuir_opt = 'lf17'</code> in <code>user_nl_pop</code> in his case root (at least for his <code>20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17</code> and <code>20200619_LF17_BHISTcmip6_f09_g17</code> cases). I got the impression from the first post in his PR that they were going to update the default, but maybe I was mistaken about that? I'll ask him.</p>",
+        "id": 13140,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593201763
+    },
+    {
+        "content": "<p>Oh, I had already asked Alper about the entrainment scheme in an email earlier today and just got a response (good job, past self!); double quote is me, single quote is Alper's reply:</p>\n<blockquote>\n<blockquote>\n<p>Will Qing's tag enable this new entrainment scheme by default? </p>\n</blockquote>\n<p>I think so.</p>\n<blockquote>\n<p>If so, we should probably talk about the effect the new BGC tunings will have on his runs (and the effect his changes will have on the BGC tuning)</p>\n</blockquote>\n<p>I agree. I'll note that the current B case run is being carried out to assess the BGC impact of the entertainment changes. We should probably coordinate with Keith and/or Matt to talk about how to assess the effect the new BGC tunings.</p>\n</blockquote>",
+        "id": 13144,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593202273
+    },
+    {
+        "content": "<p>Regional timeseries for the 1 cycle JRA run with these mods are now online at<br>\n<a href=\"http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/adhoc_ts/\" target=\"_blank\" title=\"http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/adhoc_ts/\">http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/adhoc_ts/</a></p>\n<p>I'm inferring from Alper's response that there is a B case with these mods. I wasn't aware of that.</p>",
+        "id": 13156,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1593204977
+    },
+    {
+        "content": "<p>I think a whole bunch of us just got cc-ed onto an email thread about this, but I'll try to capture some highlights.</p>\n<ol>\n<li>Alper is suggesting keeping the default unchanged in 2.2.0 and waiting until 2.2.1 to enable the new scheme</li>\n</ol>\n<blockquote>\n<p>Perhaps, we can add the WW3 entrainment changes as an optional scheme in CESM 2.2.0, and make it default in the next minor version update (2.2.1) after having assessed its impacts with the new BGC changes.</p>\n</blockquote>\n<ol start=\"2\">\n<li>Qing seems to be okay with that</li>\n</ol>\n<blockquote>\n<p>The B-case is not finished yet. And I think it will take some more time to complete the assessment. But based on the G-case results I think the changes in POP and WW3 are ready to be merged into CESM2.2.0 as an option.</p>\n</blockquote>\n<ol start=\"3\">\n<li>Gokhan is asking about the current status - it seems to me the answer he's going to get is going to lead to the <code>lf17</code> tests being re-run after our BGC updates go in but maybe I'm missing something?</li>\n</ol>\n<blockquote>\n<p>So, regarding this particular thread with BGC and WW3 mods, are the G-compset results fully vetted? Also, are these using a factor of 0.1 for abbsal isopycnal mixing?</p>\n</blockquote>\n<p>Given the July 2 deadline, all signs seem to be pointing to keeping the <code>vr12-ma</code> default for 2.2.0 and re-running the <code>lf17</code> analysis ahead of 2.2.1 or on the 2.3 development branches</p>",
+        "id": 13157,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593205684
+    },
+    {
+        "content": "<p>An update on the code freeze (email from Bill Sacks):</p>\n<blockquote>\n<p>Based on a discussion this morning with Mariana, Gokhan and others, with a purpose of reducing stress on software engineers and others: For the upcoming CESM2.2.0 release freeze, we are going to relax the definition of \"freeze\". Thus, for the tags that are already in the test database, with PRs submitted, we will not require that the tags actually be made by the end of this week. Instead, please take whatever time is needed to appropriately review and test these changes, so that we can have a robust CESM2.2 release. This will delay the release itself; Gokhan and others are comfortable with this.</p>\n<p>Please note:</p>\n<ul>\n<li>\n<p>Getting these final tags made should still remain the highest priority</p>\n</li>\n<li>\n<p>This is not license to add more to the CESM2.2 release. The only tags that should go into this release are ones that are already listed in the test database, plus (as always) any critical bug fixes</p>\n</li>\n<li>\n<p>This relaxation of the definition of \"freeze\" applies only to this release. Our general rule is still that \"freeze\" implies that tags are made on the main branch of the relevant repository</p>\n</li>\n</ul>\n</blockquote>\n<p>So we're in good shape -- we have [draft] PRs for all the outstanding POP tags in the plans database:</p>\n<ol>\n<li>New tunings: <a href=\"https://github.com/ESCOMP/POP2-CESM/pull/35\" target=\"_blank\" title=\"https://github.com/ESCOMP/POP2-CESM/pull/35\">https://github.com/ESCOMP/POP2-CESM/pull/35</a></li>\n<li>JRA / BGC high-res run: <a href=\"https://github.com/ESCOMP/POP2-CESM/pull/34\" target=\"_blank\" title=\"https://github.com/ESCOMP/POP2-CESM/pull/34\">https://github.com/ESCOMP/POP2-CESM/pull/34</a></li>\n<li>Qing's entrainment update: <a href=\"https://github.com/ESCOMP/POP2-CESM/pull/31\" target=\"_blank\" title=\"https://github.com/ESCOMP/POP2-CESM/pull/31\">https://github.com/ESCOMP/POP2-CESM/pull/31</a></li>\n</ol>\n<p>I was a little concerned about getting all the test runs for the high-res case done and reviewed before Thursday, and we should think about what to run to make sure the entrainment changes don't have a significant impact -- the first step is probably to ensure the plan is to keep the default at <code>vr12-ma</code>, and second step is to ask them to wait for new tuning tag if they do plan on more <code>lf17</code> testing during the \"freeze\".</p>",
+        "id": 13175,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1593445694
+    },
+    {
+        "content": "<p>Hello all, I just processed some results from my latest tuning run (<code>005</code>).  One caveat is that these diagnostic notebooks are missing the last 10 years of the 2nd IAF cycle (it's still running; I'll update these plots later today). To recap, I used the setup from the 002 run and then increased the <code>alphaPI_per_day</code> for diatoms and increased the <code>parm_SiO3_diss</code> to 650m. </p>\n<p>Comparing to the <code>002</code> tuning run, I see a slight improvement in the <code>005</code> run for SiO3 upon really close inspection. I do see some improvements in the hovmöller diagrams, especially in the global SiO3 hovmöller, which shows less of a trend in declining deep SiO3 in the new <code>005</code> run than the <code>002</code> run. </p>\n<p>Timeseries plots (including the hovmollers) for <code>002</code> and <code>005</code> are in these notebooks:<br>\n<a href=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/tseries_bgc_diagnostic_002.ipynb\" target=\"_blank\" title=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/tseries_bgc_diagnostic_002.ipynb\">https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/tseries_bgc_diagnostic_002.ipynb</a><br>\n<a href=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/tseries_bgc_diagnostic_005.ipynb\" target=\"_blank\" title=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/tseries_bgc_diagnostic_005.ipynb\">https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/tseries_bgc_diagnostic_005.ipynb</a></p>\n<p>Mean-state plots (including the zonal means) are in these notebooks:<br>\n<a href=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/mean-state_bgc_diagnostic_002.ipynb\" target=\"_blank\" title=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/mean-state_bgc_diagnostic_002.ipynb\">https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/mean-state_bgc_diagnostic_002.ipynb</a></p>\n<p><a href=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/mean-state_bgc_diagnostic_005.ipynb\" target=\"_blank\" title=\"https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/mean-state_bgc_diagnostic_005.ipynb\">https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/blob/master/diagnotics_MARBL_tuningV2/mean-state_bgc_diagnostic_005.ipynb</a></p>\n<p>Please take a look and let me know what you think.</p>",
+        "id": 13176,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593447068
+    },
+    {
+        "content": "<p>Global SiO3 is improved at some depths (500m-1000m, 4500m-seafloor) and degraded at others (top 500m, 1000m-4500m). Perhaps it's better in an RMS sense, it's hard to tell. I'm not sure if it makes sense to try more options, or call it a day, and devise plans for automating this process more for 2.2.1.</p>\n<p>One worrisome feature that I see, from an automation point of view, is that the deep (5000m) SiO3 bias in the Southern Ocean goes up for the 1st cycle and then drops over the 2nd cycle. We've suggested shortening the run duration in order to be able to run more experiments. This non-monotonic behavior worries me about going too short.</p>\n<p>FYI, Daniel Kennedy is giving an update on the CLM parameter perturbation ensemble (PPE) at the CLM meeting this Thu, July 2 at 1 PM. Let me know if you want the zoom info.</p>",
+        "id": 13240,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1593537580
+    },
+    {
+        "content": "<p>Thanks, Keith. I am fine with leaving it here for now, but I may try a few more experimental tuning runs before the end of the week. Yes, I would be interested in hearing Dan Kennedy's  talk this Thursday. Please send along the zoom info:)</p>",
+        "id": 13243,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1593538270
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>It appears that <code>qsub</code> isn't available in <code>$PATH</code> when using the jupyterhub. This results in a couple of issues including dask-jobqueue not being able to submit jobs on Cheyenne. I can confirm that I am not the only one affected by this issue (Cc <span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> )</p>\n<p><span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>, are you aware of this issue? Am I missing something?</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code><span class=\"o\">(</span>playground<span class=\"o\">)</span> abanihi@cheyenne2:~&gt; whereis qsub\nqsub: /opt/pbs/bin/qsub /usr/share/man/man1p/qsub.1p.gz\n<span class=\"o\">(</span>playground<span class=\"o\">)</span> abanihi@cheyenne2:~&gt; which qsub\nwhich: no qsub <span class=\"k\">in</span> <span class=\"o\">(</span>/glade/u/home/abanihi/go:/glade/u/home/abanihi/go:/glade/u/home/abanihi/go:/glade/u/apps/ch/opt/git/2.33.1/gnu/9.1.0/bin:/glade/u/apps/ch/opt/ncarcompilers/0.5.0/intel/17.0.1/mpi:/glade/u/apps/ch/opt/mpt/2.22/bin:/glade/u/apps/ch/opt/ncarcompilers/0.5.0/intel/17.0.1:/glade/u/apps/opt/vncmgr:/glade/u/apps/opt/globus-utils:/glade/u/apps/ch/opt/usr/bin:/glade/u/apps/ch/opt/nano/4.3/gnu/8.3.0/bin:/glade/work/abanihi/softwares/miniconda3/bin:/glade/u/apps/opt/intel/2017u1/vtune_amplifier/bin64:/glade/u/apps/opt/intel/2017u1/inspector/bin64:/glade/u/apps/opt/intel/2017u1/advisor/bin64:/glade/u/apps/opt/intel/2017u1/compilers_and_libraries/linux/bin/intel64:/glade/u/home/abanihi/go:/glade/work/abanihi/opt/miniconda/envs/playground/bin:/ncar/usr/jupyterhub.hpc.ucar.edu/jupyterhub-20211213/bin:/ncar/usr/jupyterhub.hpc.ucar.edu/jupyterhub-20211213/condabin:/usr/bin:/bin:/glade/u/apps/opt/hpss/hpss-client.5.0.2.p5/bin:/glade/u/apps/ch/os/usr/bin:/glade/u/apps/ch/opt/hpe-cpe/1.4.1/bin:/glade/u/apps/ch/opt/hpe-cpe/21.09/bin<span class=\"o\">)</span>\n</code></pre></div>",
+        "id": 49713,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1643224358
+    },
+    {
+        "content": "<p>Should be fixed. <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span></p>",
+        "id": 49774,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1643386609
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I am trying to convert 2D variables to 3D. I have attached my data details here. //convert_pft_variables_to_sparse(data, pftnames)// in this function which argument should I used instead of pdfnames? I have also attached the error message <a href=\"/user_uploads/2/44/vCLW634HP9ufp16utcOaHG1D/Capture.JPG\">Capture.JPG</a> <a href=\"/user_uploads/2/5a/ww0_jDkZxg5NsD0wnxhJnjT2/error.JPG\">error.JPG</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/44/vCLW634HP9ufp16utcOaHG1D/Capture.JPG\" title=\"Capture.JPG\"><img src=\"/user_uploads/2/44/vCLW634HP9ufp16utcOaHG1D/Capture.JPG\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/5a/ww0_jDkZxg5NsD0wnxhJnjT2/error.JPG\" title=\"error.JPG\"><img src=\"/user_uploads/2/5a/ww0_jDkZxg5NsD0wnxhJnjT2/error.JPG\"></a></div>",
+        "id": 74076,
+        "sender_full_name": "Montasir Maruf",
+        "timestamp": 1675967554
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"164\">@Montasir Maruf</span>, I was just discussing this issue with <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> who is looking at some CLM4 output that is indexed by the <code>lndgrid</code> dimension. It looks like you are using code from the <a href=\"https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/\">sparse-PFT-gridding notebook</a> which works when you have CLM output indexed by <code>pft</code>. Unfortunately it won't work in this case with the indexing by <code>lndgrid</code>. It also looks like your data is indexed by <code>ncol</code> in which case it would be quite analogous to working with CAM-SE output.</p>\n<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> came up with a workaround similar to how remapping is done for CAM-SE output that I believe he already shared with you, but I'll post here so everyone else can see the solution: <code>/glade/u/home/yeager/analysis/python/toshare/CLM_field_regrid.ipynb</code></p>",
+        "id": 74180,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1676060142
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> thank you for sharing the script!</p>",
+        "id": 74200,
+        "sender_full_name": "Montasir Maruf",
+        "timestamp": 1676305918
+    }
+]

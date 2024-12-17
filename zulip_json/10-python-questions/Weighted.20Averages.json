@@ -2,7 +2,7 @@
     {
         "content": "<p>Hi all. I'm working with some monthly data formatted as an <code>xarray.DataArray</code>, and I'm trying to compute three month averages for the seasons DJF, MAM, JJA, and SON. The tricky part is that I'd like to make these averages weighted based on the number of days in each month. So far, I have the following dummy data and code which computes seasonal averages from the monthly data, but it isn't weighted.</p>\n<div class=\"codehilite\"><pre><span></span>time = pd.date_range(&#39;2020-01-01&#39;, &#39;2020-12-31&#39;, freq=&#39;M&#39;)\ntemp_data = np.arange(len(time))\nda = xr.DataArray(data=temp_data,\n                  coords=dict(time=time,),\n                  dims=[&#39;time&#39;],\n                  attrs=dict(description=&#39;Dummy Data&#39;))\n\navgs = da.rolling({&#39;time&#39;: 3}, center=True)\\\n         .construct(&#39;window_dim&#39;, stride=3)\\\n         .mean(&#39;window_dim&#39;)\nprint(avgs)\n</pre></div>\n\n\n<p>Output</p>\n<div class=\"codehilite\"><pre><span></span>&lt;xarray.DataArray (time: 4)&gt;\narray([0.5, 3. , 6. , 9. ])\nCoordinates:\n  * time     (time) datetime64[ns] 2020-01-31 2020-04-30 2020-07-31 2020-10-31\nAttributes:\n    description:  Dummy Data\n</pre></div>\n\n\n<p>I've tried following the last example in the <a href=\"http://xarray.pydata.org/en/stable/user-guide/computation.html#rolling-window-operations\" target=\"_blank\" title=\"http://xarray.pydata.org/en/stable/user-guide/computation.html#rolling-window-operations\">rolling window operations section</a> of the xarray documentation, but I haven't gotten anywhere. Does anyone know how of xarray functions that can help me do what I want? Thanks in advance!</p>",
         "id": 34520,
-        "sender_full_name": "Rose Craker",
+        "sender_full_name": "Heather Craker",
         "timestamp": 1623790900
     },
     {
@@ -14,7 +14,7 @@
     {
         "content": "<p>Huh for some reason I never found this page. Thanks! I think it's exactly what I need.</p>",
         "id": 34576,
-        "sender_full_name": "Rose Craker",
+        "sender_full_name": "Heather Craker",
         "timestamp": 1623853592
     },
     {

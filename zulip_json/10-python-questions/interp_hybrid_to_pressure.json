@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>I have some CAM-SE output that I remap to a regular grid and then save as a zarr file. Now I'd like read that zarr file, and then interpolate the Z3 geopotential height field onto the Z500 and Z200 levels.  I use the interp_hybrid_to_pressure function from geocat, and it runs, but the output looks weird.  I can't figure out what is going wrong here.  Any thoughts?</p>\n<p><a href=\"/user_uploads/2/73/i72f8MUrGrFtqpY7L_PAA0u_/Screenshot-2024-02-14-at-4.49.46-PM.png\">Screenshot-2024-02-14-at-4.49.46-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/73/i72f8MUrGrFtqpY7L_PAA0u_/Screenshot-2024-02-14-at-4.49.46-PM.png\" title=\"Screenshot-2024-02-14-at-4.49.46-PM.png\"><img src=\"/user_uploads/2/73/i72f8MUrGrFtqpY7L_PAA0u_/Screenshot-2024-02-14-at-4.49.46-PM.png\"></a></div><p>The sample script is here: <br>\nglade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/TestHighRes_Z3_interp.ipynb</p>",
+        "id": 95834,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1707958283
+    },
+    {
+        "content": "<p>It looks the data for the top hybrid level might be getting assigned as a surface pressure array.  Could that be the issue?  Apologies if I'm missing something - still getting familiar with some of these datasets/functionality.</p>",
+        "id": 95835,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1707963627
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> I think the levels are ordered from top of atmosphere, so I'm pulling the last level (lev = -1) to serve as my surface pressure array.</p>",
+        "id": 95836,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1708012618
+    },
+    {
+        "content": "<p>Is <code>data.isel(lev=-1)</code> the right value for the <code>ps</code> argument? I would expect that argument to be something out of the full dataset rather than values from the data array you are trying to interpolate. <span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> or <span class=\"user-mention\" data-user-id=\"61\">@Brian Medeiros</span> can correct me if I'm wrong, but from <a href=\"https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html#geocat.comp.interpolation.interp_hybrid_to_pressure\">the documentation</a> it looks like it should be an array of surface pressures (possibly in units of Pascals), not your data values at the surface</p>",
+        "id": 95840,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1708013718
+    },
+    {
+        "content": "<p>Similarly, I think you want to multiply <code>new_levels</code> by 100 to convert from hectopascals or millibars to pascals; <code>p0</code> looks to be in the right units already</p>",
+        "id": 95841,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1708013858
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> , ok that makes more sense - I was confused about this myself.  I will give that a shot and let you know if it works.</p>",
+        "id": 95842,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1708015049
+    },
+    {
+        "content": "<p>OK thanks for alerting me to this --- it works no problem now.  Many thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> .</p>",
+        "id": 95844,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1708019148
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"339\">Katelyn FitzGerald</span> has marked this topic as resolved.</p>",
+        "id": 95845,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1708019181
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"259\">Mira Berdahl</span> has marked this topic as unresolved.</p>",
+        "id": 95867,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1708036508
+    },
+    {
+        "content": "<p>After looking at some of the output from the interpolation from hybrid grid onto the 500mb level, it appears the output is still not what I expect.  It contains topographic influence, which I believe ought not be there.   I've double checked all my pressure field inputs are in Pa.</p>\n<p>Here is what Z500 looks like:<br>\n<a href=\"/user_uploads/2/77/MHckMPkx82WKJ1Naxjm-Ppyi/Screenshot-2024-02-15-at-2.40.16-PM.png\">Screenshot-2024-02-15-at-2.40.16-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/77/MHckMPkx82WKJ1Naxjm-Ppyi/Screenshot-2024-02-15-at-2.40.16-PM.png\" title=\"Screenshot-2024-02-15-at-2.40.16-PM.png\"><img src=\"/user_uploads/2/77/MHckMPkx82WKJ1Naxjm-Ppyi/Screenshot-2024-02-15-at-2.40.16-PM.png\"></a></div><p>The sample script is here:<br>\nglade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/TestHighRes_Z3_interp.ipynb</p>",
+        "id": 95868,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1708036865
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> , just checking if you are using the  \"PS\" variable from CAM as the surface pressure (<code>ps</code>) input?  That should contain the actual differences in surface pressure/height, and should (I think?) remove the surface signal.  Of course if that still doesn't work please let me know.  Thanks!</p>",
+        "id": 95911,
+        "sender_full_name": "Jesse Nusbaumer",
+        "timestamp": 1708120035
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"140\">@Jesse Nusbaumer</span> , great question. It looks like I had accidentally been calling PSL instead of PS.  This makes WAY more sense to me now.  Thanks!</p>",
+        "id": 95912,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1708120960
+    }
+]

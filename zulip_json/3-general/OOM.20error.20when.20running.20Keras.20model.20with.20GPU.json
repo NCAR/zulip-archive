@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>Hi everyone, I am a new user for running deep learning model with GPU. My model can run smoothly for the first several thousand iterations, but it stopped running due to out of memory issue. I attached the error file in this message. <a href=\"/user_uploads/2/2c/iuKBQ8XbWxF2gMReq4zOnrWO/mpi_job.o6092769\">mpi_job.o6092769</a> . I had adjusted batch sizes and also decreased input data (just one quarter of the total training data), but it still has this problem. For my understanding, the GPU has difficulties to release memory and it broke at certain iteration step. Each iteration should use a very similar memory. Please let me know if you have similar problem as mine and how you solved it. Thank you very much!</p>",
+        "id": 77549,
+        "sender_full_name": "Fang Wang",
+        "timestamp": 1679664756
+    },
+    {
+        "content": "<p>I would suggest adding the following commands before initializing your keras model so that tensorflow minimizes memory usage of the GPU:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">gpus</span> <span class=\"o\">=</span> <span class=\"n\">tf</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">get_visible_devices</span><span class=\"p\">(</span><span class=\"s2\">\"GPU\"</span><span class=\"p\">)</span>\n<span class=\"k\">for</span> <span class=\"n\">device</span> <span class=\"ow\">in</span> <span class=\"n\">gpus</span><span class=\"p\">:</span>\n    <span class=\"n\">tf</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">experimental</span><span class=\"o\">.</span><span class=\"n\">set_memory_growth</span><span class=\"p\">(</span><span class=\"n\">device</span><span class=\"p\">,</span> <span class=\"kc\">True</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 78369,
+        "sender_full_name": "David John Gagne",
+        "timestamp": 1680211831
+    }
+]

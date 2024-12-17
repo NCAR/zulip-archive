@@ -1,0 +1,45 @@
+<html>
+<head><meta charset="utf-8"><title>MergeError when opening multiple files with dask · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html">MergeError when opening multiple files with dask</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="55991"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/55991" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#55991">(Jun 02 2022 at 23:34)</a>:</h4>
+<p>Hi,</p>
+<p>I have a method that I've used  without issue to open multiple ocean temperature files and sort them.</p>
+<p>The way I read my data in is as follows:</p>
+<h5>READ TEMP iTrace runs</h5>
+<p>ddir = '/glade/scratch/mberdahl/iTrace/Ocean/TEMP/'<br>
+dfiles = sorted(glob(ddir + '<em>.TEMP.</em>.nc'))  # use sorted to make sure the files are in order for concatenation<br>
+mfds4 = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={'time': 6}, data_vars=['TEMP', 'time_bound'], decode_times=False) <br>
+mfds4 = xr.decode_cf(fixmonth(mfds4)) <br>
+TEMP_iTrace = mfds4.TEMP<br>
+##################################################################################</p>
+<p>I just tried using this with a new dataset (iTrace runs), and running into a MergeError.  The error says:<br>
+MergeError: conflicting values for variable 'REGION_MASK' on objects to be combined. You can skip this check by specifying compat='override'.</p>
+<p>I've tried the suggestion to add compat='override' but it does not help, instead producing a new error:<br>
+ValueError: Cannot specify both coords='different' and compat='override'.</p>
+<p>Does anyone have advice on how to overcome this?  If I process the data in smaller subsets (every 1000 years) the error does not appear, but then I still have to merge them after so it doesn't exactly help.  Thanks for any help!</p>
+
+
+
+<a name="56002"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/56002" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#56002">(Jun 03 2022 at 15:19)</a>:</h4>
+<p>For some reason the <code>REGION_MASK</code> variable is different in these files. To pass <code>compat="override"</code> you'll have to pass <code>coords="minimal"</code> too. This will ignore any differences in <code>REGION_MASK</code> and other coordinate variables and just pick values from the first file. By default <code>coords="different"</code>, which means xarray will try to see if the values are different in different files. If so, it will add a new dimension and concatenate them.</p>
+
+
+
+<a name="56014"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/56014" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#56014">(Jun 03 2022 at 16:36)</a>:</h4>
+<p>Looks like this works now -- thanks so much <span class="user-mention" data-user-id="25">@Deepak Cherian</span></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

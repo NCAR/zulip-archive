@@ -1,0 +1,91 @@
+<html>
+<head><meta charset="utf-8"><title>xesmf issue when using NPL-2023b · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html">xesmf issue when using NPL-2023b</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="92001"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92001" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Hui Li <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92001">(Nov 16 2023 at 23:19)</a>:</h4>
+<p>I was trying to use xesmf to regrid CAM SE to FV grid within the NPL-2023 kernel and got the following error: </p>
+<p>"File /glade/u/apps/opt/conda/envs/npl-2023b/lib/python3.10/site-packages/xesmf/backend.py:24<br>
+     21  try:<br>
+     22     import esmpy as ESMF<br>
+     23  except ImportError:<br>
+-&gt; 24     import ESMF<br>
+ModuleNotFoundError: No module named 'ESMF'"</p>
+<p>Has anyone had this issue before?</p>
+
+
+
+<a name="92017"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92017" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92017">(Nov 17 2023 at 00:43)</a>:</h4>
+<p><span class="user-mention" data-user-id="92">@Hui Li</span> what machine are you working on?  I was able to get xesmf to at least import on casper and cheyenne in that env.  It looks like something might be off with your environment variables.</p>
+
+
+
+<a name="92018"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92018" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Hui Li <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92018">(Nov 17 2023 at 01:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> I am on Casper. I was able to import  xesmf and construct the regridder and everything with no problem, until the regridder starts to run.  My code mainly follows the <a href="https://ncar.github.io/esds/posts/2022/cam-se-regridding/">blog post here.</a> The code before the issue is as follows: </p>
+<p>regridder = xesmf.Regridder(<br>
+    dummy_in,<br>
+    dummy_out,<br>
+    weights=weight_file,<br>
+    method="bilinear",<br>
+    reuse_weights=True,<br>
+    periodic=True,<br>
+)<br>
+regridded = regridder(updated.rename({"dummy": "lat", "ncol": "lon"}))<br>
+regridded.compute()</p>
+<p>I am also using Casper and can comfirm that the problem occurs with the "regrid" task stream.</p>
+
+
+
+<a name="92090"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92090" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92090">(Nov 17 2023 at 18:28)</a>:</h4>
+<p>Hey <span class="user-mention" data-user-id="92">@Hui Li</span> I have seen something similar before that ended up being linked to the version of <code>esmf</code> and <code>esmpy</code> installed in my environment. I had to downgrade to version 8.2.0 for both to resolve the issue. Digging a little further, it looks like the issue I was having has since been <a href="https://github.com/esmf-org/esmf/pull/151">resolved with esmf version 8.5.0</a>, while the npl-2023b environment is still using 8.4.2. This would be a great issue to open in the <a href="https://github.com/NCAR/ncar-conda/issues">ncar-conda repo</a> to request the newer version, and in the meantime you could try your own environment with the updated packages to see if that works.</p>
+
+
+
+<a name="92094"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92094" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92094">(Nov 17 2023 at 18:42)</a>:</h4>
+<p>You might also check to see if you have other modules or things loaded that might be messing with your environment variables (I'm not seeing the same problem, but just have the default modules loaded and am using the NPL-2023b conda env).  Some of the HPC focused CISL staff might have more specific suggestions and certainly a better understanding of how things are configured.</p>
+
+
+
+<a name="92095"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92095" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Hui Li <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92095">(Nov 17 2023 at 18:49)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="47">@Katie Dagon</span> ! this is SUPER helpful! I was able to bypass the import error last night and have been stuck with that ESMFMKFILE location issue, which seems to be solved in the latest version.  I'll try upgrading the package to see if that works.  Will report back and open an issue to the ncar repo.</p>
+
+
+
+<a name="92109"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92109" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Hui Li <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92109">(Nov 17 2023 at 19:26)</a>:</h4>
+<p>Hmm.. I am having trouble finding  version 8.5.0 with conda. It seems like the latest esmpy available in conda-forge is the version 8.4.2 (<a href="https://anaconda.org/conda-forge/esmpy">https://anaconda.org/conda-forge/esmpy</a>). Am I missing something?</p>
+
+
+
+<a name="92112"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92112" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92112">(Nov 17 2023 at 19:52)</a>:</h4>
+<p>Hmm I'm not sure. It does look like there are <a href="https://github.com/esmf-org/esmf/releases">releases on github</a> for esmf 8.5.0 and 8.6.0, and the <a href="https://earthsystemmodeling.org/esmpy_doc/release/latest/html/install.html">docs</a> say that it should be on conda-forge. Bill Sacks could be a good person to reach out to!</p>
+
+
+
+<a name="92118"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92118" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92118">(Nov 17 2023 at 20:43)</a>:</h4>
+<p>It looks like they're struggling with some build issues over on the feedstock repository and that's been holding up the releases: <a href="https://github.com/conda-forge/esmf-feedstock/pull/109">https://github.com/conda-forge/esmf-feedstock/pull/109</a></p>
+
+
+
+<a name="92123"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xesmf%20issue%20when%20using%20NPL-2023b/near/92123" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xesmf.20issue.20when.20using.20NPL-2023b.html#92123">(Nov 17 2023 at 20:46)</a>:</h4>
+<p>I'd still reach out to the ESMF group and/or on GitHub, but for a near term solution - you might try downgrading the version.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

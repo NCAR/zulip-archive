@@ -1,0 +1,50 @@
+<html>
+<head><meta charset="utf-8"><title>Calling multiple CESM2-LE decadal files · CESM-diagnostics · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Calling.20multiple.20CESM2-LE.20decadal.20files.html">Calling multiple CESM2-LE decadal files</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="97271"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Calling%20multiple%20CESM2-LE%20decadal%20files/near/97271" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Calling.20multiple.20CESM2-LE.20decadal.20files.html#97271">(Mar 29 2024 at 14:21)</a>:</h4>
+<p>Hi all! Using dask and xr.open_mfdataset, I want to call CESM2-LE monthly DIC output from 185001-201412. What is an efficient way to do this? Previously I only needed two decades so I called one decade a time and concatenated them. Thanks in advance for suggestions and/or script you can share.</p>
+
+
+
+<a name="97344"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Calling%20multiple%20CESM2-LE%20decadal%20files/near/97344" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Calling.20multiple.20CESM2-LE.20decadal.20files.html#97344">(Mar 29 2024 at 21:40)</a>:</h4>
+<p>Hi Holly, I'm assuming you're already using <code>parallel=True</code> ?</p>
+
+
+
+<a name="97345"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Calling%20multiple%20CESM2-LE%20decadal%20files/near/97345" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Calling.20multiple.20CESM2-LE.20decadal.20files.html#97345">(Mar 30 2024 at 03:39)</a>:</h4>
+<p>Hi! Yes. My script is this: </p>
+<div class="codehilite"><pre><span></span><code>n_members=&#39;DIC&#39;
+
+ds_members_DIC=xr.open_mfdataset(DIR+n_members+&#39;/b.e21.BHISTsmbb.f09_g17.LE2-1251.*.pop.h.DIC.185001-185912.nc&#39;,
+                     chunks={&#39;nlat&#39;: 64, &#39;nlon&#39;: 80},
+                     concat_dim=&#39;member_id&#39;,
+                     combine=&#39;nested&#39;,
+                     # join=&#39;override&#39;,
+                     coords=&#39;minimal&#39;,      # uses the coordinates from the first file
+                     # data_vars=&#39;minimal&#39;,
+                     autoclose=True,
+                     decode_times=False,
+                     parallel=True)
+</code></pre></div>
+
+
+
+<a name="97351"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Calling%20multiple%20CESM2-LE%20decadal%20files/near/97351" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Calling.20multiple.20CESM2-LE.20decadal.20files.html#97351">(Apr 01 2024 at 14:07)</a>:</h4>
+<p>I responded on the discussion in <a class="stream-topic" data-stream-id="27" href="/#narrow/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE">#dask &gt; Calling multiple decadal output datasets: CESM2-LE</a> before I saw this more specific example -- I think adding <code>compat='override'</code> to the argument list should speed up the read quite a bit.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

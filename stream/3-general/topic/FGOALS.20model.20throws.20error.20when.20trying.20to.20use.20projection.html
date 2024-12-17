@@ -1,0 +1,264 @@
+<html>
+<head><meta charset="utf-8"><title>FGOALS model throws error when trying to use projection · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html">FGOALS model throws error when trying to use projection</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="98809"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98809" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98809">(May 03 2024 at 22:39)</a>:</h4>
+<p>Hi,<br>
+I'm plotting trends I've computed from a variety of CMIP6 models.  They all work fine, except one model (FGOALS) gives me this error:</p>
+<div class="codehilite"><pre><span></span><code>fig, (axs) = plt.subplots(ncols=1, nrows=1, figsize=[5, 5], subplot_kw={&quot;projection&quot;: ccrs.Robinson()})
+FGOALS_g3_histNat_trends.polyfit_coefficients.plot(transform=ccrs.PlateCarree(), cmap=&quot;RdBu_r&quot;, robust=True)
+
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+Cell In[132], line 2
+      1 fig, (axs) = plt.subplots(ncols=1, nrows=1, figsize=[5, 5], subplot_kw={&quot;projection&quot;: ccrs.Robinson()})
+----&gt; 2 FGOALS_g3_histNat_trends.polyfit_coefficients.plot(transform=ccrs.PlateCarree(), cmap=&quot;RdBu_r&quot;, robust=True)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/plot/accessor.py:48, in DataArrayPlotAccessor.__call__(self, **kwargs)
+     46 @functools.wraps(dataarray_plot.plot, assigned=(&quot;__doc__&quot;, &quot;__annotations__&quot;))
+     47 def __call__(self, **kwargs) -&gt; Any:
+---&gt; 48     return dataarray_plot.plot(self._da, **kwargs)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/plot/dataarray_plot.py:309, in plot(darray, row, col, col_wrap, ax, hue, subplot_kws, **kwargs)
+    305     plotfunc = hist
+    307 kwargs[&quot;ax&quot;] = ax
+--&gt; 309 return plotfunc(darray, **kwargs)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/plot/dataarray_plot.py:1602, in _plot2d.&lt;locals&gt;.newplotfunc(***failed resolving arguments***)
+   1598     raise ValueError(&quot;plt.imshow&#39;s `aspect` kwarg is not available in xarray&quot;)
+   1600 ax = get_axis(figsize, size, aspect, ax, **subplot_kws)
+-&gt; 1602 primitive = plotfunc(
+   1603     xplt,
+   1604     yplt,
+   1605     zval,
+   1606     ax=ax,
+   1607     cmap=cmap_params[&quot;cmap&quot;],
+   1608     vmin=cmap_params[&quot;vmin&quot;],
+   1609     vmax=cmap_params[&quot;vmax&quot;],
+   1610     norm=cmap_params[&quot;norm&quot;],
+   1611     **kwargs,
+   1612 )
+   1614 # Label the plot with metadata
+   1615 if add_labels:
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/plot/dataarray_plot.py:2322, in pcolormesh(x, y, z, ax, xscale, yscale, infer_intervals, **kwargs)
+   2319         y = _infer_interval_breaks(y, axis=0, scale=yscale)
+   2321 ax.grid(False)
+-&gt; 2322 primitive = ax.pcolormesh(x, y, z, **kwargs)
+   2324 # by default, pcolormesh picks &quot;round&quot; values for bounds
+   2325 # this results in ugly looking plots with lots of surrounding whitespace
+   2326 if not hasattr(ax, &quot;projection&quot;) and x.ndim == 1 and y.ndim == 1:
+   2327     # not a cartopy geoaxis
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:315, in _add_transform.&lt;locals&gt;.wrapper(self, *args, **kwargs)
+    310     raise ValueError(f&#39;Invalid transform: Spherical {func.__name__} &#39;
+    311                      &#39;is not supported - consider using &#39;
+    312                      &#39;PlateCarree/RotatedPole.&#39;)
+    314 kwargs[&#39;transform&#39;] = transform
+--&gt; 315 return func(self, *args, **kwargs)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:1783, in GeoAxes.pcolormesh(self, *args, **kwargs)
+   1781 result = super().pcolormesh(*args, **kwargs)
+   1782 # Wrap the quadrilaterals if necessary
+-&gt; 1783 result = self._wrap_quadmesh(result, **kwargs)
+   1784 # Re-cast the QuadMesh as a GeoQuadMesh to enable future wrapping
+   1785 # updates to the collection as well.
+   1786 result.__class__ = cartopy.mpl.geocollection.GeoQuadMesh
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:1973, in GeoAxes._wrap_quadmesh(self, collection, **kwargs)
+   1971     pcolor_col.set_array(pcolor_data[mask].ravel())
+   1972 else:
+-&gt; 1973     pcolor_col = self.pcolor(coords[..., 0], coords[..., 1],
+   1974                              pcolor_data, zorder=zorder,
+   1975                              **kwargs)
+   1976     # Currently pcolor_col.get_array() will return a compressed array
+   1977     # and warn unless we explicitly set the 2D array.  This should be
+   1978     # unnecessary with future matplotlib versions.
+   1979     pcolor_col.set_array(pcolor_data)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:315, in _add_transform.&lt;locals&gt;.wrapper(self, *args, **kwargs)
+    310     raise ValueError(f&#39;Invalid transform: Spherical {func.__name__} &#39;
+    311                      &#39;is not supported - consider using &#39;
+    312                      &#39;PlateCarree/RotatedPole.&#39;)
+    314 kwargs[&#39;transform&#39;] = transform
+--&gt; 315 return func(self, *args, **kwargs)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:2012, in GeoAxes.pcolor(self, *args, **kwargs)
+   2009 result = super().pcolor(*args, **kwargs)
+   2011 # Update the datalim for this pcolor.
+-&gt; 2012 limits = result.get_datalim(self.transData)
+   2013 self.update_datalim(limits)
+   2015 self.autoscale_view()
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/matplotlib/collections.py:267, in Collection.get_datalim(self, transData)
+    264     return transforms.Bbox.null()
+    266 if not transform.is_affine:
+--&gt; 267     paths = [transform.transform_path_non_affine(p) for p in paths]
+    268     # Don&#39;t convert transform to transform.get_affine() here because
+    269     # we may have transform.contains_branch(transData) but not
+    270     # transforms.get_affine().contains_branch(transData).  But later,
+    271     # be careful to only apply the affine part that remains.
+    273 offsets = self.get_offsets()
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/matplotlib/collections.py:267, in &lt;listcomp&gt;(.0)
+    264     return transforms.Bbox.null()
+    266 if not transform.is_affine:
+--&gt; 267     paths = [transform.transform_path_non_affine(p) for p in paths]
+    268     # Don&#39;t convert transform to transform.get_affine() here because
+    269     # we may have transform.contains_branch(transData) but not
+    270     # transforms.get_affine().contains_branch(transData).  But later,
+    271     # be careful to only apply the affine part that remains.
+    273 offsets = self.get_offsets()
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/matplotlib/transforms.py:2426, in CompositeGenericTransform.transform_path_non_affine(self, path)
+   2424     return path
+   2425 elif not self._a.is_affine and self._b.is_affine:
+-&gt; 2426     return self._a.transform_path_non_affine(path)
+   2427 else:
+   2428     return self._b.transform_path_non_affine(
+   2429                             self._a.transform_path(path))
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:186, in InterProjectionTransform.transform_path_non_affine(self, src_path)
+    182 geoms = cpatch.path_to_geos(src_path,
+    183                             getattr(self, &#39;force_path_ccw&#39;, False))
+    185 for geom in geoms:
+--&gt; 186     proj_geom = self.target_projection.project_geometry(
+    187         geom, self.source_projection)
+    188     transformed_geoms.append(proj_geom)
+    190 if not transformed_geoms:
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/crs.py:817, in Projection.project_geometry(self, geometry, src_crs)
+    815 if not method_name:
+    816     raise ValueError(f&#39;Unsupported geometry type {geom_type!r}&#39;)
+--&gt; 817 return getattr(self, method_name)(geometry, src_crs)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/crs.py:972, in Projection._project_polygon(self, polygon, src_crs)
+    968     rings.extend(self._attach_lines_to_boundary(multi_lines, is_ccw))
+    970 # Resolve all the inside vs. outside rings, and convert to the
+    971 # final MultiPolygon.
+--&gt; 972 return self._rings_to_multi_polygon(rings, is_ccw)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/cartopy/crs.py:1233, in Projection._rings_to_multi_polygon(self, rings, is_ccw)
+   1230                 polygon_bits.append(polygon)
+   1232 if polygon_bits:
+-&gt; 1233     multi_poly = sgeom.MultiPolygon(polygon_bits)
+   1234 else:
+   1235     multi_poly = sgeom.MultiPolygon()
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/shapely/geometry/multipolygon.py:79, in MultiPolygon.__new__(self, polygons)
+     77 ob = polygons[i]
+     78 if not isinstance(ob, polygon.Polygon):
+---&gt; 79     shell = ob[0]
+     80     if len(ob) &gt; 1:
+     81         holes = ob[1]
+
+TypeError: &#39;GeometryCollection&#39; object is not subscriptable
+</code></pre></div>
+<p>It appears to be triggered when including transform=ccrs.PlateCarree().</p>
+
+
+
+<a name="98810"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98810" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98810">(May 03 2024 at 23:19)</a>:</h4>
+<p>This looks like this might be a bug in Cartopy.  There's a suggested workaround in this <a href="https://github.com/SciTools/cartopy/issues/2176">issue on GitHub</a>.  I'd give that a try.</p>
+
+
+
+<a name="98813"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98813" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98813">(May 04 2024 at 00:27)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> <a href="#narrow/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection/near/98810">said</a>:</p>
+<blockquote>
+<p>This looks like this might be a bug in Cartopy.  There's a suggested workaround in this <a href="https://github.com/SciTools/cartopy/issues/2176">issue on GitHub</a>.  I'd give that a try.</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> thanks. Unfortunately, it appears that the recommendation to use the transform_first argument is only for contouring. I get the error: </p>
+<div class="codehilite"><pre><span></span><code>QuadMesh.set() got an unexpected keyword argument &#39;transform_first&#39;
+</code></pre></div>
+
+
+
+<a name="98814"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98814" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98814">(May 04 2024 at 00:36)</a>:</h4>
+<p>Bummer, I was worried that may be the case.  </p>
+<p>If you want to point me to the script / notebook, I can try to take a deeper look next week.</p>
+
+
+
+<a name="98824"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98824" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98824">(May 04 2024 at 19:38)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> <a href="#narrow/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection/near/98814">said</a>:</p>
+<blockquote>
+<p>Bummer, I was worried that may be the case.  </p>
+<p>If you want to point me to the script / notebook, I can try to take a deeper look next week.</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> , thanks that would be great!</p>
+<p>You can take a look at my notebook here:<br>
+/glade/u/home/mberdahl/Gerard/Hist/NorESM/ExptWithDataTrees-Copy1.ipynb</p>
+<p>Thanks!</p>
+
+
+
+<a name="98832"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98832" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98832">(May 06 2024 at 18:38)</a>:</h4>
+<p>It's not a good long term fix, but downgrading shapely&lt;2.0  should fix your problem for now.  You can do something like <code>conda install 'shapely&lt;2'</code> to update your environment.  </p>
+<p>It looks like something in the last major version release of shapely broke things in Cartopy that have yet to be been fixed.  I'll add some additional notes to the related issue on Cartopy's GitHub repository.</p>
+
+
+
+<a name="98833"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/FGOALS%20model%20throws%20error%20when%20trying%20to%20use%20projection/near/98833" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection.html#98833">(May 06 2024 at 18:55)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> <a href="#narrow/stream/3-general/topic/FGOALS.20model.20throws.20error.20when.20trying.20to.20use.20projection/near/98832">said</a>:</p>
+<blockquote>
+<p>It's not a good long term fix, but downgrading shapely&lt;2.0  should fix your problem for now.  You can do something like <code>conda install 'shapely&lt;2'</code> to update your environment.  </p>
+<p>It looks like something in the last major version release of shapely broke things in Cartopy that have yet to be been fixed.  I'll add some additional notes to the related issue on Cartopy's GitHub repository.</p>
+</blockquote>
+<p>Thanks for looking into this. I tried to downgrade shapely, but ran into a compatibility issue. </p>
+<div class="codehilite"><pre><span></span><code>Could not solve for environment specs
+The following packages are incompatible
+├─ geos 3.12.0.*  is requested and can be installed;
+├─ pin-1 is installable and it requires
+│  └─ python 3.11.* , which can be installed;
+└─ shapely &lt;2  is not installable because there are no viable options
+   ├─ shapely [1.5.13|1.5.15|1.5.16|1.6.4|1.7.0] would require
+   │  └─ python [2.7* |&gt;=2.7,&lt;2.8.0a0 ], which conflicts with any installable versions previously reported;
+   ├─ shapely [1.5.13|1.5.15|1.5.16] would require
+   │  └─ python 3.4* , which conflicts with any installable versions previously reported;
+   ├─ shapely [1.5.13|1.5.15|1.5.16] would require
+   │  └─ python 3.5* , which conflicts with any installable versions previously reported;
+   ├─ shapely [1.5.16|1.5.17] would require
+   │  └─ geos 3.4.* , which does not exist (perhaps a missing channel);
+   ├─ shapely 1.5.17 would require
+   │  └─ geos 3.5.* , which does not exist (perhaps a missing channel);
+   ├─ shapely [1.5.17|1.6.0|1.6.1|1.6.2] would require
+   │  └─ geos 3.5.1 , which does not exist (perhaps a missing channel);
+   ├─ shapely [1.6.2|1.6.3|1.6.4] would require
+   │  └─ geos 3.6.2 , which does not exist (perhaps a missing channel);
+   ├─ shapely 1.6.4 would require
+   │  └─ geos &gt;=3.6.2,&lt;3.6.3.0a0 , which does not exist (perhaps a missing channel);
+   ├─ shapely [1.6.4|1.7.0|1.7.1] would require
+   │  └─ python &gt;=3.6,&lt;3.7.0a0 , which conflicts with any installable versions previously reported;
+   ├─ shapely [1.6.4|1.7.0|...|1.8.5] would require
+   │  └─ python &gt;=3.7,&lt;3.8.0a0 , which conflicts with any installable versions previously reported;
+   ├─ shapely [1.6.4|1.7.0|...|1.8.5] would require
+   │  └─ python &gt;=3.8,&lt;3.9.0a0 , which conflicts with any installable versions previously reported;
+   ├─ shapely [1.7.1|1.8.0|...|1.8.5] would require
+   │  └─ python &gt;=3.9,&lt;3.10.0a0 , which conflicts with any installable versions previously reported;
+   ├─ shapely [1.8.0|1.8.1|...|1.8.5] would require
+   │  └─ python &gt;=3.10,&lt;3.11.0a0 , which conflicts with any installable versions previously reported;
+   ├─ shapely 1.8.5 would require
+   │  └─ geos &gt;=3.11.1,&lt;3.11.2.0a0 , which conflicts with any installable versions previously reported;
+   └─ shapely 1.8.5 would require
+      └─ geos &gt;=3.11.0,&lt;3.11.1.0a0 , which conflicts with any installable versions previously reported.
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

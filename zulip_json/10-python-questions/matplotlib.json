@@ -1,0 +1,110 @@
+[
+    {
+        "content": "<p>Dumb question. I have a script that uses some matplotlib functions, but it cannot find these on cheyenne. Does anyone know what the issue with these lines would be:</p>\n<div class=\"codehilite\"><pre><span></span><code>    import matplotlib.pyplot as plt\n    from mpl_toolkits.basemap import Basemap\n    from mpl_toolkits.axes_grid1 import make_axes_locatable\n</code></pre></div>\n\n<p>Note that I tried both the ncar_pylib and the conda environment.</p>",
+        "id": 53740,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650312579
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span>:  When you say \"on cheyenne,\" do you mean that you are running on the JupyterHub on Cheyenne?  Or is this in a python script that you are running on a Cheyenne login or compute node directly?</p>",
+        "id": 53741,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650312689
+    },
+    {
+        "content": "<p>I am running a python script on a cheyenne node directly.</p>",
+        "id": 53742,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650312713
+    },
+    {
+        "content": "<p>Ok.  Thanks!  How are you setting up your python environment?  (e.g., is it a <code>module load npl</code> or <code>module load conda</code> etc.)</p>",
+        "id": 53743,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650312782
+    },
+    {
+        "content": "<p>I did the module load conda and then conda activate npl.</p>",
+        "id": 53744,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650312818
+    },
+    {
+        "content": "<p><span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span></p>",
+        "id": 53745,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650312832
+    },
+    {
+        "content": "<p>Ok.  After <code>conda activate npl</code>, can you do a <code>conda list</code>?  What does it show?</p>",
+        "id": 53746,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650312863
+    },
+    {
+        "content": "<p>matplotlib                3.5.1            py37h89c1867_0    conda-forge<br>\nmatplotlib-base           3.5.1            py37h1058ff1_0    conda-forge<br>\nmatplotlib-inline         0.1.3              pyhd8ed1ab_0    conda-forge</p>\n<p>No mpl_toolkits.</p>",
+        "id": 53747,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650313000
+    },
+    {
+        "content": "<p>what about basemap?</p>",
+        "id": 53748,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1650313027
+    },
+    {
+        "content": "<p>No basemap either.</p>",
+        "id": 53749,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650313060
+    },
+    {
+        "content": "<p>I'm not sure basemap is supported any more.  The canonical replacement for basemap is cartopy.  Is that the only \"import error\" that you are getting (namely, <code>mpl_toolkit</code>)?</p>",
+        "id": 53751,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650313212
+    },
+    {
+        "content": "<p>Yes, that is the one that is missing. When you say \"not supported\" can I still use it? The script is not that old.</p>",
+        "id": 53752,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650313522
+    },
+    {
+        "content": "<p>I think you can still use it.  But the NPL conda environment is supported by the CISL CSG folks, and you would need to ask them to install basemap in the NPL conda environment.</p>",
+        "id": 53753,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650313573
+    },
+    {
+        "content": "<p>Got it. I suppose I could convert to cartopy. Can you point me to a good quick start guide?</p>",
+        "id": 53754,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650313632
+    },
+    {
+        "content": "<p>Ryan Abernathey at LDEO has a nice tutorial on cartopy here:</p>\n<p><a href=\"https://rabernat.github.io/research_computing_2018/maps-with-cartopy.html\">https://rabernat.github.io/research_computing_2018/maps-with-cartopy.html</a></p>\n<p>And he even mentions at the top that Basemap is \"going away.\"</p>",
+        "id": 53762,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650315226
+    },
+    {
+        "content": "<p>Great. I was able to do pip install basemap and get it working. So, that at least gives me a solution short-term.</p>",
+        "id": 53767,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1650316467
+    },
+    {
+        "content": "<p>Previous maintainers of basemap had indeed <a href=\"https://matplotlib.org/basemap/users/intro.html#deprecation-notice\">stepped away</a> and pointed people to Cartopy, intending for a \"final\" release in 2020 with Python 2 EOL. I just now discovered that partial maintenance has been resumed by volunteers, and they seem to have chosen to remove said notices about deprecation and cut multiple new <a href=\"https://github.com/matplotlib/basemap/releases\">releases</a> for Windows/Linux in just the past few months. I guess there's still some love for basemap!</p>",
+        "id": 53798,
+        "sender_full_name": "Drew Camron",
+        "timestamp": 1650387084
+    },
+    {
+        "content": "<p>Never underestimate open source, I guess! <span aria-label=\"smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"smile\">:smile:</span>  Thanks for that find, <span class=\"user-mention\" data-user-id=\"169\">@Drew Camron</span>!</p>",
+        "id": 53799,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1650387185
+    }
+]

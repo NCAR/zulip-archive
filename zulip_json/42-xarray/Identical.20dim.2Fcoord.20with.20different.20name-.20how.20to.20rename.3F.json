@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>I have this situation:</p>\n<div class=\"codehilite\"><pre><span></span><code>&gt;&gt;&gt; ds\n&lt;xarray.Dataset&gt;\nDimensions:  (x0: 3, y0: 3, y1: 3)\nCoordinates:\n  * x0       (x0) int64 0 1 2\n  * y0       (y0) int64 0 1 2\n  * y1       (y1) int64 0 1 2\nData variables:\n    da1      (x0, y0) int64 20 30 40 50 60 70 80 90 100\n    da2      (x0, y1) int64 20 30 40 50 60 70 80 90 100\n</code></pre></div>\n<p>I know that <code>y0</code> and <code>y1</code> are identical, and I do not want <code>y1</code> to be a part of the dataset. I'd like to drop <code>y1</code> as a dimension and coordinate, and reassign it to use <code>y0</code> without losing variables. Does anyone have any tips on the combination of Xarray operators to accomplish this? Thanks!</p>",
+        "id": 73296,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675287327
+    },
+    {
+        "content": "<p>I can accomplish this in a for loop like this:</p>\n<div class=\"codehilite\"><pre><span></span><code>for v in ds.data_vars:\n  if &#39;y1&#39; in ds[v].coords:\n    ds[v] = ds[v].swap_dims({&#39;y1&#39;:&#39;y0&#39;})\n</code></pre></div>\n<p>But when I do:<br>\n<code>ds.swap_dims({'y1':'y0'})</code></p>\n<p>I get this error:</p>\n<div class=\"codehilite\"><pre><span></span><code>Traceback (most recent call last):\n  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;\n  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/site-packages/xarray/core/dataset.py&quot;, line 3559, in swap_dims\n    raise ValueError(\nValueError: replacement dimension &#39;y0&#39; is not a 1D variable along the old dimension &#39;y1&#39;\n</code></pre></div>\n<p>that I don't quite understand.</p>",
+        "id": 73335,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675289130
+    },
+    {
+        "content": "<p>Hmm that looks like a bug. How about a simple <code>ds.rename_dims({\"y1\": \"y0\"})</code></p>",
+        "id": 73393,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1675352230
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> <a href=\"#narrow/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F/near/73393\">said</a>:</p>\n<blockquote>\n<p>Hmm that looks like a bug. How about a simple <code>ds.rename_dims({\"y1\": \"y0\"})</code></p>\n</blockquote>\n<div class=\"codehilite\"><pre><span></span><code>ValueError: Cannot rename y1 to y0 because y0 already exists. Try using swap_dims instead.\n</code></pre></div>\n<p><span aria-label=\"upside down\" class=\"emoji emoji-1f643\" role=\"img\" title=\"upside down\">:upside_down:</span></p>",
+        "id": 73395,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675352637
+    },
+    {
+        "content": "<p>Also, here is more code for testing:</p>\n<div class=\"codehilite\"><pre><span></span><code>import xarray as xr\nda1 = xr.DataArray([[20,30,40],[50,60,70],[80,90,100]],dims=[&#39;x0&#39;,&#39;y0&#39;],coords={&#39;x0&#39;:[0,1,2],&#39;y0&#39;:[0,1,2]})\nda2 = xr.DataArray([[20,30,40],[50,60,70],[80,90,100]],dims=[&#39;x0&#39;,&#39;y1&#39;],coords={&#39;x0&#39;:[0,1,2],&#39;y1&#39;:[0,1,2]})\nds = xr.Dataset(data_vars={&#39;da1&#39;:da1,&#39;da2&#39;:da2})\nprint(ds)\nfor v in ds.data_vars:\n  if &#39;y1&#39; in ds[v].coords:\n    ds[v] = ds[v].swap_dims({&#39;y1&#39;:&#39;y0&#39;})\nprint(ds)\n#ds.swap_dims({&#39;y1&#39;:&#39;y0&#39;})\n#ds.rename_dims({&quot;y1&quot;: &quot;y0&quot;})\n</code></pre></div>\n<p>I am using 2022.3.0. I will try it also with 2023.1.0 right now and see what I get.</p>",
+        "id": 73396,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675352830
+    },
+    {
+        "content": "<p>Oh yeah that might help. 2022.3.0 merged in some major under-the-hood changes, and many bugs have been fixed since then.</p>",
+        "id": 73397,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1675352878
+    },
+    {
+        "content": "<p>Identical behavior:</p>\n<div class=\"codehilite\"><pre><span></span><code>&gt;&gt;&gt; ds.swap_dims({&#39;y1&#39;:&#39;y0&#39;})\nTraceback (most recent call last):\n  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;\n  File &quot;/home/dadriaan/.conda/envs/xrbug/lib/python3.10/site-packages/xarray/core/dataset.py&quot;, line 3829, in swap_dims\n    raise ValueError(\nValueError: replacement dimension &#39;y0&#39; is not a 1D variable along the old dimension &#39;y1&#39;\n&gt;&gt;&gt; print(xr.__version__)\n2023.1.0\n&gt;&gt;&gt; ds.rename_dims({&#39;y1&#39;:&#39;y0&#39;})\nTraceback (most recent call last):\n  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;\n  File &quot;/home/dadriaan/.conda/envs/xrbug/lib/python3.10/site-packages/xarray/core/dataset.py&quot;, line 3707, in rename_dims\n    raise ValueError(\nValueError: Cannot rename y1 to y0 because y0 already exists. Try using swap_dims instead.\n</code></pre></div>",
+        "id": 73398,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675353209
+    },
+    {
+        "content": "<p>OK, the example code in the documentation returns the same error at this page:<br>\n<a href=\"https://docs.xarray.dev/en/stable/generated/xarray.Dataset.swap_dims.html\">https://docs.xarray.dev/en/stable/generated/xarray.Dataset.swap_dims.html</a></p>\n<div class=\"codehilite\"><pre><span></span><code>ds = xr.Dataset(\n    data_vars={&quot;a&quot;: (&quot;x&quot;, [5, 7]), &quot;b&quot;: (&quot;x&quot;, [0.1, 2.4])},\n    coords={&quot;x&quot;: [&quot;a&quot;, &quot;b&quot;], &quot;y&quot;: (&quot;x&quot;, [0, 1])},\n)\nds.swap_dims({&quot;x&quot;: &quot;y&quot;})\nTraceback (most recent call last):\n  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;\n  File &quot;/home/dadriaan/.conda/envs/xrbug/lib/python3.10/site-packages/xarray/core/dataset.py&quot;, line 3833, in swap_dims\n    raise ValueError(\nValueError: replacement dimension &#39;y&#39; is not a 1D variable along the old dimension &#39;x&#39;\n</code></pre></div>\n<p>I will open an issue over on GitHub.</p>",
+        "id": 73417,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675359713
+    },
+    {
+        "content": "<p>Scratch that, the copy-paste from the docs caused that issue. If I reformat the creation of ds, it works. I will do some more testing.</p>",
+        "id": 73420,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675360740
+    },
+    {
+        "content": "<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">del</span> <span class=\"n\">ds</span><span class=\"p\">[</span><span class=\"s2\">\"y1\"</span><span class=\"p\">]</span>\n<span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">rename</span><span class=\"p\">({</span><span class=\"s2\">\"y1\"</span><span class=\"p\">:</span> <span class=\"s2\">\"y0\"</span><span class=\"p\">})</span>\n</code></pre></div>\n<p>this seems to work</p>",
+        "id": 73422,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1675360949
+    },
+    {
+        "content": "<p>Interesting, that does work.</p>\n<p>Also in <code>dataset.py</code>, it works if I comment out the section of code that causes it to fail:</p>\n<div class=\"codehilite\"><pre><span></span><code>            if v in self.variables and self.variables[v].dims != (k,):\n                raise ValueError(\n                    f&quot;replacement dimension {v!r} is not a 1D &quot;\n                    f&quot;variable along the old dimension {k!r}&quot;\n                )\n</code></pre></div>\n<p>I am struggling to understand what that code ^^^ is doing or what edge case it's designed to catch.</p>\n<p>It also works if I choose a random name that doesn't exist in <code>self.variables</code>, because the second half of the <code>and</code> in the above code fails:</p>\n<div class=\"codehilite\"><pre><span></span><code>ds.swap_dims({&quot;y1&quot;:&quot;foo&quot;})\n&lt;xarray.Dataset&gt;\nDimensions:  (x0: 3, y0: 3, foo: 3)\nCoordinates:\n  * x0       (x0) int64 0 1 2\n  * y0       (y0) int64 0 1 2\n    y1       (foo) int64 0 1 2\nDimensions without coordinates: foo\nData variables:\n    da1      (x0, y0) int64 20 30 40 50 60 70 80 90 100\n    da2      (x0, foo) int64 20 30 40 50 60 70 80 90 100\n</code></pre></div>",
+        "id": 73423,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1675362981
+    }
+]

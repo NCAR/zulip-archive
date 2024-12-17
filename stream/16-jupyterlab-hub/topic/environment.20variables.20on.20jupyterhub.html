@@ -1,0 +1,73 @@
+<html>
+<head><meta charset="utf-8"><title>environment variables on jupyterhub · jupyterlab-hub · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html">environment variables on jupyterhub</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="49676"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49676" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49676">(Jan 25 2022 at 18:09)</a>:</h4>
+<p>I am using a specific version of netcdf that includes hdf5 ffilter plugins for compression on Cheyenne.  I have to set the plugin path as follows:<br>
+setenv HDF5_PLUGIN_PATH /glade/work/haiyingx/hdf/h5pl-1.12.1-Linux/HDF_Group/HDF5/1.12.1/lib/plugin/<br>
+Now when I run a python session directly on Cheyenne, for example, as long as this path is set, then the netCDF4-python package can read my netcdf file with the filter. So yay for that.</p>
+<p>But now I would like to be able to do this on jupyterhub.  I have tried setting the plugin path like this in my notebook:<br>
+os.environ["HDF5_PLUGIN_PATH"] = "/glade/work/haiyingx/hdf/h5pl-1.12.1-Linux/HDF_Group/HDF5/1.12.1/lib/plugin/"<br>
+but the netCDF4 python does not seem to get this info as it can't find the filter definitions (i.e., I get the message that you get if you forget to set this filter path).  I have never messed with my environment variables in jupyterhub before, so I must be missing some concept on how this works.  Any help is appreciated!</p>
+
+
+
+<a name="49682"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49682" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49682">(Jan 25 2022 at 18:28)</a>:</h4>
+<p>You can probably do this a number of ways, but ultimately the startup for Jupyter sessions from JupyterHub is done in bash and often picks up things in either ~/.bashrc or ~/.bash_profile depending on how one has structured their dot files. Alternatively, there is an optional ~/.jupyterhub file (that must use bash format) that could be used, but will require you to restart your JupyterHub server before it takes effect:</p>
+<p><a href="/user_uploads/2/75/nOZ3Bg1so2rf_9LU5ugO0Pz_/image.png">image.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/75/nOZ3Bg1so2rf_9LU5ugO0Pz_/image.png" title="image.png"><img src="/user_uploads/2/75/nOZ3Bg1so2rf_9LU5ugO0Pz_/image.png"></a></div><p>Might be required depending on how you're interacting with NetCDF I suppose.</p>
+
+
+
+<a name="49683"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49683" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49683">(Jan 25 2022 at 18:51)</a>:</h4>
+<p>Thanks - I'll try this...</p>
+
+
+
+<a name="49688"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49688" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49688">(Jan 25 2022 at 20:46)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="154">@Jared Baker</span>  - both of those options work (creating a .jupyterhub file or adding to my .bashrc)</p>
+
+
+
+<a name="49717"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49717" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49717">(Jan 26 2022 at 19:31)</a>:</h4>
+<p>A follow-up question.  I now have all my codes working with the netcdf filters, <em>unless</em> I use DASK :)</p>
+<p>I am using dask-jobqueue via ncar_jobqueue, and I think the problem is that I somehow have to give this HDF5_PLUGIN_PATH environment variable to the dask cluster.   I looked at the dask-jobqueue instructions, and it is not clear to me how to do this.  My best guess is that I need to do something with the dask/jobqueue.yml file ....  <br>
+Thanks!</p>
+<p>This is how I start the cluster:</p>
+<div class="codehilite"><pre><span></span><code>from dask.distributed import Client
+from ncar_jobqueue import NCARCluster
+cluster = NCARCluster(project=&#39;NTDD0004&#39;)
+cluster.adapt(minimum_jobs=1, maximum_jobs=30)
+client = Client(cluster)
+</code></pre></div>
+
+
+
+<a name="49718"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49718" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49718">(Jan 26 2022 at 19:36)</a>:</h4>
+<p>I believe you can use the <code>env_extra</code> for this:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">cluster</span> <span class="o">=</span> <span class="n">NCARCluster</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="s1">'NTDD0004'</span><span class="p">,</span> <span class="n">env_extra</span><span class="o">=</span><span class="p">[</span><span class="s1">'export HDF5_PLUGIN_PATH="....."'</span><span class="p">])</span>
+</code></pre></div>
+
+
+
+<a name="49732"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/environment%20variables%20on%20jupyterhub/near/49732" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/environment.20variables.20on.20jupyterhub.html#49732">(Jan 26 2022 at 22:06)</a>:</h4>
+<p>That  fixed the problem - thanks so much!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

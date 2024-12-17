@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>It looks like after updating some of my packages, pop-tools breaks. It worked well before this update, and appears to be related a deprecated np.float() call.  Any plans to update the pop-tools package? Or other workaround recommendations?</p>\n<p>When trying to get the grid:</p>\n<div class=\"codehilite\"><pre><span></span><code>grid_name = &#39;POP_tx0.1v3&#39;  # our 0.1 degree pop grid.\ngrid = pop_tools.get_grid(grid_name)\n</code></pre></div>\n<p>The following error is thrown: </p>\n<div class=\"codehilite\"><pre><span></span><code>---------------------------------------------------------------------------\nAttributeError                            Traceback (most recent call last)\nInput In [4], in &lt;module&gt;\n      1 # using pop tools, get the region mask.\n      2 grid_name = &#39;POP_tx0.1v3&#39;  # our 0.1 degree pop grid.\n----&gt; 3 grid = pop_tools.get_grid(grid_name)\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/pop_tools/grid.py:142, in get_grid(grid_name, scrip)\n    139 grid_file_data = np.fromfile(horiz_grid_fname, dtype=&#39;&gt;f8&#39;, count=-1)\n    140 grid_file_data = grid_file_data.reshape((7, nlat, nlon))\n--&gt; 142 ULAT = grid_file_data[0, :, :].astype(np.float)\n    143 ULONG = grid_file_data[1, :, :].astype(np.float)\n    144 HTN = grid_file_data[2, :, :].astype(np.float)\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/numpy/__init__.py:324, in __getattr__(attr)\n    319     warnings.warn(\n    320         f&quot;In the future `np.{attr}` will be defined as the &quot;\n    321         &quot;corresponding NumPy scalar.&quot;, FutureWarning, stacklevel=2)\n    323 if attr in __former_attrs__:\n--&gt; 324     raise AttributeError(__former_attrs__[attr])\n    326 if attr == &#39;testing&#39;:\n    327     import numpy.testing as testing\n\nAttributeError: module &#39;numpy&#39; has no attribute &#39;float&#39;.\n`np.float` was a deprecated alias for the builtin `float`. To avoid this error in existing code, use `float` by itself. Doing this will not modify any behavior and is safe. If you specifically wanted the numpy scalar type, use `np.float64` here.\nThe aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:\n    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations\n</code></pre></div>",
+        "id": 94585,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705606763
+    },
+    {
+        "content": "<p>It looks like this might have been updated in the last release 2023.06.0 (<a href=\"https://github.com/NCAR/pop-tools\">https://github.com/NCAR/pop-tools</a>).  Do you know what version of pop-tools you're using?  </p>\n<p>I'm not sure on the maintainer question - curious myself.</p>",
+        "id": 94631,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1705616913
+    },
+    {
+        "content": "<p>Well, I had pop-tools version 2021.5.28. <br>\nI just upgraded it, but now I am encountering the following error when importing cartopy</p>\n<div class=\"codehilite\"><pre><span></span><code>---------------------------------------------------------------------------\nImportError                               Traceback (most recent call last)\nInput In [1], in &lt;module&gt;\n      2 import xarray as xr\n      3 #from matplotlib import pyplot as plt\n----&gt; 4 import cartopy.crs as ccrs\n      5 import nc_time_axis as nc_time_axis\n      6 import cmocean\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/cartopy/__init__.py:107, in &lt;module&gt;\n    102     pass\n    105 # Commonly used sub-modules. Imported here to provide end-user\n    106 # convenience.\n--&gt; 107 import cartopy.crs\n    108 import cartopy.feature\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/cartopy/crs.py:23, in &lt;module&gt;\n     21 import numpy as np\n     22 import shapely.geometry as sgeom\n---&gt; 23 from pyproj import Transformer\n     24 from pyproj.exceptions import ProjError\n     25 from shapely.prepared import prep\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/pyproj/__init__.py:49, in &lt;module&gt;\n     32 __all__ = [\n     33     &quot;Proj&quot;,\n     34     &quot;Geod&quot;,\n   (...)\n     45     &quot;show_versions&quot;,\n     46 ]\n     47 import warnings\n---&gt; 49 import pyproj.network\n     50 from pyproj._datadir import (  # noqa: F401 pylint: disable=unused-import\n     51     _pyproj_global_context_initialize,\n     52     set_use_global_context,\n     53 )\n     54 from pyproj._show_versions import (  # noqa: F401 pylint: disable=unused-import\n     55     show_versions,\n     56 )\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/pyproj/network.py:10, in &lt;module&gt;\n      6 from typing import Union\n      8 import certifi\n---&gt; 10 from pyproj._network import (  # noqa: F401 pylint: disable=unused-import\n     11     _set_ca_bundle_path,\n     12     is_network_enabled,\n     13     set_network_enabled,\n     14 )\n     17 def set_ca_bundle_path(ca_bundle_path: Union[Path, str, bool, None] = None) -&gt; None:\n     18     &quot;&quot;&quot;\n     19     .. versionadded:: 3.0.0\n     20\n   (...)\n     38         variables.\n     39     &quot;&quot;&quot;\n\nImportError: libcrypto.so.3: cannot open shared object file: No such file or directory\n</code></pre></div>",
+        "id": 94637,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705619487
+    },
+    {
+        "content": "<p>It looks like the system you're working on doesn't have the right version of openssl/libcrypto.so.3.  Is this on casper?  Might be worth looping in the HPC folks if so.</p>",
+        "id": 94658,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1705621974
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> , will do.<br>\nThis is on casper, yes.</p>",
+        "id": 94687,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705684640
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>The latest tag in <a href=\"http://github.com/ESCOMP/CESM\" target=\"_blank\" title=\"http://github.com/ESCOMP/CESM\">github.com/ESCOMP/CESM</a> that appears MOM related is <code>cesm2_2_alpha04d_mom6</code>. This points to <code>fi_20200221</code> for <code>FMS</code> and <code>mi_20200309</code> for <code>MOM_interface</code>. These seem rather dated. I tried pointing to a more recent <code>MOM_interface</code> tag, but then had problems with <code>FMS</code>. What should I use in Externals.cfg to get more recent MOM developments?</p>",
+        "id": 23893,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1610565262
+    },
+    {
+        "content": "<p>Answering my own question: instructions are online at <a href=\"https://github.com/ESCOMP/MOM_interface/wiki/Quickstart\" target=\"_blank\" title=\"https://github.com/ESCOMP/MOM_interface/wiki/Quickstart\">https://github.com/ESCOMP/MOM_interface/wiki/Quickstart</a></p>",
+        "id": 23895,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1610568064
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> -- I just ran into this issue myself, so thanks for posting the solution. As best as I can tell, there is something in <code>cime5.8.36</code> that does not play nicely with the FMS tag <code>fi_20201112</code> so the key takeaway from following the quickstart you linked is that the recommended CESM tag drops CIME to <code>cime5.8.32</code>. I haven't tested any of the tags between 5.8.32 and 5.8.36 to narrow down exactly what the issue is (and for the moment I don't plan to, since my sandbox appears to be working now) but I figured this info might be useful to <span class=\"user-mention\" data-user-id=\"98\">@Alper Altuntas</span> and <span class=\"user-mention\" data-user-id=\"15\">@Gustavo M Marques</span> as they work towards updating MOM and FMS in the CESM 2.3 alpha / beta series</p>",
+        "id": 24087,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1611250589
+    }
+]

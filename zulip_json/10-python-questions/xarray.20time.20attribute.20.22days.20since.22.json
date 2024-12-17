@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hello, I'm trying to write out a variable with a datetime64 time axis to netcdf and xarray seems to automatically write it out in the units of \"hours since whenever\".  I'm trying to read this in to the CESM SST time diddling code which only seems to work if the time axis is in units of \"days since whenever\".  Does anyone know how I can force xarray to write out the time axis to the netcdf in this format?  I have tried ensuring that the time axis only consists of days, but it still writes it out in hours since.  I could manually make the time axis and give it those attributes, but I'm wondering if there's a better way.  Thanks for any help.</p>",
+        "id": 52733,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1648493975
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span>:  Can you share the first few elements of the <code>time</code> coordinate?</p>",
+        "id": 52735,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1648494698
+    },
+    {
+        "content": "<p>Isla, please try</p>\n<div class=\"codehilite\"><pre><span></span><code>ds.time.encoding[&quot;units&quot;] = &quot;days since whenever&quot;\n</code></pre></div>\n<p>prior to writing the Dataset out, where <code>ds</code> is the xarray Dataset being written out.<br>\nThis tells xarray what units to use for time when it writes it out, instead of letting xarray decide for you.</p>",
+        "id": 52741,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1648495654
+    },
+    {
+        "content": "<p>Or, if you are writing the netcdf files using Xarray's <code>to_netcdf</code> method, you can include the <code>encoding</code> in the <code>to_netcdf</code> function directly:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">to_netcdf</span><span class=\"p\">(</span><span class=\"s1\">'my_netcdf_file.nc'</span><span class=\"p\">,</span> <span class=\"n\">encoding</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">'time'</span><span class=\"p\">:</span> <span class=\"p\">{</span><span class=\"s1\">'units'</span><span class=\"p\">:</span> <span class=\"s1\">'days since whenever'</span><span class=\"p\">}})</span>\n</code></pre></div>",
+        "id": 52744,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1648495779
+    },
+    {
+        "content": "<p>super.  Problem solved, thank you both! I also realized that when I'd tried to make the time not have any hours, it was getting overwritten as I was merging the variable in with another one which still had the original time axis.  But it's good to know how to do this using these ways that are more straightforward.  Thank you!</p>",
+        "id": 52757,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1648496224
+    },
+    {
+        "content": "<p>The documentation on this topic is <a href=\"https://docs.xarray.dev/en/stable/user-guide/io.html#time-units\">here</a></p>",
+        "id": 52795,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648538377
+    },
+    {
+        "content": "<p>Ah, thank you.  I had just been looking on the \"to_netcdf\" documentation page.</p>",
+        "id": 52796,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1648559069
+    },
+    {
+        "content": "<p>Code in question:</p>\n<div class=\"codehilite\"><pre><span></span><code>plat,plon = 69 , (360.-149.37) # °N, °W\nplotVar = maxALT.isel(year=slice(-10,None)).mean([&#39;ens&#39;,&#39;year&#39;])\nplt.figure(figsize=(8,6), dpi= 90)\n\n\n# Make a new projection, time of class &quot;NorthPolarStereo&quot;\nax = plt.axes(projection=ccrs.NorthPolarStereo(true_scale_latitude=70))\n\n# here is here you tell Cartopy that the projection\n# of your &#39;x&#39; and &#39;y&#39; are geographic (lons and lats)\n# and that you want to transform those lats and lons\n#into &#39;x&#39; and &#39;y&#39; in the projection\nplt.pcolormesh(maxALT.lon, maxALT.lat, plotVar,\n               transform=ccrs.PlateCarree());\n\n# plot land\nax.add_feature(cfeature.OCEAN)\nax.gridlines()\nax.coastlines()\nplt.colorbar(label=&#39;m&#39;)\nplt.title(&#39;Active Layer Thickness&#39;)\n\n# Limit the map to -60 degrees latitude and below.\nax.set_extent([-180, 180, 90, 60], ccrs.PlateCarree())\n\n# Compute a circle in axes coordinates, which we can use as a boundary\n# for the map. We can pan/zoom as much as we like - the boundary will be\n# permanently circular.\ntheta = np.linspace(0, 2*np.pi, 100)\ncenter, radius = [0.5, 0.5], 0.5\nverts = np.vstack([np.sin(theta), np.cos(theta)]).T\n#circle = mpath.Path(verts * radius + center)\n\nplt.plot(plon, plat, markersize=4,\n                color=&#39;red&#39;, linewidth=0, marker=&#39;o&#39;,\n                transform=ccrs.Geodetic(),\n                 )\n    #ax.set_boundary(circle, transform=ax.transAxes)\nprint(np.round(plotVar.sel(lat=plat,lon=plon,method=&#39;nearest&#39;).values,2))\n</code></pre></div>",
+        "id": 53186,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1649102317
+    },
+    {
+        "content": "<p>That's just a warning about Cartopy using something that's been deprecated by the latest Shapely. It <em>should</em> be fixed by the Cartopy 0.20.2 release. So you can either update cartopy or safely ignore the warning.</p>",
+        "id": 53214,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1649126845
+    }
+]

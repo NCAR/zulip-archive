@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Hi, </p>\n<p>I'm trying to read the N_HEAT variable from POP ocean output for the first time, and having an issue when specifying the transport region. The data looks fine when I choose transport_reg = 0 (global).  However, when I choose transport_reg (atlantic), all the data comes back as nans.  When I look at the file in ncview, I see some nan's (which I expected to see), but there are also actual data there as well that apparently aren't being read or detected. I have attached a screenshot showing a simple example of this.</p>\n<p>Does anyone have experience with reading N_HEAT and know how to get around this?<br>\nThanks!</p>\n<p><a href=\"/user_uploads/2/5c/apHXx8ufK-BI_0zI_2seztU9/Screen-Shot-2022-04-21-at-12.23.46-PM-2.png\">Screen-Shot-2022-04-21-at-12.23.46-PM-2.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/5c/apHXx8ufK-BI_0zI_2seztU9/Screen-Shot-2022-04-21-at-12.23.46-PM-2.png\" title=\"Screen-Shot-2022-04-21-at-12.23.46-PM-2.png\"><img src=\"/user_uploads/2/5c/apHXx8ufK-BI_0zI_2seztU9/Screen-Shot-2022-04-21-at-12.23.46-PM-2.png\"></a></div>",
+        "id": 53987,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1650569451
+    },
+    {
+        "content": "<p>This is because the diffusion component is missing for the Atlantic region and so the \"Total\" component is also missing. The diffusion component is generally small, so a good approximation is to compute the total advection. This will yield a reasonable plot:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">N_HEAT</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">transport_reg</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">transport_comp</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">,</span><span class=\"mi\">3</span><span class=\"p\">,</span><span class=\"mi\">4</span><span class=\"p\">])</span><span class=\"o\">.</span><span class=\"n\">sum</span><span class=\"p\">(</span><span class=\"s1\">'transport_comp'</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 54004,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1650576262
+    },
+    {
+        "content": "<p>Oh, excellent. Thanks for the explanation!</p>",
+        "id": 54005,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1650576503
+    },
+    {
+        "content": "<p>Actually, one follow-up... any idea why this component is missing? How worrisome is it that we don't know the diffusion component's contribution?</p>",
+        "id": 54006,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1650579862
+    },
+    {
+        "content": "<p>Or was this omission intentional for some reason?</p>",
+        "id": 54013,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1650592549
+    },
+    {
+        "content": "<p>I've forgotten why this component is missing. Perhaps <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> knows? I can also ask Gokhan when I get a chance.</p>",
+        "id": 54016,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1650631871
+    },
+    {
+        "content": "<p>There is a comment in the code that states</p>\n<div class=\"codehilite\"><pre><span></span><code>!  - because southern boundary diffusive transports are not available,\n!    the total and diffusive transport components are not computed\n!    for regions.\n</code></pre></div>\n<p>This comment was last modified in March 2006. So it was either written then, or predates that. I think the meridional transport was written by Gokhan. I later wrote code to write out lateral diffusive tracer fluxes. This was added to the code in April 2010. It seems that one could have gone back and updated the meridional transport code to use the lateral diffusive tracers fluxes on the regional boundary, but this was never done.</p>",
+        "id": 54017,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1650634418
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> and <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> , this is good to know.</p>",
+        "id": 54037,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1650646259
+    }
+]

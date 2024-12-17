@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I am trying to write a workflow using <a href=\"https://pangeo-forge.readthedocs.io/en/latest/index.html\">Pangeo-Forge-Recipes</a>, which will hopefully run on NCAR HPC. Has anyone here used any of the pangeo-forge-recipes on Casper/Derecho? I am not finding any examples and am struggling with building a workflow. The main issue seems to be with how to work with apache Beam on the HPC and/or using Dask clusters with this library.</p>",
+        "id": 103877,
+        "sender_full_name": "Kevin Sampson",
+        "timestamp": 1724170483
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"389\">@Harsha Hampapura</span>, is this anything you've run into / explored in your work?</p>\n<p><span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> not sure if you might have some thoughts here as well.</p>",
+        "id": 103893,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1724261131
+    },
+    {
+        "content": "<p>Unfortunately, I haven't used pangeo-forge-recipes on Casper/Derecho before.</p>",
+        "id": 103894,
+        "sender_full_name": "Harsha Hampapura",
+        "timestamp": 1724261733
+    },
+    {
+        "content": "<p>Thanks so much for tagging me <span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> </p>\n<p><span class=\"user-mention\" data-user-id=\"276\">@Kevin Sampson</span>  If you can use dask cluster, that is preferred compared to apache beam workflow. </p>\n<p>I had this discussion with the developers last year and there were some discussions on extending apache backend with flink to support distributed  systems then but I am not sure what the status of that is currently.   Please feel free to send an email to <a href=\"mailto:cislhelp@ucar.edu\">cislhelp@ucar.edu</a> if you want HPC consultants to explore this further.</p>",
+        "id": 103898,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1724269314
+    },
+    {
+        "content": "<p>Thank you <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> . I can use dask/xarray workflows but they seem wildly inefficient (extremely large graphs being produced, long wait times for workers to get jobs from the scheduler) and I was exploring the more recently developed pangeo-forge-recipes as a way of testing alternative workflows. This is all centered around using kerchunk to produce zarr-like arrays from many (300k+) netCDF files.</p>",
+        "id": 103904,
+        "sender_full_name": "Kevin Sampson",
+        "timestamp": 1724270730
+    }
+]

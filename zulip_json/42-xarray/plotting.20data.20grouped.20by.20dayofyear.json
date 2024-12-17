@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hi all, I was wondering if anyone has already dealt with this issue. I have data grouped by and averaged by day of year (0 to 364). I am plotting it's mean, +/-std, +/-2std and max and min. I was wondering if anyone has suggestions about how to shift the time axis to begin July 1 and replace dayofyear with month in the x-axis labels.  I could brute force it by plotting vs. doy2 = np.mod((doy+180),365) but that causes wrapping artifacts in the plot that I can deal with but it's not elegant. Here's the current figure:<br>\n<a href=\"/user_uploads/2/f/paU70tIQOI9xLrBIzErqB1GH/u60n.png\" target=\"_blank\" title=\"u60n.png\">u60n.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/f/paU70tIQOI9xLrBIzErqB1GH/u60n.png\" target=\"_blank\" title=\"u60n.png\"><img src=\"/user_uploads/2/f/paU70tIQOI9xLrBIzErqB1GH/u60n.png\"></a></div>",
+        "id": 38128,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626887371
+    },
+    {
+        "content": "<p>I am hoping to create something like this: <a href=\"/user_uploads/2/a/KdiR_IeitLRRZr1PKOYKl47n/u60n_10_2021_merra2.pdf\" target=\"_blank\" title=\"u60n_10_2021_merra2.pdf\">u60n_10_2021_merra2.pdf</a></p>",
+        "id": 38130,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626887806
+    },
+    {
+        "content": "<p>Use <code>.roll</code> to move the data in a circular fashion.  I think you'll have to manually set the xaxis labels or create a fake time axis using <code>xr.cftime_range</code> and plot against that.</p>",
+        "id": 38133,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1626889011
+    },
+    {
+        "content": "<p>longer term: I think we should consider making <code>ClimatologyTimeIndex</code> that we can plug in to xarray for things like this. cc <span class=\"user-group-mention\" data-user-group-id=\"4\">@xdev</span></p>",
+        "id": 38134,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1626889058
+    },
+    {
+        "content": "<p>Thanks - rolling the data and creating a new time axis 'days from July 1' should work. I will look into manually setting x-axis labels to the month names.</p>",
+        "id": 38194,
+        "sender_full_name": "Daniel Marsh",
+        "timestamp": 1626901218
+    }
+]

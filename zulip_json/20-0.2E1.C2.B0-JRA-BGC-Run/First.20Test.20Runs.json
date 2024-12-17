@@ -1,0 +1,200 @@
+[
+    {
+        "content": "<p>Per the discussion in the model configuration thread, I've got a 1-day test run in the queue at cheyenne. It differs from our eventual production run in the following ways (probably not an all-inclusive list):</p>\n<ol>\n<li><code>riv_flux_shr_stream_file = 'unknown'</code> -- file is in process of being created, but isn't ready yet</li>\n<li>coccolithophores are not included as an explicit calcifier</li>\n<li>Initial conditions, fesedflux, and ndep files are preliminary at this point and will likely change</li>\n<li>No changes have been made to tavg yet (current test is disabling tavg output)</li>\n<li>No changes have been made to PE layout (2208 ocean tasks =&gt; block size of 60x48, I assume land block elimination accounts for reduction from the 3000 tasks I'd expect from that block size). Full model is requesting 85 nodes -- 23 for CICE / coupler and 62 for POP (24 unused cores given task count)</li>\n<li>No tracer restoring is being done in marginal seas</li>\n</ol>\n<p>I'm running for a single day just to make sure everything actually works -- future timing runs will be O(1 month) once I have a starting point for estimating wallclock needs</p>",
+        "id": 7202,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587762412
+    },
+    {
+        "content": "<p>My first test died in CICE:</p>\n<div class=\"codehilite\"><pre><span></span>162: istep1, my_task, iblk =       17665         162           1\n162: category n =            1\n162: Global block:         430\n162: Global i and j:        1047         198\n162: Lat, Lon:  -70.1472839712437       -5.35000000000000\n162: aice:  3.442529845610359E-002\n162: n:            1 aicen:   2.803949195110218E-003\n162: ice: Vertical thermo error\n162: ERROR: ice: Vertical thermo error\n162:Image              PC                Routine            Line        Source\n162:cesm.exe           000000000167EA9A  Unknown               Unknown  Unknown\n162:cesm.exe           0000000000D768F0  shr_abort_mod_mp_         114  shr_abort_mod.F90\n162:cesm.exe           00000000005058C4  ice_exit_mp_abort          46  ice_exit.F90\n162:cesm.exe           000000000070427E  ice_step_mod_mp_s         578  ice_step_mod.F90\n162:cesm.exe           00000000005E1748  cice_runmod_mp_ci         172  CICE_RunMod.F90\n162:cesm.exe           00000000004F7559  ice_comp_mct_mp_i         584  ice_comp_mct.F90\n162:cesm.exe           0000000000428324  component_mod_mp_         737  component_mod.F90\n162:cesm.exe           0000000000409D5C  cime_comp_mod_mp_        2603  cime_comp_mod.F90\n162:cesm.exe           0000000000427F5C  MAIN__                    133  cime_driver.F90\n162:cesm.exe           0000000000407D22  Unknown               Unknown  Unknown\n162:libc.so.6          00002AD9A84DA6E5  __libc_start_main     Unknown  Unknown\n162:cesm.exe           0000000000407C29  Unknown               Unknown  Unknown\n</pre></div>\n<p>Case root: <code>/glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/tests/SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval.20200424_143439_sexhyo</code><br/>\nRundir: <code>/glade/scratch/mlevy/SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval.20200424_143439_sexhyo/run</code></p>\n<p>I'm currently waiting on two <code>SMS_Ld1.TL319_t13.GIAF_JRA_HR.cheyenne_intel.pop-performance_eval</code> tests to run, one in the same sandbox and one in a CESM 2.1 sandbox. It doesn't look like there were any CICE mods when JRA was updated in 2.1, but if 2.1 runs successfully and the 2.2 sandbox doesn't then maybe it'll help us track down something in CIME or POP that didn't get merged in correctly.</p>\n<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> I was under the impression that nobody has run <code>GIAF_JRA_HR</code> in the latest 2.1, is that accurate? So it's possible that we just need to talk to <span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> about how to configure CICE correctly?</p>",
+        "id": 7228,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587848865
+    },
+    {
+        "content": "<p>The usual fix for <code>ERROR: ice: Vertical thermo error</code> is the following patch to<br>\n$SRCROOT/components/cice/src/source/ice_therm_vertical.F90,</p>\n<div class=\"codehilite\"><pre><span></span>--- /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/components/cice/src/source/ice_therm_vertical.F90   2020-04-17 16:10:05.319640578 -0600\n+++ ./ice_therm_vertical.F90    2020-04-25 15:20:33.546097802 -0600\n@@ -2387,7 +2387,7 @@ subroutine conservation_check_vthermo(nx\n                - fsnow(i,j)*Lfresh - fadvocn(i,j)) * dt\n          ferr = abs(efinal(ij)-einit(ij)-einp) / dt\n\n-         if (ferr &gt; ferrmax) then\n+         if (ferr &gt; 1.1_dbl_kind*ferrmax) then\n             l_stop = .true.\n             istop = i\n             jstop = j\n</pre></div>\n\n\n<p>This just loosens the tolerance on the energy conservation.<br>\nIt doesn't change answers, except for allowing runs to proceed.<br>\nIt looks like this was added to CESM_CICE5 master on Dec 23, 2019, and you're using a tag from Nov 6, 2019.</p>",
+        "id": 7229,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587850131
+    },
+    {
+        "content": "<p>I'm surprised to see OCN_NCPL=1 in your test. That doesn't see right to me.</p>",
+        "id": 7230,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587850690
+    },
+    {
+        "content": "<p>Isn't that the default when using leapfrog rather than Robert? (Though I suppose this means I won't actually be running POP in my test due to waiting a coupling interval before starting? That's a bummer.)</p>",
+        "id": 7231,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587850962
+    },
+    {
+        "content": "<p>So I'll test this CICE change with an <code>SMS_Ld2.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval</code> test so that POP gets a chance to take some time steps (it initialized fine in the <code>SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval</code> tests that caused CICE to crash); test is building an submitting now, I'll check in on it tomorrow or Monday and let everyone know how it goes</p>",
+        "id": 7232,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587852802
+    },
+    {
+        "content": "<p>When you run with leapfrog, you need to use at least 3 ocean timesteps (2 full+1 half) per coupling interval.<br>\nIf you have OCN_NCPL=24, this means a timestep of 24 minutes or less.<br>\nOne reason for not doing that with the gx1v[67] grids is that<br>\nit's a much shorter timestep than the 1 hr target timestep for that resolution.</p>\n<p>But for tx0.1v[23] grid, the target timestep is a few minutes.<br>\nSo it's not problematic to use higher OCN_NCPL.</p>\n<p>Alper is using ATM_NCPL=144, OCN_NCPL=48 in <code>/glade/scratch/altuntas/temp/g.e20.G.TL319_t13.control.001_hfreq</code>.<br>\nI suggest asking him him to point us to a trusted hi-res JRA case.<br>\nThere are other settings that we'll want to vet also,<br>\nbut I'm focusing on NCPL settings initially because these seem likely to impact timing tests.</p>\n<p>I think it's a great step forward that your test run completed ocean model, and MARBL, initialization.</p>",
+        "id": 7233,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1587852811
+    },
+    {
+        "content": "<p>Thanks for pointing me to Alper's case root - I'll send him an email and see if he can point me to documentation of any changes that haven't made it into the compset definition yet</p>",
+        "id": 7234,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587853038
+    },
+    {
+        "content": "<p>Putting the 1.1 multiple in front of <code>ferrmax</code> just reduces the number of tasks reporting the error, it looks like the <code>ice.log</code> is getting to the exact same spot, but the first error in <code>cesm.log</code> is now</p>\n<div class=\"codehilite\"><pre><span></span>664: istep1, my_task, iblk =       17665         664           1\n664: category n =            1\n664: Global block:        1015\n664: Global i and j:         539         401\n664: Lat, Lon:  -61.3373858360807       -56.1500000000000\n664: aice:  1.377508213909708E-003\n664: n:            1 aicen:   4.334067408077150E-004\n664: ice: Vertical thermo error\n664: ERROR: ice: Vertical thermo error\n664:Image              PC                Routine            Line        Source\n664:cesm.exe           000000000167EA9A  Unknown               Unknown  Unknown\n664:cesm.exe           0000000000D768F0  shr_abort_mod_mp_         114  shr_abort_mod.F90\n664:cesm.exe           00000000005058C4  ice_exit_mp_abort          46  ice_exit.F90\n664:cesm.exe           000000000070427E  ice_step_mod_mp_s         578  ice_step_mod.F90\n664:cesm.exe           00000000005E1748  cice_runmod_mp_ci         172  CICE_RunMod.F90\n664:cesm.exe           00000000004F7559  ice_comp_mct_mp_i         584  ice_comp_mct.F90\n664:cesm.exe           0000000000428324  component_mod_mp_         737  component_mod.F90\n664:cesm.exe           0000000000409D5C  cime_comp_mod_mp_        2603  cime_comp_mod.F90\n664:cesm.exe           0000000000427F5C  MAIN__                    133  cime_driver.F90\n664:cesm.exe           0000000000407D22  Unknown               Unknown  Unknown\n664:libc.so.6          00002B2EE17746E5  __libc_start_main     Unknown  Unknown\n664:cesm.exe           0000000000407C29  Unknown               Unknown  Unknown\n</pre></div>\n\n\n<p>and the <code>ice_step_mod</code> appears fewer times in <code>cesm.log</code>. However, I added CIME mods to change the coupling frequency to what Alper is using. That test (<code>/glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/tests/SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval.003</code>) is in the queue and if it runs before I go to bed I'll provide one more update otherwise I'll check on it on Monday.</p>\n<p>Alper's run includes a few other modifications that I have NOT added  to our run. These are just the ones that I noticed:<br>\n1. No ideal age tracer (probably negligible for us, since we're adding the 32 BGC tracers)<br>\n2. no CVMix (but turning tidal mixing on)<br>\n3. <code>h_upper = 20.0</code> in <code>user_nl_pop</code><br>\n4. <code>ndtd = 2</code> in <code>user_nl_cice</code></p>\n<p>Is there any chance that changing <code>ndtd</code> from 3 (default value for the 0.1 degree grids) to 2 would fix this <code>Vertical thermo error</code> issue?</p>",
+        "id": 7236,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587873753
+    },
+    {
+        "content": "<p>Looks like my <code>.003</code> test finished, but nothing beyond initialization in the ocean log:</p>\n<div class=\"codehilite\"><pre><span></span>$ tail -n 6 ocn.log.1953646.chadmin1.ib0.cheyenne.ucar.edu.200425-220050\n========================================================================\n\n\n End of initialization\n\n========================================================================\n</pre></div>\n\n\n<p>So I definitely need to get past the CICE error to figure out if we'll run into POP errors</p>",
+        "id": 7237,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1587873956
+    },
+    {
+        "content": "<p>This is more serious than a small energy conservation error. What is ICE_NCPL/ATM_NCPL? What is ndtd (xndt_dyn)? What version of CESM are you running here? How long into the run before this blows up? How are you initializing POP/CICE?</p>",
+        "id": 7247,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1588000588
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> This is <code>cesm2_2_beta04</code>; out of the box <code>ICE_NCPL = ATM_NCPL = 24</code> and <code>OCN_NCPL=1</code>, but the error also occurs when I change to <code>ICE_NCPL = ATM_NCPL = 144</code> and <code>OCN_NCPL = 24</code>. I think <code>ndtd = 3</code>,  I was toying with the idea of setting it to 2 instead to match Alper's run but haven't done so yet. I'll double-check initialization, but I think it's a startup run; it's <code>GIAF_JRA_HR</code> compset</p>",
+        "id": 7260,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588006246
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> oh, I noticed two other differences as with Alper's older high-res run: he has <code>ktherm=1</code> and <code>r_snw=1.00</code>, while CICE currently defaults to <code>ktherm=2</code> and <code>r_snw=1.25</code>for the high-res run. So I'm testing with his values of those three variables (<code>ndtd</code>, <code>ktherm</code>, <code>r_snw</code>)</p>",
+        "id": 7314,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588019085
+    },
+    {
+        "content": "<p>Oh! He was using the CICE4 physics, but we are trying to use the CICE5 physics for the high res now. <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span> has some runs with CICE5 physics on. I thought Alper had done some with the CICE5 physics too? What is the CICE initial file? It looks like it is crashing right away.</p>",
+        "id": 7318,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1588021147
+    },
+    {
+        "content": "<p><code>ice_ic = \"/glade/p/cesmdata/cseg/inputdata/ice/cice/g.e11.G.T62_t12.002.cice.r.0016-01-01-00000.nc\"</code></p>",
+        "id": 7319,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588021273
+    },
+    {
+        "content": "<p>Off a conference call, so longer answer: Alper does have a run out of the CESM 2.1 sandbox. It's possible that something has gone wonky in the merge from CESM 2.1 -&gt; 2.2 (the CIME merge had some issues that were resolved in a later PR, though something else could have slipped through the cracks), or it could be a difference in CICE in the two branches. Or, as you pointed out, it could be CICE4 vs CICE5. He sent me the script he used to set up the run, which includes</p>\n<div class=\"codehilite\"><pre><span></span>./xmlchange --id CICE_CONFIG_OPTS --val \"-phys cice4 -trage 0\"\n</pre></div>\n<p>and also some source mods for CICE from <code>/glade/p_old/work/altuntas/cesm.sourcemods/cesm2_0_alpha08b.jra/src.cice/</code>:</p>\n<div class=\"codehilite\"><pre><span></span>$ ls SourceMods/src.cice/\nice_import_export.F90  namelist_definition_cice.xml  README\n</pre></div>\n<p>So if <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span> has CICE5 working more out-of-the-box, that would be great :)</p>",
+        "id": 7340,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588024803
+    },
+    {
+        "content": "<p><code>/glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/tests/SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval.006</code> was run with CICE4 and still aborts on what appears to be the first CICE time step:</p>\n<div class=\"codehilite\"><pre><span></span>546: istep1, my_task, iblk =       17665         546           1\n546: category n =            1\n546: Global block:         897\n546: Global i and j:        3462         321\n546: Lat, Lon:  -64.9490236870987       -123.850000000000\n546: aice:  1.053948729398668E-003\n546: n:            1 aicen:   3.055358416585096E-004\n546: ice: Vertical thermo error\n546: ERROR: ice: Vertical thermo error\n546:Image              PC                Routine            Line        Source\n546:cesm.exe           000000000167377A  Unknown               Unknown  Unknown\n546:cesm.exe           0000000000D6B5D0  shr_abort_mod_mp_         114  shr_abort_mod.F90\n546:cesm.exe           00000000005058C4  ice_exit_mp_abort          46  ice_exit.F90\n546:cesm.exe           00000000006FB853  ice_step_mod_mp_s         578  ice_step_mod.F90\n546:cesm.exe           00000000005DC028  cice_runmod_mp_ci         172  CICE_RunMod.F90\n546:cesm.exe           00000000004F7559  ice_comp_mct_mp_i         584  ice_comp_mct.F90\n546:cesm.exe           0000000000428324  component_mod_mp_         737  component_mod.F90\n546:cesm.exe           0000000000409D5C  cime_comp_mod_mp_        2603  cime_comp_mod.F90\n546:cesm.exe           0000000000427F5C  MAIN__                    133  cime_driver.F90\n546:cesm.exe           0000000000407D22  Unknown               Unknown  Unknown\n546:libc.so.6          00002AD921E736E5  __libc_start_main     Unknown  Unknown\n546:cesm.exe           0000000000407C29  Unknown               Unknown  Unknown\n</pre></div>\n\n\n<p>Alper's source mods in <code>ice_import_export.F90</code> prevent several fields from being negative:</p>\n<div class=\"codehilite\"><pre><span></span>140,141c140,141\n&lt;              Qa   (i,j,iblk)   = aflds(i,j, 6,iblk)\n&lt;              rhoa (i,j,iblk)   = aflds(i,j, 7,iblk)\n---\n&gt;              Qa   (i,j,iblk)   = max(aflds(i,j, 6,iblk),c0)\n&gt;              rhoa (i,j,iblk)   = max(aflds(i,j, 7,iblk),c0)\n143,146c143,146\n&lt;              swvdr(i,j,iblk)   = aflds(i,j, 9,iblk)\n&lt;              swidr(i,j,iblk)   = aflds(i,j,10,iblk)\n&lt;              swvdf(i,j,iblk)   = aflds(i,j,11,iblk)\n&lt;              swidf(i,j,iblk)   = aflds(i,j,12,iblk)\n---\n&gt;              swvdr(i,j,iblk)   = max(aflds(i,j, 9,iblk),c0)\n&gt;              swidr(i,j,iblk)   = max(aflds(i,j,10,iblk),c0)\n&gt;              swvdf(i,j,iblk)   = max(aflds(i,j,11,iblk),c0)\n&gt;              swidf(i,j,iblk)   = max(aflds(i,j,12,iblk),c0)\n148,149c148,149\n&lt;              frain(i,j,iblk)   = aflds(i,j,14,iblk)\n&lt;              fsnow(i,j,iblk)   = aflds(i,j,15,iblk)\n---\n&gt;              frain(i,j,iblk)   = max(aflds(i,j,14,iblk),c0)\n&gt;              fsnow(i,j,iblk)   = max(aflds(i,j,15,iblk),c0)\n</pre></div>\n\n\n<p>(I snipped out some OMP statements since <code>NTHRDS_ICE=1</code> and also some diagnostic <code>write()</code> statements).</p>",
+        "id": 7380,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588044815
+    },
+    {
+        "content": "<p>Adding the above to CICE's <code>ice_import_export.F90</code> kept CICE running past the first time step (<span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> does this hint at a problem in either the forcing data or maps, or does it seem like a reasonable work-around?). Probably not a surprise, getting past the first time step just let us find a runtime error in POP:</p>\n<div class=\"codehilite\"><pre><span></span>1897: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n1897:        1497 ,        1339 ,           1 )\n1897: (lon,lat)=(   39.6500000000000      ,   15.4607237580609      )\n1897: PO4   0.211717655882239                            NaN\n1897: NO3    1.27333082631230                            NaN\n1897: SiO3    2.19131705164909                            NaN\n1897: NH4   6.350598431893197E-002                       NaN\n1897: Fe   2.437298209344740E-003                       NaN\n1897: Lig   5.812391901820265E-004                       NaN\n1897: O2    203.535365092392                            NaN\n1897: DIC    2105.65655080915                            NaN\n1897: DIC_ALT_CO2    2105.65655080915                            NaN\n1897: ALK    2391.51854738421                            NaN\n1897: ALK_ALT_CO2    2391.51854738421                            NaN\n1897: DOC    66.9323836494075         3.577910606282754E-007\n1897: DON    6.16377178086313         3.247201491180935E-008\n1897: DOP   0.222849434662858         4.313611068196024E-009\n1897: DOPr   3.858386270617769E-002                       NaN\n1897: DONr    1.86200705348168                            NaN\n1897: DOCr    20.2761671622387                            NaN\n1897: zooC   0.763287877298220        -2.369565062929366E-007\n1897: spChl   9.526575502999188E-002   -1.353405387353486E-006\n1897: spC   0.637940214131649        -9.062981087773334E-006\n1897: spP   4.348255572965681E-003   -6.177406053401722E-008\n1897: spFe   1.913820672397084E-005   -2.718894326335037E-010\n1897: spCaCO3   2.912888670776460E-002   -4.138233322717762E-007\n1897: diatChl   6.305137156249992E-003   -5.179350511652691E-008\n1897: diatC   3.348946596417704E-002   -2.750990663194437E-007\n1897: diatP   2.288603780628343E-004   -1.879971976568009E-009\n1897: diatFe   1.004684278946992E-006   -8.252971989761424E-012\n1897: diatSi   4.586396734116307E-003   -3.767492392761152E-008\n1897: diazChl   3.781205504814170E-003   -2.752884200074162E-008\n1897: diazC   3.042874920955905E-002   -2.215347733658101E-007\n1897: diazP   2.074621591844823E-004   -1.510415922660358E-009\n1897: diazFe   1.825725552617135E-006   -1.329208640226600E-011\n1897: Dust Flux\n1897:  2.137987307381511E-011\n1897: PAR Column Fraction\n1897:   1.00000000000000       0.000000000000000E+000  0.000000000000000E+000\n1897:  0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000\n1897: Surface Shortwave\n1897:  0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000\n1897:  0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000\n1897: Potential Temperature\n1897:   26.6446952819824\n1897: Salinity\n1897:   38.1813774108887\n1897: Pressure\n1897:  0.496808084874780\n1897: Iron Sediment Flux\n1897:  4.950889967323747E-010\n1897:------------------------------------------------------------------------\n1897:\n1897:POP aborting...\n1897: Stopping in ecosys_driver:ecosys_driver_set_interior\n1897:\n1897:------------------------------------------------------------------------\n1897:MPT ERROR: Rank 1897(g:1897) is aborting with error code 0.\n1897:   Process ID: 18849, Host: r4i2n0, Program: /glade/scratch/mlevy/SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval.007/bld/cesm.exe\n1897:   MPT Version: HPE MPT 2.19  02/23/19 05:30:09\n1897:\n1897:MPT: --------stack traceback-------\n</pre></div>\n<p><code>/glade/scratch/mlevy/SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval.007/run/</code> has all the logs; not sure if I'll have time to look at this on Tuesday, but definitely will investigate more later in the week.</p>",
+        "id": 7385,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588046237
+    },
+    {
+        "content": "<p>To be clear about the error message, the columns are <code>Tracer Name</code>, <code>Tracer Value at (i, j, k)</code>, and <code>Tracer Tendency Returned From MARBL</code>. So the <code>NaN</code> is being returned by MARBL as the computed tendency for 14 of the 32 tracers. The next set of lines are the names of the forcing fields followed by the value passed to MARBL.</p>",
+        "id": 7387,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588049130
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> I think all my HR runs use CICE4 physics. Sorry. I will double check tomorrow.</p>",
+        "id": 7388,
+        "sender_full_name": "Fred Castruccio",
+        "timestamp": 1588052148
+    },
+    {
+        "content": "<p>Because we're planning to initialize the physics in this hi-res JRA BGC run from the hi-res JRA physics only run that Alper has done, I think we should match his configuration, even if it isn't the latest version of model physics.</p>",
+        "id": 7393,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588084897
+    },
+    {
+        "content": "<p>I agree w/ Keith; use cice4 phys (I thought there was some reason we might not want to use cice5, which I can't recall). </p>\n<p>But, I did use cice5 physics in high-res core nyf runs using modified cesm20b07 tag. This discussion reminds me of a bunch of issues that Dave and I worked through a year+ ago</p>\n<p>The ending case and run directory with restart is here:<br>\n/glade/p/cgd/oce/people/dwhitt/nsfsubmeso/run_directories/g.e20b07.2000_DATM%NYF_SLND_CICE_POP2_DROF%NYF_SGLC_SWAV.T62_t13.hybrid.027</p>",
+        "id": 7404,
+        "sender_full_name": "Dan Whitt",
+        "timestamp": 1588096976
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"30\">@Dan Whitt</span> Thanks! I'll take a look and see what mods you put in. I just got off a zoom call with <span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> and he helped explain the need for <code>ice_import_export.F90</code> mods (the high-res runs use patch mapping, which is not positive-definite). It'll be interesting to see what other issues you guys talked about</p>",
+        "id": 7413,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588097933
+    },
+    {
+        "content": "<p>I'm done with the first wave of testing, and here's where things stand:</p>\n<ol>\n<li>CIME: So far I've uncovered two issues that I've addressed on a branch. (i) The default values for <code>ATM_NCPL</code> and <code>OCN_NCPL</code> were too small, and (ii) when I updated the <code>maint-5.6</code> -&gt; <code>master</code> merge I had a typo in the JRA -&gt; 0.1 degree runoff map file names. Those are addressed in <a href=\"https://github.com/ESMCI/cime/pull/3515\" target=\"_blank\" title=\"https://github.com/ESMCI/cime/pull/3515\">https://github.com/ESMCI/cime/pull/3515</a> but that is still in \"draft\" status until I can do more thorough testing and verify that we want the updated <code>NCPL</code> values in CIME</li>\n<li>POP: I'm working out of <a href=\"https://github.com/mnlevy1981/POP2-CESM/tree/highres_JRA_BGC\" target=\"_blank\" title=\"https://github.com/mnlevy1981/POP2-CESM/tree/highres_JRA_BGC\">https://github.com/mnlevy1981/POP2-CESM/tree/highres_JRA_BGC</a> and I'll move that branch to <a href=\"https://github.com/ESCOMP/POP2-CESM/\" target=\"_blank\" title=\"https://github.com/ESCOMP/POP2-CESM/\">https://github.com/ESCOMP/POP2-CESM/</a> once it's a ready for a wider audience. I'm waiting on a few more forcing files, and the current issue is that MARBL is returning <code>NaN</code>s for some tracer tendencies on the first time step. Details in <a href=\"#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/First.20Test.20Runs/near/7385\" title=\"#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/First.20Test.20Runs/near/7385\">https://zulip2.cloud.ucar.edu/#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/First.20Test.20Runs/near/7385</a></li>\n<li><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> brought two of my PRs into <code>CICE</code> (thanks, Dave!), so using <a href=\"https://github.com/ESCOMP/CESM_CICE5/releases/tag/cice5_20200430\" target=\"_blank\" title=\"https://github.com/ESCOMP/CESM_CICE5/releases/tag/cice5_20200430\">https://github.com/ESCOMP/CESM_CICE5/releases/tag/cice5_20200430</a> will give us CICE4 physics and the necessary patches in <code>ice_import_export.F90</code> out of the box. Alper's run has a few small mods that still need to be included: (i) turning off ideal age by appending <code>-trage 0</code> to <code>CICE_CONFIG_OPTS</code>, and (ii) three namelist changes: <code>ndtd=2</code>, <code>r_snw=1.00</code>, and <code>f_blkmask = .true.</code></li>\n</ol>\n<p>At this point, I'd welcome feedback on the CIME PR: do we want the <code>NCPL</code> updates on <code>master</code>? Is there any reason to hold off and see if additional CIME changes are made, or should we get this merged ASAP and submit future PRs down the line as needed? I'm leaning towards getting it merged quickly, and then relying on <code>cesm2_2_beta05</code> as the basis for our experiment tag since that will also include our CICE mods.</p>\n<p>I haven't had a chance to really dig into why MARBL is returning those NaNs. I'll try to find some time for it next week, but would appreciate any off-the-cuff theories that would be worth investigating (read: I'm not really sure where to start digging)</p>",
+        "id": 7817,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588355411
+    },
+    {
+        "content": "<p>Regarding the NaNs, I've cloned Mike's case and am trying out some hypotheses.<br>\nBased on the tracers that do and don't have NaN tendencies, I was guessing that the NaN generation is in the sinking particulate code.<br>\nThe variables <code>PO[CNP]remin_refract</code>control how much remineralized POM goes into refractory DOM.<br>\nI tried a run with those set to zero (via SourceMods) and the refractory DOM tracer tendencies are no longer NaN.<br>\nI think this confirms my guess. I'm now reviewing the sinking particulate code to try to figure out what might be going wrong.</p>",
+        "id": 7842,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588367125
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> -- if it would help to talk any of this out, I'm available to be a sounding board until ~5:00 today.</p>",
+        "id": 7843,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588367407
+    },
+    {
+        "content": "<p>The following patch gets my test run past these NaNs:</p>\n<div class=\"codehilite\"><pre><span></span>--- /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/../components/pop/source/ecosys_driver.F90 2020-05-01 16:01:16.168534401 -0600\n+++ SourceMods/src.pop/ecosys_driver.F90    2020-05-01 16:18:36.090587538 -0600\n@@ -710,7 +710,7 @@ subroutine ecosys_driver_set_interior(\n\n              marbl_instances(bid)%domain%kmt = KMT(i, c, bid)\n              if (partial_bottom_cells) then\n-                marbl_instances(bid)%domain%delta_z(:) = DZT(i, c, 1:km, bid)\n+                marbl_instances(bid)%domain%delta_z(1:km) = DZT(i, c, 1:km, bid)\n              end if\n\n              ! --- set forcing fields ---\n@@ -790,6 +790,9 @@ subroutine ecosys_driver_set_interior(\n                          end if\n                       end associate\n                    end do\n+                   if (partial_bottom_cells) then\n+                      write(stdout, *) &#39;delta_z = &#39;, marbl_instances(bid)%domain%delta_z(k)\n+                   end if\n                    call exit_POP(sigAbort, &#39;Stopping in &#39; // subname)\n                 end if\n              end do\n</pre></div>\n\n\n<p>However, the test run still aborts, with another generated NaN:</p>\n<div class=\"codehilite\"><pre><span></span>1195: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n1195:        1611 ,         695 ,          46 )\n1195: (lon,lat)=(   51.0500000000000      ,  -43.7616814221158      )\n1195: PO4    2.04789492842180         1.233632313668388E-011\n1195: NO3    29.1541177738795         7.891054589657643E-010\n1195: SiO3    80.6860058275754         5.874654000518209E-009\n1195: NH4   1.136311860910701E-003   -5.897866983062583E-010\n1195: Fe   7.018172115361605E-004   -1.206971895609777E-012\n1195: Lig   1.318561169877044E-003   -3.305152602581477E-014\n1195: O2    206.443621307117        -3.318239747001380E-009\n1195: DIC    2288.10693532270         1.540772284427621E-009\n1195: DIC_ALT_CO2    2288.10693532270         1.540772284427621E-009\n1195: ALK    2410.24191924178        -1.247831255100442E-009\n1195: ALK_ALT_CO2    2410.24191924178        -1.247831255100442E-009\n1195: DOC   3.061239864193014E-013   -1.617854655099471E-021\n1195: DON   1.529597999753868E-014   -8.818769889268647E-023\n1195: DOP   2.035138542409879E-015   -1.434084885287981E-023\n1195: DOPr   2.105337715235184E-002   -1.191824074063360E-013\n1195: DONr    1.17315908596378        -3.848418582486065E-012\n1195: DOCr    23.5750940541949        -4.586495690265037E-011\n1195: zooC  -2.145480931261657E-049    0.000000000000000E+000\n1195: spChl  -3.612966596092754E-051    0.000000000000000E+000\n1195: spC  -1.276973321602058E-050    0.000000000000000E+000\n1195: spP  -1.107089422179871E-052    0.000000000000000E+000\n1195: spFe  -5.156775088672139E-055    0.000000000000000E+000\n1195: spCaCO3  -7.065586469539938E-052    0.000000000000000E+000\n1195: diatChl  -5.163524977252080E-057    0.000000000000000E+000\n1195: diatC  -1.550109443411441E-056    0.000000000000000E+000\n1195: diatP  -1.335046195172915E-058    0.000000000000000E+000\n1195: diatFe  -2.086869697838774E-061    0.000000000000000E+000\n1195: diatSi  -1.238294531751651E-054    0.000000000000000E+000\n1195: diazChl   8.317163243079574E-296                       NaN\n1195: diazC   7.800604350267029E-158   -2.946006227443461E-164\n1195: diazP   4.136366798894355E-156    0.000000000000000E+000\n1195: diazFe   4.399229936014720E-178    0.000000000000000E+000\n1195: Dust Flux\n1195:  3.153111848031827E-012\n1195: PAR Column Fraction\n1195:   1.00000000000000       0.000000000000000E+000  0.000000000000000E+000\n1195:  0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000\n1195: Surface Shortwave\n1195:   52.6980795125229       0.000000000000000E+000  0.000000000000000E+000\n1195:  0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000\n1195: Potential Temperature\n1195:   1.86141054800521\n1195: Salinity\n1195:   34.7509233308407\n1195: Pressure\n1195:   199.228289633652\n1195: Iron Sediment Flux\n1195:  0.000000000000000E+000\n1195: delta_z =    21185.9570000000\n1195:------------------------------------------------------------------------\n1195:\n1195:POP aborting...\n1195: Stopping in ecosys_driver:ecosys_driver_set_interior\n1195:\n1195:------------------------------------------------------------------------\n</pre></div>\n\n\n<p>Given how small diazChl is and that the tendency is only NaN for diazChl, this smells like a problem previously encountered, <a href=\"https://github.com/marbl-ecosys/MARBL/issues/50\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/MARBL/issues/50\">GH #50</a> where a denominator in an expression underflowed to zero, causing  division by zero. I'll test out an idea for a fix.</p>",
+        "id": 7870,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588379079
+    },
+    {
+        "content": "<p>My test run completes a day of execution with the following additional patch to MARBL:</p>\n<div class=\"codehilite\"><pre><span></span>--- /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cime/../components/pop/externals/MARBL/src/marbl_interior_tendency_mod.F90  2020-04-17 16:10:35.006494595 -0600\n+++ SourceMods/src.pop/marbl_interior_tendency_mod.F90  2020-05-01 18:31:38.592387537 -0600\n@@ -1330,6 +1330,7 @@ subroutine compute_autotroph_photosynthe\n     real(r8) :: PCphoto_subcol   ! PCphoto for a sub-column\n     real(r8) :: pChl_subcol      ! Chl synth. regulation term (mg Chl/mmol N)\n     real(r8) :: photoacc_subcol  ! photoacc for a sub-column\n+    real(r8) :: work             ! intermediate term common to multiple expressions\n     !-----------------------------------------------------------------------\n\n     associate(                                                &amp;\n@@ -1358,15 +1359,14 @@ subroutine compute_autotroph_photosynthe\n             photoacc(auto_ind,k)  = c0\n\n             do subcol_ind = 1, PAR_nsubcols\n-              if (PAR_avg(k,subcol_ind) &gt; c0) then\n-                light_lim_subcol = (c1 - exp((-c1 * alphaPI(auto_ind) * thetaC(auto_ind,k) * PAR_avg(k,subcol_ind)) &amp;\n-                                       / (PCmax + epsTinv)))\n+              work = alphaPI(auto_ind) * thetaC(auto_ind,k) * PAR_avg(k,subcol_ind)\n+              if (work &gt; c0) then\n+                light_lim_subcol = (c1 - exp(-work / (PCmax + epsTinv)))\n\n                 PCphoto_subcol = PCmax * light_lim_subcol\n\n                 ! GD 98 Chl. synth. term\n-                pChl_subcol = autotroph_settings(auto_ind)%thetaN_max * PCphoto_subcol &amp;\n-                            / (alphaPI(auto_ind) * thetaC(auto_ind,k) * PAR_avg(k,subcol_ind))\n+                pChl_subcol = autotroph_settings(auto_ind)%thetaN_max * PCphoto_subcol / work\n                 photoacc_subcol = (pChl_subcol * PCphoto_subcol * Q / thetaC(auto_ind,k)) &amp;\n                                 * autotroph_local%Chl(auto_ind,k)\n</pre></div>",
+        "id": 7873,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588382853
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> ! One clarification -- it looks like your first diff (<code>ecosys_driver.F90</code>) was compared against a base in my directory that was already partially repaired. The original line was <code>marbl_instances(bid)%domain%delta_z(:) = DZT(i, c, :, bid)</code>, not  <code>marbl_instances(bid)%domain%delta_z(:) = DZT(i, c, 1:km, bid)</code> (I think I was starting to fix things in my base directory while we chatted, and then I forgot to revert the change when we decided you'd test the mods... so your diff picked up my patch as well). For everyone else following the thread, it turns out that the <code>k</code> index of <code>DZT</code> runs from <code>0:km+1</code>, and I had assumed it was <code>1:km</code> when updating <code>delta_z</code> in the driver. Anyway, that fix is on the POP branch and I'll look at the MARBL fix on Monday.</p>",
+        "id": 7879,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588436262
+    },
+    {
+        "content": "<p>Good catch <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> . I think I did the copy to my SourceMods prior to your edit and subsequently didn't notice that the diff was partial.</p>",
+        "id": 7881,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588436787
+    },
+    {
+        "content": "<p>I've verified that <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>'s MARBL mods are sufficient to pass the test -- I'm just running <code>aux_pop_MARBL</code> to ensure they don't change answers. Currently generating baselines off <code>development</code>; I hope to launch the comparison tests later today and have results / a new MARBL PR tomorrow.</p>",
+        "id": 8094,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1588803957
+    },
+    {
+        "content": "<p>Preliminary throughput data: <a href=\"https://docs.google.com/spreadsheets/d/17c-uLIceaKVDoHROTPA1WObqN-QwSDcRJE20K9vDfWA/edit?usp=sharing\" target=\"_blank\" title=\"https://docs.google.com/spreadsheets/d/17c-uLIceaKVDoHROTPA1WObqN-QwSDcRJE20K9vDfWA/edit?usp=sharing\">https://docs.google.com/spreadsheets/d/17c-uLIceaKVDoHROTPA1WObqN-QwSDcRJE20K9vDfWA/edit?usp=sharing</a></p>\n<p>Note that this is with POP output turned off and without coccolithophores; I'm going to add coccolithophores for my next test.</p>",
+        "id": 10311,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1591196062
+    },
+    {
+        "content": "<p>Also, the above numbers come from single runs rather than averaging many runs... so discrepancies due to which nodes we happened to be given on the machine may be distorting the numbers somewhat</p>",
+        "id": 10312,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1591196190
+    }
+]

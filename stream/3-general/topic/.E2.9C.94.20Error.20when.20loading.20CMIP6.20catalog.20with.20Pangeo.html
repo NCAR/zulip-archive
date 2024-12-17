@@ -1,0 +1,331 @@
+<html>
+<head><meta charset="utf-8"><title>✔ Error when loading CMIP6 catalog with Pangeo · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html">✔ Error when loading CMIP6 catalog with Pangeo</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="98565"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Error%20when%20loading%20CMIP6%20catalog%20with%20Pangeo/near/98565" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html#98565">(May 01 2024 at 18:15)</a>:</h4>
+<p>I'm trying to follow an online example on my own on Casper using the NPL 2024a environment. This it he first time trying to do this so I'm not familiar with the requirements and packages. I follow more or less exactly this example:</p>
+<p><a href="https://nordicesmhub.github.io/forces-2021/learning/example-notebooks/xesmf_regridding.html">https://nordicesmhub.github.io/forces-2021/learning/example-notebooks/xesmf_regridding.html</a></p>
+<p>When calling this line:</p>
+<div class="codehilite"><pre><span></span><code>dset_dict = cat.to_dataset_dict(zarr_kwargs={&#39;use_cftime&#39;:True})
+</code></pre></div>
+<p>I receive the following error message (abbreviated for length): </p>
+<div class="codehilite"><pre><span></span><code>---------------------------------------------------------------------------
+ModuleNotFoundError                       Traceback (most recent call last)
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/fsspec/registry.py:236, in get_filesystem_class(protocol)
+    235 try:
+--&gt; 236     register_implementation(protocol, _import_class(bit[&quot;class&quot;]))
+    237 except ImportError as e:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/fsspec/registry.py:271, in _import_class(cls, minv)
+    270 s3 = mod == &quot;s3fs&quot;
+--&gt; 271 mod = importlib.import_module(mod)
+    272 if s3 and mod.__version__.split(&quot;.&quot;) &lt; [&quot;0&quot;, &quot;5&quot;]:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/importlib/__init__.py:126, in import_module(name, package)
+    125         level += 1
+--&gt; 126 return _bootstrap._gcd_import(name[level:], package, level)
+
+File &lt;frozen importlib._bootstrap&gt;:1204, in _gcd_import(name, package, level)
+
+File &lt;frozen importlib._bootstrap&gt;:1176, in _find_and_load(name, import_)
+
+File &lt;frozen importlib._bootstrap&gt;:1140, in _find_and_load_unlocked(name, import_)
+
+ModuleNotFoundError: No module named &#39;gcsfs&#39;
+
+The above exception was the direct cause of the following exception:
+
+ImportError                               Traceback (most recent call last)
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/intake_esm/source.py:244, in ESMDataSource._open_dataset(self)
+    223 datasets = [
+    224     _open_dataset(
+    225         record[self.path_column_name],
+   (...)
+    241     for _, record in self.df.iterrows()
+    242 ]
+--&gt; 244 datasets = dask.compute(*datasets)
+    245 if len(datasets) == 1:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/dask/base.py:665, in compute(traverse, optimize_graph, scheduler, get, *args, **kwargs)
+    664 with shorten_traceback():
+--&gt; 665     results = schedule(dsk, keys, **kwargs)
+    667 return repack([f(r, *a) for r, (f, a) in zip(results, postcomputes)])
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/intake_esm/source.py:77, in _open_dataset(urlpath, varname, xarray_open_kwargs, preprocess, requested_variables, additional_attrs, expand_dims, data_format, storage_options)
+     76 else:
+---&gt; 77     ds = xr.open_dataset(url, **xarray_open_kwargs)
+     78     if preprocess is not None:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/xarray/backends/api.py:572, in open_dataset(filename_or_obj, engine, chunks, cache, decode_cf, mask_and_scale, decode_times, decode_timedelta, use_cftime, concat_characters, decode_coords, drop_variables, inline_array, chunked_array_type, from_array_kwargs, backend_kwargs, **kwargs)
+    571 overwrite_encoded_chunks = kwargs.pop(&quot;overwrite_encoded_chunks&quot;, None)
+--&gt; 572 backend_ds = backend.open_dataset(
+    573     filename_or_obj,
+    574     drop_variables=drop_variables,
+    575     **decoders,
+    576     **kwargs,
+    577 )
+    578 ds = _dataset_from_backend_dataset(
+    579     backend_ds,
+    580     filename_or_obj,
+   (...)
+    590     **kwargs,
+    591 )
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/xarray/backends/zarr.py:1011, in ZarrBackendEntrypoint.open_dataset(self, filename_or_obj, mask_and_scale, decode_times, concat_characters, decode_coords, drop_variables, use_cftime, decode_timedelta, group, mode, synchronizer, consolidated, chunk_store, storage_options, stacklevel, zarr_version)
+   1010 filename_or_obj = _normalize_path(filename_or_obj)
+-&gt; 1011 store = ZarrStore.open_group(
+   1012     filename_or_obj,
+   1013     group=group,
+   1014     mode=mode,
+   1015     synchronizer=synchronizer,
+   1016     consolidated=consolidated,
+   1017     consolidate_on_close=False,
+   1018     chunk_store=chunk_store,
+   1019     storage_options=storage_options,
+   1020     stacklevel=stacklevel + 1,
+   1021     zarr_version=zarr_version,
+   1022 )
+   1024 store_entrypoint = StoreBackendEntrypoint()
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/xarray/backends/zarr.py:441, in ZarrStore.open_group(cls, store, mode, synchronizer, group, consolidated, consolidate_on_close, chunk_store, storage_options, append_dim, write_region, safe_chunks, stacklevel, zarr_version, write_empty)
+    440 try:
+--&gt; 441     zarr_group = zarr.open_consolidated(store, **open_kwargs)
+    442 except KeyError:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/zarr/convenience.py:1334, in open_consolidated(store, metadata_key, mode, **kwargs)
+   1333 zarr_version = kwargs.get(&quot;zarr_version&quot;)
+-&gt; 1334 store = normalize_store_arg(
+   1335     store, storage_options=kwargs.get(&quot;storage_options&quot;), mode=mode, zarr_version=zarr_version
+   1336 )
+   1337 if mode not in {&quot;r&quot;, &quot;r+&quot;}:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/zarr/storage.py:197, in normalize_store_arg(store, storage_options, mode, zarr_version)
+    196     raise ValueError(&quot;zarr_version must be either 2 or 3&quot;)
+--&gt; 197 return normalize_store(store, storage_options, mode)
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/zarr/storage.py:167, in _normalize_store_arg_v2(store, storage_options, mode)
+    166 if &quot;://&quot; in store or &quot;::&quot; in store:
+--&gt; 167     return FSStore(store, mode=mode, **(storage_options or {}))
+    168 elif storage_options:
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/zarr/storage.py:1377, in FSStore.__init__(self, url, normalize_keys, key_separator, mode, exceptions, dimension_separator, fs, check, create, missing_exceptions, **storage_options)
+   1376     storage_options[&quot;auto_mkdir&quot;] = True
+-&gt; 1377 self.map = fsspec.get_mapper(url, **{**mapper_options, **storage_options})
+   1378 self.fs = self.map.fs  # for direct operations
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/fsspec/mapping.py:245, in get_mapper(url, check, create, missing_exceptions, alternate_root, **kwargs)
+    244 # Removing protocol here - could defer to each open() on the backend
+--&gt; 245 fs, urlpath = url_to_fs(url, **kwargs)
+    246 root = alternate_root if alternate_root is not None else urlpath
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/fsspec/core.py:383, in url_to_fs(url, **kwargs)
+    382 kwargs = {k: v for k, v in kwargs.items() if k not in known_kwargs}
+--&gt; 383 chain = _un_chain(url, kwargs)
+    384 inkwargs = {}
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/fsspec/core.py:332, in _un_chain(path, kwargs)
+    331 protocol = kwargs.pop(&quot;protocol&quot;, None) or split_protocol(bit)[0] or &quot;file&quot;
+--&gt; 332 cls = get_filesystem_class(protocol)
+    333 extra_kwargs = cls._get_kwargs_from_urls(bit)
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/fsspec/registry.py:238, in get_filesystem_class(protocol)
+    237     except ImportError as e:
+--&gt; 238         raise ImportError(bit[&quot;err&quot;]) from e
+    239 cls = registry[protocol]
+
+ImportError: Please install gcsfs to access Google Storage
+
+The above exception was the direct cause of the following exception:
+
+ESMDataSourceError                        Traceback (most recent call last)
+Cell In[5], line 1
+----&gt; 1 dset_dict = cat.to_dataset_dict(zarr_kwargs={&#39;use_cftime&#39;:True})
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/pydantic/deprecated/decorator.py:55, in validate_arguments.&lt;locals&gt;.validate.&lt;locals&gt;.wrapper_function(*args, **kwargs)
+     53 @wraps(_func)
+     54 def wrapper_function(*args: Any, **kwargs: Any) -&gt; Any:
+---&gt; 55     return vd.call(*args, **kwargs)
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/pydantic/deprecated/decorator.py:150, in ValidatedFunction.call(self, *args, **kwargs)
+    148 def call(self, *args: Any, **kwargs: Any) -&gt; Any:
+    149     m = self.init_model_instance(*args, **kwargs)
+--&gt; 150     return self.execute(m)
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/pydantic/deprecated/decorator.py:222, in ValidatedFunction.execute(self, m)
+    220     return self.raw_function(*args_, **kwargs, **var_kwargs)
+    221 else:
+--&gt; 222     return self.raw_function(**d, **var_kwargs)
+...
+
+File /glade/u/apps/opt/conda/envs/npl-2024a/lib/python3.11/site-packages/intake_esm/source.py:264, in ESMDataSource._open_dataset(self)
+    261     self._ds.attrs[OPTIONS[&#39;dataset_key&#39;]] = self.key
+    263 except Exception as exc:
+--&gt; 264     raise ESMDataSourceError(
+    265         f&quot;&quot;&quot;Failed to load dataset with key=&#39;{self.key}&#39;
+    266          You can use `cat[&#39;{self.key}&#39;].df` to inspect the assets/files for this key.
+    267          &quot;&quot;&quot;
+    268     ) from exc
+
+ESMDataSourceError: Failed to load dataset with key=&#39;CMIP.NCC.NorESM2-MM.historical.Amon.gn&#39;
+                 You can use `cat[&#39;CMIP.NCC.NorESM2-MM.historical.Amon.gn&#39;].df` to inspect the assets/files for this key.
+</code></pre></div>
+<p>I've tried other environments which end up failing for different reasons. </p>
+<p>Any thoughts?</p>
+
+
+
+<a name="98575"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Error%20when%20loading%20CMIP6%20catalog%20with%20Pangeo/near/98575" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html#98575">(May 01 2024 at 19:52)</a>:</h4>
+<p>It looks like you're missing the "gcsfs" package for grabbing data from cloud storage.  </p>
+<p>I imagine you could make a custom environment with this dependency included, but don't know if there are any additional considerations for working with data in commercial cloud storage from the HPC systems.</p>
+
+
+
+<a name="98590"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Error%20when%20loading%20CMIP6%20catalog%20with%20Pangeo/near/98590" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html#98590">(May 01 2024 at 22:00)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> <a href="#narrow/stream/3-general/topic/Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo/near/98575">said</a>:</p>
+<blockquote>
+<p>It looks like you're missing the "gcsfs" package for grabbing data from cloud storage.  </p>
+<p>I imagine you could make a custom environment with this dependency included, but don't know if there are any additional considerations for working with data in commercial cloud storage from the HPC systems.</p>
+</blockquote>
+<p>You're right - I cloned the NPL environment and installed gcsfs and now it appears to work. Thanks <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span></p>
+
+
+
+<a name="98599"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Error%20when%20loading%20CMIP6%20catalog%20with%20Pangeo/near/98599" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html#98599">(May 01 2024 at 22:58)</a>:</h4>
+<p>Well another problem cropped up, further down as I try to follow through the same example as originally posted about:</p>
+<div class="codehilite"><pre><span></span><code># create dictionary for reggridded data
+ds_regrid_dict = dict()
+for key in dset_dict.keys():
+    print(key)
+    ds_in = dset_dict[key]
+    ds_in = ds_in.sel(time = ds_in.time.dt.year.isin(year_range)).squeeze()
+    regridder = xe.Regridder(ds_in, ds_out, &#39;bilinear&#39;)
+    # Apply regridder to data
+    # the entire dataset can be processed at once
+    ds_in_regrid = regridder(ds_in, keep_attrs=True)
+    # Save to netcdf file
+    model = key.split(&#39;.&#39;)[2]
+    filename = &#39;tas_Amon.nc&#39;
+    savepath = &#39;CMIP6_hist/{}&#39;.format(model)
+    nc_out = os.path.join(savepath, filename)
+    os.makedirs(savepath, exist_ok=True)
+    ds_in_regrid.to_netcdf(nc_out)
+    # create dataset with all models
+    ds_regrid_dict[model] = ds_in_regrid
+    print(&#39;file written: {}&#39;.format(nc_out))
+</code></pre></div>
+<p>Gives me the following error:</p>
+<div class="codehilite"><pre><span></span><code>---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+Cell In[61], line 10
+      7 regridder = xe.Regridder(ds_in, ds_out, &#39;bilinear&#39;)
+      8 # Apply regridder to data
+      9 # the entire dataset can be processed at once
+---&gt; 10 ds_in_regrid = regridder(ds_in, keep_attrs=True)
+     11 # Save to netcdf file
+     12 model = key.split(&#39;.&#39;)[2]
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xesmf/frontend.py:545, in BaseRegridder.__call__(self, indata, keep_attrs, skipna, na_thres, output_chunks)
+    537     return self.regrid_dataarray(
+    538         indata,
+    539         keep_attrs=keep_attrs,
+   (...)
+    542         output_chunks=output_chunks,
+    543     )
+    544 elif isinstance(indata, xr.Dataset):
+--&gt; 545     return self.regrid_dataset(
+    546         indata,
+    547         keep_attrs=keep_attrs,
+    548         skipna=skipna,
+    549         na_thres=na_thres,
+    550         output_chunks=output_chunks,
+    551     )
+    552 else:
+    553     raise TypeError(&#39;input must be numpy array, dask array, xarray DataArray or Dataset!&#39;)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xesmf/frontend.py:676, in BaseRegridder.regrid_dataset(self, ds_in, keep_attrs, skipna, na_thres, output_chunks)
+    663 ds_in = ds_in.drop_vars(non_regriddable)
+    665 ds_out = xr.apply_ufunc(
+    666     self.regrid_array,
+    667     ds_in,
+   (...)
+    673     keep_attrs=keep_attrs,
+    674 )
+--&gt; 676 return self._format_xroutput(ds_out, temp_horiz_dims)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xesmf/frontend.py:1075, in Regridder._format_xroutput(self, out, new_dims)
+   1071 if new_dims is not None:
+   1072     # rename dimension name to match output grid
+   1073     out = out.rename({nd: od for nd, od in zip(new_dims, self.out_horiz_dims)})
+-&gt; 1075 out = out.assign_coords(**self.out_coords)
+   1076 out.attrs[&#39;regrid_method&#39;] = self.method
+   1078 if self.sequence_out:
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/core/common.py:621, in DataWithCoords.assign_coords(self, coords, **coords_kwargs)
+    618 else:
+    619     results = self._calc_assign_results(coords_combined)
+--&gt; 621 data.coords.update(results)
+    622 return data
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/core/coordinates.py:566, in Coordinates.update(self, other)
+    560 # special case for PandasMultiIndex: updating only its dimension coordinate
+    561 # is still allowed but depreciated.
+    562 # It is the only case where we need to actually drop coordinates here (multi-index levels)
+    563 # TODO: remove when removing PandasMultiIndex&#39;s dimension coordinate.
+    564 self._drop_coords(self._names - coords_to_align._names)
+--&gt; 566 self._update_coords(coords, indexes)
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/core/coordinates.py:751, in DatasetCoordinates._update_coords(self, coords, indexes)
+    748 variables.update(coords)
+    750 # check for inconsistent state *before* modifying anything in-place
+--&gt; 751 dims = calculate_dimensions(variables)
+    752 new_coord_names = set(coords)
+    753 for dim, size in dims.items():
+
+File /glade/work/mberdahl/miniconda/envs/NPL_forCloud/lib/python3.11/site-packages/xarray/core/variable.py:3001, in calculate_dimensions(variables)
+   2999 for dim, size in zip(var.dims, var.shape):
+   3000     if dim in scalar_vars:
+-&gt; 3001         raise ValueError(
+   3002             f&quot;dimension {dim!r} already exists as a scalar variable&quot;
+   3003         )
+   3004     if dim not in dims:
+   3005         dims[dim] = size
+
+ValueError: dimension &#39;member_id&#39; already exists as a scalar variable
+</code></pre></div>
+<p>I've never used regridder before - thoughts?</p>
+
+
+
+<a name="98737"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Error%20when%20loading%20CMIP6%20catalog%20with%20Pangeo/near/98737" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html#98737">(May 03 2024 at 00:06)</a>:</h4>
+<p>Just following up this issue has been resolved -- I realized that when I was creating the output grid, I had been selecting for just one member_id and then asking the regridder to apply this to models with multiple member_ids.   <br>
+For example I did this:</p>
+<div class="codehilite"><pre><span></span><code># Read in the output grid from NorESM
+ds_out = ds.sel(time = ds.time.dt.year.isin(year_range), member_id=&#39;r1i1p1f1&#39;).squeeze()
+</code></pre></div>
+<p>and I should have been doing this:</p>
+<div class="codehilite"><pre><span></span><code># Read in the output grid from NorESM
+ds_out = ds.sel(time = ds.time.dt.year.isin(year_range)).squeeze()
+</code></pre></div>
+
+
+
+<a name="98738"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Error%20when%20loading%20CMIP6%20catalog%20with%20Pangeo/near/98738" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Error.20when.20loading.20CMIP6.20catalog.20with.20Pangeo.html#98738">(May 03 2024 at 00:07)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="259">Mira Berdahl</span> has marked this topic as resolved.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

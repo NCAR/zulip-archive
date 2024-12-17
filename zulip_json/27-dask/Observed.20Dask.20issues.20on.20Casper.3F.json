@@ -1,0 +1,206 @@
+[
+    {
+        "content": "<p>Hello all - I'm following up on a report from <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> that there has been flaky/unstable behavior observed by her colleagues on Casper recently (perhaps specific to Dask workflows - which is why I am posting it here). If you have been noticing this too, it'd be helpful  to us in HPCD if you can share any descriptions of what you have seen. For example:</p>\n<p>- What sorts of failures or weird behavior are you seeing now that you didn't see (or saw less) before?<br>\n   - How long have you noticed the problem?<br>\n   - Is it particular to a type/amount of resource or time of day?<br>\n   - Have you found any helpful mitigations?</p>\n<p>Anything else you'd like to share is welcome, of course. Thanks in advance!</p>",
+        "id": 82809,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1686864165
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"141\">Brian Vanderwende</span> <a href=\"#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/82809\">said</a>:</p>\n<blockquote>\n<p>Hello all - I'm following up on a report from <span class=\"user-mention silent\" data-user-id=\"311\">Elena Romashkova</span> that there has been flaky/unstable behavior observed by her colleagues on Casper recently (perhaps specific to Dask workflows - which is why I am posting it here). If you have been noticing this too, it'd be helpful  to us in HPCD if you can share any descriptions of what you have seen. For example:</p>\n<p>- What sorts of failures or weird behavior are you seeing now that you didn't see (or saw less) before?<br>\n   - How long have you noticed the problem?<br>\n   - Is it particular to a type/amount of resource or time of day?<br>\n   - Have you found any helpful mitigations?</p>\n<p>Anything else you'd like to share is welcome, of course. Thanks in advance!</p>\n</blockquote>\n<p>cc <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span></p>",
+        "id": 82810,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1686864227
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>  This is the same notebook tripping <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> up, but I figured I'd write up the details for others to see.</p>\n<p>Back in January, I was able to run a notebook that requested 72 workers (each worker was a single core with 20 GB of memory). Tuesday afternoon I tried to run the same notebook in the same environment, and got unexpected behavior spinning up the cluster:</p>\n<ol>\n<li>the <code>cluster.scale(72)</code> command took several minutes to finish</li>\n<li>while the cluster was scaling up, I could use <code>qstat</code> from a terminal and see workers get submitted to the queue (slowly)</li>\n<li>some of the queued workers would start to run, and then be killed; the logs were saying <code>OSError: Timed out trying to connect to tcp://10.12.206.56:38276 after 30 s</code></li>\n</ol>\n<p>The end result is that after a few minutes, the cell running <code>cluster.scale(72)</code> would finish but I'd have less than 10 workers running and there wouldn't be any more queued up.</p>\n<p><code>cluster.scale(1)</code> or <code>cluster.scale(2)</code> seemed to work fine, which made me wonder if I should just do something like</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">for</span> <span class=\"n\">count</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">,</span><span class=\"mi\">73</span><span class=\"p\">,</span><span class=\"mi\">1</span><span class=\"p\">):</span>\n  <span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"n\">count</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>But I never got desperate enough to try it. (Instead I started playing around with trying to reduce the number of jobs I submitted to get 72 workers, e.g. asking for 9 cores and 180 GB memory per worker, but I was having trouble figuring out how to have dask do that).</p>",
+        "id": 82812,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1686867200
+    },
+    {
+        "content": "<p>During one of Elena's experiments with fixing this, she passed <code>interface=\"mgt\"</code> (I think) to <code>PBSCluster</code>. Debugging with that, we concluded that the dask workers couldn't talk to the scheduler and would give up with <code>TimeoutError</code>. Changing to <code>interface=\"ib0\"</code> fixed it at that point, and seemed to decrease frequency of errors in the next couple of weeks.</p>\n<p>When looking at Mike's notebooks, I saw the same <code>TimeoutError</code>. Is it possible that it's an intermittent network issue?</p>",
+        "id": 82814,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1686869242
+    },
+    {
+        "content": "<p>I am also experiencing lots of flaky notebook behaviour, and I have <code>interface='ib0'</code> specified. I have started to play with <code>cluster.scale()</code> instead of <code>cluster.adapt()</code> and that seemed to help for a while, but yesterday it got stuck on one of my calculations again that really shouldn't have been an issue</p>",
+        "id": 82862,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1686933272
+    },
+    {
+        "content": "<p>And just now I am getting another error I have seen often recently:<br>\nOSError: [Errno -51] NetCDF: Unknown file format: b'/glade/campaign/cgd/oce/projects/FOSI_BGC/HR/g.e22.TL319_t13.G1850ECOIAF_JRA_HR.4p2z.001/ocn/proc/tseries/day_1/g.e22.TL319_t13.G1850ECOIAF_JRA_HR.4p2z.001.pop.h.nday1.SST.19700102-19710101.nc'<br>\neven though the file is there and also this cell ran without problems yesterday.<br>\n(edit: and now it just executed without changing anything)</p>",
+        "id": 82871,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1686935126
+    },
+    {
+        "content": "<p>Similarly currently I am trying to take a mean over some data and plot it, this has worked just a couple of minutes ago, but now it is not doing anything, and I don't even see any workers queueing, plus casper doesn't look that full. (I just keep adding to this thread with things as they come up, is this helpful or should I send an email to the helpdesk?)</p>",
+        "id": 82884,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1686938090
+    },
+    {
+        "content": "<p>I say keep posting here as you are not the only one encountering odd behavior!</p>",
+        "id": 82885,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1686938157
+    },
+    {
+        "content": "<p>And just to clarify what's happening right now: I have processes waiting that I can see on the dashboard, but no workers are being submitted or started. Usually at this point I expect to be able to see the queueing workers but there are none. qstat only shows my login.</p>",
+        "id": 82886,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1686938332
+    },
+    {
+        "content": "<p>it's still exactly the same as I left it before lunch. any advice on what to do?</p>",
+        "id": 82903,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1686941782
+    },
+    {
+        "content": "<p>I am having trouble plotting a map using data in a dask array. </p>\n<p><a href=\"/user_uploads/2/5e/w6ZPul9sEc-F0cimQS9ChU-8/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/5e/w6ZPul9sEc-F0cimQS9ChU-8/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/5e/w6ZPul9sEc-F0cimQS9ChU-8/image.png\"></a></div><div class=\"codehilite\"><pre><span></span><code>plot_data = dataset.SST.isel(time = 200, z_t = 0)\nplot_data.plot()\n</code></pre></div>\n<p>here's the error. </p>\n<div class=\"codehilite\"><pre><span></span><code>2023-06-16 12:44:38,736 - distributed.protocol.core - CRITICAL - Failed to deserialize\nTraceback (most recent call last):\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/protocol/core.py&quot;, line 158, in loads\n    return msgpack.loads(\n           ^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 128, in unpackb\n    ret = unpacker._unpack()\n          ^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 565, in _unpack\n    ret.append(self._unpack(EX_CONSTRUCT))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 592, in _unpack\n    ret[key] = self._unpack(EX_CONSTRUCT)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 565, in _unpack\n    ret.append(self._unpack(EX_CONSTRUCT))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 602, in _unpack\n    obj = obj.decode(&quot;utf_8&quot;, self._unicode_errors)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode bytes in position 6-7: invalid continuation byte\n2023-06-16 12:44:38,741 - distributed.core - ERROR - Exception while handling op register-client\nTraceback (most recent call last):\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/core.py&quot;, line 832, in _handle_comm\n    result = await result\n             ^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/scheduler.py&quot;, line 5386, in add_client\n    await self.handle_stream(comm=comm, extra={&quot;client&quot;: client})\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/core.py&quot;, line 885, in handle_stream\n    msgs = await comm.read()\n           ^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/comm/tcp.py&quot;, line 254, in read\n    msg = await from_frames(\n          ^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/comm/utils.py&quot;, line 100, in from_frames\n    res = _from_frames()\n          ^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/comm/utils.py&quot;, line 83, in _from_frames\n    return protocol.loads(\n           ^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/protocol/core.py&quot;, line 158, in loads\n    return msgpack.loads(\n           ^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 128, in unpackb\n    ret = unpacker._unpack()\n          ^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 565, in _unpack\n    ret.append(self._unpack(EX_CONSTRUCT))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 592, in _unpack\n    ret[key] = self._unpack(EX_CONSTRUCT)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 565, in _unpack\n    ret.append(self._unpack(EX_CONSTRUCT))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 602, in _unpack\n    obj = obj.decode(&quot;utf_8&quot;, self._unicode_errors)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode bytes in position 6-7: invalid continuation byte\nTask exception was never retrieved\nfuture: &lt;Task finished name=&#39;Task-24116&#39; coro=&lt;Server._handle_comm() done, defined at /glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/core.py:738&gt; exception=UnicodeDecodeError(&#39;utf-8&#39;, b&#39;\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\xbf\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\xbf\\x00\\x00\\x00\\x00\\x00\\x00\\xf0\\xbf\\x00\\x00\\x00\\x00\\x00\\x00\\xf0&#39;, 6, 8, &#39;invalid continuation byte&#39;)&gt;\nTraceback (most recent call last):\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/core.py&quot;, line 832, in _handle_comm\n    result = await result\n             ^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/scheduler.py&quot;, line 5386, in add_client\n    await self.handle_stream(comm=comm, extra={&quot;client&quot;: client})\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/core.py&quot;, line 885, in handle_stream\n    msgs = await comm.read()\n           ^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/comm/tcp.py&quot;, line 254, in read\n    msg = await from_frames(\n          ^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/comm/utils.py&quot;, line 100, in from_frames\n    res = _from_frames()\n          ^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/comm/utils.py&quot;, line 83, in _from_frames\n    return protocol.loads(\n           ^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/distributed/protocol/core.py&quot;, line 158, in loads\n    return msgpack.loads(\n           ^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 128, in unpackb\n    ret = unpacker._unpack()\n          ^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 565, in _unpack\n    ret.append(self._unpack(EX_CONSTRUCT))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 592, in _unpack\n    ret[key] = self._unpack(EX_CONSTRUCT)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 565, in _unpack\n    ret.append(self._unpack(EX_CONSTRUCT))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File &quot;/glade/u/home/netige/.conda/envs/nishenv/lib/python3.11/site-packages/msgpack/fallback.py&quot;, line 602, in _unpack\n    obj = obj.decode(&quot;utf_8&quot;, self._unicode_errors)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nUnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode bytes in position 6-7: invalid continuation byte\n</code></pre></div>",
+        "id": 82964,
+        "sender_full_name": "Nish Etige",
+        "timestamp": 1686948729
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"27\">Anna-Lena Deppenmeier</span> <a href=\"#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/82903\">said</a>:</p>\n<blockquote>\n<p>it's still exactly the same as I left it before lunch. any advice on what to do?</p>\n</blockquote>\n<p>I usually shut it all down and try try again but I am on day 5 of having issues so am going to give up for the weekend <span aria-label=\"shrug\" class=\"emoji emoji-1f937\" role=\"img\" title=\"shrug\">:shrug:</span></p>",
+        "id": 82965,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1686949938
+    },
+    {
+        "content": "<p>Chiming in to say that I have also been experiencing this issue. <br>\nMy typical ask is:</p>\n<div class=\"codehilite\"><pre><span></span><code>m=&#39;10GB&#39;\ncluster = PBSCluster(\n    cores=1, # The number of cores you want\n    memory=m, # Amount of memory\n    processes=1, # How many processes\n    queue=&#39;casper&#39;, # The type of queue to utilize (/glade/u/apps/dav/opt/usr/bin/execcasper)\n    local_directory=&#39;$TMPDIR&#39;, # Use your local directory\n    resource_spec=&#39;select=1:ncpus=1:mem=&#39;+m, # Specify resources\n    project=project, # Input your project ID here\n    walltime=&#39;03:00:00&#39;, # Amount of wall time\n    interface=&#39;ib0&#39;, # Interface to use\n)\ncluster.scale(30)\n</code></pre></div>",
+        "id": 83096,
+        "sender_full_name": "Daniel Kennedy",
+        "timestamp": 1687299295
+    },
+    {
+        "content": "<p>Thanks all. I've been discussing these issues with the system engineers over the past week and their initial suspicion is that slowness in the PBS server is affecting workflows that are sensitive to PBS, which could certainly impact PBSClusters. I'm not fully convinced that the OSError messages are a side-effect of this, since in some cases it seems to be happening after workers initialize but then they have trouble communicating, but since better PBS performance is a win all-around it does seem like a good starting point.</p>\n<p>To that end - a change was made in Casper's PBS server today that should improve performance of certain operations dramatically. While these operations aren't ones typically done by Dask workflows (except perhaps the very largest clusters), it should improve performance of the scheduler all around, and this should help both Dask and JupyterHub. Our synthetic tests have shown up to 100x speedup for certain qsub patterns.</p>\n<p>But we'd like some real-world data points. This change was made in the past 30 minutes. As you use Dask and JuptyerHub over the coming days, please note performance and reliability. If you see any improvements, we'd love to hear it, but if you keep seeing the same issues that's very useful to know too.</p>\n<p>Thanks for your patience as we dig into these problems.</p>",
+        "id": 84159,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1687890561
+    },
+    {
+        "content": "<p>I was just finally able to run the fish model FEISTY on the high resolution CESM ocean model output, which we haven't been able to do for the past ~month (I was finally able to grab all 72 requested dask workers at the same time), so I think this new change is working great!</p>",
+        "id": 84229,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1687896235
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"28\">Kristen Krumhardt</span> <a href=\"#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84229\">said</a>:</p>\n<blockquote>\n<p>I was just finally able to run the fish model FEISTY on the high resolution CESM ocean model output, which we haven't been able to do for the past ~month (I was finally able to grab all 72 requested dask workers at the same time), so I think this new change is working great!</p>\n</blockquote>\n<p>Adding to this - this was a big roadblock for us working on this project, huge thanks to <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> and others working on this!</p>",
+        "id": 84233,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1687897129
+    },
+    {
+        "content": "<p>Hi all, <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> thanks for this, I have noticed some improvements too! I still have an issue which I think is related to what <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> and I have been discussing, sometimes I try to calculate something, I can see the processes appear and be processed in the dashboard, but then in the end the cell hangs and the notebook gets stuck in this stage =/ I tried seeing if I can execute any other cell but it really is stuck.</p>",
+        "id": 84243,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687904261
+    },
+    {
+        "content": "<p>Can provide an example if that is helpful.</p>",
+        "id": 84244,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687904273
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"27\">Anna-Lena Deppenmeier</span> <a href=\"#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84243\">said</a>:</p>\n<blockquote>\n<p>Hi all, <span class=\"user-mention silent\" data-user-id=\"141\">Brian Vanderwende</span> thanks for this, I have noticed some improvements too! I still have an issue which I think is related to what <span class=\"user-mention silent\" data-user-id=\"71\">Negin Sobhani</span> and I have been discussing, sometimes I try to calculate something, I can see the processes appear and be processed in the dashboard, but then in the end the cell hangs and the notebook gets stuck in this stage =/ I tried seeing if I can execute any other cell but it really is stuck.</p>\n</blockquote>\n<p>I have the same issue. I watch the dashboard complete the processing but then the cell stays \"thinking\" for hours until I interrupt the kernel and start over to try again.</p>",
+        "id": 84399,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1687974898
+    },
+    {
+        "content": "<blockquote>\n<p>hen the cell stays \"thinking\" for hours until I interrupt the kernel</p>\n</blockquote>\n<p>Is this always the data reading step with or without intake?</p>",
+        "id": 84408,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1687975769
+    },
+    {
+        "content": "<p>I am not sure about your question but it is the ds.load() cell that initiates the processing but even when the dashboard shows processing is complete, the cell never stops 'thinking.' Thank you for trying to assist, Deepak!</p>",
+        "id": 84412,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1687976180
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span>  - thanks for the report. Would you be willing to provide a sample notebook and execution instructions (mainly the characteristics of the server running the notebook along with the kernel used) that demonstrate your cell stalls? I'd like to investigate whether it shares any commonalities with the issue that Anna-Lena and Negin are troubleshooting.</p>",
+        "id": 84423,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1687981795
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>  Yes, absolutely! Thank you for the offer. I'll get working on a sample notebook asap and send you the path once it's finished.</p>",
+        "id": 84430,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1687983268
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"199\">Holly Olivarez</span> <a href=\"#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84430\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"141\">Brian Vanderwende</span>  Yes, absolutely! Thank you for the offer. I'll get working on a sample notebook asap and send you the path once it's finished.</p>\n</blockquote>\n<p>The path for a sample notebook is /glade/work/olivarez/cant/olivarez_sample_nb_cmip6.nc</p>\n<p>Thank you so much <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>! <span aria-label=\"grinning face with smiling eyes\" class=\"emoji emoji-1f601\" role=\"img\" title=\"grinning face with smiling eyes\">:grinning_face_with_smiling_eyes:</span></p>",
+        "id": 84433,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1687984646
+    },
+    {
+        "content": "<p>Perfect - thanks. I'll let you know what we find.</p>",
+        "id": 84434,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1687984680
+    },
+    {
+        "content": "<p>One other thing - what Python language kernel/environment should I use to run it? Do you have a custom environment or do you use our NPL (or something else?). And how much memory do you typically request for the main server you start up (if it's a login server, you'd get 4 GB)?</p>",
+        "id": 84435,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1687984801
+    },
+    {
+        "content": "<p>I use a custom environment and I typically get 4 GB of memory. How can I share the custom environment with you?</p>",
+        "id": 84437,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1687985032
+    },
+    {
+        "content": "<p>If you point me to the path of the environment, I can make a kernel to use it in the Hub. Thanks!</p>",
+        "id": 84438,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1687985094
+    },
+    {
+        "content": "<p>Great! Here is the path of the environment: /glade/u/home/olivarez/.conda/envs/pinatubo-LENS</p>",
+        "id": 84439,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1687985215
+    },
+    {
+        "content": "<p>Hi, just to also chime in that I am having this problem once again. I created a short notebook here <code>/glade/u/home/deppenme/NOTEBOOKS/RossSea/HeatFluxThroughMixedLayer.ipynb</code> i am using environment <code>/glade/u/home/deppenme/analysis6_versions.yml</code> any help would be appreciated!</p>",
+        "id": 84498,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1687995905
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> - thanks for the heads up. Is this the problem you are working on with Negin or a separate issue?</p>",
+        "id": 84527,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1688055995
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> - I do believe I see the issue with your notebook, but I'm doing just a bit of testing so that I can give you a good recommendation for how to configure your cluster and make any necessary changes to the notebook.</p>",
+        "id": 84528,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1688056040
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> ... so from my testing, I believe the reason you are seeing workers complete but the cell stall during this load operation is indeed because the load is trying to bring all of these data into the memory of notebook server. For a login server, you only get 4 GB, but even if I requested a 200 GB batch server, it was not enough to fit even the first dataset. However, if you are simply trying to do this concatenate the datasets and save to a monolithic netcdf file, you shouldn't need to load the data into the notebook environment. If I comment those load lines out, the workers will directly read in and write data and your memory footprint exists entirely with the workers.</p>\n<p>Now, it's still a very large dataset and the load - concatenate - save step when you run <code>to_netcdf</code> will take a very long time. I think there may be some chunking changes that could help there, but I haven't drilled down that far yet. On the cluster config side of things, I'd suggest using 1 worker per job and asking for 4 GB of memory per worker, rather than packing the workers 9-per-node as you are currently doing. Having workers spread across more nodes could help with I/O operations, and in general you'll see better job queue times with more, smaller, jobs.</p>\n<p>If you want to see the changes I've made, my copy is at <code>/glade/scratch/vanderwb/tickets/holly-dask/olivarez_sample_nb_cmip6.ipynb</code>. I shrunk things down to 40 workers as I don't think this operation will scale super well, but you could scale that back up to 90 if you like.</p>",
+        "id": 84549,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1688067973
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"141\">Brian Vanderwende</span> <a href=\"#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84549\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"199\">Holly Olivarez</span> ... so from my testing, I believe the reason you are seeing workers complete but the cell stall during this load operation is indeed because the load is trying to bring all of these data into the memory of notebook server. For a login server, you only get 4 GB, but even if I requested a 200 GB batch server, it was not enough to fit even the first dataset. However, if you are simply trying to do this concatenate the datasets and save to a monolithic netcdf file, you shouldn't need to load the data into the notebook environment. If I comment those load lines out, the workers will directly read in and write data and your memory footprint exists entirely with the workers.</p>\n<p>Now, it's still a very large dataset and the load - concatenate - save step when you run <code>to_netcdf</code> will take a very long time. I think there may be some chunking changes that could help there, but I haven't drilled down that far yet. On the cluster config side of things, I'd suggest using 1 worker per job and asking for 4 GB of memory per worker, rather than packing the workers 9-per-node as you are currently doing. Having workers spread across more nodes could help with I/O operations, and in general you'll see better job queue times with more, smaller, jobs.</p>\n<p>If you want to see the changes I've made, my copy is at <code>/glade/scratch/vanderwb/tickets/holly-dask/olivarez_sample_nb_cmip6.ipynb</code>. I shrunk things down to 40 workers as I don't think this operation will scale super well, but you could scale that back up to 90 if you like.</p>\n</blockquote>\n<p>This is very helpful, <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>! You are teaching me so much here. I will look at the sample notebook and adjust my dask cluster setup settings and follow up to let you know of my progress/success. Thank you so very much!</p>",
+        "id": 84617,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1688075974
+    }
+]

@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>Hello all,</p>\n<p>I am a graduate student working with Will Wieder (TSS/CGD) at the Mesa Lab. I am looking to use <a href=\"https://disc.gsfc.nasa.gov/datasets/WLDAS_NOAHMP001_DA1_D1.0/summary?keywords=WLDAS\">NASA Western Land Data Assimilation System</a> data  in an analysis we are working on. To my knowledge, it is not already in any campaign directories or on glade. Even if I clip to my AOI, the data are still several Terabytes. I wonder if anyone has experience compiling data of this size onto glade or otherwise? </p>\n<p>The WLDAS documentation provides good documentation for downloading the data (using curl, wget), but the download will likely take a couple days using the wget/curl methods. I'm afraid that would be a pretty careless and wasteful use of our project's compute resources. Any advice here? Thank you for your time!</p>\n<p>Cheers,</p>\n<p>Miles</p>",
+        "id": 102740,
+        "sender_full_name": "Miles Alan Moore",
+        "timestamp": 1721511859
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"395\">@Miles Alan Moore</span> it looks like this is a fairly recent product.  It's possible someone's grabbed this (especially LSM / hydrology folks), but I'd guess you're right that it's not archived in a shared location.  <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> or someone else in the support group (also reachable here: <a href=\"https://ithelp.ucar.edu/plugins/servlet/desk/site/rc\">https://ithelp.ucar.edu/plugins/servlet/desk/site/rc</a>) might know better and/or have some advice.  </p>\n<p>They'd likely have better recommendations for how to do data transfers as well.  I know there are some dedicated resources for supporting certain types of data transfers.</p>",
+        "id": 102865,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1721676522
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> Thank you so much for the kind and helpful response! Someone had mentioned to me that it was fine to run a disowned processing running (like <code>wget</code> via a <code>screen</code> ) in a casper login node for a while to download data of this sort into my glade <em>scratch/</em> space. This way I am not hogging any compute resources that others could be using. So this is what I've done for now! If anyone thinks this is actually a bad idea / party foul, I'm happy to do it differently.</p>\n<p>Thank you, again, for your time! <span aria-label=\"grinning face with smiling eyes\" class=\"emoji emoji-1f601\" role=\"img\" title=\"grinning face with smiling eyes\">:grinning_face_with_smiling_eyes:</span></p>",
+        "id": 102912,
+        "sender_full_name": "Miles Alan Moore",
+        "timestamp": 1721684569
+    },
+    {
+        "content": "<p>Glad you got this sorted!</p>",
+        "id": 102913,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1721684823
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"339\">Katelyn FitzGerald</span> has marked this topic as resolved.</p>",
+        "id": 102914,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1721684837
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"395\">@Miles Alan Moore</span> , There should not be an issue with downloading files via <code>wget</code> as long as you have sufficient storage space, but I would suggest <strong>NOT using casper login</strong> nodes as they are usually very busy and high usage will cause slowness for all users. Instead, I suggest submitting jobs to the queue to download the files. If you prefer using login nodes, I recommend using Derecho rather than Casper. Please avoid running large wget processes on Casper login nodes to ensure optimal performance for everyone. <br>\nIf you have any further questions or need assistance, feel free to reach out at <a href=\"mailto:rchelp@ucar.edu\">rchelp@ucar.edu</a>.</p>",
+        "id": 102967,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1721759284
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span>  Thank you for your response! I'll stop my wget process on the Casper Login node and resubmit as a job.</p>",
+        "id": 102972,
+        "sender_full_name": "Miles Alan Moore",
+        "timestamp": 1721759867
+    }
+]

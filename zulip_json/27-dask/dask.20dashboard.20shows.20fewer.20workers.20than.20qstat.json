@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I've noticed that my dask dashboard often shows fewer dask workers than when I do <code>qstat -u yeager</code> on casper, even after waiting for the dashboard to catch up. I've verified that the workers showing up in qstat are not holdovers from previous calls to Client(). Right now my dashboard shows 3 workers while qstat shows 13. Why the discrepancy?</p>",
+        "id": 96177,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1709148080
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> , Do you specify the number of workers to 13 or 3 workers that the dashboard shows?</p>",
+        "id": 96178,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1709150913
+    },
+    {
+        "content": "<p>I do a <code>cluster.scale(30)</code> and usually get 30 workers. Right now, dashboard shows 3 while qstat shows 13.</p>",
+        "id": 96179,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1709151398
+    },
+    {
+        "content": "<p>I only see one job running for you now (not Dask) but it seems like you must have killed your running Dask cluster. </p>\n<p>Anyhow, I would suggest adding something like this when you want to scale up workers to ensure all workers are ready:</p>\n<div class=\"codehilite\"><pre><span></span><code># number of workers:\nn = 30\n\n# Scale the cluster to n workers\ncluster.scale(n)\nclient.wait_for_workers(n)\n</code></pre></div>\n<p>Let me know if the issue persists.</p>",
+        "id": 96180,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1709152323
+    }
+]

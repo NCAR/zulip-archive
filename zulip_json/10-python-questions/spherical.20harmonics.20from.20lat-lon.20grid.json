@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>Hi folks, I'm wondering if anyone has computed spherical harmonics in Python from model output. So far I have used NCL's shaeC.  I see that there is the pyspharm package, and will probably try that if there isn't a GeoCAT function that mimics the old NCL shaeC.</p>",
+        "id": 54112,
+        "sender_full_name": "Falko Judt",
+        "timestamp": 1651003957
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"97\">@Alea Kootz</span> is working on something related to this for the <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> team after I had requested functionality to replicate NCL's <a href=\"https://www.ncl.ucar.edu/Document/Functions/Built-in/gradsf.shtml\">gradsf</a> function which I used to calculate lat/lon gradients on a fixed grid. Relevant Github issues are pasted below, and there may be something coming via geocat-comp:<br>\n<a href=\"https://github.com/NCAR/geocat-comp/issues/215\">https://github.com/NCAR/geocat-comp/issues/215</a><br>\n<a href=\"https://github.com/NCAR/geocat-comp/issues/147\">https://github.com/NCAR/geocat-comp/issues/147</a></p>",
+        "id": 54113,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1651005352
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"273\">@Falko Judt</span> Yes there is a spherical harmonics decomposition and recomposition set of functions in geocat-comp. They were released last month. :)</p>",
+        "id": 54156,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1651015552
+    },
+    {
+        "content": "<p><a href=\"https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.spherical.decomposition.html#geocat.comp.spherical.decomposition\">https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.spherical.decomposition.html#geocat.comp.spherical.decomposition</a></p>",
+        "id": 54157,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1651015643
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"97\">@Alea Kootz</span> and <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span>! I think this is exactly what I need.</p>",
+        "id": 54255,
+        "sender_full_name": "Falko Judt",
+        "timestamp": 1651081640
+    },
+    {
+        "content": "<p>Let me know if you have any questions.</p>",
+        "id": 54257,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1651081797
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"97\">@Alea Kootz</span> &amp; <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> ! So I tried to use <code>geocat.comp.spherical.decomposition</code> in the same way I used <code>sheaC</code> in NCL. But there are some issues. </p>\n<p>In NCL, I provided the data on a fixed lat-lon grid (this is the only way the NCL function works), <code>geocat.comp.spherical.decomposition</code> seems to be more general, and so one needs to create weights beforehand with <code>geocat.comp.spherical.scale_voronoi</code>. This is where I'm stuck...</p>\n<p>Here's what I did:</p>\n<div class=\"codehilite\" data-code-language=\"import\"><pre><span></span><code>import xarray as xr\nimport numpy as np\n\nds = xr.open_dataset('/glade/campaign/mmm/wmr/fjudt/projects/dyamond_1/3.75km/latlon/latlon.nc')\nlat = np.deg2rad(ds.latitude+90.)  #---lat array needs to go from 0--pi, but in our lats go from pi/2 to -pi/2.\nlon = np.deg2rad(ds.longitude)\ndata = ds.vorticity_200hPa\n\n#---lat/lon need to be 2D, but in the fixed grid data file they're just 1D arrays. So make 2D arrays via broadcasting...\nlats1, lats2 = xr.broadcast(lat,lon)\nlons1, lons2 = xr.broadcast(lon,lat)\n\n%%time\nweights = gc.spherical.scale_voronoi(lons1, lats1)\n---&gt; get an error here (also it's slow)\n\n%%time\ngc.spherical.decomposition(data, weights, lons1, lats1)\n</code></pre></div>\n<p>Any idea why, and is there an example that tells us how to use <code>geocat.comp.spherical.decomposition</code> if you're coming from NCL's <code>shaeC</code>?</p>",
+        "id": 55499,
+        "sender_full_name": "Falko Judt",
+        "timestamp": 1653341660
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"273\">@Falko Judt</span>  Check what you are doing with the broadcast you should only need to call it once.</p>",
+        "id": 55500,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1653341818
+    },
+    {
+        "content": "<p>And I would suggest using numpy.meshgrid instead of xr.broadcast for your 2d lat/lon arrays.</p>",
+        "id": 55501,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1653341894
+    },
+    {
+        "content": "<p>see <a href=\"https://github.com/NCAR/geocat-comp/blob/main/test/test_spherical.py#L32\">here</a> to understand how that works from the spherical.py test setup.</p>",
+        "id": 55505,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1653342034
+    }
+]

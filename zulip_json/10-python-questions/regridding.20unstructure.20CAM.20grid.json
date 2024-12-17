@@ -1,0 +1,176 @@
+[
+    {
+        "content": "<p>I am trying to analyze and plot some high res (0.25 deg) CAM output from the iHESP simulations.  It looks like the data is indexed by ncol, rather than being on a lat/lon grid.  I've never dealt with such  data before.</p>\n<p>I found this really helpful post on dealing with CAM-SE output which seems like it has the same format.<br>\n<a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3\">https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3</a></p>\n<p>I'm trying to follow the third example on that blog, and few questions/issues pop up:<br>\n1) Is it fair to use the weights file provided in the example on this blog post? The ncol dimensions I have are the same as theirs.<br>\n2) I receive an error when trying to regrid (method 3 in the blog post) which says :</p>\n<div class=\"codehilite\"><pre><span></span><code>import xesmf\nregridded = regrid_cam_se(mfds, f&quot;{map_path}/{map_file}&quot;)\n\nMissingDimensionsError: &#39;lat&#39; has more than 1-dimension and the same name as one of its dimensions (&#39;lat&#39;, &#39;lon&#39;). xarray disallows such variables because they conflict with the coordinates used to label dimensions\n</code></pre></div>\n<p>Anyone have thoughts or pointers?</p>",
+        "id": 94284,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705014286
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span>. I can't answer your first question, but you may be able to solve your second question by using a version of Xarray &gt;= 2023.08.0. It appears versions after that allow handling data like you have. See this Xarray GitHub issue: <a href=\"https://github.com/pydata/xarray/issues/2233\">https://github.com/pydata/xarray/issues/2233</a> for more details, but the error there looks exactly like the one you have.</p>",
+        "id": 94285,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1705020906
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"234\">@Daniel Adriaansen</span> .    I just updated my xarray package in the hopes it would help, but now received the following error when importing packages  (the PBSCluster specifically):</p>\n<div class=\"codehilite\"><pre><span></span><code>from dask_jobqueue import PBSCluster\n\nImportError: cannot import name &#39;tmpfile&#39; from &#39;distributed.utils&#39; (/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/utils.py)\n</code></pre></div>\n<p>Anyone know how to resolve this?</p>",
+        "id": 94312,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705087458
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span>, when you updated Xarray, did you happen to notice if it updated either Dask or Distributed or both? When you do:<br>\n<code>conda list dask</code><br>\nand<br>\n<code>conda list distributed</code><br>\nwhat is the output?</p>",
+        "id": 94314,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1705087918
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"234\">@Daniel Adriaansen</span> , yeah it seems both dask and distributed were both upgraded:</p>\n<div class=\"codehilite\"><pre><span></span><code>- dask-core             2022.1.0  pyhd8ed1ab_0            conda-forge     Cached\n  + dask-core            2023.10.1  pyhd8ed1ab_0            conda-forge      863kB\n  - distributed           2022.1.0  py39hf3d152e_0          conda-forge     Cached\n  + distributed          2023.10.1  pyhd8ed1ab_0            conda-forge      791kB\n  - xarray                2022.9.0  pyhd8ed1ab_0            conda-forge     Cached\n  + xarray               2023.12.0  pyhd8ed1ab_0            conda-forge      725kB\n  - dask                  2022.1.0  pyhd8ed1ab_0            conda-forge     Cached\n  + dask                 2023.10.1  pyhd8ed1ab_0            conda-forge        7kB\n</code></pre></div>\n<p>Also,</p>\n<div class=\"codehilite\"><pre><span></span><code>(pangeo) mberdahl@casper-login2:/glade/work/mberdahl/miniconda/envs/pangeo&gt; conda list dask\n\n# packages in environment at /glade/work/mberdahl/miniconda/envs/pangeo:\n#\n# Name                    Version                   Build  Channel\ndask                      2023.10.1          pyhd8ed1ab_0    conda-forge\ndask-core                 2023.10.1          pyhd8ed1ab_0    conda-forge\ndask-jobqueue             0.7.3              pyhd8ed1ab_0    conda-forge\ndask-labextension         5.2.0              pyhd8ed1ab_0    conda-forge\n\n(pangeo) mberdahl@casper-login2:/glade/work/mberdahl/miniconda/envs/pangeo&gt; conda list distributed\n# packages in environment at /glade/work/mberdahl/miniconda/envs/pangeo:\n#\n# Name                    Version                   Build  Channel\ndistributed               2023.10.1          pyhd8ed1ab_0    conda-forge\n</code></pre></div>",
+        "id": 94315,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705088984
+    },
+    {
+        "content": "<p>maybe the version of dask_jobqueue is the problem? this quickly gets tricky though, as you are seeing. Maybe see what the latest dask_jobqueue is and consider updating it also?</p>",
+        "id": 94316,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1705089753
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"234\">@Daniel Adriaansen</span> , Alright, so after updating dask_jobqueue separately I can load the packages again. However, when trying to regrid, I get a new error, that is triggered at the same line in my function as the former error </p>\n<div class=\"codehilite\"><pre><span></span><code>---&gt;  regridded = regridder(updated.rename({&quot;dummy&quot;: &quot;lat&quot;, &quot;ncol&quot;: &quot;lon&quot;}))\nValueError: Dimension 1 has 2 blocks, adjust_chunks specified with 1 blocks\n</code></pre></div>\n<p>I assume this might have something to do with how I specified chunking when reading the file (?) in which was: <br>\nmfds = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={\"lat\": 180, \"lon\": 240}, data_vars=['U','time_bnds'],  drop_variables=['lon'], decode_times=True, compat='override', coords = 'minimal', preprocess = preprocess)</p>",
+        "id": 94317,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705093147
+    },
+    {
+        "content": "<p>Actually maybe its not to do with the chunking on read-in, as I've played around with that option but the error remains.</p>",
+        "id": 94318,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705094279
+    },
+    {
+        "content": "<p>Where is the ValueError originating, is it from xesmf?</p>",
+        "id": 94319,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1705095822
+    },
+    {
+        "content": "<p>Hah, I just answered similarly to the question about the import error over on the dask stream.</p>",
+        "id": 94321,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705099826
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> for your question about using the same weights file, I think it would be fair to use the same weights file from the blog post on the iHESP output. The file in the blog post is from a very similar CESM1.3 0.25deg simulation setup that John Truesdale made for another project. FWIW it uses bilinear interpolation so if you want a different method, there is some <a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/#set-cam-se-output-location-and-map-file\">information</a> in the blog post about how to create your own map file.</p>",
+        "id": 94322,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705099848
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span>  I'm fine with bilinear interp so using the weights file from the blog post is good with me - thanks for letting me know. <span class=\"user-mention\" data-user-id=\"234\">@Daniel Adriaansen</span>  I'm trying a new method now (#2 in the blog post <a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3\">https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3</a>).  I can remap now, but running into other errors now though.   Will post again when I have a better handle on what is going on.</p>",
+        "id": 94324,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705100262
+    },
+    {
+        "content": "<p>Thanks for testing out the methods in the blog post! It's good to know if they don't work on other datasets.</p>",
+        "id": 94325,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705100329
+    },
+    {
+        "content": "<p>Oh, by the way, the package versions I was using to test out those methods are <a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/#imports\">listed at the top</a> - if that helps with debugging.</p>",
+        "id": 94326,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705100388
+    },
+    {
+        "content": "<p>It looks like I can remap CAM-SE output with the following function</p>\n<div class=\"codehilite\"><pre><span></span><code>import scipy.sparse as sps\n\n\ndef remap_camse(ds, dsw, varlst=[]):\n    dso = xr.full_like(ds.drop_dims(&#39;ncol&#39;), np.nan)\n    lonb = dsw.xc_b.values.reshape([dsw.dst_grid_dims[1].values, dsw.dst_grid_dims[0].values])\n    latb = dsw.yc_b.values.reshape([dsw.dst_grid_dims[1].values, dsw.dst_grid_dims[0].values])\n    weights = sps.coo_matrix((dsw.S, (dsw.row-1, dsw.col-1)), shape=[dsw.dims[&#39;n_b&#39;], dsw.dims[&#39;n_a&#39;]])\n    if not varlst:\n        for varname in list(ds):\n            if &#39;ncol&#39; in(ds[varname].dims):\n                varlst.append(varname)\n        if &#39;lon&#39; in varlst: varlst.remove(&#39;lon&#39;)\n        if &#39;lat&#39; in varlst: varlst.remove(&#39;lat&#39;)\n        if &#39;area&#39; in varlst: varlst.remove(&#39;area&#39;)\n    for varname in varlst:\n        shape = ds[varname].shape\n        invar_flat = ds[varname].values.reshape(-1, shape[-1])\n        remapped_flat = weights.dot(invar_flat.T).T\n        remapped = remapped_flat.reshape([*shape[0:-1], dsw.dst_grid_dims[1].values, dsw.dst_grid_dims[0].values])\n        dimlst = list(ds[varname].dims[0:-1])\n        dims={}\n        coords={}\n        for it in dimlst:\n            dims[it] = dso.dims[it]\n            coords[it] = dso.coords[it]\n        dims[&#39;lat&#39;] = int(dsw.dst_grid_dims[1])\n        dims[&#39;lon&#39;] = int(dsw.dst_grid_dims[0])\n        coords[&#39;lat&#39;] = latb[:,0]\n        coords[&#39;lon&#39;] = lonb[0,:]\n        remapped = xr.DataArray(remapped, coords=coords, dims=dims, attrs=ds[varname].attrs)\n        dso = xr.merge([dso, remapped.to_dataset(name=varname)])\n    return dso\n</code></pre></div>\n<p>However, say I read in two files, a U-wind file and V-wind file, and run the remap function on the first file (U-wind) it works fine. But then if I call the function again afterwards on the V-wind file, I get the following error:</p>\n<div class=\"codehilite\"><pre><span></span><code>/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/numpy/core/numeric.py:407: RuntimeWarning: invalid value encountered in cast\n  multiarray.copyto(res, fill_value, casting=&#39;unsafe&#39;)\n/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/xarray/core/utils.py:494: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.\n  warnings.warn(\n---------------------------------------------------------------------------\nKeyError                                  Traceback (most recent call last)\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/xarray/core/dataset.py:1452, in Dataset._construct_dataarray(self, name)\n   1451 try:\n-&gt; 1452     variable = self._variables[name]\n   1453 except KeyError:\n\nKeyError: &#39;U&#39;\n\nDuring handling of the above exception, another exception occurred:\n\nKeyError                                  Traceback (most recent call last)\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/xarray/core/dataset.py:1553, in Dataset.__getitem__(self, key)\n   1552 try:\n-&gt; 1553     return self._construct_dataarray(key)\n   1554 except KeyError as e:\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/xarray/core/dataset.py:1454, in Dataset._construct_dataarray(self, name)\n   1453 except KeyError:\n-&gt; 1454     _, name, variable = _get_virtual_variable(self._variables, name, self.sizes)\n   1456 needed_dims = set(variable.dims)\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/xarray/core/dataset.py:218, in _get_virtual_variable(variables, key, dim_sizes)\n    217 if len(split_key) != 2:\n--&gt; 218     raise KeyError(key)\n    220 ref_name, var_name = split_key\n\nKeyError: &#39;U&#39;\n\nThe above exception was the direct cause of the following exception:\n\nKeyError                                  Traceback (most recent call last)\nInput In [26], in &lt;module&gt;\n      1 import scipy as sp\n----&gt; 2 out2 = remap_camse(mfds2, weights)\n\nInput In [14], in remap_camse(ds, dsw, varlst)\n     15     if &#39;area&#39; in varlst: varlst.remove(&#39;area&#39;)\n     16 for varname in varlst:\n---&gt; 17     shape = ds[varname].shape\n     18     invar_flat = ds[varname].values.reshape(-1, shape[-1])\n     19     remapped_flat = weights.dot(invar_flat.T).T\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/xarray/core/dataset.py:1555, in Dataset.__getitem__(self, key)\n   1553         return self._construct_dataarray(key)\n   1554     except KeyError as e:\n-&gt; 1555         raise KeyError(\n   1556             f&quot;No variable named {key!r}. Variables on the dataset include {shorten_list_repr(list(self.variables.keys()), max_items=10)}&quot;\n   1557         ) from e\n   1559 if utils.iterable_of_hashable(key):\n   1560     return self._copy_listed(key)\n\nKeyError: &quot;No variable named &#39;U&#39;. Variables on the dataset include [&#39;lev&#39;, &#39;ilev&#39;, &#39;hyam&#39;, &#39;hybm&#39;, &#39;P0&#39;, ..., &#39;f12vmr&#39;, &#39;sol_tsi&#39;, &#39;nsteph&#39;, &#39;V&#39;, &#39;time&#39;]&quot;\n</code></pre></div>\n<p>If I run the function again and then try on the V-wind file again it works.  Is there something I need to reset, or change in that script so that it doesn't keep looking for variable \"U\" on all subsequent files?</p>",
+        "id": 94441,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705448625
+    },
+    {
+        "content": "<p>I think <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> wrote this function originally, I'd be curious to hear if he has any thoughts about using it repeatedly for multiple variables.</p>",
+        "id": 94443,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705450164
+    },
+    {
+        "content": "<p>For others who may encounter this in the future, it appears that adding the line  varlst.clear() at the end of the function does the trick.  Not clear exactly why, it shouldn't be necessary. Thanks to Fred Castruccio for the help.</p>",
+        "id": 94583,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705606279
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> . I just wanted to call to your attention NCAR's <a href=\"https://raijin.ucar.edu/\">Project Raijin</a> effort, which is working with the DOE to develop <a href=\"https://uxarray.readthedocs.io/en/latest/index.html\">UXarray</a>: an Xarray-compatible Python package for analyzing and visualize unstructured grid data <strong>without</strong> resampling. We just published a new Pythia <a href=\"https://projectpythia.org/unstructured-grid-viz-cookbook/README.html\">cookbook</a> that  demonstrates plotting with UXarray.</p>",
+        "id": 94663,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1705631099
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> ! I think  an example of UXarray applied to CAM-SE unstructured output could be really helpful. I think the cookbook only shows MPAS?</p>",
+        "id": 94681,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705680550
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> , good to know about this! Agreed with <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> , an example with CAM-SE would be super helpful.</p>",
+        "id": 94703,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705688877
+    },
+    {
+        "content": "<p>Thanks for the input!  <span class=\"user-mention\" data-user-id=\"279\">@Philip Chmielowiec</span> <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span>  (in case you didn't already see this)</p>",
+        "id": 94704,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1705688968
+    },
+    {
+        "content": "<p>UXarray currently supports CAM-SE just as MPAS. Please see <a href=\"https://projectpythia.org/unstructured-grid-viz-cookbook/notebooks/03-uxarray-vis/01-plot-api.html#uxarray-plotting-api-design\">this</a></p>\n<p>We will definitely consider putting together CAM-SE examples as well, but you should be able to run any functions on CAM-SE in the way they are documented for MPAS.</p>",
+        "id": 94709,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1705691137
+    },
+    {
+        "content": "<p>Hi again, I'm having a strange issue crop up from time to time when using this function (remap_camse).  Sometimes it works fine, and other times I end up with the following error:</p>\n<p>FileNotFoundError: [Errno 2] No such file or directory: '/glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/dask-worker-space/worker-5wchvnxg/storage/%28%27open_dataset-concatenate-b1b2ed4bd191a85fa8152a06f16ef99d%27%2C%206%2C%200%2C%200%29'</p>\n<p>The particular line in the function that gets highlighted is this one:<br>\n---&gt; 16     invar_flat = ds[varname].values.reshape(-1, shape[-1])</p>\n<p>Does anyone know what might be causing this?</p>",
+        "id": 95770,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1707857848
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> and I chatted about this a little bit. We fixed the issue by removing <code>/glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/dask-worker-space</code> and replacing it with a softlink to a directory on scratch, but it raises a couple of questions:</p>\n<ol>\n<li>Is there a way to tell dask where to put this directory? <code>dask.config.set(temporary_directory='/path/to/dir')</code> didn't work -- it changed <code>temporary_directory</code> (verified via <code>dask.config.get()</code>), but that isn't where these worker files went.</li>\n<li>Is there a reason 72 workers trying to write to the same directory on <code>/glade/u/home</code> would fail, but using <code>/glade/derecho/scratch</code> would be okay? Or did our directory switch coincide with some file system issues working themselves out?</li>\n</ol>",
+        "id": 95779,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1707867862
+    },
+    {
+        "content": "<p>For #1, are there other folder settings you can change in the dask config files (<code>~/.config/dask</code> or <code>~/.dask</code>)? Maybe in <code>jobqueue.yaml</code>? I think there are <code>log-directory</code> and <code>local_directory</code> settings.</p>",
+        "id": 95782,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1707868352
+    },
+    {
+        "content": "<p>For #2, is home full or close to full?</p>",
+        "id": 95783,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1707868420
+    },
+    {
+        "content": "<p>Thanks for the suggestions, <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span>! I'll look in my config files and see if I can find where I set my temp location. I think I also set <code>$TMPDIR</code> in my <code>.bashrc</code> file, but that might be for VSCode instead of dask. Disk space was my first thought as well, but we checked and <span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> was only using 2% of her quota; I should have mentioned that in my first reply.</p>",
+        "id": 95788,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1707926992
+    },
+    {
+        "content": "<p>Agreed with <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> 's response. </p>\n<p><span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> and <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  This indicates spilling to the disk: when worker memory hits the threshold (default 70%) and data spills to disk. That explains why you only see this occasionally when you hit that threshold.</p>\n<p>You can set this by using <code>jobqueue.yaml</code> (as Katie suggested) or using <code>local_directory</code> argument in <code>PBSCluster</code> to automatically set the spill directory:</p>\n<div class=\"codehilite\"><pre><span></span><code>cluster = PBSCluster(\n    job_name = &#39;dask-wrkr&#39;,\n    cores = 1,\n    memory = &#39;4GiB&#39;,\n    processes = 1,\n    local_directory = &#39;/local_scratch/pbs.$PBS_JOBID/dask/spill&#39;,\n)\n</code></pre></div>",
+        "id": 95806,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1707935179
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> , <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> and <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> .  The new line setting the local_directory, in conjunction with limiting the size of the files I'm processing, seems to do the trick.</p>",
+        "id": 95830,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1707956073
+    }
+]

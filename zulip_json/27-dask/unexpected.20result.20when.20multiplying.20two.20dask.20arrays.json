@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>Hi,<br>\nI'm running into a strange issue when I multiply two dask arrays who have the same dimensions.  Each array has dimension z_t=60, but when I multiply them together the resultant array has only 16 z_t levels. When I manually compute the first 16 entries element by element, they do appear to be correct. I've added screenshots of the arrays, and the results of a very simple example of this issue.  I cannot seem to understand what is going on here. Any help appreciated. <a href=\"/user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png\">Screen-Shot-2022-05-06-at-6.36.10-PM.png</a> <a href=\"/user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png\">Screen-Shot-2022-05-06-at-6.36.18-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png\" title=\"Screen-Shot-2022-05-06-at-6.36.10-PM.png\"><img src=\"/user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png\" title=\"Screen-Shot-2022-05-06-at-6.36.18-PM.png\"><img src=\"/user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png\"></a></div>",
+        "id": 54630,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1651887490
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"259\">@Mira Berdahl</span> , <code>z_t</code> in the variable <code>temp_converted</code> has type <code>float32</code>, while <code>z_t</code> in the variable <code>delta_level</code> has type <code>float64</code>. This mismatch in types might be throwing off xarray's coordinate alignment code.<br>\nPlease check out the thread in the <a href=\"#narrow/stream/41-ESDS/topic/General.20Interest\">ESDS General Interest stream</a> from Oct 11, 2021, where Alice got tripped up by this sort of mismatch, and describes a workaround.</p>\n<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> , this seems to be occurring because pop-tools is creating <code>z_t</code> as <code>float64</code>, while model output has <code>z_t</code> as <code>float32</code> by default. Should pop-tools be changed so that the <code>z_t</code> that it generates is consistent with default model output?</p>",
+        "id": 54631,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1651929968
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> ,  I would have never guessed this could be the problem.  I used Alice's fix and it seems to be working now! Many thanks for the prompt reply.</p>",
+        "id": 54632,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1651960854
+    },
+    {
+        "content": "<p>I would support this change in pop-tools, perhaps even with a \"precision\" flag to enable either double or single precision.</p>",
+        "id": 54708,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652222271
+    },
+    {
+        "content": "<p>Opened an <a href=\"https://github.com/NCAR/pop-tools/issues/140\">issue</a></p>",
+        "id": 54716,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1652281324
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> . I'll work on a PR.</p>",
+        "id": 54726,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1652282098
+    }
+]

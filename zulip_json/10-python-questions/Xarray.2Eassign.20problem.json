@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Hi everybody!</p>\n<p>I would just love another set of eyes to look over my code... I have used xarray.Dataset.assign a good number of times in other places, but it seems to be acting weird in this instance. I am trying to add this new list, 'lapse_rate', as a variable in df (which is an existing dataset), but it seems to want to add it to the coordinates for some reason. (I have even tried to use xarray.Dataset.reset_coords to just move it despite this, but it gives me an error)</p>\n<p>Thanks!</p>\n<p><a href=\"/user_uploads/2/bd/zPS2nh89bQoSpHRDnkjG3yDi/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/bd/zPS2nh89bQoSpHRDnkjG3yDi/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/bd/zPS2nh89bQoSpHRDnkjG3yDi/image.png\"></a></div>",
+        "id": 89783,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1696452159
+    },
+    {
+        "content": "<p>You can assign it with a tuple specifiying the dimension:<br>\ndf = df.assign(lapse_rate = ('height', lr))</p>",
+        "id": 89801,
+        "sender_full_name": "Hendrik Grosselindemann",
+        "timestamp": 1696459815
+    },
+    {
+        "content": "<p>That's great, thanks Hendrik! Some error I had gotten had suggested doing that, but I couldn't figure out the formatting, so I appreciate you showing me how it's done!</p>",
+        "id": 89804,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1696464650
+    }
+]

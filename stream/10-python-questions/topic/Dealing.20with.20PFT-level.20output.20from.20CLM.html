@@ -1,0 +1,159 @@
+<html>
+<head><meta charset="utf-8"><title>Dealing with PFT-level output from CLM · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html">Dealing with PFT-level output from CLM</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="58435"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58435" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58435">(Jul 11 2022 at 17:44)</a>:</h4>
+<p>Hi all,</p>
+<p>I've been working with some PFT-level data from CLM5 (e.g. NPP for each PFT) and have been using Python code from the NCAR-ESDS documentation to do the processing (<a href="https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/">Sparse arrays and the CESM land model component — NCAR-ESDS 0.1 documentation</a>). This worked great until this week and I am now running into strange errors I'm not sure I understand. Following the example code, I convert the PFT output to a sparse matrix, then to an Xarray DataSet called sparse_data1. The following line:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">data1</span> <span class="o">=</span> <span class="n">sparse_data1</span><span class="o">.</span><span class="n">NPP</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">vegtype</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.year"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="mi">2015</span><span class="p">)</span>
+</code></pre></div>
+<p>does what you would expect. However, I'm trying to do time series analysis, and this line:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">data1</span> <span class="o">=</span> <span class="n">sparse_data3</span><span class="o">.</span><span class="n">NPP</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">vegtype</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.year"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</code></pre></div>
+<p>returns an error when I try to extract the output or do any operations on it.</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="nb">print</span> <span class="p">(</span><span class="n">data1</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="p">[</span><span class="o">...</span><span class="p">]</span>
+<span class="ne">ValueError</span><span class="p">:</span> <span class="n">This</span> <span class="n">operation</span> <span class="n">requires</span> <span class="n">consistent</span> <span class="n">fill</span><span class="o">-</span><span class="n">values</span><span class="p">,</span> <span class="n">but</span> <span class="n">argument</span> <span class="mi">1</span> <span class="n">had</span> <span class="n">a</span> <span class="n">fill</span> <span class="n">value</span> <span class="n">of</span> <span class="mf">7.0</span><span class="p">,</span> <span class="n">which</span> <span class="ow">is</span> <span class="n">different</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">fill_value</span> <span class="n">of</span> <span class="mf">5.0</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">first</span> <span class="n">argument</span><span class="o">.</span>
+</code></pre></div>
+<p>Attempting to slice the years using</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">sel</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span><span class="mi">2100</span><span class="p">))</span>
+</code></pre></div>
+<p>has the same issue. I'm unable to convert the output into a numpy array, and viewing its properties suggests there <br>
+is a text description of the data where the actual values should be. This code all worked fine last week so it's probably something to do with updates to the various Python packages involved, but I wondered if anyone else working with PFT-level output has encountered this problem or found a solution?<br>
+Cheers,<br>
+James</p>
+
+
+
+<a name="58450"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58450" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58450">(Jul 11 2022 at 20:59)</a>:</h4>
+<p><span class="user-mention" data-user-id="302">@James King</span> I haven't experienced this issue, but given that you were able to get it working previously it makes sense that package versions could be part of it. Tagging <span class="user-mention" data-user-id="25">@Deepak Cherian</span> and <span class="user-mention" data-user-id="120">@Daniel Kennedy</span> here in case they have any additional insight.</p>
+
+
+
+<a name="58463"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58463" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58463">(Jul 11 2022 at 21:25)</a>:</h4>
+<p>Nice ot see that code is being used ! =)</p>
+<p>Can you show us the output of <code>xr.show_versions()</code> please</p>
+
+
+
+<a name="58465"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58465" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58465">(Jul 11 2022 at 21:26)</a>:</h4>
+<p>Rerunning that blogpost notebook with latest versions</p>
+<div class="codehilite"><pre><span></span><code>cartopy   : 0.19.0.post1
+numpy     : 1.23.1
+xarray    : 2022.3.0
+matplotlib: 3.5.1
+json      : 2.0.9
+sys       : 3.8.6 | packaged by conda-forge | (default, Jan 25 2021, 23:21:18)
+[GCC 9.3.0]
+sparse    : 0.13.0
+</code></pre></div>
+<p>works for me...</p>
+
+
+
+<a name="58478"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58478" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58478">(Jul 12 2022 at 09:03)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="47">@Katie Dagon</span> and <span class="user-mention" data-user-id="25">@Deepak Cherian</span> ,  it's a great bit of code! The output of <code>python xr.show_versions() </code> is below. </p>
+<div class="codehilite"><pre><span></span><code>xarray: 0.20.2
+pandas: 1.3.5
+numpy: 1.21.6
+scipy: 1.7.3
+netCDF4: 1.5.8
+pydap: installed
+h5netcdf: None
+h5py: 3.6.0
+Nio: None
+zarr: 2.11.3
+cftime: 1.6.0
+nc_time_axis: None
+PseudoNetCDF: None
+rasterio: None
+cfgrib: None
+iris: 3.1.0
+bottleneck: 1.3.4
+dask: 2022.02.0
+distributed: 2022.02.0
+matplotlib: 3.5.2
+cartopy: 0.20.2
+seaborn: 0.11.2
+numbagg: None
+fsspec: 2022.5.0
+cupy: None
+pint: 0.18
+sparse: 0.13.0
+setuptools: 59.8.0
+pip: 22.1.2
+conda: None
+pytest: 7.1.2
+IPython: 7.33.0
+sphinx: None
+</code></pre></div>
+
+
+
+<a name="58480"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58480" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58480">(Jul 12 2022 at 14:20)</a>:</h4>
+<p>I'm trying to plot spatial means and sums of various PFT-level variables over time as line plots rather than spatial maps. Step 1 is getting them into an array with only a time dimension, and the code seemingly allows me to do that, but that error is thrown whenever I try to look at or plot the data (e.g. putting it into a pandas dataframe to calculate a running mean)</p>
+
+
+
+<a name="58490"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58490" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58490">(Jul 12 2022 at 14:58)</a>:</h4>
+<p>Oh hmm.. I found this <a href="https://github.com/dask/dask/issues/7169">dask issue</a></p>
+
+
+
+<a name="58491"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58491" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58491">(Jul 12 2022 at 15:02)</a>:</h4>
+<p>Are you ever computing std or var in the pipeline? Or only mean?</p>
+
+
+
+<a name="58502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58502" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58502">(Jul 12 2022 at 15:58)</a>:</h4>
+<p>Yes I saw that too! Looks like it's a recent problem there. I'm only calculating means and sums with this code at the moment, depending on the variable</p>
+
+
+
+<a name="58506"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58506" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58506">(Jul 12 2022 at 16:02)</a>:</h4>
+<p>This seems to work:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">data1_yearmean</span> <span class="o">=</span> <span class="n">data1</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"time.year"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">data1_chunk</span> <span class="o">=</span> <span class="n">data1_yearmean</span><span class="o">.</span><span class="n">chunk</span><span class="p">({</span><span class="s2">"year"</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+<span class="n">ts1</span> <span class="o">=</span> <span class="n">data1_chunk</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">))</span>
+<span class="n">ts2</span> <span class="o">=</span> <span class="n">ts1</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="n">ts3</span> <span class="o">=</span> <span class="n">ts1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ts1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+</code></pre></div>
+<p>though it's fairly slow</p>
+
+
+
+<a name="58507"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58507" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58507">(Jul 12 2022 at 16:03)</a>:</h4>
+<p>(don't worry, the mean will be area-weighted now I seem to have a solution to implement!)</p>
+
+
+
+<a name="58634"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Dealing%20with%20PFT-level%20output%20from%20CLM/near/58634" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Dealing.20with.20PFT-level.20output.20from.20CLM.html#58634">(Jul 13 2022 at 19:01)</a>:</h4>
+<ul>
+<li></li>
+</ul>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ts3</span> <span class="o">=</span> <span class="n">ts2</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ts2</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">todense</span><span class="p">())</span>
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

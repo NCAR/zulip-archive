@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I've been suddenly getting this error when I try to plot a single grid cell (grabbed with a <code>.sel</code> method)</p>\n<div class=\"codehilite\"><pre><span></span><code>float() argument must be a string or a number, not &#39;cftime._cftime.DatetimeGregorian&#39;\n</code></pre></div>\n<p>my <code>.time</code> coordinates are:</p>\n<div class=\"codehilite\"><pre><span></span><code>array([cftime.DatetimeGregorian(2000, 1, 1, 0, 0, 0, 0, has_year_zero=False),\n       cftime.DatetimeGregorian(2000, 2, 1, 0, 0, 0, 0, has_year_zero=False),\n       cftime.DatetimeGregorian(2000, 3, 1, 0, 0, 0, 0, has_year_zero=False),\n       ...,\n       cftime.DatetimeGregorian(2049, 10, 1, 0, 0, 0, 0, has_year_zero=False),\n       cftime.DatetimeGregorian(2049, 11, 1, 0, 0, 0, 0, has_year_zero=False),\n       cftime.DatetimeGregorian(2049, 12, 1, 0, 0, 0, 0, has_year_zero=False)],\n      dtype=object\n</code></pre></div>\n<p>And I read in the full dataset using: </p>\n<div class=\"codehilite\"><pre><span></span><code>ds = xr.open_mfdataset(files, combine=&#39;nested&#39;, concat_dim=&#39;time&#39;, parallel=True,\n                       preprocess=functools.partial(preprocess, varset=varset))\nds[&#39;time&#39;]   = xr.cftime_range(str(2000), periods=12*50, freq=&#39;MS&#39;) #fix time bug\n</code></pre></div>\n<p>Any help would be much appreciated!</p>",
+        "id": 92415,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1701205166
+    },
+    {
+        "content": "<p>nevermind I fixed this by importing <code>nc_time_axis</code>!</p>",
+        "id": 92416,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1701205752
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"257\">Adrianna Foster</span> has marked this topic as resolved.</p>",
+        "id": 92417,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1701205765
+    }
+]

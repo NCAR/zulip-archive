@@ -1,0 +1,46 @@
+<html>
+<head><meta charset="utf-8"><title>POP updates for CESM 2.2.0 · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/POP.20updates.20for.20CESM.202.2E2.2E0.html">POP updates for CESM 2.2.0</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="11650"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/POP%20updates%20for%20CESM%202.2.0/near/11650" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/POP.20updates.20for.20CESM.202.2E2.2E0.html#11650">(Jun 17 2020 at 17:23)</a>:</h4>
+<p>Starting this topic to keep track of what I'm hoping to have in POP ahead of the code freeze (originally scheduled for June 19, but pushed back to July 2nd):</p>
+<ol>
+<li>
+<p><code>G1850ECOIAF_JRA_HR</code> compset that uses <code>POP2%ECO</code>, <code>CICE%CICE4</code>, and <code>SWAV</code> </p>
+<ul>
+<li>Will require new defaults for BGC initial conditions, forcing files, etc on <code>tx0.1v3</code> grid</li>
+<li>Also, make sure all <code>G</code> compsets with <code>_HR</code> use <code>CICE%CICE4</code></li>
+<li>New testmods directory for this compset (useful way to track changes between compset defaults and our experiment; e.g. turning off ice age tracer in CICE, minor tweaks to other ice namelist variables)</li>
+</ul>
+</li>
+<li>
+<p>MARBL updates:</p>
+<ul>
+<li>Bugfix: some real values were missing the <code>_r8</code> kind specifier</li>
+<li>Update tunings in <code>settings_latest.yaml</code></li>
+<li>New settings file <code>settings_with_cocco.yaml</code> to get coccolithophores out of the box along with updated parameters (also, update <code>picpoc</code> formulation)</li>
+</ul>
+</li>
+<li>
+<p>Updating MARBL will require POP updates</p>
+<ul>
+<li>Use latest MARBL tag</li>
+<li>allow <code>OCN_BGC_CONFIG=with_cocco</code> (i.e. update <code>valid_values</code> list)</li>
+<li>Create 1 degree initial condition file with coccolithophores (tuning was done using the cesm2.1+cocco initial conditions)</li>
+<li>Add a test for <code>OCN_BGC_CONFIG=with_cocco</code> (maybe modify <code>ecosys_add_cocco</code> and then create <code>ecosys_add_cesm21_cocco</code>?)</li>
+</ul>
+</li>
+</ol>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

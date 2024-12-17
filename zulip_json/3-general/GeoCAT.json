@@ -4,5 +4,119 @@
         "id": 2451,
         "sender_full_name": "Matt Long",
         "timestamp": 1583445364
+    },
+    {
+        "content": "<p>I am trying to use the geocat interp_hybrid_to_pressure function and getting an error importing it. Here's the error:<br>\n|  ImportError: cannot import name 'interp_hybrid_to_pressure' from 'geocat.comp' (/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/geocat/comp/__init__.py)</p>\n<p>I have geocat in my environment and use it for some other purposes, so it's just importing this one function that isn't working. So it's probably something with my environment, but  when I do a conda list in my environment it looks like I have this installed already:<br>\n|geocat-comp               0.2                        py_0    ncar<br>\n|geocat-datafiles          2021.1.0                   py_0    ncar<br>\n|geocat-ncomp              0.1a             py37h03ebfcd_0    ncar<br>\n|geocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>\n<p>I'm kind of stuck on how to proceed and would appreciate some help figuring this environment issue out. Unfortunately I don't think I'll be able to come to ESDS office hours next week to ask then (family visiting).</p>\n<p>If it helps, I've been  following the example here:<br>\n<a href=\"https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py\">https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py</a></p>\n<p>And gone through the function documentation here:<br>\n<a href=\"https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html\">https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html</a></p>",
+        "id": 52010,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1647029533
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> this sounds like an issue with an outdated version of <code>geocat.comp</code> -- <code>interp_hybrid_to_pressure</code> was added in <code>v2021.03.0</code>, and \"geocat-comp 0.2\" looks like an older version numbering system altogether. Could you create a new environment with the latest version of each package you are using, and see if everything works there? (if your luck is anything like mine, you'll get a handful of errors before you even get to the <code>interp_hybrid_to_pressure()</code> call)</p>",
+        "id": 52011,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1647030012
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"140\">@Jesse Nusbaumer</span>  gave a solution that works</p>\n<p>|import geocat.comp as gcomp<br>\nThen use gcomp.interpolation.interp_hybrid_to_pressure(XXXX)</p>\n<p>I had been unsuccessfully trying <br>\n|from geocat.comp import interp_hybrid_to_pressure<br>\nbased on following the geocat example:<br>\n<a href=\"https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py\">https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py</a></p>\n<p><span class=\"user-mention silent\" data-user-id=\"153\">Alice DuVivier</span> <a href=\"#narrow/stream/3-general/topic/GeoCAT/near/52010\">said</a>:</p>\n<blockquote>\n<p>I am trying to use the geocat interp_hybrid_to_pressure function and getting an error importing it. Here's the error:<br>\n|  ImportError: cannot import name 'interp_hybrid_to_pressure' from 'geocat.comp' (/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/geocat/comp/__init__.py)</p>\n<p>I have geocat in my environment and use it for some other purposes, so it's just importing this one function that isn't working. So it's probably something with my environment, but  when I do a conda list in my environment it looks like I have this installed already:<br>\n|geocat-comp               0.2                        py_0    ncar<br>\n|geocat-datafiles          2021.1.0                   py_0    ncar<br>\n|geocat-ncomp              0.1a             py37h03ebfcd_0    ncar<br>\n|geocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>\n<p>I'm kind of stuck on how to proceed and would appreciate some help figuring this environment issue out. Unfortunately I don't think I'll be able to come to ESDS office hours next week to ask then (family visiting).</p>\n<p>If it helps, I've been  following the example here:<br>\n<a href=\"https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py\">https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py</a></p>\n<p>And gone through the function documentation here:<br>\n<a href=\"https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html\">https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html</a></p>\n</blockquote>",
+        "id": 52012,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1647030067
+    },
+    {
+        "content": "<p>cc <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span></p>",
+        "id": 52013,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1647030111
+    },
+    {
+        "content": "<p>Beat me to it, Michael! I agree, it looks like your version is out of date with GeoCAT-comp, our most recent version is 2021.10.0 and I couldn't find the last time we had 0.2 as a version, which implies outdated version for your environment</p>",
+        "id": 52014,
+        "sender_full_name": "Michaela Sizemore",
+        "timestamp": 1647030130
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> even if you solved the issue, I'd highly recommend to follow <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> 's suggeestion and update your environment to use the newest GeoCAT-comp as yours seems to be outdated. This is important not only for geocat-comp version, but we made significant changes on GeoCAT stack, left using geocat-ncomp and replaced it with geocat-f2py for example.</p>",
+        "id": 52023,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1647036092
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> <span class=\"user-mention\" data-user-id=\"105\">@Michaela Sizemore</span> <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> </p>\n<p>I am in the process of doing this. Hopefully the update all goes smoothly. I agree that updating makes a lot of sense even if I did figure out the loading part.</p>",
+        "id": 52024,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1647036571
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> , we'd love to hear your feedback about using the <code>interp_hybrid_to_pressure</code>function, e.g. performance, any issues, thoughts as well as if your environment update goes smooth, etc. Best,</p>",
+        "id": 52025,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1647036858
+    },
+    {
+        "content": "<p><span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> </p>\n<p>I got the versions updated (See below). Honestly it was a bit confusing to follow how to do this just from the geocat documentation and be sure I was installing all the pieces of geocat (comp, viz, and datafiles separately). And the documentation doesn't have specific instructions for how to add geocat to an existing environment or updating it. Those would be useful things for those of us who are not python super-users. </p>\n<p>But now my notebook is running reasonably. I'll give you any thoughts about the function as I work with it more. :)</p>\n<p>geocat-comp               2021.10.0                  py_0    ncar<br>\ngeocat-datafiles          2021.1.0                   py_0    ncar<br>\ngeocat-f2py               2022.02.0        py37h3d0eb6f_0    ncar<br>\ngeocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>",
+        "id": 52027,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1647037662
+    },
+    {
+        "content": "<p>Good to hear that it's working. <br>\nAs a conda environment improvement, I'd suggest running the following commands:</p>\n<div class=\"codehilite\"><pre><span></span><code>conda config --prepend channels conda-forge\nconda clean --all\nconda install python=3.9\nconda update conda\nconda update --all\nconda clean --all\n</code></pre></div>",
+        "id": 52030,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1647040679
+    },
+    {
+        "content": "<p>NumPy ended support for python 3.7 last August, and we are ending support for python 3.7 as well, starting with release 2022.03.0</p>",
+        "id": 52031,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1647040875
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span></p>",
+        "id": 52033,
+        "sender_full_name": "Alea Kootz",
+        "timestamp": 1647045228
+    },
+    {
+        "content": "<p>Done!</p>\n<p><span class=\"user-mention silent\" data-user-id=\"97\">Alea Kootz</span> <a href=\"#narrow/stream/3-general/topic/GeoCAT/near/52030\">said</a>:</p>\n<blockquote>\n<p>Good to hear that it's working. <br>\nAs a conda environment improvement, I'd suggest running the following commands:</p>\n<p><div class=\"codehilite\"><pre><span></span><code>conda config --prepend channels conda-forge\nconda clean --all\nconda install python=3.9\nconda update conda\nconda update --all\nconda clean --all\n</code></pre></div><br>\n</p>\n</blockquote>",
+        "id": 52054,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1647114087
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"153\">Alice DuVivier</span> <a href=\"#narrow/stream/3-general/topic/GeoCAT/near/52027\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> </p>\n<p>I got the versions updated (See below). Honestly it was a bit confusing to follow how to do this just from the geocat documentation and be sure I was installing all the pieces of geocat (comp, viz, and datafiles separately). And the documentation doesn't have specific instructions for how to add geocat to an existing environment or updating it. Those would be useful things for those of us who are not python super-users. </p>\n<p>But now my notebook is running reasonably. I'll give you any thoughts about the function as I work with it more. :)</p>\n<p>geocat-comp               2021.10.0                  py_0    ncar<br>\ngeocat-datafiles          2021.1.0                   py_0    ncar<br>\ngeocat-f2py               2022.02.0        py37h3d0eb6f_0    ncar<br>\ngeocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>\n</blockquote>\n<p>This sounds great! I have created a <a href=\"https://github.com/NCAR/GeoCAT/issues/43\">GeoCAT issue</a> regarding your thoughts and initially assigned <span class=\"user-mention\" data-user-id=\"114\">@Anissa Zacharias</span> and <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> as they were currently discussing/working about improvements to. the GeoCAT contributor's guide, but we will have our team discussion on this as well.</p>",
+        "id": 52068,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1647275115
+    },
+    {
+        "content": "<p>Sounds good. I'm happy to provide feedback as needed. I did get to the actual interpolation today with interp_hybrid_to_pressure and it worked great.</p>",
+        "id": 52103,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1647300803
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span> I'm working on the GitHub issue that Orhan opened for this. Can you tell me which documentation pages you were looking at? We have installation instructions linked in the GeoCAT-examples gallery as well as in the documentation for GeoCAT-comp and GeoCAT-f2py. The contributor's guide also has installation of the entire GeoCAT project rather than instructions for one package like geocat-comp.</p>",
+        "id": 52852,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1648578257
+    },
+    {
+        "content": "<p>I believe this was related to the installation instructions here:<br>\n<a href=\"https://geocat-comp.readthedocs.io/en/latest/installation.html\">https://geocat-comp.readthedocs.io/en/latest/installation.html</a></p>\n<p>All these directions show how to create a new environment with geocat. However, as someone who already had an environment I just needed to update the environment and had a hard time determining how to do that from the page. I got a lot of guidance on this forum directly but not through the formal documentation.</p>\n<p><span class=\"user-mention silent\" data-user-id=\"107\">Heather Craker</span> <a href=\"#narrow/stream/3-general/topic/GeoCAT/near/52852\">said</a>:</p>\n<blockquote>\n<p>Hi <span class=\"user-mention silent\" data-user-id=\"153\">Alice DuVivier</span> I'm working on the GitHub issue that Orhan opened for this. Can you tell me which documentation pages you were looking at? We have installation instructions linked in the GeoCAT-examples gallery as well as in the documentation for GeoCAT-comp and GeoCAT-f2py. The contributor's guide also has installation of the entire GeoCAT project rather than instructions for one package like geocat-comp.</p>\n</blockquote>",
+        "id": 52871,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1648579543
+    },
+    {
+        "content": "<p>Thank you <span class=\"user-mention\" data-user-id=\"153\">@Alice DuVivier</span>! I'll be sure to update that page along with our contributor's guide. I can let you know once I have a GitHub pull request to fix this if you would like.</p>",
+        "id": 52886,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1648582026
+    },
+    {
+        "content": "<p>I have opened a PR to add clarification to the geocat-comp installation webpage. If anyone wants to take a look at make sure the instructions makes sense now, please feel free to leave comments and reviews <a href=\"https://github.com/NCAR/geocat-comp/pull/214\">https://github.com/NCAR/geocat-comp/pull/214</a></p>",
+        "id": 52922,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1648658631
     }
 ]

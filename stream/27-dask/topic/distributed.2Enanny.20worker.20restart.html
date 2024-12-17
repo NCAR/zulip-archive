@@ -1,0 +1,22 @@
+<html>
+<head><meta charset="utf-8"><title>distributed.nanny worker restart · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/distributed.2Enanny.20worker.20restart.html">distributed.nanny worker restart</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="69193"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/distributed.nanny%20worker%20restart/near/69193" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matthew Hayman <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/distributed.2Enanny.20worker.20restart.html#69193">(Dec 01 2022 at 15:40)</a>:</h4>
+<p>I'm using dask to parallelize some independent function calls on Cheyenne.  I call client.submit(fnc,*args) in a for loop.  When the length of the loop, and therefore number of submissions, exceeds the number of workers I get several errors stating:<br>
+distributed.nanny - WARNING - Restarting worker<br>
+and most (though not all) of the jobs fail.  </p>
+<p>I don't think I have this issue on my local machine .  I'm just using dask to leverage the multiple cores on a single Cheyenne node (not working across multiple PBS job submissions or nodes).   Is there something that needs to be setup on the client or scheduler so I can have a queue for the workers?  Does a dask distributed client not have the ability to queue jobs?</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

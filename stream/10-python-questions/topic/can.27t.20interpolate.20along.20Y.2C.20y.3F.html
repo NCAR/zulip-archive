@@ -1,0 +1,118 @@
+<html>
+<head><meta charset="utf-8"><title>can&#x27;t interpolate along Y, y? · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/can.27t.20interpolate.20along.20Y.2C.20y.3F.html">can&#x27;t interpolate along Y, y?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="59187"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/can%27t%20interpolate%20along%20Y%2C%20y%3F/near/59187" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/can.27t.20interpolate.20along.20Y.2C.20y.3F.html#59187">(Jul 18 2022 at 23:25)</a>:</h4>
+<p>Hi there, I am trying to interpolate some MITgcm grid distances to be compatible with the grid of some other variables. I need the distances on YC and XC. I can interpolate <code>ds_2014.dxC</code> just fine with <code>grid.interp(ds_2014.dxC, 'X')</code>, but the same doesn't work for the Y direction and I don't get why: <br>
+<code>grid.interp(ds_2014.dyC, 'Y')</code><br>
+gives me: </p>
+<div class="codehilite" data-code-language="IPython3"><pre><span></span><code><span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">NotImplementedError</span>                       <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="n">Input</span> <span class="n">In</span> <span class="p">[</span><span class="mi">143</span><span class="p">],</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">cell</span> <span class="n">line</span><span class="p">:</span> <span class="mi">1</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">grid</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">ds_2014</span><span class="o">.</span><span class="n">dyG</span><span class="p">,</span> <span class="s1">'Y'</span><span class="p">)</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">deppenme</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">mhw_lens</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xgcm</span><span class="o">/</span><span class="n">grid</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">2041</span><span class="p">,</span> <span class="ow">in</span> <span class="n">Grid</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+   <span class="mi">1989</span> <span class="k">def</span> <span class="nf">interp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+   <span class="mi">1990</span>     <span class="s2">"""</span>
+<span class="s2">   1991     Interpolate neighboring points to the intermediate grid point along</span>
+<span class="s2">   1992     this axis.</span>
+<span class="s2">   (...)</span>
+<span class="s2">   2039     &gt;&gt;&gt; grid.interp(da, ["X", "Y"], periodic={"X": True, "Y": False})</span>
+<span class="s2">   2040     """</span>
+<span class="o">-&gt;</span> <span class="mi">2041</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_1d_grid_ufunc_dispatch</span><span class="p">(</span><span class="s2">"interp"</span><span class="p">,</span> <span class="n">da</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">deppenme</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">mhw_lens</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xgcm</span><span class="o">/</span><span class="n">grid</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1836</span><span class="p">,</span> <span class="ow">in</span> <span class="n">Grid</span><span class="o">.</span><span class="n">_1d_grid_ufunc_dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">funcname</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">keep_coords</span><span class="p">,</span> <span class="n">metric_weighted</span><span class="p">,</span> <span class="n">other_component</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+   <span class="mi">1833</span> <span class="k">else</span><span class="p">:</span>
+   <span class="mi">1834</span>     <span class="n">map_overlap</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="o">-&gt;</span> <span class="mi">1836</span> <span class="n">array</span> <span class="o">=</span> <span class="n">grid_ufunc</span><span class="p">(</span>
+   <span class="mi">1837</span>     <span class="bp">self</span><span class="p">,</span>
+   <span class="mi">1838</span>     <span class="n">array</span><span class="p">,</span>
+   <span class="mi">1839</span>     <span class="n">axis</span><span class="o">=</span><span class="p">[(</span><span class="n">ax_name</span><span class="p">,)],</span>
+   <span class="mi">1840</span>     <span class="n">keep_coords</span><span class="o">=</span><span class="n">keep_coords</span><span class="p">,</span>
+   <span class="mi">1841</span>     <span class="n">dask</span><span class="o">=</span><span class="n">dask</span><span class="p">,</span>
+   <span class="mi">1842</span>     <span class="n">map_overlap</span><span class="o">=</span><span class="n">map_overlap</span><span class="p">,</span>
+   <span class="mi">1843</span>     <span class="n">other_component</span><span class="o">=</span><span class="n">other_component</span><span class="p">,</span>
+   <span class="mi">1844</span>     <span class="o">**</span><span class="n">remaining_kwargs</span><span class="p">,</span>
+   <span class="mi">1845</span> <span class="p">)</span>
+   <span class="mi">1847</span> <span class="k">if</span> <span class="n">ax_metric_weighted</span><span class="p">:</span>
+   <span class="mi">1848</span>     <span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metric</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">ax_metric_weighted</span><span class="p">)</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">deppenme</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">mhw_lens</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xgcm</span><span class="o">/</span><span class="n">grid_ufunc</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">460</span><span class="p">,</span> <span class="ow">in</span> <span class="n">GridUFunc</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">458</span> <span class="n">map_overlap</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"map_overlap"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_overlap</span><span class="p">)</span>
+    <span class="mi">459</span> <span class="n">pad_before_func</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"pad_before_func"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pad_before_func</span><span class="p">)</span>
+<span class="o">--&gt;</span> <span class="mi">460</span> <span class="k">return</span> <span class="n">apply_as_grid_ufunc</span><span class="p">(</span>
+    <span class="mi">461</span>     <span class="bp">self</span><span class="o">.</span><span class="n">ufunc</span><span class="p">,</span>
+    <span class="mi">462</span>     <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+    <span class="mi">463</span>     <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span>
+    <span class="mi">464</span>     <span class="n">grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+    <span class="mi">465</span>     <span class="n">signature</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span>
+    <span class="mi">466</span>     <span class="n">boundary_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boundary_width</span><span class="p">,</span>
+    <span class="mi">467</span>     <span class="n">boundary</span><span class="o">=</span><span class="n">boundary</span><span class="p">,</span>
+    <span class="mi">468</span>     <span class="n">dask</span><span class="o">=</span><span class="n">dask</span><span class="p">,</span>
+    <span class="mi">469</span>     <span class="n">map_overlap</span><span class="o">=</span><span class="n">map_overlap</span><span class="p">,</span>
+    <span class="mi">470</span>     <span class="n">pad_before_func</span><span class="o">=</span><span class="n">pad_before_func</span><span class="p">,</span>
+    <span class="mi">471</span>     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="mi">472</span> <span class="p">)</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">deppenme</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">mhw_lens</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xgcm</span><span class="o">/</span><span class="n">grid_ufunc</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">745</span><span class="p">,</span> <span class="ow">in</span> <span class="n">apply_as_grid_ufunc</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">boundary_width</span><span class="p">,</span> <span class="n">boundary</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">keep_coords</span><span class="p">,</span> <span class="n">dask</span><span class="p">,</span> <span class="n">map_overlap</span><span class="p">,</span> <span class="n">pad_before_func</span><span class="p">,</span> <span class="n">other_component</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="mi">742</span> <span class="c1"># Maybe map function over chunked core dims using dask.array.map_overlap</span>
+    <span class="mi">743</span> <span class="k">if</span> <span class="n">map_overlap</span><span class="p">:</span>
+    <span class="mi">744</span>     <span class="c1"># Disallow situations where shifting axis position would cause chunk size to change</span>
+<span class="o">--&gt;</span> <span class="mi">745</span>     <span class="n">_check_if_length_would_change</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span>
+    <span class="mi">747</span>     <span class="n">mapped_func</span> <span class="o">=</span> <span class="n">_map_func_over_core_dims</span><span class="p">(</span>
+    <span class="mi">748</span>         <span class="n">func</span><span class="p">,</span>
+    <span class="mi">749</span>         <span class="n">args</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="mi">753</span>         <span class="n">out_dtypes</span><span class="p">,</span>
+    <span class="mi">754</span>     <span class="p">)</span>
+    <span class="mi">755</span> <span class="k">else</span><span class="p">:</span>
+
+<span class="n">File</span> <span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">deppenme</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">mhw_lens</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">xgcm</span><span class="o">/</span><span class="n">grid_ufunc</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1002</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_check_if_length_would_change</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+    <span class="mi">996</span> <span class="n">all_ax_positions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+    <span class="mi">997</span>     <span class="n">p</span>
+    <span class="mi">998</span>     <span class="k">for</span> <span class="n">arg_ps</span> <span class="ow">in</span> <span class="n">signature</span><span class="o">.</span><span class="n">in_ax_positions</span> <span class="o">+</span> <span class="n">signature</span><span class="o">.</span><span class="n">out_ax_positions</span>
+    <span class="mi">999</span>     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">arg_ps</span>
+   <span class="mi">1000</span> <span class="p">)</span>
+   <span class="mi">1001</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">pos</span> <span class="ow">in</span> <span class="n">DISALLOWED_OVERLAP_POSITIONS</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">all_ax_positions</span><span class="p">):</span>
+<span class="o">-&gt;</span> <span class="mi">1002</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+   <span class="mi">1003</span>         <span class="s2">"Cannot chunk along a core dimension for a grid ufunc which has a signature which "</span>
+   <span class="mi">1004</span>         <span class="sa">f</span><span class="s2">"includes one of the axis positions </span><span class="si">{</span><span class="n">DISALLOWED_OVERLAP_POSITIONS</span><span class="si">}</span><span class="s2">"</span>
+   <span class="mi">1005</span>     <span class="p">)</span>
+
+<span class="ne">NotImplementedError</span><span class="p">:</span> <span class="n">Cannot</span> <span class="n">chunk</span> <span class="n">along</span> <span class="n">a</span> <span class="n">core</span> <span class="n">dimension</span> <span class="k">for</span> <span class="n">a</span> <span class="n">grid</span> <span class="n">ufunc</span> <span class="n">which</span> <span class="n">has</span> <span class="n">a</span> <span class="n">signature</span> <span class="n">which</span> <span class="n">includes</span> <span class="n">one</span> <span class="n">of</span> <span class="n">the</span> <span class="n">axis</span> <span class="n">positions</span> <span class="p">[</span><span class="s1">'inner'</span><span class="p">,</span> <span class="s1">'outer'</span><span class="p">]</span>
+</code></pre></div>
+<p>The <code>grid</code> looks like this: </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="o">&lt;</span><span class="n">xgcm</span><span class="o">.</span><span class="n">Grid</span><span class="o">&gt;</span>
+<span class="n">T</span> <span class="n">Axis</span> <span class="p">(</span><span class="ow">not</span> <span class="n">periodic</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="o">*</span> <span class="n">center</span>   <span class="n">time</span>
+<span class="n">Z</span> <span class="n">Axis</span> <span class="p">(</span><span class="ow">not</span> <span class="n">periodic</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="o">*</span> <span class="n">center</span>   <span class="n">Z</span> <span class="o">--&gt;</span> <span class="n">left</span>
+  <span class="o">*</span> <span class="n">left</span>     <span class="n">Zl</span> <span class="o">--&gt;</span> <span class="n">center</span>
+<span class="n">Y</span> <span class="n">Axis</span> <span class="p">(</span><span class="ow">not</span> <span class="n">periodic</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="o">*</span> <span class="n">center</span>   <span class="n">YC</span> <span class="o">--&gt;</span> <span class="n">outer</span>
+  <span class="o">*</span> <span class="n">outer</span>    <span class="n">YG</span> <span class="o">--&gt;</span> <span class="n">center</span>
+<span class="n">X</span> <span class="n">Axis</span> <span class="p">(</span><span class="ow">not</span> <span class="n">periodic</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+  <span class="o">*</span> <span class="n">center</span>   <span class="n">XC</span> <span class="o">--&gt;</span> <span class="n">left</span>
+  <span class="o">*</span> <span class="n">left</span>     <span class="n">XG</span> <span class="o">--&gt;</span> <span class="n">center</span>
+</code></pre></div>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I googled for some issues but can't find anything useful, also because <code>ds_2014.dyC</code> isn't actually chunked?! Any ideas? <a href="/user_uploads/2/1d/9gQBLmZN1E-mOHqEntgbCT2_/image.png">image.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/1d/9gQBLmZN1E-mOHqEntgbCT2_/image.png" title="image.png"><img src="/user_uploads/2/1d/9gQBLmZN1E-mOHqEntgbCT2_/image.png"></a></div>
+
+
+
+<a name="59239"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/can%27t%20interpolate%20along%20Y%2C%20y%3F/near/59239" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/can.27t.20interpolate.20along.20Y.2C.20y.3F.html#59239">(Jul 19 2022 at 17:57)</a>:</h4>
+<p>It is chunked; there's just a single chunk. This is the upstream issue: <a href="https://github.com/xgcm/xgcm/issues/518">https://github.com/xgcm/xgcm/issues/518</a></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,25 @@
+<html>
+<head><meta charset="utf-8"><title>Dask workers killed due to &quot;distributed.scheduler - ERROR&quot; · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20workers.20killed.20due.20to.20.22distributed.2Escheduler.20-.20ERROR.22.html">Dask workers killed due to &quot;distributed.scheduler - ERROR&quot;</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="63159"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20workers%20killed%20due%20to%20%22distributed.scheduler%20-%20ERROR%22/near/63159" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> lantao sun <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20workers.20killed.20due.20to.20.22distributed.2Escheduler.20-.20ERROR.22.html#63159">(Sep 02 2022 at 15:48)</a>:</h4>
+<p>Hello, <br>
+I wonder if any one can help me diagnose one issue with a python script. Dask is used to read multiple files and call a xcape function , then save the outputs to netcdf files. The issue appears in the last step (output saving). The error message is  super long, something like below :<br>
+"2022-09-02 08:41:22,615 - distributed.scheduler - ERROR - Couldn't gather keys {"('transpose-f46d5e92cf682836ca8a24eb17d8553b', 790, 0, 0)": ['tcp://10.12.206.60:36276'], "('transpose-8c88781f634a9927c24c1d3f3c8a4b12', 1195, 0, 0)": ['tcp://10.12.206.60:43674'], "('transpose-8c88781f634a9927c24c1d3f3c8a4b12', 2007, 0, 0)": ['tcp://10.12.206.39:44215'], "('transpose-8c88781f634a9927c24c1d3f3c8a4b12', 2286, 0, 0)": ....".<br>
+All workers will then be killed. But the data can be still written to netcdf files.<br>
+My script can be found at,<br>
+/glade/u/home/lantao/python/2022-08-31_ARISE/p_cal_ARISE_hist_dask_SRH03.ipynb<br>
+Thank you!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

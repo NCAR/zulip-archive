@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>calculate slope through time · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html">calculate slope through time</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html">calculate slope through time</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="36586"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36586" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36586">(Jul 07 2021 at 18:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36586" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36586">(Jul 07 2021 at 18:18)</a>:</h4>
 <p>I'm struggling to calculate the trend of a variable through time. I have a variable <code>CESMnofert_latavg</code>:<br>
 <a href="/user_uploads/2/1a/Yksmas5qlaPqMvl-iEDNR5iV/ScreenShot_CESMnofert_latavg.png" target="_blank" title="ScreenShot_CESMnofert_latavg.png">ScreenShot_CESMnofert_latavg.png</a> </p>
 <div class="message_inline_image"><a href="/user_uploads/2/1a/Yksmas5qlaPqMvl-iEDNR5iV/ScreenShot_CESMnofert_latavg.png" target="_blank" title="ScreenShot_CESMnofert_latavg.png"><img src="/user_uploads/2/1a/Yksmas5qlaPqMvl-iEDNR5iV/ScreenShot_CESMnofert_latavg.png"></a></div><p>The problem seems to be with <code>cftime</code></p>
@@ -31,53 +31,53 @@ z = np.polyfit(CESMnofert_latavg.time, CESMnofert_latavg, 1)
 
 
 <a name="36588"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36588" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36588">(Jul 07 2021 at 18:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36588" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36588">(Jul 07 2021 at 18:34)</a>:</h4>
 <p>It looks like you're regressing against the time dimension, which is represented as a <code>cftime._cftime.DatetimeNoLeap</code> object.   If you're happy with treating time steps as integer indexes, you should be able to use time dimension integer indexes, though I'm not sure of the syntax offhand.</p>
 
 
 
 <a name="36589"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36589" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36589">(Jul 07 2021 at 18:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36589" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36589">(Jul 07 2021 at 18:36)</a>:</h4>
 <p>Try <code>Dataset.polyfit</code> or <code>DataArray.polyfit</code> I think it does all these  manipulations for you. The output units are in <code>ns</code> though!</p>
 
 
 
 <a name="36590"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36590" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36590">(Jul 07 2021 at 18:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36590" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36590">(Jul 07 2021 at 18:36)</a>:</h4>
 <p>If you're loading the data from NetCDF, you could try adding <code>decode_cf=False</code> to your dataset open statement, and you may have integer indexes instead of time objects.</p>
 
 
 
 <a name="36628"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36628" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36628">(Jul 07 2021 at 19:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36628" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36628">(Jul 07 2021 at 19:58)</a>:</h4>
 <p>Thanks! I was able to get something to work using <code>DataArray.polyfit</code>. <span class="user-mention" data-user-id="25">@Deepak Cherian</span> , what do you mean by units in <code>ns</code>?</p>
 <p>I'm not sure I fully understand this function so I'll keep playing around with it. I found the docs page for it, but can't seem to find examples of it in use.</p>
 
 
 
 <a name="36637"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36637" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36637">(Jul 07 2021 at 20:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36637" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36637">(Jul 07 2021 at 20:27)</a>:</h4>
 <p>See <a href="https://github.com/pydata/xarray/issues/4455" target="_blank" title="https://github.com/pydata/xarray/issues/4455">https://github.com/pydata/xarray/issues/4455</a> the output values are sometimes confusing. I guess I should have written <code>(data units)/nanosecond</code> I am not sure what happens with cftime though.</p>
 
 
 
 <a name="36651"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36651" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36651">(Jul 07 2021 at 21:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36651" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36651">(Jul 07 2021 at 21:15)</a>:</h4>
 <p>Thanks Deepak. The units do seem to be in nanoseconds with cftime as well. I initially asked because the values plotted as 1e-18, so I'm glad to know it's not a mistake on my part.</p>
 
 
 
 <a name="36652"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36652" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36652">(Jul 07 2021 at 21:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36652" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36652">(Jul 07 2021 at 21:26)</a>:</h4>
 <p>I went through this same process a few weeks back! <span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>  If you're looking for an example with <code>xr.polyfit</code> I have one here: <a href="https://github.com/katiedagon/GLENS-Ecosystems/blob/main/notebooks/climateVelocity.ipynb" target="_blank" title="https://github.com/katiedagon/GLENS-Ecosystems/blob/main/notebooks/climateVelocity.ipynb">https://github.com/katiedagon/GLENS-Ecosystems/blob/main/notebooks/climateVelocity.ipynb</a> (sorry the notebook is kind of long and messy, just search for "polyfit" to find relevant code)</p>
 
 
 
 <a name="36653"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36653" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36653">(Jul 07 2021 at 21:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/calculate%20slope%20through%20time/near/36653" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/calculate.20slope.20through.20time.html#36653">(Jul 07 2021 at 21:27)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="47">@Katie Dagon</span> ! It's really nice to have an example of this in action!</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

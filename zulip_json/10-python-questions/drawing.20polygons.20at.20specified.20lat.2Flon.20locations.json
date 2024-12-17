@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hi,<br>\nI'm trying to draw a polygon or even just a simple line along a specified latitude on a global map.  This is simply for visualizing regions, not for computation. What is the most straightforward way to do this? None of my searching online has been particularly helpful.<br>\nThanks!<br>\nMira</p>",
+        "id": 51560,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1646673352
+    },
+    {
+        "content": "<p>Hi Mira!   Here is a collection of plotting examples that may help.   </p>\n<p><a href=\"https://geocat-examples.readthedocs.io/en/latest/gallery/Polygons/NCL_polyg_4.html#sphx-glr-gallery-polygons-ncl-polyg-4-py\">https://geocat-examples.readthedocs.io/en/latest/gallery/Polygons/NCL_polyg_4.html#sphx-glr-gallery-polygons-ncl-polyg-4-py</a></p>",
+        "id": 51561,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1646673842
+    },
+    {
+        "content": "<p>Thanks Brian! I gave this a try, but for some reason the polygon won't display, only the text.  Also, the text doesn't seem to shift when I move the x,y location, it always just appears at the center of the map.  I wonder if it has something to do with my projection....</p>\n<p><a href=\"/user_uploads/2/38/lv2yu5rtBnrlaT8WDWRCnScn/mask_test.png\">mask_test.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/38/lv2yu5rtBnrlaT8WDWRCnScn/mask_test.png\" title=\"mask_test.png\"><img src=\"/user_uploads/2/38/lv2yu5rtBnrlaT8WDWRCnScn/mask_test.png\"></a></div><div class=\"codehilite\"><pre><span></span><code>import cartopy.crs as ccrs\nimport cartopy\n\ntest = (Annual_OceanT_H11.isel(time=10,z_t=0))\nlat = mfds_fix.TLAT\nlon = mfds_fix.TLONG\n\nlo = -5.\nhi = 30.\ndc = 1\ncnlevels = np.arange(lo, hi+dc, dc)\ncnlevels\n\n\nfig, axs = plt.subplots(nrows=1, ncols = 3, figsize = (26,4), subplot_kw=dict(projection=ccrs.Robinson()))\n#fig, axs = plt.subplots(nrows=1, ncols = 3, figsize = (26,4), subplot_kw=dict(projection=ccrs.SouthPolarStereo()))\n\n\naxs[0].coastlines(lw=0.2)\naxs[0].contourf(lon,lat, test, transform = ccrs.PlateCarree(), add_colorbar=True, levels = cnlevels, extend = &#39;neither&#39;,  cmap=cmocean.cm.thermal)\naxs[1].contourf(lon,lat, test, transform = ccrs.PlateCarree(), add_colorbar=False, levels = cnlevels, extend = &#39;both&#39;,   cmap=cmocean.cm.thermal)\naxs[2].contourf(lon,lat, test, transform = ccrs.PlateCarree(), add_colorbar=False, levels = cnlevels, extend = &#39;both&#39;,   cmap=cmocean.cm.thermal)\naxs[0].set_global()\nland = axs[0].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;, &#39;land&#39;, &#39;110m&#39;,linewidth=0.5, edgecolor=&#39;black&#39;, facecolor=&#39;darkgray&#39;))\nland = axs[1].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;, &#39;land&#39;, &#39;110m&#39;,linewidth=0.5, edgecolor=&#39;black&#39;, facecolor=&#39;darkgray&#39;))\nland = axs[2].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;, &#39;land&#39;, &#39;110m&#39;,linewidth=0.5, edgecolor=&#39;black&#39;, facecolor=&#39;darkgray&#39;))\n\n\n\nfig.suptitle(&#39;Masks&#39;, fontsize = 18, y=0.999)\nfig.tight_layout()\naxs[0].set_title(&#39;SO&#39;)\naxs[1].set_title(&#39;Amundsen&#39;)\naxs[2].set_title(&#39;TightSO&#39;)\naxs[0].gridlines(color=&#39;black&#39;, alpha=0.5, linestyle=&#39;--&#39;)\naxs[1].gridlines(color=&#39;black&#39;, alpha=0.5, linestyle=&#39;--&#39;)\naxs[2].gridlines(color=&#39;black&#39;, alpha=0.5, linestyle=&#39;--&#39;)\n\n# Create a rectangle patch, to color the border of the rectangle a different color.\n# Specify the rectangle as a corner point with width and height, to help place border text more easily.\nleft, width = -90, 45\nbottom, height = 10, 30\nright = left + width\ntop = bottom + height\n\n# Draw rectangle patch on the plot\np = plt.Rectangle(\n    (left, bottom),\n    width,\n    height,\n    fill=False,\n    zorder=3,  # Plot on top of the purple box border.\n    edgecolor=&#39;black&#39;,\n    alpha=0.5)  # Lower color intensity.\naxs[0].add_patch(p)\n\n\n# Draw top text\n# axs[0].text(left + 0.6 * width,\n#     top,\n#         &#39;test&#39;,\n#         horizontalalignment=&#39;right&#39;,\n#         verticalalignment=&#39;center&#39;)\n\naxs[0].text(120,120,\n        &#39;test&#39;,\n        horizontalalignment=&#39;right&#39;,\n        verticalalignment=&#39;center&#39;)\n</code></pre></div>",
+        "id": 51567,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1646681794
+    },
+    {
+        "content": "<p>I think I've seen this behavior before.   The plot commands have a \"transform\" parameter that you should find in the example.   This tells the plotting function what projection (or you could also say coordinate system)  your point values are in.   You have the option of considering the lower left corner of the plot as having coordinate (0,0) and the top right corner being at (1,1).   To specify lat/lon values, I think \"PlateCarree\" is the right transform.</p>",
+        "id": 51568,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1646682340
+    },
+    {
+        "content": "<p>This did the trick!  Thanks so much Brian.</p>",
+        "id": 51575,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1646683213
+    }
+]

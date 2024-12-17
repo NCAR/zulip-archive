@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Hello,</p>\n<p>Can anyone help me with this killed workers issue?  I'm dealing with data on the 1/10th degree ocean/sea ice grid.  I'm trying to interpolate the monthly sea ice data to daily.  I think my problem is that when I do the time interpolation I lose my chunking in space i.e., it only has one chunk after the interpolation.  Then I re-chunk it and it looks like the chunks are a reasonable size but when I come to writing out the result, the workers die.  I think it's maybe the re-chunking stage that is the problem?  No matter how small I make the chunks or how many workers I throw at it, it dies.  I looked into using the Rechunker tool as recommended <a href=\"https://github.com/pangeo-data/rechunker\">here</a> but it needed an older version of python than what I'm using.  Glad to hear any advice on this.  My code is here...</p>\n<p>/glade/u/home/islas/CVCWG/Atlantic_RR/deriveICEFRAC_lininterp/derive_icefrac.ipynb</p>\n<p>Thanks!</p>",
+        "id": 59693,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1658616876
+    },
+    {
+        "content": "<ul>\n<li>After reading, you have 1 years of monthly data in one chunk (12 timesteps). </li>\n<li>Then you're interpolating to daily frequency. So each chunk increase by 365/12 ~ 30x. So an initial ~400MB chunk <em>should</em> becomes 12 GB. </li>\n<li>then for some reason, xarray decides to merge those two chunks into 1 (bug!) so each chunk actually becomes 24 GB.</li>\n<li>The solution is to reduce the initial chunk size at read by chunking along space which you did try but the dimension names were wrong (chunk along ni, nj not nlat, nlon).</li>\n</ul>\n<p>let us know if that works out better</p>",
+        "id": 59715,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1658763398
+    },
+    {
+        "content": "<p>Oh, thank you.  Silly mistake on the coordinate names for the chunking.  This is working now!</p>",
+        "id": 59748,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1658773405
+    }
+]

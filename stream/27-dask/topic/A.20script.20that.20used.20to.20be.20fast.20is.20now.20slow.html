@@ -1,0 +1,156 @@
+<html>
+<head><meta charset="utf-8"><title>A script that used to be fast is now slow · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html">A script that used to be fast is now slow</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="97384"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97384" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97384">(Apr 01 2024 at 20:06)</a>:</h4>
+<p>Hello, I had a script that was working well a few months ago to do a number of computations on ERA5 model level data.  Deepak helped me get this script working and it used to churn through a month of ERA5 data in about half an hour.  I haven't changed anything other than the call to open up the PBS cluster which had to be updated, but now it is ridiculously slow.  I left it running for 3 hours earlier and it didn't complete the analysis on one day.  My script is here:</p>
+<p>/glade/u/home/islas/python/sortera5/grabera5zmfluxes_mlev.ipynb</p>
+<p>I've tried with both an older environment and a newer environment.  My new call to open up the PBS cluster looks like this...</p>
+<p><a href="/user_uploads/2/5f/Wz97iGlfvmKPDIU18BazB302/Screen-Shot-2024-04-01-at-2.03.56-PM.png">Screen-Shot-2024-04-01-at-2.03.56-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/5f/Wz97iGlfvmKPDIU18BazB302/Screen-Shot-2024-04-01-at-2.03.56-PM.png" title="Screen-Shot-2024-04-01-at-2.03.56-PM.png"><img src="/user_uploads/2/5f/Wz97iGlfvmKPDIU18BazB302/Screen-Shot-2024-04-01-at-2.03.56-PM.png"></a></div><p>Can anyone advise me whether there's something inefficient here.  Or has something else changed such that the coding practices in the original script are now no longer efficient?  The only other thing I can think of is that the data I'm opening is in the rda which moved from /gpfs/fs1 to /glade/campaign.  Is it possible that this could have caused the slowdown?</p>
+<p>Thanks for any help on this.</p>
+
+
+
+<a name="97387"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97387" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97387">(Apr 01 2024 at 20:40)</a>:</h4>
+<p>An update: I think it's the interpolation from hybrid to pressure levels that is taking much longer than it used to.  In the past I had tested the timing of that step alone and it was a wall time of 4.83s.  I don't know how long that particular step takes now because I'm still waiting for it to finish.  But it's definitely longer than 4.83s.</p>
+
+
+
+<a name="97388"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97388" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97388">(Apr 01 2024 at 21:11)</a>:</h4>
+<p>I have also tried using the GeoCAT interpolation routines directly and I have the same problem <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> <span class="user-mention" data-user-id="18">@Orhan Eroglu</span> - can you think of any reason why the interp_hybrid_to_pressure subroutine with extrapolation = True would have slowed down drastically in the last while?  It is fast if I set extrapolation = False, but it seems to be much slower with the extrapolation now compared to when I was running these a few months ago.</p>
+
+
+
+<a name="97389"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97389" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97389">(Apr 01 2024 at 21:20)</a>:</h4>
+<p>Pinging also <span class="user-mention" data-user-id="114">@Anissa Zacharias</span> from GeoCAT-comp</p>
+
+
+
+<a name="97393"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97393" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97393">(Apr 01 2024 at 21:36)</a>:</h4>
+<p>I have been looking at this with <span class="user-mention" data-user-id="61">@Brian Medeiros</span> and we think it is in the subroutine _vertical_remap_extrap and specifically this line, which seems to be very slow...</p>
+<p>output.loc[dict(plev=lev)] = xr.where(<br>
+lev &lt;= p_sfc, output.sel(plev=lev),<br>
+data.isel(**dict({lev_dim: sfc_index})))</p>
+<p>Thanks</p>
+
+
+
+<a name="97396"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97396" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97396">(Apr 01 2024 at 21:49)</a>:</h4>
+<p>OK, we have managed to get this to work much faster by adding compute commands to p_sfc, data, output i.e.,</p>
+<p>p_sfc = p_sfc.compute()<br>
+data = data.compute()<br>
+output = output.compute()</p>
+<p>after the computation of p_sfc and before "if variable =='temperature'".</p>
+<p>This completed in 2.69 seconds whereas before it was taking more than 3 hours (I didn't let it get to completion).</p>
+
+
+
+<a name="97402"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97402" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97402">(Apr 01 2024 at 23:08)</a>:</h4>
+<p>Thanks for letting us know. Anissa is out on PTO, but I can try to take a look.  </p>
+<p>It definitely looks like there's an issue with how the function works with Dask or at least how Dask is configured here.  Do you have info on how you had the PBS cluster set up before?  </p>
+<p>I did look through the geocat-comp code and didn't see any recent changes of concern, but there is some more complex usage of Dask in this function.</p>
+
+
+
+<a name="97403"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97403" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97403">(Apr 01 2024 at 23:09)</a>:</h4>
+<p>Thanks for looking into it.  Here is how I had my dask cluster set up before...</p>
+<p>from dask_jobqueue import PBSCluster<br>
+from dask.distributed import Client<br>
+dask.config.set({"distributed.scheduler.worker_saturation":1.0})</p>
+<p>cluster = PBSCluster(<br>
+    cores = 1,<br>
+    memory = '30GB',<br>
+    processes = 1,<br>
+    queue = 'casper',<br>
+    local_directory = '$TMPDIR',<br>
+    resource_spec = 'select=1:ncpus=1:mem=20GB',<br>
+    project='P04010022',<br>
+    walltime='24:00:00',<br>
+    interface='ib0')</p>
+<h1>scale up</h1>
+<p>cluster.scale(36)</p>
+<h1>change your urls to the dask dashboard so that you can see it</h1>
+<p>dask.config.set({'distributed.dashboard.link':'<a href="https://jupyterhub.hpc.ucar.edu/stable/user/{USER}/proxy/{port}/status'}">https://jupyterhub.hpc.ucar.edu/stable/user/{USER}/proxy/{port}/status'}</a>)</p>
+<h1>Setup your client</h1>
+<p>client = Client(cluster)</p>
+
+
+
+<a name="97428"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97428" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97428">(Apr 02 2024 at 17:12)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> <a href="#narrow/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow/near/97402">said</a>:</p>
+<blockquote>
+<p>Thanks for letting us know. Anissa is out on PTO, but I can try to take a look.  </p>
+</blockquote>
+<p>Yeah, just for reference when she's back. Thanks very much for looking into this. FWIW, Dask had a recent release 2024.3.1 that had some changes to Dataframe AFAIK and 2024.4.0 yesterday</p>
+
+
+
+<a name="97439"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97439" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97439">(Apr 03 2024 at 02:10)</a>:</h4>
+<p>A quick update:<br>
+I did get a modified example running (yesterday) using NPL 2024a.  Thanks for sharing your notebook and example code!  </p>
+<p>I was hoping to have a more clear answer / path forward by now, but am still trying to better understand what's going on.  The dask task graphs in here pretty complex and even when calling .compute() on the arrays the resource usage is very inefficient.  There's certainly some stuff we can work on cleaning up that should improve performance, but I haven't identified anything that would have changed in the last few months.  And it looks like the Dask changes Orhan mentioned are after the versions included in the NPL envs.   </p>
+<p>Is it possible you weren't using extrapolate=True before?  That would certainly have improved performance.    </p>
+<p>I'm going to see if I can create a smaller example we can use for benchmarking and try to clean up the dask usage in the function a bit more, but that might take a bit.  Maybe we can get someone else to take a quick look as well who has more familiarity with configuring dask on Casper and/or the history of the relevant GeoCAT function.</p>
+
+
+
+<a name="97440"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97440" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97440">(Apr 03 2024 at 13:14)</a>:</h4>
+<p>HI Katelyn, Thanks for looking into it.  I was definitely using extrapolate = True before.  I didn't do anything to my code from the previous time I ran it.  The first time I tried to re-run my code I actually wasn't using the geocat function.  I was using an old one that I had pulled out of geocat and put in my own script.  So my feeling is that its not something that has changed about the geocat code, but rather it's something that has changed about the system or dask as environments have been updated that now causesthe geocat routine to run really slow.  In case it's helpful, while I have updated my environment fairly recently, it still appears to be using an older version of dask (2022.2.0).  I don't know what it was using back when I had previously run this code, but it was definitely within the last year.</p>
+
+
+
+<a name="97446"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97446" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97446">(Apr 03 2024 at 15:42)</a>:</h4>
+<p>Thanks for the additional details.  </p>
+<p>I did see something in the notebook referring to the old ncar conda channel for GeoCAT.  It looked like you were using your own version of the GeoCAT function like you mentioned so I didn't bring it up earlier, but based on that and the old version of dask you mentioned I wonder if you have some packages in there that might only be preventing newer versions from being installed for compatibility reasons.  Let me know if you'd like help with this.  It might be easier to just message me directly or set up an ESDS office hours appt.</p>
+<p>The other thing I was wondering about are system changes, but I think folks from CSG could probably help better with understanding if anything significant has changed system-wise in the time from before to now.  It didn't seem like memory was an issue for dask workers, but like I said the task graphs were quite large (this is something optimization on the geocat side could help with, but it may not have been as much of a problem before if the system resources/config changed). From Jupyter it looked like there might be some issues w/ memory. </p>
+<p>Have you spoken with Negin or anyone else from the HPC Research Computing Support - Consulting Services Group?</p>
+
+
+
+<a name="97458"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97458" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97458">(Apr 03 2024 at 20:26)</a>:</h4>
+<p>Sounds good.  Thanks.  I'll email you separately about the dask update issue.  I haven't spoken with <span class="user-mention" data-user-id="71">@Negin Sobhani</span> or anyone else in HPC research computing about this issue.  It does seem like there's a chance that some change to the system could be responsible.</p>
+
+
+
+<a name="97459"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97459" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97459">(Apr 03 2024 at 20:30)</a>:</h4>
+<p>I'll see if I can chat with someone from CSG.  It'd be good for me to get a better understanding of this (considerations for Dask on HPC) anyway.</p>
+
+
+
+<a name="97615"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97615" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97615">(Apr 09 2024 at 16:22)</a>:</h4>
+<p>It's still a little unclear to me why exactly it would be more problematic now vs. earlier, but I did find some items we can address on the geocat-comp side of things to make this much more performant.  I also logged <a href="https://github.com/NCAR/geocat-comp/issues/591">an issue over on the GitHub repo</a> that we'll close once the update has been merged.  For now there's a <a href="https://github.com/NCAR/geocat-comp/pull/592">draft PR</a> with some updates that seem to address the core of the problem.  We'll try to get this in ASAP.  </p>
+<p>Let us know if you have any questions and thanks again for reporting this!</p>
+
+
+
+<a name="97642"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/A%20script%20that%20used%20to%20be%20fast%20is%20now%20slow/near/97642" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/A.20script.20that.20used.20to.20be.20fast.20is.20now.20slow.html#97642">(Apr 09 2024 at 23:53)</a>:</h4>
+<p>Great, thanks.  I look forward to trying this more performant version.  I was trying some other things last week and I seemed to be able to run a script on the machines in CGD relatively quickly without having to add in the .compute().  I wasn't using a dask cluster there though, so maybe that's the difference.  But maybe it does point to it being more than inefficiencies in the GeoCAT code or maybe these are inefficiencies that only come into play when using multiple processors with dask.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

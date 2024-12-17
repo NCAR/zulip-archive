@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi,</p>\n<p>I am trying to analyze some data in <code>/glade/campaign/cgd/tss/people/oleson/CLM_LAND_ONLY_RELEASE/CLM5/clm50_r270_1deg_GSWP3V1_iso_newpopd_hist/lnd/proc/tseries/month_1</code>, and the history variables are indexed by <code>landunit</code>. I'm not sure how to work with this data using typical xarray plotting. For example, a command that <span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> uses:</p>\n<div class=\"codehilite\"><pre><span></span><code>cf = ax.pcolormesh(clm_sub.lon, clm_sub.lat,\n                   clm_sub.H2OSNO.isel(time=slice(0,120)).max(dim=&#39;time&#39;),\n                   transform=ccrs.PlateCarree());\n</code></pre></div>\n<p>gives this error:</p>\n<div class=\"codehilite\"><pre><span></span><code>---------------------------------------------------------------------------\nValueError                                Traceback (most recent call last)\n/glade/derecho/scratch/afoster/tmp/ipykernel_31860/3617445073.py in &lt;module&gt;\n     20 ax.add_patch(poly)\n     21\n---&gt; 22 cf = ax.pcolormesh(clm_sub.lon, clm_sub.lat,\n     23                    clm_sub.H2OSNO.isel(time=slice(0,120)).max(dim=&#39;time&#39;),\n     24                    transform=ccrs.PlateCarree());\n\n/glade/work/afoster/miniconda3/envs/analysis/lib/python3.8/site-packages/cartopy/mpl/geoaxes.py in wrapper(self, *args, **kwargs)\n    316\n    317         kwargs[&#39;transform&#39;] = transform\n--&gt; 318         return func(self, *args, **kwargs)\n    319     return wrapper\n    320\n\n/glade/work/afoster/miniconda3/envs/analysis/lib/python3.8/site-packages/cartopy/mpl/geoaxes.py in pcolormesh(self, *args, **kwargs)\n   1794         # Add in an argument checker to handle Matplotlib&#39;s potential\n   1795         # interpolation when coordinate wraps are involved\n-&gt; 1796         args, kwargs = self._wrap_args(*args, **kwargs)\n   1797         result = matplotlib.axes.Axes.pcolormesh(self, *args, **kwargs)\n   1798         # Wrap the quadrilaterals if necessary\n\n/glade/work/afoster/miniconda3/envs/analysis/lib/python3.8/site-packages/cartopy/mpl/geoaxes.py in _wrap_args(self, *args, **kwargs)\n   1823         X = np.asanyarray(args[0])\n   1824         Y = np.asanyarray(args[1])\n-&gt; 1825         nrows, ncols = np.asanyarray(args[2]).shape\n   1826         Nx = X.shape[-1]\n   1827         Ny = Y.shape[0]\n\nValueError: not enough values to unpack (expected 2, got 1)\n</code></pre></div>\n<p>I'm guessing because the function expects the data to be a 2-d array. But for this it's a 1D array indexed by <code>landunit</code> (n=98467)</p>",
+        "id": 91896,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1700080643
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"257\">Adrianna Foster</span> has marked this topic as resolved.</p>",
+        "id": 91898,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1700083801
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"257\">@Adrianna Foster</span> it looks like you marked this as resolved, but if others are wondering about how to analyze 1D output from CESM there are a few resources I can point to. We have an ESDS blog post on using <a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/\">CAM-SE output</a> which is indexed by <code>ncol</code> instead of lat/lon. There is another <a href=\"https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/\">blog post</a> on analyzing CLM output indexed by <code>pft</code>. I'm not sure we have an example for data indexed by <code>landunit</code> but I would imagine the remapping would be similar to these other cases. If you do find that the solution or analysis is different, this would be a useful contribution!</p>",
+        "id": 91991,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1700169339
+    },
+    {
+        "content": "<p>Thank you! I ended up using a different dataset that was indexed by lat/lon instead of <code>landunit</code> but this blog post was helpful!</p>",
+        "id": 92348,
+        "sender_full_name": "Adrianna Foster",
+        "timestamp": 1701122216
+    }
+]

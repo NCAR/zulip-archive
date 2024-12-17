@@ -4,5 +4,29 @@
         "id": 456,
         "sender_full_name": "Matt Long",
         "timestamp": 1579114016
+    },
+    {
+        "content": "<p>Hi all, <br>\nI'm running <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> 's CESM-FOSI postprocessing code. It seems to be running in Kristen's id in the past on Casper. But it is not working for me (/glade/u/home/hglim/analysis/FEISTY/NOTE/kristenk/fish-offline-kristens_branch/notebooks/DPLE_FEISTY_upper_fields.ipynb). Anyone have any thoughts? </p>\n<p>I copied Kristen's environment from /glade/u/home/kristenk/my-cesm-experiment/environment.yml<br>\nthen did as below.<br>\nconda env create -f environment.yml</p>",
+        "id": 60915,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659629243
+    },
+    {
+        "content": "<p>Error messages look like this when running (/glade/u/home/hglim/analysis/FEISTY/NOTE/kristenk/fish-offline-kristens_branch/notebooks/DPLE_FEISTY_upper_fields.ipynb) but we don't know yet how can we deal with.<br>\n<a href=\"/user_uploads/2/70/alnmK3aHpsha8oY56gdSCqDS/Screen-Shot-2022-08-04-at-12.07.40.png\">Screen-Shot-2022-08-04-at-12.07.40.png</a> <a href=\"/user_uploads/2/fe/E4DCerm7H0LJFoji5lqzXvtB/Screen-Shot-2022-08-04-at-12.08.05.png\">Screen-Shot-2022-08-04-at-12.08.05.png</a>  <a href=\"/user_uploads/2/d1/9tyq_DPt4AXn-q3EsXvNXZF8/Screen-Shot-2022-08-04-at-12.08.19.png\">Screen-Shot-2022-08-04-at-12.08.19.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/70/alnmK3aHpsha8oY56gdSCqDS/Screen-Shot-2022-08-04-at-12.07.40.png\" title=\"Screen-Shot-2022-08-04-at-12.07.40.png\"><img src=\"/user_uploads/2/70/alnmK3aHpsha8oY56gdSCqDS/Screen-Shot-2022-08-04-at-12.07.40.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/fe/E4DCerm7H0LJFoji5lqzXvtB/Screen-Shot-2022-08-04-at-12.08.05.png\" title=\"Screen-Shot-2022-08-04-at-12.08.05.png\"><img src=\"/user_uploads/2/fe/E4DCerm7H0LJFoji5lqzXvtB/Screen-Shot-2022-08-04-at-12.08.05.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/d1/9tyq_DPt4AXn-q3EsXvNXZF8/Screen-Shot-2022-08-04-at-12.08.19.png\" title=\"Screen-Shot-2022-08-04-at-12.08.19.png\"><img src=\"/user_uploads/2/d1/9tyq_DPt4AXn-q3EsXvNXZF8/Screen-Shot-2022-08-04-at-12.08.19.png\"></a></div>",
+        "id": 60916,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659629322
+    },
+    {
+        "content": "<p>by command \"dso_anoms.load()\"</p>",
+        "id": 60918,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1659629492
+    },
+    {
+        "content": "<p>This is a 142GB array. If you didn't request more than that when you opened your session, it will fail.</p>\n<p>If you want to save to disk, use <code>to_zarr</code>. We've generally found that distributed writes of large datasets to netCDF tend to fail.</p>",
+        "id": 61040,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1659712014
     }
 ]

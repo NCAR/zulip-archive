@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hello everyone! This feels like it should be a simple thing to fix but I can't get it to work for some reason so I figure maybe another set of eyes on my code could help. I'm just trying to adjust my y-axis to stop at 200mb and I feel like line 26 should take care of this but no matter what I set the upper limit of the y-axis to, it won't get smaller than 100mb... Thoughts?<br>\n<a href=\"/user_uploads/2/68/lMfXSugAhB5CHahBDXt0-Srd/image.png\">image.png</a> <br>\n<a href=\"/user_uploads/2/18/ho9F7LgCRFVi7WWcHwjONN_c/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/68/lMfXSugAhB5CHahBDXt0-Srd/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/68/lMfXSugAhB5CHahBDXt0-Srd/image.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/18/ho9F7LgCRFVi7WWcHwjONN_c/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/18/ho9F7LgCRFVi7WWcHwjONN_c/image.png\"></a></div>",
+        "id": 54236,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1651078566
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"193\">@Brendan Myers</span> I think it is because the <code>ax.set_yticklabels</code> and <code>ax.set_yticks</code> arguments use an <code>np.arange</code> that goes from 1000 to 100, so it might be overriding the <code>set_ylim</code> argument. Try changing the <code>np.arange</code> to (1000,100,-100) and see if that works.</p>",
+        "id": 54264,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1651083046
+    },
+    {
+        "content": "<p>Try changing line 26 to <code>ax.set_ylim(cross['lev'].max(), 200)</code>. <code>set_ylim()</code> takes two arguments for min and max, not a list. Also, you can pass <code>None</code> if you don't care about one of them, like <code>ax.set_ylim(None, 200)</code>.</p>",
+        "id": 54278,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1651089387
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> &amp; <span class=\"user-mention\" data-user-id=\"41\">@Ryan May</span> those did the trick! Thank you both so much!</p>",
+        "id": 54322,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1651093820
+    }
+]

@@ -1,0 +1,80 @@
+[
+    {
+        "content": "<p>I'm trying to generate a line plot of an xarray DataArray whose time coordinate is in cftime.DatetimeNoLeap. Matplotlib pyplot.plot returns an error message. This notebook used to work, but I've updated my environment (now using matplotlib v3.6.3, xarray v2023.1.0, cftime v1.6.2) and now it doesn't. Here is the cell that fails:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">fig</span> <span class=\"o\">=</span> <span class=\"n\">plt</span><span class=\"o\">.</span><span class=\"n\">figure</span><span class=\"p\">(</span><span class=\"n\">figsize</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"mi\">5</span><span class=\"p\">,</span><span class=\"mi\">5</span><span class=\"p\">))</span>\n<span class=\"n\">ax1</span> <span class=\"o\">=</span> <span class=\"n\">fig</span><span class=\"o\">.</span><span class=\"n\">add_subplot</span><span class=\"p\">(</span><span class=\"mi\">2</span><span class=\"p\">,</span><span class=\"mi\">1</span><span class=\"p\">,</span><span class=\"mi\">1</span><span class=\"p\">)</span>\n<span class=\"n\">ax1</span><span class=\"o\">.</span><span class=\"n\">plot</span><span class=\"p\">(</span><span class=\"n\">obs_reg1sst</span><span class=\"o\">.</span><span class=\"n\">time</span><span class=\"p\">,</span><span class=\"n\">obs_reg1sst</span><span class=\"p\">,</span><span class=\"n\">color</span><span class=\"o\">=</span><span class=\"s1\">'k'</span><span class=\"p\">,</span><span class=\"n\">marker</span><span class=\"o\">=</span><span class=\"s1\">'.'</span><span class=\"p\">,</span><span class=\"n\">markersize</span><span class=\"o\">=</span><span class=\"mi\">6</span><span class=\"p\">,</span><span class=\"n\">label</span><span class=\"o\">=</span><span class=\"s1\">'OBS'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>The error message is:  TypeError: float() argument must be a string or a real number, not 'cftime._cftime.DatetimeNoLeap'</p>\n<p>I haven't found any relevant information after a google search, so any help would be much appreciated.</p>",
+        "id": 73071,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1675204079
+    },
+    {
+        "content": "<p>Here's a function that I've previously used to convert time values into a numpy array with units of year, which are  usable in plotting functions:</p>\n<div class=\"codehilite\"><pre><span></span><code>def time_year_plus_frac(ds, time_name):\n    &quot;&quot;&quot;return time variable, as numpy array of year plus fraction of year values&quot;&quot;&quot;\n\n    # this is straightforward if time has units=&#39;days since 0000-01-01&#39; and calendar=&#39;noleap&#39;\n    # so convert specification of time to that representation\n\n    # get time values as an np.ndarray of cftime objects\n    if np.dtype(ds[time_name]) == np.dtype(&quot;O&quot;):\n        tvals_cftime = ds[time_name].values\n    else:\n        tvals_cftime = cftime.num2date(\n            ds[time_name].values,\n            ds[time_name].attrs[&quot;units&quot;],\n            ds[time_name].attrs[&quot;calendar&quot;],\n        )\n\n    # convert cftime objects to representation mentioned above\n    tvals_days = cftime.date2num(\n        tvals_cftime, &quot;days since 0000-01-01&quot;, calendar=&quot;noleap&quot;\n    )\n\n    return tvals_days / 365.0\n</code></pre></div>\n<p>If you replace <code>obs_reg1sst.time</code> with <code>time_year_plus_frac(obs_reg1sst, \"time\")</code>, you might be in business (after importing cftime, and numpy as np). The function is written to work if ds.time has been converted to cftime objects or not.</p>",
+        "id": 73084,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1675205141
+    },
+    {
+        "content": "<p>Thanks Keith. Looks like this function will help me avoid the issue, but I'm left wondering why this cftime/matplotlib incompatibility comes and goes.</p>",
+        "id": 73120,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1675209315
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> have you ever tried using <a href=\"https://nc-time-axis.readthedocs.io/en/stable/\">nc-time-axis</a>? In the past it has helped me with cftime/matplotlib issues</p>",
+        "id": 73121,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1675209602
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> Thanks very much for that suggestion!  Plot works fine after importing nc-time-axis.</p>",
+        "id": 73123,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1675210244
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> has marked this topic as resolved.</p>",
+        "id": 73126,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1675219835
+    },
+    {
+        "content": "<p>So, was nc-time-axis added to the NPL environment? Who should we contact to make this happen?</p>",
+        "id": 82768,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1686844028
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span>  It looks like you can check packages in NPL using <code>conda list --name npl-2023a</code> (after <code>module load conda</code>). <br>\nI do see nc-time-axis version 1.4.1 listed under npl-2023a.</p>",
+        "id": 82813,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1686867674
+    },
+    {
+        "content": "<p>Thanks for this. However, this is still not working for me. I import nc_time_axis and it still gives me the error:</p>\n<p>ValueError: The values must be numbers or instances of \"nc_time_axis.CalendarDateTime\" or \"cftime.datetime\". </p>\n<p>From our netCDF files time is cftime.datetimeNoLeap. Is there another conversion I am missing?</p>",
+        "id": 82841,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1686931237
+    },
+    {
+        "content": "<p>Is this an error at the import step or later on?</p>",
+        "id": 83043,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1687275534
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> has marked this topic as unresolved.</p>",
+        "id": 83058,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1687278106
+    },
+    {
+        "content": "<p>A full error message would be useful.</p>",
+        "id": 83059,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1687278107
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  helped me figure this out. I was trying to adjust the xticks manually and the syntax does not work with the cftime object. Once I removed the xticks statement, it works perfectly!</p>",
+        "id": 83076,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1687282169
+    }
+]

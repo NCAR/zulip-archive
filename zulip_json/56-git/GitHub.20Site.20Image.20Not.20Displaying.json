@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Hi everybody!</p>\n<p>I wanted to see if anyone might be able to help me with an issue I'm running into with building a Github website</p>\n<p>I have added a number of images already by using markdown syntax and they all load correctly on the published website. That being said, for a few images I'm trying to use HTML syntax to have a little more control over the size and location of the image but these do not load on the published site (they do load in the preview in the repository however). I figure this should be a simple issue to fix, but I cannot figure out what I have wrong (I assume it's something I'm missing in my config file?). Here are links  to my <a href=\"https://github.com/brmy4086/ARTMIP\">repository</a> and <a href=\"https://brmy4086.github.io/ARTMIP/\">site</a> (for reference, the images on the Experimental Design page are ones with this issue).</p>\n<p>Let me know if you have any ideas or tips!<br>\nBest,<br>\nBrendan</p>",
+        "id": 104322,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1727046953
+    },
+    {
+        "content": "<p>Your picture that isn't showing up on the Experimental Design page is coded as</p>\n<div class=\"codehilite\" data-code-language=\"HTML\"><pre><span></span><code><span class=\"p\">&lt;</span><span class=\"nt\">img</span> <span class=\"na\">src</span><span class=\"o\">=</span><span class=\"s\">\"images/Experimental02-AR-CAM5.jpeg\"</span> <span class=\"na\">width</span><span class=\"o\">=</span><span class=\"s\">\"30%\"</span><span class=\"p\">&gt;&lt;</span><span class=\"nt\">br</span><span class=\"p\">&gt;</span>\n</code></pre></div>\n<p>While one that is appearing (on Algorithms) is</p>\n<div class=\"codehilite\" data-code-language=\"HTML\"><pre><span></span><code><span class=\"p\">&lt;</span><span class=\"nt\">img</span> <span class=\"na\">src</span><span class=\"o\">=</span><span class=\"s\">\"_static/ARTMIP_logo.jpg\"</span> <span class=\"na\">class</span><span class=\"o\">=</span><span class=\"s\">\"logo__image only-light\"</span> <span class=\"na\">alt</span><span class=\"o\">=</span><span class=\"s\">\"ARTMIP - Home\"</span><span class=\"p\">/&gt;</span>\n</code></pre></div>\n<p>I think you want all your images in the <code>_static/</code> subdirectory or a subdirectory of it (e.g. <code>_static/images/</code>)</p>",
+        "id": 104323,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1727101655
+    },
+    {
+        "content": "<p>(My extremely basic understanding is that tools like Sphinx need to be told which directories to copy wholesale into the <code>html/</code> subdirectory, and it looks like <code>_static/</code> is one such folder for your page; because of this setup there is an <code>html/_static/</code> but not an <code>html/images/</code> when you build the website, so files in <code>html/</code> won't find images in <code>images/</code>)</p>",
+        "id": 104324,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1727101813
+    },
+    {
+        "content": "<p>sorry, I apparently wasn't paying attention to what I was copying; the image I saw in Algorithms was</p>\n<div class=\"codehilite\" data-code-language=\"HTML\"><pre><span></span><code><span class=\"p\">&lt;</span><span class=\"nt\">img</span> <span class=\"na\">alt</span><span class=\"o\">=</span><span class=\"s\">\"Algorithm Grid\"</span> <span class=\"na\">src</span><span class=\"o\">=</span><span class=\"s\">\"_images/AlgorithmGrid.v2.jpg\"</span> <span class=\"p\">/&gt;</span>\n</code></pre></div>\n<p>Maybe you just need to switch from <code>images/</code> to <code>_images/</code>? Though it looks like <a href=\"https://brmy4086.github.io/ARTMIP/_images/Experimental02-AR-CAM5.jpeg\">https://brmy4086.github.io/ARTMIP/_images/Experimental02-AR-CAM5.jpeg</a> doesn't exist either, so maybe you need to tell Jupyter Book to include that image when it copies images over?</p>\n<div class=\"message_inline_image\"><a href=\"https://brmy4086.github.io/ARTMIP/_images/Experimental02-AR-CAM5.jpeg\"><img src=\"/external_content/c8dde65ca601e76cfb250f3b7bca7c3e8c949404/68747470733a2f2f62726d79343038362e6769746875622e696f2f4152544d49502f5f696d616765732f4578706572696d656e74616c30322d41522d43414d352e6a706567\"></a></div>",
+        "id": 104325,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1727102358
+    },
+    {
+        "content": "<p>One last set of poking around led me to <a href=\"https://github.com/jupyter-book/jupyter-book/issues/1742#issuecomment-1146799791\">this suggestion</a> to use <a href=\"https://myst-parser.readthedocs.io/en/latest/syntax/optional.html#substitutions-with-jinja2\"><code>{image}</code></a> in a substitution as a way to keep the image link in markdown, but specify the width</p>",
+        "id": 104326,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1727102756
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> Thanks so much for helping dig around to figure this out with me!</p>\n<p>It's interesting to me that the image on Algorithms is coded in html when you look at it... in my repo it shows that I coded it in Markdown. I tried adding the underscore and that didn't do the trick. But, I got the colon_fence extension working though so I'll go with that method!</p>\n<p>Thank you so much for the help!!<br>\nBrendan</p>",
+        "id": 104353,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1727130111
+    },
+    {
+        "content": "<p>Glad it's working! I maybe should've been clearer -- I went to the <a href=\"http://github.io\">github.io</a> website you linked and then viewed the source code for two different pages to see what looked different</p>",
+        "id": 104354,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1727131925
+    },
+    {
+        "content": "<p>Oh that makes sense and should've been obvious! I'll definitely use that trick in the future!</p>",
+        "id": 104374,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1727205708
+    }
+]

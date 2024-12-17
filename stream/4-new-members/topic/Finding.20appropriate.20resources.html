@@ -1,0 +1,56 @@
+<html>
+<head><meta charset="utf-8"><title>Finding appropriate resources · new members · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/4-new-members/index.html">new members</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/4-new-members/topic/Finding.20appropriate.20resources.html">Finding appropriate resources</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="80638"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/4-new%20members/topic/Finding%20appropriate%20resources/near/80638" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Benjamin Berkey <a href="http://127.0.0.1:4000/html/stream/4-new-members/topic/Finding.20appropriate.20resources.html#80638">(May 08 2023 at 21:32)</a>:</h4>
+<p>Hi All,  <br>
+I am a new Zulip/ESDS user from HAO working with the Mauna Loa Solar Observatory, trying to get a handle on what resources are available and how to access them.  </p>
+<p>I want to use a particular problem as an example to motivate this resource search. The new MLSO instrument UCoMP has periodic camera glitches, where some fraction of the image shifts some number of pixels to the left, leaving an annoying signal. Based on initial assessments, one glitched image is for every 10,000-50,000 saved images. So outside of reports from our users, these can be tricky to find.   I developed a method for correcting these glitches (once identified), but we need a robust way to find the glitched images. Using some naive metrics to look for elevated signal in regions of the image we expect to be a low signal, we have identified about 70 of these glitched images. Still, the method finds 30 false positives for every actual glitches image.  </p>
+<p>I have never done machine learning, but given how much we see AI in the news, I decided to try using image classification to find the glitch images. As a first attempt, I followed the tutorial:<br>
+<a href="https://www.tensorflow.org/tutorials/images/classification">https://www.tensorflow.org/tutorials/images/classification</a></p>
+<p>But with only 70 images in the glitch classification, I have been unable to get the model to do anything useful when trying to sort these from the false positives. When I use a few thousand false positives, the model happily tells me none of the images are glitches; all the images are "false positives ."As I reduce teh number of images in the "false positive" classification, I can teach the model to find some glitched images in the glitch classification. Still, it gets the image classification wrong about 50% of the time, so it isn't helpful.</p>
+<p>So two questions. 1) Where are the best places to look across NCAR for resources/help with this kind of problem? Does someone do ML office hours or have writeups to complement what is available from the web? I live most of my work life in a team of 6 at HAO, so I don't have a good feel of what resources are out there if our team doesn't already use them. 2) Specifically, what should be my next steps if I am talking to experts in this kind of thing? I would be happy to share notebooks or images etc., but I didn't in this post to try to focus answers on the first question.</p>
+<p>-Ben</p>
+
+
+
+<a name="80644"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/4-new%20members/topic/Finding%20appropriate%20resources/near/80644" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/4-new-members/topic/Finding.20appropriate.20resources.html#80644">(May 08 2023 at 22:25)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="337">@Benjamin Berkey</span> ! Thanks for posting. Here's a couple of things I can think of:</p>
+<ul>
+<li>The NSF AI2ES institute has a nice page on <a href="https://www.ai2es.org/products/education/">AI/ML tutorials</a>, including a couple of NCAR CISL machine learning tutorials.</li>
+<li>I do wonder if you need more labels, i.e. true positives, to successfully train the ML model. We have this issue with climate applications too, not enough labeled data. I wonder if there is a way to identify more true positives and/or enhance the labeled data. You could look into <a href="https://www.tensorflow.org/tutorials/images/data_augmentation">data augmentation</a>, for example.</li>
+<li>Tagging a few ML folks here in case they have other ideas: <span class="user-mention" data-user-id="150">@David John Gagne</span> <span class="user-mention" data-user-id="323">@Kirsten Mayer1</span> <span class="user-mention" data-user-id="333">@William Chapman</span> <span class="user-mention" data-user-id="149">@John Schreck</span> </li>
+<li>FWIW, there is a  <a class="stream" data-stream-id="50" href="/#narrow/stream/50-machine-learning">#machine-learning</a> zulip stream. It's pretty quiet but this could be a good topic for discussion or future ML discussions.</li>
+</ul>
+
+
+
+<a name="80660"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/4-new%20members/topic/Finding%20appropriate%20resources/near/80660" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Thomas Martin <a href="http://127.0.0.1:4000/html/stream/4-new-members/topic/Finding.20appropriate.20resources.html#80660">(May 09 2023 at 18:47)</a>:</h4>
+<p>I would be happy to help too, I have a office hours you can book here -&gt; <a href="https://calendar.app.google/ZsM8dLHLa65eGAr39">https://calendar.app.google/ZsM8dLHLa65eGAr39</a></p>
+<p>Wondering if clustering would also work for this.</p>
+
+
+
+<a name="80841"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/4-new%20members/topic/Finding%20appropriate%20resources/near/80841" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Benjamin Berkey <a href="http://127.0.0.1:4000/html/stream/4-new-members/topic/Finding.20appropriate.20resources.html#80841">(May 10 2023 at 23:24)</a>:</h4>
+<p>HI Kaite </p>
+<p>Thanks for the advice on this; it needed more true positives.  After I found 20 more true positives, the model started giving the correct predictions on the test data.  I am now running part of our unable data set and finding even more true positives. </p>
+<p>Thomas, <br>
+Thanks for the offer, I will try to push what I have a little further and then book some time the next time I get stuck.</p>
+<p>-Ben</p>
+<p>-</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

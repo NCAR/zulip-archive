@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>Hi all,</p>\n<p>What is the best way to do a mean on say the last 25 years of data? </p>\n<p>field1 = ds1_ann['aice'][::-25,:,:].mean('time')<br>\nfield2 = ds2_ann['aice'][::-25,:,:].mean('time')</p>\n<p>field1 = ds1_ann['aice'].isel(time=[-25]).mean('time')<br>\nfield2 = ds2_ann['aice'].isel(time=[-25]).mean('time')</p>\n<p>Where these are xarray datsets with 38 years of data. I figured out how to do an open_mfdataset on all of the timeseries files.  So now I can access the variables in a loop say. In this example, I want to call my plot_diff subroutine with field1 and field2 where these are 2D DataArrays. Or should these be numpy arrays? I then do:</p>\n<p>field_diff = field2-field1</p>\n<p>in the subroutine and it doesn't like this.</p>\n<p>Dave</p>",
+        "id": 95105,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706292227
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> what are the dimensions of <code>ds1_ann['aice']</code>? And is this monthly data or annual?</p>",
+        "id": 95106,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706292489
+    },
+    {
+        "content": "<p>They are 38 x 480 x 540. Then the mean is a dataarray with dimensions 480x540. However, the error is:</p>\n<p>NotImplementedError: 'item' is not yet a valid method on dask arrays</p>",
+        "id": 95107,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706292636
+    },
+    {
+        "content": "<p><code>ds1_ann['aice'].isel(time=slice(-25,None))</code> should shorten <code>ds1_ann['aice']</code> to the time period you want, so I'd do <code>ds1_ann['aice'].isel(time=slice(-25,None)).mean('time')</code></p>",
+        "id": 95108,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706292847
+    },
+    {
+        "content": "<p>Do you know what line in your notebook is causing the <code>NotImplementedError</code> exception?</p>",
+        "id": 95109,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706292882
+    },
+    {
+        "content": "<p>Here is the whole error message:</p>\n<hr>\n<p>AttributeError                            Traceback (most recent call last)<br>\nFile /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/ops.py:192, in _call_possibly_missing_method(arg, name, args, kwargs)<br>\n    191 try:<br>\n--&gt; 192     method = getattr(arg, name)<br>\n    193 except AttributeError:</p>\n<p>AttributeError: 'Array' object has no attribute 'item'</p>\n<p>During handling of the above exception, another exception occurred:</p>\n<p>NotImplementedError                       Traceback (most recent call last)<br>\nCell In[28], line 6<br>\n      2 field2 = ds2_ann['aice'].isel(time=[-25]).mean('time')<br>\n      4 ds1_ann['aice']<br>\n----&gt; 6 plot_diff(field1,field2,0.,1.,case1,case2,\"N\")</p>\n<p>Cell In[18], line 67, in plot_diff(field1, field2, field_min, field_max, case1, case2, proj)<br>\n     64 ax.set_boundary(circle, transform=ax.transAxes)<br>\n     65 ax.add_feature(cfeature.LAND,zorder=100,edgecolor='k')<br>\n---&gt; 67 this=ax.pcolormesh(TLON,<br>\n     68                    TLAT,<br>\n     69                    field_diff,<br>\n     70                    cmap=\"seismic\",vmax=field_std<em>2.0,vmin=-field_std</em>2.0,<br>\n     71                    transform=ccrs.PlateCarree())<br>\n     72 plt.colorbar(this,orientation='vertical',fraction=0.04,pad=0.01)<br>\n     73 plt.title(case2+\"-\"+case1,fontsize=10)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:315, in _add_transform.&lt;locals&gt;.wrapper(self, *args, **kwargs)<br>\n    310     raise ValueError(f'Invalid transform: Spherical {func.__name__} '<br>\n    311                      'is not supported - consider using '<br>\n    312                      'PlateCarree/RotatedPole.')<br>\n    314 kwargs['transform'] = transform<br>\n--&gt; 315 return func(self, *args, **kwargs)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:1781, in GeoAxes.pcolormesh(self, *args, **kwargs)<br>\n   1778 # Add in an argument checker to handle Matplotlib's potential<br>\n   1779 # interpolation when coordinate wraps are involved<br>\n   1780 args, kwargs = self._wrap_args(*args, **kwargs)<br>\n-&gt; 1781 result = super().pcolormesh(*args, **kwargs)<br>\n   1782 # Wrap the quadrilaterals if necessary<br>\n   1783 result = self._wrap_quadmesh(result, **kwargs)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/__init__.py:1465, in _preprocess_data.&lt;locals&gt;.inner(ax, data, *args, **kwargs)<br>\n   1462 @functools.wraps(func)<br>\n   1463 def inner(ax, *args, data=None, **kwargs):<br>\n   1464     if data is None:<br>\n-&gt; 1465         return func(ax, *map(sanitize_sequence, args), **kwargs)<br>\n   1467     bound = new_sig.bind(ax, *args, **kwargs)<br>\n   1468     auto_label = (bound.arguments.get(label_namer)<br>\n   1469                   or bound.kwargs.get(label_namer))</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/axes/_axes.py:6298, in Axes.pcolormesh(self, alpha, norm, cmap, vmin, vmax, shading, antialiased, *args, **kwargs)<br>\n   6293 kwargs.setdefault('snap', mpl.rcParams['pcolormesh.snap'])<br>\n   6295 collection = mcoll.QuadMesh(<br>\n   6296     coords, antialiased=antialiased, shading=shading,<br>\n   6297     array=C, cmap=cmap, norm=norm, alpha=alpha, **kwargs)<br>\n-&gt; 6298 collection._scale_norm(norm, vmin, vmax)<br>\n   6300 coords = coords.reshape(-1, 2)  # flatten the grid structure; keep x, y<br>\n   6302 # Transform from native to data coordinates?</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/cm.py:432, in ScalarMappable._scale_norm(self, norm, vmin, vmax)<br>\n    422 \"\"\"<br>\n    423 Helper for initial scaling.<br>\n    424 <br>\n   (...)<br>\n    429 Note that this method does not set the norm.<br>\n    430 \"\"\"<br>\n    431 if vmin is not None or vmax is not None:<br>\n--&gt; 432     self.set_clim(vmin, vmax)<br>\n    433     if isinstance(norm, colors.Normalize):<br>\n    434         raise ValueError(<br>\n    435             \"Passing a Normalize instance simultaneously with \"<br>\n    436             \"vmin/vmax is not supported.  Please pass vmin/vmax \"<br>\n    437             \"directly to the norm when creating it.\")</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/cm.py:581, in ScalarMappable.set_clim(self, vmin, vmax)<br>\n    579         pass<br>\n    580 if vmin is not None:<br>\n--&gt; 581     self.norm.vmin = colors._sanitize_extrema(vmin)<br>\n    582 if vmax is not None:<br>\n    583     self.norm.vmax = colors._sanitize_extrema(vmax)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/colors.py:208, in _sanitize_extrema(ex)<br>\n    206     return ex<br>\n    207 try:<br>\n--&gt; 208     ret = ex.item()<br>\n    209 except AttributeError:<br>\n    210     ret = float(ex)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/ops.py:204, in _values_method_wrapper.&lt;locals&gt;.func(self, *args, **kwargs)<br>\n    203 def func(self, *args, **kwargs):<br>\n--&gt; 204     return _call_possibly_missing_method(<a href=\"http://self.data\">self.data</a>, name, args, kwargs)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/ops.py:194, in _call_possibly_missing_method(arg, name, args, kwargs)<br>\n    192     method = getattr(arg, name)<br>\n    193 except AttributeError:<br>\n--&gt; 194     duck_array_ops.fail_on_dask_array_input(arg, func_name=name)<br>\n    195     if hasattr(arg, \"data\"):<br>\n    196         duck_array_ops.fail_on_dask_array_input(<a href=\"http://arg.data\">arg.data</a>, func_name=name)</p>\n<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/duck_array_ops.py:101, in fail_on_dask_array_input(values, msg, func_name)<br>\n     99 if func_name is None:<br>\n    100     func_name = inspect.stack()[1][3]<br>\n--&gt; 101 raise NotImplementedError(msg % func_name)</p>\n<p>NotImplementedError: 'item' is not yet a valid method on dask arrays</p>",
+        "id": 95110,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706293177
+    },
+    {
+        "content": "<p>In <code>plot_diff</code>, the arguments <code>vmax=field_std2.0</code> and <code>vmin=-field_std2.0</code> to <code>ax.pcolormesh()</code> look awfully suspicious -- <code>field_std2.0</code> isn't a valid variable name, it's looking for <code>0</code> in the <code>field_std2</code> class or dict. Is <code>field_std2</code> a list? If so, that should that be <code>field_std2[0]</code></p>",
+        "id": 95111,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706293320
+    },
+    {
+        "content": "<p>Sorry, the asterix character disappeared. It is field_std x 2.0. I have a work around. If I do:</p>\n<p>field1 = ds1_ann['aice']</p>\n<p>Then pass field1[::-25,:,:].mean(\"time\") it works.</p>",
+        "id": 95112,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706293489
+    },
+    {
+        "content": "<p><code>field1[::-25,:,:]</code> is stepping through the whole <code>field1</code> array with a stride of -25 (starting at the end of the array, I believe); you want <code>field1[-25:,:,:]</code> to get the last 25 years</p>",
+        "id": 95113,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706293646
+    },
+    {
+        "content": "<p>Sorry, my workaround was not quite right. The problem comes when I try to subtract two DataArrays:</p>\n<p>field_diff = field2-field1</p>\n<p>However, I just did:</p>\n<p>field_diff = field2.values-field1.values</p>",
+        "id": 95124,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706299433
+    }
+]

@@ -1,0 +1,88 @@
+<html>
+<head><meta charset="utf-8"><title>✔ conflict between xarray and numba · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html">✔ conflict between xarray and numba</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="104524"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104524" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maurício Rebouças Rocha <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104524">(Oct 11 2024 at 13:22)</a>:</h4>
+<p>Hello. After installing the Python module pycwt in my conda environment, I can no longer import xarray. It seems like xarray was updated, which probably caused a conflict with numba. I don't have permission to update numba. Does anyone have any idea how I should proceed? I have attached a picture of the error. Thanks in advance.<br>
+<a href="/user_uploads/2/c5/RdqD9gjXr9yJS2-n0oKaNJRA/error.png">error.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/c5/RdqD9gjXr9yJS2-n0oKaNJRA/error.png" title="error.png"><img src="/user_uploads/2/c5/RdqD9gjXr9yJS2-n0oKaNJRA/error.png"></a></div>
+
+
+
+<a name="104525"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104525" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104525">(Oct 11 2024 at 14:20)</a>:</h4>
+<p>How did you install <code>pycwt</code>? I'm guessing you used <code>pip</code>, and maybe that caused problems by installing updated versions of some dependencies? It looks like <code>PyCWT</code> <a href="https://pycwt.readthedocs.io/en/latest/user-guide/installation/#requirements">only depends on</a> <code>numpy</code>, <code>scipy</code>, <code>matplotlib</code>, and <code>tqdm</code> so my hypothesis is that <code>pip</code> installed a newer version of one (or more) of those packages that is conflicting with what <code>conda</code> can load, though maybe it updated <code>numba</code> as well? Here's what I see from the vanilla <code>npl-2022b</code> environment, where I have verified I can import <code>xarray</code>:</p>
+<div class="codehilite" data-code-language="Bash"><pre><span></span><code>$<span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>npl-2022b
+<span class="o">(</span>npl-2022b<span class="o">)</span><span class="w"> </span>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>package<span class="w"> </span><span class="k">in</span><span class="w"> </span>xarray<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>matplotlib<span class="w"> </span>tqdm<span class="w"> </span>numba<span class="p">;</span><span class="w"> </span><span class="k">do</span><span class="w"> </span>conda<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>^<span class="si">${</span><span class="nv">package</span><span class="si">}</span><span class="p">;</span><span class="w"> </span>pip<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>^<span class="si">${</span><span class="nv">package</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+xarray<span class="w">                    </span><span class="m">2022</span>.6.0<span class="w">           </span>pyhd8ed1ab_1<span class="w">    </span>conda-forge
+xarray<span class="w">                        </span><span class="m">2022</span>.6.0
+numpy<span class="w">                     </span><span class="m">1</span>.23.1<span class="w">           </span>py38h3a7f9d9_0<span class="w">    </span>conda-forge
+numpy<span class="w">                         </span><span class="m">1</span>.23.1
+scipy<span class="w">                     </span><span class="m">1</span>.9.0<span class="w">            </span>py38hea3f02b_0<span class="w">    </span>conda-forge
+scipy<span class="w">                         </span><span class="m">1</span>.9.0
+matplotlib<span class="w">                </span><span class="m">3</span>.5.2<span class="w">            </span>py38h578d9bd_1<span class="w">    </span>conda-forge
+matplotlib-base<span class="w">           </span><span class="m">3</span>.5.2<span class="w">            </span>py38h826bfd8_1<span class="w">    </span>conda-forge
+matplotlib-inline<span class="w">         </span><span class="m">0</span>.1.3<span class="w">              </span>pyhd8ed1ab_0<span class="w">    </span>conda-forge
+matplotlib<span class="w">                    </span><span class="m">3</span>.5.2
+matplotlib-inline<span class="w">             </span><span class="m">0</span>.1.3
+tqdm<span class="w">                      </span><span class="m">4</span>.64.0<span class="w">             </span>pyhd8ed1ab_0<span class="w">    </span>conda-forge
+tqdm<span class="w">                          </span><span class="m">4</span>.64.0
+numba<span class="w">                     </span><span class="m">0</span>.53.1<span class="w">           </span>py38h8b71fd7_1<span class="w">    </span>conda-forge
+numba<span class="w">                         </span><span class="m">0</span>.53.1
+</code></pre></div>
+<p>What happens when you run that bash command? Do you see differences in the version numbers, either compared to mine or where the first line [conda version] differs from the second line [pip version]?</p>
+<p>As far as solutions go, I think you need to uninstall pycwt and whatever dependencies it install that are causing problems with <code>xarray</code>, verify that <code>xarray</code> can be loaded again, and then maybe installing an older version of <code>pycwt</code> (e.g. <a href="https://github.com/regeirk/pycwt/commit/d53dbe43deaf0c9d3aa54ae34f198386ef62e903">https://github.com/regeirk/pycwt/commit/d53dbe43deaf0c9d3aa54ae34f198386ef62e903</a> is from spring 2023) will play nicely with the conda-installed versions of the above packages?</p>
+
+
+
+<a name="104526"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104526" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maurício Rebouças Rocha <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104526">(Oct 11 2024 at 14:50)</a>:</h4>
+<p>Hi Mike, thanks for replying. Yes, I had installed pycwt using pip, but I've uninstalled it now. After the bash command, I got the following: <br>
+<a href="/user_uploads/2/d8/HoDmDIlixrmrmojFM6G7FThk/Screenshot1.png">Screenshot1.png</a>  The error persists even after uninstalling pycwt.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/d8/HoDmDIlixrmrmojFM6G7FThk/Screenshot1.png" title="Screenshot1.png"><img src="/user_uploads/2/d8/HoDmDIlixrmrmojFM6G7FThk/Screenshot1.png"></a></div>
+
+
+
+<a name="104527"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104527" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104527">(Oct 11 2024 at 14:57)</a>:</h4>
+<p>It looks like all four packages got updated -- can you run <code>pip uninstall numpy scipy matplotlib tqdm</code>? I think that's the right syntax...</p>
+
+
+
+<a name="104528"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104528" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104528">(Oct 11 2024 at 14:57)</a>:</h4>
+<p>then check to see if <code>xarray</code> can be imported again</p>
+
+
+
+<a name="104529"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104529" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104529">(Oct 11 2024 at 15:02)</a>:</h4>
+<p>Also, when you try to reinstall pywct, you might be able to use</p>
+<div class="codehilite"><pre><span></span><code>$ pip install --use-feature=2020-resolver -e .
+</code></pre></div>
+<p>To force it to either use the installed versions from conda or give you an error about why it needs to update one (or more) of them, though my understanding is that the default should not have tried to update anything unless the dependency list demanded it</p>
+
+
+
+<a name="104530"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104530" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maurício Rebouças Rocha <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104530">(Oct 11 2024 at 15:08)</a>:</h4>
+<p>Got it, it worked. Thank you. I'll try installing pycwt again following your suggestion.</p>
+
+
+
+<a name="104531"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20conflict%20between%20xarray%20and%20numba/near/104531" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20conflict.20between.20xarray.20and.20numba.html#104531">(Oct 11 2024 at 15:15)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="266">Maurício Rebouças Rocha</span> has marked this topic as resolved.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

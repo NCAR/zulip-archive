@@ -1,0 +1,92 @@
+<html>
+<head><meta charset="utf-8"><title>interp_hybrid_to_pressure · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html">interp_hybrid_to_pressure</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="95834"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95834" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95834">(Feb 15 2024 at 00:51)</a>:</h4>
+<p>I have some CAM-SE output that I remap to a regular grid and then save as a zarr file. Now I'd like read that zarr file, and then interpolate the Z3 geopotential height field onto the Z500 and Z200 levels.  I use the interp_hybrid_to_pressure function from geocat, and it runs, but the output looks weird.  I can't figure out what is going wrong here.  Any thoughts?</p>
+<p><a href="/user_uploads/2/73/i72f8MUrGrFtqpY7L_PAA0u_/Screenshot-2024-02-14-at-4.49.46-PM.png">Screenshot-2024-02-14-at-4.49.46-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/73/i72f8MUrGrFtqpY7L_PAA0u_/Screenshot-2024-02-14-at-4.49.46-PM.png" title="Screenshot-2024-02-14-at-4.49.46-PM.png"><img src="/user_uploads/2/73/i72f8MUrGrFtqpY7L_PAA0u_/Screenshot-2024-02-14-at-4.49.46-PM.png"></a></div><p>The sample script is here: <br>
+glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/TestHighRes_Z3_interp.ipynb</p>
+
+
+
+<a name="95835"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95835" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95835">(Feb 15 2024 at 02:20)</a>:</h4>
+<p>It looks the data for the top hybrid level might be getting assigned as a surface pressure array.  Could that be the issue?  Apologies if I'm missing something - still getting familiar with some of these datasets/functionality.</p>
+
+
+
+<a name="95836"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95836" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95836">(Feb 15 2024 at 15:56)</a>:</h4>
+<p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> I think the levels are ordered from top of atmosphere, so I'm pulling the last level (lev = -1) to serve as my surface pressure array.</p>
+
+
+
+<a name="95840"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95840" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95840">(Feb 15 2024 at 16:15)</a>:</h4>
+<p>Is <code>data.isel(lev=-1)</code> the right value for the <code>ps</code> argument? I would expect that argument to be something out of the full dataset rather than values from the data array you are trying to interpolate. <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> or <span class="user-mention" data-user-id="61">@Brian Medeiros</span> can correct me if I'm wrong, but from <a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html#geocat.comp.interpolation.interp_hybrid_to_pressure">the documentation</a> it looks like it should be an array of surface pressures (possibly in units of Pascals), not your data values at the surface</p>
+
+
+
+<a name="95841"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95841" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95841">(Feb 15 2024 at 16:17)</a>:</h4>
+<p>Similarly, I think you want to multiply <code>new_levels</code> by 100 to convert from hectopascals or millibars to pascals; <code>p0</code> looks to be in the right units already</p>
+
+
+
+<a name="95842"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95842" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95842">(Feb 15 2024 at 16:37)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="10">@Michael Levy</span> , ok that makes more sense - I was confused about this myself.  I will give that a shot and let you know if it works.</p>
+
+
+
+<a name="95844"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95844" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95844">(Feb 15 2024 at 17:45)</a>:</h4>
+<p>OK thanks for alerting me to this --- it works no problem now.  Many thanks <span class="user-mention" data-user-id="10">@Michael Levy</span> .</p>
+
+
+
+<a name="95845"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95845" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95845">(Feb 15 2024 at 17:46)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> has marked this topic as resolved.</p>
+
+
+
+<a name="95867"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95867" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95867">(Feb 15 2024 at 22:35)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="259">Mira Berdahl</span> has marked this topic as unresolved.</p>
+
+
+
+<a name="95868"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95868" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95868">(Feb 15 2024 at 22:41)</a>:</h4>
+<p>After looking at some of the output from the interpolation from hybrid grid onto the 500mb level, it appears the output is still not what I expect.  It contains topographic influence, which I believe ought not be there.   I've double checked all my pressure field inputs are in Pa.</p>
+<p>Here is what Z500 looks like:<br>
+<a href="/user_uploads/2/77/MHckMPkx82WKJ1Naxjm-Ppyi/Screenshot-2024-02-15-at-2.40.16-PM.png">Screenshot-2024-02-15-at-2.40.16-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/77/MHckMPkx82WKJ1Naxjm-Ppyi/Screenshot-2024-02-15-at-2.40.16-PM.png" title="Screenshot-2024-02-15-at-2.40.16-PM.png"><img src="/user_uploads/2/77/MHckMPkx82WKJ1Naxjm-Ppyi/Screenshot-2024-02-15-at-2.40.16-PM.png"></a></div><p>The sample script is here:<br>
+glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/TestHighRes_Z3_interp.ipynb</p>
+
+
+
+<a name="95911"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95911" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jesse Nusbaumer <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95911">(Feb 16 2024 at 21:47)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="259">@Mira Berdahl</span> , just checking if you are using the  "PS" variable from CAM as the surface pressure (<code>ps</code>) input?  That should contain the actual differences in surface pressure/height, and should (I think?) remove the surface signal.  Of course if that still doesn't work please let me know.  Thanks!</p>
+
+
+
+<a name="95912"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/interp_hybrid_to_pressure/near/95912" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/interp_hybrid_to_pressure.html#95912">(Feb 16 2024 at 22:02)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="140">@Jesse Nusbaumer</span> , great question. It looks like I had accidentally been calling PSL instead of PS.  This makes WAY more sense to me now.  Thanks!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

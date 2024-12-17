@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>the daily history files from CESM2-LE have two days of data for Jan 1 2015, one each from the HIST and SSP simulations.  <br>\nI thought I should be able to use <code>drop_isel</code> but this doesn't seem to be working.  Suggestions welcome here.</p>\n<p><code>ds.drop_isel(time=(165*365))</code><br>\nInvalidIndexError: Reindexing only valid with uniquely valued Index objects</p>",
+        "id": 30988,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1620321077
+    },
+    {
+        "content": "<p>This seems to work! <br>\n<code>ds = ds.sel(time=~ds.get_index(\"time\").duplicated(keep='last') )</code></p>",
+        "id": 30997,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1620323333
+    }
+]

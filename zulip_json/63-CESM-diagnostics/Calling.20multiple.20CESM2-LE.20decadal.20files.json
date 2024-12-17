@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi all! Using dask and xr.open_mfdataset, I want to call CESM2-LE monthly DIC output from 185001-201412. What is an efficient way to do this? Previously I only needed two decades so I called one decade a time and concatenated them. Thanks in advance for suggestions and/or script you can share.</p>",
+        "id": 97271,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1711722081
+    },
+    {
+        "content": "<p>Hi Holly, I'm assuming you're already using <code>parallel=True</code> ?</p>",
+        "id": 97344,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1711748412
+    },
+    {
+        "content": "<p>Hi! Yes. My script is this: </p>\n<div class=\"codehilite\"><pre><span></span><code>n_members=&#39;DIC&#39;\n\nds_members_DIC=xr.open_mfdataset(DIR+n_members+&#39;/b.e21.BHISTsmbb.f09_g17.LE2-1251.*.pop.h.DIC.185001-185912.nc&#39;,\n                     chunks={&#39;nlat&#39;: 64, &#39;nlon&#39;: 80},\n                     concat_dim=&#39;member_id&#39;,\n                     combine=&#39;nested&#39;,\n                     # join=&#39;override&#39;,\n                     coords=&#39;minimal&#39;,      # uses the coordinates from the first file\n                     # data_vars=&#39;minimal&#39;,\n                     autoclose=True,\n                     decode_times=False,\n                     parallel=True)\n</code></pre></div>",
+        "id": 97345,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1711769985
+    },
+    {
+        "content": "<p>I responded on the discussion in <a class=\"stream-topic\" data-stream-id=\"27\" href=\"/#narrow/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE\">#dask &gt; Calling multiple decadal output datasets: CESM2-LE</a> before I saw this more specific example -- I think adding <code>compat='override'</code> to the argument list should speed up the read quite a bit.</p>",
+        "id": 97351,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1711980449
+    }
+]

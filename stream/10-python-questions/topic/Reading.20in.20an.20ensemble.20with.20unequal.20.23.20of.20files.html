@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>Reading in an ensemble with unequal # of files · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html">Reading in an ensemble with unequal # of files</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html">Reading in an ensemble with unequal # of files</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="39696"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39696" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39696">(Aug 12 2021 at 20:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39696" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39696">(Aug 12 2021 at 20:34)</a>:</h4>
 <p>Hello,  To read in an ensemble of simulations I have been doing something like...</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">filelist</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">topdir</span><span class="o">+</span><span class="s2">"b.e11.BRCP85C5CNBDRD.f09_g16."</span><span class="o">+</span><span class="n">imem</span><span class="o">+</span><span class="s2">".*.nc"</span><span class="p">))</span> <span class="k">for</span> <span class="n">imem</span> <span class="ow">in</span> <span class="n">memstr</span><span class="p">]</span>
 <span class="n">dat</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">filelist</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">"nested"</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="p">[</span><span class="s1">'M'</span><span class="p">,</span><span class="s1">'time'</span><span class="p">],</span>
@@ -26,38 +26,38 @@ Isla</p>
 
 
 <a name="39697"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39697" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39697">(Aug 12 2021 at 21:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39697" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39697">(Aug 12 2021 at 21:35)</a>:</h4>
 <p>Can you try using <code>combine="by_coords"</code>? that will try to do something sensible by looking at coordinate values along dimensions. It sounds like this could work for your case.</p>
 
 
 
 <a name="39702"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39702" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39702">(Aug 12 2021 at 22:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39702" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39702">(Aug 12 2021 at 22:09)</a>:</h4>
 <p>Hmm, that doesn't seem to work.  If I simply switch to combine="by_coords" in the above, it gives me an array of (time,lat,lon) whereas I'm looking to get an array of (M,time,lat,lon) where M would be the member number.  I'm not quite sure what it's doing with all the other members in this case.   I'm showing a simplified example with only two members in the attached png <a href="/user_uploads/2/73/TJbY02QK7SQm8lSS-qnQoeTx/concatissue.png">concatissue.png</a></p>
 <div class="message_inline_image"><a href="/user_uploads/2/73/TJbY02QK7SQm8lSS-qnQoeTx/concatissue.png" title="concatissue.png"><img src="/user_uploads/2/73/TJbY02QK7SQm8lSS-qnQoeTx/concatissue.png"></a></div><p>Thanks!</p>
 
 
 
 <a name="39716"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39716" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39716">(Aug 12 2021 at 22:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39716" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39716">(Aug 12 2021 at 22:22)</a>:</h4>
 <p>I could, of course, just do a loop over the members and fill the M dimension of an empty xarray data array, but I found it very convenient that open_mfdataset would do that for me if I had an equal number of files for each member.</p>
 
 
 
 <a name="39719"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39719" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39719">(Aug 12 2021 at 22:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39719" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39719">(Aug 12 2021 at 22:24)</a>:</h4>
 <p>is <code>M</code> an existing dimension in these files?</p>
 
 
 
 <a name="39724"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39724" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39724">(Aug 12 2021 at 22:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39724" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39724">(Aug 12 2021 at 22:27)</a>:</h4>
 <p>No, it's not.  It's the new dimension that I wanted to create for the different members.  But if I remove M from the concat_dims the same thing happens.  I'm basically trying to read in those two lists of files that are dat1(time,lat,lon) and dat2(time,lat,lon) and end up with dat(M,time,lat,lon) where M as size 2 and M=0 will be dat1 and M=1 will be dat2.</p>
 
 
 
 <a name="39731"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39731" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39731">(Aug 12 2021 at 22:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39731" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39731">(Aug 12 2021 at 22:33)</a>:</h4>
 <p>ah I think this is the case open_mfdataset cannot handle yet</p>
 <p>I think you want something like</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">members</span> <span class="o">=</span> <span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">single_member</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">"nested"</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span> <span class="k">for</span> <span class="n">single_member</span> <span class="ow">in</span> <span class="n">file_list</span><span class="p">]</span>
@@ -68,13 +68,13 @@ Isla</p>
 
 
 <a name="39732"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39732" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39732">(Aug 12 2021 at 22:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39732" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39732">(Aug 12 2021 at 22:34)</a>:</h4>
 <p>Ah thanks.  You solution is more elegant than the loop that I was thinking of.  That will do nicely!  Thanks once again for your help!</p>
 
 
 
 <a name="39791"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39791" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39791">(Aug 13 2021 at 19:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39791" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39791">(Aug 13 2021 at 19:23)</a>:</h4>
 <p>Sorry to bother again but I'm having a problem which I thought I knew how to solve but I'm failing.  An issue is that some of the members have slightly different latitudes far down the decimal places.  Normally I would set compat='override' and coords='minimal' and this then uses the latitudes from the first dataset.  But for this case that's not working.  If I do...</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">filelist</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">topdir</span><span class="o">+</span><span class="s2">"b.e11.B20TRC5CNBDRD.f09_g16."</span><span class="o">+</span><span class="n">imem</span><span class="o">+</span><span class="s2">".*.nc"</span><span class="p">))</span> <span class="k">for</span> <span class="n">imem</span> <span class="ow">in</span> <span class="n">memstr</span><span class="p">]</span>
 <span class="n">members</span> <span class="o">=</span> <span class="p">[</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="s2">"nested"</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">concat_dim</span><span class="o">=</span><span class="p">[</span><span class="s1">'time'</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">filelist</span> <span class="p">]</span>
@@ -86,16 +86,16 @@ Isla</p>
 
 
 <a name="39797"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39797" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39797">(Aug 13 2021 at 20:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39797" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39797">(Aug 13 2021 at 20:00)</a>:</h4>
 <p>If latitude is a dimension coordinate, then you want <code>join="override"</code>. <code>compat</code> controls non-dimension coordinate variables.</p>
 
 
 
 <a name="39800"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39800" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39800">(Aug 13 2021 at 20:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reading%20in%20an%20ensemble%20with%20unequal%20%23%20of%20files/near/39800" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reading.20in.20an.20ensemble.20with.20unequal.20.23.20of.20files.html#39800">(Aug 13 2021 at 20:09)</a>:</h4>
 <p>Ohhh, yup - that was it.  Awesome.  Thanks!</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,5 +1,47 @@
 [
     {
+        "content": "<p>Hi there, </p>\n<p>I am discovering new errors <span aria-label=\"nerd\" class=\"emoji emoji-1f913\" role=\"img\" title=\"nerd\">:nerd:</span><br>\nI am calculating the beloved heat budget, and there's this line</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;DIA_IMPVF_TEMP&quot;</span><span class=\"p\">][:,</span> <span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"p\">:,</span> <span class=\"p\">:]</span> <span class=\"o\">=</span> <span class=\"p\">((</span><span class=\"n\">SRF_TEMP_FLUX</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">TAREA</span>\n                                         <span class=\"o\">-</span>\n                                         <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">DIA_IMPVF_TEMP</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">z_w_bot</span><span class=\"o\">=</span><span class=\"mi\">0</span><span class=\"p\">)</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">TAREA</span><span class=\"p\">)</span>\n                                        <span class=\"o\">/</span>\n                                        <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">[</span> <span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"p\">:,</span> <span class=\"p\">:])</span>\n</pre></div>\n\n\n<p>which requires me to load <code>budget[\"DIA_IMPVF_TEMP\"]</code> to be able to assign something. Now that seems to work, but once I want to plot, or just load a single column at a single time I am getting this error that I haven't seen before:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">msgpack</span><span class=\"o\">/</span><span class=\"n\">_packer</span><span class=\"o\">.</span><span class=\"n\">pyx</span> <span class=\"ow\">in</span> <span class=\"n\">msgpack</span><span class=\"o\">.</span><span class=\"n\">_cmsgpack</span><span class=\"o\">.</span><span class=\"n\">Packer</span><span class=\"o\">.</span><span class=\"n\">_pack</span><span class=\"p\">()</span>\n\n<span class=\"ne\">ValueError</span><span class=\"p\">:</span> <span class=\"nb\">memoryview</span> <span class=\"ow\">is</span> <span class=\"n\">too</span> <span class=\"n\">large</span>\n</pre></div>\n\n\n<p>(the upper line repeats a good number of times) . </p>\n<p>I was thinking I might have to \"reverse\" the <code>.load </code> because that's the only memory issue I could come up with (<code>budget.DIA_IMPVF_TEMP</code> is 14GB large)</p>\n<p>Pinging <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>  and <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span>  as per <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span>'s suggestion</p>",
+        "id": 35289,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624394636
+    },
+    {
+        "content": "<p>examples for when the error comes up:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">subset</span> <span class=\"o\">=</span> <span class=\"n\">budget</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">nlon_t</span><span class=\"o\">=</span><span class=\"n\">lola_inds</span><span class=\"p\">[</span><span class=\"s2\">&quot;i_140_w&quot;</span><span class=\"p\">],</span> <span class=\"n\">nlat_t</span><span class=\"o\">=</span><span class=\"n\">lola_inds</span><span class=\"p\">[</span><span class=\"s2\">&quot;j_0n&quot;</span><span class=\"p\">],</span> <span class=\"n\">time</span><span class=\"o\">=</span><span class=\"mi\">10</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>or</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">subset</span><span class=\"o\">.</span><span class=\"n\">VDIF</span><span class=\"o\">.</span><span class=\"n\">plot</span><span class=\"p\">(</span><span class=\"n\">y</span><span class=\"o\">=</span><span class=\"s2\">&quot;z_t&quot;</span><span class=\"p\">,</span> <span class=\"n\">ylim</span><span class=\"o\">=</span><span class=\"p\">(</span><span class=\"mf\">300e2</span><span class=\"p\">,</span> <span class=\"mi\">0</span><span class=\"p\">),</span> <span class=\"n\">label</span><span class=\"o\">=</span><span class=\"s2\">&quot;VDIF&quot;</span><span class=\"p\">,</span> <span class=\"n\">ax</span><span class=\"o\">=</span><span class=\"n\">ax</span><span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">])</span>\n</pre></div>",
+        "id": 35291,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624395274
+    },
+    {
+        "content": "<p>What are the dimension sizes of <code>budget[\"DIA_IMPVF_TEMP\"]</code> and does it contain a <code>dask.array</code>?</p>",
+        "id": 35297,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624395876
+    },
+    {
+        "content": "<p><code>('time', 'z_t', 'nlat_t', 'nlon_t')</code> and it's a <code>xarray.DataArray</code> -- presumably because I had to </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">budget</span><span class=\"p\">[</span><span class=\"s2\">&quot;DIA_IMPVF_TEMP&quot;</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"o\">-</span><span class=\"p\">(</span><span class=\"n\">gridxgcm</span><span class=\"o\">.</span><span class=\"n\">diff</span><span class=\"p\">(</span><span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">DIA_IMPVF_TEMP</span> <span class=\"o\">*</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">TAREA</span><span class=\"p\">,</span> <span class=\"n\">axis</span><span class=\"o\">=</span><span class=\"s2\">&quot;Z&quot;</span><span class=\"p\">)</span> <span class=\"o\">/</span> <span class=\"n\">dsxgcm</span><span class=\"o\">.</span><span class=\"n\">VOL</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">load</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>inorder to make the assignment above</p>",
+        "id": 35303,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624396577
+    },
+    {
+        "content": "<p>another variable of <code>budget</code> is a dask array:</p>",
+        "id": 35304,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624396652
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/18/0gRv5lXhUZuQT_uDl-mW1OLR/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/18/0gRv5lXhUZuQT_uDl-mW1OLR/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/18/0gRv5lXhUZuQT_uDl-mW1OLR/pasted_image.png\"></a></div>",
+        "id": 35305,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1624396655
+    },
+    {
+        "content": "<p>What's the output of </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">show_versions</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>?</p>",
+        "id": 35321,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624399933
+    },
+    {
         "content": "<p><span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> can you provide your dask version? Dask allows assignment , but only with very recent versions: <a href=\"https://docs.dask.org/en/latest/array-assignment.html\" target=\"_blank\" title=\"https://docs.dask.org/en/latest/array-assignment.html\">https://docs.dask.org/en/latest/array-assignment.html</a></p>",
         "id": 35411,
         "sender_full_name": "Deepak Cherian",

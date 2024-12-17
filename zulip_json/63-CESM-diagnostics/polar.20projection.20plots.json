@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I know that pcolormesh works fine with the latitude and longitude from the model. I am looking at CICE output, so I can use TLAT/TLON here. Now, I thought I had heard that contourf should work with these nonuniform grids as well. I can't seem to get that to work. I can certainly use pcolormesh, but I can't control the contour levels like one can in contourf.</p>",
+        "id": 95126,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706299971
+    },
+    {
+        "content": "<p>It looks like contour/contourf expect a regular grid, but tricontourf could be an option <a href=\"https://matplotlib.org/stable/gallery/images_contours_and_fields/irregulardatagrid.html\">more here</a>.  Do you have some sample data to work with?  <a href=\"https://github.com/NCAR/geocat-examples/issues/522\">Katie's sea ice example issue</a> is on my list to get to next week as well.  Apologies for the delay on that.</p>",
+        "id": 95130,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1706300971
+    },
+    {
+        "content": "<p>That was actually my scripts. :) We did use pcolormesh for the CESM Tutorial. I have some sample data in:</p>\n<p>/glade/campaign/cesm/development/cross-wg/diagnostic_framework/CESM_output_for_testing</p>\n<p>The cases b.e23_alpha16g.BLT1850.ne30_t232.073c and b.e23_alpha16g.BLT1850.ne30_t232.075c have climatologies and timeseries files here. The variable aice (0 to 1) is a good place to start.</p>\n<p>I did look at tricontourf, but I don't think it does quite what we want.</p>",
+        "id": 95135,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706301591
+    },
+    {
+        "content": "<p>Thanks!  I'll take a look.</p>",
+        "id": 95136,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1706301806
+    }
+]

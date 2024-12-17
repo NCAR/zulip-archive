@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>xesmf performance benchmarking · dask · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/xesmf.20performance.20benchmarking.html">xesmf performance benchmarking</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/xesmf.20performance.20benchmarking.html">xesmf performance benchmarking</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="26050"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/xesmf%20performance%20benchmarking/near/26050" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/xesmf.20performance.20benchmarking.html#26050">(Mar 02 2021 at 16:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/xesmf%20performance%20benchmarking/near/26050" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/xesmf.20performance.20benchmarking.html#26050">(Mar 02 2021 at 16:19)</a>:</h4>
 <p>In looking at Isla's notebook (how do I link to a thread?) , I noticed that the regridding step is slow. xesmf seems to use <code>dask.array.map_blocks(lambda x: x.dot(weights))</code> approach i.e. mapping numpy's dot on each block.. I wonder if <code>x.dot(weights)</code> i.e. using <code>dask.array.dot</code> to deal with the blocks would work better. </p>
 <p>From <a href="https://github.com/JiaweiZhuang/xESMF/issues/3" target="_blank" title="https://github.com/JiaweiZhuang/xESMF/issues/3">https://github.com/JiaweiZhuang/xESMF/issues/3</a> and <a href="https://nbviewer.jupyter.org/github/JiaweiZhuang/sparse_dot/blob/master/sparse_dot_benchmark.ipynb" target="_blank" title="https://nbviewer.jupyter.org/github/JiaweiZhuang/sparse_dot/blob/master/sparse_dot_benchmark.ipynb">https://nbviewer.jupyter.org/github/JiaweiZhuang/sparse_dot/blob/master/sparse_dot_benchmark.ipynb</a> the initial benchmarking was done before dask could wrap sparse arrays so it should be worth the effort to update that notebook</p>
 <p>I'm thinking something like</p>
@@ -37,13 +37,13 @@
 
 
 <a name="26052"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/xesmf%20performance%20benchmarking/near/26052" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/xesmf.20performance.20benchmarking.html#26052">(Mar 02 2021 at 16:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/xesmf%20performance%20benchmarking/near/26052" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/xesmf.20performance.20benchmarking.html#26052">(Mar 02 2021 at 16:30)</a>:</h4>
 <p>original convo here: <a href="#narrow/stream/27-dask/topic/optimizing.20workers.20and.20memory/near/25977" title="#narrow/stream/27-dask/topic/optimizing.20workers.20and.20memory/near/25977">https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/optimizing.20workers.20and.20memory/near/25977</a></p>
 
 
 
 <a name="26319"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/27-dask/topic/xesmf%20performance%20benchmarking/near/26319" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/27-dask/topic/xesmf.20performance.20benchmarking.html#26319">(Mar 05 2021 at 15:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/xesmf%20performance%20benchmarking/near/26319" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/xesmf.20performance.20benchmarking.html#26319">(Mar 05 2021 at 15:42)</a>:</h4>
 <p>May not be a definite win:</p>
 <ol>
 <li><a href="https://github.com/SciTools-incubator/iris-esmf-regrid/pull/23" target="_blank" title="https://github.com/SciTools-incubator/iris-esmf-regrid/pull/23">https://github.com/SciTools-incubator/iris-esmf-regrid/pull/23</a></li>
@@ -56,5 +56,5 @@
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

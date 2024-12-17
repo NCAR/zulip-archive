@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>Reproducible environments · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html">Reproducible environments</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html">Reproducible environments</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="19496"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19496" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19496">(Oct 15 2020 at 20:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19496" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19496">(Oct 15 2020 at 20:25)</a>:</h4>
 <p>What is the best way to ensure reproducible environments?</p>
 <p>Many of us have been curating environment.yaml files in our repos; these are handy for defining environments, but resolve to a particular environment depending on when they are invoked. In some cases, it is important to ensure that environments can be reproduced exactly. </p>
 <p>For example, I am working on a calculation, it's taken months to develop my code and during that time, I've only updated my conda environment occasionally. If a collaborator clones my repo and builds an environment from the environment.yaml file therein, they will likely get newer package versions, which could break my code.</p>
@@ -32,7 +32,7 @@ conda create -n my-locked-env --file conda-linux-64.lock
 
 
 <a name="19498"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19498" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19498">(Oct 15 2020 at 20:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19498" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19498">(Oct 15 2020 at 20:36)</a>:</h4>
 <p><code>conda-lock</code> is a great tool for this... It's worth noting that if you have packages that are installed from pypi via <code>pip</code> or from GitHub via <code>pip</code>, locking environment <strong>fails</strong></p>
 <p>E.g.: Locking this environment results in failure:</p>
 <div class="codehilite"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">my-env</span>
@@ -51,13 +51,13 @@ conda create -n my-locked-env --file conda-linux-64.lock
 
 
 <a name="19499"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19499" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19499">(Oct 15 2020 at 20:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19499" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19499">(Oct 15 2020 at 20:38)</a>:</h4>
 <p>Good point. Some packages are only available via <code>pip</code>.  Does <code>docker</code> provide a solution? Not viable on HPC, though?</p>
 
 
 
 <a name="19501"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19501" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19501">(Oct 15 2020 at 20:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19501" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19501">(Oct 15 2020 at 20:49)</a>:</h4>
 <p><code>docker</code> is a solution, but its a bit more of a lift to get it working.  While <code>docker</code> doesn't work on HPC, <code>singularity</code> does, and you can pretty easily convert a <code>docker</code> image to a <code>singularity</code> image.  I think the process goes like this.</p>
 <ol>
 <li>
@@ -89,13 +89,13 @@ conda create -n my-locked-env --file conda-linux-64.lock
 
 
 <a name="19502"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19502" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19502">(Oct 15 2020 at 20:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19502" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19502">(Oct 15 2020 at 20:51)</a>:</h4>
 <p>Also, note that there is a Visual Studio (VS) Code extension that lets you run and dev inside a docker container, so you can actually do your development in the exact same environment.</p>
 
 
 
 <a name="19506"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19506" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19506">(Oct 15 2020 at 20:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19506" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19506">(Oct 15 2020 at 20:57)</a>:</h4>
 <blockquote>
 <p>Good point. Some packages are only available via <code>pip</code>.  Does <code>docker</code> provide a solution? Not viable on HPC, though?</p>
 </blockquote>
@@ -104,19 +104,19 @@ conda create -n my-locked-env --file conda-linux-64.lock
 
 
 <a name="19507"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19507" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19507">(Oct 15 2020 at 20:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19507" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19507">(Oct 15 2020 at 20:57)</a>:</h4>
 <p>There's an existing tool for this: <a href="https://conda.github.io/conda-pack/" target="_blank" title="https://conda.github.io/conda-pack/">https://conda.github.io/conda-pack/</a></p>
 
 
 
 <a name="19508"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19508" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19508">(Oct 15 2020 at 20:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19508" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19508">(Oct 15 2020 at 20:57)</a>:</h4>
 <p>I haven't used it though</p>
 
 
 
 <a name="19509"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19509" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19509">(Oct 15 2020 at 21:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19509" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19509">(Oct 15 2020 at 21:07)</a>:</h4>
 <p>One piece that is missing is something equivalent to <code>Docker Hub</code> or similar to serve as an environment registry...  With an environment registry, one would be able to</p>
 <ul>
 <li>(from source system): pack an environment into a tarball.   --&gt; equivalent to  <code>docker build </code></li>
@@ -128,25 +128,25 @@ conda create -n my-locked-env --file conda-linux-64.lock
 
 
 <a name="19510"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19510" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19510">(Oct 15 2020 at 21:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19510" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19510">(Oct 15 2020 at 21:10)</a>:</h4>
 <p>This actually sounds like a fun, prototype project worth exploring if time permits.... <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span></p>
 
 
 
 <a name="19513"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19513" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#19513">(Oct 15 2020 at 21:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/19513" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#19513">(Oct 15 2020 at 21:46)</a>:</h4>
 <p>We are actively dealing with these issues in our work related to the <a class="stream" data-stream-id="20" href="/#narrow/stream/20-0.2E1.C2.B0-JRA-BGC-Run">#0.1° JRA BGC Run</a>.  Perhaps we can prototype a solution there?</p>
 
 
 
 <a name="20545"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/20545" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#20545">(Oct 28 2020 at 12:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/20545" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#20545">(Oct 28 2020 at 12:07)</a>:</h4>
 <p>cc <span class="user-mention" data-user-id="65">@Brian Dobbins</span></p>
 
 
 
 <a name="20546"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/20546" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/Reproducible.20environments.html#20546">(Oct 28 2020 at 14:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Reproducible%20environments/near/20546" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Reproducible.20environments.html#20546">(Oct 28 2020 at 14:26)</a>:</h4>
 <p>Thanks for pinging me, Matt - I hadn't known about this discussion, but I'm definitely interested in it.</p>
 <p>Two quick questions/comments:</p>
 <p>1) As Anderson said, Docker (and other containers) use the 'OCI' [Open Container Initiative] API, so all have compatible / convertible formats of their file systems.  So on Cheyenne, I've converted Docker containers to Charliecloud ones and run them fine.   In terms of HPC use, it really depends on what you're trying to do - running a single-node image on a (single) HPC node is a piece of cake, and something we do often (and applicable to any system).  Running a multi-node HPC code, and taking advantage of the high-speed interconnect, is harder.  Doable on Cheyenne, but not exactly portable.  If you want to run a Docker container for some analysis on a single node on Cheyenne, though, I'm happy to help.</p>
@@ -155,5 +155,5 @@ conda create -n my-locked-env --file conda-linux-64.lock
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

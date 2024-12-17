@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi all, </p>\n<p>I used to use \"xarray.open_dataset\" to load reanalysis data in GRIB format.  You just need to specify \"engine='cfgrid'\" in your code, and it works pretty well. Now I find that my old code doesn't work any more, with an error saying \"ValueError: unrecognized engine cfgrib must be one of: ['netcdf4', 'h5netcdf', 'scipy', 'pydap', 'store', 'zarr']\". </p>\n<p>The xarray tutorial webpage shows the same error: <a href=\"https://docs.xarray.dev/en/stable/examples/ERA5-GRIB-example.html\">https://docs.xarray.dev/en/stable/examples/ERA5-GRIB-example.html</a></p>\n<p>Is cfgrid no longer supported by xarray? This seems problematic, as ERA5 and JRA55 reanalysis data are all stored in GRIB format on the NCAR research data archive. Can anyone suggest an alternative to reading GRIB data in python? Or do we have ERA5 monthly data in Netcfd format stored somewhere on Glade?</p>\n<p>Thanks!!<br>\nHui</p>",
+        "id": 81945,
+        "sender_full_name": "Hui Li",
+        "timestamp": 1685574019
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"92\">@Hui Li</span> I found an very recent open issue about this topic: <a href=\"https://github.com/pydata/xarray/issues/7884\">https://github.com/pydata/xarray/issues/7884</a></p>",
+        "id": 81947,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1685575565
+    },
+    {
+        "content": "<p>Ah! Updating the cfgrib worked  <span aria-label=\"grinning\" class=\"emoji emoji-1f600\" role=\"img\" title=\"grinning\">:grinning:</span></p>",
+        "id": 81948,
+        "sender_full_name": "Hui Li",
+        "timestamp": 1685576576
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> has marked this topic as resolved.</p>",
+        "id": 81990,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1685633967
+    }
+]

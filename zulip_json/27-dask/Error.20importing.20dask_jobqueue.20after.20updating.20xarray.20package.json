@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>Hi, I just updated my xarray package, after which I started a new session on JupyterHub and am receiving a new error when trying to import PBS Cluster</p>\n<p>Here is what I get:</p>\n<div class=\"codehilite\"><pre><span></span><code> dask_jobqueue import PBSCluster\n---------------------------------------------------------------------------\nImportError                               Traceback (most recent call last)\nInput In [1], in &lt;module&gt;\n     13 from distributed import wait\n     14 #from ncar_jobqueue import NCARCluster\n---&gt; 16 from dask_jobqueue import PBSCluster\n     17 import dask\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/dask_jobqueue/__init__.py:3, in &lt;module&gt;\n      1 # flake8: noqa\n      2 from . import config\n----&gt; 3 from .core import JobQueueCluster\n      4 from .moab import MoabCluster\n      5 from .pbs import PBSCluster\n\nFile /glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/dask_jobqueue/core.py:20, in &lt;module&gt;\n     18 from distributed.deploy.local import nprocesses_nthreads\n     19 from distributed.scheduler import Scheduler\n---&gt; 20 from distributed.utils import tmpfile\n     22 logger = logging.getLogger(__name__)\n     24 job_parameters = &quot;&quot;&quot;\n     25     cores : int\n     26         Total number of cores per job\n   (...)\n     63         Name of Dask worker.  This is typically set by the Cluster\n     64 &quot;&quot;&quot;.strip()\n\nImportError: cannot import name &#39;tmpfile&#39; from &#39;distributed.utils&#39; (/glade/work/mberdahl/miniconda/envs/pangeo/lib/python3.9/site-packages/distributed/utils.py)\n</code></pre></div>\n<p>Thoughts? Thanks</p>",
+        "id": 94313,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1705087760
+    },
+    {
+        "content": "<p>My initial thought would be to try updating <code>dask</code> and/or <code>dask-jobqueue</code>. Sometimes <a href=\"https://docs.xarray.dev/en/stable/whats-new.html\">xarray updates</a> have breaking changes. Looking at the versions of things in your environment can be helpful too, I usually do this with <code>conda list</code>.</p>",
+        "id": 94320,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1705099274
+    }
+]

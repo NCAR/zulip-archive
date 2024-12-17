@@ -1,19 +1,220 @@
 <html>
 <head><meta charset="utf-8"><title>python environments · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20environments.html">python environments</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html">python environments</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="33423"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/python%20environments/near/33423" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/python.20environments.html#33423">(Jun 04 2021 at 13:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/33423" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#33423">(Jun 04 2021 at 13:53)</a>:</h4>
 <p>For anyone interested in learning more about python environments, this is a really good write up <a href="https://whiteboxml.com/blog/the-definitive-guide-to-python-virtual-environments-with-conda" target="_blank" title="https://whiteboxml.com/blog/the-definitive-guide-to-python-virtual-environments-with-conda">https://whiteboxml.com/blog/the-definitive-guide-to-python-virtual-environments-with-conda</a></p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<a name="86472"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86472" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gabriela Negrete Garcia <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86472">(Aug 01 2023 at 15:08)</a>:</h4>
+<p>What python  environments  are people using that include dask clients and mapping tools like cartopy, matplotlib and Basemap? I tried using the NPL 2023b, and it supports the dask clients, but doesn’t have these  mapping packages.</p>
+
+
+
+<a name="86476"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86476" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86476">(Aug 01 2023 at 15:31)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="300">@Gabriela Negrete Garcia</span>, I took a quick look at the packages in npl-2023b using <code>conda list</code> and it looks like cartopy and matplotlib are in there but basemap is not. To request packages be added to the npl environment, you can either submit a help ticket (<a href="http://help.ucar.edu">help.ucar.edu</a>) or open an issue in this <a href="https://github.com/NCAR/ncar-conda/issues">github repo</a>.</p>
+
+
+
+<a name="86477"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86477" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86477">(Aug 01 2023 at 15:31)</a>:</h4>
+<p>Another option that I use a lot is creating your own environment with the packages you want in there.</p>
+
+
+
+<a name="86556"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86556" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Sampson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86556">(Aug 02 2023 at 16:27)</a>:</h4>
+<p>I also cannot use these environments because they typically lack some of the geospatial libraries I need (OGR, GDAL, etc.). I use conda or mamba to create new environments that will contain these libraries and allow me to add new ones.</p>
+
+
+
+<a name="86864"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86864" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86864">(Aug 08 2023 at 16:11)</a>:</h4>
+<p>Hi!  Ok so I think I'm having an issue with the NLP environment on Cheyenne/Casper.  I'm trying to run some automated scripts to restart model runs - these scripts are un on the command line and I do the following: </p>
+<p>module load conda<br>
+conda activate npl</p>
+<p>But when I run my script - I get the following :</p>
+<div class="codehilite"><pre><span></span><code>import numpy as np
+</code></pre></div>
+
+<p>ModuleNotFoundError: No module named 'numpy'</p>
+<p>in another script I get </p>
+<div class="codehilite"><pre><span></span><code>import xarray as xr
+</code></pre></div>
+
+<p>ModuleNotFoundError: No module named 'xarray'</p>
+<p>Other import calls are working - (e.g. import glob,os,re,sys, fnmatch<br>
+from math import floor).</p>
+<p>I'm curious what might be going on - I fully acknowledge I might be doing something wrong.  </p>
+<p>Scripts I'm working with are here: /glade/work/rmccrary/icar/cmip/MP_runs/CMIP5/CanESM2_WSM3_hist_1979-2010/scripts/ setup_next_run.py or aggregate_parallel_files.py</p>
+<p>I have no issues with this on jupyter hub - but for some reason nothing seems to be working on the command line.  Am I loading the npl environment incorrectly?</p>
+
+
+
+<a name="86867"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86867" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86867">(Aug 08 2023 at 16:35)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="308">@Rachel McCrary</span> I am also curious about this. I would have thought that activating NPL would point to the right python libraries so you should be able to use those modules, but I tested this and got the same import error with numpy/xarray. Tagging <span class="user-mention" data-user-id="71">@Negin Sobhani</span> and <span class="user-mention" data-user-id="141">@Brian Vanderwende</span> for any insight here.</p>
+
+
+
+<a name="86869"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86869" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86869">(Aug 08 2023 at 16:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="47">@Katie Dagon</span>  ok so its not just me?  I fumble around with Python so I always assume I'm doing something wrong - but this is breaking all my model runs! (I haven't run anything in about 6 months, but this system worked just fine in January)</p>
+
+
+
+<a name="86870"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86870" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86870">(Aug 08 2023 at 16:48)</a>:</h4>
+<p>Thanks for the ping! <span class="user-mention" data-user-id="47">@Katie Dagon</span> - when you tested this, did you use Rachel's script, or did you try a simplified example? I am unable to reproduce it right now, so I'm guessing we are running into some difference in either how we are testing or our environments.</p>
+<p><span class="user-mention" data-user-id="308">@Rachel McCrary</span> - Do you use this on the command line on a login node or in a PBS job? If you type <code>which python</code> at the command line after activating the NPL, what do you get?</p>
+
+
+
+<a name="86871"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86871" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86871">(Aug 08 2023 at 16:51)</a>:</h4>
+<p><span class="user-mention" data-user-id="141">@Brian Vanderwende</span> - I've tried in both a PBS job and a command line on Cheyenne.  When I type which python I get </p>
+<p>/glade/u/apps/opt/conda/bin/python</p>
+<p>I thought it might be something up with the script I was running, but when I just open an interactive python (just by typing python) and trying to import xarray I get the same error ...</p>
+
+
+
+<a name="86872"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86872" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86872">(Aug 08 2023 at 16:52)</a>:</h4>
+<p>Yes I did the same, just testing <code>python</code> and then <code>import numpy as np</code> after <code>module load conda</code> and <code>conda activate npl</code>. I also got the same path from <code>which python</code>.</p>
+
+
+
+<a name="86873"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86873" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86873">(Aug 08 2023 at 16:53)</a>:</h4>
+<p>Ah, that explains why it doesn't work, though not why it is failing. It looks like it is giving you the Python in the base environment, and not the NPL. Thanks for sharing this - I need to figure out why the activation is not working for you two (whereas it is working for me).</p>
+
+
+
+<a name="86874"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86874" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86874">(Aug 08 2023 at 16:55)</a>:</h4>
+<p>It does work when I use a jupyter notebook :)</p>
+
+
+
+<a name="86875"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86875" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86875">(Aug 08 2023 at 17:02)</a>:</h4>
+<p>Re: the activation, I have a separate miniconda install and I'm wondering if it doesn't get fully overriden by the <code>module load conda</code>. But <code>conda env list</code> does indicate that I have npl activated, and <code>which conda</code> points to /glade/u/apps/opt/conda/bin/conda</p>
+
+
+
+<a name="86877"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86877" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86877">(Aug 08 2023 at 17:05)</a>:</h4>
+<p>It seems plausible, though my miniconda install does get overridden. I suppose it could be a version difference. <span class="user-mention" data-user-id="47">@Katie Dagon</span> I could try initializing your miniconda if you provide me the path and I can see if I get the same result.</p>
+
+
+
+<a name="86878"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86878" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86878">(Aug 08 2023 at 17:06)</a>:</h4>
+<p>/glade/work/kdagon/miniconda</p>
+
+
+
+<a name="86879"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86879" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86879">(Aug 08 2023 at 17:06)</a>:</h4>
+<p>maybe also something in PATH?</p>
+
+
+
+<a name="86882"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86882" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86882">(Aug 08 2023 at 17:08)</a>:</h4>
+<p>I also have a miniconda setup and something in my PATH - however I never used to have this problem, so it is a new issue!  Setting all of this up was a bit ad-hoc and asking people what they did, rather than actually knowing what to do :).  I haven't used my own environments in a long time.</p>
+
+
+
+<a name="86884"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86884" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86884">(Aug 08 2023 at 17:09)</a>:</h4>
+<p>Hmm... okay so I do get the issue using your miniconda, Katie, though not with mine. I'll keep digging.</p>
+
+
+
+<a name="86886"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86886" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86886">(Aug 08 2023 at 17:12)</a>:</h4>
+<p>My conda version in there is very old <span aria-label="grimacing" class="emoji emoji-1f62c" role="img" title="grimacing">:grimacing:</span> . But as Rachel said, strange that this worked previously for her and it's a new issue.</p>
+
+
+
+<a name="86887"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86887" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86887">(Aug 08 2023 at 17:14)</a>:</h4>
+<p>"new" is probably since January for me - I almost exclusively use JupyterHub now ...</p>
+
+
+
+<a name="86891"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86891" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86891">(Aug 08 2023 at 17:18)</a>:</h4>
+<p>We do 2x a year updates to conda itself in the module. It was updated about 1 month ago, so perhaps this broke compatibility with older conda versions in the way we do it in the module. That seems like a reasonable explanation at this point, but looking to test it out myself with an older conda version.</p>
+
+
+
+<a name="86893"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86893" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86893">(Aug 08 2023 at 17:20)</a>:</h4>
+<p>Ok - and then let me know how I might fix this :)</p>
+
+
+
+<a name="86894"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86894" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86894">(Aug 08 2023 at 17:22)</a>:</h4>
+<p>The easy fix would be to unload the conda module and run <code>conda update conda</code>, which should bring your miniconda to the latest (and greatest?) version of conda. I'm going to try to make this work again for older miniconda versions, but not sure yet how easy that will be!</p>
+
+
+
+<a name="86897"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86897" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86897">(Aug 08 2023 at 17:25)</a>:</h4>
+<p>Ok I have this installed in my home directory - which was a bad decision and I was never sure how to move it to my work directory ... can I just move it or do I need to start over?</p>
+
+
+
+<a name="86898"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86898" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86898">(Aug 08 2023 at 17:29)</a>:</h4>
+<p>In my experience, trying to relocate (mv) conda environments does not work without a bunch of extra steps. Are your environments in your home too, or just miniconda itself?</p>
+
+
+
+<a name="86923"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86923" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86923">(Aug 08 2023 at 19:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="141">@Brian Vanderwende</span>   - I think my environments are in my home too - and honestly I don't really use them I've just used npl!  I have an office hours with someone from the ESDS to discuss what the heck to do with the mess I've made :)</p>
+
+
+
+<a name="86927"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86927" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rachel McCrary <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86927">(Aug 08 2023 at 19:33)</a>:</h4>
+<p>Ok doing conda update conda did work!  So thanks for that :).</p>
+
+
+
+<a name="86928"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86928" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86928">(Aug 08 2023 at 19:36)</a>:</h4>
+<p>Excellent. Please let us know if you run into any other issues after the virtual help. Thanks again for reporting the issue.</p>
+
+
+
+<a name="86958"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/86958" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#86958">(Aug 08 2023 at 22:36)</a>:</h4>
+<p>Thanks for your help with this Brian!</p>
+
+
+
+<a name="87045"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/python%20environments/near/87045" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/python.20environments.html#87045">(Aug 10 2023 at 15:07)</a>:</h4>
+<p>Hey all - I've made some changes to the conda module that should make this work better. Now, if you have a conda initialized into your environment, the module will only add our settings, but will leave your conda as the active one, even if the module is loaded. This should avoid these old-new conflicts that Rachel and Katie were seeing. If you do not have conda initialized in your shell, the module will provide you with our conda.</p>
+<p>Let me know if you run into any issues or otherwise have any feedback. Thanks again for reporting these issues to us!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Does anyone have a working example using <code>xarray.DataArray.polyfit</code> (<a href=\"https://xarray.pydata.org/en/latest/generated/xarray.DataArray.polyfit.html\" target=\"_blank\" title=\"https://xarray.pydata.org/en/latest/generated/xarray.DataArray.polyfit.html\">https://xarray.pydata.org/en/latest/generated/xarray.DataArray.polyfit.html</a>), especially when the time coordinate uses <code>cftime.Datetime</code>? I'm trying to calculate the linear trend of temperature over time at each lat/lon gridpoint. I have monthly temperature data (K) so I assumed the coefficients would output as K/month, but the first degree <code>polyfit_coefficients</code> are order 10^-18 which is way too small. I'm wondering if cftime is using some base time units or reference time that causes the magnitude to be small, because the spatial pattern actually looks ok. I'm using xarray version 17.0 which seems to have polyfit implemented accounting for datetime (see also <a href=\"https://github.com/pydata/xarray/issues/3349\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/3349\">https://github.com/pydata/xarray/issues/3349</a>).</p>",
+        "id": 31268,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1620776734
+    },
+    {
+        "content": "<p>As an update, it appears the baseunits are in nanoseconds(!), which I figured out by manually differencing the first and last time points. Once I convert from K/ns to K/month the magnitude of the coefficients look reasonable. <br>\nThe output of polyfit doesn't have any units attribute, which is why this was a bit tricky to interpret. cc <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span></p>",
+        "id": 31270,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1620778396
+    },
+    {
+        "content": "<p><span aria-label=\"see no evil\" class=\"emoji emoji-1f648\" role=\"img\" title=\"see no evil\">:see_no_evil:</span> It's hard to set units on the output because we need units on the input . This should be in the docstring though (<a href=\"https://github.com/pydata/xarray/issues/4455\" target=\"_blank\" title=\"https://github.com/pydata/xarray/issues/4455\">https://github.com/pydata/xarray/issues/4455</a>). This would be a great first pull request!</p>",
+        "id": 31285,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1620833393
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> , I can't believe I didn't find this issue before, but it is describing exactly what I was trying to figure out <span aria-label=\"slight smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"slight smile\">:slight_smile:</span></p>",
+        "id": 31291,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1620833583
+    }
+]

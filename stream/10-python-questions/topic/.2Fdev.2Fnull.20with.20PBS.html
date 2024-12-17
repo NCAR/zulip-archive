@@ -1,34 +1,34 @@
 <html>
 <head><meta charset="utf-8"><title>/dev/null with PBS · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html">/dev/null with PBS</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html">/dev/null with PBS</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="42812"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42812" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matthew Hayman <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42812">(Sep 15 2021 at 16:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42812" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matthew Hayman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42812">(Sep 15 2021 at 16:43)</a>:</h4>
 <p>Is anyone else having problems with the new /dev/null output restrictions on PBS?  After some digging we have found that there are some python packages that write to /dev/null including IPython and numba.  How are you avoiding getting your jobs killed?</p>
 
 
 
 <a name="42831"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42831" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42831">(Sep 15 2021 at 17:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42831" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42831">(Sep 15 2021 at 17:38)</a>:</h4>
 <p>You can still write to <code>/dev/null</code>, just don't make it part of the PBS directive in job scripts from what I gather. I.e., <code>PBS -o /dev/null</code> or <code>PBS -e /dev/null</code> should not be used (long story about how PBS is capable of doing data staging), but you can certainly send output to local <code>/dev/null</code> as part of normal bash/tcsh unless you are seeing different. Do you have a specific example?</p>
 
 
 
 <a name="42837"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42837" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matthew Hayman <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42837">(Sep 15 2021 at 18:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42837" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matthew Hayman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42837">(Sep 15 2021 at 18:12)</a>:</h4>
 <p>Thanks for the reply Jared.  It provides some focus on where we should look for the problem.</p>
 
 
 
 <a name="42839"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42839" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42839">(Sep 15 2021 at 18:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic//dev/null%20with%20PBS/near/42839" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.2Fdev.2Fnull.20with.20PBS.html#42839">(Sep 15 2021 at 18:21)</a>:</h4>
 <p>Something like this is completely valid. Like I said, as long as it's not final place for PBS, then you're fine. If you really don't want your files around, an alternative to not having them persist is to look at the <code>-R</code> option to qsub or <code>#PBS -R [o|e|oe|eo]</code></p>
 <div class="codehilite"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
@@ -51,5 +51,5 @@ date
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

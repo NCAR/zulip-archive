@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>git diff  on remote branch · git · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/56-git/index.html">git</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html">git diff  on remote branch</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/56-git/index.html">git</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html">git diff  on remote branch</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="42140"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42140" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dani Coleman <a href="https://ncar.github.io/zulip-archive/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42140">(Sep 09 2021 at 15:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42140" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dani Coleman <a href="http://127.0.0.1:4000/html/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42140">(Sep 09 2021 at 15:27)</a>:</h4>
 <p>I want to know if my working directory is up-to-date with the remote branch but I'm getting different results if I use<br>
 % git diff origin develop<br>
 (17 lines output)<br>
@@ -67,7 +67,7 @@ tracking origin develop ?</p>
 
 
 <a name="42153"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42153" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42153">(Sep 09 2021 at 17:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42153" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42153">(Sep 09 2021 at 17:17)</a>:</h4>
 <p><code>git diff origin develop</code> is a diff between origin/HEAD and local develop branch. <code>git diff origin/develop</code> is short for diff between branch 'remotes/origin/develop' and the current working branch. If you want to explicitly look at differences between your local develop branch and the remote origin develop branch, <code>git diff origin/develop develop</code> (at least in my preferred ordering). </p>
 <p>Now just because you have a tracking branch in git doesn't mean that it's automatically updated and synced with your local copy of the tracked branch. For example, you can checkout a remote branch with tracking and make changes and your local branch could be several commits ahead of the remote branch being tracked (or vice versa). Does this help clear anything up? You might be interested in what <code>git branch -vv</code> returns on your machine. A tracking branch is nothing more than a relationship that when a push/pull is executed, it sends it to the remotes, but still requires the push to update the remote or pull to update from the remote.</p>
 <p>So all in all, the way I read this is that you have 17 lines different from your local development branch and origin/HEAD, but that there are 9K lines difference between the remote origin/develop branch and your current working develop branch.</p>
@@ -75,7 +75,7 @@ tracking origin develop ?</p>
 
 
 <a name="42246"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42246" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dani Coleman <a href="https://ncar.github.io/zulip-archive/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42246">(Sep 09 2021 at 21:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42246" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dani Coleman <a href="http://127.0.0.1:4000/html/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42246">(Sep 09 2021 at 21:22)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="154">@Jared Baker</span> , this is very helpful. I can see I've been missing some things conceptually.</p>
 <p>When you say </p>
 <blockquote>
@@ -89,11 +89,11 @@ is short for diff between branch 'remotes/origin/develop' and the current workin
 
 
 <a name="42249"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42249" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="https://ncar.github.io/zulip-archive/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42249">(Sep 09 2021 at 22:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/git%20diff%20%20on%20remote%20branch/near/42249" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/56-git/topic/git.20diff.20.20on.20remote.20branch.html#42249">(Sep 09 2021 at 22:10)</a>:</h4>
 <p>it's whatever the working branch is (directory independent, I try not to talk about directories at all when working with git unless specifying a path to a specific file). <code>git branch</code> would show you the current branch. I'm assuming that you're in a single git repository (working from the command line in whatever directory you're in; also not a submodule). IMO <code>git status</code> is really for a simple check of changes in your working copy for things not yet committed or added.  A <code>git diff</code> can take a full path, so it can be interesting. But you can reference any file you want ultimately. It's interesting to play to play with <code>git diff</code> where files may not exist in other branches. So you need to diff similar entities as well. I try to <code>git diff</code> on files with only ones in a working copy with changes rather than cross-referencing branches which I've not checked out. It's just a preference I suppose, but helps me keep things in line I suppose.</p>
 <p>As far as making an untracked branch, if you branch out locally and it's not on the remote, then it's an untracked branch. If you already have a branch that is tracked, then <code>git branch --unset_upstream</code> will basically do that.</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

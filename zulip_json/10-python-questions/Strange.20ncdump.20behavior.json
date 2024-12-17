@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hello,  At least both Nan and I have experienced this issue.  I'm wondering if anyone else has and knows what's happening.  When I write data out to netcdf from python using xarray data arrays or datasets and then do an ncdump on the file to display the coordinates,  the coordinates appear to contain empty values.  However, they are not actually empty if you read the data back into python. Attached is an example.  I simply read in a file and write it back out again.  If I do an ncdump on the output file it has empty values for all the coordinates but on reading it back in, the coordinates have the right values.  I don't know whether this is an ncdump problem, a python problem, or a derecho/casper problem.  Thanks for any help on this.</p>\n<p><a href=\"/user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png\">Screenshot-at-2024-02-02-16-30-59.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png\" title=\"Screenshot-at-2024-02-02-16-30-59.png\"><img src=\"/user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png\"></a></div>",
+        "id": 95437,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1706916804
+    },
+    {
+        "content": "<p>Another piece of information is that this same problem does not happen on the CGD machines, suggesting it's either a derecho/casper problem or an environment problem.</p>",
+        "id": 95438,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1706917062
+    },
+    {
+        "content": "<p>Another piece of information.  The same file that has missing values for the coordinates on derecho with an ncdump looks normal on another machine.  So it appears to be narrowed down to an ncdump issue on derecho.  I will open up a ticket with cislhelp.</p>",
+        "id": 95439,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1706918175
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> <a href=\"https://github.com/ESCOMP/CTSM/issues/2347\">noticed a similar issue</a> with the most recent CTSM parameter file, which has a new <code>_FillValue</code> attribute (set to NaN) on all the variables. When I remove that attribute with <code>ncatted -a _FillValue,varname,d,, oldfile.nc newfile.nc</code>, <code>ncdump</code> works as expected.</p>",
+        "id": 95545,
+        "sender_full_name": "Sam Rabin",
+        "timestamp": 1707324331
+    },
+    {
+        "content": "<p>This unfortunately happens with both versions of the <code>nco</code> module on Casper, 5.1.9 (the default) and 5.1.6</p>",
+        "id": 95548,
+        "sender_full_name": "Sam Rabin",
+        "timestamp": 1707324644
+    },
+    {
+        "content": "<p>I'll also ad that we're working to correct this metadata issue in upcoming CTSM tags, but Sam's suggestions seem like a OK workaround for now?</p>",
+        "id": 95551,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1707324709
+    },
+    {
+        "content": "<p>OK, thanks  It seems strange that this workaround is needed, but it's good to know.</p>",
+        "id": 95559,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1707325690
+    },
+    {
+        "content": "<p>With Brian Dobbins help:  this fixes it too:<br>\nmodule swap intel gcc</p>",
+        "id": 95576,
+        "sender_full_name": "Nan Rosenbloom",
+        "timestamp": 1707361521
+    },
+    {
+        "content": "<p>Sounds related to what was posted in the CISL DailyB this morning: <a href=\"https://arc.ucar.edu/articles/609\">https://arc.ucar.edu/articles/609</a></p>",
+        "id": 95582,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1707414053
+    }
+]

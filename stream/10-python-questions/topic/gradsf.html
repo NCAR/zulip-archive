@@ -1,74 +1,74 @@
 <html>
 <head><meta charset="utf-8"><title>gradsf · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html">gradsf</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html">gradsf</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="30553"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30553" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30553">(Apr 29 2021 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30553" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30553">(Apr 29 2021 at 17:49)</a>:</h4>
 <p>I am trying to find a python-based solution for the NCL function gradfs (<a href="https://www.ncl.ucar.edu/Document/Functions/Built-in/gradsf.shtml" target="_blank" title="https://www.ncl.ucar.edu/Document/Functions/Built-in/gradsf.shtml">https://www.ncl.ucar.edu/Document/Functions/Built-in/gradsf.shtml</a>) which I previously used to calculate latitude and longitude gradients on a fixed grid. Does anyone know of anything that might work? If not, I will open an issue in GeoCAT-comp.</p>
 
 
 
 <a name="30554"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30554" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30554">(Apr 29 2021 at 17:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30554" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30554">(Apr 29 2021 at 17:58)</a>:</h4>
 <p>How about  <a href="https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html#windspharm.xarray.VectorWind.gradient" target="_blank" title="https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html#windspharm.xarray.VectorWind.gradient">windspharm's gradient</a>. It's weird because they use <a href="https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html#windspharm.xarray.VectorWind" target="_blank" title="https://ajdawson.github.io/windspharm/latest/api/windspharm.xarray.html#windspharm.xarray.VectorWind">VectorWind</a> as the main interface instead of a Grid object(what if you don't have winds? <span aria-label="thinking" class="emoji emoji-1f914" role="img" title="thinking">:thinking:</span> )</p>
 
 
 
 <a name="30555"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30555" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30555">(Apr 29 2021 at 18:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30555" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30555">(Apr 29 2021 at 18:13)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span> I will take a look at this, though I am looking for something more general to match the functionality of gradsf (e.g., for temperature gradients).</p>
 
 
 
 <a name="30556"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30556" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30556">(Apr 29 2021 at 18:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30556" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30556">(Apr 29 2021 at 18:20)</a>:</h4>
 <p>I would suggest taking a look at MetPy for this - they have an example explicitly on temperature gradients and temperature advection (<a href="https://unidata.github.io/python-gallery/examples/850hPa_Temperature_Advection.html" target="_blank" title="https://unidata.github.io/python-gallery/examples/850hPa_Temperature_Advection.html">https://unidata.github.io/python-gallery/examples/850hPa_Temperature_Advection.html</a>), with a general gradient function here <a href="https://unidata.github.io/MetPy/latest/examples/calculations/Gradient.html#sphx-glr-examples-calculations-gradient-py" target="_blank" title="https://unidata.github.io/MetPy/latest/examples/calculations/Gradient.html#sphx-glr-examples-calculations-gradient-py">https://unidata.github.io/MetPy/latest/examples/calculations/Gradient.html#sphx-glr-examples-calculations-gradient-py</a> </p>
 <p>I hope this helps <span class="user-mention" data-user-id="47">@Katie Dagon</span></p>
 
 
 
 <a name="30558"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30558" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30558">(Apr 29 2021 at 19:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30558" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30558">(Apr 29 2021 at 19:04)</a>:</h4>
 <p>But metpy's gradient doesn't look like it uses spherical harmonics, which is what <code>gradsf</code> uses?</p>
 
 
 
 <a name="30559"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30559" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30559">(Apr 29 2021 at 19:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30559" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30559">(Apr 29 2021 at 19:31)</a>:</h4>
 <p>and <code>VectorWind.gradient</code> takes a scalar <code>chi</code> as input,  so you could fake it by initializing <code>VectorWind</code> with arrays of ones of appropriate shapes and then pass actual temperature to the gradient.</p>
 
 
 
 <a name="30568"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30568" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30568">(Apr 29 2021 at 20:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30568" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30568">(Apr 29 2021 at 20:59)</a>:</h4>
 <p>Good point about spherical harmonics. I tried <span class="user-mention" data-user-id="25">@Deepak Cherian</span>'s suggestion to initialize <code>VectorWind</code> but apparently the software doesn't like the grid type (even number of latitude points that includes the poles). I found a related issue: <a href="https://github.com/ajdawson/windspharm/issues/77" target="_blank" title="https://github.com/ajdawson/windspharm/issues/77">https://github.com/ajdawson/windspharm/issues/77</a>. I'd rather not have to regrid/interpolate. I will keep investigating.</p>
 
 
 
 <a name="30569"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30569" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30569">(Apr 29 2021 at 21:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30569" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30569">(Apr 29 2021 at 21:06)</a>:</h4>
 <p>I created an issue on geocat-comp in case anyone else is interested in this: <a href="https://github.com/NCAR/geocat-comp/issues/147" target="_blank" title="https://github.com/NCAR/geocat-comp/issues/147">https://github.com/NCAR/geocat-comp/issues/147</a></p>
 
 
 
 <a name="30570"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30570" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30570">(Apr 29 2021 at 21:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30570" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30570">(Apr 29 2021 at 21:07)</a>:</h4>
 <p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
 
 
 
 <a name="30719"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/gradsf/near/30719" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/gradsf.html#30719">(Apr 30 2021 at 20:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/gradsf/near/30719" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/gradsf.html#30719">(Apr 30 2021 at 20:16)</a>:</h4>
 <p>We are looking at it.</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

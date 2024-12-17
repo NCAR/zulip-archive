@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Is anybody else having issues starting up a JupyterHub session on Casper right now? I'm getting lots of \"pending in queue\" messages, then a timeout error</p>",
+        "id": 63763,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1662753382
+    },
+    {
+        "content": "<p>Yes I'm seeing the same. The jhublogin queue may be maxed out in terms of number of jobs; this is something I have encountered before.  <span class=\"user-group-mention\" data-user-group-id=\"6\">@hpcd</span> may have some insight</p>",
+        "id": 63766,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1662755605
+    },
+    {
+        "content": "<p>We are taking a look now. There are still a couple of free slots but it's constrained and one node is marked offline, so looking into the root cause there. Will update shortly.</p>",
+        "id": 63767,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1662756264
+    },
+    {
+        "content": "<p>New servers do seem to be starting now at least, but the response time is quite slow. Hopefully you will get on eventually with patience, but we are looking into the performance issue.</p>",
+        "id": 63768,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1662758493
+    },
+    {
+        "content": "<p>Thanks Brian, I just got on after patiently resubmitting after each timeout :)<br>\nIf anyone else is having this issue, the commands <code>qstat -Q</code> and <code>qstat jhublogin</code> are helpful for monitoring progress.</p>",
+        "id": 63769,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1662759037
+    },
+    {
+        "content": "<p>The slowness of new servers should be much improved now and hopefully the problem is resolved. Have a good weekend all!</p>",
+        "id": 63789,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1662762380
+    },
+    {
+        "content": "<p>thanks <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>, you're help is much appreciated!</p>",
+        "id": 63790,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1662762441
+    },
+    {
+        "content": "<p>Hi, I seem to be having similar issues getting jupyter hub to load. I tried (1) just using Caper Login and I was put in a queue and then it timed out, (2) requesting a pbs node and that said \"Cluster job running... waiting to connect\" but jupyter never loaded. Is anyone else having these issues at the moment? I was also having this issue yesterday. Any help would be great! Thank you.</p>",
+        "id": 74387,
+        "sender_full_name": "Danielle Touma",
+        "timestamp": 1676497207
+    },
+    {
+        "content": "<p>I'm having this issue again right now, it appears the <code>jhublogin</code> nodes are oversubscribed. 170 users may be the limit?</p>",
+        "id": 76790,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1678911663
+    }
+]

@@ -1,0 +1,518 @@
+[
+    {
+        "content": "<p>Hopefully this topic will eventually be useful for updates on how much of the run is complete and where the output is... but for this first post I'll just complain that every time I submit a job it dies with</p>\n<div class=\"codehilite\"><pre><span></span>-1:MPT: Launch error on r7i0n0.ib0.cheyenne.ucar.edu\n-1:dplace failed. Verify that the numatools module is loaded.\n-1:MPT ERROR: could not run executable.\n-1:     (HPE MPT 2.21  11/28/19 04:22:45)\nMPT: Launch error on r7i1n28.ib0.cheyenne.ucar.edu\n</pre></div>\n\n\n<p>I have a ticket open with CISL (RC-4009), hopefully it's addressed soon. I've verified that an earlier case with the same <code>.env_mach_specific.sh</code> ran before the maintenance window so I don't think it's anything on my end.</p>",
+        "id": 14153,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595085383
+    },
+    {
+        "content": "<p>FYI, I also get the error</p>\n<div class=\"codehilite\"><pre><span></span>dplace failed. Verify that the numatools module is loaded.\nMPT ERROR: could not run executable.\n</pre></div>\n\n\n<p>in a G1850ECO compset with grid=T62_g17 in CESM 2.1.3. So the error is not specific to hi-res or CESM 2.2.</p>",
+        "id": 14154,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595097333
+    },
+    {
+        "content": "<p>Message from Rory Kelly: We have put a fix in place which corrects the issue, at least in our testing. When you get a chance, please confirm that this has fixed the issue for you -- or more importantly if you are still seeing failures.<br>\nTheir fix works for my G1850ECO.T62_g17 compset with CESM 2.1.3.</p>",
+        "id": 14155,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595157213
+    },
+    {
+        "content": "<p>I just started the three-month job and it got through day one. It looks to be going slower than the trial one-month runs I ran earlier, but we made a few changes while the machine was down: turning off <code>iage</code> and <code>cvmix</code> to match Alper's configuration (both of which should speed things up), but also turning tidal mixing on (will be more expensive) and switching from <code>centered</code> to <code>upwind3</code> advection for a few tracers (would this affect computational cost?) Anyway, I'm seeing a 10% - 12% increase in runtime through the first couple days; it should still fit in the walltime I specified, but it'll be closer than I would like. I'll bump up to 11 hour requests for future runs.</p>",
+        "id": 14156,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595221252
+    },
+    {
+        "content": "<p>Caseroot: <code>/glade/work/mlevy/hi-res_BGC_JRA/cases/g.e22.G1850ECO_JRA_HR.init_from_obs</code><br>\nRun dir: <code>/glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.init_from_obs/run</code></p>",
+        "id": 14157,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595221290
+    },
+    {
+        "content": "<p><code>upwind3</code> advection is indeed more expensive than <code>centered</code> advection.<br>\nHave you looked at individual timers in ocn.log files? That would inform if the cost increase is in advection or elsewhere (or across the board).</p>",
+        "id": 14158,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595250482
+    },
+    {
+        "content": "<p>I think these numbers are from the first day (I searched for <code>Timer</code> in the logs and compared the first set of numbers in my current run to one of my one-month timing runs). There was a 40 second increase for the <code>TOTAL</code> timer;  In the old run, <code>ADVECTION_TRACER_CENTERED</code> took 12 seconds compared to 43 for <code>ADVECTION_TRACER</code>, while <code>VMIX_COEFFICIENTS_KPP</code> dropped from 38 seconds to 25. So that's about half of the total increase, and the rest of the increase seems to be spread evenly across the board? The POP &lt;-&gt; MARBL exchanges before <code>interior_tendency_compute()</code> were ~6 seconds slower, MARBL tavg was a couple seconds slower, etc etc</p>",
+        "id": 14159,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595251041
+    },
+    {
+        "content": "<p>Still on pace to squeak in just under the 10 hour limit (and I emailed CISL-help last night to see if they could bump my wallclock limit to 11 hours, just in case...) One interesting result is that I'm not seeing nearly the increase from writing the monthly history files in the new run as I am in the old; the last time step in the one-month run was ~90 seconds longer than the previous ones, while the end-of-Jan and end-of-Feb timesteps in my current run blend in to the noise (~8 seconds longer than average, but other timesteps have taken longer). I haven't written any restarts yet, and I suspect <code>glade</code> is less busy in the middle of the night on a weekend immediately following maintenance, but it would be nice if the machine-room maintenance resulted in glade being more stable and faster to access</p>",
+        "id": 14160,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595251746
+    },
+    {
+        "content": "<p>The first three months finished, but <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>, <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>, and I talked about changing the initial conditions so that the non-WOA tracers are initialized from Kristen's JRA cycles rather than the fully-coupled control. So I've moved the output from my three months to <code>/glade/scratch/mlevy/archive/g.e22.G1850ECO_JRA_HR.init_from_obs.old</code>; I'll keep that around until space becomes an issue</p>",
+        "id": 14176,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595258197
+    },
+    {
+        "content": "<p>Okay, I have two cases built and in the queue:</p>\n<ol>\n<li><code>/glade/work/mlevy/hi-res_BGC_JRA/cases/g.e22.G1850ECO_JRA_HR.init_from_obs</code></li>\n<li><code>/glade/work/mlevy/hi-res_BGC_JRA/cases/g.e22.G1850ECO_JRA_HR.init_from_g.e22b05.G1850ECOIAF_JRA.TL319_g17.cocco.001</code></li>\n</ol>\n<p>They differ only in <code>init_ecosys_init_file</code>, hopefully the case names are reasonable and self-explanatory. After the first three months finish for each of them, I'll comment out the changes to <code>init_ecosys</code> namelist variables and get <code>CONTINUE_RUN</code> / <code>RESUBMIT</code> going</p>",
+        "id": 14213,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595288060
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> both of the runs died very early on (first time step, I think) with MARBL computing a <code>NaN</code> in <code>O2</code> at two locations:</p>\n<p>The <code>init_from_obs</code> run:</p>\n<div class=\"codehilite\"><pre><span></span>6595: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n6595:        2150 ,         328 ,           1 )\n6595: (lon,lat)=(   104.950000000000      ,  -64.6507447068962      )\n...\n6595: O2    350.734008088224                            NaN\n\n6596: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n6596:        2153 ,         329 ,           1 )\n...\n6596: O2    351.148935722389                            NaN\n</pre></div>\n\n\n<p>The <code>init_from_g....</code> run:</p>\n<div class=\"codehilite\"><pre><span></span>6595: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n6595:        2150 ,         328 ,           1 )\n6595: (lon,lat)=(   104.950000000000      ,  -64.6507447068962      )\n...\n6595: O2    379.801607541355                            NaN\n\n6596: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n6596:        2153 ,         329 ,           1 )\n6596: (lon,lat)=(   105.250000000000      ,  -64.6078635918506      )\n...\n6596: O2    379.601718708997                            NaN\n</pre></div>",
+        "id": 14222,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595337154
+    },
+    {
+        "content": "<p>I'll investigate asap.</p>",
+        "id": 14223,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595337271
+    },
+    {
+        "content": "<p>Thanks!</p>",
+        "id": 14224,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595337298
+    },
+    {
+        "content": "<p>The current hypothesis is that we're getting a divide by zero when computing <code>o2_production</code> in <code>compute_local_tendencies</code>. It's a pathological condition where <code>photoC&gt;0</code>, but <code>NO3_V</code> and <code>NH4_V</code> are both zero. Usually if <code>photoC&gt;0</code>, then one of <code>NO3_V</code> or <code>NH4_V</code> is positive. The hypothesis is that this is occurring because <code>photoC</code> is really close to zero (e.g., 10^-300), and <code>NO3_V</code> and <code>NH4_V</code> are both rounding down to 0. The <code>o2_production</code> term is only computed if <code>photoC&gt;0</code>. A proposed fix is to change the condition to <code>NO3_V+NH4_V&gt;0</code>. The code for this proposed fix is:</p>\n<div class=\"codehilite\"><pre><span></span>@@ -3452,6 +3452,7 @@ subroutine compute_local_tendencies(km,\n     !-----------------------------------------------------------------------\n     integer  :: k, auto_ind, zoo_ind, n\n     real(r8) :: auto_sum\n+    real(r8) :: o2_production_denom\n     !-----------------------------------------------------------------------\n\n     associate(                                                            &amp;\n@@ -3691,7 +3692,8 @@ subroutine compute_local_tendencies(km,\n         o2_production(k) = c0\n         do auto_ind = 1, autotroph_cnt\n           if (.not. autotroph_settings(auto_ind)%Nfixer) then\n-            if (photoC(auto_ind,k) &gt; c0) then\n+            o2_production_denom = NO3_V(auto_ind,k) + NH4_V(auto_ind,k)\n+            if (o2_production_denom &gt; c0) then\n               o2_production(k) = o2_production(k) + photoC(auto_ind,k) &amp;\n                                * ((NO3_V(auto_ind,k) / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k))) &amp;\n                                  / parm_Red_D_C_O2 &amp;\n@@ -3699,7 +3701,8 @@ subroutine compute_local_tendencies(km,\n                                  / parm_Remin_D_C_O2)\n             end if\n           else\n-            if (photoC(auto_ind,k) &gt; c0) then\n+            o2_production_denom = NO3_V(auto_ind,k) + NH4_V(auto_ind,k) + Nfix(auto_ind,k)\n+            if (o2_production_denom &gt; c0) then\n               o2_production(k) = o2_production(k) + photoC(auto_ind,k) &amp;\n                                * ((NO3_V(auto_ind,k) / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k) + Nfix(auto_ind,k))) &amp;\n                                   / parm_Red_D_C_O2 &amp;\n</pre></div>\n\n\n<p>I think this should be bit-for-bit up to the point of failure. I have a test run in the queue on cheyenne to test this change. Alas, it has been in the queue for 40+ hours. I've submitted a request to CISL to see if there is something wrong with my job that might be preventing it from running.</p>\n<p>A followup patch, with some optimizations to avoid multiple divisions, is below. This probably introduces roundoff differences. Because of this, I'm not using it in my test run, because I want to verify that the problem is fixed before changing answers.</p>\n<div class=\"codehilite\"><pre><span></span>@@ -3452,6 +3452,7 @@ subroutine compute_local_tendencies(km,\n     !-----------------------------------------------------------------------\n     integer  :: k, auto_ind, zoo_ind, n\n     real(r8) :: auto_sum\n+    real(r8) :: o2_production_denom, o2_production_denom_r\n     !-----------------------------------------------------------------------\n\n     associate(                                                            &amp;\n@@ -3691,22 +3692,21 @@ subroutine compute_local_tendencies(km,\n         o2_production(k) = c0\n         do auto_ind = 1, autotroph_cnt\n           if (.not. autotroph_settings(auto_ind)%Nfixer) then\n-            if (photoC(auto_ind,k) &gt; c0) then\n+            o2_production_denom = NO3_V(auto_ind,k) + NH4_V(auto_ind,k)\n+            if (o2_production_denom &gt; c0) then\n+              o2_production_denom_r = c1 / o2_production_denom\n               o2_production(k) = o2_production(k) + photoC(auto_ind,k) &amp;\n-                               * ((NO3_V(auto_ind,k) / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k))) &amp;\n-                                 / parm_Red_D_C_O2 &amp;\n-                                 + (NH4_V(auto_ind,k) / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k))) &amp;\n-                                 / parm_Remin_D_C_O2)\n+                               * (NO3_V(auto_ind,k) * o2_production_denom_r / parm_Red_D_C_O2 &amp;\n+                                  + NH4_V(auto_ind,k) * o2_production_denom_r / parm_Remin_D_C_O2)\n             end if\n           else\n-            if (photoC(auto_ind,k) &gt; c0) then\n+            o2_production_denom = NO3_V(auto_ind,k) + NH4_V(auto_ind,k) + Nfix(auto_ind,k)\n+            if (o2_production_denom &gt; c0) then\n+              o2_production_denom_r = c1 / o2_production_denom\n               o2_production(k) = o2_production(k) + photoC(auto_ind,k) &amp;\n-                               * ((NO3_V(auto_ind,k) / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k) + Nfix(auto_ind,k))) &amp;\n-                                  / parm_Red_D_C_O2 &amp;\n-                                  + (NH4_V(auto_ind,k) / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k) + Nfix(auto_ind,k))) &amp;\n-                                  / parm_Remin_D_C_O2 &amp;\n-                                  + (Nfix(auto_ind,k)  / (NO3_V(auto_ind,k) + NH4_V(auto_ind,k) + Nfix(auto_ind,k))) &amp;\n-                                  / parm_Red_D_C_O2_diaz)\n+                               * (NO3_V(auto_ind,k) * o2_production_denom_r / parm_Red_D_C_O2 &amp;\n+                                  + NH4_V(auto_ind,k) * o2_production_denom_r / parm_Remin_D_C_O2 &amp;\n+                                  + Nfix(auto_ind,k) * o2_production_denom_r / parm_Red_D_C_O2_diaz)\n             end if\n           end if\n         end do\n</pre></div>",
+        "id": 14474,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595521580
+    },
+    {
+        "content": "<p>Thanks Keith!! I hope the run goes...</p>",
+        "id": 14475,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1595521757
+    },
+    {
+        "content": "<p>Thanks, Keith! I'll wait for you to verify this fixed the issue in your job before launching any runs of my own, but I'll start putting together a sandbox so that I can get things going right away if this patch does the trick for you</p>",
+        "id": 14476,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595522203
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> do you have a history file from the the timestep before POP aborts? Would it be useful if I tried to pull the columns that result in errors out and create something the stand-alone single column test could use? I think the only two possible hang-ups would be (1) updated my notebook to support the <code>cocco</code> tracers (which should be easy) and (2) updating my notebook to account for tracers that were only written to 150m instead of full depth (not as easy, but doable). Actually, the real challenge will probably be either updating the notebook to account for a year+ of development in the various python packages or figuring out what versions of <code>xarray</code> and <code>numpy</code> I was running back then</p>",
+        "id": 14503,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595542030
+    },
+    {
+        "content": "<p>My hope would be that I could</p>\n<ol>\n<li>Verify that <code>O2</code> tendency is <code>nan</code> when running on the <code>development</code> branch, and then</li>\n<li>Verify that the tendency is not <code>nan</code> with your proposed fix</li>\n</ol>",
+        "id": 14504,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595542094
+    },
+    {
+        "content": "<p>CISL gave me a reservation and I'm doing multiple test runs right now.<br>\nI backed out my fix and confirmed 1, that <code>O2_PRODUCTION</code> is NaN at these points.<br>\n<code>photoC_cocco=2.551-307</code>, and <code>photoNH4_cocco=photoNO3_cocco=0.0</code>.<br>\nPer <a href=\"https://en.wikipedia.org/wiki/IEEE_754-1985\" target=\"_blank\" title=\"https://en.wikipedia.org/wiki/IEEE_754-1985\">wikipedia</a>, the smallest positive non-normalized r8 is <code>2.23E-308</code>.<br>\nThis is all consistent with the hypothesis for the cause of the NaN.<br>\nThe run with my fix goes past the point of failure. I'm now checking to see if results changed.</p>",
+        "id": 14510,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595542793
+    },
+    {
+        "content": "<p>sounds good, I won't try to dust off that old notebook. Thanks for the update!</p>",
+        "id": 14511,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595542944
+    },
+    {
+        "content": "<p>Good news. patch1 solves the problem and doesn't change answers up to the abort<br>\nI'm checking patch2 now.</p>",
+        "id": 14516,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595544341
+    },
+    {
+        "content": "<p>The model runs past the previous crash with patch2.<br>\nThe version of the mods does indeed introduce roundoff level changes.<br>\nI ran with and without patch2 in an x1 test case and the difference in the interior_tendency_compute timer was &lt;1%.<br>\nSo for simplicity, I suggest going with patch1 and moving forward with the run.<br>\n<span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, please proceed with the runs with patch1.<br>\nIt looks like you put patch1 in $SRCROOT.<br>\nHowever, you already have a modified version of <code>marbl_interior_tendency_mod.F90</code> in SourceMods/src.pop (for reducing volume of DOP_loss_P_bal warnings). So I think you'll need to recreate that SourceMods file and rebuild.</p>",
+        "id": 14520,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1595546761
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> I agree with keeping the bit-for-bit patch given how small the performance improvement from changing answers is, so I'll update my SourceMods file and then get my two cases built. Once my jobs are in the queue, I'll put together a pull request based on what's in my source root.</p>",
+        "id": 14521,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1595546993
+    },
+    {
+        "content": "<p>Great work Keith!</p>",
+        "id": 14528,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1595594979
+    },
+    {
+        "content": "<p>An update on the run status -- it looks like the issues we were having in the first two runs were due to CFL violations, so we've cut our time step. We are now doing 17 100s steps and 2 50s steps per 30 minute coupling interval:</p>\n<div class=\"codehilite\"><pre><span></span>     Step     Full/        Time in\n     Number   Half         Seconds\n\n      1        F      100.000000000000000\n      2        H      150.000000000000000\n      3        F      250.000000000000000\n      4        F      350.000000000000000\n      5        F      450.000000000000000\n      6        F      550.000000000000000\n      7        F      650.000000000000000\n      8        F      750.000000000000000\n      9        F      850.000000000000000\n     10        F      950.000000000000000\n     11        F     1050.000000000000000\n     12        F     1150.000000000000000\n     13        F     1250.000000000000000\n     14        F     1350.000000000000000\n     15        F     1450.000000000000000\n     16        F     1550.000000000000000\n     17        H     1600.000000000000000\n     18        F     1700.000000000000000\n     19        F     1800.000000000000000 &lt;-- LAST STEP in coupling interval   1\n                                           hour, min, sec at end of interval =    0  30   0\n</pre></div>\n\n\n<p>This compares to the previous setup of 10 171.4s steps and one 85.7s step:</p>\n<div class=\"codehilite\"><pre><span></span>      1        F      171.428571428571416\n      2        H      257.142857142857110\n      3        F      428.571428571428555\n      4        F      600.000000000000000\n      5        F      771.428571428571445\n      6        F      942.857142857142890\n      7        F     1114.285714285714221\n      8        F     1285.714285714285552\n      9        F     1457.142857142856883\n     10        F     1628.571428571428214\n     11        F     1799.999999999999545 &lt;-- LAST STEP in coupling interval   1\n                                           hour, min, sec at end of interval =    0  30   0\n</pre></div>\n\n\n<p>(I started wondering about the ideal location for the second half-step, and it made me think that maybe we should be doing 18 97.3s steps and 1 48.6s step instead, but I'm sure this scheme is fine).</p>\n<p>The downside to this is that it really slows things down -- there's a chance that a 2-month run could fit in a 12 hour window, but to be safe I'm doing 1 month at a time and requesting 7 hours per run.</p>\n<p>I built two new cases from scratch for this:</p>\n<ol>\n<li><code>/glade/work/mlevy/hi-res_BGC_JRA/cases/g.e22.G1850ECO_JRA_HR.TL319_t13.003</code> -- initialized from combination of WOA and Kristen's runs</li>\n<li><code>/glade/work/mlevy/hi-res_BGC_JRA/cases/g.e22.G1850ECO_JRA_HR.TL319_t13.004</code> -- initialized from Kristen's runs</li>\n</ol>",
+        "id": 14738,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1596062703
+    },
+    {
+        "content": "<p>FYI, I now see that previous hi-res BGC runs of <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  had <code>dt ~ 112 s</code>, which isn't tremendously different our new <code>dt = 100 s</code>. An example CASEROOT is <code>/glade/p/cgd/oce/people/mclong/hi-res-eco/g.e11.G.T62_t12.eco.004</code>.</p>\n<p>Caveats are that his runs were forced with CORE normal year and had <code>OCN_NCPL=4</code>,  so it's definitely not an apples to apples comparison with these hi-res JRA runs.</p>\n<p>I don't know how he came to that <code>dt</code> value, if he inherited it from previous CORE NY hi-res cases, or if it was necessary because of the addition of BGC tracers.</p>",
+        "id": 14741,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1596116333
+    },
+    {
+        "content": "<p>I thought it would be useful to compare time-series of HMXL at one of the grid cells reporting errors (when <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> and I chatted yesterday, that was one of the variables in the daily stream that was showing significant noise where the co2calc routine was failing).</p>\n<p><a href=\"/user_uploads/2/7a/6uqu5Vly6SjkvWSPe9N6rD8Y/HMXL-compare.png\" target=\"_blank\" title=\"HMXL-compare.png\">HMXL-compare.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/7a/6uqu5Vly6SjkvWSPe9N6rD8Y/HMXL-compare.png\" target=\"_blank\" title=\"HMXL-compare.png\"><img src=\"/user_uploads/2/7a/6uqu5Vly6SjkvWSPe9N6rD8Y/HMXL-compare.png\"></a></div><p>I don't really see a signal in 001 or 002 until late March / early April, so I'll update this plot tomorrow (if things stay on schedule, both runs should be done with February and March in less than 24 hours, and 003 will be through April right around the end of the day)</p>",
+        "id": 14763,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1596125034
+    },
+    {
+        "content": "<p>The notebook that generated the plot above is <a href=\"https://github.com/mnlevy1981/MARBL-notebooks/blob/master/hi-res%20comparisons.ipynb\" target=\"_blank\" title=\"https://github.com/mnlevy1981/MARBL-notebooks/blob/master/hi-res%20comparisons.ipynb\">https://github.com/mnlevy1981/MARBL-notebooks/blob/master/hi-res%20comparisons.ipynb</a></p>\n<p>Besides the panel plot, it also creates a plot with all four lines on the same axes. Both runs have completed two months and <code>003</code> is about 1/3 of the way through March, so we're a run ahead of where I thought we were this morning -- <code>003</code> was through two months and <code>004</code> was just starting its second month.</p>\n<p>So far every job has finished in under 6 hours, so it may be worth considering trying for 2 months at a time in a 12 hour wallclock... though the July-August (or December-January) runs with two 31-day months could cut it pretty close if there's a glade hiccup. A better solution might be to look at higher-throughput PE layouts if things remain stable? We went with the 232-node layout because the 431-node jobs were getting stuck in the queue, but then the 232-node jobs also starting getting stuck. Rough math based on the performance spreadsheet, I think we'd be on the cusp of squeezing 4 months into a 12 hour wallclock but would probably want 3 months in a 10 hour request to play it safe.</p>",
+        "id": 14788,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1596151240
+    },
+    {
+        "content": "<p><code>003</code> has run past the April day where <code>001</code> crashed, but there's still a lot of noise in the mix layer depth at this point:</p>\n<p><a href=\"/user_uploads/2/70/nWeXKbfl6tKQfn2MLeZ7p9OB/HMXL-update.png\" target=\"_blank\" title=\"HMXL-update.png\">HMXL-update.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/70/nWeXKbfl6tKQfn2MLeZ7p9OB/HMXL-update.png\" target=\"_blank\" title=\"HMXL-update.png\"><img src=\"/user_uploads/2/70/nWeXKbfl6tKQfn2MLeZ7p9OB/HMXL-update.png\"></a></div><p>CFL criteria looks okay, though:</p>\n<div class=\"codehilite\"><pre><span></span> Global Time Averages: 04-24-0001 00:00:00\n max. cfl number for vertical advection       :   2.9769E-01      899  144   21\n Global Time Averages: 04-25-0001 00:00:00\n max. cfl number for vertical advection       :   2.2005E-01      899  143   19\n Global Time Averages: 04-26-0001 00:00:00\n max. cfl number for vertical advection       :   1.9214E-01      903  144   20\n Global Time Averages: 04-27-0001 00:00:00\n max. cfl number for vertical advection       :   1.8842E-01      904  145   18\n Global Time Averages: 04-28-0001 00:00:00\n max. cfl number for vertical advection       :   1.9116E-01      901  144   19\n</pre></div>",
+        "id": 14789,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1596202960
+    },
+    {
+        "content": "<p>Additional (good) info is that <code>003</code> has now finished the month of <code>0001-04</code> and there were no <code>marbl_co2calc_mod</code> warnings. So whatever is causing the <code>HMXL</code> noise is not tripping up the carbonate solver, as happened in <code>001</code>.</p>",
+        "id": 14790,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1596205385
+    },
+    {
+        "content": "<p>Something caused <code>003</code> st_archive job 3429790 to stop before completing. It's not clear to me what the problem was. A consequence is that the follow up run job was not submitted. So <code>003</code> needs to be resubmitted manually.</p>",
+        "id": 14811,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1596287923
+    },
+    {
+        "content": "<p>A few small updates:</p>\n<ol>\n<li>There's a year of each run in the archive</li>\n<li>I've updated the PE layout for <code>003</code> to use 14666 tasks for the ocean -- I also updated <code>STOP_N</code> and <code>JOB_WALLCLOCK_TIME</code>; the first pass will be 3 months in a 12 hour window, but I suspect I'll be able to drop the wallclock to 10 or 11 hours (expecting something in the neighborhood of 0.6 SYPD, so 4 months in 12 hours is likely out of the question)</li>\n</ol>",
+        "id": 15663,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1597556037
+    },
+    {
+        "content": "<p><code>004</code> should finish up around 2:30a, and I just noticed that <code>RESUBMIT</code> is 0; I changed it to 1, so in the morning (or some point tomorrow) I can check to see if changing that value while the case is running does anything... if not, I'll update the task count and submit it with the same 3 month / 12 hour wallclock as <code>003</code></p>",
+        "id": 15664,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1597556250
+    },
+    {
+        "content": "<blockquote>\n<p><code>004</code> should finish up around 2:30a, and I just noticed that <code>RESUBMIT</code> is 0; I changed it to 1, so in the morning (or some point tomorrow) I can check to see if changing that value while the case is running does anything...</p>\n</blockquote>\n<p>This worked, so there's one more month of <code>004</code> in the queue; I'll update the pe layout after it runs</p>",
+        "id": 15665,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1597590984
+    },
+    {
+        "content": "<p>I've increased <code>NTASKS_OCN</code> from 7507 to 14666; I had originally increased <code>STOP_N</code> and <code>JOB_WALLCLOCK_TIME</code> to target 3 months in a 10 hour window but it was only taking 8ish hours to complete so I've bumped up to 4 months in a 12 hour window. The first month with the new pe layout was January 0002 for <code>003</code> and March 0002 for <code>004</code>. I moved some jobs to the <code>premium</code> queue but didn't see much improvement in queue wait time, so I've dropped back to <code>regular</code>. In perhaps the best turn-around time I've seen yet, an <code>004</code> run that was submitted to the queue around midnight was running at 3:30a. I actually had two jobs running simultaneously for a bit last night; an <code>003</code> job finished around 2:45a but the next <code>003</code> job is still waiting in the queue.</p>\n<p><code>003</code> has run through September 0002, and the section of the run covering 10-0002 through 01-0003 is in the queue. <code>004</code> has run through August 0002, and the section of the run covering 09-0002 through 12-0002 is running as we speak -- we're a few days into November, so I think we'll barely squeak in under the 12 hour limit. (The <code>003</code> run will really test the wisdom of pushing for 4 months, since it spans 123 model days which is the max for any four consecutive months; the <code>004</code> run is \"only\" 122 days.)</p>",
+        "id": 16245,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1598542558
+    },
+    {
+        "content": "<p>How's it going with the reservation?</p>",
+        "id": 16314,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1598613579
+    },
+    {
+        "content": "<p>So far, so good - I ran 4 months of <code>004</code> in ~11.5 hours, and now <code>003</code> has been running for over 2.5 hours and is almost a month in. I think I have <code>RESUBMIT</code> configured so that the last job will be submitted at 5p Sunday, though I should verify with Mick that \"midnight on Monday\" is 12:00a Monday and not 12:00a Tuesday. I'll monitor my email for failures over the weekend, but the nice thing about alternating between the two jobs is that if one crashes the other one can make use of the reservation while we track down the issue so the nodes aren't sitting idle.</p>",
+        "id": 16322,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1598635989
+    },
+    {
+        "content": "<p>oh, that \"2.5 hours ago\" update was from 10:00 when I started typing that response... we're now four hours in and about 1/2 through November.</p>",
+        "id": 16323,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1598636054
+    },
+    {
+        "content": "<p>great</p>",
+        "id": 16328,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1598636309
+    },
+    {
+        "content": "<p>FYI, the command <code>pbs_rstat</code> shows information about reservations in PBS. When I run it, I get the output</p>\n<div class=\"codehilite\"><pre><span></span>Resv ID    Queue    User     State             Start / Duration / End\n---------------------------------------------------------------------\nR3853685.c R3853685 csgteam@ RN            Thu 20:00 / 359940 / Mon Aug 31 23:59\n</pre></div>\n\n\n<p>So it looks like your reservation runs through Monday.</p>",
+        "id": 16377,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1598737567
+    },
+    {
+        "content": "<p>Thanks Keith, that's a super helpful command! <code>003</code> is 7 months behind <code>004</code> (the former is through Sept 0003, the latter is through April 004) so I'll finish out the reservation by running 8 months of <code>003</code> to get the two runs to roughly the same spot.</p>",
+        "id": 16382,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1598879584
+    },
+    {
+        "content": "<p><code>004</code> crashed ~15 days into a run this morning. Looking at <code>/glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.004/run/cesm.log.3984065.chadmin1.ib0.cheyenne.ucar.edu.200908-020400</code> I think it might've been a machine error, so I've resubmitted the job:</p>\n<div class=\"codehilite\"><pre><span></span>12057:MPT ERROR: Assertion failed at ibdev_multirail.c:4331: &quot;0 &lt;= chan-&gt;queued&quot;\n12057:MPT ERROR: Rank 12057(g:12057) is aborting with error code 0.\n...\n12057:MPT: #15 PMPI_Waitall (count=8, array_of_requests=&lt;optimized out&gt;,\n12057:MPT:     array_of_statuses=0x2b467dd4ba00) at waitall.c:80\n12057:MPT: #16 0x00002b1db84f44dd in pmpi_waitall__ ()\n12057:MPT:    from /glade/u/apps/ch/opt/mpt/2.21/lib/libmpi.so\n12057:MPT: #17 0x000000000086114f in pop_halomod_mp_pop_haloupdate2dr8_ ()\n12057:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.004/bld/ocn/source/POP_HaloMod.F90:1923\n</pre></div>\n\n\n<p>It looks like it's getting hung up in the broadcast step of a halo update, and there's nothing in the ocean or ice logs to indicate a problem.</p>",
+        "id": 16918,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1599573708
+    },
+    {
+        "content": "<p>The run that crashed on September 8th ran successfully over the weekend so it does appear to have been a machine glitch. Now jobs are failing because <code>/glade/scratch</code> is full (not my scratch space, but the entire disk):</p>\n<div class=\"codehilite\"><pre><span></span>$ gladequota\nCurrent GLADE space usage: mlevy\n\n  Space                                      Used       Quota    % Full      # Files\n--------------------------------------- ----------- ----------- --------- -----------\n/glade/scratch/mlevy                       49.98 TB    60.00 TB   83.31 %      282493\n...\n/glade/scratch  - 100.0% used ( 15 TB used out of  15 TB total)\n</pre></div>\n\n\n<p>I assume <code>15 TB</code> should really be <code>15 PB</code> in that message. I'll submit an issue ticket to CISL, hopefully they can send out a system-wide nagging email to get folks to clean up old files</p>",
+        "id": 17417,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1600290171
+    },
+    {
+        "content": "<p>Somebody noticed :)</p>\n<div class=\"codehilite\"><pre><span></span>/glade/scratch  - 79.2% used (11887 TB used out of 15000 TB total)\n</pre></div>",
+        "id": 17418,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1600290526
+    },
+    {
+        "content": "<p>The jobs are sitting in the queue for 3 1/2 to 4 days. I propose that we use the premium queue. It sounds like there's an (unknown) upper limit on how many core-hours can carry over after the allocation period, so we may as well use them paying for premium, instead of leaving them on the table.</p>",
+        "id": 17698,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1600789270
+    },
+    {
+        "content": "<p>Good call - I've updated <code>JOB_QUEUE</code> in the case directory, so the next job will be submitted to premium; I can cancel / resubmit the current job but it's already been in the queue for 18 hours so my preference is to let it run from <code>regular</code> (I've used <code>qalter</code> in the past to change queues of an active job, but then CISL asked me not to do that anymore)</p>",
+        "id": 17699,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1600790014
+    },
+    {
+        "content": "<p>I suggest cancelling and resubmitting the current job. Otherwise we'll wait for 3+ days for this change to kick in.</p>",
+        "id": 17700,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1600790547
+    },
+    {
+        "content": "<p>done. I also just noticed that I am running low on scratch space, so I've removed the <code>003</code> time series (which have already been copied to campaign) and I will start converting <code>004</code> to get that output onto campaign as well. We need to update the diagnostics API to read the time series files, because there's still 16 TB of history files from <code>003</code> sitting in the short-term archive that I'd like to get rid of</p>",
+        "id": 17701,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1600790906
+    },
+    {
+        "content": "<p>First five years of <code>004</code> are on campaign (in time-series format); I'm going to take a break from the MOM driver and work on the API for reading these files for the next day or two</p>",
+        "id": 17944,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1600967232
+    },
+    {
+        "content": "<p><code>/glade/campaign/cesm/development/bgcwg/projects/hi-res_JRA/cases/g.e22.G1850ECO_JRA_HR.TL319_t13.004</code></p>",
+        "id": 17945,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1600967249
+    },
+    {
+        "content": "<p>Perhaps you can touch base with <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>; I think <code>intake-esm</code> should be able to help here.</p>",
+        "id": 17948,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1600967751
+    },
+    {
+        "content": "<p>In my sandbox, I've added a <code>**kwargs</code> argument to <code>CaseClass._open_history_files</code> that gets passed through to <code>open_mfdataset</code>. I'm using this to specify chunk sizes when I open the dataset. I think having a <code>**kwargs</code> argument in our new API would be useful for use cases like this.</p>",
+        "id": 17951,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1600968083
+    },
+    {
+        "content": "<p>It looks like the current run of <code>004</code> stalled about 4 hours ago:</p>\n<div class=\"codehilite\"><pre><span></span>$ tail -f cpl.log.4336094.chadmin1.ib0.cheyenne.ucar.edu.200930-221247 | grep tStamp\n tStamp_write: model date =   00070319       0 wall clock = 2020-10-01 05:30:20 avg dt =   339.77 dt =   339.32\n tStamp_write: model date =   00070320       0 wall clock = 2020-10-01 05:35:59 avg dt =   339.76 dt =   338.81\n tStamp_write: model date =   00070321       0 wall clock = 2020-10-01 05:41:38 avg dt =   339.75 dt =   338.89\n tStamp_write: model date =   00070322       0 wall clock = 2020-10-01 05:47:17 avg dt =   339.74 dt =   339.10\n tStamp_write: model date =   00070323       0 wall clock = 2020-10-01 05:52:56 avg dt =   339.73 dt =   338.91\n</pre></div>\n\n\n<p>I didn't see anything in the <code>ocn.log</code> or <code>cesm.log</code> that indicates a problem, so I'm tempted to just restart the run (there should be restarts from the beginning of March 0007).</p>",
+        "id": 18473,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1601568578
+    },
+    {
+        "content": "<p>I also don't see a smoking gun. Restarting from <code>0007-03-01</code> makes sense to me.</p>",
+        "id": 18480,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1601569528
+    },
+    {
+        "content": "<p>It looks like the submission that would have run 0008-04-01 to 0008-08-01 stalled around 11:13 PM last night (3-Oct-2020) at model date 0008-05-09. The job, jobid=4482573, was killed at 7:32 AM this morning, 4-Oct-2020, when it hit its 12-hour wallclock limit. I don't see anything in the logs indicated why it stalled.</p>\n<p>I suggest restarting using the latest restart files, at 0008-05-01, and initially running for 3 months so that we get back to restarting on the 1st of Apr, Aug, Dec.</p>",
+        "id": 18716,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1601821994
+    },
+    {
+        "content": "<p>I just saw the email about this failure and have restarted the job; I didn't change <code>STOP_N</code>, but will change it for the next job that gets submitted... so ~8:30p or 9p tonight, we'll have 3 more months run in the reservation and then that job will submit a 4-month continuation back into <code>premium</code></p>",
+        "id": 18717,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1601823467
+    },
+    {
+        "content": "<p>I guess we'll find out if a machine issue is the cause of these intermittent failures since the reservation should put this new job on the exact same group of nodes as the job that failed.</p>",
+        "id": 18718,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1601823556
+    },
+    {
+        "content": "<p>Another job died about an hour ago</p>\n<div class=\"codehilite\"><pre><span></span>3317:MPT ERROR: rank:3317, function:MPI_WAITALL, Message truncated on receive: An application bug caused the sender to send too much data\n3317:MPT ERROR: Rank 3317(g:3317) is aborting with error code 0.\n</pre></div>\n\n\n<p>This is a little different than the other error messages we've seen <code>MPI_WAITALL</code> throw, but hopefully it's not reproducible... we should know in about 2 1/2 hours when we get back to where the run crashed (26 days into April, so pretty far from the last restart)</p>",
+        "id": 19242,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1602338107
+    },
+    {
+        "content": "<p>It looks like the run stalled around 5:10 AM this morning, 11 Oct 2020, at model date 0009-11-07.</p>",
+        "id": 19244,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1602427155
+    },
+    {
+        "content": "<p>Just saw this, I’ll have a chance to restart the run in 10 or 15 minutes</p>",
+        "id": 19245,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1602436372
+    },
+    {
+        "content": "<p>I was hoping our run would get through August 0009, but we ran into some issues and ended up not quite finishing May of that year. I think the big take-away is that I need to figure out how to get notifications from this topic on my phone -- had I noticed Keith's message earlier yesterday morning, we definitely would have gotten through May and possibly also June. Still, 17 months is decent progress for a run that isn't getting through the queue otherwise.</p>",
+        "id": 19248,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1602511889
+    },
+    {
+        "content": "<p>Also, time series for 0007 and 0008 are available on <code>/glade/campaign</code></p>",
+        "id": 19249,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1602512141
+    },
+    {
+        "content": "<p>There are a couple of zulip apps for the iPhone, Zulip and ZulipReader. I don't have personal experience with either.</p>\n<p>I get email notifications from zulip for certain categories of messages that arrive when I am 'away'. I think this is configurable via settings/notifications.</p>\n<p>That said, I'd be happy to send you messages via email if that medium is more reliable for getting to you.</p>",
+        "id": 19252,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1602521368
+    },
+    {
+        "content": "<p>I have the phone app, and had it configured to notify me when I get mentioned... but I just figured out how to get notifications for messages in this stream even if I’m not mentioned so moving forward I’m good. Yesterday morning was a perfect storm of Anna needing to catch up on her work and me not realizing the run had stalled, but I think in the future I’ll catch problems like that much faster.</p>",
+        "id": 19255,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1602522007
+    },
+    {
+        "content": "<p>It looks like a job started up yesterday, 14 Oct, right after cheyenne was returned to service. Unfortunately, the job died in PIO, setting up to read a field from the nyear1 tavg restart file. Fingers crossed that this doesn't occur again.</p>",
+        "id": 19474,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1602788610
+    },
+    {
+        "content": "<p>Yeah, I debated letting CISL know about that job dying but didn't end up notifying them -- I just re-submitted the job. I think that job died before the official \"we have returned cheyenne to service\" email, so I thought there was a chance that someone inadvertently unlocked the queue a little too soon or just did something out of order</p>",
+        "id": 19484,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1602789756
+    },
+    {
+        "content": "<p>Year 0015 is wrapping up. <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>: yesterday we were talking about the cost of running the model; it's right around 550k core-hours per year so we have roughly 10 years left in <code>UGIT0016</code> (if I can run it dry)</p>",
+        "id": 20941,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1604531973
+    },
+    {
+        "content": "<p>This latest batch job was in the queue for less than a day. Can we seeing if a job in the economy queue runs?</p>",
+        "id": 20942,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1604532377
+    },
+    {
+        "content": "<p>The next one should be in <code>economy</code>, that's a good thought. I was thinking the bulk of our runs will still be the weekend  reservation, but we may only have two or three weekends of that left (three weekends = 5 sim years at full price = 2.8 million hours)</p>",
+        "id": 20943,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1604532560
+    },
+    {
+        "content": "<p>The batch job submitted to the economy queue started running a short time ago. Look at all of the core-hours that we're saving! :)</p>",
+        "id": 20972,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1604581209
+    },
+    {
+        "content": "<p>The batch job now running in the economy queue waited in the queue for ~13 hours. So system wait is much lower than recent weeks, when we waited for days in the regular queue. A natural question is: Should we use the weekend reservation at full cost and guaranteed throughput (except for system glitches), or go with reduced cost and throughput by using the economy queue? I'm inclined to go with the latter, because of the reduced cost. What do others think?</p>",
+        "id": 20973,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1604583249
+    },
+    {
+        "content": "<p>The latter seems fine to me, but we need to communicate with CISL.</p>",
+        "id": 20974,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1604588915
+    },
+    {
+        "content": "<p>I'll email Mick and ask to skip the reservation this weekend; if throughput seems reasonable next week as well, we can cancel the whole thing</p>",
+        "id": 20975,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1604589654
+    },
+    {
+        "content": "<p>Meanwhile, I'll look to see where we are in the run and switch back to 4 months when appropriate. I think the current run is ending in March 0016, which would be great for getting back to starting runs in April, August, and December</p>",
+        "id": 20976,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1604589716
+    },
+    {
+        "content": "<p>Ugh, I got bitten by <a href=\"https://github.com/ESMCI/cime/issues/3338\" target=\"_blank\" title=\"https://github.com/ESMCI/cime/issues/3338\">https://github.com/ESMCI/cime/issues/3338</a> -- Despite mentioning it at 8:30 yesterday morning, I forgot to update <code>STOP_N</code> until a little after 2:30p, at which time the short term archiver was running. It looks like the archiver reset <code>STOP_N=3</code>, so this most recent run ended after June instead of July. I'll do three more 3-month runs and then switch back to four months when we're at a point to avoid 123-day runs.</p>",
+        "id": 21090,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1604690892
+    },
+    {
+        "content": "<p>I have a 100 TB quota in my scratch space, and am using almost 94 TB of it... so I think it's time to start removing old output. I was going to start by removing <code>/glade/scratch/mlevy/archive/g.e22.G1850ECO_JRA_HR.TL319_t13.003</code> -- it's taking up 16 TB, and all the data has been copied to <code>/glade/campaign/cesm/development/bgcwg/projects/hi-res_JRA/cases/g.e22.G1850ECO_JRA_HR.TL319_t13.003</code>. Does that sound reasonable? \"All the data\" refers to</p>\n<ol>\n<li>\n<p>4 years of [daily, monthly, and annual] POP and [daily<code>*</code> and monthly] CICE history files (which have been converted to time series)<br>\n<code>*</code> We started providing daily CICE output in the middle of year 0001, but the first time series files are for 0002</p>\n</li>\n<li>\n<p>log files from every run</p>\n</li>\n<li>All the <code>pop.d</code> files</li>\n<li>Restart files to let us start a run from Jan 0002, Feb 0003, Feb 0004, or Jan 0005</li>\n</ol>\n<p>There's another ~3 TB of data between the 001 and 002 runs (when our time step was too large and the runs died in late April / early May of 0001). I have not copied any of that output to campaign, should I? It's currently only being used by my <code>Sanity Check.ipynb</code> because 001 is a good example of combining output from two different CESM cases (I had fixed a typo in the case name by branching a few months in to the run).</p>",
+        "id": 21380,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1605201201
+    },
+    {
+        "content": "<p>Deleting <code>003</code> output in <code>DOUT_S_ROOT</code> sounds reasonable to me.</p>\n<p>I can't come up with a compelling reason to hold on the output from <code>001</code> and <code>002</code>.  That said, it looks like you could remove everything except for the log files and the <code>pop.h.nday1</code> files and the notebooks would continue to work. That would free up most of the space, because you're removing the monthly <code>pop.h</code> files and the restart files.</p>",
+        "id": 21382,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1605204977
+    },
+    {
+        "content": "<p>The Aug - Nov run from yesterday died (on Nov 30th... so close!); there's a two month job running now (to get a January 1 restart file). I'll follow it with a three month run to get back to the April / August / December starting months... the machine had been fairly stable and we were consistently running in the 340 - 345 sec / sim-day range but this run had several periods creeping into the 350 - 380 second range, then had a single long day</p>\n<div class=\"codehilite\"><pre><span></span> tStamp_write: model date =   00181015       0 wall clock = 2020-11-18 11:46:46 avg dt =   351.42 dt =   473.21\n</pre></div>\n\n\n<p>Then this happened:</p>\n<div class=\"codehilite\"><pre><span></span> tStamp_write: model date =   00181106       0 wall clock = 2020-11-18 13:56:51 avg dt =   352.18 dt =   407.67\n tStamp_write: model date =   00181107       0 wall clock = 2020-11-18 14:03:44 avg dt =   352.81 dt =   413.08\n tStamp_write: model date =   00181108       0 wall clock = 2020-11-18 14:10:35 avg dt =   353.40 dt =   411.15\n tStamp_write: model date =   00181109       0 wall clock = 2020-11-18 14:17:23 avg dt =   353.94 dt =   407.54\n tStamp_write: model date =   00181110       0 wall clock = 2020-11-18 14:24:19 avg dt =   354.55 dt =   416.35\n tStamp_write: model date =   00181111       0 wall clock = 2020-11-18 14:31:12 avg dt =   355.13 dt =   412.83\n tStamp_write: model date =   00181112       0 wall clock = 2020-11-18 14:37:44 avg dt =   355.48 dt =   391.77\n tStamp_write: model date =   00181113       0 wall clock = 2020-11-18 14:44:09 avg dt =   355.76 dt =   384.91\n tStamp_write: model date =   00181114       0 wall clock = 2020-11-18 14:50:39 avg dt =   356.10 dt =   390.82\n</pre></div>\n\n\n<p>I think for now we should treat this as an abnormality, but if we see more runs dying in the final days of the fourth month I propose running 3-month segments.</p>",
+        "id": 21757,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1605800192
+    },
+    {
+        "content": "<p>I was running into all sorts of machine issues over the weekend, but was able to get the run through year 30 (last job hung in the middle of Feb 0031). I've burned through the rest of the allocation, though, and <code>UGIT0016</code> is at -400k core-hours, so runs are on hold for now. I'm converted 0030 to time series and will get that onto campaign, then I guess this project will be on hold until I get my hands on more core hours?</p>",
+        "id": 23003,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1607962378
+    },
+    {
+        "content": "<p>oops, accidentally posted about the <code>no_pinatubo</code> run here instead of <a class=\"stream\" data-stream-id=\"36\" href=\"/#narrow/stream/36-pinatubo-LE\">#pinatubo-LE</a> ... sorry! (deleted the message, will paste it in appropriate channel)</p>",
+        "id": 23843,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610476437
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, so we now have 2M hours in UGIT0016 and can resume the integration. I think you should run in economy.</p>",
+        "id": 23894,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1610565344
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> awesome! I need to clean up some scratch space by moving some of the Pinatubo runs to campaign, but I'll restart this run tonight or tomorrow. In <code>economy</code>, we should be able to get five more years including the last two years of the CO2 pulse (I'll drop back to 284.317 at the beginning on 0033)</p>",
+        "id": 23899,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610570124
+    },
+    {
+        "content": "<p>I probably should've heeded the warnings from CISL about the machine misbehaving yesterday; last night I wasted ~130k cpu-hours because I submitted the job at 6:45p, verified that it got past initialization, and then got an email at 6:45a telling me it had been killed for exceeding wallclock... looking in the log, it hung in the first day of computation. I've resubmitted and have verified that it's actually moving forward in time (for now, at least)</p>",
+        "id": 23912,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610635302
+    },
+    {
+        "content": "<p>bummer!</p>",
+        "id": 23917,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1610638381
+    },
+    {
+        "content": "<p>I checked the new run's status after this morning's CISL message about the cheyenne cooling system, and that run had died but the job hadn't been killed... so I ran <code>qdel</code> but it looks like another 15k cpu-hours spent without any results. I'm going to wait for another all-clear message from CISL before trying to launch the job again. Also, I'll send an email to cisl-help once the charges post SAM to see about getting a refund because I've used almost 10% of the 2 million hours they gave us and have nothing to show for it</p>",
+        "id": 23918,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1610638407
+    },
+    {
+        "content": "<p>yes, 0.13M hours is significant!</p>",
+        "id": 23919,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1610638475
+    }
+]

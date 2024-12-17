@@ -1,0 +1,41 @@
+<html>
+<head><meta charset="utf-8"><title>git version on Casper vs. Cheyenne vs. Derecho · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/git.20version.20on.20Casper.20vs.2E.20Cheyenne.20vs.2E.20Derecho.html">git version on Casper vs. Cheyenne vs. Derecho</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="90274"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/git%20version%20on%20Casper%20vs.%20Cheyenne%20vs.%20Derecho/near/90274" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/git.20version.20on.20Casper.20vs.2E.20Cheyenne.20vs.2E.20Derecho.html#90274">(Oct 12 2023 at 18:49)</a>:</h4>
+<p>Does anyone know why the version of <code>git</code> (<code>/usr/bin/git</code>) on the Casper login node is different than the Cheyenne login nodes? Casper shows <code>git version 1.8.3.1</code> while Cheyenne shows <code>git version 2.26.2</code>. Derecho shows from <code>/glade/u/apps/derecho/23.06/opt/bin/git</code>, <code>2.40.0</code>. Would it be possible to align Casper with either Cheyenne or Derecho? I guess probably Derecho?</p>
+
+
+
+<a name="90275"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/git%20version%20on%20Casper%20vs.%20Cheyenne%20vs.%20Derecho/near/90275" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/git.20version.20on.20Casper.20vs.2E.20Cheyenne.20vs.2E.20Derecho.html#90275">(Oct 12 2023 at 18:59)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="234">Daniel Adriaansen</span> <a href="#narrow/stream/3-general/topic/git.20version.20on.20Casper.20vs.2E.20Cheyenne.20vs.2E.20Derecho/near/90274">said</a>:</p>
+<blockquote>
+<p>Does anyone know why the version of <code>git</code> (<code>/usr/bin/git</code>) on the Casper login node is different than the Cheyenne login nodes? Casper shows <code>git version 1.8.3.1</code> while Cheyenne shows <code>git version 2.26.2</code>. Derecho shows from <code>/glade/u/apps/derecho/23.06/opt/bin/git</code>, <code>2.40.0</code>. Would it be possible to align Casper with either Cheyenne or Derecho? I guess probably Derecho?</p>
+</blockquote>
+<p>I think you can load versions 2.22 or 2.33.1 as modules on both casper and cheyenne.  Not sure what Derecho has or if this is helpful.  Just something I learned from wanting an updated version from the default a while back.</p>
+
+
+
+<a name="90276"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/git%20version%20on%20Casper%20vs.%20Cheyenne%20vs.%20Derecho/near/90276" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/git.20version.20on.20Casper.20vs.2E.20Cheyenne.20vs.2E.20Derecho.html#90276">(Oct 12 2023 at 19:01)</a>:</h4>
+<p>Indeed, <code>module load git</code> on Casper gives me 2.33.0. Thanks <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> !</p>
+
+
+
+<a name="90389"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/git%20version%20on%20Casper%20vs.%20Cheyenne%20vs.%20Derecho/near/90389" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/3-general/topic/git.20version.20on.20Casper.20vs.2E.20Cheyenne.20vs.2E.20Derecho.html#90389">(Oct 17 2023 at 18:03)</a>:</h4>
+<p>The Cheyenne and Casper versions are based on the operating system installs (if you don't load a module as Katelyn suggested. We will be syncing Casper with Derecho as far as git versions go during the outage later this month, so you should see a similar default version in a couple of weeks. Cheyenne will have the older default version until it is retired at the end of this year.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

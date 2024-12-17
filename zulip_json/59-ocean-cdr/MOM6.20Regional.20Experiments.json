@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, can you please point <span class=\"user-mention\" data-user-id=\"213\">@SBachman</span> to a recent MOM6 caseroot with MARBL? He's trying to compile with MARBL on in a regional configuration.</p>",
+        "id": 55970,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1654197270
+    },
+    {
+        "content": "<p>Chiming in for <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, as he is out of the office.<br>\nCASEROOT=/glade/work/mlevy/codes/CESM/cesm2_3_beta08+mom6_marbl/long_runs/g.e23b08.TL319_t061.G1850MOMMARBL_JRA.002<br>\nMOM code, with MARBL, is at<br>\n/glade/work/mlevy/codes/CESM/cesm2_3_beta08+mom6_marbl/components/mom/MOM6<br>\nMARBL is in the subdirectory pkg/MARBL<br>\nI think Mike also has changes to MOM_interface, the parent of the above directory, for building MOM+MARBL within CESM.<br>\nI'm not sure if Mike has built standalone MOM+MARBL.</p>",
+        "id": 55978,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1654204547
+    },
+    {
+        "content": "<p>Thanks for providing the info, Keith! I have not built standalone MOM+MARBL - one of my lower-priority tasks is to figure out how to point the stand-alone build system to <code>$MOM_ROOT/pkg/MARBL</code> (actual MARBL code) instead of <code>$MOM_ROOT/config_src/external/MARBL</code> (a template that will allow <code>$MOM_ROOT/src/tracer/MARBL_tracers.F90</code> to build but will abort if <code>USE_MARBL_TRACERS=True</code>)</p>",
+        "id": 56081,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1654529030
+    },
+    {
+        "content": "<p>I don't think <span class=\"user-mention\" data-user-id=\"213\">@SBachman</span> is using standalone MOM6...</p>",
+        "id": 56082,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1654530598
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> I think you're right, if memory serves he mentioned that he's using CESM+MOM last time we all discussed this. (One of many reasons that standalone MOM+MARBL is such a low priority)</p>",
+        "id": 56083,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1654531087
+    },
+    {
+        "content": "<p>yes i am using CESM+MOM6</p>",
+        "id": 56084,
+        "sender_full_name": "SBachman",
+        "timestamp": 1654531208
+    }
+]

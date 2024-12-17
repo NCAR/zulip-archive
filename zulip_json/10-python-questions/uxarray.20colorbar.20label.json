@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>I made my first plot using uxarray and mpas data. It looks great, but now  I'm wondering if there is a way to change the name of the label on the colorbar?  I'd like it to show the units instead of the variable name.  Thanks!</p>\n<p>uxds1['acsnow'].sel(Time=6).plot.rasterize( width=900, height=400,title = \"ACSNOW t=6\", cmap = \"GnBu\")</p>\n<p><a href=\"/user_uploads/2/ff/OcTaOkmxycX2uVTRSJV8ucfx/acsnow.png\">acsnow.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/ff/OcTaOkmxycX2uVTRSJV8ucfx/acsnow.png\" title=\"acsnow.png\"><img src=\"/user_uploads/2/ff/OcTaOkmxycX2uVTRSJV8ucfx/acsnow.png\"></a></div>",
+        "id": 94812,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1705961820
+    },
+    {
+        "content": "<p>I believe you should be able to do something like <code>uxds1[\"acsnow\"].sel(Time=6).plot.rasterize(clabel='my new colorbar label')</code>, but it looks like you might have hit a rough edge here (I'm getting an unexpected error with this - going to log it now).</p>",
+        "id": 94816,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1705964791
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> </p>\n<p>This is definitely a bug. See <a href=\"https://github.com/UXARRAY/uxarray/issues/671\">https://github.com/UXARRAY/uxarray/issues/671</a> for details</p>\n<p>We'll have this patched for the next release.</p>",
+        "id": 94817,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1705965636
+    },
+    {
+        "content": "<p>Thanks for your help.  </p>\n<p>One more uxarray question for the same data.  When I try to use datashade, it seems to ignore the cmap specification, but I don't get an error message.  Am I specifying it correctly?</p>\n<p>uxds1['acsnow'].sel(Time=6).plot.datashade(agg = \"mean\", plot_height = 500, plot_width = 1000, cmap = 'GnBu)</p>",
+        "id": 94818,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1705966450
+    },
+    {
+        "content": "<p>I can confirm specifying a colormap didn't work for me either even though we should have that support. Will look further into this</p>",
+        "id": 94821,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1705968548
+    },
+    {
+        "content": "<p>It looks like there's a typo in the signature that causes keyword args to be ignored.  Just put in a quick issue+PR.</p>",
+        "id": 94822,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1705975858
+    },
+    {
+        "content": "<p>Yes, I can also see that now. I'll put in an issue+PR for this. Thanks a lot for pointing that out!</p>",
+        "id": 94823,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1705976735
+    },
+    {
+        "content": "<p>Created <a href=\"https://github.com/UXARRAY/uxarray/pull/675\">uxarray PR #675</a> to fix this. I confirmed locally that the PR changes made the <code>cmap</code> of preference in the function call show up in the plot</p>",
+        "id": 94824,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1705977957
+    },
+    {
+        "content": "<p>Thank you all! (Sorry about the typo- wasn't in my actual code)</p>",
+        "id": 94828,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1706029069
+    },
+    {
+        "content": "<p>Hey Allison, the <a href=\"https://github.com/UXARRAY/uxarray/pull/675\">PR</a> has been merged into the UXarray main branch. If you don't want to wait until February's version (we might also consider a sooner incremental January version depending on the amount of work being merged in the meantime), you can install it from the code into your environment and get the function up for you</p>",
+        "id": 94832,
+        "sender_full_name": "Orhan Eroglu",
+        "timestamp": 1706032217
+    }
+]

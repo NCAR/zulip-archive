@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I'm using xesmf to regrid CMIP6 data (ingested from glade-cmip6.json using intake). Conservative regridding with xesmf requires lat/lon bounds that are computed using cf.get_bounds(). My code is failing on one dataset that has 'longitude' and 'latitude' coordinates, but cf cannot seem to find the 'longitude' key (see attached summary of the error). Anyone have an idea what's going wrong? <a href=\"/user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png\">Screen-Shot-2022-12-20-at-3.01.23-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png\" title=\"Screen-Shot-2022-12-20-at-3.01.23-PM.png\"><img src=\"/user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png\"></a></div>",
+        "id": 70880,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1671574243
+    },
+    {
+        "content": "<p>Well there are no bounds for longitude. You can use <code>.cf.add_bounds</code> for a reasonable guess: <a href=\"https://cf-xarray.readthedocs.io/en/latest/bounds.html\">https://cf-xarray.readthedocs.io/en/latest/bounds.html</a></p>",
+        "id": 72097,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1674249807
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"34\">Stephen Yeager</span> has marked this topic as resolved.</p>",
+        "id": 93055,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1701885452
+    }
+]

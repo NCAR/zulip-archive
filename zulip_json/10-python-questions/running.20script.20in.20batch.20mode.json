@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I have a bash script that I submit to qsub on casper.  Before the update last week, it was working great but now it is not working at all. I am getting the error message</p>\n<p>Warning: no access to tty (Bad file descriptor).<br>\nThus no job control in this shell.<br>\nNow using NPL virtual environment at path:<br>\n    /glade/u/apps/dav/opt/python/3.7.9/gnu/9.1.0/pkg-library/20201220</p>\n<p>Use deactivate to remove NPL from environment</p>\n<p>The script is /glade/u/home/lamar/Python/CMIP6_analysis/PM2.5/run_health.bash</p>\n<p>Thanks!</p>",
+        "id": 55101,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1652832999
+    },
+    {
+        "content": "<p>Are you sure it's not working?  I think this part of the warning:</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>Warning: no access to tty <span class=\"o\">(</span>Bad file descriptor<span class=\"o\">)</span>.\nThus no job control <span class=\"k\">in</span> this shell.\n</code></pre></div>\n<p>may just be telling you that there's no input device. </p>\n<p>And this part</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>Now using NPL virtual environment at path:\n/glade/u/apps/dav/opt/python/3.7.9/gnu/9.1.0/pkg-library/20201220\n\nUse deactivate to remove NPL from environment\n</code></pre></div>\n<p>is what <code>ncar_pylib</code> prints out.</p>",
+        "id": 55107,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652887355
+    },
+    {
+        "content": "<p>Got the answer from CISL.  ncar_pylib is deprecated and needs to be replaced by the following</p>\n<p>module load ncarenv<br>\nmodule load conda<br>\nconda activate npl</p>\n<h1>python compute_health_5years_omp_batch.py</h1>",
+        "id": 55181,
+        "sender_full_name": "Jean-Francois Lamarque",
+        "timestamp": 1652977692
+    }
+]

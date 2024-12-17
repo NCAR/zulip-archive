@@ -1,0 +1,98 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span></p>\n<p>I have some forcing files in hand that I think I am happy with.</p>\n<ol>\n<li><code>feventflux_input%filename = '/glade/work/mclong/cesm_inputdata/feventflux_5gmol_POP_tx0.1v3.c200616.nc'</code></li>\n<li><code>fesedflux_input%filename = '/glade/work/mclong/cesm_inputdata/fesedflux_total_reduce_oxic_POP_tx0.1v3.c200616.nc'</code></li>\n<li><code>riv_flux_shr_stream_file = '/glade/work/mclong/cesm_inputdata/riv_nut.gnews_gnm.JRA025m_to_tx0.1v3_nnsm_e333r100_190226.20200616.nc'</code></li>\n</ol>",
+        "id": 11473,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592313421
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> Awesome, I'll get them into inputdata and fire off a run. Thanks!</p>",
+        "id": 11474,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592313935
+    },
+    {
+        "content": "<p>I'm getting <code>NaN</code>s in iron, possibly from the sediment flux file? My test ran in <code>/glade/scratch/mlevy/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.022/run</code> and caseroot is <code>/glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/tests/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.022</code>:</p>\n<div class=\"codehilite\"><pre><span></span>4099:  open_ocean_volume_2_km       1.361132666438881E+24\n4099:  rf_volume_2_km               2.357816520390610E+24\n4099: ecosys_driver:ecosys_driver_set_interior: NaN in dtracer_module, (i,j,k)=(\n4099:        2726 ,        1889 ,           1 )\n4099: (lon,lat)=(   163.117107990667      ,   62.2284853109204      )\n...\n4099: Fe   9.921742583549502E-004                       NaN\n...\n4099: Iron Sediment Flux\n4099:                     NaN\n4099: delta_z =    1000.00000000000\n4099:------------------------------------------------------------------------\n4099:\n4099:POP aborting...\n4099: Stopping in ecosys_driver:ecosys_driver_set_interior\n4099:\n4099:------------------------------------------------------------------------\n</pre></div>",
+        "id": 11477,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592317145
+    },
+    {
+        "content": "<p>It's happening at several points, and as far as I can tell they are all at the surface</p>",
+        "id": 11478,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592317168
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, I'll fix this. Thanks for checking.</p>",
+        "id": 11485,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592320200
+    },
+    {
+        "content": "<p>Actually, I wonder if the problem is the land mask in <code>feventflux_5gmol_POP_tx0.1v3.c200616.nc</code>; it looks like it's 38% land at the surface, which seems high:</p>\n<div class=\"codehilite\"><pre><span></span>&gt;&gt;&gt; import xarray as xr\n&gt;&gt;&gt; import numpy as np\n&gt;&gt;&gt; ds = xr.open_dataset(&#39;feventflux_5gmol_POP_tx0.1v3.c200616.nc&#39;)\n&gt;&gt;&gt; np.sum(np.isnan(ds.isel(z_t=0)[&#39;FESEDFLUXIN&#39;]).data)/(3600*2400)\n0.3825826388888889\n</pre></div>",
+        "id": 11486,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592320224
+    },
+    {
+        "content": "<p>I think that's just the land mask:<br>\n<a href=\"/user_uploads/2/c9/gi7JzEx5cSSFMgXyhhZbeWzj/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">Fe vent flux</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/c9/gi7JzEx5cSSFMgXyhhZbeWzj/pasted_image.png\" target=\"_blank\" title=\"Fe vent flux\"><img src=\"/user_uploads/2/c9/gi7JzEx5cSSFMgXyhhZbeWzj/pasted_image.png\"></a></div>",
+        "id": 11491,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592320443
+    },
+    {
+        "content": "<p>I am creating a new file right now</p>",
+        "id": 11495,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592320527
+    },
+    {
+        "content": "<p>Something is wrong...I am applying <code>fillna</code> and everything is reasonable until I write out the dataset and read it back in. Somehow I am getting -Inf's....  I'll sort it out...hopefully quickly.</p>",
+        "id": 11503,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592321033
+    },
+    {
+        "content": "<p>Ok, <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, this file<br>\n<code>/glade/work/mclong/cesm_inputdata/feventflux_5gmol_POP_tx0.1v3.c200616.nc</code><br>\nshould now be correct.</p>",
+        "id": 11504,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592322089
+    },
+    {
+        "content": "<p>great, trying it now</p>",
+        "id": 11506,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592322115
+    },
+    {
+        "content": "<p>Tests with the new file run successfully, thanks for updating it!</p>",
+        "id": 11509,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592324101
+    },
+    {
+        "content": "<p>thanks, we may still need to change these files...</p>",
+        "id": 11511,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592324148
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, thinking more about this, I would like to have an opportunity to revisit the <code>fesedflux</code> field to ensure comparability with what we use for the 1° spin-up.</p>",
+        "id": 11522,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1592329461
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> that makes sense. I want to do a longer run to make sure we're happy with all of the inputdata files (ndep, initial conditions, fesedflux, feventflux, riv_nut), but I'm going to wait until I have updated tunings. For starters, I want to do that check with what we are considering compset defaults (no cocco, OMIP initial conditions)... but then I'll repeat for the experiment setup (with cocco, initial conditions interpolated from the 1 degree spin-up)</p>",
+        "id": 11523,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592329785
+    },
+    {
+        "content": "<p>I should add that I'm open to suggestions on how long the \"longer run\" should be. 1 year? 2? 5? I'm fairly confident that the 1-day tests I'm currently doing are insufficient :)</p>",
+        "id": 11524,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1592329851
+    }
+]

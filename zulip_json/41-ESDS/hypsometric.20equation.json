@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>I am searching for a Python equivalent of the NCL function cz2ccm, which computes geopotential height at hybrid model levels in CESM output.  Can anyone refer me to a Python function that does this, or do you have you written your own function that you can share with me?  <br>\nNCL reference: <a href=\"https://www.ncl.ucar.edu/Document/Functions/Built-in/cz2ccm.shtml\">https://www.ncl.ucar.edu/Document/Functions/Built-in/cz2ccm.shtml</a><br>\nNCL Fortran source code for cz2ccm: <a href=\"https://github.com/NCAR/ncl/blob/develop/ni/src/lib/nfpfort/cz2ccm_dp.f\">https://github.com/NCAR/ncl/blob/develop/ni/src/lib/nfpfort/cz2ccm_dp.f</a></p>",
+        "id": 85534,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1689263432
+    },
+    {
+        "content": "<p>This is a good question for <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span>. I found a <a href=\"https://geocat-comp.readthedocs.io/en/stable/internal_api/generated/geocat.comp.interpolation._geo_height_extrapolate.html\">similar function in geocat-comp</a>, but I don't think it does the hybrid model levels.</p>",
+        "id": 85536,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1689264645
+    },
+    {
+        "content": "<p>It doesn't look like we have this in GeoCAT at the moment, but could be a good candidate for including.  </p>\n<p>I'll log an issue/feature request on GeoCAT-comp (unless you beat me to it) and look into this.  </p>\n<p>If you have other suggestions for computational or visualization functionalities from (NCL or otherwise) that might be missing from GeoCAT (especially if that functionality isn't available elsewhere in Python), please let us know!   </p>\n<p>We also have a feature request form on the GitHub issue trackers for <a href=\"https://github.com/NCAR/geocat-comp/issues/new/choose\">GeoCAT-comp</a> or <a href=\"https://github.com/NCAR/geocat-viz/issues/new/choose\">GeoCAT-viz</a>.</p>",
+        "id": 85540,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1689267397
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> Thank you.  I have not submitted a feature request yet, so I will allow you to do so.  FWIW, ECMWF has a function in their Metview package to do this, so we might try this in the meantime until it's supported in GeoCAT:<br>\n<a href=\"https://metview.readthedocs.io/en/latest/api/functions/mvl_geopotential_on_ml.html\">https://metview.readthedocs.io/en/latest/api/functions/mvl_geopotential_on_ml.html</a></p>",
+        "id": 85542,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1689268410
+    },
+    {
+        "content": "<p>Oh good.  Glad there’s something you all can use for the time being.  Thanks for sharing that.</p>",
+        "id": 85544,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1689269570
+    },
+    {
+        "content": "<p>Is it one of the <a href=\"http://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html#parametric-v-coord\">CF standard equations</a>? If so, does CESM write out the appropriate CF attributes? If so, we could easily add it to <a href=\"https://cf-xarray.readthedocs.io/en/latest/parametricz.html\">cf-xarray</a></p>",
+        "id": 85554,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1689272179
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> Yes, it appears CESM writes the appropriate CF attributes.  See, for example, the output located at /gpfs/csfs1/collections/cmip/CMIP6/timeseries-cmip6/b.e21.BHIST.f09_g17.CMIP6-historical.011/atm/proc/tseries/hour_6</p>",
+        "id": 85569,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1689278908
+    }
+]

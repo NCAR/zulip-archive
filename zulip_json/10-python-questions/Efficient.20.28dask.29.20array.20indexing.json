@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>So I have a nlat x nlon x ndays array - quite large ~3Gb and I am trying paralyze a particular indexing operation<br>\nA bit tricky to explain, but at each lat/lon point I am indexing the time array to be days of the year days=(1,2,...365) and I am rewriting that to an an equivalent sized array that is a randomized version of the days_rand(45,365,...1,3) then my operation seems simple<br>\nThe key think is days and days_rand changes for each ilat/ilon.</p>\n<p>var_new(ilat,ilon,days) = var_old(ilat,ilon,days_rand) </p>\n<p>I do this for a multi-year array and days and days_rand are precomputed.<br>\nDask will not let me compute like this presumably because of this.<br>\n<a href=\"https://docs.dask.org/en/stable/array-slicing.html\">https://docs.dask.org/en/stable/array-slicing.html</a><br>\nAnd that I cannot slice with more than one dimension (ilat,ilon are still slices I'm presuming).</p>\n<p>So I am then .load() -ing and operating on this with an ilat,ilon  for loops.<br>\nSo any ideas on parallelizing this either as dask or numpy?<br>\nThanks!<br>\nRich</p>",
+        "id": 59718,
+        "sender_full_name": "Rich Neale",
+        "timestamp": 1658765150
+    },
+    {
+        "content": "<p>Does <code>vindex</code> work? <a href=\"https://docs.dask.org/en/stable/generated/dask.array.Array.vindex.html#dask.array.Array.vindex\">https://docs.dask.org/en/stable/generated/dask.array.Array.vindex.html#dask.array.Array.vindex</a></p>\n<p>If not I would chunk so that all timesteps are in one block; and then map_blocks your permutation.</p>",
+        "id": 59719,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1658765851
+    },
+    {
+        "content": "<p>Oh this might work: <a href=\"https://numpy.org/doc/stable/reference/generated/numpy.take_along_axis.html#numpy.take_along_axis\">https://numpy.org/doc/stable/reference/generated/numpy.take_along_axis.html#numpy.take_along_axis</a></p>",
+        "id": 59720,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1658765944
+    }
+]

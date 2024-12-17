@@ -1,0 +1,903 @@
+<html>
+<head><meta charset="utf-8"><title>output · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html">output</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="1946"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/1946" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#1946">(Feb 26 2020 at 22:33)</a>:</h4>
+<p>I think we want to have a relatively paired down output suite to keep the model cost down. <span class="user-mention" data-user-id="31">@Keith Lindsay</span>, do you have a Google Sheet on hand with the model output fields that we can use as a basis for discussion. <br/>
+We can consider re-running periods with higher-frequency output if necessary.</p>
+<p>How much storage do we have?</p>
+
+
+
+<a name="2088"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/2088" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#2088">(Feb 28 2020 at 00:13)</a>:</h4>
+<p>We do not have dedicated storage. Output has to fit into existing storage allocations.<br>
+The largest appropriate location is /glade/campaign/cesm, which currently has 366 TB available.<br>
+This is for all of CESM, we don't get all of it. I'm just posting it for reference.</p>
+<p>I can't find an existing sheet with the current list of output fields. I'll make one.</p>
+
+
+
+<a name="2091"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/2091" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#2091">(Feb 28 2020 at 04:34)</a>:</h4>
+<p>I've got an initial attempt at google sheet of ocean output from a gx1v7 case at<br>
+<a href="https://docs.google.com/spreadsheets/d/1exAFCkXmIhqn-Pws8qMqgmogwQM9xPhb40lxIP-LllI/edit?usp=sharing" target="_blank" title="https://docs.google.com/spreadsheets/d/1exAFCkXmIhqn-Pws8qMqgmogwQM9xPhb40lxIP-LllI/edit?usp=sharing">https://docs.google.com/spreadsheets/d/1exAFCkXmIhqn-Pws8qMqgmogwQM9xPhb40lxIP-LllI/edit?usp=sharing</a><br>
+I included physics and BGC variables.<br>
+I made a separate sheet for each frequency and another sheet summarizing output size.<br>
+The output size does not take compression into account.</p>
+<p>The physics variables in the sheet are based on gx1v7 defaults. My next step is to replace these with tx1v3 defaults.</p>
+
+
+
+<a name="2092"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/2092" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#2092">(Feb 28 2020 at 05:56)</a>:</h4>
+<p>I've now marked physics fields not output at tx1v3 as such.<br>
+The spreadsheet has an on/off column with values 1/0 respectively.<br>
+So the non-output fields are still in the spreadsheet, but don't contribute to the storage.</p>
+
+
+
+<a name="2693"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/2693" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#2693">(Mar 11 2020 at 16:30)</a>:</h4>
+<p><strong>@all</strong>, in the context of planning an output suite, let's enumerate a list of potential applications for this run</p>
+<ul>
+<li>Surface ocean nutrient delivery mechanisms</li>
+<li>OMZ ventilation/maintenance (budgets)</li>
+<li>Tropical instability vortices</li>
+<li>Eddy-mediated dynamics of the biological pump</li>
+<li>CCS variability with ENSO</li>
+<li>Surface gas flux drivers</li>
+<li>Eddy impacts on ventilation (transient tracers)</li>
+<li>Lateral nutrient transport (i.e., nutrient stream)</li>
+<li>Control integration for (idealized) warming/wind transient integrations</li>
+<li>SAMW preconditioning (calcification, Si uptake, fronts and eddies)</li>
+</ul>
+<p>Please reply to this thread with additional ideas.</p>
+
+
+
+<a name="2719"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/2719" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dan Whitt <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#2719">(Mar 11 2020 at 19:44)</a>:</h4>
+<p>Some thoughts:<br>
+General comment:<br>
+I suggest we follow a similar approach to the JRA physics case, in which we output monthly 3D fields for most of the run, then more thorough and high-frequency output over a select period of with length ~20-25 years, maybe 1996-2019 to span a few key ENSO cycles.</p>
+<p>Applications:<br>
+- ocean boundary conditions for submesoscale regional simulations.<br>
+ 5-day 3D output would be helpful if we want to use this directly without branching with different outputs or having a very large box. <br>
+ but 5-day (U,V,T,S,SSH) and monthly BGC fields could potentially help this application too.<br>
+In the case we want to branch and re-run, at least annual restarts would help.</p>
+<ul>
+<li>
+<p>physical drivers of BGC variability in coastal and boundary current regions; we probably want at least 5-day output in these dynamic regions, otherwise we're left with a pretty indirect picture of the oceanic variability. </p>
+</li>
+<li>
+<p>global to regional bgc response to climate variability in general (ENSO, NAO, PDO, SAM, AMV, IOD, etc.); role of mesoscale processes (e.g. TIV/ENSO/O2 in the tropical pacific). Again, 5-day output for a select period of the run would be helpful.</p>
+</li>
+<li>
+<p>BGC impacts of small-scale/short-lived atmospheric phenomena such as synoptic storms, atmospheric fronts, hurricanes,  etc. that are newly resolved in JRA55do; also some air-sea-ice interactions at the ocean mesoscale (eddy/wind interactions); these applications could benefit from high-frequency 3-hour surface currents, SST, MLD and BLT, surface fluxes of heat, momentum and gases, surface chlorophyll and surface inorganic nutrients (ALK,DIC,Fe,Si,P,N,pO2,pCO2). These atmospheric features move quickly, and the ocean physical response is also quick! <br>
+Daily output for some 2D variables that reflect BGC rates: e.g. integrated organic carbon in different pools, primary productivity maybe "J" terms integrated over 50 m and 150 m (a lot of remin occurs between 50 and 150, top 50 is mostly prod). The sub-daily response will be largely associated with physical transport, so probably not necessary for BGC rates.<br>
+Again, I think this could be done for a ~20 year subset of the run.</p>
+</li>
+</ul>
+<p>-I'd like to see 3D poc flux fields at least monthly, so we can study how export depth horizon impacts export questions (e.g., Hillary Palevsky's work)</p>
+
+
+
+<a name="6726"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/6726" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#6726">(Apr 16 2020 at 21:11)</a>:</h4>
+<p><span class="user-mention" data-user-id="*">@all</span> the output spreadsheet (mainly thanks to the efforts of <span class="user-mention" data-user-id="31">@Keith Lindsay</span>) has been dialed in with a proposed output suite:<br/>
+<a href="https://docs.google.com/spreadsheets/d/1exAFCkXmIhqn-Pws8qMqgmogwQM9xPhb40lxIP-LllI/edit?usp=sharing" target="_blank" title="https://docs.google.com/spreadsheets/d/1exAFCkXmIhqn-Pws8qMqgmogwQM9xPhb40lxIP-LllI/edit?usp=sharing">https://docs.google.com/spreadsheets/d/1exAFCkXmIhqn-Pws8qMqgmogwQM9xPhb40lxIP-LllI/edit?usp=sharing</a></p>
+<p>Comments welcome.</p>
+
+
+
+<a name="6737"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/6737" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dan Whitt <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#6737">(Apr 17 2020 at 00:15)</a>:</h4>
+<p>One comment: Cutting the 3-D, 5-day U,V,T,S to 15 levels might be a useful savings of 10% of the storage requirement. Not clear to me that high-frequency deep physical fields will be of much use without any corresponding high-frequency BGC variables, and physics questions can be addressed with existing physics-only runs</p>
+
+
+
+<a name="6738"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/6738" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#6738">(Apr 17 2020 at 00:38)</a>:</h4>
+<p>Small potatoes for storage, but we do not have the EBM exchange flow turned on in 0.1 deg, so you do not need <br>
+S_FLUX_EXCH_INTRF<br>
+T_FLUX_EXCH_INTRF<br>
+We do have the vertical spreading of river flux turned on so you do need the other EBM terms.</p>
+<p>I tend to agree with Dan that we have lots of other sources of output for 5 day full column physics. However, we might consider a "special sampling period" late in the run or a re-run of  a short segment with some special physics sampling. Anna and I have talked with Yassir about applying her diapycnal mass flux analysis to oxygen budgets. That would require 5-day output at least through the depth of the O2 min zone.</p>
+
+
+
+<a name="6739"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/6739" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dan Whitt <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#6739">(Apr 17 2020 at 00:44)</a>:</h4>
+<p>I agree with Frank; some period of the run with 5-day output that includes key BGC variables at the same 5-day frequency, e.g. deeper nuts. + O2, DIC, etc. could add substantial value. </p>
+<p>Another comment with reductions in mind. This one is more speculative, but so be it:<br>
+I think the 3-D 5-day ecosys. vars are good candidates for reduction right now. <br>
+I'm not convinced we need 3-D structure for so many different constituents for each PFTs, right now: Chl,C,Fe,P,Si,CaCO3. </p>
+<p>Corresponding depth-integrals for most of these would probably be sufficient for most questions, together with a select number of 3D (15-level) fields. <br>
+Perhaps the most extreme reduction in this spirit would be to drop the 3D fields to just total chl and then spC, diazC, and diatC?  That would produce another ~10% overall reduction in the storage requirement. But, less extreme cuts to 5-day 3D ecosys. vars would be worth considering...</p>
+
+
+
+<a name="6812"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/6812" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#6812">(Apr 18 2020 at 01:33)</a>:</h4>
+<ul>
+<li>Good ideas on shorter/recent period with higher freq sampling. If not last 25 (or 20) yr, I would advocate for the last 15 yr [2005-2019] (or 10 yr [2010-2019]) period for 5-day outputs, at least for evaluating mean vs eddy advective terms in the O2 budget (3-D) and processes. It would be good to have J_O2 (3D) and STF_O2 at same frequency too for the O2 budget terms.  Lots of interesting phenomena during the 2005-2019 period (La Niña 10/11, El Niño 15/16, Blob 14-16 &amp; CCS IAV) to investigate for O2, productivity and carbon at the mesoscale. Also overlaps with state estimates + BGC (CCS/CASE 2007-2010, TPOSE 2010-2019, and SOSE 2008-2018) and lots of new obs (MODIS-Aqua, HIPPO, ORCAS, ATOM, OCO-2, SOCCOM floats/BGC Argo, etc.), for validation, comparison, etc. </li>
+<li>It would also be good to add 5-day WVEL_2 and PD_2 to '5-day physics'?  Perhaps some key ecosystem stressor-related variables (5 day zsatarag, pH_3D) in addition to [O2] and TEMP for questions on marine extreme events.    </li>
+<li>For TIW/TIV &amp; BGC questions, 2016 could be a good candidate for a 1-day sampled re-run to test for smearing/blurring effects from averaging over fast propagating features. There seems to be enhanced TIW activity later that year. Could also be useful for offline particle tracking.</li>
+<li>Very much agree with Dan on consolidating the (slightly overwhelming) number of plankton-related terms, and having key terms of interest. It would be nice e.g. to look at different phenomena and regions with 5 day budgets and terms at hand (Agulhas rings, mode water eddies...).</li>
+</ul>
+
+
+
+<a name="13656"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13656" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13656">(Jul 06 2020 at 19:43)</a>:</h4>
+<p>I've gone through the spreadsheet mentioned <a href="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/output/near/6726" title="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/output/near/6726">above</a>, and produced a sample contents file that assumes 6 streams:</p>
+<div class="codehilite"><pre><span></span>#  1: monthly (physics and BGC)
+#  2: daily (physics)
+#  3: daily (BGC)
+#  4: annual (BGC)
+#  5: 5-day (physics)
+#  6: 5-day (BGC)
+</pre></div>
+
+
+<p>I don't know if this is really the best way to divide up the output, though. There are only 4 physics fields being output daily, and another 4 in the 5-day category, so maybe it makes sense to combine streams <code>2</code> &amp; <code>3</code> into a single daily stream, and combine streams <code>5</code> and <code>6</code> into a single 5-day stream? That would be</p>
+<div class="codehilite"><pre><span></span>#  1: monthly
+#  2: daily
+#  3: annual
+#  4: 5-day
+</pre></div>
+
+
+<p>Or maybe it's worth breaking the monthly stream into two files? (There are 50 physics fields and 219 BGC fields in the monthly stream).</p>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> and I talked about only turning the 5-day stream on for the last 20 years of the run, which I plan to manage via <code>user_nl_pop</code>:</p>
+<div class="codehilite"><pre><span></span>n_tavg_streams = 4
+ltavg_ignore_extra_streams = .true.
+</pre></div>
+
+
+<p>Hence my insistence that 5-day be the last stream(s).</p>
+
+
+
+<a name="13657"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13657" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13657">(Jul 06 2020 at 19:46)</a>:</h4>
+<p>Oh, I should mention two things:</p>
+<ol>
+<li><a href="https://github.com/ESCOMP/POP2-CESM/pull/34" target="_blank" title="https://github.com/ESCOMP/POP2-CESM/pull/34">https://github.com/ESCOMP/POP2-CESM/pull/34</a> lets users set <code>tavg_contents_override_file</code> in <code>user_nl_pop</code>, which is a mechanism to say "use this specific <code>tavg_contents</code> file rather than the one auto-generated by <code>ocn.*.tavg.csh</code></li>
+<li>the file I created based on the spreadsheet is <code>/glade/work/mlevy/hi-res_BGC_JRA/tx0.1v3_tavg_contents</code> -- I haven't yet done a test run to see what performance numbers look like (and it's possible I'll uncover some typos during initialization)</li>
+</ol>
+
+
+
+<a name="13677"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13677" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13677">(Jul 06 2020 at 22:26)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>,<br>
+I think it's preferable to consolidate variables into streams by frequency (i.e., have the fewest possible streams) unless there are significant performance (or other technical) implications associated with (possibly <em>very</em>) large files.</p>
+<p><span class="user-mention" data-user-id="109">@Jim Edwards</span>, will the model run slower writing more data to a single file? Mike can probably give you a quick estimate of file size—but I am guessing &gt;100 GB. </p>
+<p>Very large files may also impact analysis workflows.  <span class="user-mention" data-user-id="31">@Keith Lindsay</span>, do you have insight on this?</p>
+<p>I could imagine that if performance issues are a concern that the daily and 5-day streams can be consolidated, but we might what to split up the monthly.</p>
+
+
+
+<a name="13682"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13682" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13682">(Jul 06 2020 at 22:59)</a>:</h4>
+<p>I'm fine consolidating daily and 5-day streams. That said, I was expecting that we were going to convert history files to single variable timeseries files. If so, we would control file size for analysis by how many time slices are in each file.</p>
+<p>Having input from <span class="user-mention" data-user-id="109">@Jim Edwards</span> on impacts of large history files on I/O performance would still be useful.</p>
+
+
+
+<a name="13689"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13689" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13689">(Jul 06 2020 at 23:29)</a>:</h4>
+<p>Is there a convention for what to use for <code>tavg_file_freq</code> and <code>tavg_file_freq_opt</code> for the 5-day averages? It seems like the options are "write a new file every five days", or "write a new file every year"; we're expected ~380 GB / sim-yr, so I suspect it would be better to write a new (5.2 GB) file every five days, but I want to make sure I'm not missing a third option</p>
+
+
+
+<a name="13690"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13690" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13690">(Jul 06 2020 at 23:59)</a>:</h4>
+<p>I suggest 1 new file every 5 days, particularly because I'd like to add some more z_t_150m fields.</p>
+
+
+
+<a name="13692"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13692" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13692">(Jul 07 2020 at 00:38)</a>:</h4>
+<blockquote>
+<p>That said, I was expecting that we were going to convert history files to single variable timeseries files. If so, we would control file size for analysis by how many time slices are in each file.</p>
+</blockquote>
+<p>Single variable timeseries files are an option—and preferable in some respects. However, a single 3D var at monthly resolution is about 24 GB/yr, so we probably will want to make timeseries with 5 years  at most?</p>
+
+
+
+<a name="13693"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13693" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13693">(Jul 07 2020 at 00:42)</a>:</h4>
+<p>Something that came to mind as my one-month job was waiting in the queue -- we're running with coccolithophores, but the spreadsheet is based on the 3-autotroph model; besides missing all the <code>cocco</code>-based variables, we'll run into problems with <code>spCaCo3_zint_100m</code> and <code>spCaCO3</code> not being defined. As a first pass, I'll duplicate all the <code>sp</code> variables for <code>cocco</code> and remove the <code>sp</code> calcification-related variables just to (hopefully) get the first month run overnight</p>
+
+
+
+<a name="13695"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13695" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13695">(Jul 07 2020 at 01:48)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> , <span class="user-mention" data-user-id="10">@Michael Levy</span> was going to verify what was done for the non-BGC high-res JRA run for timeseries files.</p>
+
+
+
+<a name="13696"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13696" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13696">(Jul 07 2020 at 01:50)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , yes, the spreadsheet needs to be updated for explicit coccolithophores. I've never done a run with explicit coccolithophores, so I'm not sure what fields are added/removed.</p>
+
+
+
+<a name="13697"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13697" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13697">(Jul 07 2020 at 01:55)</a>:</h4>
+<p>I am pretty sure the physics-only JRA run was <strong>not</strong> made into timeseries files. I played around with timeseries files for my previous run, but the files become very large quickly. I had 5-day output, for instance, and found that concatenating a year (73 time levels) yielded files that were too big. </p>
+<p>We don't necessarily need to answer this question now...</p>
+
+
+
+<a name="13700"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13700" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13700">(Jul 07 2020 at 02:10)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="10">Michael Levy</span> , yes, the spreadsheet needs to be updated for explicit coccolithophores. I've never done a run with explicit coccolithophores, so I'm not sure what fields are added/removed.</p>
+</blockquote>
+<p>I can update the spreadsheet tomorrow; comparing <code>ecosys_tavg_contents</code> from a run without cocco to a run with cocco, it looks like what I outlined above:</p>
+<blockquote>
+<p>I'll duplicate all the <code>sp</code> variables for <code>cocco</code> and remove the <code>sp</code> calcification-related variables</p>
+</blockquote>
+<p>Is the default behavior, but I'll use the <code>ecosys_tavg_contents</code> diffs to guide what I do in the spreadsheet.</p>
+
+
+
+<a name="13701"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13701" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13701">(Jul 07 2020 at 02:12)</a>:</h4>
+<p>If what I did was correct, it'll add 7 variables to the monthly stream, 3 to the daily, and 17 to the 5day (but I don't know the breakdown between 2D and 3D fields)</p>
+
+
+
+<a name="13712"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13712" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13712">(Jul 07 2020 at 16:27)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> in the spreadsheet, row 246 is the beginning of the "EBM" section. I thought we were running without the EBM, so should I turn these variables off? Or should I be turning the EBM on for this run?</p>
+
+
+
+<a name="13713"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13713" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13713">(Jul 07 2020 at 16:38)</a>:</h4>
+<p>See Frank's message from Apr 16. EBM is partially on.</p>
+
+
+
+<a name="13714"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13714" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13714">(Jul 07 2020 at 16:49)</a>:</h4>
+<p>Oh, I see - I'm testing my <code>tavg_contents</code> file in a gx3v7 sandbox because I still have some kinks to work out, and I didn't realize I needed to update the pop namelist to [partially] turn on EBM. Though Frank said</p>
+<blockquote>
+<p>Small potatoes for storage, but we do not have the EBM exchange flow turned on in 0.1 deg, so you do not need <br>
+S_FLUX_EXCH_INTRF<br>
+T_FLUX_EXCH_INTRF<br>
+We do have the vertical spreading of river flux turned on so you do need the other EBM terms.</p>
+</blockquote>
+<p>And those two flux exchange variables are on in the spreadsheet -- I'll turn them off but keep <code>S_FLUX_ROFF_VSF_SRF</code></p>
+
+
+
+<a name="13728"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13728" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13728">(Jul 07 2020 at 19:52)</a>:</h4>
+<p>The spreadsheet has been updated to include coccolithophores (and to remove sp calcification diagnostics). After copying all the <code>sp</code> diagnostics and changing <code>sp</code> -&gt; <code>cocco</code>, the only other addition I made was to add <code>cocco_C_lim_Cweight_avg_100m</code> to the 5-day stream and also note that we are turning off <code>cocco_C_lim_surf</code> (which is monthly by default)</p>
+
+
+
+<a name="13886"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13886" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13886">(Jul 09 2020 at 14:55)</a>:</h4>
+<p>After two days of waiting in the queue, my 1-month run died with</p>
+<div class="codehilite"><pre><span></span>$ cat /glade/scratch/mlevy/g.e22b04.G1850ECOIAF_JRA_HR.TL319_t13.first_month.001/run/cesm.log.3013835.chadmin1.ib0.cheyenne.ucar.edu.200709-084732
+MPT: Launch error on r4i4n30.ib0.cheyenne.ucar.edu
+MPT ERROR: could not run executable.
+    (HPE MPT 2.19  02/23/19 05:31:12)
+</pre></div>
+
+
+<p>I've been having what I think of as "usual glade issues" (file system slow to react), and I wonder if <code>r4i4n30</code> just lost track of the directory with <code>cesm.exe</code>? In any event, I've resubmitted the job and also let the CISL help desk know. <span aria-label="fingers crossed" class="emoji emoji-1f91e" role="img" title="fingers crossed">:fingers_crossed:</span></p>
+
+
+
+<a name="13887"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13887" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13887">(Jul 09 2020 at 15:00)</a>:</h4>
+<p>For what it's worth, I had 2 running jobs die on cheyenne at about the same time.</p>
+
+
+
+<a name="13888"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13888" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13888">(Jul 09 2020 at 15:04)</a>:</h4>
+<p>I wonder if the only reason there were enough nodes free to start my job was because so many other jobs got killed</p>
+
+
+
+<a name="13889"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13889" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13889">(Jul 09 2020 at 15:06)</a>:</h4>
+<p>That sounds entirely plausible.</p>
+
+
+
+<a name="13890"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13890" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13890">(Jul 09 2020 at 15:09)</a>:</h4>
+<p>oh, but the re-launched job is actually going! Through 5 days, so initialization was happy with the <code>tavg_contents_file</code></p>
+
+
+
+<a name="13891"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13891" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13891">(Jul 09 2020 at 15:10)</a>:</h4>
+<p>and those first few days look like ~1.15 or 1.2 SYPD</p>
+
+
+
+<a name="13892"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13892" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13892">(Jul 09 2020 at 15:33)</a>:</h4>
+<p>I guess the big I/O hangup will be writing the monthly history file though... the daily file is writing &lt;1 GB / day, the 5-day is writing 15 GB per day, and the monthly file will be &gt;200 GB</p>
+
+
+
+<a name="13893"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13893" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13893">(Jul 09 2020 at 16:54)</a>:</h4>
+<p>Argh, made it through Jan 28th and then</p>
+<blockquote>
+<p>6441:MPT ERROR: Assertion failed at ibdev_multirail.c:4328: "0 &lt;= chan-&gt;rdma_reads"<br>
+6441:MPT ERROR: Rank 6441(g:6441) is aborting with error code 0.<br>
+6441:   Process ID: 15674, Host: r10i1n11, Program: /glade/scratch/mlevy/g.e22b04.G1850ECOIAF_JRA_HR.TL319_t13.first_month.001/bld/cesm.exe<br>
+6441:   MPT Version: HPE MPT 2.19  02/23/19 05:30:09</p>
+</blockquote>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> is that similar to the error you got when your two runs crashed? There's a traceback that goes through <code>POP_HaloMod.F90</code> and <code>PMPI_Waitall</code>, which tracks with network issues causing communication issues. I guess I'll wait till CISL gives the "all clear", but there is daily and 5-day output in <code>/glade/scratch/mlevy/g.e22b04.G1850ECOIAF_JRA_HR.TL319_t13.first_month.001/run</code></p>
+<p>I also noticed that we're getting warnings about breaking conservation:</p>
+<blockquote>
+<p>12037:(Task 11209, block 1) Message from (lon, lat) ( 197.050, -10.295), which is global (i,j) (3071, 1079). Level: 13<br>
+12037:(Task 11209, block 1) MARBL WARNING (marbl_interior_tendency_mod:compute_large_detritus_prod): dz*DOP_loss_P_bal= 0.262E-010 exceeds Jint_Ptot_thres= 0.271E-<br>
+013</p>
+</blockquote>
+<p>There are 160 warnings from that grid cell, but most of them have <code>dz*DOP_loss_P_bal</code> close to 1e-11 rather than a steady increase in that quantity.</p>
+
+
+
+<a name="13912"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13912" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13912">(Jul 09 2020 at 23:34)</a>:</h4>
+<p>So one good thing to come of the delays with these timing tests: I realized I was missing some POP tuning updates in my sandbox... I've moved my testing from a sandbox based on <code>cesm2_2_beta04</code> to one based on <code>cesm2_2_alpha06b</code> and have merged the latest POP tags into my high-res branch. I have four jobs in the queue, all using the latest code (which I've tested on lower resolution runs):</p>
+<ol>
+<li><code>NTASKS_OCN=7577</code>, omitting 5-day stream (but writing many of the variables to the monthly stream instead)</li>
+<li><code>NTASKS_OCN=14666</code>, omitting 5-day stream (but writing many of the variables to the monthly stream instead)</li>
+<li><code>NTASKS_OCN=7577</code>, writing the 5-day stream</li>
+<li><code>NTASKS_OCN=14666</code>, writing the 5-day stream (will NOT be bit-for-bit with the 28 days that ran in <code>/glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/cases/g.e22b04.G1850ECOIAF_JRA_HR.TL319_t13.first_month.001</code>)</li>
+</ol>
+<p>The first two cases will have CICE's age tracer enabled, though I suspect CICE will still be faster than POP so it won't have any effect on throughput. I remembered to update <code>CICE_CONFIG_OPTS</code> for the last two tests.</p>
+
+
+
+<a name="13913"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13913" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13913">(Jul 09 2020 at 23:44)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> My last concern with setting up these runs is that I'm keeping <code>RUN_TYPE: startup</code> instead of setting up a hybrid run. For the production run, should I be setting up a hybrid off of <code>/glade/campaign/cesm/development/omwg/g.e20.G.TL319_t13.control.001_hfreq_1718/rest/0062-01-01-00000</code>? If so, will the 1-month runs I have queued up still be useful, or should I cancel them all and set up a proper hybrid instead?</p>
+
+
+
+<a name="13914"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13914" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13914">(Jul 09 2020 at 23:58)</a>:</h4>
+<p>I think the startup is fine for these kick the tires runs. The ocean starts 1 coupling interval late, which is just 30 minutes.</p>
+
+
+
+<a name="13915"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13915" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13915">(Jul 10 2020 at 01:47)</a>:</h4>
+<p>For the production run, we do want to start from an existing run.</p>
+<p><span class="user-mention" data-user-id="22">@Alper Altuntas</span> , my recollection is that we have multiple cycles of JRA-forced hi-res G runs, but I only see out to 0062-01-01 on campaign storage, in the directory /glade/campaign/cesm/development/omwg/g.e20.G.TL319_t13.control.001_hfreq_1718/rest<br>
+. Do we have more years, particularly restart files, elsewhere?</p>
+
+
+
+<a name="13917"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13917" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13917">(Jul 10 2020 at 13:35)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> the two runs with <code>NTASKS_OCN=7507</code> (with and without 5-day output; the run without added fields to monthly) ran over night. I realized <code>ncview</code> isn't really cut out for opening these files :) -- if you have specific fields in mind to look at, I can put together a <code>dask</code>-based notebook for you. Output is in the following run directories:</p>
+<ul>
+<li>no 5-day output: <code>/glade/scratch/mlevy/g.e22a06b.G1850ECOIAF_JRA_HR.TL319_t13.first_month.004/run</code></li>
+<li>with 5-day: <code>/glade/scratch/mlevy/g.e22a06b.G1850ECOIAF_JRA_HR.TL319_t13.first_month.005/run</code></li>
+</ul>
+<p>I did a quick sanity check -- the coupling intervals are correct, and the time-step matches Alper's run (though it's weird: 10 full and 1 half step every 30 minutes =&gt; full timestep is 171.428571 sec)</p>
+
+
+
+<a name="13918"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13918" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13918">(Jul 10 2020 at 13:38)</a>:</h4>
+<p>Throughput on those runs were 0.68 SYPD, so I think I'd aim for 3 months in a 10 hour window (they both took just a hair over 3 hours to run, so 4 months in 12 hours is likely doable with very little breathing room for machine-induced slow-downs). The <code>NTASKS=14666</code> jobs are still in the queue, which make me think the smaller layout is better</p>
+
+
+
+<a name="13921"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13921" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13921">(Jul 10 2020 at 17:02)</a>:</h4>
+<p>It looks like <code>xarray</code> on Casper can generate plots without needing to spin up <code>dask</code>, though I've kept the plots on the native grid rather than asking cartopy to make them pretty. Here are some surface nutrients plots as a proof of concept, but I'm happy to [try to] generate other plots / statistics:</p>
+<p><a href="/user_uploads/2/b8/-yxDpieaNnuw5h5gROi5P-eQ/tx0.1v3_NO3.png" target="_blank" title="tx0.1v3_NO3.png">tx0.1v3_NO3.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/b8/-yxDpieaNnuw5h5gROi5P-eQ/tx0.1v3_NO3.png" target="_blank" title="tx0.1v3_NO3.png"><img src="/user_uploads/2/b8/-yxDpieaNnuw5h5gROi5P-eQ/tx0.1v3_NO3.png"></a></div><p><a href="/user_uploads/2/36/PUnFXP18Rsw-KhTD2pm4U_O2/tx0.1v3_PO4.png" target="_blank" title="tx0.1v3_PO4.png">tx0.1v3_PO4.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/36/PUnFXP18Rsw-KhTD2pm4U_O2/tx0.1v3_PO4.png" target="_blank" title="tx0.1v3_PO4.png"><img src="/user_uploads/2/36/PUnFXP18Rsw-KhTD2pm4U_O2/tx0.1v3_PO4.png"></a></div><p><a href="/user_uploads/2/33/TDCrfS67pC3yJoC0YE2IAwfb/tx0.1v3_SiO3.png" target="_blank" title="tx0.1v3_SiO3.png">tx0.1v3_SiO3.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/33/TDCrfS67pC3yJoC0YE2IAwfb/tx0.1v3_SiO3.png" target="_blank" title="tx0.1v3_SiO3.png"><img src="/user_uploads/2/33/TDCrfS67pC3yJoC0YE2IAwfb/tx0.1v3_SiO3.png"></a></div><p>As Keith mentioned, this is the "kick the tires" run. Besides setting up our experiment, I was also hoping to put together the final POP tag (move files to inputdata) after we work out any kinks but I'm not sure if the fact that this run has coccolithophores and the out-of-the-box compset will not means I'm trying to get too much out of this run...</p>
+
+
+
+<a name="13922"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13922" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13922">(Jul 10 2020 at 17:12)</a>:</h4>
+<p>If the following color map is easier to see, I can repost <code>PO4</code> and <code>SiO3</code> as well:</p>
+<p><a href="/user_uploads/2/24/0nNao46rZXI1cnj2xmlO7ue5/tx0.1v3_NO3_take2.png" target="_blank" title="tx0.1v3_NO3_take2.png">tx0.1v3_NO3_take2.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/24/0nNao46rZXI1cnj2xmlO7ue5/tx0.1v3_NO3_take2.png" target="_blank" title="tx0.1v3_NO3_take2.png"><img src="/user_uploads/2/24/0nNao46rZXI1cnj2xmlO7ue5/tx0.1v3_NO3_take2.png"></a></div>
+
+
+
+<a name="13923"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13923" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13923">(Jul 10 2020 at 22:25)</a>:</h4>
+<p>I think <code>glade</code> is supposed to be available throughout the cheyenne downtime (with the exception of Tuesday), but I copied the POP history files from both runs to the CGD space: <code>/project/oce02/mlevy/high-res_BGC_1mo</code>. That directory also has <code>environment.yaml</code> and <code>quick-plot.py</code>; if you run</p>
+<div class="codehilite"><pre><span></span>$ conda env create --name environment.yaml
+$ conda activate quick-plot
+</pre></div>
+
+
+<p>you can use the <code>quick-plot.py</code> script to generate figures similar to the above. Currently the tool relies on x-forwarding and the plot comes to <code>stdout</code> -- it is under version control at <a href="https://github.com/mnlevy1981/quick_plot" target="_blank" title="https://github.com/mnlevy1981/quick_plot">https://github.com/mnlevy1981/quick_plot</a> so you can check out the issues page to see what else it lacks :) (And I'm open to suggestions on improvements, if this type thing is useful to others.)</p>
+
+
+
+<a name="13924"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13924" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13924">(Jul 10 2020 at 22:26)</a>:</h4>
+<p>(Running <code>./quick-plot.py -h</code> is the closest thing to documentation I have at the moment, sorry!)</p>
+
+
+
+<a name="13925"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/13925" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#13925">(Jul 10 2020 at 22:29)</a>:</h4>
+<p>It took about 30s for</p>
+<div class="codehilite"><pre><span></span>$ ./quick-plot.py -v NO3
+</pre></div>
+
+
+<p>to draw</p>
+<p><a href="/user_uploads/2/dc/q5NUOX-Xwt1rHG1UFIX2b6WV/quickplot.png" target="_blank" title="quickplot.png">quickplot.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/dc/q5NUOX-Xwt1rHG1UFIX2b6WV/quickplot.png" target="_blank" title="quickplot.png"><img src="/user_uploads/2/dc/q5NUOX-Xwt1rHG1UFIX2b6WV/quickplot.png"></a></div><p>so the script name might be considered optimistic by some</p>
+
+
+
+<a name="14534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14534">(Jul 24 2020 at 15:03)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> when we were first exploring the <code>NaN</code> bug, you mentioned updating the history file spreadsheet -- I think maybe to replace <code>photoC_TOT</code> with the per-autotroph <code>photoC</code> fields?  If there are changes to make, can you update the spreadsheet and then I'll get the <code>tavg_contents</code> files updated? The first three months will probably run with what we have, but my jobs are still queued so there's a chance I can get the file updated before they start running</p>
+
+
+
+<a name="14589"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14589" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14589">(Jul 25 2020 at 03:18)</a>:</h4>
+<p>I have a modified version of <code>tx0.1v3_tavg_contents</code> at <code>/glade/work/klindsay/hi-res_BGC_JRA/tx0.1v3_tavg_contents</code>. Here's a description of the changes:</p>
+<div class="codehilite"><pre><span></span>add photoC_{autotroph} to 5-day
+add photoC_NO3_{autotroph} to 1-month
+rm photoC_TOT terms
+rm photoC_NO3_TOT terms
+rm photoC_{autotroph}_zint_100m terms
+rm photoNO3_{autotroph} terms
+rm photoNH4_{autotroph} terms
+</pre></div>
+
+
+
+<a name="14591"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14591" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14591">(Jul 26 2020 at 18:24)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> did you mean <code>/glade/work/klindsay/hi-res_BGC_JRA/tx0.1v3_tavg_contents.ktl</code>? The file you mentioned looks identical to the old one. (Also, are these changes reflected in the spreadsheet? I'm unclear about whether this spreadsheet was just a tool to help us get the <code>tavg_contents</code> sorted, or if it'll be kept as part of the documentation of the run -- if the latter, I think it should be updated)</p>
+<p>Also, the first 3-month segment of <code>g.e22.G1850ECO_JRA_HR.TL319_g17.001</code> (WOA for some nutrients) finished overnight. Output is in <code>/glade/scratch/mlevy/archive/g.e22.G1850ECO_JRA_HR.TL319_g17.001/</code>. Unfortunately I didn't check Zulip until just now, so it uses the old tavg contents -- when <code>g.e22.G1850ECO_JRA_HR.TL319_g17.002</code> (all BGC initial conditions from Kristen's 1-degree run) starts, it'll have the improved output.</p>
+
+
+
+<a name="14592"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14592" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14592">(Jul 26 2020 at 18:24)</a>:</h4>
+<p>Ugh, and I just realized that I botched the case name</p>
+
+
+
+<a name="14593"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14593" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14593">(Jul 26 2020 at 18:24)</a>:</h4>
+<p>it should be <code>g.e22.G1850ECO_JRA_HR.TL319_t13.001</code> (not <code>g17</code>)</p>
+
+
+
+<a name="14594"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14594" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14594">(Jul 26 2020 at 18:27)</a>:</h4>
+<p>I did mean the file with the <code>ktl</code> suffix. I haven't yet updated the spreadsheet to reflect these changes. I do plan on doing that.</p>
+
+
+
+<a name="14595"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14595" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14595">(Jul 26 2020 at 18:27)</a>:</h4>
+<p>so I'll leave the output from <code>001</code> where it is, but between the bad case name and the un-updated tavg I feel like I should start over one more time... unless it makes more sense to branch off the three months that I have and fix the file names for this first three month period by hand? <code>002</code> hadn't started yet, so it makes more sense to me to start that one cleanly with the correct case name</p>
+
+
+
+<a name="14596"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14596" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14596">(Jul 27 2020 at 12:48)</a>:</h4>
+<p>I propose<br>
+1) branching a new <code>001</code> case from the existing <code>001</code> case, using the correct case name and updated tavg<br>
+2) rename existing <code>001</code> tavg files to correct case name</p>
+<p>The renaming in 2) eases comparison of drift between <code>001</code> and <code>002</code>. But we don't need the modified output in order to do this comparison. If we end up going with the <code>001</code> option then we can rerun the 1st 3 months of the new <code>001</code> to get the full consistent tavg output. But don't do that unless we decide that we like <code>001</code> better than <code>002</code>.</p>
+<p>If the drifts in <code>001</code> and <code>002</code> are comparable, then <code>002</code> is to <code>001</code>, because <code>002</code>'s IC are simpler. So I think we'll only go with <code>001</code>, and need to rerun the 1st 3 months, if it is qualitatively better.</p>
+<p>Does that make sense to you?</p>
+
+
+
+<a name="14597"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14597" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14597">(Jul 27 2020 at 13:49)</a>:</h4>
+<p>Thanks Keith, that does make sense. If we go with <code>001</code>, I'll plan on re-running the first three months otherwise I'll leave things be.</p>
+<p>In other news, <code>002</code> crashed after ~4 1/2 hours: <code>/glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/run</code>. I didn't see anything informative in the <code>ocn.log</code> file, and the <code>cesm.log</code> looks like maybe a machine glitch:</p>
+<div class="codehilite"><pre><span></span>5397:MPT ERROR: Assertion failed at ibdev_multirail.c:4331: &quot;0 &lt;= chan-&gt;queued&quot;
+5397:MPT ERROR: Rank 5397(g:5397) is aborting with error code 0.
+5397:   Process ID: 45050, Host: r10i1n11, Program: /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/cesm.ex
+e
+5397:   MPT Version: HPE MPT 2.21  11/28/19 04:21:40
+5397:
+5397:MPT: --------stack traceback-------
+...
+5397:MPT: #7  ib_progress_send (vchan=&lt;optimized out&gt;, wc=&lt;optimized out&gt;,
+5397:MPT:     dom=&lt;optimized out&gt;) at ibdev_multirail.c:4369
+5397:MPT: #8  handle_send_completion (wc=&lt;optimized out&gt;, board=&lt;optimized out&gt;,
+5397:MPT:     dom=&lt;optimized out&gt;) at ibdev_multirail.c:6204
+5397:MPT: #9  check_send_queue (dom=dom@entry=0x2b010d633020 &lt;dom_default&gt;)
+5397:MPT:     at ibdev_multirail.c:6231
+5397:MPT: #10 0x00002b010d2756e6 in MPI_SGI_ib_progress (
+5397:MPT:     dom=dom@entry=0x2b010d633020 &lt;dom_default&gt;) at ibdev_multirail.c:6753
+5397:MPT: #11 0x00002b010d285238 in MPI_SGI_progress_devices (
+5397:MPT:     dom=0x2b010d633020 &lt;dom_default&gt;) at progress.c:165
+5397:MPT: #12 MPI_SGI_progress (dom=0x2b010d633020 &lt;dom_default&gt;) at progress.c:313
+5397:MPT: #13 0x00002b010d28c2e3 in MPI_SGI_request_wait (
+5397:MPT:     request=request@entry=0x2b210e6c6c80, status=status@entry=0x2b2108a037c0,
+5397:MPT:     set=set@entry=0x7ffeb59e97ac, gen_rc=gen_rc@entry=0x7ffeb59e9740)
+5397:MPT:     at req.c:1666
+5397:MPT: #14 0x00002b010d36c158 in MPI_SGI_waitall (array_of_statuses=0x2b2108a037c0,
+5397:MPT:     array_of_requests=&lt;optimized out&gt;, count=8) at waitall.c:23
+5397:MPT: #15 PMPI_Waitall (count=8, array_of_requests=&lt;optimized out&gt;,
+5397:MPT:     array_of_statuses=0x2b2108a037c0) at waitall.c:80
+5397:MPT: #16 0x00002b010d36c4dd in pmpi_waitall__ ()
+5397:MPT:    from /glade/u/apps/ch/opt/mpt/2.21/lib/libmpi.so
+5397:MPT: #17 0x000000000086d2bf in pop_halomod_mp_pop_haloupdate2dr8_ ()
+5397:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/ocn/source/POP_HaloMod.F90:1923
+5397:MPT: #18 0x00000000008cc421 in pop_solversmod_mp_pcsi_ ()
+5397:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/ocn/source/POP_SolversMod.F90:1757
+5397:MPT: #19 0x00000000008c7222 in pop_solversmod_mp_pop_solversrun_ ()
+5397:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/ocn/source/POP_SolversMod.F90:455
+5397:MPT: #20 0x00000000008f7047 in barotropic_mp_barotropic_driver_ ()
+5397:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/ocn/source/barotropic.F90:592
+5397:MPT: #21 0x00000000007aad58 in step_mod_mp_step_ ()
+5397:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/ocn/source/step_mod.F90:437
+5397:MPT: #22 0x000000000074827f in ocn_comp_mct_mp_ocn_run_mct_ ()
+5397:MPT:     at /glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.002/bld/ocn/source/ocn_comp_mct.F90:649
+</pre></div>
+
+
+<p>Maybe I should try the <code>mpt/2.22</code> module instead of the 2.21 default? I had been inadvertently running with 2.22 all week, because I switched when I was first seeing the errors after Cheyenne's maintenance period and forgot to switch back... after verifying that the two versions were bit-for-bit (comparing restart files from a <code>gx1v7</code> run), I thought it made sense to switch back to 2.21 because it's the CESM default. That decision was greeted with another <code>Launch error</code> followed by the above.</p>
+
+
+
+<a name="14598"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14598" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14598">(Jul 27 2020 at 13:50)</a>:</h4>
+<p>"then <code>002</code> is to <code>001</code>" should have read "then <code>002</code> is preferable to <code>001</code>".</p>
+<p>Oh joy about <code>002</code>. I'll take a look.</p>
+
+
+
+<a name="14599"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14599" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14599">(Jul 27 2020 at 13:59)</a>:</h4>
+<p>I would only switch to <code>mpt/2.22</code> if there was evidence that it resolves a problem that we are having. I'm not aware of such evidence, and the initial <code>001</code> ran for 3 months without this problem. So I suggest resubmitted <code>002</code>.</p>
+<p>What do you think of setting <code>REST_N=1</code> to reduce lost time if another crash occurs, but keep <code>DOUT_S_SAVE_INTERIM_RESTART_FILES=FALSE</code>?</p>
+
+
+
+<a name="14604"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14604" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14604">(Jul 27 2020 at 15:53)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , the following fields are all zeros. Let's omit them from the output.</p>
+<div class="codehilite"><pre><span></span> sp_loss_poc_zint_100m
+ diat_loss_poc_zint_100m
+ diaz_loss_poc_zint_100m
+</pre></div>
+
+
+
+<a name="14605"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14605" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14605">(Jul 27 2020 at 15:55)</a>:</h4>
+<p>Sounds good. I've kept the other two <code>loss_poc_zint_100m</code> terms:</p>
+<div class="codehilite"><pre><span></span>$ grep loss_poc_zint tx0.1v3_tavg_contents
+4  cocco_loss_poc_zint_100m
+4  zoo_loss_poc_zint_100m
+$ grep loss_poc_zint tx0.1v3_tavg_contents_no5day
+1  cocco_loss_poc_zint_100m
+1  zoo_loss_poc_zint_100m
+</pre></div>
+
+
+
+<a name="14646"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14646" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14646">(Jul 28 2020 at 16:08)</a>:</h4>
+<p>CISL gave me a reservation through Sunday, so my branch off of the poorly-named <code>001</code> case has just begun and the <code>002</code> rerun should start when it finishes. If all the runs take 10 hours, that's 14 runs (3 1/2 years); best case scenario is that we have 2 years of <code>001</code> and 21 months of <code>002</code> when the reservation ends and I'm back to being frustrated with the way PBS computes priority but we'll see how the reservation holds up (fingers crossed that the nodes they gave me are stable)</p>
+
+
+
+<a name="14647"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14647" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14647">(Jul 28 2020 at 16:10)</a>:</h4>
+<p>(I should say that CISL wasn't clear on exactly when the reservation ends... if it runs through 11:59p on Sunday then 14 jobs are possible; if it ends early in the day, that'll obviously mean fewer jobs)</p>
+
+
+
+<a name="14662"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14662" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14662">(Jul 28 2020 at 19:56)</a>:</h4>
+<p><code>g.e22.G1850ECO_JRA_HR.TL319_t13.001</code> crashed in late April with</p>
+<div class="codehilite"><pre><span></span>919:(Task 91, block 1) Message from (lon, lat) ( 339.750, -72.472), which is global (i,j)
+(898, 143). Level: 1
+919:(Task 91, block 1) MARBL ERROR (marbl_diagnostics_mod:store_diagnostics_iron_fluxes):
+abs(Jint_Fetot)= 0.971E-016 exceeds Jint_Fetot_thres= 0.951E-017
+919:(Task 91, block 1) MARBL ERROR (marbl_diagnostics_mod:marbl_diagnostics_interior_tende
+ncy_compute): Error reported from store_diagnostics_iron_fluxes
+919:(Task 91, block 1) MARBL ERROR (marbl_interior_tendency_mod:marbl_interior_tendency_co
+mpute): Error reported from marbl_diagnostics_interior_tendency_compute()
+919:(Task 91, block 1) MARBL ERROR (marbl_interface:interior_tendency_compute): Error repo
+rted from marbl_interior_tendency_compute()
+919:(Task 91, block 1) MARBL ERROR (ecosys_driver:ecosys_driver_set_interior): Error repor
+ted from marbl_instances(1)%set_interior_forcing()
+</pre></div>
+
+
+<p>The daily stream has 24 days of output, so I think the run is initialized correctly (I would have expected bad initial conditions to cause issues sooner in the run); does it make sense to increase <code>Jint_Ctot_thres_molpm2pyr</code> a couple of orders of magnitude, or does this look like the beginning of going off the rails?</p>
+<p>Case root: <code>/glade/work/mlevy/hi-res_BGC_JRA/cases/g.e22.G1850ECO_JRA_HR.TL319_t13.001</code><br>
+Run dir: <code>/glade/scratch/mlevy/g.e22.G1850ECO_JRA_HR.TL319_t13.001/run</code></p>
+<p>The re-run of the first three months of <code>002</code> is currently in progress, but I'd like to have a run queued up for when it finishes (ETA ~10:30p)</p>
+
+
+
+<a name="14665"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14665" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14665">(Jul 28 2020 at 20:43)</a>:</h4>
+<p>There are also a lot of <code>marbl_co2calc_mod</code> warnings at the same (i,j) location, throughout the water column. This worries me that we might be hitting a CFL problem. This is right off the coast of Antarctica, on the eastern edge of the Wedell Sea.</p>
+<p>That said, the immediate cause of the crash is a failed iron conservation check. So let's loosen the criteria on that. Please change the formula for <code>Jint_Fetot_thres</code> to <code>Jint_Fetot_thres = 1.0e2_r8 * parm_Red_Fe_C * Jint_Ctot_thres</code> (in <code>marbl_settings_mod.F90</code>). This should get us past the failed conservation check. Then we cross our fingers that the <code>marbl_co2calc_mod</code> warnings don't become fatal.</p>
+
+
+
+<a name="14666"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14666" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14666">(Jul 28 2020 at 22:45)</a>:</h4>
+<p>Things are not going well for me on cheyenne... just sent this to CISL help:</p>
+<blockquote>
+<p>I had a job fail and the CESM log was reporting</p>
+<p>MPT Warning: 16:24:45: rank 6941: r8i5n13 HCA mlx5_0 port 1 had an IB<br>
+   timeout with communication to r8i6n6. Attempting to rebuild this<br>
+   particular connection.</p>
+<p>There were many warnings, all having trouble with r8i6n6; the output stream from my job says</p>
+<p>PBS: job killed: node 219 (<a href="http://r8i6n6.ib0.cheyenne.ucar.edu" target="_blank" title="http://r8i6n6.ib0.cheyenne.ucar.edu">r8i6n6.ib0.cheyenne.ucar.edu</a>) requested job die, code 15009</p>
+<p>The next job that started up died ~5 minutes in to the run with similar errors:</p>
+<p>MPT Warning: 16:32:04: rank 2481: r8i1n28 HCA mlx5_0 port 1 had an IB<br>
+   timeout with communication to r8i1n30. Attempting to rebuild this<br>
+   particular connection.</p>
+<p>and</p>
+<p>=&gt;&gt; PBS: job killed: node 70 (<a href="http://r8i1n30.ib0.cheyenne.ucar.edu" target="_blank" title="http://r8i1n30.ib0.cheyenne.ucar.edu">r8i1n30.ib0.cheyenne.ucar.edu</a>) requested job die, code 15009</p>
+</blockquote>
+<p>The first run was the re-run of <code>002</code>, which previously died on Feb 12th and this time made it to Feb 8th. The second was the rerun of <code>001</code>, which previously made it to Apr 25 and this time didn't get through Apr 1. On the bright side, I have a restart from 0001-02-01 for the <code>002</code> run.</p>
+
+
+
+<a name="14667"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14667" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14667">(Jul 28 2020 at 22:55)</a>:</h4>
+<p>sigh</p>
+
+
+
+<a name="14685"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14685" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14685">(Jul 28 2020 at 23:32)</a>:</h4>
+<p>Okay, new reservation begins at 1:00a and it's contained in a single rack rather than being spread across the machine. <code>002</code> will start from February restarts, then <code>001</code> will try the April branch again. Both have the <code>marbl_settings_mod.F90</code> SourceMod to increase <code>Jint_Fetot_thres</code>. <span aria-label="fingers crossed" class="emoji emoji-1f91e" role="img" title="fingers crossed">:fingers_crossed:</span></p>
+
+
+
+<a name="14689"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14689" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14689">(Jul 29 2020 at 16:28)</a>:</h4>
+<p>Good news. <code>002</code> is now past where <code>001</code> had the failed iron conservation check. There is comparable noise in both<code>001</code> and <code>002</code> in the nday1 surface fields right around the location of the abort in <code>001</code>, at the ice edge. Fingers crossed that <code>001</code> will get past this point as well.</p>
+
+
+
+<a name="14694"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14694" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14694">(Jul 29 2020 at 17:06)</a>:</h4>
+<p>Thanks for checking up on it, Keith! <code>002</code> finished successfully ~10 minutes ago, so the first four months of output are in <code>/glade/scratch/mlevy/archive/g.e22.G1850ECO_JRA_HR.TL319_t13.002</code>. <code>001</code> is going, and the next 3 months of <code>002</code> has been queued up.</p>
+<p>The previous crash in <code>001</code> came 2 1/2 [wallclock] hours into the run, so I'll check on the run around 1:30</p>
+
+
+
+<a name="14703"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14703" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14703">(Jul 29 2020 at 20:06)</a>:</h4>
+<p>Looks like <code>001</code> crashed again... same grid point, but this time the issue is in the co2 solver</p>
+<div class="codehilite"><pre><span></span>919:(Task 91, block 1) Message from (lon, lat) ( 339.750, -72.472), which is global (i,j) (898, 143). Level: 37
+919:(Task 91, block 1) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) it = 4
+919:(Task 91, block 1) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x1,f =  0.2541340E-009 0.7685970E-001
+919:(Task 91, block 1) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x2,f =  0.4027752E-006 0.2731281E-003
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): bounding bracket for pH solution not found
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) dic =  0.2306659E+004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) ta =  0.2418340E+004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) pt =  0.1702004E+004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) sit =  0.2023047E+006
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) temp =  0.7946957E-002
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) salt =  0.3469127E+002
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:comp_htotal): Error reported from drtsafe
+</pre></div>
+
+
+
+<a name="14704"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14704" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14704">(Jul 29 2020 at 20:09)</a>:</h4>
+<p>Given that these errors tend to be the canary in the coal mine for when the time step is too large, this lines up with <span class="user-mention" data-user-id="31">@Keith Lindsay</span>'s comment</p>
+<blockquote>
+<p>This worries me that we might be hitting a CFL problem.</p>
+</blockquote>
+<p>From the log</p>
+<div class="codehilite"><pre><span></span>There are    480 full  steps each day
+There are     48 half  steps each day
+There are    528 total steps each day
+...
+Surface tracer     time step = 1.714286E+02 seconds
+</pre></div>
+
+
+<p>So not quite 3 minutes per time-step; is it worth testing with a smaller time step? If so, how small?</p>
+
+
+
+<a name="14705"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14705" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14705">(Jul 29 2020 at 20:13)</a>:</h4>
+<p>And we lost <code>002</code> to the same error on a neighboring grid point:</p>
+<div class="codehilite"><pre><span></span>919:(Task 91, block 1) Message from (lon, lat) ( 339.850, -72.429), which is global (i,j) (899, 144). Level: 28
+919:(Task 91, block 1) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) it = 4
+919:(Task 91, block 1) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x1,f =  0.2463634E-009 0.1500757E+000
+919:(Task 91, block 1) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x2,f =  0.3904597E-006 0.8409355E-004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): bounding bracket for pH solution not found
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) dic =  0.2300371E+004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) ta =  0.2411414E+004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) pt =  0.1282488E+004
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) sit =  0.4130503E+006
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) temp =  0.3514307E-001
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) salt =  0.3466589E+002
+919:(Task 91, block 1) MARBL ERROR (marbl_co2calc_mod:comp_htotal): Error reported from drtsafe
+</pre></div>
+
+
+<p><code>002</code> died on May 5, <code>001</code> on Apr 25 (at least, the coupler didn't report getting to May 6 or Apr 26, respectively)</p>
+
+
+
+<a name="14872"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14872" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14872">(Aug 04 2020 at 19:30)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> &amp; <span class="user-mention" data-user-id="10">@Michael Levy</span> , I propose that we have a call to discuss diagnostic/analysis tools for this run. A couple of high priority items to be addressed are: sanity checks, to detect if a run is going off the rails; evaluate drift, to enable decision on moving forward with 003 or 004 (once they are out farther)</p>
+<p>What do you think about 1) today @ 4 PM, 2) Wed @ 10 AM, 3) Wed @ 1 PM, 4) Thu AM, 5) Thu PM?</p>
+
+
+
+<a name="14873"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14873" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14873">(Aug 04 2020 at 19:31)</a>:</h4>
+<p>How about Wed, 1p?</p>
+
+
+
+<a name="14874"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14874" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14874">(Aug 04 2020 at 19:31)</a>:</h4>
+<p>Wed @1 works for me</p>
+
+
+
+<a name="14877"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/14877" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#14877">(Aug 04 2020 at 19:38)</a>:</h4>
+<p>Invite sent. If anyone else on this channel is interested in participating, the zoom info is<br>
+<a href="https://ncar-cgd.zoom.us/j/96288619161" target="_blank" title="https://ncar-cgd.zoom.us/j/96288619161">https://ncar-cgd.zoom.us/j/96288619161</a><br>
+Meeting ID: 962 8861 9161<br>
+Passcode: 4J4Uw+..</p>
+
+
+
+<a name="15017"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/15017" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#15017">(Aug 05 2020 at 23:16)</a>:</h4>
+<p>Per a conversation with <span class="user-mention" data-user-id="14">@Matt Long</span> and <span class="user-mention" data-user-id="31">@Keith Lindsay</span> earlier, I've created <a href="https://github.com/marbl-ecosys/HiRes-CESM-analysis" target="_blank" title="https://github.com/marbl-ecosys/HiRes-CESM-analysis">https://github.com/marbl-ecosys/HiRes-CESM-analysis</a> to provide some quick diagnostics for the high-res run. Main objectives for this package:</p>
+<ul>
+<li>catch if experiment is going off rails</li>
+<li>quantify drift</li>
+<li>tracer budgets</li>
+<li>mean/eddy decompositions of various terms</li>
+<li>various comparisons to lo-res</li>
+</ul>
+<p>I'm focusing first on that first bullet point, and the initial few commits are cleaning up the notebook I linked to <a href="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/Run.20Status/near/14788" title="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/Run.20Status/near/14788">last week</a> that plots mix layer depth at a given grid point.</p>
+<p>I want to clean up the routines that read data from the various case roots because it's currently hard-coded to only read history files through May, and then I'll work on providing more useful metrics than the HMXL plot.</p>
+
+
+
+<a name="15847"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/15847" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#15847">(Aug 20 2020 at 13:27)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>, I was skimming the output and considering tracer budgets. Did we omit the diagnostic term associated with the Robert Filter tendency? Is the Robert Filter on? It looks like we have the total tendency term.</p>
+
+
+
+<a name="15850"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/15850" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#15850">(Aug 20 2020 at 14:48)</a>:</h4>
+<p>We are not using the Robert filter. I don't think it has been exercised in a hi-res configuration.</p>
+
+
+
+<a name="15851"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/15851" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#15851">(Aug 20 2020 at 14:58)</a>:</h4>
+<p>There is no need for Robert filter in 0.1 deg because dt &lt;&lt; coupling interval, therefore standard averaging timestep scheme is not a problem.</p>
+
+
+
+<a name="16445"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/16445" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#16445">(Sep 01 2020 at 15:39)</a>:</h4>
+<p><span class="user-mention" data-user-id="*">@all</span>,  we're considering reshaping our history file output into single-year timeseries files. We have monthly data for 3D vars; a single monthly history file is about ~230 GB now. I think a single year of monthly data for 3D var will be about 24 GB. This seems like a reasonable file size to me. We will also apply lossless compression to the files, which should cut the file size on disk by about a factor of 2.</p>
+<p>Does anyone have concerns with this plan? <span class="user-mention" data-user-id="44">@Frank Bryan</span>, you have expressed concern about using time-series files for hi-res output previously. Do you think this plan is problematic?</p>
+
+
+
+<a name="16446"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/16446" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#16446">(Sep 01 2020 at 15:48)</a>:</h4>
+<p>I think your plan is reasonable. I have not gone down that path primarily because we were more typically working with 5-day output which makes the annual concatenated 3D files unwieldly.</p>
+
+
+
+<a name="16450"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/16450" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#16450">(Sep 01 2020 at 16:12)</a>:</h4>
+<p><span class="user-mention" data-user-id="44">@Frank Bryan</span> We had some concerns about that, as we do plan on writing some 5-day output late in the run. For the 3D fields we will only write the top 15 levels, though, and I think 73 time samples of those variables would be ~35 GB each. Our analysis tools are okay reading in the monthly history files, so we don't anticipate issues with the time series.</p>
+
+
+
+<a name="16630"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/16630" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#16630">(Sep 02 2020 at 18:56)</a>:</h4>
+<p>We are coordinating analysis and development of diagnostic output here:<br>
+<a href="https://github.com/marbl-ecosys/HiRes-CESM-analysis" target="_blank" title="https://github.com/marbl-ecosys/HiRes-CESM-analysis">https://github.com/marbl-ecosys/HiRes-CESM-analysis</a></p>
+<p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
+
+
+
+<a name="22176"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/22176" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#22176">(Nov 27 2020 at 16:30)</a>:</h4>
+<p>Back in July, <span class="user-mention" data-user-id="31">@Keith Lindsay</span> <a href="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/output/near/14589" title="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/output/near/14589">recommended</a> the following changes to tavg:</p>
+<div class="codehilite"><pre><span></span>add photoC_{autotroph} to 5-day
+add photoC_NO3_{autotroph} to 1-month
+rm photoC_TOT terms
+rm photoC_NO3_TOT terms
+rm photoC_{autotroph}_zint_100m terms
+rm photoNO3_{autotroph} terms
+rm photoNH4_{autotroph} terms
+</pre></div>
+
+
+<p>I just updated the spreadsheet to reflect these changes... I was comparing the number of time series files being produced to the summary tab of the spreadsheet and noticed some discrepancies but I think the problem is that these changes were missing from the spreadsheet (my time series count matches the variables per stream in <code>tavg_contents</code>)</p>
+
+
+
+<a name="22177"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/22177" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#22177">(Nov 27 2020 at 16:48)</a>:</h4>
+<p>The spreadsheet also includes changes from <a href="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/output/near/14604" title="#narrow/stream/20-0.2E1.C2.B0-JRA.20BGC.20Run/topic/output/near/14604">this comment</a>:</p>
+<blockquote>
+<p>the following fields are all zeros. Let's omit them from the output.</p>
+</blockquote>
+<div class="codehilite"><pre><span></span> sp_loss_poc_zint_100m
+ diat_loss_poc_zint_100m
+ diaz_loss_poc_zint_100m
+</pre></div>
+
+
+
+<a name="23935"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/23935" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#23935">(Jan 14 2021 at 18:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>, can you please make <code>/glade/campaign/cesm/development/bgcwg/projects/hi-res_JRA</code> world readable?</p>
+
+
+
+<a name="23938"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/output/near/23938" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/output.html#23938">(Jan 14 2021 at 19:33)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="10">Michael Levy</span>, can you please make <code>/glade/campaign/cesm/development/bgcwg/projects/hi-res_JRA</code> world readable?</p>
+</blockquote>
+<p>Done! I'll probably need to rerun</p>
+<div class="codehilite"><pre><span></span>$ cd /glade/campaign/cesm/development/bgcwg/projects ; chmod -R o+rX hi-res_JRA/
+</pre></div>
+
+
+<p>a couple more times before I remember to set the permissions correctly <strong>before</strong> transferring additional files into the directory...</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I'm trying to calculated mean ocean temperatures below 700m.  I'm using the weighted function to weight by the layer thickness, but most of my result ends up being NANs because of they are present at depth in shallower areas.  Is there a way around this? I've taken a few screenshots of simplified workflow showing the basic issue.  Any thoughts on how to work around this?</p>\n<p><a href=\"/user_uploads/2/9b/wz-_7z7LY_rNRz8WDyDklBoc/Screen-Shot-2022-06-10-at-11.44.00-AM-2.png\">Screen-Shot-2022-06-10-at-11.44.00-AM-2.png</a> <a href=\"/user_uploads/2/6e/ZOJpRi12FPy3LhoCyAWbOBsL/Screen-Shot-2022-06-10-at-11.44.05-AM-2.png\">Screen-Shot-2022-06-10-at-11.44.05-AM-2.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/9b/wz-_7z7LY_rNRz8WDyDklBoc/Screen-Shot-2022-06-10-at-11.44.00-AM-2.png\" title=\"Screen-Shot-2022-06-10-at-11.44.00-AM-2.png\"><img src=\"/user_uploads/2/9b/wz-_7z7LY_rNRz8WDyDklBoc/Screen-Shot-2022-06-10-at-11.44.00-AM-2.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/6e/ZOJpRi12FPy3LhoCyAWbOBsL/Screen-Shot-2022-06-10-at-11.44.05-AM-2.png\" title=\"Screen-Shot-2022-06-10-at-11.44.05-AM-2.png\"><img src=\"/user_uploads/2/6e/ZOJpRi12FPy3LhoCyAWbOBsL/Screen-Shot-2022-06-10-at-11.44.05-AM-2.png\"></a></div>",
+        "id": 56426,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1654886716
+    },
+    {
+        "content": "<p>Your method looks reasonable to me. Have you tried plotting your \"xx\" array? It's not surprising there are NaNs at low/high latitudes and a plot should show valid values where ocean is deeper than 700m.  Also, it looks like you need to request more memory when logging in to JupyterHub, as your memory usage exceeds your request.</p>",
+        "id": 56449,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1654898982
+    },
+    {
+        "content": "<p>Yes, I've tried plotting a map for a time slice and it is just blank (all NaNs).  I also thought it should show valid values.  I don't know what else I could try?  (And yes, will request more memory, thanks for the reminder)</p>",
+        "id": 56450,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1654900039
+    },
+    {
+        "content": "<p>This error actually looks like it had to do with pop-tools layer depths.  They are apparently slightly different (rounding error) than those in the actual POP temp files...</p>",
+        "id": 56485,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1655144138
+    }
+]

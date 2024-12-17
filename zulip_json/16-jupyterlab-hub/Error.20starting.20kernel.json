@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I am attempting to start work on <a href=\"http://jupyterhub.hpc.ucar.edu\">jupyterhub.hpc.ucar.edu</a> (Casper PBS Batch) and encountering the following error when selecting a kernel for my notebooks:</p>\n<div class=\"codehilite\"><pre><span></span><code>Error Starting Kernel\n[Errno 2] No such file or directory: &#39;/glade/u/home/mclong/.jupyter_rt_asm/kernel-99d3c958-377d-4d59-877e-30c2e4a06df6.json&#39;\n</code></pre></div>\n<p>I don't get an error using the Hub for Cheyenne Login.</p>",
+        "id": 55028,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652800780
+    },
+    {
+        "content": "<p>It doesn't seem to matter which kernel—they all trigger a similar error (different missing file)</p>",
+        "id": 55029,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652800824
+    },
+    {
+        "content": "<p>Restarting my server has solved the problem. I noticed that the directory <code>~/.jupyter_rt_asm</code> was missing (\"asm\" was my named server), but <code>~/.jupyter_rt_ch</code> was there (\"ch\" was my Cheyenne Login server). </p>\n<p>Something must have gone wrong in the start up sequence...</p>",
+        "id": 55030,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652801382
+    },
+    {
+        "content": "<p>I'll have a closer look. Those rt directories are only supposed to be purged on sigterm of the PBS job. I'll have to see if it proliferates if you get sigterm on a kernel triggering the trap.</p>",
+        "id": 55036,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1652803763
+    },
+    {
+        "content": "<p>I had the same issue; restarting worked for me as well.</p>",
+        "id": 55117,
+        "sender_full_name": "Dan Amrhein",
+        "timestamp": 1652900361
+    },
+    {
+        "content": "<p>Thanks for posting your issue and solution here, Matt, as I had the same problem today and your post helped me resolve it faster that I might have!</p>",
+        "id": 56649,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1655319520
+    }
+]

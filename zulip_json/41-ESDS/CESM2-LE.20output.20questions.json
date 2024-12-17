@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Hello! I am a PhD student at CU Boulder with access to Casper. I want to compare two decades of several (ocean, monthly) variables available in CESM2-LE and am struggling with enormous file sizes and processing times using Jupyter notebooks. Is there someone who has worked or is working with analyzing output from 100 ensemble members that can share tips to make my experiments more efficient? I can send a path to one notebook for you to peruse, if that helps. Thanks in advance!</p>",
+        "id": 89493,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1695926685
+    },
+    {
+        "content": "<p>Hi Holly. Are you using Dask?</p>",
+        "id": 89494,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1695927531
+    },
+    {
+        "content": "<p>Hi Julia. Yes, I am.</p>",
+        "id": 89495,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1695927727
+    },
+    {
+        "content": "<p>My next questions would be: are you sure you've requested multiple workers on Casper? And can you make sure that your Dask chunks are a reasonable size and not in the dimension you are computing over? It still would be helpful for someone else from ESDS to provide some insight to their workflows (as I am not working with huge datasets like this on the regular).</p>",
+        "id": 89513,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1695945054
+    },
+    {
+        "content": "<p>Thank you for thinking on this. I am sure but agree that someone could provide insight in case I've missed anything that might help. I made a virtual appointment with HPC for Monday but feel I still may be searching for someone who is working with these 100 ensemble members. I am going to ask in a couple of grad Slack's I'm in, too. Thanks again!</p>",
+        "id": 89514,
+        "sender_full_name": "Holly Olivarez",
+        "timestamp": 1695945338
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span> there are a couple of <a href=\"https://ncar.github.io/esds/blog/tag/cesm2-le/\">ESDS blog posts</a> using CESM2-LE from a few years back that could be helpful. <br>\nIt would be great to see if there are any more recent examples from the community that we could feature as blog posts or <a href=\"https://cookbooks.projectpythia.org/\">Pythia cookbooks</a>.</p>",
+        "id": 89612,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1696270730
+    },
+    {
+        "content": "<p>Hey Everyone, I have previously worked with the all LENS2 dataset extensively and I was in the process of creating a cookbook for them. I've met with Holly today and provided some guidelines on how to accelerate the workflow. But this gives me the motivation to finish up a notebook example of dealing with large number of ensembles...</p>",
+        "id": 89619,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1696278102
+    },
+    {
+        "content": "<p>I've also been working with CESM2-LE daily data. I've figured out some workflows that work with xarray/dask, but not sure if they are very efficient... I would love to see your notebook example, <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span>, to see how I can improve my workflow once you put it together!</p>",
+        "id": 89703,
+        "sender_full_name": "Danielle Touma",
+        "timestamp": 1696360308
+    }
+]

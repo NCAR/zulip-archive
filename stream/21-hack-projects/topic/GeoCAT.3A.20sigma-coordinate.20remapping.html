@@ -1,0 +1,63 @@
+<html>
+<head><meta charset="utf-8"><title>GeoCAT: sigma-coordinate remapping · hack-projects · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/index.html">hack-projects</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/GeoCAT.3A.20sigma-coordinate.20remapping.html">GeoCAT: sigma-coordinate remapping</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="3276"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/GeoCAT%3A%20sigma-coordinate%20remapping/near/3276" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/GeoCAT.3A.20sigma-coordinate.20remapping.html#3276">(Mar 15 2020 at 03:06)</a>:</h4>
+<p>Here's a minimum working example of some code that remaps the ocean model from <code>z</code> coordinates to <code>sigma</code> coordinates.   <br/>
+<a href="https://github.com/matt-long/remap_z_to_sigma/tree/master" target="_blank" title="https://github.com/matt-long/remap_z_to_sigma/tree/master">https://github.com/matt-long/remap_z_to_sigma/tree/master</a></p>
+<p>This is based on code that <span class="user-mention" data-user-id="31">@Keith Lindsay</span> wrote in F77 and I wrapped with f2py.</p>
+<p>I wrote the Python wrapper...as a project to learn Python (this origin is abundantly evident in the code).</p>
+<p>While I am using <code>dask.delayed</code>to work on time chunks in parallel, my remapper code is setup to read and write files (i.e. it is doing I/O!). </p>
+<p>[You can see my bias here in the command line interface (CLI) I built. I used to do that a lot. As I've starting using Jupyter to interact with my data, I rarely do that anymore.]</p>
+<p>The code breaks up input datasets (timeseries) into multiple time-chunk files; it operates on each and concatenate output files with <code>nco</code>. </p>
+<p>There are several shortcomings:</p>
+<ul>
+<li>This works, but is not as performant as it could be. This is an embarrassingly parallel problem, each vertical column is independent.</li>
+<li>It's also clunky.  Mixing the computation with I/O makes this tool less useful than it could be if it just operated on an <code>xarray.Dataset</code> or <code>DataArrays</code>. This would offer opportunities to explore <code>dask</code> parallelism (and could in theory still support a CLI for files). </li>
+<li>Finally, this code is POP centric, but should be general.</li>
+</ul>
+<p>I would like to invite contributions to improving the workflow for this operation. This notebook illustrates the workflow<br/>
+<a href="https://github.com/matt-long/remap_z_to_sigma/blob/master/sigma_remap.ipynb" target="_blank" title="https://github.com/matt-long/remap_z_to_sigma/blob/master/sigma_remap.ipynb">https://github.com/matt-long/remap_z_to_sigma/blob/master/sigma_remap.ipynb</a><br/>
+Depends on data on glade but can work on any POP output (<code>PD</code> variable required).</p>
+<p><span class="user-mention" data-user-id="18">@Orhan Eroglu</span> would you be willing to lead this effort?  <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>, we've discussed this before, so would good to have you involved. <span class="user-mention" data-user-id="31">@Keith Lindsay</span> and <span class="user-mention" data-user-id="10">@Michael Levy</span> may have important insight and advice. </p>
+<p>Some questions:</p>
+<ul>
+<li>Can this functionality be replicated with existing tools in the pangeo stack? (i.e. <code>xhistogram</code>, <code>xgcm</code>)</li>
+<li>If not, where should this functionality be implemented?</li>
+</ul>
+<p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span>, <span class="user-mention" data-user-id="*">@all</span></p>
+
+
+
+<a name="3278"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/GeoCAT%3A%20sigma-coordinate%20remapping/near/3278" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/GeoCAT.3A.20sigma-coordinate.20remapping.html#3278">(Mar 15 2020 at 16:00)</a>:</h4>
+<p>This would of course be a very useful tool to have in <code>pop_tools</code> or as a standalone utility. For some inspiration,  Spencer Jones wrote <a href="https://github.com/cspencerjones/xlayers" target="_blank" title="https://github.com/cspencerjones/xlayers">https://github.com/cspencerjones/xlayers</a> at the CMIP6 hackathon. I think it wraps some fortran code as well and interfaces with <code>xarray</code>. It's supposedly finished for the most part, but the docs are not great. I haven't tried it yet. But it might serve as some inspiration for how to handle this for POP. Or perhaps it can be leveraged directly. Just some thoughts.</p>
+
+
+
+<a name="4480"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/GeoCAT%3A%20sigma-coordinate%20remapping/near/4480" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/GeoCAT.3A.20sigma-coordinate.20remapping.html#4480">(Mar 23 2020 at 03:57)</a>:</h4>
+<p>Hi Matt,</p>
+<p>I noticed with <span class="user-mention" data-user-id="19">@John Clyne</span> 's reminder that I have missed this message within the last week's email flows. Sorry to you, thanks to John!</p>
+<p>My short answer is yes; I would be glad to make this effort. Thanks a lot for the insights you have already given. I will get into the code in the following days and try to come up with an interpretation of mine.</p>
+<p>Talk to you soon on this!</p>
+
+
+
+<a name="6427"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/GeoCAT%3A%20sigma-coordinate%20remapping/near/6427" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/GeoCAT.3A.20sigma-coordinate.20remapping.html#6427">(Apr 10 2020 at 20:10)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="14">@Matt Long</span> , <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>, <span class="user-mention" data-user-id="31">@Keith Lindsay</span>, <span class="user-mention" data-user-id="10">@Michael Levy</span>, and possible others who would be interested and/or have previous effort with this z-to-sigma remapping work. </p>
+<p>I will be trying to get familiar with this code as well as potentially usable existing resources such as Pangeo stack from now on. Any recommendations or plans from your expertise on how to kick off and further proceed this effort  would be great to hear. I will be reporting my findings as well.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

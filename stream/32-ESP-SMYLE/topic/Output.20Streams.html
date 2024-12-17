@@ -1,0 +1,57 @@
+<html>
+<head><meta charset="utf-8"><title>Output Streams · ESP-SMYLE · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/index.html">ESP-SMYLE</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Output.20Streams.html">Output Streams</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="20778"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Output%20Streams/near/20778" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Output.20Streams.html#20778">(Nov 02 2020 at 22:48)</a>:</h4>
+<p>All, Here is a link to the SMYLE output spreadsheet:<br>
+<a href="https://docs.google.com/spreadsheets/d/1BQ7f_OrtZog3rnlXWhzIFODaRZkjpBAnFWe1rWpo9Ds/edit?usp=sharing" target="_blank" title="https://docs.google.com/spreadsheets/d/1BQ7f_OrtZog3rnlXWhzIFODaRZkjpBAnFWe1rWpo9Ds/edit?usp=sharing">https://docs.google.com/spreadsheets/d/1BQ7f_OrtZog3rnlXWhzIFODaRZkjpBAnFWe1rWpo9Ds/edit?usp=sharing</a></p>
+<p>Please suggest edits and/or discuss below.</p>
+
+
+
+<a name="20848"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Output%20Streams/near/20848" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Output.20Streams.html#20848">(Nov 04 2020 at 00:28)</a>:</h4>
+<p>Daily winds at 10 meters? This will allow to perform dynamical regional downscaling. Since no other dataset (as far as I know) includes all the variables needed to do a clean downscaling, it might be a real plus in my view.</p>
+
+
+
+<a name="23103"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Output%20Streams/near/23103" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Output.20Streams.html#23103">(Dec 15 2020 at 22:25)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> <span class="user-mention" data-user-id="14">@Matt Long</span>   We're planning to save POP budget terms for the following tracers: DIC, TEMP, SALT.<br>
+The full tracer budget requires these 3D fields: HDIFB_, HDIFE_, HDIFN_, KPP_SRC_, UE_, VN_, WT_, + any SGS advection and/or source terms. Could we economize on output by saving _TEND and computing mixing (HDIF + KPP) as a residual? This would allow us to eliminate in net 9 3D fields.</p>
+
+
+
+<a name="23351"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Output%20Streams/near/23351" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Output.20Streams.html#23351">(Dec 22 2020 at 03:12)</a>:</h4>
+<p>Steve, I apologize for not getting back to you earlier, I've been swamped.<br>
+I'm not clear on which terms you are proposing dropping.<br>
+Note that the model has a variety of processed based tendency terms available.<br>
+I think that these were not used in the CESM2 LENS because Keith Rodgers wanted fluxes, not tendencies.</p>
+<div class="codehilite"><pre><span></span>TEND_TEMP
+RF_TEND_TEMP
+ISOP_ADV_TEND_TEMP
+Redi_TEND_TEMP
+SUBM_ADV_TEND_TEMP
+HDIF_EXPLICIT_3D_TEMP
+ADV_3D_TEMP
+</pre></div>
+
+
+
+<a name="23357"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/32-ESP-SMYLE/topic/Output%20Streams/near/23357" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/32-ESP-SMYLE/topic/Output.20Streams.html#23357">(Dec 22 2020 at 17:42)</a>:</h4>
+<p>Keith, Column L of the SMYLE output spreadsheet lists a bunch of 3D fields that adds significantly to the data footprint. I'm still looking for about ~10GB/year to save by eliminating some of these. I'm proposing dropping the following (for VAR={DIC,TEMP,SALT}):  DIA_IMPVF_VAR, HDIFB_VAR, HDIFE_VAR, HDIFN_VAR, KPP_SRC_VAR. I'd add the following:  TEND_VAR.   This would still allow for budget analysis, but not a detailed breakdown of mixing/diffusion terms.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

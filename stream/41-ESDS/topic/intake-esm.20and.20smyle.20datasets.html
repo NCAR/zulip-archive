@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>intake-esm and smyle datasets · ESDS · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/index.html">ESDS</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html">intake-esm and smyle datasets</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html">intake-esm and smyle datasets</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="29533"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29533" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29533">(Apr 14 2021 at 18:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29533" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29533">(Apr 14 2021 at 18:03)</a>:</h4>
 <p>It seems like there is a common issue with efficiently reading subsets of CESM-LE / SMYLE / other datasets. Daniel's efficient solution  to this problem is being copy-pasted in quite a number of notebooks I've seen.</p>
 <p>I think the sustainable solution forward is to move that logic into intake_esm (if it is not there already) and promote intake_esm more.</p>
 <p>cc <span class="user-mention" data-user-id="34">@Stephen Yeager</span> <span class="user-mention" data-user-id="67">@Will Wieder</span> <span class="user-mention" data-user-id="120">@Daniel Kennedy</span>  <span class="user-group-mention" data-user-group-id="4">@xdev</span></p>
@@ -18,20 +18,20 @@
 
 
 <a name="29534"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29534" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29534">(Apr 14 2021 at 18:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29534">(Apr 14 2021 at 18:11)</a>:</h4>
 <p>Here's where I have some code to access the CESM-LE: <a href="https://github.com/djk2120/cesm-lens/blob/main/notebooks/lens_template.ipynb" target="_blank" title="https://github.com/djk2120/cesm-lens/blob/main/notebooks/lens_template.ipynb">https://github.com/djk2120/cesm-lens/blob/main/notebooks/lens_template.ipynb</a></p>
 
 
 
 <a name="29535"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29535" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29535">(Apr 14 2021 at 18:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29535" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29535">(Apr 14 2021 at 18:15)</a>:</h4>
 <p>This works for me.  <br>
 Can we include some good documentation for how users should interface with the function in intake_esm?</p>
 
 
 
 <a name="29536"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29536" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29536">(Apr 14 2021 at 18:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/29536" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#29536">(Apr 14 2021 at 18:29)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span> put together an example on <code>inake_esm</code> last week:<br>
 <a href="https://ncar.github.io/esds/posts/intake_esm_dask/" target="_blank" title="https://ncar.github.io/esds/posts/intake_esm_dask/">https://ncar.github.io/esds/posts/intake_esm_dask/</a></p>
 <p>The package is documented here:<br>
@@ -54,7 +54,7 @@ Can we include some good documentation for how users should interface with the f
 
 
 <a name="30142"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/30142" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#30142">(Apr 22 2021 at 22:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/intake-esm%20and%20smyle%20datasets/near/30142" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/intake-esm.20and.20smyle.20datasets.html#30142">(Apr 22 2021 at 22:55)</a>:</h4>
 <p>I posted this on the repo but  it's private so I'm posting here too since it seems to be broadly useful.</p>
 <p>The following version seems to work and is a single <code>open_mfdataset</code> call. It should be more feasible to write it as an intake-esm thing.</p>
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_smyle</span><span class="p">(</span><span class="n">ds0</span><span class="p">):</span>
@@ -110,5 +110,5 @@ Can we include some good documentation for how users should interface with the f
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,94 @@
+<html>
+<head><meta charset="utf-8"><title>no volcano forcing · pinatubo-LE · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/index.html">pinatubo-LE</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html">no volcano forcing</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="20551"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20551" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20551">(Oct 28 2020 at 15:21)</a>:</h4>
+<p>This notebook generates a <code>prescribed_volcaero_file</code> without Mt Pinatubo. <br>
+<a href="https://github.com/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb" target="_blank" title="https://github.com/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb">https://github.com/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb</a><br>
+(<a href="https://nbviewer.jupyter.org/github/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb" target="_blank" title="https://nbviewer.jupyter.org/github/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb">viewable here</a>)</p>
+<p>It simply replaces the 5 years of data bracketing the event with the preceding 5 years.  This is a very crude first cut. </p>
+<p><span class="user-mention" data-user-id="126">@Andrew Gettelman</span>, what do you think of this approach? What should we look at to ensure it's acceptable? Is this the only forcing file we need to modify?</p>
+
+
+
+<a name="20554"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20554" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20554">(Oct 28 2020 at 15:34)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> One of <span class="user-mention" data-user-id="126">@Andrew Gettelman</span>'s early emails about this suggested replacing each year in 1991-1995 with the monthly climatology from 1986-1990 rather than repeating the five-year period exactly. Another possibility was linearly interpolating each month from 1990 to 1996 (e.g. drawing a line from Jan 1990 - Jan 1996 and using those values to compute Jan '91, '92, '93, '94, and '95 then doing the same for Feb and so on)</p>
+
+
+
+<a name="20555"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20555" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20555">(Oct 28 2020 at 16:10)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> 's method seems fine. His method is doing what you want: remove Pinatubo from the forcing and have a 'clean' emission file. I think the figure indicates this is fine. Hard to tell how smooth it is in either side given the scale, but I think it's fine and serves the purpose. If there are some subtle jumps, maybe a linear ramp is needed, but I doubt it.</p>
+
+
+
+<a name="20556"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20556" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20556">(Oct 28 2020 at 16:18)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="126">@Andrew Gettelman</span>. There is a little blip prior to the eruption in my censored version. Note that I haven't done any pressure weighting to produce those plots—just straight sums over <code>lev</code>.</p>
+
+
+
+<a name="20568"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20568" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20568">(Oct 28 2020 at 16:40)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span>  I would also worry about the small bump or any other small perturbations prior to eruption day, based on recent work suggesting potential impacts of very small perturbations on ENSO phase post eruption: <a href="https://www.nature.com/articles/s43247-020-0013-y" target="_blank" title="https://www.nature.com/articles/s43247-020-0013-y">https://www.nature.com/articles/s43247-020-0013-y</a>  <br>
+Maybe use exact eruption month/day, e.g.  <code>where (199106&lt;ds.time)</code> in [15] to ensure the forcing is exactly the same prior to eruption day?</p>
+
+
+
+<a name="20569"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20569" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20569">(Oct 28 2020 at 16:41)</a>:</h4>
+<p>I think it depends on the fraction of the total that the blip is. I don't think small perturbations are going to matter. ENSO effects seem somewhat stochastic to me.</p>
+
+
+
+<a name="20574"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20574" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20574">(Oct 28 2020 at 17:04)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="14">Matt Long</span>  I would also worry about the small bump or any other small perturbations prior to eruption day, based on recent work suggesting potential impacts of very small perturbations on ENSO phase post eruption: <a href="https://www.nature.com/articles/s43247-020-0013-y" target="_blank" title="https://www.nature.com/articles/s43247-020-0013-y">https://www.nature.com/articles/s43247-020-0013-y</a>  <br>
+Maybe use exact eruption month/day, e.g.  <code>where (199106&lt;ds.time)</code> in [15] to ensure the forcing is exactly the same prior to eruption day?</p>
+</blockquote>
+<p>This seems reasonable to me. The blip seems really tiny—but I just threw that notebook together to get the ball rolling. <span class="user-mention" data-user-id="84">@Yassir Eddebbar</span>, want to submit a PR?</p>
+
+
+
+<a name="20576"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20576" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20576">(Oct 28 2020 at 17:20)</a>:</h4>
+<p>Sure thing!</p>
+
+
+
+<a name="20720"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20720" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Galen McKinley <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20720">(Oct 30 2020 at 18:24)</a>:</h4>
+<p>Sounds good to me. What is a PR, by the way?</p>
+
+
+
+<a name="20721"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20721" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20721">(Oct 30 2020 at 18:26)</a>:</h4>
+<p>PR = pull request on GitHub</p>
+
+
+
+<a name="20722"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20722" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Galen McKinley <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20722">(Oct 30 2020 at 18:28)</a>:</h4>
+<p>OK. right. I am a newbie there too</p>
+
+
+
+<a name="20723"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/36-pinatubo-LE/topic/no%20volcano%20forcing/near/20723" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Galen McKinley <a href="http://127.0.0.1:4000/html/stream/36-pinatubo-LE/topic/no.20volcano.20forcing.html#20723">(Oct 30 2020 at 18:40)</a>:</h4>
+<p>Thanks for getting this going!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

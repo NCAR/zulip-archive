@@ -1,0 +1,73 @@
+<html>
+<head><meta charset="utf-8"><title>generating intake catalog for CESM output · hack-projects · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/index.html">hack-projects</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/generating.20intake.20catalog.20for.20CESM.20output.html">generating intake catalog for CESM output</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="9427"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/generating%20intake%20catalog%20for%20CESM%20output/near/9427" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/generating.20intake.20catalog.20for.20CESM.20output.html#9427">(May 22 2020 at 19:02)</a>:</h4>
+<p>A group of us are just starting to work on an update to the CESM workflow to include a "generate <code>intake-esm</code> catalog" step, targeting CESM 2.3. Some background is available in <a class="stream-topic" data-stream-id="17" href="/#narrow/stream/17-python-dev/topic/workflow">#python-dev &gt; workflow</a> </p>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> and I are going to meet via zoom at 2:30 today to work on a more detailed plan for the project; if you're interested, let me know and I'll add you to the meeting.</p>
+
+
+
+<a name="9519"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/generating%20intake%20catalog%20for%20CESM%20output/near/9519" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/generating.20intake.20catalog.20for.20CESM.20output.html#9519">(May 23 2020 at 00:00)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> and I have a tentative plan to move forward. Our vision is a tool that generates a <code>csv</code> file for <code>intake-esm</code> based on the contents of the short-term archive for a single CESM run (currently starting with the requirement that pyReshaper has archived time series, but adding a tool to handle archived time slice files soon after), and a wrapper layer that sends <code>intake-esm</code> (1) a <code>dataFrame</code> from the <code>csv</code> file but converts relative path to files listed in the <code>csv</code> into an absolute path, and (2) a dictionary containing what is currently in the JSON files for cesm non-CMOR catalogs. At some point we will also add a tool to generate a catalog of an ensemble of runs by stitching together individual catalogs.</p>
+<p>I have created <a href="https://github.com/NCAR/CESM_catalog" target="_blank" title="https://github.com/NCAR/CESM_catalog">https://github.com/NCAR/CESM_catalog</a> for this purpose, but am happy to rename the tool. <span class="user-mention" data-user-id="8">@Kevin Paul</span> I may bug you on Tuesday for advice on Xdev-ing the repo; I need to add the group to the admin list, and I think we want the xdev bot helping manage issue tickets.</p>
+<p>Action items for this coming week:</p>
+<ol>
+<li>I'll generate 1 year of output from a <code>B1850</code> compset and have pyReshaper convert it to time series (I thought I had done this but the reshaping job failed)</li>
+<li>I'll write a python script that takes <code>$CASEROOT</code> as an input and uses <code>xmlquery</code> to save <code>CASE</code>, and <code>DOUT_S_ROOT</code> to memory.</li>
+<li>
+<p>Anderson will take my script and use it to generate a <code>csv</code> file containing the following columns:</p>
+<ul>
+<li><code>case</code> [strictly speaking this isn't needed, but it could provide useful]</li>
+<li><code>component</code></li>
+<li><code>stream</code></li>
+<li><code>variable</code></li>
+<li><code>date_range</code></li>
+<li><code>path</code></li>
+<li><code>ctrl_branch_year</code></li>
+<li><code>ctrl_case</code></li>
+</ul>
+</li>
+</ol>
+<p>We also talked about the idea of adding <code>long_name</code> to the column list; once <code>intake-esm</code> supports regular expression searches, that could be an easy way for someone unfamiliar with CESM variable naming conventions to find the data they are looking for. It might also be useful to have a tool that generates the <code>csv.gz</code> and <code>json</code> pair to be read in by <code>intake-esm</code>... e.g. if you are sharing the catalog with someone who isn't familiar with CESM_catalog.</p>
+
+
+
+<a name="9520"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/generating%20intake%20catalog%20for%20CESM%20output/near/9520" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/generating.20intake.20catalog.20for.20CESM.20output.html#9520">(May 23 2020 at 00:00)</a>:</h4>
+<p>The tool to generate an ensemble would be pretty straightforward -- read a YAML file that is something like</p>
+<div class="codehilite"><pre><span></span>experiment1:
+  case1:
+    catalog_path: [path to catalog]
+    member_id: ###
+  case2:
+    catalog_path: [path to catalog]
+    member_id: ###
+experiment2:
+  case3:
+    catalog_path: [path to catalog]
+    member_id: ###
+</pre></div>
+
+
+<p>each individual catalog would be read in, the <code>experiment</code> and <code>member_id</code> columns would be added, and the <code>ctrl_case</code> column would be replaced with <code>ctrl_experiment</code> and <code>ctrl_member_id</code> (assuming <code>ctrl_case</code> is also a member of the ensemble). Then all the individual catalogs would be concatenated into one giant file (we'd need to replace relative path names with absolute ones at this stage).</p>
+
+
+
+<a name="9521"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/generating%20intake%20catalog%20for%20CESM%20output/near/9521" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/generating.20intake.20catalog.20for.20CESM.20output.html#9521">(May 23 2020 at 00:04)</a>:</h4>
+<p>Ccing  <span class="user-mention" data-user-id="37">@Sheri Mickelson</span></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

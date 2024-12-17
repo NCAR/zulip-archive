@@ -1,0 +1,40 @@
+<html>
+<head><meta charset="utf-8"><title>polar projection plots · CESM-diagnostics · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/polar.20projection.20plots.html">polar projection plots</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="95126"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/polar%20projection%20plots/near/95126" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/polar.20projection.20plots.html#95126">(Jan 26 2024 at 20:12)</a>:</h4>
+<p>I know that pcolormesh works fine with the latitude and longitude from the model. I am looking at CICE output, so I can use TLAT/TLON here. Now, I thought I had heard that contourf should work with these nonuniform grids as well. I can't seem to get that to work. I can certainly use pcolormesh, but I can't control the contour levels like one can in contourf.</p>
+
+
+
+<a name="95130"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/polar%20projection%20plots/near/95130" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/polar.20projection.20plots.html#95130">(Jan 26 2024 at 20:29)</a>:</h4>
+<p>It looks like contour/contourf expect a regular grid, but tricontourf could be an option <a href="https://matplotlib.org/stable/gallery/images_contours_and_fields/irregulardatagrid.html">more here</a>.  Do you have some sample data to work with?  <a href="https://github.com/NCAR/geocat-examples/issues/522">Katie's sea ice example issue</a> is on my list to get to next week as well.  Apologies for the delay on that.</p>
+
+
+
+<a name="95135"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/polar%20projection%20plots/near/95135" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/polar.20projection.20plots.html#95135">(Jan 26 2024 at 20:39)</a>:</h4>
+<p>That was actually my scripts. :) We did use pcolormesh for the CESM Tutorial. I have some sample data in:</p>
+<p>/glade/campaign/cesm/development/cross-wg/diagnostic_framework/CESM_output_for_testing</p>
+<p>The cases b.e23_alpha16g.BLT1850.ne30_t232.073c and b.e23_alpha16g.BLT1850.ne30_t232.075c have climatologies and timeseries files here. The variable aice (0 to 1) is a good place to start.</p>
+<p>I did look at tricontourf, but I don't think it does quite what we want.</p>
+
+
+
+<a name="95136"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/polar%20projection%20plots/near/95136" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/polar.20projection.20plots.html#95136">(Jan 26 2024 at 20:43)</a>:</h4>
+<p>Thanks!  I'll take a look.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

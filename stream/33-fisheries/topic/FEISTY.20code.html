@@ -1,0 +1,1939 @@
+<html>
+<head><meta charset="utf-8"><title>FEISTY code · fisheries · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/33-fisheries/index.html">fisheries</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html">FEISTY code</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="17697"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/17697" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#17697">(Sep 22 2020 at 12:56)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span>, what is the status of the FEISTY code? Do you have it in a GitHub repo? It would be great to start to poke around the code and consider how best to facilitate offline applications—and begin moving toward the online model.</p>
+
+
+
+<a name="17706"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/17706" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#17706">(Sep 22 2020 at 16:57)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> , I do have it on GitHub, but it is a bit of a mess. I'm too much of a git novice to utilize branches, so I keep different version in separate folders instead. The code also needs to be streamlined. Maybe the best place for you to start is this one: <a href="https://github.com/cpetrik/FEISTY/tree/master/CODE/clim_complete" target="_blank" title="https://github.com/cpetrik/FEISTY/tree/master/CODE/clim_complete">https://github.com/cpetrik/FEISTY/tree/master/CODE/clim_complete</a></p>
+
+
+
+<a name="17711"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/17711" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#17711">(Sep 22 2020 at 17:34)</a>:</h4>
+<p>Awesome, thanks! Can we schedule a walk thru in a couple of weeks? I would like to invite <span class="user-mention" data-user-id="28">@Kristen Krumhardt</span>, <span class="user-mention" data-user-id="10">@Michael Levy</span> and possibly <span class="user-mention" data-user-id="39">@Zephyr Sylvester</span> (if she has time).</p>
+<p>I think the key thing is to identify a refactoring plan. We might want to consider a code base capable of supporting both offline and online applications.</p>
+<p>In the context of this effort, it will be really useful to have a reference solution against which to check answers.</p>
+
+
+
+<a name="17926"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/17926" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#17926">(Sep 24 2020 at 00:40)</a>:</h4>
+<p><span class="user-mention" data-user-id="*">@stream</span>  I can give a walk through in Oct.</p>
+
+
+
+<a name="33178"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/33178" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#33178">(Jun 02 2021 at 15:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span>, I was starting to poke around the FEISTY code you have linked above. Do you have an example of the code being called? I would like to develop a better understanding of the calling tree.</p>
+
+
+
+<a name="33236"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/33236" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#33236">(Jun 02 2021 at 18:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> , the code calling tree looks like Make.m -&gt; Simulation -&gt; sub_futbio.m <br>
+Make just picks the simulation. The example simulation in that repository is the ESM2.6-COBALT Climatology. The simulation code has some set-up for loading the gridfile and the forcing file(s) and creating the netcdf files for saving in addition to calling the main program "sub_futbio." The main program is where the majority of the subroutines get called. e.g. metabolism, encounter, ingestion, consumption, reproduction, etc. Let me know if you want anything more specific than that.</p>
+
+
+
+<a name="44651"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/44651" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#44651">(Oct 07 2021 at 23:23)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> and <span class="user-mention" data-user-id="10">@Michael Levy</span> , I have pushed all FEISTY documentation, including a check table of input and output values, to my github repo. <br>
+<a href="https://github.com/cpetrik/fish-offline/tree/main/docs">https://github.com/cpetrik/fish-offline/tree/main/docs</a></p>
+
+
+
+<a name="44657"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/44657" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#44657">(Oct 08 2021 at 12:28)</a>:</h4>
+<p>thanks <span class="user-mention" data-user-id="122">@Colleen Petrik</span>!</p>
+
+
+
+<a name="48531"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48531" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48531">(Dec 22 2021 at 23:38)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> , <span class="user-mention" data-user-id="10">@Michael Levy</span> , <span class="user-mention" data-user-id="39">@Zephyr Sylvester</span> : I did a quick run of the testcase using my Matlab code and the testcase default parameters, bathymetry, and cyclical forcing. It results in an increase in biomass of all types, not a decrease. Definitely something to dig into in the new year. <a href="/user_uploads/2/a3/5AnwWuFCLGSwBiDjPU4jWez7/testcase_v1_All_fish03_ts_logmean_biomass_location1.png">testcase_v1_All_fish03_ts_logmean_biomass_location1.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/a3/5AnwWuFCLGSwBiDjPU4jWez7/testcase_v1_All_fish03_ts_logmean_biomass_location1.png" title="testcase_v1_All_fish03_ts_logmean_biomass_location1.png"><img src="/user_uploads/2/a3/5AnwWuFCLGSwBiDjPU4jWez7/testcase_v1_All_fish03_ts_logmean_biomass_location1.png"></a></div>
+
+
+
+<a name="48726"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48726" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48726">(Jan 05 2022 at 20:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span> can you point me to the matlab code you ran? I'm going to do some side-by-side comparisons of the matlab and python code bases, and maybe also try to do some single-time-step runs with the matlab code on cheyenne to see if I can pinpoint where the issue(s) in the python code is (are)</p>
+
+
+
+<a name="48754"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48754" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48754">(Jan 06 2022 at 00:20)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , they are in my FEISTY git repo: <a href="https://github.com/cpetrik/fish-offline/tree/main/MatFEISTY">https://github.com/cpetrik/fish-offline/tree/main/MatFEISTY</a> . The main file is ``testcase.m''. Let me know if you need any help navigating the subroutines.</p>
+
+
+
+<a name="48822"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48822" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48822">(Jan 06 2022 at 23:27)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="10">@Michael Levy</span> . Today I looked through default_settings.yml and process.py for issues. I could not find anything in process.py, but there were a number of default settings that were wrong. I modified them, one at a time, to the correct values, but they did not have any effect and the biomasses of all groups followed the same trajectory as before.  For my next course of action, I will look at the outputs of each subroutine/function after one time step in the Matlab and Python versions.  I have attached the updated default settings for you to work with. <a href="/user_uploads/2/16/4mROCDm1iJIoWOYFbgf9aWjs/default_settings_CPedits.yml">default_settings_CPedits.yml</a></p>
+
+
+
+<a name="48874"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48874" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48874">(Jan 07 2022 at 20:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span> thanks for that updated settings file -- I'm currently adding a bunch of <code>disp()</code> calls to your matlab driver and making sure I am getting similar values in the python code. The encounter code looks okay, and I found a bug in the consumption code:</p>
+<div class="codehilite" data-code-language="Diff"><pre><span></span><code><span class="gh">diff --git a/feisty/core/process.py b/feisty/core/process.py</span>
+<span class="gh">index 9906882..a7bc0d0 100644</span>
+<span class="gd">--- a/feisty/core/process.py</span>
+<span class="gi">+++ b/feisty/core/process.py</span>
+<span class="gu">@@ -202,7 +202,7 @@ def compute_consumption(</span>
+     """
+
+     for i, link in enumerate(food_web):
+<span class="gd">-        enc = consumption_rate_link[i, :]</span>
+<span class="gi">+        enc = encounter_rate_link[i, :]</span>
+         cmax = consumption_rate_max_pred[link.i_fish, :]
+         enc_total = encounter_rate_total[link.i_fish, :]
+         consumption_rate_link[i, :] = cmax * enc / (cmax + enc_total)
+</code></pre></div>
+<p>With that fix in place, consumption numbers look better but biomass is still decreasing (looking at <code>group in ["Mf", "Mp", "Md", "Lp", "Ld"]</code>)</p>
+
+
+
+<a name="48893"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48893" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48893">(Jan 08 2022 at 00:26)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> more issues with the encounter rate... In the matlab code, we only subtract the <code>.td</code> value from 1 when computing the <code>Md.enc_be</code> (<code>Md_benthic_prey</code>), <code>Lp.enc_d</code> (<code>Lp_Md</code>), <code>Ld.enc_d</code> (<code>Ld_Md</code>), and <code>Ld.enc_be</code> (<code>Ld_benthic_prey</code>) encounters. So I think the <code>if link.prey.is_demersal</code> logic isn't quite what we want, but I'm not sure what to replace it with. Currently I'm seeing an encounter rate of 0 in the python code for both <code>'Mf_Sd'</code> and <code>'Mp_Sd'</code>, and I think it's tied to the fact that <code>Sd</code> is <code>demersal</code> but <code>t_frac_pelagic_static=1</code>. This might not be right because changing <code>t_frac_pelagic_static</code> affects the encounter rate for <code>Sd_Zoo</code>, without changing it for the two medium-size classes preying on <code>Sd</code>... so I'm a little confused.</p>
+
+
+
+<a name="48894"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48894" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48894">(Jan 08 2022 at 01:02)</a>:</h4>
+<p>I’ll need to look at this in detail</p>
+
+
+
+<a name="48898"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48898" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48898">(Jan 08 2022 at 13:22)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="10">Michael Levy</span> <a href="#narrow/stream/33-fisheries/topic/FEISTY.20code/near/48874">said</a>:</p>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="122">Colleen Petrik</span> thanks for that updated settings file -- I'm currently adding a bunch of <code>disp()</code> calls to your matlab driver and making sure I am getting similar values in the python code. The encounter code looks okay, and I found a bug in the consumption code:</p>
+<div class="codehilite" data-code-language="Diff"><pre><span></span><code><span class="gh">diff --git a/feisty/core/process.py b/feisty/core/process.py</span>
+<span class="gh">index 9906882..a7bc0d0 100644</span>
+<span class="gd">--- a/feisty/core/process.py</span>
+<span class="gi">+++ b/feisty/core/process.py</span>
+<span class="gu">@@ -202,7 +202,7 @@ def compute_consumption(</span>
+     """
+
+     for i, link in enumerate(food_web):
+<span class="gd">-        enc = consumption_rate_link[i, :]</span>
+<span class="gi">+        enc = encounter_rate_link[i, :]</span>
+         cmax = consumption_rate_max_pred[link.i_fish, :]
+         enc_total = encounter_rate_total[link.i_fish, :]
+         consumption_rate_link[i, :] = cmax * enc / (cmax + enc_total)
+</code></pre></div>
+<p>With that fix in place, consumption numbers look better but biomass is still decreasing (looking at <code>group in ["Mf", "Mp", "Md", "Lp", "Ld"]</code>)</p>
+</blockquote>
+<p>Excellent work!</p>
+
+
+
+<a name="48899"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48899" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48899">(Jan 08 2022 at 13:30)</a>:</h4>
+<p>In the Matlab code, <code>sub_init_fish_spin.m</code>, </p>
+<div class="codehilite" data-code-language="Matlab"><pre><span></span><code><span class="n">Sd</span><span class="p">.</span><span class="n">td</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">ones</span><span class="p">(</span><span class="n">NX</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+</code></pre></div>
+<p>So I think <code>t_frac_pelagic_static = 1</code> for <code>Sd</code> is correct. These are larval demersal fish.</p>
+
+
+
+<a name="48900"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48900" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48900">(Jan 08 2022 at 14:03)</a>:</h4>
+<p>Regarding the logic on <code>if link.prey.is_demersal</code>, I think the logic I had is correct. Here's why I think so.</p>
+<p>I introduced a variable <code>t_frac_prey_pred</code> which is the fraction of time the predator spends in the region with it's prey. This corresponds to <code>tprey</code> in the <code>sub_enc</code> Matlab function API.</p>
+<p>The variable <code>t_frac_pelagic_pred</code> is always the fraction of time the predator spends in the pelagic zone. I think this implies that regardless of the predator type (i.e.,  whether <code>is_demersal</code> is true or false), the logic should be</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code>            <span class="k">if</span> <span class="n">link</span><span class="o">.</span><span class="n">prey</span><span class="o">.</span><span class="n">is_demersal</span><span class="p">:</span>
+                <span class="n">t_frac_prey_pred</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">t_frac_pelagic_pred</span>
+</code></pre></div>
+<p>The demersal groups are</p>
+<ul>
+<li><code>Md</code></li>
+<li><code>Ld</code></li>
+<li><code>benthic_prey</code></li>
+</ul>
+<p>The settings are consistent with this.</p>
+<p>Here's what the matlab code has:</p>
+<div class="codehilite" data-code-language="Matlab"><pre><span></span><code><span class="n">Sf</span><span class="p">.</span><span class="n">enc_zm</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Zoo</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Sf</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Sp</span><span class="p">.</span><span class="n">enc_zm</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Zoo</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Sp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Sd</span><span class="p">.</span><span class="n">enc_zm</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Zoo</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Sd</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+
+<span class="n">Mf</span><span class="p">.</span><span class="n">enc_zm</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Zoo</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mf</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mf</span><span class="p">.</span><span class="n">enc_f</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sf</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mf</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mf</span><span class="p">.</span><span class="n">enc_p</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sp</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mf</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mf</span><span class="p">.</span><span class="n">enc_d</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sd</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mf</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+
+<span class="n">Mp</span><span class="p">.</span><span class="n">enc_zm</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">zoo</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mp</span><span class="p">.</span><span class="n">enc_f</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sf</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="n">Mp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mp</span><span class="p">.</span><span class="n">enc_p</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sp</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="n">Mp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mp</span><span class="p">.</span><span class="n">enc_d</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sd</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="n">Mp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+
+<span class="n">Md</span><span class="p">.</span><span class="n">enc_be</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">benthic</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="n">Md</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+
+<span class="n">Lp</span><span class="p">.</span><span class="n">enc_f</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Mf</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Lp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Lp</span><span class="p">.</span><span class="n">enc_p</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Mp</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Lp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Lp</span><span class="p">.</span><span class="n">enc_d</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Md</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="n">Lp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+
+<span class="n">Ld</span><span class="p">.</span><span class="n">enc_f</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Mf</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Ld</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Ld</span><span class="p">.</span><span class="n">enc_p</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Mp</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Ld</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Ld</span><span class="p">.</span><span class="n">enc_d</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Md</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="n">Ld</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Ld</span><span class="p">.</span><span class="n">enc_be</span><span class="p">:</span><span class="w"> </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">benthic</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="o">-</span><span class="n">Ld</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+</code></pre></div>
+
+
+
+<a name="48901"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48901" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48901">(Jan 08 2022 at 14:10)</a>:</h4>
+<p>I think you can confirm that the <code>is_demersal</code> dependence is correct.</p>
+<p>On this last point:</p>
+<blockquote>
+<p>Currently I'm seeing an encounter rate of 0 in the python code for both 'Mf_Sd' and 'Mp_Sd', and I think it's tied to the fact that Sd is demersal but t_frac_pelagic_static=1. This might not be right because changing t_frac_pelagic_static affects the encounter rate for Sd_Zoo, without changing it for the two medium-size classes preying on Sd... so I'm a little confused.</p>
+</blockquote>
+<p>This does seem strange, that the <code>t_frac_pelagic_static</code> of prey doesn't affect the encounter rate.</p>
+
+
+
+<a name="48902"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48902" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48902">(Jan 08 2022 at 17:20)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="14">Matt Long</span> <a href="#narrow/stream/33-fisheries/topic/FEISTY.20code/near/48900">said</a>:</p>
+<blockquote>
+<p>The demersal groups are</p>
+<ul>
+<li><code>Md</code></li>
+<li><code>Ld</code></li>
+<li><code>benthic_prey</code></li>
+</ul>
+</blockquote>
+<p>Shouldn't <code>Sd</code> be in that group as well?</p>
+<div class="codehilite" data-code-language="YAML"><pre><span></span><code>    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Sd</span>
+      <span class="nt">size_class</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">small</span>
+      <span class="nt">functional_type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">demersal</span>
+</code></pre></div>
+<p>I guess I'm confused about why <code>tprey = Mf.td</code> and <code>Mp.td</code> instead of  <code>1 - Mf.td</code> and <code>1 - Mp.td</code> in the lines</p>
+<div class="codehilite" data-code-language="Matlab"><pre><span></span><code><span class="n">Mf</span><span class="p">.</span><span class="n">enc_d</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sd</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Mf</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+<span class="n">Mp</span><span class="p">.</span><span class="n">enc_d</span><span class="p">:</span><span class="w">  </span><span class="n">prey</span><span class="p">:</span><span class="w"> </span><span class="n">Sd</span><span class="p">,</span><span class="w"> </span><span class="n">tprey</span><span class="w"> </span><span class="p">=</span><span class="w">  </span><span class="n">Mp</span><span class="p">.</span><span class="n">td</span><span class="w"></span>
+</code></pre></div>
+<p>That does not seem consistent with the <code>link.prey.is_demersal</code> logic in the python code (but perhaps the issue is on the matlab side?)</p>
+
+
+
+<a name="48903"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48903" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48903">(Jan 08 2022 at 22:29)</a>:</h4>
+<p>I made a table comparing the encounter rates for matlab and python -- it looks like we're getting relative differences of order 1e-3 or 1e-5 when the values are close (which is a surprise, I would've expected better precision), but there are a lot of values that are not close</p>
+<table>
+<thead>
+<tr>
+<th>feeding_link</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2936e+00</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Sp_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2936e+00</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Sd_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2936e+00</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Mf_Zoo</td>
+<td>2.9714e-01</td>
+<td>2.9781e-01</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Mf_Sf</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mf_Sp</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mf_Sd</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Mp_Zoo</td>
+<td>2.9714e-01</td>
+<td>2.9781e-01</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Mp_Sf</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mp_Sp</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mp_Sd</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Md_benthic_prey</td>
+<td>1.7232e-04</td>
+<td>1.8233e-17</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Lp_Mf</td>
+<td>5.7237e-07</td>
+<td>2.1328e-07</td>
+<td>6.2737e-01</td>
+</tr>
+<tr>
+<td>Lp_Mp</td>
+<td>5.7237e-07</td>
+<td>4.2656e-07</td>
+<td>2.5474e-01</td>
+</tr>
+<tr>
+<td>Lp_Md</td>
+<td>0.0000e+00</td>
+<td>4.2656e-07</td>
+<td>inf</td>
+</tr>
+<tr>
+<td>Ld_Mf</td>
+<td>2.3891e-07</td>
+<td>1.4172e-07</td>
+<td>4.0678e-01</td>
+</tr>
+<tr>
+<td>Ld_Mp</td>
+<td>2.3891e-07</td>
+<td>2.8345e-07</td>
+<td>1.8643e-01</td>
+</tr>
+<tr>
+<td>Ld_Md</td>
+<td>2.3891e-07</td>
+<td>3.7793e-07</td>
+<td>5.8191e-01</td>
+</tr>
+<tr>
+<td>Ld_benthic_prey</td>
+<td>5.0135e-05</td>
+<td>8.3917e-18</td>
+<td>1.0000e+00</td>
+</tr>
+</tbody>
+</table>
+<p>I've pulled out the big differences here:</p>
+<table>
+<thead>
+<tr>
+<th>feeding_link</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mf_Sd</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Mp_Sd</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Md_benthic_prey</td>
+<td>1.7232e-04</td>
+<td>1.8233e-17</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Lp_Mf</td>
+<td>5.7237e-07</td>
+<td>2.1328e-07</td>
+<td>6.2737e-01</td>
+</tr>
+<tr>
+<td>Lp_Mp</td>
+<td>5.7237e-07</td>
+<td>4.2656e-07</td>
+<td>2.5474e-01</td>
+</tr>
+<tr>
+<td>Lp_Md</td>
+<td>0.0000e+00</td>
+<td>4.2656e-07</td>
+<td>inf</td>
+</tr>
+<tr>
+<td>Ld_Mf</td>
+<td>2.3891e-07</td>
+<td>1.4172e-07</td>
+<td>4.0678e-01</td>
+</tr>
+<tr>
+<td>Ld_Mp</td>
+<td>2.3891e-07</td>
+<td>2.8345e-07</td>
+<td>1.8643e-01</td>
+</tr>
+<tr>
+<td>Ld_Md</td>
+<td>2.3891e-07</td>
+<td>3.7793e-07</td>
+<td>5.8191e-01</td>
+</tr>
+<tr>
+<td>Ld_benthic_prey</td>
+<td>5.0135e-05</td>
+<td>8.3917e-18</td>
+<td>1.0000e+00</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<a name="48904"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48904" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48904">(Jan 08 2022 at 22:35)</a>:</h4>
+<p>And the same table for consumption; no surprises here given the relationship between encounter rate and consumption rate</p>
+<table>
+<thead>
+<tr>
+<th>feeding_link</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf_Zoo</td>
+<td>2.1520e-01</td>
+<td>2.1523e-01</td>
+<td>1.7479e-04</td>
+</tr>
+<tr>
+<td>Sp_Zoo</td>
+<td>2.1520e-01</td>
+<td>2.1523e-01</td>
+<td>1.7479e-04</td>
+</tr>
+<tr>
+<td>Sd_Zoo</td>
+<td>2.1520e-01</td>
+<td>2.1523e-01</td>
+<td>1.7479e-04</td>
+</tr>
+<tr>
+<td>Mf_Zoo</td>
+<td>4.2967e-02</td>
+<td>4.2980e-02</td>
+<td>2.9564e-04</td>
+</tr>
+<tr>
+<td>Mf_Sf</td>
+<td>2.8684e-07</td>
+<td>2.8628e-07</td>
+<td>1.9803e-03</td>
+</tr>
+<tr>
+<td>Mf_Sp</td>
+<td>2.8684e-07</td>
+<td>2.8628e-07</td>
+<td>1.9803e-03</td>
+</tr>
+<tr>
+<td>Mf_Sd</td>
+<td>2.8684e-07</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Mp_Zoo</td>
+<td>4.2967e-02</td>
+<td>4.2980e-02</td>
+<td>2.9564e-04</td>
+</tr>
+<tr>
+<td>Mp_Sf</td>
+<td>2.8684e-07</td>
+<td>2.8628e-07</td>
+<td>1.9803e-03</td>
+</tr>
+<tr>
+<td>Mp_Sp</td>
+<td>2.8684e-07</td>
+<td>2.8628e-07</td>
+<td>1.9803e-03</td>
+</tr>
+<tr>
+<td>Mp_Sd</td>
+<td>2.8684e-07</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Md_benthic_prey</td>
+<td>1.7091e-04</td>
+<td>1.8233e-17</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Lp_Mf</td>
+<td>5.7231e-07</td>
+<td>2.1325e-07</td>
+<td>6.2738e-01</td>
+</tr>
+<tr>
+<td>Lp_Mp</td>
+<td>5.7231e-07</td>
+<td>4.2650e-07</td>
+<td>2.5476e-01</td>
+</tr>
+<tr>
+<td>Lp_Md</td>
+<td>0.0000e+00</td>
+<td>4.2650e-07</td>
+<td>inf</td>
+</tr>
+<tr>
+<td>Ld_Mf</td>
+<td>2.3620e-07</td>
+<td>1.4171e-07</td>
+<td>4.0005e-01</td>
+</tr>
+<tr>
+<td>Ld_Mp</td>
+<td>2.3620e-07</td>
+<td>2.8341e-07</td>
+<td>1.9990e-01</td>
+</tr>
+<tr>
+<td>Ld_Md</td>
+<td>2.3620e-07</td>
+<td>3.7789e-07</td>
+<td>5.9987e-01</td>
+</tr>
+<tr>
+<td>Ld_benthic_prey</td>
+<td>4.9567e-05</td>
+<td>8.3907e-18</td>
+<td>1.0000e+00</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<a name="48906"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48906" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48906">(Jan 10 2022 at 14:34)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>, I am tied up today and tomorrow in the LEAP meeting.</p>
+
+
+
+<a name="48963"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/48963" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#48963">(Jan 10 2022 at 23:53)</a>:</h4>
+<p>After chatting with <span class="user-mention" data-user-id="122">@Colleen Petrik</span> , I think I'm happy with all of the encounter rates and consumption rates being computed in the python code. Here's the updated encounter rate table:</p>
+<table>
+<thead>
+<tr>
+<th>feeding_link</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2936e+00</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Sp_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2936e+00</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Sd_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2936e+00</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Mf_Zoo</td>
+<td>2.9714e-01</td>
+<td>2.9781e-01</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Mf_Sf</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mf_Sp</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mf_Sd</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mp_Zoo</td>
+<td>2.9714e-01</td>
+<td>2.9781e-01</td>
+<td>2.2411e-03</td>
+</tr>
+<tr>
+<td>Mp_Sf</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mp_Sp</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Mp_Sd</td>
+<td>1.9837e-06</td>
+<td>1.9836e-06</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Md_benthic_prey</td>
+<td>1.7232e-04</td>
+<td>1.7232e-04</td>
+<td>2.6443e-05</td>
+</tr>
+<tr>
+<td>Lp_Mf</td>
+<td>2.8618e-07</td>
+<td>2.8617e-07</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Lp_Mp</td>
+<td>5.7237e-07</td>
+<td>5.7235e-07</td>
+<td>3.9203e-05</td>
+</tr>
+<tr>
+<td>Lp_Md</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Ld_Mf</td>
+<td>8.9267e-08</td>
+<td>8.9590e-08</td>
+<td>3.6110e-03</td>
+</tr>
+<tr>
+<td>Ld_Mp</td>
+<td>1.7853e-07</td>
+<td>1.7918e-07</td>
+<td>3.6110e-03</td>
+</tr>
+<tr>
+<td>Ld_Md</td>
+<td>2.3805e-07</td>
+<td>2.3891e-07</td>
+<td>3.6110e-03</td>
+</tr>
+<tr>
+<td>Ld_benthic_prey</td>
+<td>4.9955e-05</td>
+<td>5.0134e-05</td>
+<td>3.5863e-03</td>
+</tr>
+</tbody>
+</table>
+<p>I'm seeing linear growth in the biomass of <code>Mp</code> but everything else is dropping:</p>
+<p><a href="/user_uploads/2/23/IA7q3pOCtoida0Q9Bu2LaVvQ/biomass-from-python.png">biomass-from-python.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/23/IA7q3pOCtoida0Q9Bu2LaVvQ/biomass-from-python.png" title="biomass-from-python.png"><img src="/user_uploads/2/23/IA7q3pOCtoida0Q9Bu2LaVvQ/biomass-from-python.png"></a></div><p>I'll keep poking around tomorrow. (Also, I opened up <a href="https://github.com/marbl-ecosys/feisty/pull/6">marbl-ecosys/feisty#6</a> to make it easier to track changes; having some CI issues, but at least the code is out there)</p>
+
+
+
+<a name="49158"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49158" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49158">(Jan 12 2022 at 21:54)</a>:</h4>
+<p>good news / bad news -- I think I've tracked down the problem to the recruitment code:</p>
+<table>
+<thead>
+<tr>
+<th>fish</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf</td>
+<td>1.4534e-09</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Sp</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf</td>
+<td>1.0762e-06</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Mp</td>
+<td>1.0762e-06</td>
+<td>1.5367e-07</td>
+<td>8.5721e-01</td>
+</tr>
+<tr>
+<td>Md</td>
+<td>1.0762e-06</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Lp</td>
+<td>1.5276e-07</td>
+<td>0.0000e+00</td>
+<td>1.0000e+00</td>
+</tr>
+<tr>
+<td>Ld</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+</tr>
+</tbody>
+</table>
+<p>For the larval recruitment, e.g. </p>
+<div class="codehilite" data-code-language="YAML"><pre><span></span><code>  <span class="p p-Indicator">-</span> <span class="nt">from</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Mf</span>
+    <span class="nt">to</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Sf</span>
+    <span class="nt">efficiency</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0.01</span>
+    <span class="nt">is_larval</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>the problem is that</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code>        <span class="k">if</span> <span class="n">link</span><span class="o">.</span><span class="n">is_larval</span><span class="p">:</span>
+            <span class="n">recruitment_flux</span><span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">i_fish</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">link</span><span class="o">.</span><span class="n">efficiency</span>
+                <span class="o">*</span> <span class="n">reproduction_rate</span><span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">i_fish</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="o">*</span> <span class="n">biomass</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">link</span><span class="o">.</span><span class="n">ndx_from</span><span class="p">)</span>
+            <span class="p">)</span>
+</code></pre></div>
+<p><code> reproduction_rate[link.i_fish, :]</code> is the reproduction rate of the <code>Sf</code> rather than <code>Mf</code>. A similar issue occurs in the non-larval recruitment</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code>            <span class="n">recruitment_flux</span><span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">i_fish</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">growth_rate</span><span class="p">[</span><span class="n">link</span><span class="o">.</span><span class="n">i_fish</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">biomass</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span>
+                <span class="n">group</span><span class="o">=</span><span class="n">link</span><span class="o">.</span><span class="n">ndx_from</span>
+            <span class="p">)</span>
+</code></pre></div>
+<p>where <code>growth_rate[link.i_fish, :]</code> is the growth rate of the <code>to</code> fish rather than the <code>from</code>.  The hard part is that the dimensions of <code>reproduction_rate</code>  (and <code>growth_rate</code>) are <code>fish</code> and <code>X</code>, while the rest of the code is assuming we only need to know the <code>group</code> index of <code>Mf</code> (since <code>biomass</code> has dimensions <code>group</code> and <code>X</code>). So I think we maybe want to rename <code>link.ndx_from</code> to <code>link.group_ndx_from</code> and also find <code>link.fish_ndx_from</code>? I'm going to try that out, but I'm open to cleaner fixes (presuming this actually fixes the problem)</p>
+
+
+
+<a name="49159"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49159" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49159">(Jan 12 2022 at 21:57)</a>:</h4>
+<p>I am not sure I follow.</p>
+
+
+
+<a name="49160"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49160" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49160">(Jan 12 2022 at 21:57)</a>:</h4>
+<p>I have a few minutes, quick call?</p>
+
+
+
+<a name="49162"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49162" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49162">(Jan 12 2022 at 22:00)</a>:</h4>
+<p>yup, just sent you a PM with a zoom link</p>
+
+
+
+<a name="49170"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49170" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49170">(Jan 12 2022 at 22:39)</a>:</h4>
+<p>Matt and I worked out the last of the major kinks, and now my plot from the first column looks like this:</p>
+<p><a href="/user_uploads/2/55/jCMtvVmKOX-mpPYgqGbZdXJp/biomass-from-python-take-2.png">biomass-from-python-take-2.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/55/jCMtvVmKOX-mpPYgqGbZdXJp/biomass-from-python-take-2.png" title="biomass-from-python-take-2.png"><img src="/user_uploads/2/55/jCMtvVmKOX-mpPYgqGbZdXJp/biomass-from-python-take-2.png"></a></div><p>This is close to <span class="user-mention" data-user-id="122">@Colleen Petrik</span>'s plot, but doesn't have <code>Ld</code> starting to grow in the middle of the year. Any hints on what to look for to figure out why that isn't being triggered? Here are the differences in biomass after the first time step:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf</td>
+<td>9.9993e-06</td>
+<td>9.9993e-06</td>
+<td>8.1225e-06</td>
+</tr>
+<tr>
+<td>Sp</td>
+<td>9.9978e-06</td>
+<td>9.9978e-06</td>
+<td>5.7341e-08</td>
+</tr>
+<tr>
+<td>Sd</td>
+<td>9.9978e-06</td>
+<td>9.9978e-06</td>
+<td>5.7341e-08</td>
+</tr>
+<tr>
+<td>Mf</td>
+<td>1.1076e-05</td>
+<td>1.1068e-05</td>
+<td>7.0402e-04</td>
+</tr>
+<tr>
+<td>Mp</td>
+<td>1.1076e-05</td>
+<td>1.1075e-05</td>
+<td>4.7476e-05</td>
+</tr>
+<tr>
+<td>Md</td>
+<td>1.1030e-05</td>
+<td>1.1030e-05</td>
+<td>2.6002e-05</td>
+</tr>
+<tr>
+<td>Lp</td>
+<td>1.0093e-05</td>
+<td>1.0094e-05</td>
+<td>9.0167e-05</td>
+</tr>
+<tr>
+<td>Ld</td>
+<td>9.9746e-06</td>
+<td>9.9745e-06</td>
+<td>7.1689e-06</td>
+</tr>
+<tr>
+<td>benthic_prey</td>
+<td>2.0985e-03</td>
+<td>2.0985e-03</td>
+<td>2.4576e-05</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<a name="49174"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49174" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49174">(Jan 12 2022 at 22:49)</a>:</h4>
+<p>Getting there! This is great.</p>
+
+
+
+<a name="49175"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49175" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49175">(Jan 12 2022 at 22:49)</a>:</h4>
+<p>why does <code>Ld</code> start to grow mid-year in <span class="user-mention" data-user-id="122">@Colleen Petrik</span>'s runs? Are we sure that the forcing is the same?</p>
+
+
+
+<a name="49179"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49179" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49179">(Jan 12 2022 at 22:55)</a>:</h4>
+<p>I want to double check all of the input data (forcing, initial conditions, parameters, etc). I think something is slightly off in one (or more) of them, since the differences we're seeing in the first time step are much bigger than round-off. I was hoping the table above would show relative errors that were O(1e-10)...</p>
+
+
+
+<a name="49264"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49264" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49264">(Jan 13 2022 at 21:02)</a>:</h4>
+<p>It looks like the forcing data for the python code matches what is in the matlab code, but I think there's an off-by-one error in choosing which time level from the forcing to apply. Here's some forcing data from the first column for two days of a matlab run:</p>
+<div class="codehilite"><pre><span></span><code>poc_flux: 0.02784712404856
+T_pelagic: 18.20000000000000
+T_bottom: 4.20000000000000
+
+poc_flux: 0.02784643640657
+T_pelagic: 18.19937772467829
+T_bottom: 4.19997036784182
+</code></pre></div>
+<p>and the same output from python</p>
+<div class="codehilite"><pre><span></span><code>poc_flux 0.027846436406572337
+T_pelagic 18.19937772467829
+T_bottom 4.199970367841823
+
+poc_flux 0.027844373684374066
+T_pelagic 18.19751108310676
+T_bottom 4.199881480147941
+</code></pre></div>
+
+
+
+<a name="49265"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49265" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49265">(Jan 13 2022 at 21:35)</a>:</h4>
+<p>Looks like there was a mismatch in <code>time</code> between the driver (1 -&gt; 365) and the idealized forcing (0 -&gt; 365)... I fixed that, and am now noticing an issue in <code>T_habitat</code> for <code>Ld</code> that is propagating through the computation but I think that's the last real issue. These encounter rates (aside from <code>Ld_*</code>) are much closer to what I expected:</p>
+<table>
+<thead>
+<tr>
+<th>feeding_link</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2885e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sp_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2885e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd_Zoo</td>
+<td>2.2885e+00</td>
+<td>2.2885e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf_Zoo</td>
+<td>2.9714e-01</td>
+<td>2.9714e-01</td>
+<td>1.8682e-16</td>
+</tr>
+<tr>
+<td>Mf_Sf</td>
+<td>1.9837e-06</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf_Sp</td>
+<td>1.9837e-06</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf_Sd</td>
+<td>1.9837e-06</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mp_Zoo</td>
+<td>2.9714e-01</td>
+<td>2.9714e-01</td>
+<td>1.8682e-16</td>
+</tr>
+<tr>
+<td>Mp_Sf</td>
+<td>1.9837e-06</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mp_Sp</td>
+<td>1.9837e-06</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mp_Sd</td>
+<td>1.9837e-06</td>
+<td>1.9837e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Md_benthic_prey</td>
+<td>1.7232e-04</td>
+<td>1.7232e-04</td>
+<td>1.5729e-16</td>
+</tr>
+<tr>
+<td>Lp_Mf</td>
+<td>2.8618e-07</td>
+<td>2.8618e-07</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Lp_Mp</td>
+<td>5.7237e-07</td>
+<td>5.7237e-07</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Lp_Md</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Ld_Mf</td>
+<td>8.9267e-08</td>
+<td>8.9590e-08</td>
+<td>3.6130e-03</td>
+</tr>
+<tr>
+<td>Ld_Mp</td>
+<td>1.7853e-07</td>
+<td>1.7918e-07</td>
+<td>3.6130e-03</td>
+</tr>
+<tr>
+<td>Ld_Md</td>
+<td>2.3805e-07</td>
+<td>2.3891e-07</td>
+<td>3.6130e-03</td>
+</tr>
+<tr>
+<td>Ld_benthic_prey</td>
+<td>4.9955e-05</td>
+<td>5.0135e-05</td>
+<td>3.6130e-03</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<a name="49290"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49290" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49290">(Jan 13 2022 at 23:22)</a>:</h4>
+<p>Glad you found the time error, <span class="user-mention" data-user-id="10">@Michael Levy</span> . The reason that Ld doesn't grow until ~50 d is because there is zero recruitment into Ld until then. That is because the energy available for growth out of Md is negative before that time. <span class="user-mention" data-user-id="14">@Matt Long</span></p>
+
+
+
+<a name="49291"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49291" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49291">(Jan 13 2022 at 23:22)</a>:</h4>
+<p>Okay, as of <a href="https://github.com/mnlevy1981/feisty/tree/0b646b7374a7648e91eead9096427469eb1d4504">0b646b7</a> I think most of the major bugs are squashed. Comparing to the matlab code, I'm seeing roundoff level differences in biomass after day 365:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf</td>
+<td>1.7696e-05</td>
+<td>1.7696e-05</td>
+<td>3.8292e-16</td>
+</tr>
+<tr>
+<td>Sp</td>
+<td>9.3653e-06</td>
+<td>9.3653e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd</td>
+<td>9.4480e-06</td>
+<td>9.4480e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf</td>
+<td>4.0856e-04</td>
+<td>4.0856e-04</td>
+<td>1.3269e-16</td>
+</tr>
+<tr>
+<td>Mp</td>
+<td>3.1926e-04</td>
+<td>3.1926e-04</td>
+<td>3.3960e-16</td>
+</tr>
+<tr>
+<td>Md</td>
+<td>3.1755e-04</td>
+<td>3.1755e-04</td>
+<td>1.7071e-16</td>
+</tr>
+<tr>
+<td>Lp</td>
+<td>4.7386e-04</td>
+<td>4.7386e-04</td>
+<td>4.5760e-16</td>
+</tr>
+<tr>
+<td>Ld</td>
+<td>2.2672e-04</td>
+<td>2.2672e-04</td>
+<td>1.1955e-16</td>
+</tr>
+<tr>
+<td>benthic_prey</td>
+<td>6.3447e-01</td>
+<td>6.3447e-01</td>
+<td>0.0000e+00</td>
+</tr>
+</tbody>
+</table>
+<p>The full-year plot looks pretty good, if I do say so myself:</p>
+<p><a href="/user_uploads/2/57/pHcE91_RyCFYArd6oWFGhaQD/biomass-from-python-take-3.png">biomass-from-python-take-3.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/57/pHcE91_RyCFYArd6oWFGhaQD/biomass-from-python-take-3.png" title="biomass-from-python-take-3.png"><img src="/user_uploads/2/57/pHcE91_RyCFYArd6oWFGhaQD/biomass-from-python-take-3.png"></a></div><p>I need to take off, but tomorrow morning I'll clean up open up issue tickets for all the issues I came across, link them to the PR, and then open the PR for review</p>
+
+
+
+<a name="49292"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49292" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49292">(Jan 13 2022 at 23:24)</a>:</h4>
+<p>Terrific! Excellent work <span class="user-mention" data-user-id="10">@Michael Levy</span>!</p>
+<p>Super excited to have achieved this milestone!</p>
+
+
+
+<a name="49307"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49307" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49307">(Jan 14 2022 at 16:41)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matt Long</span> I think <a href="https://github.com/marbl-ecosys/feisty/pull/6">marbl-ecosys/feisty#6</a> is ready for review / merging... it's failing the documentation CI task because I don't know what I need to do to set things up so that I can push to the <code>gh-pages</code> branch from the VM but everything else should be passing and you probably got a dozen emails about the new issues I created / linked to the PR. (Fun fact; you can only link 10 issues to a PR, but that turned out to be exactly the number I needed.)</p>
+
+
+
+<a name="49352"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49352" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49352">(Jan 14 2022 at 19:22)</a>:</h4>
+<p>I added you as admin on the project: maybe that will avoid this error in the future?</p>
+
+
+
+<a name="49353"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49353" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49353">(Jan 14 2022 at 19:27)</a>:</h4>
+<p>well, it looks like I didn't pay close attention to the CI results and broke <code>test_simulate_testcase_init_2</code> -- so I'll see if the documentation builds for me after pushing a fix for that</p>
+
+
+
+<a name="49354"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49354" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49354">(Jan 14 2022 at 19:27)</a>:</h4>
+<p>oh, I missed that too...and just merged</p>
+
+
+
+<a name="49355"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49355" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49355">(Jan 14 2022 at 19:30)</a>:</h4>
+<p>no worries, I'll throw together another branch</p>
+
+
+
+<a name="49551"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49551" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49551">(Jan 21 2022 at 20:36)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , I created a new testcase with the Matlab code. It is in my fish-offline/MatFEISTY git repo.  The main code is "test_locs3.m" and in the input files folder is a forcing file "feisty_input_climatol_daily_locs3" both in netcdf and mat format.</p>
+
+
+
+<a name="49553"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49553" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49553">(Jan 21 2022 at 21:31)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span> thanks, that's great! I've opened up a PR (<a href="https://github.com/marbl-ecosys/feisty/pull/24">marbl-ecosys/feisty#24</a>] where we apply the biomass tendency for benthic prey at the same time as the biomass tendency for fish in the python code. I know we talked about getting the same change into the matlab code -- do you want me to try to put together a similar pull request for fish-offline?</p>
+
+
+
+<a name="49572"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49572" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49572">(Jan 21 2022 at 23:03)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , I changed the placement of the "sub_update_be" function to the end of "sub_futbio" Matlab code with the rest of the fish and pushed it. It does not appear to change the results of the 3 location test run.</p>
+
+
+
+<a name="49573"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49573" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49573">(Jan 21 2022 at 23:06)</a>:</h4>
+<p>thanks! I'm a little surprised that it doesn't change answers, but I'll update my checkout of <code>fish-offline</code> and then try to set up the three location test in python</p>
+
+
+
+<a name="49823"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49823" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49823">(Jan 28 2022 at 21:45)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span> I needed to make one small change to <code>sub_futbio_1meso.m</code> to make sure we were updating the benthic prey biomass before any of the fish biomass (otherwise we were using the newly-updated <code>Md.bio</code> and <code>Ld.bio</code> instead of the values used elsewhere in the time-step):</p>
+<div class="codehilite" data-code-language="Diff"><pre><span></span><code>$ git diff sub_futbio_1meso.m
+<span class="gh">diff --git a/MatFEISTY/sub_futbio_1meso.m b/MatFEISTY/sub_futbio_1meso.m</span>
+<span class="gh">index 2091184..eb95e49 100644</span>
+<span class="gd">--- a/MatFEISTY/sub_futbio_1meso.m</span>
+<span class="gi">+++ b/MatFEISTY/sub_futbio_1meso.m</span>
+<span class="gu">@@ -198,6 +198,8 @@ Ld.rec = sub_rec(Md.gamma,Md.bio);</span>
+ [Ld.bio, Ld.caught, Ld.fmort] = sub_fishing_rate(Ld.bio,param.dfrate,param.LDsel);
+
+ % Mass balance
+<span class="gi">+[BENT.mass,BENT.pred] = sub_update_be(BENT.mass,param,ENVR.det,[Md.con_be,Ld.con_be],[Md.bio,Ld.bio]);</span>
+<span class="gi">+</span>
+ Sf.bio = sub_update_fi(Sf.bio,Sf.rec,Sf.nu,Sf.rep,Sf.gamma,Sf.die,Sf.nmort,Sf.fmort);
+ Sp.bio = sub_update_fi(Sp.bio,Sp.rec,Sp.nu,Sp.rep,Sp.gamma,Sp.die,Sp.nmort,Sp.fmort);
+ Sd.bio = sub_update_fi(Sd.bio,Sd.rec,Sd.nu,Sd.rep,Sd.gamma,Sd.die,Sd.nmort,Sd.fmort);
+<span class="gu">@@ -209,8 +211,6 @@ Md.bio = sub_update_fi(Md.bio,Md.rec,Md.nu,Md.rep,Md.gamma,Md.die,Md.nmort,Md.fm</span>
+ Lp.bio = sub_update_fi(Lp.bio,Lp.rec,Lp.nu,Lp.rep,Lp.gamma,Lp.die,Lp.nmort,Lp.fmort);
+ Ld.bio = sub_update_fi(Ld.bio,Ld.rec,Ld.nu,Ld.rep,Ld.gamma,Ld.die,Ld.nmort,Ld.fmort);
+
+<span class="gd">-[BENT.mass,BENT.pred] = sub_update_be(BENT.mass,param,ENVR.det,[Md.con_be,Ld.con_be],[Md.bio,Ld.bio]);</span>
+<span class="gd">-</span>
+ % Forward Euler checks for demographics and movement
+ Sf.bio=sub_check(Sf.bio);
+ Sp.bio=sub_check(Sp.bio);
+</code></pre></div>
+<p>Without that change, benthic prey biomass differs between the matlab and python code and that spreads throughout the results with longer runs. With the above change, the python matches <code>test_case.m</code> to within roundoff after 1 year. E.g. here's the biomass comparison after a year:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf</td>
+<td>1.7696e-05</td>
+<td>1.7696e-05</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sp</td>
+<td>9.3653e-06</td>
+<td>9.3653e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd</td>
+<td>9.4481e-06</td>
+<td>9.4481e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf</td>
+<td>4.0856e-04</td>
+<td>4.0856e-04</td>
+<td>1.3269e-16</td>
+</tr>
+<tr>
+<td>Mp</td>
+<td>3.1926e-04</td>
+<td>3.1926e-04</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Md</td>
+<td>3.1755e-04</td>
+<td>3.1755e-04</td>
+<td>1.7071e-16</td>
+</tr>
+<tr>
+<td>Lp</td>
+<td>4.7386e-04</td>
+<td>4.7386e-04</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Ld</td>
+<td>2.2687e-04</td>
+<td>2.2687e-04</td>
+<td>7.1683e-16</td>
+</tr>
+<tr>
+<td>benthic_prey</td>
+<td>6.3646e-01</td>
+<td>6.3646e-01</td>
+<td>0.0000e+00</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<a name="49824"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49824" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49824">(Jan 28 2022 at 21:47)</a>:</h4>
+<p>Now I'm going to focus on getting the forcing from the new <code>test_locs3.m</code> into the python code... hopefully I'll have results early next week</p>
+
+
+
+<a name="49825"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49825" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49825">(Jan 28 2022 at 21:59)</a>:</h4>
+<p>Good catch, <span class="user-mention" data-user-id="10">@Michael Levy</span> ! I will update my local code and push it to git.</p>
+
+
+
+<a name="49829"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49829" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49829">(Jan 28 2022 at 23:23)</a>:</h4>
+<p>I've put in hooks to read forcing data from netCDF -- it's pretty kludgy, but at least it's reading the file. I think there might be differences between the netCDF and what the matlab code is producing, though:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T_pelagic</td>
+<td>4.7453e+00</td>
+<td>4.7453e+00</td>
+<td>2.3927e-09</td>
+</tr>
+<tr>
+<td>T_bottom</td>
+<td>4.7647e+00</td>
+<td>4.7647e+00</td>
+<td>3.3720e-08</td>
+</tr>
+<tr>
+<td>zooC</td>
+<td>7.0175e+00</td>
+<td>7.0175e+00</td>
+<td>2.7658e-09</td>
+</tr>
+<tr>
+<td>poc_flux_bottom</td>
+<td>0.0000e+00</td>
+<td>-7.8530e-03</td>
+<td>-inf</td>
+</tr>
+<tr>
+<td>zoo_mort</td>
+<td>5.2470e-02</td>
+<td>5.2470e-02</td>
+<td>1.8489e-08</td>
+</tr>
+</tbody>
+</table>
+<p>I need to take off, mostly leaving this comment so I know where to pick back up on Monday :) <code>poc_flux_bottom</code> looks concerning, and it would be nice to get the rest of the fields within O(<code>1e-14</code>) but O(<code>1e-8</code>) should be fine for initial testing</p>
+
+
+
+<a name="49963"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49963" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49963">(Feb 03 2022 at 00:38)</a>:</h4>
+<p>It looks like a few things were happening: (1) netcdf file was writing single precision instead of double, and (2) negative values of <code>zooC</code>, <code>poc_flux_bottom</code>, and <code>zoo_mort</code> were not being zeroed out. I regenerated the forcing file and that table is all 0s in the <code>Rel Err</code> column now. Unfortunately, I'm getting all <code>nan</code>s in <code>biomass</code> after the first day, so clearly something else is going wrong - will investigate tomorrow</p>
+
+
+
+<a name="49974"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49974" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49974">(Feb 03 2022 at 17:15)</a>:</h4>
+<p>A few updates:</p>
+<ol>
+<li>I decided to set negative values of the forcing fields listed above to 0 in the python code rather than in the netCDF because the matlab code does this in <code>sub_futbio_1meso()</code></li>
+<li>The issue with <code>nan</code>s in the biomass was due to the time dimension starting at 1 instead of 0</li>
+<li>Since I needed to generate the netcdf file to get the time dimension correct, I went ahead and updated the forcing fields to be double precision</li>
+</ol>
+<p>Biomass from the python run looks really close to the matlab code after a full year:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf</td>
+<td>1.3654e-05</td>
+<td>1.3654e-05</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sp</td>
+<td>9.5706e-06</td>
+<td>9.5706e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd</td>
+<td>1.0002e-05</td>
+<td>1.0002e-05</td>
+<td>1.6937e-16</td>
+</tr>
+<tr>
+<td>Mf</td>
+<td>2.4689e-04</td>
+<td>2.4689e-04</td>
+<td>2.1957e-16</td>
+</tr>
+<tr>
+<td>Mp</td>
+<td>2.1750e-04</td>
+<td>2.1750e-04</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Md</td>
+<td>2.1868e-04</td>
+<td>2.1868e-04</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Lp</td>
+<td>3.0769e-04</td>
+<td>3.0769e-04</td>
+<td>1.7618e-16</td>
+</tr>
+<tr>
+<td>Ld</td>
+<td>4.0795e-04</td>
+<td>4.0795e-04</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>benthic_prey</td>
+<td>2.8417e+01</td>
+<td>2.8417e+01</td>
+<td>1.6253e-15</td>
+</tr>
+</tbody>
+</table>
+<p>I'm going to try running the full 20 years, but I think it'll take an hour or so to complete so I need to hop on a compute node...</p>
+
+
+
+<a name="49975"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49975" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49975">(Feb 03 2022 at 17:16)</a>:</h4>
+<p>to be clear, the above table is comparing biomass in the first column of the <code>test_locs3.m</code> setup after 1 year of simulation</p>
+
+
+
+<a name="49995"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/49995" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#49995">(Feb 04 2022 at 01:40)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , this is great! I've been meaning to document the process for running FEISTY with any ESM or GCM output for you and <span class="user-mention" data-user-id="14">@Matt Long</span> :</p>
+<ol>
+<li>
+<p>In "make_grid_data_cesm_nonans.m" and similar<br>
+1a. Get model grid info on: Lon, Lat, Depth, Area, and ocean cells<br>
+1b. Save full those variables in 2D and extracted vector of ocean cells (1D) for each variable</p>
+</li>
+<li>
+<p>In "daily_interp_cesm_fosi.m" and similar<br>
+2a. Convert forcing data from netcdf to units used in FEISTY (gWW/m2 for biomass or gWW/m2/d for fluxes/rates)<br>
+2b. Extract vector of each variable at the ocean cells<br>
+2c. Interpolate all forcing data from monthly to daily</p>
+</li>
+</ol>
+
+
+
+<a name="50117"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/50117" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#50117">(Feb 07 2022 at 22:22)</a>:</h4>
+<p>I modified the matlab code to write out netCDF files instead of printing values to stdout and copying them into a YAML file... and it looks like the original 22 column idealized test case has some big differences outside of the first column:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf (t=0, X=6)</td>
+<td>9.9993e-06</td>
+<td>9.9993e-06</td>
+<td>2.1013e-09</td>
+</tr>
+<tr>
+<td>Sp (t=0, X=0)</td>
+<td>9.9978e-06</td>
+<td>9.9978e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd (t=0, X=0)</td>
+<td>9.9978e-06</td>
+<td>9.9978e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf (t=0, X=6)</td>
+<td>1.1076e-05</td>
+<td>1.1076e-05</td>
+<td>4.0735e-09</td>
+</tr>
+<tr>
+<td>Mp (t=0, X=6)</td>
+<td>1.1076e-05</td>
+<td>1.1076e-05</td>
+<td>4.5556e-09</td>
+</tr>
+<tr>
+<td>Md (t=0, X=6)</td>
+<td>1.1030e-05</td>
+<td>1.1030e-05</td>
+<td>2.1251e-07</td>
+</tr>
+<tr>
+<td>Lp (t=0, X=6)</td>
+<td>1.0093e-05</td>
+<td>1.0093e-05</td>
+<td>4.2030e-07</td>
+</tr>
+<tr>
+<td>Ld (t=0, X=6)</td>
+<td>9.9746e-06</td>
+<td>9.9402e-06</td>
+<td>3.4473e-03</td>
+</tr>
+<tr>
+<td>benthic_prey (t=0, X=21)</td>
+<td>2.1760e-03</td>
+<td>2.1760e-03</td>
+<td>2.1544e-07</td>
+</tr>
+</tbody>
+</table>
+<p>This is running for a single time step; I need to verify that the column depths and such match, and then I'll try to dig in to the individual components that make up the biomass computation to see if I can figure out what is causing these diffs</p>
+
+
+
+<a name="50120"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/50120" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#50120">(Feb 07 2022 at 23:16)</a>:</h4>
+<p>Okay, I think I fixed the above issue with</p>
+<div class="codehilite" data-code-language="Diff"><pre><span></span><code><span class="gh">diff --git a/feisty/core/process.py b/feisty/core/process.py</span>
+<span class="gh">index 4b9da4c..7b2c491 100644</span>
+<span class="gd">--- a/feisty/core/process.py</span>
+<span class="gi">+++ b/feisty/core/process.py</span>
+<span class="gu">@@ -60,7 +60,7 @@ def compute_t_frac_pelagic(</span>
+             t_frac_pelagic[i, :] = xr.where(
+                 domain.ocean_depth &lt; PI_be_cutoff,
+                 prey_pelagic / (prey_pelagic + prey_demersal),
+<span class="gd">-                1.0,</span>
+<span class="gi">+                0.0,</span>
+             )
+</code></pre></div>
+<p>Does this make sense? If we're deeper than the Benthic-pelagic coupling cutoff, <code>t_frac_pelagic</code> is 0 instead of 1?</p>
+
+
+
+<a name="50121"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/50121" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#50121">(Feb 07 2022 at 23:19)</a>:</h4>
+<p>biomass comparison from the idealized testcase with the above fix:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf (t=266, X=4)</td>
+<td>1.3672e-05</td>
+<td>1.3672e-05</td>
+<td>2.4781e-16</td>
+</tr>
+<tr>
+<td>Sp (t=0, X=0)</td>
+<td>9.9978e-06</td>
+<td>9.9978e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd (t=0, X=0)</td>
+<td>9.9978e-06</td>
+<td>9.9978e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf (t=263, X=4)</td>
+<td>2.5706e-04</td>
+<td>2.5706e-04</td>
+<td>2.1088e-16</td>
+</tr>
+<tr>
+<td>Mp (t=193, X=4)</td>
+<td>1.7676e-04</td>
+<td>1.7676e-04</td>
+<td>3.0669e-16</td>
+</tr>
+<tr>
+<td>Md (t=320, X=19)</td>
+<td>1.7271e-04</td>
+<td>1.7271e-04</td>
+<td>4.7083e-16</td>
+</tr>
+<tr>
+<td>Lp (t=157, X=4)</td>
+<td>1.4652e-04</td>
+<td>1.4652e-04</td>
+<td>5.5499e-16</td>
+</tr>
+<tr>
+<td>Ld (t=349, X=5)</td>
+<td>4.0468e-05</td>
+<td>4.0468e-05</td>
+<td>4.3537e-15</td>
+</tr>
+<tr>
+<td>benthic_prey (t=290, X=4)</td>
+<td>2.9726e-01</td>
+<td>2.9726e-01</td>
+<td>2.6144e-15</td>
+</tr>
+</tbody>
+</table>
+<p>and for the 3-location test:</p>
+<table>
+<thead>
+<tr>
+<th>group</th>
+<th>Matlab Value</th>
+<th>Python Value</th>
+<th>Rel Err</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sf (t=298, X=0)</td>
+<td>1.2378e-05</td>
+<td>1.2378e-05</td>
+<td>2.7371e-16</td>
+</tr>
+<tr>
+<td>Sp (t=0, X=0)</td>
+<td>9.9989e-06</td>
+<td>9.9989e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Sd (t=0, X=0)</td>
+<td>9.9989e-06</td>
+<td>9.9989e-06</td>
+<td>0.0000e+00</td>
+</tr>
+<tr>
+<td>Mf (t=61, X=0)</td>
+<td>4.1794e-05</td>
+<td>4.1794e-05</td>
+<td>3.2427e-16</td>
+</tr>
+<tr>
+<td>Mp (t=4, X=2)</td>
+<td>1.5865e-05</td>
+<td>1.5865e-05</td>
+<td>2.1356e-16</td>
+</tr>
+<tr>
+<td>Md (t=258, X=0)</td>
+<td>1.5325e-04</td>
+<td>1.5325e-04</td>
+<td>3.5373e-16</td>
+</tr>
+<tr>
+<td>Lp (t=187, X=2)</td>
+<td>3.0789e-04</td>
+<td>3.0789e-04</td>
+<td>3.5214e-16</td>
+</tr>
+<tr>
+<td>Ld (t=214, X=1)</td>
+<td>2.0739e-05</td>
+<td>2.0739e-05</td>
+<td>1.7971e-15</td>
+</tr>
+<tr>
+<td>benthic_prey (t=327, X=1)</td>
+<td>2.9618e-01</td>
+<td>2.9618e-01</td>
+<td>1.6868e-15</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<a name="50442"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/50442" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#50442">(Feb 10 2022 at 20:31)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>  In the configuration I use that assumes large pelagic fish are pelagic specialists,  t_frac_pelagic = 1 for SF, MF, SP, MP, LP, SD always; and t_frac_pelagic = 0 for MD always. The Benthic-Pelagic cutoff only matters for LD. So if we're deeper than the Benthic-pelagic coupling cutoff,  t_frac_pelagic is 0, otherwise the prey densities are used to calculate it.</p>
+
+
+
+<a name="50443"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/50443" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#50443">(Feb 10 2022 at 20:32)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span>  -- perfect! In the python code, <code>Ld</code> is the only fish that calls <code>compute_t_frac_pelagic()</code> and the change I made was to set <code>t_frac_pelagic = 0</code> if the column is deeper than the cutoff because the original code was setting it to 1 in those cases.</p>
+
+
+
+<a name="53047"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53047" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53047">(Apr 01 2022 at 03:36)</a>:</h4>
+<p>A status update, though plots won't be ready until tomorrow -- I updated the python code to accept monthly forcing instead of daily, and since the forcing is from mid-month the first 16 days will use the "12:00p on January 16th" values rather than extrapolating from the mid-January and mid-February values. So I expect the python solution to be similar to the matlab solution, but not within round-off. Some first tests seem to bear that out, but when I was trying to get the two to match closely I had modified the time axis to match what matlab uses when it does the interpolation to generate the daily forcing (30 day intervals, starting on day 15 rather than true mid-month).</p>
+<p>For the interpolation, what I ended up doing is adding a <code>_forcing_time</code> to the offline driver class that is the first time level in the forcing when that is later than <code>self.time</code>, the last forcing level when that is earlier than <code>self.time</code>, and <code>self.time</code> everywhere else:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code>          <span class="bp">self</span><span class="o">.</span><span class="n">_forcing_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="p">)</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">_forcing_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_forcing_time</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_forcing_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">forcing</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<p>The interpolation at time step <code>n</code> is then <code>gcm_data_t = self.forcing.interp(time=forcing_t)</code>, where <code>forcing_t = self._forcing_time[n]</code>.</p>
+<p>The last thing to do before committing these changes is to update the default settings so they match the FOSI case (I'll use <code>settings_in</code> for the other test cases). Once that's done, it'll be time to turn to performance. I don't want to try to run the FOSI spin-up when it's taking 90 minutes per year (16 SYPD).</p>
+
+
+
+<a name="53048"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53048" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53048">(Apr 01 2022 at 03:39)</a>:</h4>
+<p>Looking at the code snippet, I think I should change the API of <code>_compute_tendency</code> so the call is <code>dsdt = self._compute_tendency(n, state_t)</code> instead of <code>dsdt = self._compute_tendency(self.time[n], self._forcing_time[n], state_t)</code>... so pretend that's already in place :)</p>
+
+
+
+<a name="53089"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53089" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53089">(Apr 01 2022 at 16:05)</a>:</h4>
+<p><span class="user-mention" data-user-id="122">@Colleen Petrik</span> and <span class="user-mention" data-user-id="14">@Matt Long</span> -- As mentioned in my last post, there are a couple of differences in how the python and matlab code handle forcing:</p>
+<ol>
+<li>matlab extrapolates from mid-Jan and mid-Feb to determine forcing in early January, whereas python uses the mid-January value until we in a date between the January / February forcings</li>
+<li>matlab treats the forcing as coming from days 15, 45, 75, etc. while POP uses the true mid-month (15.5, 45, 74.5, etc)</li>
+</ol>
+<p>With these differences is mind, I ran one year using the first year of FOSI forcing. The intial conditions were spun-up by repeating this forcing for 150 or 200 years, so the expectation is that the system is close to equilibrium.</p>
+<p>I picked two grid cells to plot biomass from, one where the the two model solutions look pretty similar and one where there are clear differences. Here's the side-by-side comparison of what I think is a sign that the two models are behaving similarly (I picked this point because I was looking for (a) biomass values larger than <code>1e-7</code> in all groups, and (b) small differences between python and matlab):</p>
+<p><a href="/user_uploads/2/2e/12jIQ9SU8rhVmucoyXC7rlsn/biomass-X-is-55000.png">biomass-X-is-55000.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/2e/12jIQ9SU8rhVmucoyXC7rlsn/biomass-X-is-55000.png" title="biomass-X-is-55000.png"><img src="/user_uploads/2/2e/12jIQ9SU8rhVmucoyXC7rlsn/biomass-X-is-55000.png"></a></div><p>Here are the absolute and relative errors at the same point:</p>
+<p><a href="/user_uploads/2/7e/bXmxxj4b14epq0nY8Mws85AY/err-X-is-55000.png">err-X-is-55000.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/7e/bXmxxj4b14epq0nY8Mws85AY/err-X-is-55000.png" title="err-X-is-55000.png"><img src="/user_uploads/2/7e/bXmxxj4b14epq0nY8Mws85AY/err-X-is-55000.png"></a></div><p>For the column showing differences between the two, I looked at the grid cell reporting the largest relative error for <code>Sf</code>, <code>Sp</code>, and <code>Sd</code> (probably not a coincidence that all three maximums occur in the same location). Here's the side-by-side of biomass:</p>
+<p><a href="/user_uploads/2/59/ZYO8F_yA2X-WW3gPwB5jLTHN/biomass-X-is-15633.png">biomass-X-is-15633.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/59/ZYO8F_yA2X-WW3gPwB5jLTHN/biomass-X-is-15633.png" title="biomass-X-is-15633.png"><img src="/user_uploads/2/59/ZYO8F_yA2X-WW3gPwB5jLTHN/biomass-X-is-15633.png"></a></div><p>and the error plots:</p>
+<p><a href="/user_uploads/2/ff/2t1ATKsdrFgADCOdJ7-WAnqb/err-X-is-15633.png">err-X-is-15633.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/ff/2t1ATKsdrFgADCOdJ7-WAnqb/err-X-is-15633.png" title="err-X-is-15633.png"><img src="/user_uploads/2/ff/2t1ATKsdrFgADCOdJ7-WAnqb/err-X-is-15633.png"></a></div><p>It's interesting to me that the three small classes all show a big drop early in the matlab run, followed by a recovery to the equilibrium state, while the python run stays in equilibrium. My take is that this is a response to the difference in interpolation techniques prior to Jan 15, but that all-in-all it's a sign that the python code is running well.</p>
+
+
+
+<a name="53094"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53094" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53094">(Apr 01 2022 at 16:16)</a>:</h4>
+<p>And two more plots, because I think they're interesting. biomass in the column with the biggest errors from the medium classes:</p>
+<p><a href="/user_uploads/2/9d/mizjZQk_v2gaGYdzwKOdcLea/biomass-X-is-11677.png">biomass-X-is-11677.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/9d/mizjZQk_v2gaGYdzwKOdcLea/biomass-X-is-11677.png" title="biomass-X-is-11677.png"><img src="/user_uploads/2/9d/mizjZQk_v2gaGYdzwKOdcLea/biomass-X-is-11677.png"></a></div><p>The error seems to be largest where the huge drop in <code>Md</code> (and smaller drop in <code>Mf</code>) occur. It would be interesting to find out what's causing the abrupt drop (and just as abrupt recovery).</p>
+<p>Here's the column with the largest errors in the benthic prey:</p>
+<p><a href="/user_uploads/2/ac/ue2qA9D4Vlu3fIknM2n67JrU/biomass-X-is-76989.png">biomass-X-is-76989.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/ac/ue2qA9D4Vlu3fIknM2n67JrU/biomass-X-is-76989.png" title="biomass-X-is-76989.png"><img src="/user_uploads/2/ac/ue2qA9D4Vlu3fIknM2n67JrU/biomass-X-is-76989.png"></a></div><p>It looks like there are only 6 classes plotted because <code>Sp</code>, <code>Mp</code>, and <code>Lp</code> are all order <code>1e-19</code> or so.</p>
+<p>The column with the largest errors in the large class aren't very interesting (<code>Lp</code> is very small, and the error in <code>Ld</code> is roughly <code>1e-2</code>)</p>
+
+
+
+<a name="53113"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53113" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53113">(Apr 01 2022 at 20:47)</a>:</h4>
+<p>I did a little profiling: about 82% of the python runtime is spent interpolating the forcing field (!!) and only ~8% is spent actually computing the tendency. It turns out an easy way to cut this down by a factor of 10 is to reduce the size of the time dimension from 68 years to 1 year... so I think a smart <code>.isel(time=...)</code> in <code>gcm_data_t = self.forcing.interp(time=forcing_t)</code> will be a big savings.</p>
+
+
+
+<a name="53126"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53126" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53126">(Apr 01 2022 at 23:05)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> helped find the <code>assume_sorted</code> flag in xarray's <code>interp()</code> function, and instead of 90+ minutes, I'm down to 7.5 minutes per year! (I think matlab is 1.5 minutes per year, so still 5x slower). Here's the latest timing data, without breaking down each call in <code>compute_tendencies()</code>:</p>
+<div class="codehilite"><pre><span></span><code>Elapsed time for init: 49.47
+Elapsed time for post_data: 317.51
+Elapsed time for interp_forcing: 9.55
+Elapsed time for compute_tendency: 79.63
+Elapsed time for solve: 456.21
+Total (excluding solve, which wraps the rest): 456.15
+CPU times: user 1min 41s, sys: 1min 47s, total: 3min 29s
+Wall time: 7min 36s
+</code></pre></div>
+<p><code>init</code> is copying the prognostic variables into <code>state_t</code> and setting up the arrays for output; <code>post_data</code> is copying <code>state_t</code> back into <code>biomass</code> and updating the diagnostics in the <code>offline_driver</code> object (so copying from one Dataset to another). I can look at speeding up that step next week</p>
+
+
+
+<a name="53128"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53128" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53128">(Apr 01 2022 at 23:59)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , this seems like a very good, important step. I am really concerned about the performance, however.</p>
+
+
+
+<a name="53130"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53130" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53130">(Apr 02 2022 at 04:14)</a>:</h4>
+<p>The <code>post_data</code> stage is clearly the next one to target, and I have a few ideas. Namely, could we avoid memory copies by doing intermediate computations directly into the diagnostic data arrays? I’ll look into it Monday</p>
+
+
+
+<a name="53181"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53181" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53181">(Apr 04 2022 at 19:44)</a>:</h4>
+<p>I was able to greatly reduce the time spent in <code>post_data</code> by not posting most of the diagnostic output:</p>
+<div class="codehilite"><pre><span></span><code>Elapsed time for init: 35.61
+Elapsed time for post_data: 15.64
+Elapsed time for interp_forcing: 6.85
+Elapsed time for compute_tendency: 62.31
+Elapsed time for solve: 120.45
+Total (excluding solve, which wraps the rest): 120.41
+CPU times: user 1min 7s, sys: 36.1 s, total: 1min 43s
+Wall time: 2min
+</code></pre></div>
+<p>So this is closer in line to matlab timing (90 seconds, but that excludes some of the matlab initialization), but the bulk of the savings comes about by not copying <code>T_habitat</code>, <code>ingestion_rate</code>, <code>predation_flux</code>, <code>predation_rate</code>, <code>metabolism_rate'</code>, <code>mortality_rate</code>, <code>energy_avail_rate</code>, <code>growth_rate</code>, <code>reproduction_rate</code>, <code>recruitment_flux</code>, <code>fish_catch_rate</code>, <code>encounter_rate_link</code>, <code>encounter_rate_total</code>, <code>consumption_rate_max_pred</code>, or <code>consumption_rate_link</code> into a Dataset every time step... which means those diagnostics are not available after the run</p>
+
+
+
+<a name="53182"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53182" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53182">(Apr 04 2022 at 19:46)</a>:</h4>
+<p>Actually, the above timing just commented out the data copy into each time slice. If I actually remove the diagnostics from the dataset (e.g. don't initialize the memory for them), we actually meet the matlab performance numbers!</p>
+<div class="codehilite"><pre><span></span><code>Elapsed time for init: 2.19
+Elapsed time for post_data: 14.93
+Elapsed time for interp_forcing: 6.89
+Elapsed time for compute_tendency: 61.97
+Elapsed time for solve: 86.02
+Total (excluding solve, which wraps the rest): 85.98
+CPU times: user 1min 3s, sys: 7.08 s, total: 1min 10s
+Wall time: 1min 26s
+</code></pre></div>
+
+
+
+<a name="53218"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53218" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53218">(Apr 05 2022 at 14:51)</a>:</h4>
+<p>I extended the above setup to a 50 year run (trying to do the FOSI spinup run, so forcing is just cycling over the first year), and the overhead is pretty large:</p>
+<div class="codehilite"><pre><span></span><code>Elapsed time for init: 262.06
+Elapsed time for post_data: 1750.98
+Elapsed time for interp_forcing: 2588.41
+Elapsed time for compute_tendency: 9191.34
+Elapsed time for solve: 13801.51
+Total (excluding solve, which wraps the rest): 13792.79
+CPU times: user 1h 12min 17s, sys: 2h 9min 13s, total: 3h 21min 31s
+Wall time: 3h 50min 1s
+</code></pre></div>
+<p>It's nice to see the 1-year run in the 90-second range, but I really want to maintain that throughput for longer runs. The numbers above average out to ~270 seconds / year, or 3x slower, and I assume it boils down to memory management because we are allocating a ton of memory upfront.</p>
+<p>I'm thinking about refactoring the offline driver to do everything in one-year chunks (like the matlab code)... I'm picturing a cycle of</p>
+<ol>
+<li>initialize the run</li>
+<li>run for a year</li>
+<li>append output into driver Dataset via <a href="https://xarray.pydata.org/en/stable/generated/xarray.concat.html"><code>xr.concat()</code></a></li>
+<li>re-initialize for next year (copy current biomass state into initial condition, update time dimension on output, etc)</li>
+<li>goto (2)</li>
+</ol>
+<p>The good news is that the results look promising. Here's a time series of <code>biomass</code> over the full 50 years at one of the columns I've been using to check my run, with one year of the already-spun-up matlab output for comparison:</p>
+<p><a href="/user_uploads/2/d6/X6FBQMpPDhDxK3nSYYkOD6dk/50-year-spinup-compared-to-spun-up-matlab.png">50-year-spinup-compared-to-spun-up-matlab.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/d6/X6FBQMpPDhDxK3nSYYkOD6dk/50-year-spinup-compared-to-spun-up-matlab.png" title="50-year-spinup-compared-to-spun-up-matlab.png"><img src="/user_uploads/2/d6/X6FBQMpPDhDxK3nSYYkOD6dk/50-year-spinup-compared-to-spun-up-matlab.png"></a></div><p>And then here is the last year of the spinup from the same column (with the same matlab plot for comparison):</p>
+<p><a href="/user_uploads/2/ea/cydMXrw2eSy0MoFpN4qBSw42/50th-year-of-spinup-compared-to-spun-up-matlab.png">50th-year-of-spinup-compared-to-spun-up-matlab.png</a> </p>
+<div class="message_inline_image"><a href="/user_uploads/2/ea/cydMXrw2eSy0MoFpN4qBSw42/50th-year-of-spinup-compared-to-spun-up-matlab.png" title="50th-year-of-spinup-compared-to-spun-up-matlab.png"><img src="/user_uploads/2/ea/cydMXrw2eSy0MoFpN4qBSw42/50th-year-of-spinup-compared-to-spun-up-matlab.png"></a></div><p>The big differences to my eye are</p>
+<ol>
+<li>benthic prey doesn't look like it's in equilibrium yet, so it's a little low</li>
+<li><code>Sd</code>, <code>Md</code>, and <code>Ld</code> are a little lower in the python run than the matlab, while <code>Sp</code>, <code>Mp</code>, and <code>Lp</code> are a little higher (much more noticeable in <code>Lp</code>, <code>Ld</code>, and <code>Md</code> than the other three fields)</li>
+</ol>
+
+
+
+<a name="53249"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53249" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53249">(Apr 05 2022 at 17:05)</a>:</h4>
+<p>I think you're plan regarding running year-by-year sounds reasonable, though I think you might be able to simply dump the data at some prescribed (i.e., annual) frequency in context of the time loop, rather than hard coding a model stop/start.</p>
+
+
+
+<a name="53266"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53266" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53266">(Apr 05 2022 at 17:52)</a>:</h4>
+<p>My hope is to preserve the the <code>testcase.run(nt)</code> interface, I was just picturing a loop under the covers to make sure we don't exceed bounds when copying into the numpy arrays. "Dumping output" (maybe just creating a list of datasets that a user can merge after the fact?) makes sense, and maybe we could work that in without really messing with anything else in <code>_solve()</code></p>
+
+
+
+<a name="53271"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53271" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53271">(Apr 05 2022 at 18:58)</a>:</h4>
+<p>I was thinking that if the conditional is met (i.e., time to write out a file), the index into the memory buffer could be reset and the time-stepping loop could just proceed. So something like <code>time_step_per_file</code> could be set...  Another issues relates to temporal averaging. We are still writing time-step level output, right? Ideally we would decouple the timestep from the output frequency and enable temporal averaging. Not clear to me that this is a priority.</p>
+
+
+
+<a name="53288"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53288" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53288">(Apr 05 2022 at 21:30)</a>:</h4>
+<p>Okay, I broke <code>self._ds</code> into a list of datasets with a max length of <code>self._max_output_time_dim</code> (default set to 365, and I haven't tried adjusting it); this lets the model run much faster, but requires an <code>xr.concat()</code> at the end which can be time consuming. Bottom line, the 50-year run that took 3 hours 50 minutes last night is down to an hour and a half (so 108 seconds per year)</p>
+
+
+
+<a name="53290"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/53290" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#53290">(Apr 06 2022 at 12:59)</a>:</h4>
+<p>that seems reasonable. I think if we write single var files, the <code>concat</code> step can be skipped...but that's a detail. Parallelization should make dramatic gains in performance.</p>
+
+
+
+<a name="55656"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/55656" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#55656">(May 25 2022 at 21:37)</a>:</h4>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span> , why are the netcdf files so large? For example, the 4yr FOSI file we created today is 9.02GB, while my netcdfs from the Matlab version for the full 62 years of the FOSI are 10.08GB.</p>
+
+
+
+<a name="55657"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/55657" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#55657">(May 25 2022 at 21:38)</a>:</h4>
+<p>whoa, that's a big difference. I think we're spitting stuff out in double precision, while matlab might be writing single precision, but that would only be a factor of 2</p>
+
+
+
+<a name="55658"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/55658" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#55658">(May 25 2022 at 21:40)</a>:</h4>
+<p>but there are 9 functional types, and 85000 grid cells, so 1 year (365 daily output) would be <code>8*9*85000*365</code> = 2.2 billion bytes per year... maybe matlab is writing compressed netcdf?</p>
+
+
+
+<a name="55659"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/55659" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#55659">(May 25 2022 at 21:41)</a>:</h4>
+<p>I did notice that my 62 year FOSI run created a 110GB netcdf file, and that seemed a little extreme...</p>
+
+
+
+<a name="55661"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/55661" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Colleen Petrik <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#55661">(May 26 2022 at 00:27)</a>:</h4>
+<p>Yes, that's a bit extreme! I realized the difference is that I save monthly means, not daily.</p>
+
+
+
+<a name="55696"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/33-fisheries/topic/FEISTY%20code/near/55696" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/33-fisheries/topic/FEISTY.20code.html#55696">(May 26 2022 at 15:27)</a>:</h4>
+<p>I can add a flag to the settings file to compute monthly means, that should be pretty easy with xarray</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

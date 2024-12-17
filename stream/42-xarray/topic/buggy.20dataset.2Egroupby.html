@@ -1,0 +1,36 @@
+<html>
+<head><meta charset="utf-8"><title>buggy dataset.groupby · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/buggy.20dataset.2Egroupby.html">buggy dataset.groupby</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="98046"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/buggy%20dataset.groupby/near/98046" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dhamma Kimpara (he/him) <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/buggy.20dataset.2Egroupby.html#98046">(Apr 19 2024 at 21:38)</a>:</h4>
+<p>has anyone experienced weirdness with xarray's <code>.groupby(foo).apply(bar)</code>? Specifically it seems to squeeze out the groupby dim in some cases and others.</p>
+<p>I am running the same operations on two isomorphic datasets, just with different lat/lon dimensions (one deg vs quarter deg).  It seems that groupby is not squeezing out the latitude dimension for the larger dataset.</p>
+<p>If anyone is interested i have saved the two datasets in question and a little test.py at </p>
+<div class="codehilite"><pre><span></span><code>/glade/work/dkimpara/xarray-bug
+</code></pre></div>
+
+
+
+<a name="98049"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/buggy%20dataset.groupby/near/98049" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/buggy.20dataset.2Egroupby.html#98049">(Apr 22 2024 at 14:44)</a>:</h4>
+<p>It certainly looks like there's some difference in behavior there following the indexing operation (not sure that's a common use case).  </p>
+<p>Are you looking to maintain the dimension or drop it?  With the <code>squeeze</code> parameter in <code>groupby</code> set to <code>False</code> it reliably maintains the dimension.  If you'd rather drop it, you can chain the <code>squeeze</code> method after the indexing.</p>
+
+
+
+<a name="98057"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/buggy%20dataset.groupby/near/98057" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dhamma Kimpara (he/him) <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/buggy.20dataset.2Egroupby.html#98057">(Apr 22 2024 at 17:36)</a>:</h4>
+<p>I'd like to drop the dimension. Yes, for now I am using <code>squeeze</code> to get around this issue after checking that the dim hasn't been squeezed yet</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

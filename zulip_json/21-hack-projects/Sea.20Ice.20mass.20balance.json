@@ -1,0 +1,92 @@
+[
+    {
+        "content": "<p>I have a script in python that computes sea ice mass budgets from our CMIP6 output. I had hoped to do this in Xarray/DASC, but the calendar axis was messed up for me. So, I went back to just the netcdf4 options. <span class=\"user-mention\" data-user-id=\"63\">@Elizabeth Maroon</span> helped me prototype this originally. I will start a github project here.</p>\n<p>Dave</p>",
+        "id": 6428,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1586549507
+    },
+    {
+        "content": "<p>Here is the repository:</p>\n<p><a href=\"https://github.com/dabail10/massbalance\" target=\"_blank\" title=\"https://github.com/dabail10/massbalance\">https://github.com/dabail10/massbalance</a></p>",
+        "id": 6435,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1586549832
+    },
+    {
+        "content": "<p>I've forgotten the code syntax, but I have an issue here with trying to do a NumPy computation with the Xarray object:</p>\n<h1>define sea ice budget variables</h1>\n<p>budgetVars =   [<br>\n                  'sidmassgrowthbot',<br>\n                  'sidmassgrowthwat',<br>\n                  'sidmassmelttop',<br>\n                  'sidmassmeltbot',<br>\n                  'sidmasslat',<br>\n                  'sidmasssi',<br>\n                  'sidmassevapsubl',<br>\n                  'sidmassdyn',<br>\n                  'total'<br>\n               ]</p>\n<h1>read in static fields: mask and grid-cell-areas</h1>\n<h1># mask</h1>\n<p>fh = xr.open_dataset('<a href=\"http://arctic_region_mask_gx1v7.nc\" target=\"_blank\" title=\"http://arctic_region_mask_gx1v7.nc\">arctic_region_mask_gx1v7.nc</a>')<br>\nmask = fh.variables['mask'][:,:]<br>\nfh.close()</p>\n<h1>areas</h1>\n<p>maskFile = '/glade/p/cesm/omwg/grids/gx1v7_grid.nc'<br>\nfh = xr.open_dataset(maskFile)<br>\ntarea = fh.variables['TAREA'][:,:]<br>\ntlat = fh.variables['TLAT'][:,:]<br>\nfh.close()</p>\n<p>tarea = tarea*1.0e-4</p>\n<p>files = sorted(glob.glob(path+case+'/ice/proc/tseries/month_1/<em>sidmassgrowthbot</em>.nc'))<br>\nfh1 = xr.open_mfdataset(files)</p>\n<h1># reset/zero the budget for this month</h1>\n<p>thisBudget = np.ma.masked_all([len(budgetVars)],dtype=float)</p>\n<p>thisVar1 = fh1.variables[budgetVars[0]][n,:,:]<br>\nthisBudget[0] = np.sum(thisVar1<em>tarea</em>mask,dtype=float)</p>\n<p>This is just for the first one.  The error I get is:</p>\n<p>Traceback (most recent call last):<br>\n  File \"SIMIP_ice_mass_budget_calculate_CESM.py\", line 143, in &lt;module&gt;<br>\n    thisBudget[0] = np.sum(thisVar1<em>tarea</em>mask,dtype=float)<br>\n  File \"/gpfs/u/apps/dav/opt/python/3.6.8/gnu/7.3.0/pkg-library/20190723/lib/python3.6/site-packages/numpy/ma/core.py\", line 3330, in __setitem__<br>\n    _data[indx] = dval<br>\nValueError: setting an array element with a sequence.</p>",
+        "id": 6440,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1586551750
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> , it looks like zulip is applying some text transformation to the line generating the error. So it's not clear what your python code actually is. Could you repost that line? Perhaps quoting it will avoid the text transformation. You can click on the eye icon before posting to see what it will look like to us.</p>",
+        "id": 6441,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1586552982
+    },
+    {
+        "content": "<p>Backquotes <code>like this</code> will treat text verbatim</p>",
+        "id": 6442,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1586553047
+    },
+    {
+        "content": "<p>That should be:</p>\n<p><code>thisBudget[0] = np.sum(thisVar1*tarea*mask,dtype=float)</code></p>\n<p>Thanks for catching that Keith.</p>",
+        "id": 6443,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1586553164
+    },
+    {
+        "content": "<p>The error is that you're trying to assign a vector to a single element [0].</p>\n<p>You could do the whole reduction using something like</p>\n<div class=\"codehilite\"><pre><span></span>(fh1[budgetVars] * TAREA * mask).sum(dim = appropriate_dimension_name)\n</pre></div>\n\n\n<p>assuming that TAREA and mask are appropriate for every variable</p>",
+        "id": 6448,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1586554059
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"93\">@David Bailey</span> , I'm not able to generate this error message with separate code,<br/>\nand there's not enough info to run your code, so I'm not sure why you're getting it.<br/>\nI suggest adding some print statements to see what python thinks the intermediate terms are</p>\n<div class=\"codehilite\"><pre><span></span>print(thisVar1*tarea*mask)\nprint(np.sum(thisVar1*tarea*mask,dtype=float))\n</pre></div>",
+        "id": 6449,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1586554414
+    },
+    {
+        "content": "<p>Thanks Deepak. What is the syntax to sum across two dimensions?</p>",
+        "id": 6450,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1586554511
+    },
+    {
+        "content": "<p><code>.sum([\"dim1\", \"dim2\"])</code> i.e. a list of dimension names?</p>",
+        "id": 6451,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1586554604
+    },
+    {
+        "content": "<p>(possibly <code>dim=[\"dim1\", \"dim2\"]</code>, not 100% sure.)</p>",
+        "id": 6452,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1586554718
+    },
+    {
+        "content": "<p>Ok. I think I know the issue. So mask and TAREA have named dimensions of nlat and nlon, but the CESM variable (thisVar1) has dimensions nj and ni.</p>",
+        "id": 6453,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1586554881
+    },
+    {
+        "content": "<p>Aha! So, I had to consistently rename my dimensions and now it is working. I will commit this code to my repo.</p>",
+        "id": 7182,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1587755121
+    },
+    {
+        "content": "<p>The code is now doing exactly what I want, but using Xarray instead of numpy. There are some further tweaks I would like to make for efficiency.</p>\n<p><a href=\"https://github.com/dabail10/massbalance\" target=\"_blank\" title=\"https://github.com/dabail10/massbalance\">https://github.com/dabail10/massbalance</a></p>",
+        "id": 7184,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1587756111
+    },
+    {
+        "content": "<p>I meant using Xarray instead of netcdf4.</p>",
+        "id": 7192,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1587759489
+    }
+]

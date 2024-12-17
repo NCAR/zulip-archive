@@ -1,0 +1,132 @@
+<html>
+<head><meta charset="utf-8"><title>ALT_CO2 · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html">ALT_CO2</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="2102"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2102" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2102">(Feb 28 2020 at 16:27)</a>:</h4>
+<p>MARBL/POP runs 2 ALT_CO2 tracers, for DIC and ALK. While we probably want the ability to disable these 2 tracers eventually, it looks to me like it is non-trivial to add such functionality to MARBL (based on a quick skim of the code). There are many lines of code scattered throughout that rely on ALT_CO2 related variables.</p>
+<p>option 1: bite the bullet and add the ability to disable these 2 tracers<br>
+option 2: pay the computational cost of running with these 2 tracers</p>
+<p>If we go with option 2, and the options for ATM_ALT_CO2 are the same as ATM_CO2, then the ALT_CO2 diagnostics will not be written out. That said, I think it is natural to ask if we can select options for ATM_ALT_CO2 that makes these 2 tracers useful. For example, would we gain anything by setting ATM_ALT_CO2 to 2xATM_CO2?</p>
+<p>So option 2 splits into</p>
+<p>option 2a: set ATM_ALT_CO2 options the same as ATM_CO2, and have no ALT_CO2 diagnostics in output<br>
+option 2b: use different ATM_ALT_CO2 options, to get some science out of these 2 tracers</p>
+<p>Thoughts?</p>
+
+
+
+<a name="2105"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2105" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2105">(Feb 28 2020 at 16:37)</a>:</h4>
+<p>I don't have strong feelings either way. On one hand, I think disabling the alt_co2 tracers when they are redundant would be a useful feature in MARBL. On the other hand, I don't have a good initial estimate for (a) how much [person] time it would take to modify the code, or (b) how much [computational] time would be saved by reducing the tracer count.</p>
+<p>I guess my gut reaction would be to leave the tracers in -- I like option 2b if there is some useful science to be gleaned with 2xCO2 or present day CO2 or something along those lines. I'm not going to defend that position if someone else has a better argument for doing something different.</p>
+
+
+
+<a name="2108"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2108" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2108">(Feb 28 2020 at 17:16)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="31">@Keith Lindsay</span>, this is a very good point. </p>
+<p><span class="user-mention" data-user-id="10">@Michael Levy</span>, can you spend about 10-15 min to make a quick estimate of the level of effort required to turn <code>ALT_{DIC,ALK}</code> off in MARBL? </p>
+<p>with option 2a, we could simply delete the extra data.<br/>
+option 2b is intriguing. What about a  pulse? A single year of elevated CO2, for instance?</p>
+
+
+
+<a name="2110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2110" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2110">(Feb 28 2020 at 17:36)</a>:</h4>
+<p>If ATM_ALT_CO2 is configured identically to ATM_CO2 then the ALT_CO2 diagnostics will not appear in the tavg_contents file (unless there's a bug in the scripts). So no cleanup effort is required for 2a.</p>
+<p>For 2b, I'm not sure if a sustained elevated value or a pulse is more amenable to analysis. Whatever we do, we should replicate the settings in a low-res analogue for comparison.</p>
+<p>One could also consider a comparison to an existing low-res coupled CMIP run (e.g., 4xCO2). However, the comparison would not be clean, as we are planning on using explicit calcifiers here. So that may be a moot point.</p>
+
+
+
+<a name="2113"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2113" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2113">(Feb 28 2020 at 18:12)</a>:</h4>
+<p><span class="user-mention" data-user-id="14">@Matthew Long</span> Barring unforeseen issues, I'd say it could be done in a day (including running tests in 3 deg or 1 deg POP). If some of the details turn complicated, it would probably add another day or two to work out? But I think it's contained enough that it shouldn't take more than that.</p>
+<p>Longer answer: I think the process for removing the tracers would be</p>
+<p>1. Add a new settings flag (named something like <code>alt_co2_tracers_on</code>) with default value of <code>.true.</code><br/>
+2. Modify <code>marbl_interface_private_types:tracer_index_constructor</code> to only define <code>dic_alt_co2</code> and <code>alk_alt_co2</code> if <code>alt_co2_tracers_on == .true.</code><br/>
+3. Modify <code>marbl_init_non_autotroph_tracers_metadata</code> to only define metadata if <code>alt_co2_tracers_on == .true.</code><br/>
+4. Grep for <code>dic_alt_co2_ind</code> and <code>alk_alt_co2_ind</code>, make sure the indices are only referenced if <code>alt_co2_tracers_on == .true.</code></p>
+<p>At that point, I would be tempted to just run a stand-alone test and see where else the <code>alt_co2_tracers_on == .true.</code> check needs to be made. The <code>alt_co2</code> structure bleeds into the <code>carbonate_type</code> and some surface flux types, but I think we'd be okay allocating memory for those even if we don't access them.</p>
+
+
+
+<a name="2121"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2121" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2121">(Feb 28 2020 at 21:58)</a>:</h4>
+<p>After talking with <span class="user-mention" data-user-id="31">@Keith Lindsay</span> , he points out that the above proposal wouldn't go very far towards disentangling the alt_co2 tracers from the base tracers. A much more extreme option would be to go so far as to make <code>alt_co2_tracers_on</code> equivalent to <code>ciso_on</code> (and creating <code>marbl_alt_co2</code> modules where computation is done), and a more realistic approach would be to keep the alt_co2 code in the same fortran modules as the base tracer computations but try to split apart the computations as much as possible to at least start on a path towards a truly separate tracer module. This starts to tie in with <a href="https://github.com/marbl-ecosys/MARBL/issues/154" target="_blank" title="https://github.com/marbl-ecosys/MARBL/issues/154">https://github.com/marbl-ecosys/MARBL/issues/154</a> (MARBL issue re: modularity and making it easier to turn groups of tracers on and off).</p>
+<p>I think a less-kludgy implementation that would help us move towards a solution for #154 would take somewhere in the neighborhood of a week and a half or two weeks, and a full-fledged splitting of the fortran modules would be an additional week or so? That's just based on a cursory glance at what would be involved.</p>
+<p>In the mean time, I'll copy some of these thoughts into a MARBL issue ticket. I think github would be an appropriate place to continue discussions on possible implementation details of turning off the alt_co2 tracers, while this channel can stick to discussing what to do in the high-res run</p>
+
+
+
+<a name="2122"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/2122" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#2122">(Feb 29 2020 at 04:11)</a>:</h4>
+<p>Thanks Mike. I think we should probably drop consideration of optionalizing <code>ALT_CO2</code> tracers for the hi-res run.</p>
+
+
+
+<a name="8444"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/8444" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#8444">(May 13 2020 at 21:08)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> and I have discussed boundary conditions for <code>DIC_ALT_CO2</code>: we are leaning towards a single pulse in the atmospheric boundary condition of <em>n</em> (perhaps 5) years in duration.</p>
+
+
+
+<a name="8446"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/8446" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#8446">(May 13 2020 at 21:51)</a>:</h4>
+<p>The initial transient in annual air-sea CO2 flux in the CESM2 OMIP JRA run seems to be less than 10 years. <a href="/user_uploads/2/f0/hLWaxJVSOcY5Io_Uk2uqnIBz/Screen-Shot-2020-05-13-at-3.44.40-PM.png" target="_blank" title="Screen-Shot-2020-05-13-at-3.44.40-PM.png">Screen-Shot-2020-05-13-at-3.44.40-PM.png</a><br>
+The timeseries for the full run, including the historical CO2 ramp, is the blue line in <a href="/user_uploads/2/3c/iQ_wLqhyAXAL5T6Tky_KH_0z/spinup.POP.global_no_ms.FG_CO2.g.e21.GOMIPECOIAF.T62_g17.CMIP6-omip1.001.png" target="_blank" title="spinup.POP.global_no_ms.FG_CO2.g.e21.GOMIPECOIAF.T62_g17.CMIP6-omip1.001.png">spinup.POP.global_no_ms.FG_CO2.g.e21.GOMIPECOIAF.T62_g17.CMIP6-omip1.001.png</a><br>
+So I propose having the impulse occur during years 16-20.</p>
+<div class="message_inline_image"><a href="/user_uploads/2/f0/hLWaxJVSOcY5Io_Uk2uqnIBz/Screen-Shot-2020-05-13-at-3.44.40-PM.png" target="_blank" title="Screen-Shot-2020-05-13-at-3.44.40-PM.png"><img src="/user_uploads/2/f0/hLWaxJVSOcY5Io_Uk2uqnIBz/Screen-Shot-2020-05-13-at-3.44.40-PM.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/3c/iQ_wLqhyAXAL5T6Tky_KH_0z/spinup.POP.global_no_ms.FG_CO2.g.e21.GOMIPECOIAF.T62_g17.CMIP6-omip1.001.png" target="_blank" title="spinup.POP.global_no_ms.FG_CO2.g.e21.GOMIPECOIAF.T62_g17.CMIP6-omip1.001.png"><img src="/user_uploads/2/3c/iQ_wLqhyAXAL5T6Tky_KH_0z/spinup.POP.global_no_ms.FG_CO2.g.e21.GOMIPECOIAF.T62_g17.CMIP6-omip1.001.png"></a></div>
+
+
+
+<a name="22533"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/22533" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#22533">(Dec 04 2020 at 20:53)</a>:</h4>
+<p>Darn, we forgot to have an impulse of atm_alt_co2_const for years 0016-0020.<br>
+The run is currently in year 0027 (latest model date = 00270302).<br>
+How about we put in the impulse in years 0028-0032?</p>
+
+
+
+<a name="22534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/22534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#22534">(Dec 04 2020 at 20:53)</a>:</h4>
+<p>Yes!</p>
+
+
+
+<a name="22535"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/22535" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#22535">(Dec 04 2020 at 21:00)</a>:</h4>
+<p>Did we decide on a value for the pulse? I think I see 2x, 4x, and present day all floated in this topic. And just to clarify, I'm going to add the following to <code>user_nl_pop</code>:</p>
+<div class="codehilite"><pre><span></span>atm_alt_co2_const = NEWVAL ! originally 284.317
+</pre></div>
+
+
+
+<a name="22536"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/22536" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#22536">(Dec 04 2020 at 21:01)</a>:</h4>
+<p>2x seems reasonable to me. </p>
+<p>I think you have the mechanism correct.</p>
+
+
+
+<a name="22537"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/22537" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#22537">(Dec 04 2020 at 21:02)</a>:</h4>
+<p>Cool, once the current year ends I'll set it to <code>568.634</code></p>
+
+
+
+<a name="22579"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/ALT_CO2/near/22579" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/ALT_CO2.html#22579">(Dec 06 2020 at 15:19)</a>:</h4>
+<p>I just started the 2x CO2 portion of the run; I think we have enough allocation left to get through two years and maybe four or five months before I'll need to switch account keys</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

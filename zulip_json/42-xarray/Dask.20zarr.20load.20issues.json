@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Hi,  <br>\nThis might be an <code>intake-esm</code> issue, I'm not sure.</p>\n<p>I recently tried writing some Zarr stores that I've written/read back successfully in the past, but now it seems can't read them back in successfully using intake-esm.   I had just rebuilt my conda environment, so it's possible I have a newer version of various pangeo-related packages than before.</p>\n<p>What is strange is that I can open the Zarr store using <code>xr.open()</code> , but not with this call:</p>\n<div class=\"codehilite\"><pre><span></span>    with dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: False}):\n        dsets = col_subset.to_dataset_dict(zarr_kwargs={&#39;consolidated&#39;: True}, preprocess=preprocess)\n\nKeyError: &#39;.zmetadata&#39;\n</pre></div>\n\n\n<p>My environment includes: </p>\n<div class=\"codehilite\"><pre><span></span>xarray                    0.18.2             pyhd8ed1ab_0    conda-forge\ndask                      2021.7.0           pyhd8ed1ab_0    conda-forge\nintake-esm                2021.1.15          pyhd8ed1ab_0    conda-forge\nzarr                      2.8.3              pyhd8ed1ab_0    conda-forge\n</pre></div>\n\n\n<p>The Zarr write/read steps were working before I rebuilt my conda environment.  Unfortunately, I don't know what versions I had before, but something has changed, it seems to me.</p>",
+        "id": 37793,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1626476792
+    },
+    {
+        "content": "<p>maybe it's the new version of dask, since that has a recent date.</p>",
+        "id": 37795,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1626477138
+    },
+    {
+        "content": "<p>OK, I think I introduced a bug that was the source of the problem.   Sorry for the false alarm.</p>",
+        "id": 37898,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1626716434
+    }
+]

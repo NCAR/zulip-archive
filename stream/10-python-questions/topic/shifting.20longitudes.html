@@ -1,0 +1,51 @@
+<html>
+<head><meta charset="utf-8"><title>shifting longitudes · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/shifting.20longitudes.html">shifting longitudes</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="80670"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/shifting%20longitudes/near/80670" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Christine Shields <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/shifting.20longitudes.html#80670">(May 09 2023 at 20:15)</a>:</h4>
+<p>Hi! Newbie python question:   What is the preferred way to shift longitudes (i.e. -180 to +180 to 0- 360, or vice vera) using xarray?  Could someone please give me an example? I am plotting  a 1d array with longitude on the x-axis, but anticipate needing to do this with lat/lon spatial data as well. Thanks!</p>
+
+
+
+<a name="80675"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/shifting%20longitudes/near/80675" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/shifting.20longitudes.html#80675">(May 09 2023 at 21:32)</a>:</h4>
+<p>This is how I do it, <span class="user-mention" data-user-id="66">@Christine Shields</span> :</p>
+<div class="codehilite"><pre><span></span><code>def lonFlip(data):
+    # NOTE: this assumes global values
+    tmplon = data[&#39;lon&#39;]
+    tmpdata = data.roll(lon=len(tmplon) // 2, roll_coords=True)
+    lonroll = tmpdata[&#39;lon&#39;].values
+    if tmplon.min() &gt;= 0:
+        # flip to -180:180
+        tmpdata = tmpdata.assign_coords({&#39;lon&#39;: np.where(lonroll &gt;= 180, lonroll - 360, lonroll)})
+    else:
+        # flip from -180:180 to 0:360
+        # tmpdata = tmpdata.assign_coords({&#39;lon&#39;: ((lonroll + 360) % 360)})
+        tmpdata = tmpdata.assign_coords({&#39;lon&#39;: lonroll%360})
+    return tmpdata
+</code></pre></div>
+
+
+
+<a name="80676"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/shifting%20longitudes/near/80676" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/shifting.20longitudes.html#80676">(May 09 2023 at 21:44)</a>:</h4>
+<p>If you're using cartopy, you can also set the <a href="https://scitools.org.uk/cartopy/docs/latest/reference/projections.html"><code>central_longitude</code></a>. This might not help for analysis but I've found it helpful for shifting the view when plotting. Another thing I have found useful is <a href="https://scitools.org.uk/cartopy/docs/latest/gallery/scalar_data/wrapping_global.html"><code>add_cyclic</code></a> to help with wrapping global data.</p>
+
+
+
+<a name="80677"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/shifting%20longitudes/near/80677" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Christine Shields <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/shifting.20longitudes.html#80677">(May 09 2023 at 21:52)</a>:</h4>
+<p>Thanks!!!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

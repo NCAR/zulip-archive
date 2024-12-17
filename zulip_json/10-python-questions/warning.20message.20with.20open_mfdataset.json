@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>I am reading a variable: <br>\n<code>ref_t = xr.open_mfdataset(fils)['T'].sel(lat=lat, lon=lon).compute() </code><br>\nand I am getting teh warning: </p>\n<div class=\"codehilite\"><pre><span></span><code>/glade/work/hannay/miniconda3/envs/python-tutorial/lib/python3.7/site-packages/xarray/backends/api.py:783: FutureWarning: In xarray version 0.13 `auto_combine` will be deprecated.\n  coords=coords)\n/glade/work/hannay/miniconda3/envs/python-tutorial/lib/python3.7/site-packages/xarray/backends/api.py:783: FutureWarning: The datasets supplied have global dimension coordinates. You may want\nto use the new `combine_by_coords` function (or the\n`combine=&#39;by_coords&#39;` option to `open_mfdataset` to order the datasets\nbefore concatenation. Alternatively, to continue concatenating based\non the order the datasets are supplied in in future, please use the\nnew `combine_nested` function (or the `combine=&#39;nested&#39;` option to\nopen_mfdataset).\n  coords=coords)\n</code></pre></div>\n<p>I have tried to change the syntax  and use <code>combine='nested'</code> or <code>combine='by_coords'</code> but anything I try, I will get an error. </p>\n<p>Any advice? Thanks.</p>",
+        "id": 51823,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1646861349
+    },
+    {
+        "content": "<blockquote>\n<p>/glade/work/hannay/miniconda3/envs/python-tutorial/lib/python3.7/site-packages/xarray/backends/api.py:783: FutureWarning: In xarray version 0.13 <code>auto_combine</code></p>\n</blockquote>\n<p><code>xarray 0.13</code> is quite outdated (more than 2 years old). Have you considered upgrading to a more recent version?</p>",
+        "id": 51826,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1646861724
+    },
+    {
+        "content": "<p>Hi Anderson,<br>\nI can certainly update if I know how to do it and the scripts I am using still work. Sorry to be so clueless. Thanks a bunch.</p>",
+        "id": 51832,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1646862304
+    },
+    {
+        "content": "<p>Okay... In the meantime, we can try to diagnose the issue you are running into. Do you mind posting the full traceback/error message you are getting? I'm asking because your previous message contains <code>warnings</code> from xarray (Warnings are usually harmless) but you do mention that you are getting some <code>errors</code></p>",
+        "id": 51834,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1646862526
+    },
+    {
+        "content": "<p>I am not getting error with:<br>\n<code>ref_t = xr.open_mfdataset(fils)['T'].sel(lat=lat, lon=lon).compute() </code><br>\nJust warning. </p>\n<p>I get error when I try change the syntax to include <code>combine='nested'</code> but maybe I need to update xarray first.</p>",
+        "id": 51836,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1646863252
+    },
+    {
+        "content": "<p>I was able to solve my issue by doing:</p>\n<p>module unload python<br>\nmodule load conda<br>\nconda activate npl<br>\npython -m ipykernel install --user --name=my-ADF</p>",
+        "id": 51854,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1646870454
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> : I am just curious. Is there a way to check the version of xarray I am using with that setting. </p>\n<p>Also, I just want to mention a broken link. I was following documentation at: <br>\n<a href=\"https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment\">https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment</a></p>\n<p>It says somewhere on that page:</p>\n<hr>\n<h1>Conda Environments on JupyterHub</h1>\n<p>The Computational and Information Systems Lab (CISL) at NCAR put together some <code>good documentation</code> on dealing with environments on Casper/Cheyenne</p>\n<hr>\n<p>But the link to  <code>good documentation</code> is not there anymore.  I thought I would mention it in case you want to fix it.</p>",
+        "id": 51857,
+        "sender_full_name": "Cecile Hannay",
+        "timestamp": 1646870856
+    },
+    {
+        "content": "<blockquote>\n<p>Is there a way to check the version of xarray I am using with that setting. </p>\n</blockquote>\n<p>Within your notebook, try the following </p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">xarray</span> <span class=\"k\">as</span> <span class=\"nn\">xr</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">__version__</span><span class=\"p\">)</span> <span class=\"c1\"># gets xarray version</span>\n\n<span class=\"c1\"># or</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">show_versions</span><span class=\"p\">())</span> <span class=\"c1\"># outputs xarray version plus other related packages</span>\n</code></pre></div>",
+        "id": 51858,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1646871370
+    },
+    {
+        "content": "<blockquote>\n<p>Also, I just want to mention a broken link. I was following documentation at:<br>\n<a href=\"https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment\">https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment</a><br>\nBut the link to good documentation is not there anymore. I thought I would mention it in case you want to fix it.</p>\n</blockquote>\n<p>Good catch. That link has moved to <a href=\"https://arc.ucar.edu/knowledge_base/83853599\">https://arc.ucar.edu/knowledge_base/83853599</a>.</p>",
+        "id": 51859,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1646871434
+    },
+    {
+        "content": "<p>I'm going to update that page</p>",
+        "id": 51860,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1646871455
+    }
+]

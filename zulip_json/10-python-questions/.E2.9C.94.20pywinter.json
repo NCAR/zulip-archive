@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>Hi, </p>\n<p>I am trying to use <a href=\"https://pywinter.readthedocs.io/en/latest/\">pywinter</a>  to produce intermediate file formats for MPAS-A. I am able to install this package to a virtual environment of mine on Casper, but when I try to import the package via: </p>\n<p><code>import pywinter.winter</code></p>\n<p>This fails with the following error message: <br>\n<code>ImportError: /glade/u/home/doughert/miniconda3/envs/pangeo3/lib/python3.9/site-packages/KreatE_inter_m_f.cpython-39-x86_64-linux-gnu.so: undefined symbol: _intel_fast_memset</code></p>\n<p>Does anyone know how to fix this? Thanks!</p>",
+        "id": 98869,
+        "sender_full_name": "Erin Dougherty",
+        "timestamp": 1715031957
+    },
+    {
+        "content": "<p>You may need to unload your compiler modules so that the package builds using the compilers in your conda env (there's some Fortran in pywinter that's making things a bit complicated).  There might be a smoother way to do this, but it works at least.</p>\n<p>When reinstalling you'll probably also need to tell pip not to use the cache: <code>pip install pywinter --no-cache-dir</code></p>",
+        "id": 98882,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1715053614
+    },
+    {
+        "content": "<p>Thanks, Katelyn! This worked great, so thanks for the help!</p>",
+        "id": 98941,
+        "sender_full_name": "Erin Dougherty",
+        "timestamp": 1715180178
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"339\">Katelyn FitzGerald</span> has marked this topic as resolved.</p>",
+        "id": 98944,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1715181566
+    },
+    {
+        "content": "<p>Just adding that I'll be adding this solution to this WRF/MPAS forum request as well. <a href=\"https://forum.mmm.ucar.edu/threads/how-to-use-pywinter-for-intermediate-files.17087/\">https://forum.mmm.ucar.edu/threads/how-to-use-pywinter-for-intermediate-files.17087/</a></p>\n<p>Similarly, a request came in on this question to <a href=\"http://rchelp.ucar.edu\">rchelp.ucar.edu</a> and appreciate the insight here.</p>",
+        "id": 99636,
+        "sender_full_name": "Daniel Howard",
+        "timestamp": 1716408070
+    }
+]

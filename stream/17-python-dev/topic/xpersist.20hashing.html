@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>xpersist hashing · python-dev · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/index.html">python-dev</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html">xpersist hashing</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html">xpersist hashing</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="8353"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/8353" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html#8353">(May 13 2020 at 18:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/8353" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html#8353">(May 13 2020 at 18:21)</a>:</h4>
 <p>here's  a quick test that suggests its better to hash the dask variable instead of the function + args + kwargs. If you run this cell multiple times, <code>func</code> is redefined and its token changes. But the dask graph isn't changing so that token for the output of <code>func(a,b)</code> is invariant (and accessible with the name attribute of dask arrays)</p>
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="mi">10</span>
@@ -45,21 +45,21 @@ b241f225ffe8f6d84e1b97981dfe96e2
 
 
 <a name="8356"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/8356" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html#8356">(May 13 2020 at 18:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/8356" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html#8356">(May 13 2020 at 18:33)</a>:</h4>
 <p><code>dask.base.tokenize(func(a,b))</code> is redundant actually. <code>func(a,b).name</code> works just as well (<code>add-933890fbb1484cc1eb3fbd568e967cfd</code>). This is what xarray uses to avoid expensive equality checks. </p>
 <p>The problem with this approach is that copies have different names: <code>func(a,b).copy().name = copy-1e2375ec589dad4ad50d1abfe5d00bdd</code></p>
 
 
 
 <a name="8445"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/8445" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html#8445">(May 13 2020 at 21:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/8445" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html#8445">(May 13 2020 at 21:19)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span>!  Great suggestion.</p>
 <p>cc <span class="user-group-mention" data-user-group-id="4">@xdev</span></p>
 
 
 
 <a name="24126"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/24126" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html#24126">(Jan 22 2021 at 15:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/24126" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html#24126">(Jan 22 2021 at 15:55)</a>:</h4>
 <p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> , it looks like the code you wrote end up evaluating <code>func(a,b)</code> to get the token. This seems to defeat the purpose of avoiding the function evaluation via a cache. Maybe I'm missing something that you're implying.</p>
 <p>That said, in an attempt to explore this, I tried to run the code you wrote. I get an error message:</p>
 <div class="codehilite"><pre><span></span>AttributeError: module &#39;dask&#39; has no attribute &#39;array&#39;
@@ -68,7 +68,7 @@ b241f225ffe8f6d84e1b97981dfe96e2
 
 
 <a name="24127"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/24127" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html#24127">(Jan 22 2021 at 15:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/24127" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html#24127">(Jan 22 2021 at 15:56)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>  </p>
 <p>You need an explicit import: </p>
 <div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">dask.array</span>
@@ -77,12 +77,12 @@ b241f225ffe8f6d84e1b97981dfe96e2
 
 
 <a name="24135"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/24135" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="https://ncar.github.io/zulip-archive/stream/17-python-dev/topic/xpersist.20hashing.html#24135">(Jan 22 2021 at 17:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/xpersist%20hashing/near/24135" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/xpersist.20hashing.html#24135">(Jan 22 2021 at 17:04)</a>:</h4>
 <p>Oops yeah, I was assuming that it was dask-aware function that was cheap. If not, you can do <code>dask.base.tokenize((func, a, b))</code> or something like that since the output is a unique function of the inputs.</p>
 <p>EDIT: this only works if <code>func</code> is not redefined (looking at my first post in this thread)</p>
 <p><code>dask.base.tokenize(func(a, b))</code> hashes the output of the function so it's more robust.</p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

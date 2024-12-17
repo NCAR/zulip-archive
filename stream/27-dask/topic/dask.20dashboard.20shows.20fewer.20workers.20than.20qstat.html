@@ -1,0 +1,46 @@
+<html>
+<head><meta charset="utf-8"><title>dask dashboard shows fewer workers than qstat · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/dask.20dashboard.20shows.20fewer.20workers.20than.20qstat.html">dask dashboard shows fewer workers than qstat</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="96177"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/dask%20dashboard%20shows%20fewer%20workers%20than%20qstat/near/96177" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/dask.20dashboard.20shows.20fewer.20workers.20than.20qstat.html#96177">(Feb 28 2024 at 19:21)</a>:</h4>
+<p>I've noticed that my dask dashboard often shows fewer dask workers than when I do <code>qstat -u yeager</code> on casper, even after waiting for the dashboard to catch up. I've verified that the workers showing up in qstat are not holdovers from previous calls to Client(). Right now my dashboard shows 3 workers while qstat shows 13. Why the discrepancy?</p>
+
+
+
+<a name="96178"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/dask%20dashboard%20shows%20fewer%20workers%20than%20qstat/near/96178" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/dask.20dashboard.20shows.20fewer.20workers.20than.20qstat.html#96178">(Feb 28 2024 at 20:08)</a>:</h4>
+<p>Hello <span class="user-mention" data-user-id="34">@Stephen Yeager</span> , Do you specify the number of workers to 13 or 3 workers that the dashboard shows?</p>
+
+
+
+<a name="96179"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/dask%20dashboard%20shows%20fewer%20workers%20than%20qstat/near/96179" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/dask.20dashboard.20shows.20fewer.20workers.20than.20qstat.html#96179">(Feb 28 2024 at 20:16)</a>:</h4>
+<p>I do a <code>cluster.scale(30)</code> and usually get 30 workers. Right now, dashboard shows 3 while qstat shows 13.</p>
+
+
+
+<a name="96180"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/dask%20dashboard%20shows%20fewer%20workers%20than%20qstat/near/96180" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/dask.20dashboard.20shows.20fewer.20workers.20than.20qstat.html#96180">(Feb 28 2024 at 20:32)</a>:</h4>
+<p>I only see one job running for you now (not Dask) but it seems like you must have killed your running Dask cluster. </p>
+<p>Anyhow, I would suggest adding something like this when you want to scale up workers to ensure all workers are ready:</p>
+<div class="codehilite"><pre><span></span><code># number of workers:
+n = 30
+
+# Scale the cluster to n workers
+cluster.scale(n)
+client.wait_for_workers(n)
+</code></pre></div>
+<p>Let me know if the issue persists.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

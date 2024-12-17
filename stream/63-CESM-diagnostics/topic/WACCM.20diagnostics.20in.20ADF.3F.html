@@ -1,0 +1,37 @@
+<html>
+<head><meta charset="utf-8"><title>WACCM diagnostics in ADF? · CESM-diagnostics · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/WACCM.20diagnostics.20in.20ADF.3F.html">WACCM diagnostics in ADF?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="94598"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/WACCM%20diagnostics%20in%20ADF%3F/near/94598" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/WACCM.20diagnostics.20in.20ADF.3F.html#94598">(Jan 18 2024 at 20:48)</a>:</h4>
+<p><span class="user-mention" data-user-id="263">@Teagan King</span> was asked about whether CUPiD would support CESM cases with WACCM / WACCM-X. Is ADF CAM-specific, or will it work with WACCM?</p>
+
+
+
+<a name="94605"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/WACCM%20diagnostics%20in%20ADF%3F/near/94605" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/WACCM.20diagnostics.20in.20ADF.3F.html#94605">(Jan 18 2024 at 21:00)</a>:</h4>
+<p>ADF will work with WACCM. There are a few things that might need some user attention if really focusing on WACCM results. The main one is to switch the latitude-pressure (or longitude-pressure) plots to use a log-pressure scale. I think we currently control this in the variable defaults yaml file with a flag. The other thing would be to adapt contour levels to be appropriate if plotting quantities at pressure levels above the troposphere. That's also controlled on a per-variable basis in the variable defaults file.</p>
+
+
+
+<a name="94654"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/WACCM%20diagnostics%20in%20ADF%3F/near/94654" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jesse Nusbaumer <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/WACCM.20diagnostics.20in.20ADF.3F.html#94654">(Jan 18 2024 at 23:20)</a>:</h4>
+<p>I just wanted to add that <span class="user-mention" data-user-id="277">@Justin Richling</span> has also added a few diagnostics that are designed for higher-top versions of the model like WACCM.  Specifically they are diagnostics for the QBO, the Transformed Eulerian Mean (TEM) circulation, and the "tape recorder" plots for troposphere-&gt;stratosphere water vapor transport.  I am sure Justin can tell you more if you'd like!</p>
+
+
+
+<a name="94655"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/WACCM%20diagnostics%20in%20ADF%3F/near/94655" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jesse Nusbaumer <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/WACCM.20diagnostics.20in.20ADF.3F.html#94655">(Jan 18 2024 at 23:21)</a>:</h4>
+<p>And just to be clear those are all diagnostics that can now run automatically in the ADF.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

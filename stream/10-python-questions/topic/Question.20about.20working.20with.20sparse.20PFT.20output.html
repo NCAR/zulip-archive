@@ -1,0 +1,388 @@
+<html>
+<head><meta charset="utf-8"><title>Question about working with sparse PFT output · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html">Question about working with sparse PFT output</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="80900"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80900" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80900">(May 12 2023 at 14:01)</a>:</h4>
+<p>Hi all,</p>
+<p>I've been using the excellent solution documented <a href="https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/#question">here</a> to work with 1D output from CLM. This works great when converting from 1D to 4D output, where the dimensions are (time, pft, lat, lon). My question is how to expand this to deal with PFT-level output with more than 4 dimensions. I'm looking at VEGWP, a field with 5 (time, nvegwcs, pft, lat, lon) and so far I've not been able to crowbar the 1D output into an xarray. <br>
+I've tried the following:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="c1"># extract coordinate index locations</span>
+    <span class="n">ixy</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">pfts1d_ixy</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">jxy</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">pfts1d_jxy</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">nvegwcs</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">VEGWP</span><span class="o">.</span><span class="n">nvegwcs</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">vegtype</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">pfts1d_itype_veg</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="c1"># we loop over variables so we can specify the appropriate dtype</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">pfts</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
+            <span class="n">to_sparse</span><span class="p">,</span>
+            <span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">nvegwcs</span><span class="p">,</span>
+            <span class="n">vegtype</span><span class="p">,</span>
+            <span class="n">jxy</span><span class="p">,</span>
+            <span class="n">ixy</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">116</span><span class="p">)},</span>
+            <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"pft"</span><span class="p">]]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"nvegwcs"</span><span class="p">,</span> <span class="s2">"vegtype"</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">]],</span>
+            <span class="n">dask</span><span class="o">=</span><span class="s2">"parallelized"</span><span class="p">,</span>
+            <span class="n">dask_gufunc_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">meta</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">COO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)),</span>
+                <span class="n">output_sizes</span><span class="o">=</span><span class="p">{</span><span class="s2">"nvegwcs"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"vegtype"</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">:</span> <span class="mi">109</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="mi">116</span><span class="p">},</span>
+            <span class="p">),</span>
+            <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p>but this gives me </p>
+<div class="codehilite"><pre><span></span><code>ValueError: operand to apply_ufunc encountered unexpected dimensions [&#39;nvegwcs&#39;] on an input variable: these are core dimensions on other input or output variables
+</code></pre></div>
+<p>I wondered if anyone else has tried to do this?</p>
+<div class="codehilite"><pre><span></span><code>
+</code></pre></div>
+
+
+
+<a name="80908"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80908" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80908">(May 12 2023 at 15:37)</a>:</h4>
+<p>I bet <code>nvegwcs</code> needs to be a core dimension in <code>input_core_dims</code> for the <code>nvegcws</code> variable</p>
+
+
+
+<a name="80950"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80950" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80950">(May 15 2023 at 13:53)</a>:</h4>
+<p>Thanks Deepak! I've tried </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">pfts</span><span class="p">:</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
+            <span class="n">to_sparse</span><span class="p">,</span>
+            <span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">nvegwcs</span><span class="p">,</span>
+            <span class="n">vegtype</span><span class="p">,</span>
+            <span class="n">jxy</span><span class="p">,</span>
+            <span class="n">ixy</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">116</span><span class="p">)},</span>
+            <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"nvegwcs"</span><span class="p">]]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span>
+            <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"nvegwcs"</span><span class="p">,</span> <span class="s2">"vegtype"</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">]],</span>
+            <span class="n">dask</span><span class="o">=</span><span class="s2">"parallelized"</span><span class="p">,</span>
+            <span class="n">dask_gufunc_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">meta</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">COO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)),</span>
+                <span class="n">output_sizes</span><span class="o">=</span><span class="p">{</span><span class="s2">"nvegwcs"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"vegtype"</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">:</span> <span class="mi">109</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="mi">116</span><span class="p">},</span>
+            <span class="p">),</span>
+            <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+<p>which gets me:</p>
+<div class="codehilite"><pre><span></span><code>ValueError: operand to apply_ufunc has required core dimensions [&#39;nvegwcs&#39;], but some of these dimensions are absent on an input variable: [&#39;nvegwcs&#39;]
+</code></pre></div>
+<p>I'm wondering if this is happening because nvegwcs doesn't seem to be indexed in the same way as the other dimensions on my input file? Here's the result of printing inputfile.VEGWP:</p>
+<div class="codehilite"><pre><span></span><code>&lt;xarray.DataArray &#39;VEGWP&#39; (time: 1020, nvegwcs: 4, pft: 67373)&gt;
+dask.array&lt;open_dataset-29b908a318577f8a2e4da34f01186702VEGWP, shape=(1020, 4, 67373), dtype=float32, chunksize=(100, 4, 67373), chunktype=numpy.ndarray&gt;
+Coordinates:
+  * time     (time) object 2015-02-01 00:00:00 ... 2100-01-01 00:00:00
+Dimensions without coordinates: nvegwcs, pft
+</code></pre></div>
+
+
+
+<a name="80980"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80980" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80980">(May 15 2023 at 17:28)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="302">@James King</span> this is an interesting use case. I have not looked at <code>VEGWP</code> output in depth myself. Do you think both <code>nvegwcs</code> and <code>pft</code> need to be listed in <code>input_core_dims</code>?</p>
+<p>Tagging <span class="user-mention" data-user-id="120">@Daniel Kennedy</span> since he may have some insight. This is also a great question to bring up at the CLM science or software engineering meeting, I wonder if anyone else there has encountered this before.</p>
+
+
+
+<a name="80984"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80984" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80984">(May 15 2023 at 17:41)</a>:</h4>
+<p>Is that error popping up when you are regridding VEGWP or when you are regridding another variable that doesn't have nvegwcs as a dimension? </p>
+<p>On a side note, since it looks like you are doing the same regridding task repeatedly, it might be faster to just explicitly compute the map from 1d-&gt;3d, save it somewhere, and reuse it every time you want to regrid.</p>
+
+
+
+<a name="80990"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80990" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80990">(May 15 2023 at 19:48)</a>:</h4>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"nvegwcs"</span><span class="p">]]</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span>
+</code></pre></div>
+<p>This isn't right. <code>input_core_dims</code> is a list of lists where the inner list is a list of core dimensions for the input variables in order. I tjink you need </p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">input_core_dims</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">"nvegwcs"</span><span class="p">,</span> <span class="s2">"pft"</span><span class="p">],</span> <span class="c1"># for pfts[var] which I assume is VEGWP</span>
+    <span class="p">[</span><span class="s2">"nvegwcs"</span><span class="p">],</span> <span class="c1"># for nvegwcs</span>
+    <span class="p">[</span><span class="s2">"pft"</span><span class="p">],</span> <span class="c1"># for vegtype</span>
+    <span class="p">[</span><span class="s2">"pft"</span><span class="p">],</span> <span class="c1"># for jxy</span>
+    <span class="p">[</span><span class="s2">"pft"</span><span class="p">],</span>  <span class="c1"># for ixy</span>
+<span class="p">]</span>
+</code></pre></div>
+
+
+
+<a name="80991"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80991" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80991">(May 15 2023 at 19:50)</a>:</h4>
+<p>For more on <code>apply_ufunc</code> and core dimensions start <a href="https://tutorial.xarray.dev/advanced/apply_ufunc/apply_ufunc.html">here</a></p>
+
+
+
+<a name="80992"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/80992" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#80992">(May 15 2023 at 19:51)</a>:</h4>
+<p>The <code>[["pft"]] * 5</code> is a shortcut for <code>[ ["pft"], ["pft"], ["pft"], ["pft"], ["pft"] ]</code></p>
+
+
+
+<a name="81001"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81001" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81001">(May 16 2023 at 11:15)</a>:</h4>
+<p>Thanks a lot for this! Re Daniel's point, the error occurs when attempting to regrid an xarray dataset that contains VEGWP (which has the nvegwcs dimension) as well as other variables which don't have it (e.g. the various pft weights and grid indices). This is supported by the error message I get when I apply Deepak's correction to <code>input_core_dims</code> above:</p>
+
+
+
+<a name="81002"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81002" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81002">(May 16 2023 at 11:15)</a>:</h4>
+<div class="codehilite"><pre><span></span><code>ValueError: operand to apply_ufunc has required core dimensions [&#39;nvegwcs&#39;, &#39;pft&#39;], but some of these dimensions are absent on an input variable: [&#39;nvegwcs&#39;]
+</code></pre></div>
+
+
+
+<a name="81003"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81003" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81003">(May 16 2023 at 11:18)</a>:</h4>
+<p>I'm attending the CLM meeting this week with some science questions related to this work, so I can ask people there if they've come across this problem before - thanks for the suggestion Katie. I vaguely remember that there might be a solution knocking around which uses IDL but that's not something I know much about</p>
+
+
+
+<a name="81011"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81011" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81011">(May 16 2023 at 15:22)</a>:</h4>
+<p>sounds like you need to dynamically determine <code>input_core_dims</code> and <code>output_core_dims</code> for each variable inside the loop. This should be straightforward.</p>
+
+
+
+<a name="81012"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81012" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81012">(May 16 2023 at 15:27)</a>:</h4>
+<blockquote>
+<p>I'm looking at VEGWP, a field with 5 (time, nvegwcs, pft, lat, lon) </p>
+</blockquote>
+<p>Ah the core <code>to_sparse</code> function will need some generalization too. It can only handle 3D and 4D output.</p>
+
+
+
+<a name="81016"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81016" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81016">(May 16 2023 at 15:38)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span>, I'm sure you have ideas for how to do the generalization, but just in case, <a href="https://github.com/NCAR/ctsm_python_gallery/blob/08860973fc6e7cafc654f7a16893bea9a5e2b106/ctsm_py/utils.py#L1013-L1033">here</a> is how I did it for the (non-sparse) gridding function in utils.py. It loops through the dimensions of the target (gridded) array to build a list of ndarrays, fill_indices, that will be used to fill the target array with the ungridded array. The key bit is appending ellipses for any dimension other than latitude and longitude. (I also have special handling for vegetation type ivt_str, which might not be necessary.)</p>
+
+
+
+<a name="81019"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81019" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81019">(May 16 2023 at 15:46)</a>:</h4>
+<p>Nice. Is preserving the sparsity not that important?</p>
+
+
+
+<a name="81020"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81020" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81020">(May 16 2023 at 15:52)</a>:</h4>
+<p>The non-sparse method was acceptable for me because I have a beefy laptop, but even so it makes things take a long time. I had never used sparse arrays before, as I was more experienced in MATLAB where (at least when I was first learning) they had too many tradeoffs. However, I think it'd be great to have a generalized sparse function to handle this.</p>
+
+
+
+<a name="81021"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81021" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81021">(May 16 2023 at 15:56)</a>:</h4>
+<blockquote>
+<p>as I was more experienced in MATLAB where (at least when I was first learning) they had too many tradeoffs. </p>
+</blockquote>
+<p>Reminds me of my thesis! <span aria-label="grinning" class="emoji emoji-1f600" role="img" title="grinning">:grinning:</span> </p>
+<p>These generalized sparse arrays also have tradeoffs (not every operation is supported or efficient) but you can always convert to dense when needed with <code>DataArray.as_numpy</code> and control memory usage that way.</p>
+<blockquote>
+<p>However, I think it'd be great to have a generalized sparse function to handle this.</p>
+</blockquote>
+<p>If you're interested, I'm happy to help a little with this. The core idea is exactly the same: "figure out the indices where data exists", except here they get passed to the <code>sparse.COO</code> constructor instead of using them for assigning values in a dense array.</p>
+
+
+
+<a name="81028"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81028" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81028">(May 16 2023 at 16:17)</a>:</h4>
+<p>I don't have the bandwidth to really work on this at the moment, sorry! But I think the solution could be like how you handle time: Just assume that any axis other that lon/lat is totally filled.</p>
+
+
+
+<a name="81106"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81106" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81106">(May 17 2023 at 15:10)</a>:</h4>
+<p>Thanks all for the suggestions - I'd already had a go at generalising the core <code>to_sparse</code> function but now have a better idea of how to approach it</p>
+
+
+
+<a name="81147"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81147" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81147">(May 18 2023 at 11:33)</a>:</h4>
+<p>As an update, I think this works. In the <code>to_sparse</code> function, we add an extra loop to handle data with 3 non-time dimensions:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">vegtype</span><span class="p">,</span>  <span class="n">jxy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ixy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">itime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># expand vegtype and friends for all time instants</span>
+        <span class="c1"># by sequentially concatenating each array for each time instants</span>
+        <span class="n">tostack</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">array</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="p">[</span><span class="n">vegtype</span><span class="p">,</span>  <span class="n">jxy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ixy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">itime</span><span class="p">]</span> <span class="o">+</span> <span class="n">tostack</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">itime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># expand vegtype and friends for all time instants</span>
+        <span class="c1"># by sequentially concatenating each array for each time instants</span>
+        <span class="n">tostack</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">array</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nvegwcs</span><span class="p">,</span> <span class="n">vegtype</span><span class="p">,</span>  <span class="n">jxy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ixy</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">itime</span><span class="p">]</span> <span class="o">+</span> <span class="n">tostack</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</code></pre></div>
+<p>Then, in the <code>convert_pft_variables_to_sparse</code> function, we add a loop to add the additional variables when the extra nvegwcs dimension is present:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">pfts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"nvegwcs"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
+            <span class="n">to_sparse</span><span class="p">,</span>
+            <span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">vegtype</span><span class="p">,</span>
+            <span class="n">jxy</span><span class="p">,</span>
+            <span class="n">ixy</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="p">(</span><span class="mi">79</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">116</span><span class="p">)},</span>
+            <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"pft"</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"vegtype"</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">]],</span>
+            <span class="n">dask</span><span class="o">=</span><span class="s2">"parallelized"</span><span class="p">,</span>
+            <span class="n">dask_gufunc_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">meta</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">COO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)),</span>
+                <span class="n">output_sizes</span><span class="o">=</span><span class="p">{</span><span class="s2">"vegtype"</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">:</span> <span class="mi">109</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="mi">116</span><span class="p">},</span>
+        <span class="p">),</span>
+        <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"nvegwcs"</span> <span class="ow">in</span> <span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">apply_ufunc</span><span class="p">(</span>
+            <span class="n">to_sparse</span><span class="p">,</span>
+            <span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">],</span>
+            <span class="n">nvegwcs</span><span class="p">,</span>
+            <span class="n">vegtype</span><span class="p">,</span>
+            <span class="n">jxy</span><span class="p">,</span>
+            <span class="n">ixy</span><span class="p">,</span>
+            <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"shape"</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">109</span><span class="p">,</span> <span class="mi">116</span><span class="p">)},</span>
+            <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">[</span><span class="s2">"nvegwcs"</span><span class="p">,</span> <span class="s2">"pft"</span><span class="p">],</span> <span class="c1"># for pfts[var] which I assume is VEGWP</span>
+            <span class="p">[</span><span class="s2">"nvegwcs"</span><span class="p">],</span> <span class="c1"># for nvegwcs</span>
+            <span class="p">[</span><span class="s2">"pft"</span><span class="p">],</span> <span class="c1"># for vegtype</span>
+            <span class="p">[</span><span class="s2">"pft"</span><span class="p">],</span> <span class="c1"># for jxy</span>
+            <span class="p">[</span><span class="s2">"pft"</span><span class="p">]],</span>  <span class="c1"># for ixy</span>
+            <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="s2">"nvegwcs"</span><span class="p">,</span> <span class="s2">"vegtype"</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">]],</span>
+            <span class="n">dask</span><span class="o">=</span><span class="s2">"parallelized"</span><span class="p">,</span>
+            <span class="n">dask_gufunc_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">meta</span><span class="o">=</span><span class="n">sparse</span><span class="o">.</span><span class="n">COO</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">pfts</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)),</span>
+                <span class="n">output_sizes</span><span class="o">=</span><span class="p">{</span><span class="s2">"nvegwcs"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"vegtype"</span><span class="p">:</span> <span class="mi">79</span><span class="p">,</span> <span class="s2">"lat"</span><span class="p">:</span> <span class="mi">109</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="mi">116</span><span class="p">},</span>
+            <span class="p">),</span>
+            <span class="n">keep_attrs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+
+
+
+<a name="81148"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81148" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81148">(May 18 2023 at 11:35)</a>:</h4>
+<p>Checking the processed output:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">output</span><span class="o">.</span><span class="n">VEGWP</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">vegtype</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>&lt;xarray.DataArray &#39;VEGWP&#39; (time: 1020, nvegwcs: 4, lat: 109, lon: 116)&gt;
+dask.array&lt;getitem, shape=(1020, 4, 109, 116), dtype=float32, chunksize=(100, 4, 109, 116), chunktype=sparse.COO&gt;
+Coordinates:
+  * lat      (lat) float64 -35.01 -34.54 -34.07 -33.6 ... 14.33 14.8 15.27 15.74
+  * lon      (lon) float64 0.0 0.625 1.25 1.875 2.5 ... 357.5 358.1 358.8 359.4
+  * time     (time) object 2015-02-01 00:00:00 ... 2100-01-01 00:00:00
+    vegtype  |S40 b&#39;c4_grass                                &#39;
+Dimensions without coordinates: nvegwcs
+</code></pre></div>
+
+
+
+<a name="81149"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81149" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81149">(May 18 2023 at 12:12)</a>:</h4>
+<p>However, I get some weird errors when I try to convert the output to a numpy array (which I need for plotting later on in my code):</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">output</span><span class="o">.</span><span class="n">VEGWP</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">vegtype</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;/home/users/j_king25/scripts/plot_1d_array_updated_vegwp.py&quot;, line 264, in &lt;module&gt;
+    print (datab_VEGWP.values)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/xarray/core/dataarray.py&quot;, line 642, in values
+    return self.variable.values
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/xarray/core/variable.py&quot;, line 512, in values
+    return _as_array_or_item(self._data)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/xarray/core/variable.py&quot;, line 252, in _as_array_or_item
+    data = np.asarray(data)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/array/core.py&quot;, line 1689, in __array__
+    x = self.compute()
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/base.py&quot;, line 315, in compute
+    (result,) = compute(self, traverse=False, **kwargs)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/base.py&quot;, line 603, in compute
+    results = schedule(dsk, keys, **kwargs)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/threaded.py&quot;, line 89, in get
+    results = get_async(
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/local.py&quot;, line 511, in get_async
+    raise_exception(exc, tb)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/local.py&quot;, line 319, in reraise
+    raise exc
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/local.py&quot;, line 224, in execute_task
+    result = _execute_task(task, data)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 119, in _execute_task
+    return func(*(_execute_task(a, cache) for a in args))
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 119, in &lt;genexpr&gt;
+    return func(*(_execute_task(a, cache) for a in args))
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 119, in _execute_task
+    return func(*(_execute_task(a, cache) for a in args))
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 119, in &lt;genexpr&gt;
+    return func(*(_execute_task(a, cache) for a in args))
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 119, in _execute_task
+    return func(*(_execute_task(a, cache) for a in args))
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/optimization.py&quot;, line 990, in __call__
+    return core.get(self.dsk, self.outkey, dict(zip(self.inkeys, args)))
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 149, in get
+    result = _execute_task(task, cache)
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/dask/core.py&quot;, line 119, in _execute_task
+    return func(*(_execute_task(a, cache) for a in args))
+  File &quot;/home/users/j_king25/scripts/plot_1d_array_updated_vegwp.py&quot;, line 138, in to_sparse
+    coords = np.stack([itime] + tostack, axis=0)
+  File &quot;&lt;__array_function__ internals&gt;&quot;, line 180, in stack
+  File &quot;/apps/jasmin/jaspy/miniconda_envs/jaspy3.10/m3-4.9.2/envs/jaspy3.10-m3-4.9.2-r20220721/lib/python3.10/site-packages/numpy/core/shape_base.py&quot;, line 426, in stack
+    raise ValueError(&#39;all input arrays must have the same shape&#39;)
+ValueError: all input arrays must have the same shape
+</code></pre></div>
+
+
+
+<a name="81161"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81161" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81161">(May 18 2023 at 16:27)</a>:</h4>
+<p>Hmm this is tricky to debug without seeing the full code/source data. <span class="user-mention" data-user-id="302">@James King</span> this might also be a good question for <a href="https://ncar.github.io/esds/office-hours/">office hours</a>!</p>
+
+
+
+<a name="81189"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81189" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81189">(May 18 2023 at 21:40)</a>:</h4>
+<p>I know this is a bit hacky, but you might just turn VEGWP into four 'normal' variables before doing the regridding:</p>
+<div class="codehilite"><pre><span></span><code>for v in ds.nvegwcs.values:
+    ds[&#39;VEGWP&#39;+str(v)]=ds.VEGWP.sel(nvegwcs=v)
+ds=ds.drop(&#39;VEGWP&#39;)
+</code></pre></div>
+<p>Then VEGWP0,VEGWP1,... would behave as you are used to</p>
+
+
+
+<a name="81203"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81203" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81203">(May 19 2023 at 02:02)</a>:</h4>
+<p>can you point me to a dataset?</p>
+
+
+
+<a name="81204"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81204" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81204">(May 19 2023 at 09:04)</a>:</h4>
+<p><span class="user-mention" data-user-id="120">@Daniel Kennedy</span>  it's less hacky than what I just posted! I'll try this and see if it improves the outcome</p>
+
+
+
+<a name="81205"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Question%20about%20working%20with%20sparse%20PFT%20output/near/81205" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Question.20about.20working.20with.20sparse.20PFT.20output.html#81205">(May 19 2023 at 09:12)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I've put some test data in <code>/glade/work/jamesking/VEGWP/vegwp_merge_test</code>, and the raw output files are in <code>/glade/scratch/jamesking/archive/i.clm5.AfrSSP370_climate_only.004/lnd/hist/i.clm5.AfrSSP370_climate_only.004.clm2.h0*</code><br>
+You should have access but let me know if you look at them and run into any probems with permissions etc.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

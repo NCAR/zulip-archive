@@ -1,0 +1,8 @@
+[
+    {
+        "content": "<p>I'm using dask to parallelize some independent function calls on Cheyenne.  I call client.submit(fnc,*args) in a for loop.  When the length of the loop, and therefore number of submissions, exceeds the number of workers I get several errors stating:<br>\ndistributed.nanny - WARNING - Restarting worker<br>\nand most (though not all) of the jobs fail.  </p>\n<p>I don't think I have this issue on my local machine .  I'm just using dask to leverage the multiple cores on a single Cheyenne node (not working across multiple PBS job submissions or nodes).   Is there something that needs to be setup on the client or scheduler so I can have a queue for the workers?  Does a dask distributed client not have the ability to queue jobs?</p>",
+        "id": 69193,
+        "sender_full_name": "Matthew Hayman",
+        "timestamp": 1669909234
+    }
+]

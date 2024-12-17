@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I'm trying to convert a binary dataset into CF Compliant NetCDF.  Thank you in advance for any thoughts, tips, and suggestions.</p>\n<p>I have a file on glade that has float32 bit values for a single variable on a 120x120x14 grid.<br>\n   /glade/scratch/pearse/marshall/coen/FLOAT/u.float.0212</p>\n<p>I need to create a NetCDF file based on this 3D variable.  It needs a vertical Coordinate Variable that has each vertical coordinate described as a function of X, Y, and Z, described by the array in following file:<br>\n   /glade/scratch/pearse/marshall/coen/FLOAT/ELEVATION.float</p>\n<p>The horizontal and vertical coordinate variables can be anything, as long as they're monotonically increasing.</p>\n<p>So far I'm loading the file as follows.  I'm not sure how to designate the ELEVATION values as a coordinate variable.</p>\n<p>import xarray as xr<br>\nimport numpy as np</p>\n<p>u = np.fromfile(\"/glade/scratch/pearse/marshall/coen/FLOAT/u.float.0212\", dtype=np.single)<br>\nu3d = u.reshape((120,120,14))</p>\n<p>E = np.fromfile(\"/glade/scratch/pearse/marshall/coen/FLOAT/ELEVATION.float\", dtype=np.single)<br>\nE3d = E.reshape((120,120,14))</p>\n<h1>... Create a dataset with coordainte variables and CF compliant attributes ...</h1>\n<p>Thanks again for any help - Scott</p>",
+        "id": 49856,
+        "sender_full_name": "Scott Pearse",
+        "timestamp": 1643670674
+    },
+    {
+        "content": "<p>I have a typo in my above message - The horizontal Coordinate Variables can be anything - but the vertical Coordinate Variable must be defined by the 120x120x14 ELEVATION file.  Thanks again.</p>",
+        "id": 49860,
+        "sender_full_name": "Scott Pearse",
+        "timestamp": 1643729200
+    },
+    {
+        "content": "<p>Answering my open question:</p>\n<p>zDim = 14<br>\nyDim = 120<br>\nxDim = 120<br>\nlats = np.linspace(start=0, stop=44444.4, num=yDim);<br>\nlons = np.linspace(start=0, stop=44444.4, num=xDim);<br>\nE = np.fromfile(dataDir + \"/ELEVATION.float\", dtype=np.single)<br>\nE3d = E.reshape((14,120,120))</p>\n<p>timestep = 212<br>\nb = np.fromfile(dataDir + \"/b.float.0\" + str(timestep), dtype=np.single)<br>\nb3d = b.reshape(1,zDim,yDim,xDim)<br>\nt = pd.date_range(\"2021-12-30 10:00:00\", periods=1) + timedelta(minutes=timestep)<br>\nds = xr.DataArray(<br>\n    name = \"b\",<br>\n    data = b3d,<br>\n    dims=[\"time\",\"z\",\"y\",\"x\"],<br>\n    coords=dict(<br>\n        lon=([\"x\"],lons),<br>\n        lat=([\"y\"],lats),<br>\n        ele=([\"z\",\"y\",\"x\"],E3d),<br>\n        time=t,<br>\n    )<br>\n)</p>\n<p>ds.lon.attrs['axis'] = \"X\"<br>\nds.lat.attrs['axis'] = \"Y\"<br>\nds.ele.attrs['axis'] = \"Z\"<br>\nds.time.attrs['axis'] = \"T\"</p>\n<p>ds.lat.attrs['units']        = 'm'<br>\nds.lon.attrs['units']        = 'm'<br>\nds.ele.attrs['units']        = 'm'</p>\n<p>ds.to_netcdf( dataDir + \"/\" + str(timestep) + \".nc\")</p>",
+        "id": 49883,
+        "sender_full_name": "Scott Pearse",
+        "timestamp": 1643745828
+    }
+]

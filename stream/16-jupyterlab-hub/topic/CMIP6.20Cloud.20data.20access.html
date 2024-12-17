@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="utf-8"><title>CMIP6 Cloud data access · jupyterlab-hub · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html">CMIP6 Cloud data access</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="21934"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/21934" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#21934">(Nov 23 2020 at 22:30)</a>:</h4>
+<p>Hi, I have a jupyter notebook that reads data from the CMIP6 AWS Cloud storage for the CESM2 historical runs. The notebook was working until Friday last week and over the weekend it seems to have run into an error trying to access the URL for the data. Here is the code snippet to query the URL:</p>
+<div class="codehilite"><pre><span></span><span class="c1"># choose where to load data from:</span>
+<span class="n">load_data_from</span> <span class="o">=</span> <span class="s1">&#39;cloud&#39;</span>
+
+<span class="n">col_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/NCAR/intake-esm-datastore/master/catalogs/pangeo-cmip6.json&quot;</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">col_url</span><span class="p">)</span>
+<span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;available_data_cloud.txt&#39;</span>
+</pre></div>
+
+
+<p>The error message I get is: "HTTPSConnectionPool(host='<a href="http://raw.githubusercontent.com" target="_blank" title="http://raw.githubusercontent.com">raw.githubusercontent.com</a>', port=443): Max retries exceeded with url: /NCAR/intake-esm-datastore/master/catalogs/pangeo-cmip6.json (Caused by NewConnectionError('&lt;urllib3.connection.VerifiedHTTPSConnection object at 0x2b3643dfd240&gt;: Failed to establish a new connection: [Errno 110] Connection timed out'))"</p>
+<p>I am able to open the URL on my browser. Could I know if there has been any change on the NCAR jupyterhub that would prevent accessing this URL starting this weekend?</p>
+<p>Thanks,<br>
+Aneesh</p>
+
+
+
+<a name="21954"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/21954" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#21954">(Nov 23 2020 at 23:56)</a>:</h4>
+<p>If I am not mistaken, NCAR's jupyterhub directs users to either Casper (DAV) or Cheyenne.   If you run jupyterhub on Cheyenne, I don't believe that internet access is possible.    But this could be outdated information, I'm not sure.</p>
+
+
+
+<a name="21985"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/21985" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#21985">(Nov 24 2020 at 06:25)</a>:</h4>
+<p>Thanks for the reply. I did have it running on both Cheyenne and Casper DAV jupyterhubs last week. It seems something broke over the weekend.</p>
+
+
+
+<a name="21986"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/21986" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#21986">(Nov 24 2020 at 12:55)</a>:</h4>
+<p>cc <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span></p>
+
+
+
+<a name="22092"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/22092" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#22092">(Nov 24 2020 at 17:33)</a>:</h4>
+<p><span class="user-mention" data-user-id="85">@Aneesh subramanian</span>, </p>
+<blockquote>
+<p>If I am not mistaken, NCAR's jupyterhub directs users to either Casper (DAV) or Cheyenne.   If you run jupyterhub on Cheyenne, I don't believe that internet access is possible.    But this could be outdated information, I'm not sure.</p>
+</blockquote>
+<p>Brian is right about this.... The compute nodes on Cheyenne are on a network that is cut off from the public internet.... </p>
+<p>Can you confirm that your notebook doesn't work on casper: <a href="https://jupyterhub.ucar.edu/dav" target="_blank" title="https://jupyterhub.ucar.edu/dav">https://jupyterhub.ucar.edu/dav</a> ? I am <br>
+asking because I am able to run your code on Casper, and everything seems to be working fine on casper:</p>
+<div class="codehilite"><pre><span></span><span class="n">abanihi</span> <span class="n">at</span> <span class="n">casper</span><span class="o">-</span><span class="n">login2</span> <span class="ow">in</span> <span class="o">~</span>
+<span class="err">$</span> <span class="n">ipython</span>
+<span class="n">Python</span> <span class="mf">3.7</span><span class="o">.</span><span class="mi">8</span> <span class="o">|</span> <span class="n">packaged</span> <span class="n">by</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span> <span class="o">|</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Jul</span> <span class="mi">31</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">02</span><span class="p">:</span><span class="mi">25</span><span class="p">:</span><span class="mi">08</span><span class="p">)</span>
+<span class="n">Type</span> <span class="s1">&#39;copyright&#39;</span><span class="p">,</span> <span class="s1">&#39;credits&#39;</span> <span class="ow">or</span> <span class="s1">&#39;license&#39;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span>
+<span class="n">IPython</span> <span class="mf">7.19</span><span class="o">.</span><span class="mi">0</span> <span class="o">--</span> <span class="n">An</span> <span class="n">enhanced</span> <span class="n">Interactive</span> <span class="n">Python</span><span class="o">.</span> <span class="n">Type</span> <span class="s1">&#39;?&#39;</span> <span class="k">for</span> <span class="n">help</span><span class="o">.</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">intake</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">col_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/NCAR/intake-esm-datastore/master/catalogs/pangeo-cmip6.json&quot;</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">col_url</span><span class="p">)</span>
+<span class="o">/</span><span class="n">glade</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">abanihi</span><span class="o">/</span><span class="n">softwares</span><span class="o">/</span><span class="n">miniconda3</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">playground</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">IPython</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">interactiveshell</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">3418</span><span class="p">:</span> <span class="n">DtypeWarning</span><span class="p">:</span> <span class="n">Columns</span> <span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="n">have</span> <span class="n">mixed</span> <span class="n">types</span><span class="o">.</span><span class="n">Specify</span> <span class="n">dtype</span> <span class="n">option</span> <span class="n">on</span> <span class="kn">import</span> <span class="nn">or</span> <span class="nb">set</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="o">.</span>
+  <span class="n">exec</span><span class="p">(</span><span class="n">code_obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_global_ns</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_ns</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">col</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span>
+  <span class="n">activity_id</span> <span class="n">institution_id</span> <span class="n">source_id</span> <span class="n">experiment_id</span> <span class="n">member_id</span> <span class="n">table_id</span> <span class="n">variable_id</span> <span class="n">grid_label</span>                                             <span class="n">zstore</span>  <span class="n">dcpp_init_year</span>   <span class="n">version</span>
+<span class="mi">0</span>  <span class="n">AerChemMIP</span>        <span class="n">AS</span><span class="o">-</span><span class="n">RCEC</span>   <span class="n">TaiESM1</span>       <span class="n">histSST</span>  <span class="n">r1i1p1f1</span>   <span class="n">AERmon</span>    <span class="n">od550aer</span>         <span class="n">gn</span>  <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">cmip6</span><span class="o">/</span><span class="n">AerChemMIP</span><span class="o">/</span><span class="n">AS</span><span class="o">-</span><span class="n">RCEC</span><span class="o">/</span><span class="n">TaiESM1</span><span class="o">/</span><span class="n">histSST</span><span class="o">/...</span>             <span class="n">NaN</span>  <span class="mi">20200310</span>
+<span class="mi">1</span>  <span class="n">AerChemMIP</span>            <span class="n">BCC</span>  <span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span>       <span class="n">histSST</span>  <span class="n">r1i1p1f1</span>   <span class="n">AERmon</span>       <span class="n">mmrbc</span>         <span class="n">gn</span>  <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">cmip6</span><span class="o">/</span><span class="n">AerChemMIP</span><span class="o">/</span><span class="n">BCC</span><span class="o">/</span><span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span><span class="o">/</span><span class="n">histSST</span><span class="o">/</span><span class="n">r1i</span><span class="o">...</span>             <span class="n">NaN</span>  <span class="mi">20190718</span>
+<span class="mi">2</span>  <span class="n">AerChemMIP</span>            <span class="n">BCC</span>  <span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span>       <span class="n">histSST</span>  <span class="n">r1i1p1f1</span>   <span class="n">AERmon</span>     <span class="n">mmrdust</span>         <span class="n">gn</span>  <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">cmip6</span><span class="o">/</span><span class="n">AerChemMIP</span><span class="o">/</span><span class="n">BCC</span><span class="o">/</span><span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span><span class="o">/</span><span class="n">histSST</span><span class="o">/</span><span class="n">r1i</span><span class="o">...</span>             <span class="n">NaN</span>  <span class="mi">20191127</span>
+<span class="mi">3</span>  <span class="n">AerChemMIP</span>            <span class="n">BCC</span>  <span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span>       <span class="n">histSST</span>  <span class="n">r1i1p1f1</span>   <span class="n">AERmon</span>       <span class="n">mmroa</span>         <span class="n">gn</span>  <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">cmip6</span><span class="o">/</span><span class="n">AerChemMIP</span><span class="o">/</span><span class="n">BCC</span><span class="o">/</span><span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span><span class="o">/</span><span class="n">histSST</span><span class="o">/</span><span class="n">r1i</span><span class="o">...</span>             <span class="n">NaN</span>  <span class="mi">20190809</span>
+<span class="mi">4</span>  <span class="n">AerChemMIP</span>            <span class="n">BCC</span>  <span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span>       <span class="n">histSST</span>  <span class="n">r1i1p1f1</span>   <span class="n">AERmon</span>      <span class="n">mmrso4</span>         <span class="n">gn</span>  <span class="n">gs</span><span class="p">:</span><span class="o">//</span><span class="n">cmip6</span><span class="o">/</span><span class="n">AerChemMIP</span><span class="o">/</span><span class="n">BCC</span><span class="o">/</span><span class="n">BCC</span><span class="o">-</span><span class="n">ESM1</span><span class="o">/</span><span class="n">histSST</span><span class="o">/</span><span class="n">r1i</span><span class="o">...</span>             <span class="n">NaN</span>  <span class="mi">20191127</span>
+</pre></div>
+
+
+
+<a name="22096"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/22096" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#22096">(Nov 24 2020 at 17:47)</a>:</h4>
+<p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <span class="user-mention" data-user-id="9">@Brian Bonnlander</span> , I must be mistaken then. Sorry about that. I thought I had I had it running  on Cheyenne as well, but surely not as you say. </p>
+<p>I just checked and it does work on the Canvas DAV nodes. Thanks again for the clarification.</p>
+
+
+
+<a name="22097"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/CMIP6%20Cloud%20data%20access/near/22097" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Aneesh Subramanian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/CMIP6.20Cloud.20data.20access.html#22097">(Nov 24 2020 at 18:20)</a>:</h4>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span> <span class="user-mention silent" data-user-id="9">Brian Bonnlander</span> , I must be mistaken then. Sorry about that. I thought I had I had it running  on Cheyenne as well, but surely not as you say. </p>
+<p>I just checked and it does work on the Canvas DAV nodes. Thanks again for the clarification.</p>
+</blockquote>
+<p>Casper DAV!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

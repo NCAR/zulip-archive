@@ -1,0 +1,59 @@
+<html>
+<head><meta charset="utf-8"><title>Casper refresh effects on JupyterHub · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html">Casper refresh effects on JupyterHub</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="90788"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/90788" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#90788">(Oct 27 2023 at 20:58)</a>:</h4>
+<p>Casper and JupyterHub have been returned to service.  All Casper nodes were updated to the  OpenSUSE Version 15.4 for better compatibility with Derecho.  Queued jobs were removed to prevent job conflicts running on the new operating system. The software stack has been entirely refreshed, and is consistent with the evaluation nodes provided over the past months for user checkout.  Plan to recompile applications and you may need to reinstall some personal Conda environments, though this should be atypical.  </p>
+<p>JupyterHub is available on Casper and Cheyenne. Most existing language kernels should continue to work on Casper, though user-installed kernels featuring compiled code (e.g., pip source installs) may need to be recreated first. New curated kernels for Matlab, IDL, and Julia are provided, while some very old kernels have been removed to improve clarity of available options. Note that a few kernels are marked as intended for use on either Casper or Cheyenne only. Please do not load such kernels on an unsupported system - they will not work.</p>
+<p>This is a big update on Casper - feel free to ask questions or report issues with JupyterHub kernels here, along with other usual channels.</p>
+
+
+
+<a name="90817"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/90817" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Hui Li <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#90817">(Oct 30 2023 at 17:25)</a>:</h4>
+<p>Hi Brian, <br>
+I had some issues launching dask on the cluster this morning. There's an error after running "cluster = PBSCluster", saying "'ib0' is not a valid network interface. Valid network interfaces are: ['lo', 'mgt', 'ext', 'eno2']". I was wondering if it has something to do with the refresh.  Do I need to update something?</p>
+
+
+
+<a name="90829"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/90829" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#90829">(Oct 30 2023 at 19:56)</a>:</h4>
+<p>Hi Hui,</p>
+<p>Thank you for bringing this up! The ib0 interface which has been recommended for Dask is being deprecated for most workflows on Casper in favor of high-speed ethernet. Please use <strong>ext</strong> as the network inferface moving forward. We will make a point to share this in multiple places so everyone is aware.</p>
+
+
+
+<a name="90835"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/90835" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Hui Li <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#90835">(Oct 30 2023 at 20:28)</a>:</h4>
+<p>Excellent. Thanks, Brian!</p>
+
+
+
+<a name="91512"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/91512" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#91512">(Nov 08 2023 at 22:51)</a>:</h4>
+<p>Hui, I'm having the same issue and wondering the same thing.  Can we upvote this issue?</p>
+
+
+
+<a name="91682"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/91682" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#91682">(Nov 10 2023 at 17:28)</a>:</h4>
+<p><span class="user-mention" data-user-id="67">@Will Wieder</span> does setting <code>interface='ext'</code> in the <code>PBSCluster()</code> command address your issue, or is there something else going on?</p>
+
+
+
+<a name="91691"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Casper%20refresh%20effects%20on%20JupyterHub/near/91691" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Casper.20refresh.20effects.20on.20JupyterHub.html#91691">(Nov 10 2023 at 17:44)</a>:</h4>
+<p>Yes, this fixed the issue.  when I posted my question, I wasn't able to read Brian's response for some reason (I'm somewhat zulip challenged). Thanks for asking <span class="user-mention" data-user-id="47">@Katie Dagon</span></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> provided some nice functions to regrid CLM output from [time,PFT] to [time, lat , lon , pft], using the python package sparse.</p>\n<p>The solution is working well, except that I can't figure out how to impose a fill_value. I.e. for gridcells that are unpopulated in the sparse matrix, I would like to use fill_value in the dense matrix. I tried passing fill_value to sparse.COO, but that didn't seem to work.</p>\n<p>Notebook for testing:<br>\n<a href=\"https://github.com/djk2120/ctsm_trendy_2021/blob/main/pft_regridding.ipynb\">https://github.com/djk2120/ctsm_trendy_2021/blob/main/pft_regridding.ipynb</a></p>",
+        "id": 44469,
+        "sender_full_name": "Daniel Kennedy",
+        "timestamp": 1633545637
+    },
+    {
+        "content": "<p>One approach I have used in regridding application is to remap a field of ones, putting zeroes in where there are missing data, then renormalizing by the sum of the remapped ones:<br>\n<a href=\"https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/96f2a565300ba9d43b373c6ba8537e20d30e4ca1/notebooks/regrid_tools/core.py#L293\">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/96f2a565300ba9d43b373c6ba8537e20d30e4ca1/notebooks/regrid_tools/core.py#L293</a></p>\n<p>Something like this might work for your application.</p>",
+        "id": 44470,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1633545857
+    },
+    {
+        "content": "<p>That makes sense. Thanks. I think that will work for me.</p>",
+        "id": 44471,
+        "sender_full_name": "Daniel Kennedy",
+        "timestamp": 1633546008
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"120\">@Daniel Kennedy</span> I can't see why this doesn't work, you should be able to set <code>np.nan</code> as the <code>fill_value</code>. I think that's what you want for plotting purposes anyway.</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">numpy</span> <span class=\"k\">as</span> <span class=\"nn\">np</span>\n<span class=\"kn\">import</span> <span class=\"nn\">sparse</span>\n\n<span class=\"n\">sparse</span><span class=\"o\">.</span><span class=\"n\">COO</span><span class=\"p\">(</span>\n    <span class=\"n\">coords</span><span class=\"o\">=</span><span class=\"p\">[[</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">],</span> <span class=\"p\">[</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">]],</span> <span class=\"n\">data</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"mf\">1.0</span><span class=\"p\">,</span> <span class=\"mf\">1.0</span><span class=\"p\">,</span> <span class=\"mf\">1.0</span><span class=\"p\">],</span> <span class=\"n\">fill_value</span><span class=\"o\">=</span><span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">nan</span>\n<span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">todense</span><span class=\"p\">()</span>\n</code></pre></div>\n<div class=\"codehilite\"><pre><span></span><code>array([[ 1., nan, nan],\n       [nan,  1., nan],\n       [nan, nan,  1.]])\n</code></pre></div>\n<p>Note this is not regridding really. It's constructing an nD sparse array from a \"compressed\" dense 2D array.</p>\n<p>Can you try again, and if it doesn't work, can you send me a link to the notebook on cheyenne/casper?</p>",
+        "id": 45957,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1635524215
+    }
+]

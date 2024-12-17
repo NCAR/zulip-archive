@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p><code>distributed&gt;=2022.9.2</code> introduced a new feature for controlling memory saturation. Folks who have been experiencing KilledWorker / memory saturation issues with Dask for embarrassingly parallel computations may find this useful.</p>\n<p><a href=\"https://github.com/dask/distributed/discussions/7128\">Share your experiences with worker-saturation config to reduce memory usage</a></p>\n<p>Tl;dr</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"kn\">import</span> <span class=\"nn\">distributed</span>\n<span class=\"kn\">import</span> <span class=\"nn\">dask_jobqueue</span>\n\n<span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">({</span><span class=\"s2\">\"distributed.scheduler.worker-saturation\"</span><span class=\"p\">:</span> <span class=\"s2\">\"1.0\"</span><span class=\"p\">}</span>\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">dask_jobqueue</span><span class=\"o\">.</span><span class=\"n\">PBSCluster</span><span class=\"p\">(</span><span class=\"o\">....</span><span class=\"p\">)</span>\n<span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">distributed</span><span class=\"o\">.</span><span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n</code></pre></div>",
+        "id": 65831,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1665172678
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span> This is your TEM diags calculation (only 1 year, random data as input):<br>\n<a href=\"/user_uploads/2/61/3Kl5_LBN5MdiuqtrsKmMNHWy/image.png\">image.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/61/3Kl5_LBN5MdiuqtrsKmMNHWy/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/61/3Kl5_LBN5MdiuqtrsKmMNHWy/image.png\"></a></div><p>ridiculous improvements! You probably don't have to for-loop-over-files any more!</p>",
+        "id": 66154,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1665603511
+    },
+    {
+        "content": "<p>Excellent!  So it's just that one line needs to be added in?  That's great!</p>",
+        "id": 66242,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1665609722
+    },
+    {
+        "content": "<p>Looks like it'll be the default in the next release</p>",
+        "id": 66283,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1665687308
+    },
+    {
+        "content": "<p>This setting is now the default in v2022.11.0: <a href=\"https://www.coiled.io/blog/reducing-dask-memory-usage\">https://www.coiled.io/blog/reducing-dask-memory-usage</a></p>",
+        "id": 68522,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1668625343
+    }
+]

@@ -1,0 +1,114 @@
+<html>
+<head><meta charset="utf-8"><title>trouble plotting sea ice concentration · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/trouble.20plotting.20sea.20ice.20concentration.html">trouble plotting sea ice concentration</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="71472"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/trouble%20plotting%20sea%20ice%20concentration/near/71472" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/trouble.20plotting.20sea.20ice.20concentration.html#71472">(Jan 07 2023 at 22:18)</a>:</h4>
+<p>I'm trying to plot a simple sea ice concentration on a projected plot, but I'm getting some erroneous lines in my figures (see attached). My data is CESM2 output.  In the past when working with ocean (POP) output, I've had success with replacing the lat/lon grid with that from another file, and then the applying pop_add_cyclic function in order to wrap the lons properly, but this doesn't seem to work with the seaice data.   Attached I'm showing a screenshot that displays the details of the original data, then how I replace the lat/lon with a different grid, and then apply the pop_add_cyclic function.  After the pop_add_cyclic function is applied, I don't see the dimension ni change, as I would have expected. Can anyone identify what is going wrong here? The pop_add_cyclic function I'm using is:</p>
+<div class="codehilite"><pre><span></span><code>def pop_add_cyclic(ds):
+
+    nj = ds.TLAT.shape[0]
+    ni = ds.TLON.shape[1]
+
+    xL = int(ni/2 - 1)
+    xR = int(xL + ni)
+
+    tlon = ds.TLON.data
+    tlat = ds.TLAT.data
+
+    tlon = np.where(np.greater_equal(tlon, min(tlon[:,0])), tlon-360., tlon)
+    lon  = np.concatenate((tlon, tlon + 360.), 1)
+    lon = lon[:, xL:xR]
+
+    if ni == 320:
+        lon[367:-3, 0] = lon[367:-3, 0] + 360.
+    lon = lon - 360.
+
+    lon = np.hstack((lon, lon[:, 0:1] + 360.))
+    if ni == 320:
+        lon[367:, -1] = lon[367:, -1] - 360.
+
+    #-- trick cartopy into doing the right thing:
+    #   it gets confused when the cyclic coords are identical
+    lon[:, 0] = lon[:, 0] - 1e-8
+
+    #-- periodicity
+    lat = np.concatenate((tlat, tlat), 1)
+    lat = lat[:, xL:xR]
+    lat = np.hstack((lat, lat[:,0:1]))
+
+    TLAT = xr.DataArray(lat, dims=(&#39;nlat&#39;, &#39;nlon&#39;))
+    TLON = xr.DataArray(lon, dims=(&#39;nlat&#39;, &#39;nlon&#39;))
+
+    dso = xr.Dataset(coords={&#39;TLAT&#39;: TLAT, &#39;TLON&#39;: TLON})
+
+    # copy vars
+    varlist = [v for v in ds.data_vars if v not in [&#39;TLAT&#39;, &#39;TLON&#39;]]
+    for v in varlist:
+        v_dims = ds[v].dims
+        if not (&#39;nlat&#39; in v_dims and &#39;nlon&#39; in v_dims):
+            dso[v] = ds[v]
+        else:
+            # determine and sort other dimensions
+            other_dims = set(v_dims) - {&#39;nlat&#39;, &#39;nlon&#39;}
+            other_dims = tuple([d for d in v_dims if d in other_dims])
+            lon_dim = ds[v].dims.index(&#39;nlon&#39;)
+            field = ds[v].data
+            field = np.concatenate((field, field), lon_dim)
+            field = field[..., :, xL:xR]
+            field = np.concatenate((field, field[..., :, 0:1]), lon_dim)
+            print(field.shape)
+            dso[v] = xr.DataArray(field, dims=other_dims+(&#39;nlat&#39;, &#39;nlon&#39;),
+                                  attrs=ds[v].attrs)
+
+
+    # copy coords
+    for v, da in ds.coords.items():
+        if not (&#39;nlat&#39; in da.dims and &#39;nlon&#39; in da.dims):
+            dso = dso.assign_coords(**{v: da})
+
+
+    return dso
+</code></pre></div>
+<p><a href="/user_uploads/2/db/qHQkZdPKRGFJNE2cReIcqq6X/Screen-Shot-2023-01-07-at-2.10.25-PM.png">Screen-Shot-2023-01-07-at-2.10.25-PM.png</a> <a href="/user_uploads/2/ff/i5CM41h_s0gT-ZjOBCBZH0g-/Screen-Shot-2023-01-07-at-2.13.27-PM.png">Screen-Shot-2023-01-07-at-2.13.27-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/db/qHQkZdPKRGFJNE2cReIcqq6X/Screen-Shot-2023-01-07-at-2.10.25-PM.png" title="Screen-Shot-2023-01-07-at-2.10.25-PM.png"><img src="/user_uploads/2/db/qHQkZdPKRGFJNE2cReIcqq6X/Screen-Shot-2023-01-07-at-2.10.25-PM.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/ff/i5CM41h_s0gT-ZjOBCBZH0g-/Screen-Shot-2023-01-07-at-2.13.27-PM.png" title="Screen-Shot-2023-01-07-at-2.13.27-PM.png"><img src="/user_uploads/2/ff/i5CM41h_s0gT-ZjOBCBZH0g-/Screen-Shot-2023-01-07-at-2.13.27-PM.png"></a></div>
+
+
+
+<a name="71502"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/trouble%20plotting%20sea%20ice%20concentration/near/71502" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/trouble.20plotting.20sea.20ice.20concentration.html#71502">(Jan 09 2023 at 19:58)</a>:</h4>
+<p>I think I've figure this out -- in the sea ice file, the lat/lon contained masked values in locations with land.  After using the grid from pop_tools instead of the lat/lon associated with the sea ice data, it works:</p>
+<div class="codehilite"><pre><span></span><code># using pop tools, get the region mask.
+grid_name = &#39;POP_gx1v7&#39;  # our 1 degree pop grid.
+grid = pop_tools.get_grid(grid_name)
+</code></pre></div>
+<div class="codehilite"><pre><span></span><code>import cmocean as cm
+import cartopy.feature as cfeature
+
+f, ax = plt.subplots(subplot_kw=dict(projection=ccrs.SouthPolarStereo()))
+
+p = ax.pcolormesh(grid.TLONG,
+              grid.TLAT,
+              mfds3_onetime.aice,
+              transform=ccrs.PlateCarree(),
+              vmin=0, vmax=1, cmap=cm.cm.ice)
+
+f.colorbar(p, label=&#39;sea ice concentration [%]&#39;)
+ax.set_title(&#39;JJA Sea Ice Concentration (1970-2000)&#39;)
+
+ax.set_extent([-180, 180, -90,-45], ccrs.PlateCarree())
+# Add land.
+ax.add_feature(cfeature.LAND, color=&#39;#a9a9a9&#39;, zorder=4)
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

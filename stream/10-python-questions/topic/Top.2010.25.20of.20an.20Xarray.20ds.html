@@ -1,0 +1,102 @@
+<html>
+<head><meta charset="utf-8"><title>Top 10% of an Xarray ds · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html">Top 10% of an Xarray ds</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="88939"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/88939" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#88939">(Sep 19 2023 at 18:00)</a>:</h4>
+<p>Hi everybody,<br>
+This feels like a very basic thing that I'm trying to do, and I feel good about how I'm trying to do it but for some reason, it's not working out. I'm just trying to take an xarray dataset of anemometer data that has multiple variables, and chop the whole dataset to only be the times where 'wspd' is in it's top 10%. Take a look at the screenshots of code that I've attached and let me know if you see where I'm going wrong, or if there is just a better way to be going about this! Thanks so much!<br>
+<a href="/user_uploads/2/2a/YbcESnEbgkAGQvNXNe2rhVH4/Screenshot-2023-09-19-at-10.48.11-AM.png">Screenshot-2023-09-19-at-10.48.11-AM.png</a><br>
+<a href="/user_uploads/2/8a/zokaLEFf1dJtExLjBIGWSIvA/Screenshot-2023-09-19-at-10.48.44-AM.png">Screenshot-2023-09-19-at-10.48.44-AM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/2a/YbcESnEbgkAGQvNXNe2rhVH4/Screenshot-2023-09-19-at-10.48.11-AM.png" title="Screenshot-2023-09-19-at-10.48.11-AM.png"><img src="/user_uploads/2/2a/YbcESnEbgkAGQvNXNe2rhVH4/Screenshot-2023-09-19-at-10.48.11-AM.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/8a/zokaLEFf1dJtExLjBIGWSIvA/Screenshot-2023-09-19-at-10.48.44-AM.png" title="Screenshot-2023-09-19-at-10.48.44-AM.png"><img src="/user_uploads/2/8a/zokaLEFf1dJtExLjBIGWSIvA/Screenshot-2023-09-19-at-10.48.44-AM.png"></a></div>
+
+
+
+<a name="88955"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/88955" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#88955">(Sep 19 2023 at 20:19)</a>:</h4>
+<p>I'm not sure if this will fix things, but you could consider using <code>.quantile</code> in conjunction with <code>.where</code> to subset the data. I think the top 10% would be something like:<br>
+<code>ds_wxt.wspd.where(ds_wxt.wspd &gt; ds_wxt.wspd.quantile(0.9, dim='time'))</code></p>
+
+
+
+<a name="88982"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/88982" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#88982">(Sep 20 2023 at 14:58)</a>:</h4>
+<p>I'm not 100% sure what the "correct" outcome is or what outputs are showing the "incorrect" behavior, but I do have a question: What is <code>drop=True</code> supposed to be doing in the <code>where()</code> call? I don't see that in the <a href="https://docs.xarray.dev/en/stable/generated/xarray.where.html">documentation</a>. What happens if you leave it out?</p>
+<p>If you're trying to remove the data points that are outside the top 10%, I think you need to do <code>top10_wxt = ds_wxt.sel(time=np.where(ds_wxt.wspd &gt;= min(top10_wxt)[0]))</code></p>
+
+
+
+<a name="88983"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/88983" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#88983">(Sep 20 2023 at 15:21)</a>:</h4>
+<p><span class="user-mention" data-user-id="343">@Sam Rabin</span> <code>drop=True</code> causes it to drop the timesteps/coordinate points when the condition is not true, so it shortens your array. Otherwise you get the same size array but with <code>nan</code>s where the condition is not true.</p>
+
+
+
+<a name="88985"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/88985" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#88985">(Sep 20 2023 at 15:26)</a>:</h4>
+<p><span class="user-mention" data-user-id="193">@Brendan Myers</span> do you infer incorrect behaviour from the fact you don't retain 10% of the timesteps? I would have a look at what your minimum value in your inferred top 10% is, I don't know the function <code>top10</code>. Is this function the reason you need to use values instead of an xarray?</p>
+
+
+
+<a name="89068"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89068" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89068">(Sep 20 2023 at 20:39)</a>:</h4>
+<p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>  it seems incorrect to me since the length that the ds in the end is 160521, when I expect it to be 28404 (since that's 10% of the length of the original ds). The function 'top10' is the function that I write in the first screenshot (to get a list of the values of the fastest 10% of times). I'm taking things out of xarray to work with them because the xarray functions don't seem to be working because of something going on since the variables are stored as dask arrays.</p>
+
+
+
+<a name="89069"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89069" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89069">(Sep 20 2023 at 20:40)</a>:</h4>
+<p>yeah that makes sense. have you tied what Katie suggested? I would use something like her syntax indeed</p>
+
+
+
+<a name="89070"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89070" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89070">(Sep 20 2023 at 20:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="47">@Katie Dagon</span> I was trying to use quantile originally, but switched methods because it gives an error with something related to the dask chunking of the variable... I tried rechecking the variable but I remember it giving me some weird error. I've attached a screenshot of the error I get when I try to implement your line of code.<br>
+<a href="/user_uploads/2/43/0c-fu4n46lrQ0RhffIqn3ork/Screenshot-2023-09-20-at-1.38.50-PM.png">Screenshot-2023-09-20-at-1.38.50-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/43/0c-fu4n46lrQ0RhffIqn3ork/Screenshot-2023-09-20-at-1.38.50-PM.png" title="Screenshot-2023-09-20-at-1.38.50-PM.png"><img src="/user_uploads/2/43/0c-fu4n46lrQ0RhffIqn3ork/Screenshot-2023-09-20-at-1.38.50-PM.png"></a></div>
+
+
+
+<a name="89071"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89071" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89071">(Sep 20 2023 at 20:44)</a>:</h4>
+<p>Ah yes, you need to rechunk for quantile since you can't have chunking across time. Try this:<br>
+<code>ds_wxt.wspd.where(ds_wxt.wspd &gt; ds_wxt.wspd.chunk({'time': -1}).quantile(0.9, dim='time'))</code></p>
+
+
+
+<a name="89072"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89072" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89072">(Sep 20 2023 at 20:50)</a>:</h4>
+<p><span class="user-mention" data-user-id="47">@Katie Dagon</span> oh good to know! I'll try it once my Jupyter server starts up!</p>
+
+
+
+<a name="89081"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89081" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89081">(Sep 20 2023 at 21:18)</a>:</h4>
+<p><span class="user-mention" data-user-id="47">@Katie Dagon</span> that seems to have worked better! Thanks so much! The one thing is that it seems that it cut out more than I would've expected (just by a little bit), and if I remember correctly from when I was looking into 'quantile', I feel like I remember there are different options for how it handles duplicate values... do you think maybe that's why it cut out a little extra?<br>
+<a href="/user_uploads/2/89/28_LN8GSMh4ZAIgJgjS6K9VQ/Screenshot-2023-09-20-at-2.13.43-PM.png">Screenshot-2023-09-20-at-2.13.43-PM.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/89/28_LN8GSMh4ZAIgJgjS6K9VQ/Screenshot-2023-09-20-at-2.13.43-PM.png" title="Screenshot-2023-09-20-at-2.13.43-PM.png"><img src="/user_uploads/2/89/28_LN8GSMh4ZAIgJgjS6K9VQ/Screenshot-2023-09-20-at-2.13.43-PM.png"></a></div>
+
+
+
+<a name="89082"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89082" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89082">(Sep 20 2023 at 21:31)</a>:</h4>
+<p>Glad it 's working! It could be duplicates, NaNs, or perhaps the interpolation that happens when the quantile is between two data points, see <a href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.quantile.html">xr.quantile</a>. You could print out the quantile threshold (it should be a single number) or plot a histogram of the full dataset to get a better sense.  The where statement is also using <code>&gt;</code> instead of <code>&gt;=</code> which might include more points.</p>
+
+
+
+<a name="89086"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Top%2010%25%20of%20an%20Xarray%20ds/near/89086" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brendan Myers <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Top.2010.25.20of.20an.20Xarray.20ds.html#89086">(Sep 20 2023 at 21:38)</a>:</h4>
+<p>That all sounds great, thanks for the tips! I'll check things out! I appreciate the help!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

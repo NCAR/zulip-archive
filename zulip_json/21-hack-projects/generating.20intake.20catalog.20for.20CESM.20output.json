@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>A group of us are just starting to work on an update to the CESM workflow to include a \"generate <code>intake-esm</code> catalog\" step, targeting CESM 2.3. Some background is available in <a class=\"stream-topic\" data-stream-id=\"17\" href=\"/#narrow/stream/17-python-dev/topic/workflow\">#python-dev &gt; workflow</a> </p>\n<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> and I are going to meet via zoom at 2:30 today to work on a more detailed plan for the project; if you're interested, let me know and I'll add you to the meeting.</p>",
+        "id": 9427,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1590174129
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> and I have a tentative plan to move forward. Our vision is a tool that generates a <code>csv</code> file for <code>intake-esm</code> based on the contents of the short-term archive for a single CESM run (currently starting with the requirement that pyReshaper has archived time series, but adding a tool to handle archived time slice files soon after), and a wrapper layer that sends <code>intake-esm</code> (1) a <code>dataFrame</code> from the <code>csv</code> file but converts relative path to files listed in the <code>csv</code> into an absolute path, and (2) a dictionary containing what is currently in the JSON files for cesm non-CMOR catalogs. At some point we will also add a tool to generate a catalog of an ensemble of runs by stitching together individual catalogs.</p>\n<p>I have created <a href=\"https://github.com/NCAR/CESM_catalog\" target=\"_blank\" title=\"https://github.com/NCAR/CESM_catalog\">https://github.com/NCAR/CESM_catalog</a> for this purpose, but am happy to rename the tool. <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> I may bug you on Tuesday for advice on Xdev-ing the repo; I need to add the group to the admin list, and I think we want the xdev bot helping manage issue tickets.</p>\n<p>Action items for this coming week:</p>\n<ol>\n<li>I'll generate 1 year of output from a <code>B1850</code> compset and have pyReshaper convert it to time series (I thought I had done this but the reshaping job failed)</li>\n<li>I'll write a python script that takes <code>$CASEROOT</code> as an input and uses <code>xmlquery</code> to save <code>CASE</code>, and <code>DOUT_S_ROOT</code> to memory.</li>\n<li>\n<p>Anderson will take my script and use it to generate a <code>csv</code> file containing the following columns:</p>\n<ul>\n<li><code>case</code> [strictly speaking this isn't needed, but it could provide useful]</li>\n<li><code>component</code></li>\n<li><code>stream</code></li>\n<li><code>variable</code></li>\n<li><code>date_range</code></li>\n<li><code>path</code></li>\n<li><code>ctrl_branch_year</code></li>\n<li><code>ctrl_case</code></li>\n</ul>\n</li>\n</ol>\n<p>We also talked about the idea of adding <code>long_name</code> to the column list; once <code>intake-esm</code> supports regular expression searches, that could be an easy way for someone unfamiliar with CESM variable naming conventions to find the data they are looking for. It might also be useful to have a tool that generates the <code>csv.gz</code> and <code>json</code> pair to be read in by <code>intake-esm</code>... e.g. if you are sharing the catalog with someone who isn't familiar with CESM_catalog.</p>",
+        "id": 9519,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1590192016
+    },
+    {
+        "content": "<p>The tool to generate an ensemble would be pretty straightforward -- read a YAML file that is something like</p>\n<div class=\"codehilite\"><pre><span></span>experiment1:\n  case1:\n    catalog_path: [path to catalog]\n    member_id: ###\n  case2:\n    catalog_path: [path to catalog]\n    member_id: ###\nexperiment2:\n  case3:\n    catalog_path: [path to catalog]\n    member_id: ###\n</pre></div>\n\n\n<p>each individual catalog would be read in, the <code>experiment</code> and <code>member_id</code> columns would be added, and the <code>ctrl_case</code> column would be replaced with <code>ctrl_experiment</code> and <code>ctrl_member_id</code> (assuming <code>ctrl_case</code> is also a member of the ensemble). Then all the individual catalogs would be concatenated into one giant file (we'd need to replace relative path names with absolute ones at this stage).</p>",
+        "id": 9520,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1590192020
+    },
+    {
+        "content": "<p>Ccing  <span class=\"user-mention\" data-user-id=\"37\">@Sheri Mickelson</span></p>",
+        "id": 9521,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1590192259
+    }
+]

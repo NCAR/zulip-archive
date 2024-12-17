@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Using cf_units v3.2.0 (latest) <br>\nfrom cf_units import Unit<br>\nd = Unit('days since 1850-01-01', calendar=\"gregorian\")<br>\nprint(d)</p>\n<blockquote>\n<p>days since 1850-01-01<br>\n print(d.calendar)<br>\nstandard</p>\n</blockquote>\n<p>Why isn't d.calendar gregorian?   Is this a bug?</p>",
+        "id": 98015,
+        "sender_full_name": "Jim Edwards",
+        "timestamp": 1713456997
+    },
+    {
+        "content": "<p>Another issue with cf_units: </p>\n<blockquote>\n<div class=\"codehilite\"><pre><span></span><code>              result = result.astype(value.dtype)\n</code></pre></div>\n\n<p>E                   AttributeError: 'float' object has no attribute 'astype'</p>\n</blockquote>",
+        "id": 98017,
+        "sender_full_name": "Jim Edwards",
+        "timestamp": 1713458045
+    },
+    {
+        "content": "<p>Looking at <a href=\"https://cf-units.readthedocs.io/en/latest/utilities.html#cf_units.CALENDAR_ALIASES\">cf-units docs</a>, it looks like <code>standard</code> and <code>gregorian</code> are aliases.</p>",
+        "id": 98018,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1713458474
+    }
+]

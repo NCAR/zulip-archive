@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>A couple of notebooks (<a href=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_003.ipynb\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_003.ipynb\">003</a>, <a href=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_004.ipynb\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_004.ipynb\">004</a>) have been added to the <code>HiRes-CESM-analysis</code> repo that have 'quick-look' views of a handful of variables.</p>\n<p>MARBL tracers in 004 were initialized from a x1 companion that was run for 2 JRA cycles. In 003, macronutrients and O2 were initialized from WOA13, DIC and ALK were initialized from GLODAPv2, and the remaining tracers were initialized from the x1 companion.</p>\n<p>One observation from the notebooks is that the histograms for <code>O2_ZMIN</code> indicate has some very large magnitude negative <code>O2</code> values in 003. I dug into this and have discovered what I think is the culprit. The bad news is that the regridding of WOA13 fields to the <code>tx0.1v3</code> grid generated all zeros in the deepest <code>tx0.1v3</code> layer. The problem is that all of the deepest model layer is deeper than the deepest WOA13 layer, and the vertical remapping function that I wrote generated zeros in this case. This problem is not present for GLODAPv2 interpolated fields. Unfortunately, I missed these bad values when inspecting the generated IC files <span aria-label=\"sad\" class=\"emoji emoji-2639\" role=\"img\" title=\"sad\">:sad:</span>. I suspect that the zero values lead to very large tracer gradients, which leads to numerical advection errors which generated the large magnitude negative <code>O2</code> values. The problem is present for all WOA13 interpolated fields: O2, PO4, NO3, SiO3. All of these tracers have spurious values near where <code>KMT</code> reaches 62. The good news is that the spurious values seem to mix out within a handful of months.</p>\n<p>While these values are definitely problematic in the first few months of 003 and are a reason to prefer 004 over 003, I'm not sure if the problem by itself is a show-stopper for 003. Given that 003 has run for a year, and our throughput, I do NOT advocate for restarting 003 with corrected IC.</p>",
+        "id": 15771,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1597850574
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>; I agree with your ultimate conclusion.</p>",
+        "id": 15774,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1597850927
+    }
+]

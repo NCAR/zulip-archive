@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi! Newbie python question:   What is the preferred way to shift longitudes (i.e. -180 to +180 to 0- 360, or vice vera) using xarray?  Could someone please give me an example? I am plotting  a 1d array with longitude on the x-axis, but anticipate needing to do this with lat/lon spatial data as well. Thanks!</p>",
+        "id": 80670,
+        "sender_full_name": "Christine Shields",
+        "timestamp": 1683663358
+    },
+    {
+        "content": "<p>This is how I do it, <span class=\"user-mention\" data-user-id=\"66\">@Christine Shields</span> :</p>\n<div class=\"codehilite\"><pre><span></span><code>def lonFlip(data):\n    # NOTE: this assumes global values\n    tmplon = data[&#39;lon&#39;]\n    tmpdata = data.roll(lon=len(tmplon) // 2, roll_coords=True)\n    lonroll = tmpdata[&#39;lon&#39;].values\n    if tmplon.min() &gt;= 0:\n        # flip to -180:180\n        tmpdata = tmpdata.assign_coords({&#39;lon&#39;: np.where(lonroll &gt;= 180, lonroll - 360, lonroll)})\n    else:\n        # flip from -180:180 to 0:360\n        # tmpdata = tmpdata.assign_coords({&#39;lon&#39;: ((lonroll + 360) % 360)})\n        tmpdata = tmpdata.assign_coords({&#39;lon&#39;: lonroll%360})\n    return tmpdata\n</code></pre></div>",
+        "id": 80675,
+        "sender_full_name": "Brian Medeiros",
+        "timestamp": 1683667960
+    },
+    {
+        "content": "<p>If you're using cartopy, you can also set the <a href=\"https://scitools.org.uk/cartopy/docs/latest/reference/projections.html\"><code>central_longitude</code></a>. This might not help for analysis but I've found it helpful for shifting the view when plotting. Another thing I have found useful is <a href=\"https://scitools.org.uk/cartopy/docs/latest/gallery/scalar_data/wrapping_global.html\"><code>add_cyclic</code></a> to help with wrapping global data.</p>",
+        "id": 80676,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1683668687
+    },
+    {
+        "content": "<p>Thanks!!!</p>",
+        "id": 80677,
+        "sender_full_name": "Christine Shields",
+        "timestamp": 1683669157
+    }
+]

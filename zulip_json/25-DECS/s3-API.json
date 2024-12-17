@@ -1,0 +1,416 @@
+[
+    {
+        "content": "<p>Welcome to S3 discussion</p>",
+        "id": 3738,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1584552658
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> is there anything we need to do to prepare for the S3 demo tomorrow afternoon?</p>",
+        "id": 4858,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585155129
+    },
+    {
+        "content": "<p>I will work on uploading the package to <a href=\"http://pypi.org\" target=\"_blank\" title=\"http://pypi.org\">pypi.org</a> today</p>",
+        "id": 4860,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585155166
+    },
+    {
+        "content": "<p>I don't think so, but I'm not sure what's important to show. Just go through the functionality?</p>",
+        "id": 4866,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585155764
+    },
+    {
+        "content": "<p>Yes, I think that's all we need to do at this point</p>",
+        "id": 4867,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585155786
+    },
+    {
+        "content": "<p>OK, sounds good. I'll maybe write a jupyter notebook that shells out commands. Alos, Since Sage is big into java, I might do some of sort of java use case. Might be overkill though. <br>\nWe'll see what makes sense after the DECS meeting tomorrow.</p>",
+        "id": 4868,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585155871
+    },
+    {
+        "content": "<p>Sounds good.  The package is now available from <a href=\"http://pypi.org\" target=\"_blank\" title=\"http://pypi.org\">pypi.org</a> at <a href=\"https://pypi.org/project/ncar-rda-s3/\" target=\"_blank\" title=\"https://pypi.org/project/ncar-rda-s3/\">https://pypi.org/project/ncar-rda-s3/</a>.  I have installed it on casper and copied it to /glade/u/home/rdadata/lib/python/site-packages.  You will need to include this in your python sys.path to import it.</p>",
+        "id": 4869,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585157093
+    },
+    {
+        "content": "<p>It is also available on the EIO VMs.  Invoke python with 'python3', then 'import rda_s3'.</p>",
+        "id": 4871,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585157388
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"55\">@Tom Cram</span> I'm wrapping up a jupyter notebook. Did you want to talk about installation/requirements? It seems like that's the gap right now.</p>",
+        "id": 5127,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585237502
+    },
+    {
+        "content": "<p>Sure, no problem</p>",
+        "id": 5134,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585238702
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"55\">@Tom Cram</span> I added a symlink from /glade/u/home/rdadata/lib/python/site-packages/rda_s3/rda_s3.py to /glade/u/home/rdadata/bin.  As we discussed in the group meeting, please send out the user environment configuration requirements to success fully run this on rda-data or casper.  Thx!</p>",
+        "id": 5150,
+        "sender_full_name": "Doug Schuster",
+        "timestamp": 1585243495
+    },
+    {
+        "content": "<p><span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span></p>",
+        "id": 5151,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585243625
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> I'm going to change the Python interpreter in rda_s3.py to /usr/bin/env python3.  It's currently failing on the VMs because python2 is the default on those machines.</p>",
+        "id": 5168,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585245192
+    },
+    {
+        "content": "<p>Interesting about TDS accessing that NetCDF file just fine. Did anyone catch how Sean was able to do range requests on the netcdf file on his emulated object store? Did his object metadata include the byte ranges of data?</p>",
+        "id": 5275,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585260261
+    },
+    {
+        "content": "<p>I wasn't following closely enough to catch it.  He did that very quickly.</p>",
+        "id": 5291,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585262399
+    },
+    {
+        "content": "<p>I think he gets the byte offset info from the NetCDF file metadata, and might create a separate index file from that?  I don’t think it’s in the object metadata, but I’d think that’d be a viable option. Maybe check in with Sean on the details of his workflow.</p>",
+        "id": 5347,
+        "sender_full_name": "Doug Schuster",
+        "timestamp": 1585324002
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> <a href=\"https://github.com/Unidata/netcdf-java/blob/master/cdm/s3/src/main/java/ucar/unidata/io/s3/S3RandomAccessFile.java\" target=\"_blank\" title=\"https://github.com/Unidata/netcdf-java/blob/master/cdm/s3/src/main/java/ucar/unidata/io/s3/S3RandomAccessFile.java\">https://github.com/Unidata/netcdf-java/blob/master/cdm/s3/src/main/java/ucar/unidata/io/s3/S3RandomAccessFile.java</a><br/>\n<a href=\"https://github.com/Unidata/netcdf-java/blob/master/cdm/s3/src/test/java/ucar/unidata/io/s3/TestS3Read.java\" target=\"_blank\" title=\"https://github.com/Unidata/netcdf-java/blob/master/cdm/s3/src/test/java/ucar/unidata/io/s3/TestS3Read.java\">https://github.com/Unidata/netcdf-java/blob/master/cdm/s3/src/test/java/ucar/unidata/io/s3/TestS3Read.java</a></p>",
+        "id": 5381,
+        "sender_full_name": "Doug Schuster",
+        "timestamp": 1585333503
+    },
+    {
+        "content": "<p>(deleted)</p>",
+        "id": 5387,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585337074
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> I'm getting AttributeError when I try to use rda_s3 within a Python session:</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>import rda_s3 as rs<br/>\nbuckets = rs.list_buckets()<br/>\nTraceback (most recent call last):<br/>\n  File \"&lt;stdin&gt;\", line 1, in &lt;module&gt;<br/>\nAttributeError: module 'rda_s3' has no attribute 'list_buckets'</p>\n</blockquote>\n</blockquote>\n</blockquote>",
+        "id": 5398,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585339356
+    },
+    {
+        "content": "<p>Found the problem.  'import rda_s3' only imports the package, not the module 'rda_s3.py'.  So we currently need to import it as:<br>\nfrom rda_s3 import rda_s3<br>\nbuckets = rda_s3.list_buckets()</p>",
+        "id": 5402,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585340563
+    },
+    {
+        "content": "<p>Hmm, Could rda_s3 be the directory instead of the file</p>",
+        "id": 5403,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585340568
+    },
+    {
+        "content": "<p>I'll create an issue and get this sorted out.  Might be as simple as adding a line to __init__.py</p>",
+        "id": 5404,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585340599
+    },
+    {
+        "content": "<p>I tried something similar a while ago and it didn't work as expected</p>",
+        "id": 5405,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585340624
+    },
+    {
+        "content": "<p>actually, could putting an \"from rda_s3 import *\" work?</p>",
+        "id": 5406,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585340647
+    },
+    {
+        "content": "<p>I wonder how the import in your Jupyter notebook is working though.  It shouldn't based on my error</p>",
+        "id": 5407,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585340663
+    },
+    {
+        "content": "<p>No, I tried that and it didn't work</p>",
+        "id": 5408,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585340679
+    },
+    {
+        "content": "<p>Oh, i mean in the __init__.py. I was executing the notebook in the same directory as the file, so i think it was grabbing the script itself.</p>",
+        "id": 5410,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585340735
+    },
+    {
+        "content": "<p>Nevermind, putting 'from rda_s3 import *' in the __init__.py doesn't work</p>",
+        "id": 5411,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1585340912
+    },
+    {
+        "content": "<p>I think I can add 'from . import rda_s3' to the __init__.py file.  See <a href=\"https://stackoverflow.com/questions/47323411/attributeerror-module-object-has-no-attribute-xxxx\" target=\"_blank\" title=\"https://stackoverflow.com/questions/47323411/attributeerror-module-object-has-no-attribute-xxxx\">https://stackoverflow.com/questions/47323411/attributeerror-module-object-has-no-attribute-xxxx</a></p>",
+        "id": 5413,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585341073
+    },
+    {
+        "content": "<p>Github is slow this afternoon.  Unresponsive at times.</p>",
+        "id": 5858,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585860463
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/I3LLRzhB7S2qn-qa26e5-mqQ/Screen-Shot-2020-04-02-at-2.49.48-PM.png\" target=\"_blank\" title=\"Screen-Shot-2020-04-02-at-2.49.48-PM.png\">Screen-Shot-2020-04-02-at-2.49.48-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/I3LLRzhB7S2qn-qa26e5-mqQ/Screen-Shot-2020-04-02-at-2.49.48-PM.png\" target=\"_blank\" title=\"Screen-Shot-2020-04-02-at-2.49.48-PM.png\"><img src=\"/user_uploads/2/I3LLRzhB7S2qn-qa26e5-mqQ/Screen-Shot-2020-04-02-at-2.49.48-PM.png\"></a></div>",
+        "id": 5859,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585860637
+    },
+    {
+        "content": "<p>the dreaded rainbow unicorn!</p>",
+        "id": 5860,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585860661
+    },
+    {
+        "content": "<p>pip install now working on isd-s3:<br>\n<a href=\"https://pypi.org/project/ncar-isd-s3/\" target=\"_blank\" title=\"https://pypi.org/project/ncar-isd-s3/\">https://pypi.org/project/ncar-isd-s3/</a></p>",
+        "id": 5864,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585864210
+    },
+    {
+        "content": "<p>Module can be imported as:</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>from isd_s3 import isd_s3<br>\nisd_s3.list_buckets()</p>\n</blockquote>\n</blockquote>\n</blockquote>",
+        "id": 5865,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585864275
+    },
+    {
+        "content": "<p>Another method:</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>from isd_s3 import isd_s3 as rs<br>\nrs.list_buckets()</p>\n</blockquote>\n</blockquote>\n</blockquote>",
+        "id": 5866,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585864306
+    },
+    {
+        "content": "<p>Yet another method:</p>\n<blockquote>\n<blockquote>\n<blockquote>\n<p>import isd_s3.isd_s3 as rs<br>\nrs.list_buckets()</p>\n</blockquote>\n</blockquote>\n</blockquote>",
+        "id": 5867,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1585864422
+    },
+    {
+        "content": "<p>Great!</p>",
+        "id": 5993,
+        "sender_full_name": "Doug Schuster",
+        "timestamp": 1586186085
+    },
+    {
+        "content": "<p>@riley I'll go ahead and create a branch for this issue and fix it: <a href=\"https://github.com/NCAR/isd-s3/issues/22\" target=\"_blank\" title=\"https://github.com/NCAR/isd-s3/issues/22\">https://github.com/NCAR/isd-s3/issues/22</a></p>",
+        "id": 6104,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1586280989
+    },
+    {
+        "content": "<p>Since we're generalizing this for ISD and broader CISL use, I think we should have a separate configuration file for RDA specific config info, e.g. S3_URL, default_bucket, AWS credentials.  I'm running into this issue by configuring the logging handler ... can't just put this configuration inside the main program, it should be imported instead.  I'll set something up for logging and test it out.  We can work on moving the other config info after logging works.  Simple config example: <a href=\"https://martin-thoma.com/configuration-files-in-python/#python-configuration-file\" target=\"_blank\" title=\"https://martin-thoma.com/configuration-files-in-python/#python-configuration-file\">https://martin-thoma.com/configuration-files-in-python/#python-configuration-file</a></p>",
+        "id": 6202,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1586293320
+    },
+    {
+        "content": "<p>And the *config.py file would be included in .gitignore, since it applies only to us</p>",
+        "id": 6203,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1586293421
+    },
+    {
+        "content": "<p>Logging is now working.  I ran a pull request and deleted the log-test branch.  Log messages are written to /glade/u/home/rdadata/dssdb/log/isd-s3.log and debug mode, if specified, writes to isd-s3.dbg.</p>",
+        "id": 6380,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1586469136
+    },
+    {
+        "content": "<p>We will need to pull the function configure_log() out of the main code and put it into a new python wrapper since it's specific to the RDA use case.  This could be done in coordination with abstracting out the other RDA specific stuff.</p>",
+        "id": 6381,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1586469252
+    },
+    {
+        "content": "<p>The logging object in the code is named 'logger'.  Some example log messages that can be added to the code:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">logger</span><span class=\"o\">.</span><span class=\"n\">info</span><span class=\"p\">(</span><span class=\"s2\">&quot;This is an info message&quot;</span><span class=\"p\">)</span>\n<span class=\"n\">logger</span><span class=\"o\">.</span><span class=\"n\">debug</span><span class=\"p\">(</span><span class=\"s2\">&quot;This is a debug message&quot;</span><span class=\"p\">)</span>\n<span class=\"n\">logger</span><span class=\"o\">.</span><span class=\"n\">warning</span><span class=\"p\">(</span><span class=\"s2\">&quot;This is a warning message&quot;</span><span class=\"p\">)</span>\n<span class=\"n\">logger</span><span class=\"o\">.</span><span class=\"n\">error</span><span class=\"p\">(</span><span class=\"s2\">&quot;This is an error message&quot;</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 6383,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1586470488
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> FYI it appears the methods in isd_s3.py with leading underscores are not available outside the module (i.e. they are available only inside the module library):</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">from</span> <span class=\"nn\">isd_s3.isd_s3</span> <span class=\"kn\">import</span> <span class=\"o\">*</span>\n<span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">_get_session</span><span class=\"p\">()</span>\n<span class=\"n\">Traceback</span> <span class=\"p\">(</span><span class=\"n\">most</span> <span class=\"n\">recent</span> <span class=\"n\">call</span> <span class=\"n\">last</span><span class=\"p\">):</span>\n  <span class=\"n\">File</span> <span class=\"s2\">\"&lt;stdin&gt;\"</span><span class=\"p\">,</span> <span class=\"n\">line</span> <span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"ow\">in</span> <span class=\"o\">&lt;</span><span class=\"n\">module</span><span class=\"o\">&gt;</span>\n<span class=\"ne\">NameError</span><span class=\"p\">:</span> <span class=\"n\">name</span> <span class=\"s1\">'_get_session'</span> <span class=\"ow\">is</span> <span class=\"ow\">not</span> <span class=\"n\">defined</span>\n</pre></div>\n<p>I'm going to remove the leading underscore on the method names in the library and see if that fixes it.</p>",
+        "id": 6950,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587497861
+    },
+    {
+        "content": "<p>That's really strange. Maybe I missed a PIP recently.</p>",
+        "id": 6957,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1587498484
+    },
+    {
+        "content": "<p>I think this behavior can be overridden by declaring it in the __all__ variable in __init__.py, but that seems more work than necessary.  Easier to remove the leading underscore.</p>",
+        "id": 6958,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587498688
+    },
+    {
+        "content": "<p>This explains it well: <a href=\"https://dbader.org/blog/meaning-of-underscores-in-python\" target=\"_blank\" title=\"https://dbader.org/blog/meaning-of-underscores-in-python\">https://dbader.org/blog/meaning-of-underscores-in-python</a></p>",
+        "id": 6959,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587498903
+    },
+    {
+        "content": "<p>ohh, I see. It's because the * in the import. I didn't know that was different.<br>\nYou could still do: </p>\n<div class=\"codehilite\"><pre><span></span><span class=\"kn\">from</span> <span class=\"nn\">isd_s3</span> <span class=\"kn\">import</span> <span class=\"n\">isd_s3</span>\n<span class=\"n\">isd_s3</span><span class=\"o\">.</span><span class=\"n\">_get_session</span><span class=\"p\">()</span>\n</pre></div>\n\n\n<p>anyway, better to remove the leading _ if it's not going to be used internally anyway.</p>",
+        "id": 6960,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1587499184
+    },
+    {
+        "content": "<p>Yeah , since I'm calling the functions from outside the module, it's better to remove the underscore.  But I'll keep the underscore on variable names that remain internal (e.g. _is_imported).  Also will keep underscore on function names in __main__.py</p>",
+        "id": 6961,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587499421
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> do you know what the default endpoint_url is if it's undefined when creating a boto3 client?  Documentation doesn't make this clear.  I'm leaning toward passing the url either as a command line argument or environment variable, and it will be up to the user to set this correctly (we define it in our cli.py entry-point script).  Tempted to allow for an undefined url as shown in the documentation, and wonder what the result of that would be.</p>",
+        "id": 7026,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587588771
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"55\">@Tom Cram</span> I tested it out and the default is \"<a href=\"https://s3.amazonaws.com\" target=\"_blank\" title=\"https://s3.amazonaws.com\">https://s3.amazonaws.com</a>\". I guess since boto3 was built by amazon, they assume you're using their s3.</p>",
+        "id": 7027,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1587589371
+    },
+    {
+        "content": "<p>Roger.  I think it's ok to allow for it to be undefined, since there's a possibility other users would be using an AWS endpoint.</p>",
+        "id": 7031,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587589616
+    },
+    {
+        "content": "<p>I'm done with the PyInstaller executable build, and it's located at /glade/u/home/rdadata/bin/isd_s3_test.  I have only tested list_buckets(), so we'll need to test out the other functions soon.  But I'm going to go ahead and start a pull request to the master branch.</p>",
+        "id": 7173,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587747041
+    },
+    {
+        "content": "<p>A comment about user configuration.  I put the isd_s3.ini config file in the same directory as the rda AWS credentials configuration (/glade/u/home/rdadata/.aws), since this seems like the most logical place for it to reside.  I think this type of configuration setup (reading from a config file) should be completely detached from the package repo.  It should be up to other users to decide if they want to implement their own config file setup when they develop their own apps.  Config options supported by the package can be 1. Environment variables or 2. Command line argument input</p>",
+        "id": 7174,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587747425
+    },
+    {
+        "content": "<p>Some other minor issues:</p>\n<ol>\n<li>\n<p>I renamed <code>exit()</code> to <code>exit_session()</code> in <code>isd_s3.py</code>.  This was causing a conflict with the built-in system function <code>exit()</code> when I imported the library with <code>from isd_s3.isd_s3 import*</code></p>\n</li>\n<li>\n<p>In <code>__main__.py</code>, I renamed the boolean variable <code>pretty_print</code> to <code>pp</code>, since this was creating a conflict with the function <code>pretty_print()</code> in <code>isd_s3.py</code></p>\n</li>\n</ol>",
+        "id": 7177,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587748491
+    },
+    {
+        "content": "<p>No conflicts in the pull request ... woo hoo!</p>",
+        "id": 7178,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587749780
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"55\">@Tom Cram</span>  Are we still going to allow people to run the package directly assuming they have the correct environment? Basically, pyinstaller will be a suggestion to outside groups?</p>",
+        "id": 7186,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1587758251
+    },
+    {
+        "content": "<p>They can run it directly by calling <code>isd_s3.__main__.py</code>.  I don't think we should support the pyinstaller option since that gets into user case specifics.</p>",
+        "id": 7188,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587758768
+    },
+    {
+        "content": "<p>But we nevertheless should put our cli script under Github control.  Does it make sense to put it under the rda-object-storage repo?</p>",
+        "id": 7189,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587759394
+    },
+    {
+        "content": "<p>I think we could probably put it in an <code>examples/</code> directory. To keep it in one place. <br>\nWe could separate out <code>examples/pyinstaller/</code> and <code>examples/notebooks/</code><br>\nWhat do you think?</p>",
+        "id": 7193,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1587760693
+    },
+    {
+        "content": "<p>That sounds good</p>",
+        "id": 7194,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587760738
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> Let me know when you've reviewed the pull request, and I'll merge it when you're ready.</p>",
+        "id": 7223,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1587770711
+    },
+    {
+        "content": "<p>Yeah, I looked over it and there are a few things that I've been changing. Anyway, maybe it would be best to merge now, and we can go over it next week.</p>",
+        "id": 7224,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1587774047
+    },
+    {
+        "content": "<p>Ok, I'll merge it this morning</p>",
+        "id": 7248,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1588000772
+    },
+    {
+        "content": "<p>Merge completed</p>",
+        "id": 7255,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1588003942
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"55\">@Tom Cram</span> <br/>\nWhat are your thoughts about changing isd_s3 to be a class that holds the functions that interact with s3? The __init__() could start the boto3 session, and the client would be a member variable. I see quite a bit of shared state that might be good to encapsulate.</p>\n<p>Also, might be worth is to move some of this configuration to its own module so it can be reused.</p>",
+        "id": 7263,
+        "sender_full_name": "Riley Conroy",
+        "timestamp": 1588007638
+    },
+    {
+        "content": "<p>I was thinking the same, both for the isd_s3 class and a separate config module</p>",
+        "id": 7270,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1588012123
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> Let me know when you've completed the changes you were working on at the end of last week.  At that point I can rebuild a new PyInstaller executable and push a new release to <a href=\"http://PyPI.org\" target=\"_blank\" title=\"http://PyPI.org\">PyPI.org</a>.</p>",
+        "id": 7271,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1588012587
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"57\">@Riley Conroy</span> Package has been uploaded to <a href=\"http://PyPI.org\" target=\"_blank\" title=\"http://PyPI.org\">PyPI.org</a>, and you can go ahead and rebuild the pyinstaller executable.</p>",
+        "id": 10557,
+        "sender_full_name": "Tom Cram",
+        "timestamp": 1591305476
+    }
+]

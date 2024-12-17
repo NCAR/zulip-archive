@@ -1,0 +1,26 @@
+<html>
+<head><meta charset="utf-8"><title>Installing tensorflow with GPU support · machine-learning · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/50-machine-learning/index.html">machine-learning</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/50-machine-learning/topic/Installing.20tensorflow.20with.20GPU.20support.html">Installing tensorflow with GPU support</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="95624"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/50-machine-learning/topic/Installing%20tensorflow%20with%20GPU%20support/near/95624" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David John Gagne <a href="http://127.0.0.1:4000/html/stream/50-machine-learning/topic/Installing.20tensorflow.20with.20GPU.20support.html#95624">(Feb 08 2024 at 23:46)</a>:</h4>
+<p>If you are installing the latest version of tensorflow (2.15) on casper or derecho and want GPU support, I recommend using the following command, which will install both tensorflow and the cuda toolkit and cudnn compiled with that version of tensorflow:</p>
+<div class="codehilite"><pre><span></span><code>pip install tensorflow[and-cuda]
+</code></pre></div>
+<p>Once you are on a GPU node, run the following command to verify that the GPUs can be detected:</p>
+<div class="codehilite"><pre><span></span><code>python3 -c &quot;import tensorflow as tf; print(tf.config.list_physical_devices(&#39;GPU&#39;))&quot;
+</code></pre></div>
+<p>If you want to use keras 3 with the latest version of tensorflow, you will need to run pip install keras separately since tensorflow is still installing keras 2. That should change whenever tensorflow 2.16 comes out. </p>
+<p>The latest version of tensorflow also has fixed the numpy versioning issue, so you should no longer need to pin your numpy to less than 1.24.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

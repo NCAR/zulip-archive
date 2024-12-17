@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p><strong>Motivation</strong></p>\n<ul>\n<li>There's a growing list of <a href=\"https://intake-esm.readthedocs.io/en/latest/faq.html#is-there-a-list-of-existing-catalogs\" target=\"_blank\" title=\"https://intake-esm.readthedocs.io/en/latest/faq.html#is-there-a-list-of-existing-catalogs\">intake-esm catalogs</a> for a number of collections (CMIP5, CMIP6, CESM-LE). However, there are existing collections/model ouputs that are missing from this list (for e.g. MPAS, WRF), etc...</li>\n</ul>\n<p><strong>Proposed Hacking</strong></p>\n<ul>\n<li>Develop utilities for building catalogs for MPAS and WRF model outputs</li>\n</ul>\n<p><strong>Desired Collaborators</strong></p>\n<ul>\n<li>Anyone interested in creating (or learning about) intake-esm catalogs in general. </li>\n</ul>\n<p><strong>Useful references</strong></p>\n<ul>\n<li>esm-collection-spec: <a href=\"https://github.com/NCAR/esm-collection-spec\" target=\"_blank\" title=\"https://github.com/NCAR/esm-collection-spec\">https://github.com/NCAR/esm-collection-spec</a></li>\n<li>intake-esm: <a href=\"https://intake-esm.readthedocs.io/en/latest/\" target=\"_blank\" title=\"https://intake-esm.readthedocs.io/en/latest/\">https://intake-esm.readthedocs.io/en/latest/</a></li>\n<li>intake-esm-datastore:  <a href=\"https://github.com/NCAR/intake-esm-datastore\" target=\"_blank\" title=\"https://github.com/NCAR/intake-esm-datastore\">https://github.com/NCAR/intake-esm-datastore</a><br>\ncatalogs-for-MPAS/WRF-models-output</li>\n</ul>",
+        "id": 3058,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584123852
+    },
+    {
+        "content": "<p>The NA-CORDEX dataset has WRF data in it, but it's been heavily post-processed.  I assume you're targeting unprocessed output files for this hack, so we don't have much overlap.  True?  In any case, I'd be happy to discuss what we do in the post-processing and why.</p>",
+        "id": 3062,
+        "sender_full_name": "Seth McGinnis",
+        "timestamp": 1584125196
+    },
+    {
+        "content": "<p>Right now, I am open to any direction.. Since I am not a user myself, I could use some input from MPAS and/or WRF users on how MPAS and WRF data are used by most users.</p>\n<ul>\n<li>Are WRF/MPAS model output post-processed into time-series or do most people just use raw model output as is?</li>\n</ul>",
+        "id": 3063,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584125478
+    },
+    {
+        "content": "<p>I don't know much about MPAS, but with WRF, the raw outputs are stored in synoptic format (all variables in one file for a short chunk of time).  And yes, what most climate users need is timeseries format, where each file has one variable over all time.  The raw WRF outputs also have an enormous amount of junk metadata in them that we filter out.  And they need some cleanup to be fully CF-compliant.</p>",
+        "id": 3064,
+        "sender_full_name": "Seth McGinnis",
+        "timestamp": 1584125719
+    },
+    {
+        "content": "<blockquote>\n<p>And yes, what most climate users need is timeseries format, where each file has one variable over all time. </p>\n</blockquote>\n<p><span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span> <br/>\nI would prefer to stick with time-series as well. From past discussions with <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> , <span class=\"user-mention\" data-user-id=\"37\">@Sheri Mickelson</span>, it appears that <br/>\nsupporting catalogs with synoptic files (at least for CESM) may require a large amount of time/effort due to lack of standards. It sounds like WRF and CESM are in the same boat. Having input on the state of MPAS model may help in deciding how to proceed.</p>",
+        "id": 3067,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1584126571
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"53\">@Seth McGinnis</span>  I was going to start working on this.  Do you have any WRF netCDF files on glade that I can look at in order to see what kind of attributes they attach to the files and what the file structure looks like?  I'm hoping to come up with some kind of generic interface that can be used for all NCAR models.</p>",
+        "id": 5120,
+        "sender_full_name": "Sheri Mickelson",
+        "timestamp": 1585231796
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"37\">@Sheri Mickelson</span>  We do!<br/>\n/glade/collections/cdg/work/cordex/raw/wrf-era-25/1979/2D<br/>\n/glade/collections/cdg/work/cordex/raw/wrf-era-25/1979/3D</p>\n<p>I don't know that they're 100% representative of WRF files in general, but that should be at least a decent starting point.</p>\n<p>Here's what the corresponding 6-hourly precip data looks like after we've post-processed it:<br/>\n/glade/collections/cdg/data/cordex/data/raw/NAM-22/6hr/WRF/ERA-Int/eval/pr</p>",
+        "id": 5152,
+        "sender_full_name": "Seth McGinnis",
+        "timestamp": 1585243769
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"53\">@Seth McGinnis</span></p>",
+        "id": 5153,
+        "sender_full_name": "Sheri Mickelson",
+        "timestamp": 1585244134
+    }
+]

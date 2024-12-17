@@ -1,0 +1,140 @@
+[
+    {
+        "content": "<p>Hello,  I'm using interp_hybrid_to_pressure with extrapolate = True.  This takes much longer than NCL used to but I'm also noticing a big difference between how long it takes on the CISL machines with a dask cluster verus how long it takes on the CGD machines, with CGD machines being much faster.  I'm running the same command on the same data.  It's the GeoCat function but i've pulled it out into my own subroutine to mess around with it (so it may also not be entirely up to date).</p>\n<p>Here's the timing on CGD machines:<br>\n<a href=\"/user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png\">Screen-Shot-2024-07-09-at-3.32.07-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png\" title=\"Screen-Shot-2024-07-09-at-3.32.07-PM.png\"><img src=\"/user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png\"></a></div><p>Here's the timing on casper:<br>\n<a href=\"/user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png\">interpolate_cisl.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png\" title=\"interpolate_cisl.png\"><img src=\"/user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png\"></a></div><p>I had already loaded all the inputs prior to executing this command.  It's taking about four times longer on casper.  On casper I'm using a dask cluster with the following resources:</p>\n<p><a href=\"/user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png\">Screen-Shot-2024-07-09-at-3.21.01-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png\" title=\"Screen-Shot-2024-07-09-at-3.21.01-PM.png\"><img src=\"/user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png\"></a></div><p>I'm assuming these resources are much greater than what we have on the CGD postprocessor machines, so I would have expected it to be faster.  But it seems like maybe the fact that this is using a dask cluster  with the chunking that entails is making it much slower.</p>\n<p>In general I'm finding vertical interpolation to be an extreme bottleneck now with GeoCAT.  NCL was a LOT faster.  This is not a big dataset.  It's 1 degree resolution, 58 years, monthly time resolution.  It's relatively small compared to the datasets that we need to interpolate and for it to take 48 minutes with those resources, it's kind of unmanageable.  I'm wondering if there's anything we could do to try to speed this up?  I'd be happy to brainstorm with someone about ideas or try things out because this is really a critical need for GeoCAT if we can no longer use NCL.  Alternatively, if anyone can provide guidance on how I might set things up better on the casper to make it more efficient, I'd be glad to hear it.</p>\n<p><span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span> <span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> <span class=\"user-mention\" data-user-id=\"18\">@Orhan Eroglu</span> </p>\n<p>Here's my actual code on the CISL machines: /glade/u/home/islas/python/RRAtlantic/DATA_SORT/plev_interp/GOGA/plevinterp_U.ipynb</p>\n<p>Thanks,<br>\nIsla</p>",
+        "id": 102053,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720560690
+    },
+    {
+        "content": "<p>Hi Isla! We recently released some performance improvements for <code>interp_hybrid_to_pressure</code> (<a href=\"https://github.com/NCAR/geocat-comp/pull/592\">PR #592</a>, if you're curious) in <a href=\"https://github.com/NCAR/geocat-comp/releases/tag/v2024.04.0\">v2024.04.0</a> that I hope can help your issue.</p>\n<p>I would try pulling the most recent version of the function and see if that improves your performance.</p>",
+        "id": 102054,
+        "sender_full_name": "Anissa Zacharias",
+        "timestamp": 1720561849
+    },
+    {
+        "content": "<p>That's great to here!  I'm excited to try this out.  However, I'm having trouble updating my environment.  I'm not the most experienced with conda.  I have updated ny conda installation and then i have run </p>\n<p>conda update geocat-comp</p>\n<p>but it still keeps me at version 2022.07.0.    Do you know why?  I suppose I could specify the geocat-comp version in my yml file but I'm confused about why this doesn't work.</p>",
+        "id": 102067,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720619538
+    },
+    {
+        "content": "<p>Ah, I think that's the newest version on the older \"ncar\" conda channel.  You'll need to switch where you're installing from. </p>\n<p>I would do the following:</p>\n<div class=\"codehilite\"><pre><span></span><code>conda remove geocat-comp\nconda install -c conda-forge geocat-comp\n</code></pre></div>",
+        "id": 102073,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1720622443
+    },
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"45\">@Isla Simpson</span> I have noticed a discrepancy in your dask <code>PBSClusger</code> resources specs. </p>\n<p>Here you specify <code>memory = 30 GB</code> while your resouce_specs are requesting 10 GB chunks on each node. The  <code>memory</code> parameters provide information to Dask, while the <code>resource_spec</code> provides information to PBS. So essentially this means that your dask resources think they can use up to 30 GB before spilling to disk while PBS only assign 10 GB per worker. If the memory on the node is mostly used, this means that your workers are using swap memory which leads to poor performance ...</p>",
+        "id": 102122,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1720638369
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> .  Thanks for both of these suggestions.  I'm trying to work with the new version of geocat.  I'm now using version 2024.04.0 but whenever I try to run the vertical interpolation code I get the following error.  I closed my dask cluster and started again and still got this error.  Any thoughts on what do to about it?<br>\n<a href=\"/user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png\">Screen-Shot-2024-07-11-at-11.02.44-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png\" title=\"Screen-Shot-2024-07-11-at-11.02.44-AM.png\"><img src=\"/user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png\"></a></div><p>Thanks!</p>",
+        "id": 102162,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720717444
+    },
+    {
+        "content": "<p>another note on this is that I also just tried doubling the resources I'm using.  I first tried cluster.scale(12) and then tried cluster.scale(24) and I got an error for both of them.</p>",
+        "id": 102164,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720718035
+    },
+    {
+        "content": "<p>Hrm, I'm not sure offhand and did run a modified version of your code when troubleshooting this the first time around on Casper.  Not that something couldn't still be wrong.    </p>\n<p>Is there any more info you can get from <code>qhist</code>?</p>",
+        "id": 102166,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1720718833
+    },
+    {
+        "content": "<p>Hmm, I'm not sure what to look for in qhist.  Here's the output...<br>\n<a href=\"/user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png\">Screen-Shot-2024-07-11-at-11.31.46-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png\" title=\"Screen-Shot-2024-07-11-at-11.31.46-AM.png\"><img src=\"/user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png\"></a></div>",
+        "id": 102168,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720719150
+    },
+    {
+        "content": "<p>I did just try using the older version of the interpolation code and I got the same error.  So it seems like it isn't something about the new geocat code, but rather something about my new environment that is not working nicely with it.</p>",
+        "id": 102169,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720719189
+    },
+    {
+        "content": "<p>I don't know if this helps, but this text appears under my cell where I open up the dask cluster as well.<br>\n<a href=\"/user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png\">Screen-Shot-2024-07-11-at-11.50.34-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png\" title=\"Screen-Shot-2024-07-11-at-11.50.34-AM.png\"><img src=\"/user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png\"></a></div>",
+        "id": 102170,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720720287
+    },
+    {
+        "content": "<p>I thought the job might be getting cancelled for some reason, but it looks like that's not the case.   </p>\n<p>I wonder if you have some older versions of things in your environment that aren't working well (maybe Dask?).  </p>\n<p>You could try updating with the following:<br>\n<code>conda update --all</code></p>\n<p>If you want to point me to a script / notebook, I can also try to take a look.  I think we're missing a bit of log info here.</p>",
+        "id": 102171,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1720721458
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> thanks for the further suggestions.  I updated my environment with the command you suggested and I'm still getting this error.  My script is here /glade/u/home/islas/python/RRAtlantic/DATA_SORT/plev_inter/RRAtlantic/plevinterp_U.ipynb.  It seems like the cell that opens the dask cluster executes fine without warnings and then it's when the pressure level interpolation cell fails that all the warnings in the screenshot above appear.  I'd be interested to see if you find the same thing and if not maybe we can compare environments to see what's different?  Thanks</p>",
+        "id": 102176,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720726132
+    },
+    {
+        "content": "<p>Thanks for sharing.  I’ll take a look. Might be a moment since I’m at a conference, but I should have some time later today.</p>",
+        "id": 102177,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1720727366
+    },
+    {
+        "content": "<p>No rush.  I've actually done what I need to do already on the CGD machines.  It just concerns me for the future if I can't get this up and running on the CISL machines once the CGD machines go away.  Thanks!</p>",
+        "id": 102178,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1720727418
+    },
+    {
+        "content": "<p>I wasn't able to run a copy of your notebook, because of datafile permissions, but I did confirm my older test notebook (based on what you shared before) is working with the a copy of the NPL2024a env with updated geocat-comp.  I'll check to see if there's a new one coming soon that might have the updated geocat-comp.  </p>\n<p>I also noticed you have some lingering compute and/or load calls in your new notebook (I think those got added in troubleshooting before or as a workaround if I recall correctly).  I'd try removing those.</p>",
+        "id": 102188,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1720731501
+    },
+    {
+        "content": "<p>HI Katelyn,  Thanks for looking into it further.  I've changed my notebook to point toward files that you should be able to see at /glade/u/home/islas/python/RRAtlantic/DATA_SORT/plev_interp/RRAtlantic/plevinterp_U.ipynb.  If you were willing to give it a shot with your  environment I'd be interested to know whether it works.  I just tried creating my environment from scratch again and had the same problem.  I then made a very simple environment that only contains the basic things, to avoid there being anything weird about it and I still get the same \"FutureCancelledError\".  I created that simple environment using this yml file /glade/u/home/islas/python/envs/islaenv_simple.yml.  Thanks.</p>",
+        "id": 102262,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1721009514
+    },
+    {
+        "content": "<p>Thanks, I'll take a look again today.</p>",
+        "id": 102263,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1721055063
+    },
+    {
+        "content": "<p>Just getting to this after some stuff came up yesterday and some JupyterHub issues today.  I can't seem to access \"/glade/campaign/cgd/cas/observations/ERA5/mon/ua/u_2023.nc\" though.</p>",
+        "id": 102393,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1721171776
+    },
+    {
+        "content": "<p>Sorry.  I have hopefully fixed the permissions now.  But I've also copied that file into the directory that I copied all the other files and changed the path on my original script to point toward that.</p>",
+        "id": 102397,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1721174103
+    },
+    {
+        "content": "<p>Ok, so I was able to replicate what you're seeing (I'm fairly sure anyway).  I think it has to do with Dask and how it's interacting with the function as applied to a larger dataset.  This didn't come up with the smaller subset I was working with before, but I did notice some things that might be worth taking a deeper look at now.</p>\n<p>Thanks for documenting this and bringing it up.</p>",
+        "id": 102398,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1721175838
+    },
+    {
+        "content": "<p>One additional note - it does seem to work if you subset the time dimension some to make the dataset and resulting Dask task graph smaller.  Obviously this isn't ideal, but it is a workaround for the moment.</p>",
+        "id": 102399,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1721176049
+    },
+    {
+        "content": "<p>HI Katelyn,  I guess I'm glad to know it's not just me!  Thanks for looking into it and for the workaround suggestion.</p>",
+        "id": 102410,
+        "sender_full_name": "Isla Simpson",
+        "timestamp": 1721231178
+    }
+]

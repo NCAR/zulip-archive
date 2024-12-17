@@ -1,0 +1,180 @@
+<html>
+<head><meta charset="utf-8"><title>Mean on last 25 years of data. · CESM-diagnostics · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html">Mean on last 25 years of data.</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="95105"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95105" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95105">(Jan 26 2024 at 18:03)</a>:</h4>
+<p>Hi all,</p>
+<p>What is the best way to do a mean on say the last 25 years of data? </p>
+<p>field1 = ds1_ann['aice'][::-25,:,:].mean('time')<br>
+field2 = ds2_ann['aice'][::-25,:,:].mean('time')</p>
+<p>field1 = ds1_ann['aice'].isel(time=[-25]).mean('time')<br>
+field2 = ds2_ann['aice'].isel(time=[-25]).mean('time')</p>
+<p>Where these are xarray datsets with 38 years of data. I figured out how to do an open_mfdataset on all of the timeseries files.  So now I can access the variables in a loop say. In this example, I want to call my plot_diff subroutine with field1 and field2 where these are 2D DataArrays. Or should these be numpy arrays? I then do:</p>
+<p>field_diff = field2-field1</p>
+<p>in the subroutine and it doesn't like this.</p>
+<p>Dave</p>
+
+
+
+<a name="95106"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95106" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95106">(Jan 26 2024 at 18:08)</a>:</h4>
+<p><span class="user-mention" data-user-id="93">@David Bailey</span> what are the dimensions of <code>ds1_ann['aice']</code>? And is this monthly data or annual?</p>
+
+
+
+<a name="95107"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95107" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95107">(Jan 26 2024 at 18:10)</a>:</h4>
+<p>They are 38 x 480 x 540. Then the mean is a dataarray with dimensions 480x540. However, the error is:</p>
+<p>NotImplementedError: 'item' is not yet a valid method on dask arrays</p>
+
+
+
+<a name="95108"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95108" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95108">(Jan 26 2024 at 18:14)</a>:</h4>
+<p><code>ds1_ann['aice'].isel(time=slice(-25,None))</code> should shorten <code>ds1_ann['aice']</code> to the time period you want, so I'd do <code>ds1_ann['aice'].isel(time=slice(-25,None)).mean('time')</code></p>
+
+
+
+<a name="95109"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95109" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95109">(Jan 26 2024 at 18:14)</a>:</h4>
+<p>Do you know what line in your notebook is causing the <code>NotImplementedError</code> exception?</p>
+
+
+
+<a name="95110"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95110" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95110">(Jan 26 2024 at 18:19)</a>:</h4>
+<p>Here is the whole error message:</p>
+<hr>
+<p>AttributeError                            Traceback (most recent call last)<br>
+File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/ops.py:192, in _call_possibly_missing_method(arg, name, args, kwargs)<br>
+    191 try:<br>
+--&gt; 192     method = getattr(arg, name)<br>
+    193 except AttributeError:</p>
+<p>AttributeError: 'Array' object has no attribute 'item'</p>
+<p>During handling of the above exception, another exception occurred:</p>
+<p>NotImplementedError                       Traceback (most recent call last)<br>
+Cell In[28], line 6<br>
+      2 field2 = ds2_ann['aice'].isel(time=[-25]).mean('time')<br>
+      4 ds1_ann['aice']<br>
+----&gt; 6 plot_diff(field1,field2,0.,1.,case1,case2,"N")</p>
+<p>Cell In[18], line 67, in plot_diff(field1, field2, field_min, field_max, case1, case2, proj)<br>
+     64 ax.set_boundary(circle, transform=ax.transAxes)<br>
+     65 ax.add_feature(cfeature.LAND,zorder=100,edgecolor='k')<br>
+---&gt; 67 this=ax.pcolormesh(TLON,<br>
+     68                    TLAT,<br>
+     69                    field_diff,<br>
+     70                    cmap="seismic",vmax=field_std<em>2.0,vmin=-field_std</em>2.0,<br>
+     71                    transform=ccrs.PlateCarree())<br>
+     72 plt.colorbar(this,orientation='vertical',fraction=0.04,pad=0.01)<br>
+     73 plt.title(case2+"-"+case1,fontsize=10)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:315, in _add_transform.&lt;locals&gt;.wrapper(self, *args, **kwargs)<br>
+    310     raise ValueError(f'Invalid transform: Spherical {func.__name__} '<br>
+    311                      'is not supported - consider using '<br>
+    312                      'PlateCarree/RotatedPole.')<br>
+    314 kwargs['transform'] = transform<br>
+--&gt; 315 return func(self, *args, **kwargs)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/cartopy/mpl/geoaxes.py:1781, in GeoAxes.pcolormesh(self, *args, **kwargs)<br>
+   1778 # Add in an argument checker to handle Matplotlib's potential<br>
+   1779 # interpolation when coordinate wraps are involved<br>
+   1780 args, kwargs = self._wrap_args(*args, **kwargs)<br>
+-&gt; 1781 result = super().pcolormesh(*args, **kwargs)<br>
+   1782 # Wrap the quadrilaterals if necessary<br>
+   1783 result = self._wrap_quadmesh(result, **kwargs)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/__init__.py:1465, in _preprocess_data.&lt;locals&gt;.inner(ax, data, *args, **kwargs)<br>
+   1462 @functools.wraps(func)<br>
+   1463 def inner(ax, *args, data=None, **kwargs):<br>
+   1464     if data is None:<br>
+-&gt; 1465         return func(ax, *map(sanitize_sequence, args), **kwargs)<br>
+   1467     bound = new_sig.bind(ax, *args, **kwargs)<br>
+   1468     auto_label = (bound.arguments.get(label_namer)<br>
+   1469                   or bound.kwargs.get(label_namer))</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/axes/_axes.py:6298, in Axes.pcolormesh(self, alpha, norm, cmap, vmin, vmax, shading, antialiased, *args, **kwargs)<br>
+   6293 kwargs.setdefault('snap', mpl.rcParams['pcolormesh.snap'])<br>
+   6295 collection = mcoll.QuadMesh(<br>
+   6296     coords, antialiased=antialiased, shading=shading,<br>
+   6297     array=C, cmap=cmap, norm=norm, alpha=alpha, **kwargs)<br>
+-&gt; 6298 collection._scale_norm(norm, vmin, vmax)<br>
+   6300 coords = coords.reshape(-1, 2)  # flatten the grid structure; keep x, y<br>
+   6302 # Transform from native to data coordinates?</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/cm.py:432, in ScalarMappable._scale_norm(self, norm, vmin, vmax)<br>
+    422 """<br>
+    423 Helper for initial scaling.<br>
+    424 <br>
+   (...)<br>
+    429 Note that this method does not set the norm.<br>
+    430 """<br>
+    431 if vmin is not None or vmax is not None:<br>
+--&gt; 432     self.set_clim(vmin, vmax)<br>
+    433     if isinstance(norm, colors.Normalize):<br>
+    434         raise ValueError(<br>
+    435             "Passing a Normalize instance simultaneously with "<br>
+    436             "vmin/vmax is not supported.  Please pass vmin/vmax "<br>
+    437             "directly to the norm when creating it.")</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/cm.py:581, in ScalarMappable.set_clim(self, vmin, vmax)<br>
+    579         pass<br>
+    580 if vmin is not None:<br>
+--&gt; 581     self.norm.vmin = colors._sanitize_extrema(vmin)<br>
+    582 if vmax is not None:<br>
+    583     self.norm.vmax = colors._sanitize_extrema(vmax)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/matplotlib/colors.py:208, in _sanitize_extrema(ex)<br>
+    206     return ex<br>
+    207 try:<br>
+--&gt; 208     ret = ex.item()<br>
+    209 except AttributeError:<br>
+    210     ret = float(ex)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/ops.py:204, in _values_method_wrapper.&lt;locals&gt;.func(self, *args, **kwargs)<br>
+    203 def func(self, *args, **kwargs):<br>
+--&gt; 204     return _call_possibly_missing_method(<a href="http://self.data">self.data</a>, name, args, kwargs)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/ops.py:194, in _call_possibly_missing_method(arg, name, args, kwargs)<br>
+    192     method = getattr(arg, name)<br>
+    193 except AttributeError:<br>
+--&gt; 194     duck_array_ops.fail_on_dask_array_input(arg, func_name=name)<br>
+    195     if hasattr(arg, "data"):<br>
+    196         duck_array_ops.fail_on_dask_array_input(<a href="http://arg.data">arg.data</a>, func_name=name)</p>
+<p>File /glade/work/dbailey/conda-envs/cupid-analysis/lib/python3.11/site-packages/xarray/core/duck_array_ops.py:101, in fail_on_dask_array_input(values, msg, func_name)<br>
+     99 if func_name is None:<br>
+    100     func_name = inspect.stack()[1][3]<br>
+--&gt; 101 raise NotImplementedError(msg % func_name)</p>
+<p>NotImplementedError: 'item' is not yet a valid method on dask arrays</p>
+
+
+
+<a name="95111"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95111" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95111">(Jan 26 2024 at 18:22)</a>:</h4>
+<p>In <code>plot_diff</code>, the arguments <code>vmax=field_std2.0</code> and <code>vmin=-field_std2.0</code> to <code>ax.pcolormesh()</code> look awfully suspicious -- <code>field_std2.0</code> isn't a valid variable name, it's looking for <code>0</code> in the <code>field_std2</code> class or dict. Is <code>field_std2</code> a list? If so, that should that be <code>field_std2[0]</code></p>
+
+
+
+<a name="95112"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95112" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95112">(Jan 26 2024 at 18:24)</a>:</h4>
+<p>Sorry, the asterix character disappeared. It is field_std x 2.0. I have a work around. If I do:</p>
+<p>field1 = ds1_ann['aice']</p>
+<p>Then pass field1[::-25,:,:].mean("time") it works.</p>
+
+
+
+<a name="95113"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95113" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95113">(Jan 26 2024 at 18:27)</a>:</h4>
+<p><code>field1[::-25,:,:]</code> is stepping through the whole <code>field1</code> array with a stride of -25 (starting at the end of the array, I believe); you want <code>field1[-25:,:,:]</code> to get the last 25 years</p>
+
+
+
+<a name="95124"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Mean%20on%20last%2025%20years%20of%20data./near/95124" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Mean.20on.20last.2025.20years.20of.20data.2E.html#95124">(Jan 26 2024 at 20:03)</a>:</h4>
+<p>Sorry, my workaround was not quite right. The problem comes when I try to subtract two DataArrays:</p>
+<p>field_diff = field2-field1</p>
+<p>However, I just did:</p>
+<p>field_diff = field2.values-field1.values</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

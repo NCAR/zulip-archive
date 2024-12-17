@@ -220,5 +220,53 @@
         "id": 37576,
         "sender_full_name": "Daniel Marsh",
         "timestamp": 1626381866
+    },
+    {
+        "content": "<p>I'm having trouble using <code>intake v0.7.0</code> to access data from the CMIP6 catalog on glade. The catalog appears to include the OMIP2 data I'm interested in, but the call to <code>to_dataset_dict</code> fails with error <code>Failed to load dataset with key='OMIP.MRI.MRI-ESM2-0.omip2.Omon.gn'</code>.  The data files are sitting on glade here: /glade/collections/cmip/CMIP6/OMIP/MRI/MRI-ESM2-0/omip2/r1i1p1f1/Omon/thetao/gn/v20210510/thetao/, so I don't know why intake is failing.</p>\n<p><a href=\"/user_uploads/2/6b/vVo4SkFLpH5awspdfHeO6Z2O/Screenshot-2023-12-10-at-9.08.02-AM.png\">Screenshot-2023-12-10-at-9.08.02-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/6b/vVo4SkFLpH5awspdfHeO6Z2O/Screenshot-2023-12-10-at-9.08.02-AM.png\" title=\"Screenshot-2023-12-10-at-9.08.02-AM.png\"><img src=\"/user_uploads/2/6b/vVo4SkFLpH5awspdfHeO6Z2O/Screenshot-2023-12-10-at-9.08.02-AM.png\"></a></div>",
+        "id": 93356,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1702225373
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> Hi Mike, I think there might be issues with the json file I'm reading using intake. Do you have any recommendations for how to debug an issue with <code>to_dataset_dict</code>?</p>",
+        "id": 93457,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1702406060
+    },
+    {
+        "content": "<p>Did <code>/glade/collections</code> get moved to campaign?</p>",
+        "id": 93458,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1702406116
+    },
+    {
+        "content": "<p>I see <code>/glade/campaign/collections/cmip/CMIP6/</code> but not <code>OMIP</code> in that subdirectory</p>",
+        "id": 93459,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1702406157
+    },
+    {
+        "content": "<p>oh, sorry... for some reason <code>/glade/collections/</code> is available from casper but not derecho. Let me look into this a little bit</p>",
+        "id": 93463,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1702406290
+    },
+    {
+        "content": "<p>It looks like you need an additional <code>xarray_open_kwargs</code> key: I was able to open the data but updating your last line to the following</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"k\">with</span> <span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">(</span><span class=\"o\">**</span><span class=\"p\">{</span><span class=\"s1\">'array.slicing.split_large_chunks'</span><span class=\"p\">:</span> <span class=\"kc\">True</span><span class=\"p\">}):</span>\n    <span class=\"n\">ds</span> <span class=\"o\">=</span> <span class=\"n\">cat</span><span class=\"o\">.</span><span class=\"n\">to_dataset_dict</span><span class=\"p\">(</span><span class=\"n\">xarray_open_kwargs</span><span class=\"o\">=</span><span class=\"p\">{</span><span class=\"s1\">'chunks'</span><span class=\"p\">:{</span><span class=\"s1\">'time'</span><span class=\"p\">:</span><span class=\"mi\">1</span><span class=\"p\">},</span> <span class=\"s1\">'use_cftime'</span><span class=\"p\">:</span> <span class=\"kc\">True</span><span class=\"p\">})</span>\n</code></pre></div>",
+        "id": 93485,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1702407021
+    },
+    {
+        "content": "<p>I tracked this down because the full error message included</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"ne\">TypeError</span><span class=\"p\">:</span> <span class=\"n\">Cannot</span> <span class=\"n\">combine</span> <span class=\"n\">along</span> <span class=\"n\">dimension</span> <span class=\"s1\">'time'</span> <span class=\"k\">with</span> <span class=\"n\">mixed</span> <span class=\"n\">types</span><span class=\"o\">.</span> <span class=\"n\">Found</span><span class=\"p\">:</span> <span class=\"n\">DatetimeProlepticGregorian</span><span class=\"p\">,</span> <span class=\"n\">Timestamp</span><span class=\"o\">.</span> <span class=\"n\">If</span> <span class=\"n\">importing</span> <span class=\"n\">data</span> <span class=\"n\">directly</span> <span class=\"kn\">from</span> <span class=\"nn\">a</span> <span class=\"n\">file</span> <span class=\"n\">then</span> <span class=\"n\">setting</span> <span class=\"err\">`</span><span class=\"n\">use_cftime</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"err\">`</span> <span class=\"n\">may</span> <span class=\"n\">fix</span> <span class=\"n\">this</span> <span class=\"n\">issue</span><span class=\"o\">.</span>\n\n<span class=\"n\">The</span> <span class=\"n\">above</span> <span class=\"n\">exception</span> <span class=\"n\">was</span> <span class=\"n\">the</span> <span class=\"n\">direct</span> <span class=\"n\">cause</span> <span class=\"n\">of</span> <span class=\"n\">the</span> <span class=\"n\">following</span> <span class=\"n\">exception</span><span class=\"p\">:</span>\n</code></pre></div>\n<p>I wonder if maybe a default changed somewhere in <code>xarray</code> and so this wasn't necessary before but is now?</p>",
+        "id": 93487,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1702407097
+    },
+    {
+        "content": "<p><span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span>  Thanks. The additional <code>xarray_open_kwargs</code> argument solved this issue.</p>",
+        "id": 93532,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1702496882
     }
 ]

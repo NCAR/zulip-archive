@@ -1,0 +1,248 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"320\">@Elizabeth Yankovsky</span> installed an new environment including <code>dask</code>. On importing <code>dask</code> she gets the following error.</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code> <span class=\"ne\">ModuleNotFoundError</span><span class=\"p\">:</span> <span class=\"n\">No</span> <span class=\"n\">module</span> <span class=\"n\">named</span> <span class=\"s1\">'dask.widgets''</span>\n</code></pre></div>\n<p>Has anyone else encountered this? </p>\n<p>cc <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span>, <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span></p>",
+        "id": 70486,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671145289
+    },
+    {
+        "content": "<p>This is might be from the Dask release on December 2nd. Did <span class=\"user-mention\" data-user-id=\"320\">@Elizabeth Yankovsky</span>'s code work in November?</p>",
+        "id": 70582,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671206404
+    },
+    {
+        "content": "<p>I suspect it is an issue with the dask version</p>",
+        "id": 70583,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671206442
+    },
+    {
+        "content": "<p>Let me try creating a clean environment with dask on my PC. I'll check if I get the same error</p>",
+        "id": 70585,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671206600
+    },
+    {
+        "content": "<p>It works on my end with the following environment <a href=\"/user_uploads/2/fe/ulgu8xkaE6tflu1w-Um0K9_y/dask-test.yml\">dask-test.yml</a>. I have Dask v2022.12.0 and Python v3.11. I also tried it with Python v3.10 and that worked too</p>",
+        "id": 70589,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671207219
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"320\">@Elizabeth Yankovsky</span> Would you be able to send my your environment file so I can take a closer look? You can do this by:</p>\n<ol>\n<li>activating the chosen environment in your terminal</li>\n<li>typing in <code>conda env export &gt; environment_name.yml</code> where <code>environment_name</code> should be replaced with the name of your environment</li>\n<li>sending me the resulting <code>.yml</code> that will appear in your working directory</li>\n</ol>",
+        "id": 70591,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671207414
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> thanks for your help. Here's the path to that file: <code>/glade/u/home/eyankovsky/my-cesm-experiment/cesm-exp.yml </code></p>",
+        "id": 70598,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671208126
+    },
+    {
+        "content": "<p>While I'm looking into how your environment is set up, a common fix is running <code>conda update --all --prune</code> when your chosen environment is activated. This updates all packages as much as possible given then various package dependencies. The <code>--prune</code> part is an optional flag that removes any unneeded packages (e.g. package dependencies that are no longer needed after uninstalling a package explicitly)</p>",
+        "id": 70626,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671211208
+    },
+    {
+        "content": "<p>Can you give that a try and see if it fixes the issues?</p>",
+        "id": 70627,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671211221
+    },
+    {
+        "content": "<p>It may also help to update your conda environment if you haven't already. You can do this by running <code>conda update conda</code></p>",
+        "id": 70630,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671213156
+    },
+    {
+        "content": "<p>I tried running <code> conda update --all --prune </code> ; this didn't help. I then tried <code> conda update conda </code> and got the following error (this is from within cesm-exp):</p>\n<div class=\"codehilite\" data-code-language=\"conda\"><pre><span></span><code>PackageNotInstalledError: Package is not installed in prefix.\n  prefix: /glade/u/home/eyankovsky/miniconda3/envs/cesm-exp\n  package name: conda\n</code></pre></div>",
+        "id": 70640,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671215348
+    },
+    {
+        "content": "<p>I wonder if that's the issue, that the prefix is not correct?</p>",
+        "id": 70641,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671215416
+    },
+    {
+        "content": "<p>Hmm let me look into that. So far I haven't been able to recreate your environment from the <code>.yml</code> file</p>",
+        "id": 70642,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671216175
+    },
+    {
+        "content": "<p>Would you be available for an impromptu google meet call to talk about how you made your environment? I might be able to assist more if I can see every step of your process</p>",
+        "id": 70646,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671216717
+    },
+    {
+        "content": "<p><a href=\"http://meet.google.com/enf-xjwx-nbw\">meet.google.com/enf-xjwx-nbw</a></p>",
+        "id": 70647,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671216767
+    },
+    {
+        "content": "<p>I think <span class=\"user-mention\" data-user-id=\"320\">@Elizabeth Yankovsky</span> used</p>\n<div class=\"codehilite\"><pre><span></span><code>mamba env create -f environment.yml\n</code></pre></div>\n<p><span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span>, why can't you recreate that environment?</p>",
+        "id": 70648,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671216863
+    },
+    {
+        "content": "<p>conda is telling me that it's finding a lot of conflicts</p>",
+        "id": 70649,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671216912
+    },
+    {
+        "content": "<p>I'll try mamba instead</p>",
+        "id": 70650,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671216916
+    },
+    {
+        "content": "<p>the environment could be pruned to just the essential packages...but it's installed successfully before</p>",
+        "id": 70651,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671216983
+    },
+    {
+        "content": "<p>Mamba also gave me an error. This is very strange behavior</p>",
+        "id": 70652,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671217030
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> , I'll join the google meet now and will guide you through the process</p>",
+        "id": 70653,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671217097
+    },
+    {
+        "content": "<p>Yeah, when we were troubleshooting yesterday we tried having Elizabeth recreate an environment from a conda-lock file I generated and she was getting these errors despite our environments saying they had exactly the same package versions installed</p>",
+        "id": 70654,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1671217104
+    },
+    {
+        "content": "<p>Probably unrelated...but we've had trouble with caching gumming things up previously. Running </p>\n<div class=\"codehilite\"><pre><span></span><code>mamba clean -a\n</code></pre></div>\n<p>should clear the cache...but I doubt that's the problem.</p>",
+        "id": 70655,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671217112
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"311\">Elena Romashkova</span> <a href=\"#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70654\">said</a>:</p>\n<blockquote>\n<p>Yeah, when we were troubleshooting yesterday we tried having Elizabeth recreate an environment from a conda-lock file I generated and she was getting these errors despite our environments saying they had exactly the same package versions installed</p>\n</blockquote>\n<p>That is totally wierd</p>",
+        "id": 70656,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671217164
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"14\">Matt Long</span> <a href=\"#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70655\">said</a>:</p>\n<blockquote>\n<p>Probably unrelated...but we've had trouble with caching gumming things up previously. Running </p>\n<div class=\"codehilite\"><pre><span></span><code>mamba clean -a\n</code></pre></div>\n<p>should clear the cache...but I doubt that's the problem.</p>\n</blockquote>\n<p>Also tried this already, we basically went through the whole procedure we used to fix my issues installing this package earlier in the year</p>",
+        "id": 70657,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1671217195
+    },
+    {
+        "content": "<p>blow away miniconda and start over</p>",
+        "id": 70658,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671217229
+    },
+    {
+        "content": "<p>For anyone following this thread, Heather and I have gone through some troubleshooting and are still unable the issue. Here's what we tried:</p>\n<ul>\n<li>We both cleared our caches</li>\n<li>We both built our environment using conda/latest (I got rid of my miniconda3)</li>\n<li>We created the environment based on the environment.yml file in this directory: <a href=\"https://github.com/matt-long/my-cesm-experiment\">https://github.com/matt-long/my-cesm-experiment</a></li>\n<li>To create the environment we both did mamba env create -f environment.yml </li>\n<li>When we activate cesm-exp and tried to run python in an SSH terminal, the error arises. We can both import dask but I cannot import dask.widgets whereas Heather can. At this point we think the error may have to do with my account so I've submitted a helpdesk ticket.</li>\n</ul>",
+        "id": 70659,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671221507
+    },
+    {
+        "content": "<p>(Also, when going through these steps we noticed that there is a dependency in environment.yml that's forcing us to use Python 3.7 and dask 2022.2.0. We don't know if that's a problem since it's a somewhat older version of dask)</p>",
+        "id": 70660,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671221738
+    },
+    {
+        "content": "<p>If anyone wants to copy the same process, here are the exact terminal commands we used:</p>\n<ul>\n<li>ssh into Casper</li>\n<li><code>module load conda/latest</code></li>\n<li><code>mamba clean -a</code></li>\n<li><code>mamba env create -f environment.yml</code></li>\n<li><code>python</code></li>\n<li><code>import dask.widgets</code></li>\n</ul>\n<p>At this point, Elizabeth gets a <code>ModuleNotFoundError</code>, but I do not. We have confirmed that we are using the same versions of dask (v2022.2.0) and python (v3.7)</p>",
+        "id": 70661,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671222119
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span>, if you have a moment, let us know what you think about this problem. It's weird.</p>",
+        "id": 70662,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671222182
+    },
+    {
+        "content": "<p>Do you need to include a source activate &lt;env_name&gt; before calling python?</p>",
+        "id": 70663,
+        "sender_full_name": "David John Gagne",
+        "timestamp": 1671222984
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"150\">@David John Gagne</span> yes, we've been doing conda activate cesm-exp (cesm-exp is the name of the environment that's generated by environment.yml above). Would be interesting to see if anyone else can replicate this error!</p>",
+        "id": 70664,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671223632
+    },
+    {
+        "content": "<p>perhaps try without using <code>mamba</code>?</p>",
+        "id": 70665,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671223650
+    },
+    {
+        "content": "<p>one difference might be that <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span>  appears to be using system <code>conda</code> and <span class=\"user-mention\" data-user-id=\"320\">@Elizabeth Yankovsky</span> is using miniconda?</p>",
+        "id": 70667,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671223683
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"150\">David John Gagne</span> <a href=\"#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70663\">said</a>:</p>\n<blockquote>\n<p>Do you need to include a source activate &lt;env_name&gt; before calling python?</p>\n</blockquote>\n<p>Yes we did. I forgot to include it. Sorry about that</p>",
+        "id": 70668,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671223689
+    },
+    {
+        "content": "<p>I suggest pruning the environment file to just the bare bones set of packages.</p>",
+        "id": 70669,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1671223718
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  I can try without mamba; and yes I was previously using miniconda. But today I removed my miniconda directory entirely and just use the default conda/latest</p>",
+        "id": 70670,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1671223747
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"14\">Matt Long</span> <a href=\"#narrow/stream/10-python-questions/topic/Dask.20ModuleNotFoundError/near/70667\">said</a>:</p>\n<blockquote>\n<p>one difference might be that <span class=\"user-mention silent\" data-user-id=\"107\">Heather Craker</span>  appears to be using system <code>conda</code> and <span class=\"user-mention silent\" data-user-id=\"320\">Elizabeth Yankovsky</span> is using miniconda?</p>\n</blockquote>\n<p>We removed commands in her <code>.bashrc</code> file that activated her version of miniconda. Then I had her use the <code>module load conda/latest</code></p>",
+        "id": 70671,
+        "sender_full_name": "Heather Craker",
+        "timestamp": 1671223752
+    },
+    {
+        "content": "<p>I just made the environment with conda and I didn't have any problems, so it's not a mamba thing</p>",
+        "id": 70674,
+        "sender_full_name": "Anissa Zacharias",
+        "timestamp": 1671226200
+    },
+    {
+        "content": "<p>Just an update on this issue -- thanks to everyone for the help and suggestions!<br>\nThe conflict was arising because I had several user-installed packages, specifically dask, that were creating a conflict (one can see these by doing 'pip list --user' within the activated environment). Once I removed the user-installed dask I was able to successfully import dask.widgets. <span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span></p>",
+        "id": 71640,
+        "sender_full_name": "Elizabeth Yankovsky",
+        "timestamp": 1673473303
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"25\">Deepak Cherian</span> has marked this topic as resolved.</p>",
+        "id": 71928,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1674076155
+    }
+]

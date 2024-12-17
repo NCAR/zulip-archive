@@ -1,0 +1,188 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span>, we have re-run a portion of the CESM-LE without Mt. Pinatubo forcing, but we're seeing larger-than-expected differences (based on naive assumptions) in some of the fields prior to when our modified forcing kicks in. <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>, has some plots that she can share. I am wondering if you have perspective on how big differences attributable to machine diffs should be.</p>\n<p>The data from these integrations are here:<br>\n/glade/campaign/univ/udeo0005/cesmLE_no_pinatubo</p>\n<p>The runs begin in 1990-01-01; our forcing modification kicks in mid-1991. Therefore, the diffferences during 1990 should be minimal between our experiment and the original. We're planning to look at some aggregate differences for some of the hi-freq atmosphere fields. </p>\n<p>Do you have suggestions for what to look at and how big expected differences should be?</p>",
+        "id": 33072,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1622566804
+    },
+    {
+        "content": "<p>Is there any other info we want for the pinatubo intake-esm catalog?</p>\n<div class=\"codehilite\"><pre><span></span>{&#39;component&#39;: &#39;atm&#39;,\n &#39;stream&#39;: &#39;cam.h1&#39;,\n &#39;case&#39;: &#39;b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.022&#39;,\n&#39;frequency&#39;:&#39;daily&#39;,\n &#39;ensemble_member&#39;: 22,\n &#39;variable&#39;: &#39;QBOT&#39;,\n &#39;start_time&#39;: &#39;2006-01-01&#39;,\n &#39;end_time&#39;: &#39;2025-12-31&#39;,\n &#39;long_name&#39;: &#39;Lowest model level water vapor mixing ratio&#39;,\n &#39;units&#39;: &#39;kg/kg&#39;,\n &#39;vertical_levels&#39;: 1,\n &#39;path&#39;: &#39;/glade/campaign/univ/udeo0005/cesmLE_no_pinatubo/atm/proc/tseries/daily/QBOT/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.022.cam.h1.QBOT.20060101-20251231.nc&#39;}\n</pre></div>",
+        "id": 33157,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1622644047
+    },
+    {
+        "content": "<p>Should we change ensemble_member to member_id?</p>",
+        "id": 33166,
+        "sender_full_name": "Max Grover",
+        "timestamp": 1622646439
+    },
+    {
+        "content": "<blockquote>\n<p>Should we change ensemble_member to member_id?</p>\n</blockquote>\n<p>Yes, this change would be consistent with our other catalogs.</p>",
+        "id": 33171,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1622647970
+    },
+    {
+        "content": "<blockquote>\n<p>Is there any other info we want for the pinatubo intake-esm catalog?</p>\n</blockquote>\n<p>{'component': 'atm',<br>\n 'stream': 'cam.h1',<br>\n 'case': 'b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.022',<br>\n'frequency':'daily',<br>\n 'ensemble_member': 22,<br>\n 'variable': 'QBOT',<br>\n 'start_time': '2006-01-01',<br>\n 'end_time': '2025-12-31',<br>\n 'long_name': 'Lowest model level water vapor mixing ratio',<br>\n 'units': 'kg/kg',<br>\n 'vertical_levels': 1,<br>\n 'path': '/glade/campaign/univ/udeo0005/cesmLE_no_pinatubo/atm/proc/tseries/daily/QBOT/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.022.cam.h1.QBOT.20060101-20251231.nc'}</p>\n<div class=\"codehilite\"><pre><span></span>\n</pre></div>\n\n\n<p>That looks like a good start to me!</p>",
+        "id": 33172,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1622647995
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  Sorry for the delay - I was on vacation the last 2 weeks and am now trying to catch up :)  Which machine were your re-run simulations done on?   (Cheyenne?)</p>",
+        "id": 34510,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623785442
+    },
+    {
+        "content": "<p>Also I don't have permission to access the data directory: /glade/campaign/univ/udeo0005/cesmLE_no_pinatubo</p>",
+        "id": 34511,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623785595
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> I own the files in that directory, and it looks like everything is world readable except maybe <code>/glade/campaign/univ/udeo0005</code> itself?</p>\n<div class=\"codehilite\"><pre><span></span>$ ls -ld /glade/campaign/univ/udeo0005 /glade/campaign/univ/udeo0005/cesmLE_no_pinatubo\ndrwxrws--T+ 3 root  udeo0005 4096 Dec 16 21:49 /glade/campaign/univ/udeo0005\ndrwxr-sr-x+ 9 mlevy udeo0005 4096 Jan 11 14:21 /glade/campaign/univ/udeo0005/cesmLE_no_pinatubo\n</pre></div>\n\n\n<p>unfortunately, that directory is owned by <code>root</code>. I'm not familiar with how to override parent directory permissions, it seems like users get the more restrictive of parent directory / <code>setfacl</code> permissions? But we do want this output to be available to users beyond those directly involved in the project so let me submit a CISL ticket to add <code>+rX</code> to that directory</p>",
+        "id": 34516,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623785993
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> I can't \"cd\" into the directory or \"ls\" the contents</p>",
+        "id": 34517,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623786263
+    },
+    {
+        "content": "<p>I ran into this problem earlier when <span class=\"user-mention\" data-user-id=\"134\">@Max Grover</span> couldn't read the files -- in that case, the solution was to add him to the <code>udeo0005</code> group but I asked about the default permissions and Mick said</p>\n<blockquote>\n<p>CISL restricted write permissions on Campaign Storage directories last year after numerous complaints from users that their data had been accidentally deleted or corrupted by other users.  I'll be glad to ask the storage admins to open read and/or write permissions on /glade/campaign/univ/udeo0005 if that's what you prefer</p>\n</blockquote>\n<p>At the time I did not ask him to open read permission on the directory, but I did just submit an issue ticket for that. Once you get in to that directory, you'll probably still have trouble with <code>/glade/campaign/univ/udeo0005/cesmLE_no_pinatubo/atm/proc/tseries/hourly6</code>, because that softlinks to <code>/glade/campaign/cgd/oce/people/mlevy/pinatubo_spillover/hourly6</code> and there are similar problems with permissions on <code>/glade/campaign/cgd/oce/people/</code> (<span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>, when you get a chance can you run <code>chmod o+rX /glade/campaign/cgd/oce/people</code>?)</p>",
+        "id": 34518,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623786556
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  ok, thanks for doing this.    Also I assume you have the run dirs somewhere to know what compiler options and flags and version that you used (to compare with the original ones for CESM-LE).    One thing I would want to know is whether the new simulations used FMA or not....</p>",
+        "id": 34521,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623790991
+    },
+    {
+        "content": "<p>it looks like rundirs might have been scrubbed already, but the build logs got copied into case root: <code>/glade/work/mlevy/pinatubo_cases/b.e11.BRCP85C5CNBDRD_no_pinatubo.f09_g16.025/logs/bld</code></p>",
+        "id": 34522,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623791313
+    },
+    {
+        "content": "<p>I don't think I turned FMA off - not sure if I'm rooting for it to be off by default in the tag, or for an easy fix to the discrepency...</p>",
+        "id": 34523,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623791348
+    },
+    {
+        "content": "<p>Actually, we talked about FMA back in December, it at that time it looked like it was off by default: <a href=\"#narrow/stream/36-pinatubo-LE/topic/CESM-LE.20integration/near/22602\" title=\"#narrow/stream/36-pinatubo-LE/topic/CESM-LE.20integration/near/22602\">https://zulip2.cloud.ucar.edu/#narrow/stream/36-pinatubo-LE/topic/CESM-LE.20integration/near/22602</a></p>",
+        "id": 34537,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623793821
+    },
+    {
+        "content": "<p>Right - now I remember having that discussion....</p>",
+        "id": 34653,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623860041
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> </p>\n<blockquote>\n<p>Right - now I remember having that discussion....</p>\n</blockquote>\n<p>I had forgotten about them too, but your question about FMA rang a bell and I searched my email. I think that brought up the google calendar invite for a chat we had, then I went looking for other communication from around the same date :)</p>",
+        "id": 34654,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623860147
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> I did hear back from CISL, and the output on campaign should be world-readable now. When you get a chance, can you please let me know if you can access the time series output now? cam 6-hourly output may still be off-limits, but that should also be available by early next week</p>",
+        "id": 34667,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623862344
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  I can get to the monthly and daily now - thanks!</p>\n<p>So to clarify what I am looking at, it sounds like you all are concerned that the differences between this new data in year 1990 and CESM-LENS 1990 data are larger than you expected.</p>\n<p>Also, which module or variables are you most concerned about?  <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>  do you have plots to share?    I will start by looking at CAM, but any additional info would be helpful.</p>",
+        "id": 34670,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623862947
+    },
+    {
+        "content": "<p>I'll forward you some of Amanda's slides, but looking through them the two monthly ocean fields were <code>SST</code> (I think you'll need to read <code>TEMP</code> and just look at the top level of output) and <code>pCO2SURF</code>. Once we get you access to the CAM 6-hourly data, she also includes plots from <code>TS</code> and <code>PS</code></p>",
+        "id": 34673,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623863278
+    },
+    {
+        "content": "<p>thanks Mike- theres some more plots in the ppt in the drive you have access too. But I looked at rmse for 6hrly Ts and Ps. We see that at time 0 it's near 0 but escallates and then levels out after a few days.</p>\n<p><a href=\"/user_uploads/2/ed/3x_fbgAnSp4N1Fc7BhY4yBbA/pasted_image.png\" target=\"_blank\" title=\"pasted_image.png\">pasted image</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/ed/3x_fbgAnSp4N1Fc7BhY4yBbA/pasted_image.png\" target=\"_blank\" title=\"pasted image\"><img src=\"/user_uploads/2/ed/3x_fbgAnSp4N1Fc7BhY4yBbA/pasted_image.png\"></a></div>",
+        "id": 34679,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1623864052
+    },
+    {
+        "content": "<p>to be clear, these are LENS-Nopinatubo run for 3 ensmb members</p>",
+        "id": 34681,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1623864101
+    },
+    {
+        "content": "<p>im headed out on holiday tomorrow so wont have time to look at this much until the end of June but eager to hear your thoughts <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span></p>",
+        "id": 34682,
+        "sender_full_name": "Amanda Fay",
+        "timestamp": 1623864180
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>  - enjoy your vacation!</p>\n<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  I'm going to propose a google chat with you tomorrow, if that's ok,  just to clarify a few things :)</p>",
+        "id": 34683,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1623864780
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span> -- chatting tomorrow sounds good, my calendar is up to date (just very empty)</p>",
+        "id": 34684,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1623864947
+    },
+    {
+        "content": "<p>Hi All, I am coming back online here. Is there any update on the validation effort? Do we trust that that integrations are correct?</p>",
+        "id": 35046,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1624291315
+    },
+    {
+        "content": "<p>Welcome back.  No results yet, but I am working on it.  I did a bunch of runs over the weekend but now need to look at them.   Basically I am using POP-ECT and generated an ensemble based on your no-pinatubo run 001 with double precision perturbations to get an idea of the spread, as compiler spread would be similar - then I'll see how the original CESM-LENS run figures into this (all for year 1990) and go from there.  I'll let you know when I have something for you all.</p>",
+        "id": 35161,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1624310941
+    },
+    {
+        "content": "<p>Wow! Thanks <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span>! This is great!</p>",
+        "id": 35169,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1624314656
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> <br>\nGood news: looks like the differences that you are seeing are reasonable for changing the compiler (and machine).</p>\n<p>Summary: I used POP-ECT to test the original CESM-LENS member 001<br>\n(year 1990) run on yellowstone against an ensemble that I constructed<br>\non Cheyenne (via temp perturbations) to the 001 ensemble.  (So this is<br>\nsort of the reverse of what we did when Cheyenne was introduced - in<br>\nthat case the ensemble - or \"control\" case - was on yellowstone)</p>\n<p>The POP-ECT issued a PASS based on calculating the Z-score (at each grid point) of the<br>\nyellowstone run compared to the ensemble (for TEMP, UVEL, VVEL, SSH,<br>\nand SALT).  The full details on how this test works are in:<br>\n<a href=\"https://gmd.copernicus.org/articles/9/2391/2016/\" target=\"_blank\" title=\"https://gmd.copernicus.org/articles/9/2391/2016/\">https://gmd.copernicus.org/articles/9/2391/2016/</a></p>\n<p>The test is here: <a href=\"https://github.com/NCAR/PyCECT\" target=\"_blank\" title=\"https://github.com/NCAR/PyCECT\">https://github.com/NCAR/PyCECT</a></p>\n<p>Here is the 12 month POP-ECT result - this is very good:</p>\n<p><a href=\"/user_uploads/2/cc/6FCz9mise_HNHnm38pj3n2FF/POP-CECT-mon12.png\" target=\"_blank\" title=\"POP-CECT-mon12.png\">POP-CECT-mon12.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/cc/6FCz9mise_HNHnm38pj3n2FF/POP-CECT-mon12.png\" target=\"_blank\" title=\"POP-CECT-mon12.png\"><img src=\"/user_uploads/2/cc/6FCz9mise_HNHnm38pj3n2FF/POP-CECT-mon12.png\"></a></div><p>Maybe more intuitive to look at also are these two plots that I made<br>\nfor SST and SSH that show that the yellowstone run is well within the<br>\nrange of ensemble values.   This is all good as we gave found that the variation<br>\nattributable to an initial perturbation is similar to that induced by a<br>\ncompiler change.</p>\n<p><a href=\"/user_uploads/2/13/K8QpZdZbIMjHsItyMkUCFgGj/pinatubo_ens_sst.png\" target=\"_blank\" title=\"pinatubo_ens_sst.png\">pinatubo_ens_sst.png</a> <br>\n<a href=\"/user_uploads/2/2/Y259CDg3b_dwnNjN8RCXt5V2/pinatubo_ens_ssh.png\" target=\"_blank\" title=\"pinatubo_ens_ssh.png\">pinatubo_ens_ssh.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/13/K8QpZdZbIMjHsItyMkUCFgGj/pinatubo_ens_sst.png\" target=\"_blank\" title=\"pinatubo_ens_sst.png\"><img src=\"/user_uploads/2/13/K8QpZdZbIMjHsItyMkUCFgGj/pinatubo_ens_sst.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/2/Y259CDg3b_dwnNjN8RCXt5V2/pinatubo_ens_ssh.png\" target=\"_blank\" title=\"pinatubo_ens_ssh.png\"><img src=\"/user_uploads/2/2/Y259CDg3b_dwnNjN8RCXt5V2/pinatubo_ens_ssh.png\"></a></div><p>So I only investigated member 001, but I have no reason to think that<br>\nthe others would behave any differently.  Let me know if you have questions, etc.</p>",
+        "id": 35458,
+        "sender_full_name": "Allison Baker",
+        "timestamp": 1624477523
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"42\">@Allison Baker</span>!</p>",
+        "id": 35582,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1624557453
+    },
+    {
+        "content": "<p>I really really appreciate all your effort. This is a tremendous help!</p>",
+        "id": 35583,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1624557491
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"130\">@Amanda Fay</span>, <span class=\"user-mention\" data-user-id=\"128\">@Galen McKinley</span>: Allison is the expert on this type of validation; based on her analysis, I think we can proceed with a warm fuzzy feeling that the runs have been conducted correctly. I am still surprised at the magnitude of the differences—but I don't really have any basis to expect the magnitude to be less than any particular value.</p>",
+        "id": 35586,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1624557621
+    }
+]

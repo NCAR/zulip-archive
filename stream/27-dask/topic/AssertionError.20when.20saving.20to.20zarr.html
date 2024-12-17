@@ -1,0 +1,39 @@
+<html>
+<head><meta charset="utf-8"><title>AssertionError when saving to zarr · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/AssertionError.20when.20saving.20to.20zarr.html">AssertionError when saving to zarr</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="56026"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/AssertionError%20when%20saving%20to%20zarr/near/56026" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/AssertionError.20when.20saving.20to.20zarr.html#56026">(Jun 03 2022 at 20:00)</a>:</h4>
+<p>Hi again,<br>
+I'm trying to save some data to zarr, as I usually do.  I'm running into an AssertionError, but no other details are given.<br>
+My line of code to save is:<br>
+SO_timeseries_iTrace.to_dataset(name='TEMP').chunk({'z_t':-1}).to_zarr('/glade/scratch/mberdahl/iTrace/Ocean/TEMP/SO_timeseries_iTrace.zarr', mode='w')</p>
+<p>Any idea what this error indicates?<br>
+The info on the DataArray I'm saving is:</p>
+<p>xarray.DataArray<br>
+time: 8000<br>
+z_t: 60</p>
+<p>Array   Chunk<br>
+Bytes   1.83 MiB    240 B<br>
+Shape   (8000, 60)  (1, 60)<br>
+Count   368084 Tasks    8000 Chunks<br>
+Type    float32 numpy.ndarray   </p>
+<p>Thanks</p>
+
+
+
+<a name="56055"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/AssertionError%20when%20saving%20to%20zarr/near/56055" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/AssertionError.20when.20saving.20to.20zarr.html#56055">(Jun 04 2022 at 17:58)</a>:</h4>
+<p>Seems that restarting the kernel helps.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

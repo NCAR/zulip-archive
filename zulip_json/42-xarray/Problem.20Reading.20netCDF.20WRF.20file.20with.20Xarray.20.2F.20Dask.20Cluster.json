@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<h1>Problem Reading RDA netCDF WRF file with Xarray / Dask Cluster / Kubernetes / JupyterHub</h1>\n<p>Hello. Here is my first thread on the Zulip @ UCAR so here goes:</p>\n<p>I am trying to perform some analysis and visualization of WRF output from the RDA on a Dask cluster (my own, not NCAR's).</p>\n<p>I fetched this data file:</p>\n<p><a href=\"https://rda.ucar.edu/data/ds612.0/PGW3D/2004/wrf3d_d01_PGW_U_20040602.nc\">https://rda.ucar.edu/data/ds612.0/PGW3D/2004/wrf3d_d01_PGW_U_20040602.nc</a></p>\n<p>which you can find here:</p>\n<p><a href=\"https://rda.ucar.edu/datasets/ds612.0/index.html#sfol-wl-/data/ds612.0?g=33200406\">https://rda.ucar.edu/datasets/ds612.0/index.html#sfol-wl-/data/ds612.0?g=33200406</a></p>\n<p>I attempt to open the file with the following two lines of code,</p>\n<div class=\"codehilite\"><pre><span></span><code>ds = xr.open_dataset(&#39;./data/wrf3d_d01_PGW_U_20040601.nc&#39;,\n                     chunks={&#39;bottom_top&#39;: 10})\nds.load()\n</code></pre></div>\n<p>When I try to load this file, I obtain a:</p>\n<div class=\"codehilite\"><pre><span></span><code>FileNotFoundError: [Errno 2] No such file or directory: b&#39;/home/jovyan/data/wrf3d_d01_PGW_U_20040601.nc&#39;\n</code></pre></div>\n<p>A few observations:</p>\n<ul>\n<li>The file exists as is evident from the following line of code so that error message is a red herring:</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><code>!ls -arlt ./data/wrf3d_d01_PGW_U_20040601.nc\n-rw-rw-r-- 1 jovyan users 1578843964 Jul  4  2017 /home/jovyan/data/wrf3d_d01_PGW_U_20040601.nc\n</code></pre></div>\n<ul>\n<li>The worker node log reveals a more accurate source of the problem:</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><code>distributed.worker - WARNING - Compute Failed Function: getter args: (ImplicitToExplicitIndexingAdapter(array=CopyOnWriteArray(array=LazilyIndexedArray(array=&lt;xarray.backends.netCDF4_.NetCDF4ArrayWrapper object at 0x7f3cc159d0c0&gt;, key=BasicIndexer((slice(None, None, None), slice(None, None, None)))))), (slice(0, 1015, None), slice(0, 1359, None))) kwargs: {} Exception: FileNotFoundError(2, &#39;No such file or directory&#39;)\n</code></pre></div>\n<ul>\n<li>\n<p>When I change the engine to <code>h5netcdf</code>, I get a different error message: <code>TypeError: decode_vlen_strings is an invalid keyword argument for this function</code>. The worker node yields the same error.</p>\n</li>\n<li>\n<p>When I remove the chunking option, I have no problem reading in the data, e.g.,</p>\n</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><code>ds = xr.open_dataset(&#39;./data/wrf3d_d01_PGW_U_20040601.nc&#39;)\nds.load()\n</code></pre></div>\n<p>though the lack of chunking will create additional problems later on. I would rather have chunking work.</p>\n<ul>\n<li>Oddly, when I load the data via a THREDDS server, I have no problems reading in the file:</li>\n</ul>\n<div class=\"codehilite\"><pre><span></span><code>ds = xr.open_dataset(&#39;https://rda.ucar.edu/thredds/dodsC/files/g/ds612.0/PGW3D/2004/wrf3d_d01_PGW_U_20040601.nc&#39;,\n                      chunks={&#39;bottom_top&#39;: 10})\nds.load()\n</code></pre></div>\n<p>though I am sort of assuming this is not ideal due to the voluminous nature of the data and subsequent calculations (wind speed) on other files (total 60).</p>\n<p>Has anyone seen such an error or know what to do about it?</p>\n<p><a href=\"https://gist.github.com/julienchastang/61a92f1edecc6e12d2f3a7f854fd89ec\">Here are my conda environments from the client , scheduler and worker. I include them separately since they are long.</a></p>",
+        "id": 53139,
+        "sender_full_name": "Julien Chastang",
+        "timestamp": 1649088566
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"269\">@Julien Chastang</span>:  Can you provide more detail about your Dask cluster?  Is it distributed?  (Looks like you are creating it using Dask Gateway.  How is your Dask Gateway configured?)</p>\n<p>I ask because it is almost like you don't have a shared filesystem.  That is, it's like you downloaded the file to the container where the JupyterLab session is running, but it isn't accessible to the worker containers.  Could that be the case?</p>",
+        "id": 53142,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1649089291
+    },
+    {
+        "content": "<p>Incidentally, a different filesystem for each worker would also explain why the <code>open_dataset</code> option <em>without</em> the <code>chunks</code> parameter works (i.e., you read and load data from the JupyterLab container only), and why the THREDDS use works (i.e., the dask client passes the URL/Filepath to the workers and the workers read from the URL/Filepath).</p>",
+        "id": 53146,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1649090370
+    },
+    {
+        "content": "<p>Thank you <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span>  for the super-quick response :-) I will try to answer your questions. <a href=\"https://js-156-66.jetstream-cloud.org/\">I have also added you to the allow list on my JupyterHub which you can login with your GitHub credentials.</a>. Run the <code>wrf.ipynb</code> notebook which should be ready to go including data.</p>\n<blockquote>\n<p>Can you provide more detail about your Dask cluster? Is it distributed? </p>\n</blockquote>\n<p>Yes, I believe so. I can have the following bit of code run and I see the dashboard update as expected:</p>\n<div class=\"codehilite\"><pre><span></span><code>import dask.array as da\na = da.random.normal(size=(40000, 40000), chunks=(500, 500))\na.mean().compute()\n</code></pre></div>\n<blockquote>\n<p>I ask because it is almost like you don't have a shared filesystem. That is, it's like you downloaded the file to the container where the JupyterLab session is running, but it isn't accessible to the worker containers. Could that be the case?</p>\n</blockquote>\n<p>That may be the case and you may be onto something. I will dig into this idea further.  Does your running of <code>wrf.ipynb</code> confirm this idea?</p>\n<p>Again, thank you very much!  :-)  I've really been stuck here.</p>",
+        "id": 53159,
+        "sender_full_name": "Julien Chastang",
+        "timestamp": 1649090930
+    },
+    {
+        "content": "<p>I’ll take a look. Thanks for the access!</p>",
+        "id": 53162,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1649091016
+    },
+    {
+        "content": "<p>Hey, <span class=\"user-mention\" data-user-id=\"269\">@Julien Chastang</span>:  I'm stuck starting up a server.  Maybe there aren't enough resources?</p>",
+        "id": 53190,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1649105714
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png\">Screen-Shot-2022-04-04-at-2.54.50-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png\" title=\"Screen-Shot-2022-04-04-at-2.54.50-PM.png\"><img src=\"/user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png\"></a></div>",
+        "id": 53191,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1649105725
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"8\">@Kevin Paul</span> yeah, I think I am hogging up all the resources, but basically, you hit the nail on the head. I was able to confirm with my colleague (Andrea Zonca, SDSC) that indeed these data volumes will not support multi-attach. In retrospect, I think my line of reasoning was a bit off with the local data solution. I am finding that a THREDDS server may be sufficient for my purposes moreover, it seems like zarr may also offer another avenue of exploration (though I admittedly do not know much about this area). By the way, I did not mention that I am running all of this on the NSF Jetstream Cloud which is about to be decommissioned and replaced with Jetstream2. </p>\n<p>As an aside, I had <strong>a lot</strong> of trouble setting up these dask clusters. Basically, it was a huge challenge to sync up client / worker / scheduler environments, but I believe I am past that now and I am seeing some pretty nice performance when accessing the data via a THREDDS server (definitely way better than single threaded).</p>\n<p>Thanks again for your insight. :-) I'd still be stuck otherwise.</p>",
+        "id": 53201,
+        "sender_full_name": "Julien Chastang",
+        "timestamp": 1649106667
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"269\">@Julien Chastang</span>:  I'm glad that helped!  Yeah.  The general cloud model does not assume that you have a shared filesystem.  This is generally true because you typically have access to data that is available via object store, which is accessed via a REST API.  Hence, the workers only need internet access to the object store!  And local storage on the workers is used only for Dask's \"spill\" capability.</p>\n<p>It takes a bit to wrap your head around <em>not</em> having a shared filesystem, if you are used to HPC systems.</p>",
+        "id": 53202,
+        "sender_full_name": "Kevin Paul",
+        "timestamp": 1649106968
+    }
+]

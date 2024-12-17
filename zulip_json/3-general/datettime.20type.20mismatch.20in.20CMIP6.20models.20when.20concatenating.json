@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>When concatenating various CMIP6 models, I'm running into a datettime mismatch issue:</p>\n<div class=\"codehilite\"><pre><span></span><code>_ds = list(ds_regrid_dict.values())\n_coord = list(ds_regrid_dict.keys())\nds_out_regrid = xr.concat(objs=_ds, dim=_coord, coords=&quot;all&quot;).rename({&#39;concat_dim&#39;:&#39;model&#39;})\nds_out_regrid\n\nTypeError: cannot compare cftime.DatetimeProlepticGregorian(1985, 1, 16, 12, 0, 0, 0, has_year_zero=True) and cftime.DatetimeNoLeap(1985, 1, 16, 12, 0, 0, 0, has_year_zero=True)\n</code></pre></div>\n<p>I'm adapting this example from online:<br>\n<a href=\"https://nordicesmhub.github.io/forces-2021/learning/example-notebooks/xesmf_regridding.html\">https://nordicesmhub.github.io/forces-2021/learning/example-notebooks/xesmf_regridding.html</a></p>\n<p>Anyone know a smart way to get around this?</p>",
+        "id": 98739,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1714695894
+    },
+    {
+        "content": "<p>You might look into xarray's <a href=\"https://docs.xarray.dev/en/stable/generated/xarray.Dataset.interp_calendar.html\"><code>interp_calendar</code></a> or <a href=\"https://docs.xarray.dev/en/stable/generated/xarray.Dataset.convert_calendar.html\"><code>convert_calendar</code></a> to help align the calendars / time coords.</p>",
+        "id": 98740,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1714696657
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"339\">Katelyn FitzGerald</span> <a href=\"#narrow/stream/3-general/topic/datettime.20type.20mismatch.20in.20CMIP6.20models.20when.20concatenating/near/98740\">said</a>:</p>\n<blockquote>\n<p>You might look into xarray's <a href=\"https://docs.xarray.dev/en/stable/generated/xarray.Dataset.interp_calendar.html\"><code>interp_calendar</code></a> or <a href=\"https://docs.xarray.dev/en/stable/generated/xarray.Dataset.convert_calendar.html\"><code>convert_calendar</code></a> to help align the calendars / time coords.</p>\n</blockquote>\n<p>Thanks, I'll look into those.</p>",
+        "id": 98795,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1714770751
+    }
+]

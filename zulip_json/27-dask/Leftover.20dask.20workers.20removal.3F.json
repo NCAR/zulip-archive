@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>Hi all -- now that I am successfully getting workers, I'm wondering what to do with workers that remain after I am finished using them. Currently my directory is getting pretty filled up with workers from previous days.  Thanks! <a href=\"/user_uploads/2/ce/a8z-0sFoCnEzJfaRSusV7PCA/Screen-Shot-2022-04-03-at-9.39.07-AM.png\">Screen-Shot-2022-04-03-at-9.39.07-AM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/ce/a8z-0sFoCnEzJfaRSusV7PCA/Screen-Shot-2022-04-03-at-9.39.07-AM.png\" title=\"Screen-Shot-2022-04-03-at-9.39.07-AM.png\"><img src=\"/user_uploads/2/ce/a8z-0sFoCnEzJfaRSusV7PCA/Screen-Shot-2022-04-03-at-9.39.07-AM.png\"></a></div>",
+        "id": 53131,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1648993782
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"272\">@Else Schlerman</span>, you can temporary set the <code>log-directory</code>to some location in your scratch space via</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">import</span> <span class=\"nn\">dask</span>\n<span class=\"n\">dask</span><span class=\"o\">.</span><span class=\"n\">config</span><span class=\"o\">.</span><span class=\"n\">set</span><span class=\"p\">({</span><span class=\"s1\">'jobqueue.pbs.local-directory'</span><span class=\"p\">:</span> <span class=\"s1\">'/glade/scratch/eschlerm'</span><span class=\"p\">})</span>\n</code></pre></div>\n<p>If you want to set this permanently, you will need to update the <code>jobqueue.yaml</code>  file located in <code>~/.config/dask/jobqueue.yaml</code> by uncommenting these lines</p>\n<div class=\"codehilite\" data-code-language=\"YAML\"><pre><span></span><code><span class=\"c1\">#   pbs:</span>\n<span class=\"c1\">#     local-directory: null # remember to set this to `/glade/scratch/eschlerm`</span>\n</code></pre></div>",
+        "id": 53132,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1649027201
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> for the suggestions.  I've tried putting the additional line <code>dask.config.set...</code> in my script and I also added what you suggested to jobqueue.yaml, however I'm still having workers appear in the directory I'm working in. </p>\n<p>I don't know if this is normal, but my jobqueue.yaml file did not have</p>\n<div class=\"codehilite\"><pre><span></span><code>#   pbs:\n#     local-directory: null\n</code></pre></div>\n<p>but rather had this:</p>\n<div class=\"codehilite\"><pre><span></span><code>#   pbs:\n#     name: dask-worker\n</code></pre></div>\n<p>Rather than uncommenting that,  I just added:</p>\n<div class=\"codehilite\"><pre><span></span><code>  pbs:\n   local-directory: &#39;/glade/scratch/eschlerm&#39;\n</code></pre></div>\n<p>but I'm not sure if that was the right thing to do.</p>",
+        "id": 53137,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1649084014
+    },
+    {
+        "content": "<p>Also is it okay to delete workers from your file that you're no longer using?</p>",
+        "id": 53138,
+        "sender_full_name": "Else Schlerman",
+        "timestamp": 1649084090
+    }
+]

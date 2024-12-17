@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I've been trying to use the MetPy function \"geostrophic_wind\" (see <a href=\"https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.geostrophic_wind.html\">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.geostrophic_wind.html</a>). I've followed their documentation and it appears the calculation is completed, but when I look at the arrays returned it's all missing values (see attached screenshot). If anyone has familiarity with this function and could provide guidance I'd appreciate some tips about what might be going wrong. Thanks!<br>\n<a href=\"/user_uploads/2/36/8Mn-wMWIGASARQ4tUJnllsIG/Screen-Shot-2023-02-13-at-9.30.38-PM.png\">Screen-Shot-2023-02-13-at-9.30.38-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/36/8Mn-wMWIGASARQ4tUJnllsIG/Screen-Shot-2023-02-13-at-9.30.38-PM.png\" title=\"Screen-Shot-2023-02-13-at-9.30.38-PM.png\"><img src=\"/user_uploads/2/36/8Mn-wMWIGASARQ4tUJnllsIG/Screen-Shot-2023-02-13-at-9.30.38-PM.png\"></a></div>",
+        "id": 74220,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1676349093
+    },
+    {
+        "content": "<p>Update: I was able to get the function working on some raw CAM output before I'd done some seasonal averaging. So it's something I didn't do properly in assigning metadata I guess. I'll be able to move on from here. :)</p>",
+        "id": 74260,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1676394275
+    },
+    {
+        "content": "<p>Are you using MetPy 1.4? Did you use <code>.metpy.parse_cf()</code> at any step? We made some major changes to geographic calculations as part of that release, and it would be great to test a snippet of your data and code to make sure we didn't miss something in testing.</p>",
+        "id": 74263,
+        "sender_full_name": "Drew Camron",
+        "timestamp": 1676395217
+    },
+    {
+        "content": "<p>It looks like I'm using MetPy1.2. But no, I did not do .metpy.parse_cf() during the process. I'm not super familiar with metpy, so I wasn't aware this is a possibility.</p>",
+        "id": 74401,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1676561886
+    },
+    {
+        "content": "<p>If you get a chance, upgrade to 1.4 and let me know if it works for you! FWIW, 1.4 is more \"physically correct\" for geospatial calculations like geostrophic wind</p>",
+        "id": 74415,
+        "sender_full_name": "Drew Camron",
+        "timestamp": 1676576741
+    },
+    {
+        "content": "<p>Ok, will do! It will probably be a little while (a few months), hopefully when I'm doing paper reviews.</p>",
+        "id": 74788,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1677037707
+    }
+]

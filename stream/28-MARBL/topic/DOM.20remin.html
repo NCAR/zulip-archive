@@ -1,0 +1,140 @@
+<html>
+<head><meta charset="utf-8"><title>DOM remin · MARBL · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/28-MARBL/index.html">MARBL</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html">DOM remin</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="8078"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8078" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8078">(May 06 2020 at 21:20)</a>:</h4>
+<p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>, <br>
+I am confused by something. </p>
+<p>I read the following in <a href="https://www.biogeosciences.net/12/209/2015/bg-12-209-2015.pdf" target="_blank" title="https://www.biogeosciences.net/12/209/2015/bg-12-209-2015.pdf">Letscher et al. 2015, top of pg 212</a></p>
+<blockquote>
+<p>Remineralization is more rapid for semilabile DOM in the euphotic zone, with lifetimes on the order of 5 months for DON + DOP and ∼ 8 months for DOC. Longer lifetimes for semilabile DOM are assigned in the mesopelagic zone with the order of remineralization lifetimes following C &gt; P &gt; N.</p>
+</blockquote>
+<p>However, their numbers in Table 1 seem to show the opposite, with longer lifetimes (enhanced remin) in the euphotic zone (and lifetimes in years, not months).</p>
+<p>The values in their Table 1  appear to match <a href="https://github.com/marbl-ecosys/MARBL/blob/4fbd2ab4e790a18fe0a2c7c730570cf7139524c3/src/marbl_settings_mod.F90#L171" target="_blank" title="https://github.com/marbl-ecosys/MARBL/blob/4fbd2ab4e790a18fe0a2c7c730570cf7139524c3/src/marbl_settings_mod.F90#L171">what we have for parameter values</a>.</p>
+<p>What am I missing?</p>
+
+
+
+<a name="8079"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8079" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8079">(May 06 2020 at 21:25)</a>:</h4>
+<p>reading on in Letscher et al, </p>
+<blockquote>
+<p>Remineralization lifetimes (κ−1)  differ for SLDOM depending on location in the water column with longer lifetimes for the euphotic zone (depths where PAR &gt; 1 %) than for the mesopelagic zone</p>
+</blockquote>
+
+
+
+<a name="8080"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8080" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8080">(May 06 2020 at 21:26)</a>:</h4>
+<p>so maybe I just need to read more carefully.</p>
+
+
+
+<a name="8084"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8084" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8084">(May 06 2020 at 21:29)</a>:</h4>
+<p>Indeed, the difference is between what were the previous defaults and the optimized values.</p>
+
+
+
+<a name="8089"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8089" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8089">(May 06 2020 at 22:02)</a>:</h4>
+<p>Sounds like you're satisfied. Your dialog replays very closely an email exchange that I had with Rob Letscher in 2015. My final statement in the thread was "Thanks for the explanation. I had searched your paper for the word light and found where you wrote 'Remineralization is more rapid for semilabile DOM in the euphotic zone'. I now see that this was referring to the 1.2.2 model, not the optimized parameter set. Sloppy reading on my part.".</p>
+
+
+
+<a name="8090"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8090" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8090">(May 06 2020 at 22:10)</a>:</h4>
+<blockquote>
+<p>Sloppy reading on my part</p>
+</blockquote>
+<p>Indeed, sloppy reading on my part too! Though I was also hung up on the expectation that DOM should cycle faster where there is light. I wonder about confounding factors/unrepresented processes that might lead the optimization astray.</p>
+
+
+
+<a name="8091"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8091" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8091">(May 06 2020 at 22:11)</a>:</h4>
+<p>I am satisfied, thanks!</p>
+
+
+
+<a name="8095"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8095" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8095">(May 06 2020 at 22:26)</a>:</h4>
+<p>FYI, below is a slightly-edited email excerpt regarding UV enhancement of RDOM remin. It's probably too much detail for your paper, but some amount of this detail probably belongs in the MARBL scientific documentation</p>
+<div class="codehilite"><pre><span></span>I proposed a change based on:
+1) assume photoreduction is all UV
+2) assume UV at surf is a constant fraction of PAR
+(they diverge below the surface because UV is absorbed more readily by seawater)
+3) get extinction coefficient from literature of UV that photoreduces DOM
+4) from 2 and 3, compute penetration depth of UV dz_UV,
+i.e. z where UV drops below some threshold
+Because UV is absorbed so well, this will presumably be in the first model layer.
+It will also be 0 when there is no light.
+5) term that is added to DOM remin is dz_UV/dz(1)/(photoreduction timescale) * DOM
+
+There are some tunable parameters here, but this approach has the following properties:
+1) it turns off when there is no light
+2) depth over which photoreduction occurs is independent of vertical grid.
+3) as it is tied to UV absorption instead of PAR, it is focused in the very near surface, where UV is present.
+
+Keith and Rob Letscher seemed to think this approach was better than what was in the code.
+It still has ad-hoc assumptions. In particular, UV at high latitudes is probably not proportional to PAR.
+I&#39;m sure clouds attenuate UV and PAR differently too. But, it&#39;s something to work with.
+
+Here&#39;s the math
+
+UV(z=0) = C*PAR(z=0) ! C is unknown constant of proportionality
+UV(z) = C*PAR(z=0)*exp(-z/L) ! L is unknown, but probably short, length scale
+Let UV* denote threshold where photoreduction occurs only if UV&gt;UV*.
+(This is ad-hoc too. The process is probably a continuous function of UV, not a step function.)
+Then z*, the depth at which photoreduction ceases (dz_UV from above), solves
+UV* = C*PAR(z=0)*exp(-z*/L)
+Solving for z* yields
+z* = L*log(C*PAR(z=0)/UV*)
+Note that only holds if z* is positive (i.e. argument of log()&gt;1).
+That is, if PAR(z=0) is not big enough, we don&#39;t want z* above the sea surface
+So we really have
+z* = L*log(C*PAR(z=0)/UV*), if PAR(z=0) &gt; UV*/C
+        0,     if PAR(z=0) &lt; UV*/C
+Now I really make stuff up. Other PAR based switches in the code use 1 W/m^2 as a threshold.
+So I assume UV*/C = 1, out of convenience. So I get
+z* = L*log(PAR(z=0)), if PAR(z=0) &gt; 1
+        0,     if PAR(z=0) &lt; 1
+
+Plugging this into my 5) from above yields that the additional remin from UV is
+L*log(PAR(z=0))/dz(1)/(photoreduction timescale) * DOM (if PAR(z=0)&gt;1)
+I then redefine L to be L/10e2, which is dz(1) in our current grid and get
+(L*log(PAR(z=0)))*(10.0e2/dz(1))/(photoreduction timescale) * DOM (if PAR(z=0)&gt;1)
+This way, 10e2/dz(1) is 1.0 for our current grid, but we get grid dependence built in.
+Now I tune to get the same net photoreduction that Keith had previously tuned for.
+I kept the photoreduction timescale to be the value that Keith had tuned for.
+I did a diagnostic run where I computed the time space mean of log(max(PAR(z=0),1)).
+I then solved for L so that L*mean(log(max(PAR(z=0),1)) = 1, to match Keith&#39;s values.
+This yields L=0.4373.
+Putting it all together yields the expression in the code:
+(log(PAR_in(subcol_ind))*0.4373_r8) * (10.0e2_r8/dz1)
+</pre></div>
+
+
+
+<a name="8101"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8101" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8101">(May 07 2020 at 10:56)</a>:</h4>
+<p>This formulation, and the derivation that it is based on, is problematic if the top layer is smaller than the thickness that UV is absorbed within. This seems unlikely in POP, but not so in MOM6. So I think this needs to be revisited.</p>
+
+
+
+<a name="8102"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/DOM%20remin/near/8102" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/DOM.20remin.html#8102">(May 07 2020 at 13:28)</a>:</h4>
+<p>thanks, Keith</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

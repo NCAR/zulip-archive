@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>Hi Everybody!</p>\n<p>I am pretty new to using git and was just trying to add some of my work on Casper to a GitHub repository. I have everything that I want committed and am just trying to push things from Casper, but keep getting the following error: </p>\n<div class=\"codehilite\"><pre><span></span><code>brendanmy@crhtc06:~/Casper-Code&gt; git push\nEnumerating objects: 123, done.\nCounting objects: 100% (123/123), done.\nDelta compression using up to 72 threads\nCompressing objects: 100% (117/117), done.\nerror: RPC failed; HTTP 500 curl 22 The requested URL returned error: 500\nsend-pack: unexpected disconnect while reading sideband packet\nWriting objects: 100% (122/122), 2.33 GiB | 18.02 MiB/s, done.\nTotal 122 (delta 23), reused 3 (delta 0), pack-reused 0\nfatal: the remote end hung up unexpectedly\nEverything up-to-date\n</code></pre></div>\n<p>Is there something that I'm doing wrong? (I'm including my config settings incase there is something I didn't setup right):</p>\n<div class=\"codehilite\"><pre><span></span><code>brendanmy@crhtc06:~/Casper-Code&gt; git config -l\nuser.name=Brendan Myers\nuser.email=brendanmichaelmyers@gmail.com\npull.rebase=false\ncredential.helper=store\nhttp.postbuffer=10g\ncore.repositoryformatversion=0\ncore.filemode=true\ncore.bare=false\ncore.logallrefupdates=true\nremote.origin.url=https://github.com/brmy4086/Casper-Code.git\nremote.origin.fetch=+refs/heads/*:refs/remotes/origin/*\nbranch.main.remote=origin\nbranch.main.merge=refs/heads/main\nhttp.postbuffer=524288000\n</code></pre></div>\n<p>Thanks for the help!<br>\nBrendan</p>",
+        "id": 103988,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1724954974
+    },
+    {
+        "content": "<p>Did you by chance commit some larger files to your repo?</p>\n<p>It looks like you have http.postbuffer set a couple of times.  You might try removing those as well.  I think it needs to be set in bytes and the default should be fine (for most cases anyway).</p>",
+        "id": 103995,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1724958140
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> Thanks for the help!</p>\n<p>There is a chance that some data files slipped in there by hiding inside one of my directories... Is there a way to compare my commits to the main branch on GitHub? Or is there a way to get my committed files back to being untracked so I can just start over? (This repo is brand new so I'm also happy to scratch it all and create a new one if that sounds easiest)</p>",
+        "id": 103997,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1724958860
+    },
+    {
+        "content": "<p>To see which files are being tracked you can do something like <code>git ls-files</code>.</p>\n<p>That said, especially if you just started you may find it easier to start over rather than figure out how to remove files from your repo history.</p>\n<p>If you're looking for more resources, you might find some good ones in the <a href=\"https://foundations.projectpythia.org/foundations/getting-started-github.html\">Pythia Foundations Git/GitHub materials</a> and links.</p>",
+        "id": 103998,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1724959809
+    },
+    {
+        "content": "<p>And we've all (or most of us anyway) been there with git troubles - you're not alone.  It's a great tool, but not always the easiest  <span aria-label=\"upside down\" class=\"emoji emoji-1f643\" role=\"img\" title=\"upside down\">:upside_down:</span> .</p>",
+        "id": 104000,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1724960953
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"339\">@Katelyn FitzGerald</span> Thanks for your help! I'll just go ahead and restart things and make sure I don't add big files by accident!</p>\n<p>And thank you for the words of encouragement! I thought git was finally making sense to me, then getting this error I was so confused! I will for sure be using that resource you sent!</p>\n<p>Thank you, thank you!<br>\nBrendan</p>",
+        "id": 104010,
+        "sender_full_name": "Brendan Myers",
+        "timestamp": 1724970578
+    }
+]

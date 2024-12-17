@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Heads up:</p>\n<p>CISL engineers are planning updates to the JupyterHub on January 9th that will temporarily take the service offline. During this outage, we will migrate the JupyterHub to newer hardware, and remove the Cheyenne server types from the interface (note that Cheyenne batch servers will no longer be available after December 31st as PBS queues will be stopped at that time). Shortly thereafter, we will add a Derecho batch option to the production JupyterHub to enable access to Derecho queues, though we expect most JupyterHub work will continue to happen on Casper.</p>\n<p>If you have custom language kernels or personal lab extensions, these will still be available after the outage. However, to facilitate the migration to the new hardware and improve the reliability of the service, we will be clearing the Hub database of all existing users and servers. When you sign back in after the outage, you will start with no running servers and any “named” servers will need to be recreated as needed; make sure you save all active Jupyter work before the morning of the 9th.</p>\n<p>Please reach out to Research Computing support staff via a <a href=\"https://rchelp.ucar.edu/\">support ticket</a> if you have any questions.</p>",
+        "id": 93769,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1703611687
+    },
+    {
+        "content": "<p>Reminder - the JupyterHub service will be offline today, Tuesday January 9, for upgrades. All active sessions are being terminated to prepare the service for this work. We will send out a follow-up notifier when JupyterHub is restored to service.</p>",
+        "id": 94042,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1704813184
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> what is the status of this? For me it says that JupyterHub is open (and some HPC kernels are being triaged), but I am not getting a DUO push when I try to log on.</p>",
+        "id": 94236,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1704925997
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"27\">@Anna-Lena Deppenmeier</span> , It seems like there is an ongoing issue with very lagged DUO authentication from JHub. CISL is aware of the issue and is working to resolve it. Thanks for your patience.</p>",
+        "id": 94237,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1704926758
+    },
+    {
+        "content": "<p>Thanks for the update <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> !</p>",
+        "id": 94238,
+        "sender_full_name": "Anna-Lena Deppenmeier",
+        "timestamp": 1704926788
+    },
+    {
+        "content": "<p>We believe the issues have been resolved with both authentication and kernels. Hopefully you are seeing the same, but if not, continue to let us know.</p>",
+        "id": 94303,
+        "sender_full_name": "Brian Vanderwende",
+        "timestamp": 1705081598
+    },
+    {
+        "content": "<p>Before the update my JupyterHub had a button to interface with git. Is there a way to get that back?</p>",
+        "id": 94875,
+        "sender_full_name": "David Ahijevych",
+        "timestamp": 1706118979
+    },
+    {
+        "content": "<p>Another minor issue with the Hub post-update -- it doesn't seem to render HTML pages well anymore. We have a workflow that uses JupyterBook to convert notebooks to HTML, and even when I click the \"Trust HTML\" button the formatting is all wonky + images are no longer loaded. For example, see <code>/glade/derecho/scratch/mlevy/html_bad_in_hub/</code> The <code>index.html</code> file just links to a few other pages, but <code>ocean_surface.html</code> should include plots and all I see is</p>\n<p><a href=\"/user_uploads/2/4/81gdvfLFuQxPPWMsfxcqQeXX/Bad-HTML-rendering.png\">Bad-HTML-rendering.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/4/81gdvfLFuQxPPWMsfxcqQeXX/Bad-HTML-rendering.png\" title=\"Bad-HTML-rendering.png\"><img src=\"/user_uploads/2/4/81gdvfLFuQxPPWMsfxcqQeXX/Bad-HTML-rendering.png\"></a></div><p>I don't think I ever looked at these pages pre-update, but <span class=\"user-mention\" data-user-id=\"311\">@Lev Romashkov</span> has and the formatting definitely used to be better</p>",
+        "id": 94883,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706123260
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/16-jupyterlab-hub/topic/Updates.20to.20JupyterHub.20planned.20for.20Jan.209/near/94883\">said</a>:</p>\n<blockquote>\n<p>Another minor issue with the Hub post-update -- it doesn't seem to render HTML pages well anymore. We have a workflow that uses JupyterBook to convert notebooks to HTML, and even when I click the \"Trust HTML\" button the formatting is all wonky + images are no longer loaded. For example, see <code>/glade/derecho/scratch/mlevy/html_bad_in_hub/</code> The <code>index.html</code> file just links to a few other pages, but <code>ocean_surface.html</code> should include plots and all I see is</p>\n<p><a href=\"/user_uploads/2/4/81gdvfLFuQxPPWMsfxcqQeXX/Bad-HTML-rendering.png\">Bad-HTML-rendering.png</a> </p>\n<p>I don't think I ever looked at these pages pre-update, but <span class=\"user-mention silent\" data-user-id=\"311\">Lev Romashkov</span> has and the formatting definitely used to be better</p>\n</blockquote>\n<p>Adding on - yeah, I used to use the HTML viewing capability often before the update, and Jupyter book pages would render almost totally as intended, with the exception of a few icons that didn't affect the usability. It would be very helpful to get this working again :)</p>",
+        "id": 94884,
+        "sender_full_name": "Lev Romashkov",
+        "timestamp": 1706123479
+    }
+]

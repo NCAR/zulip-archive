@@ -1,0 +1,75 @@
+<html>
+<head><meta charset="utf-8"><title>Creating a CF-Compliant curvilinearly gridded file · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html">Creating a CF-Compliant curvilinearly gridded file</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="49856"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49856" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49856">(Jan 31 2022 at 23:11)</a>:</h4>
+<p>I'm trying to convert a binary dataset into CF Compliant NetCDF.  Thank you in advance for any thoughts, tips, and suggestions.</p>
+<p>I have a file on glade that has float32 bit values for a single variable on a 120x120x14 grid.<br>
+   /glade/scratch/pearse/marshall/coen/FLOAT/u.float.0212</p>
+<p>I need to create a NetCDF file based on this 3D variable.  It needs a vertical Coordinate Variable that has each vertical coordinate described as a function of X, Y, and Z, described by the array in following file:<br>
+   /glade/scratch/pearse/marshall/coen/FLOAT/ELEVATION.float</p>
+<p>The horizontal and vertical coordinate variables can be anything, as long as they're monotonically increasing.</p>
+<p>So far I'm loading the file as follows.  I'm not sure how to designate the ELEVATION values as a coordinate variable.</p>
+<p>import xarray as xr<br>
+import numpy as np</p>
+<p>u = np.fromfile("/glade/scratch/pearse/marshall/coen/FLOAT/u.float.0212", dtype=np.single)<br>
+u3d = u.reshape((120,120,14))</p>
+<p>E = np.fromfile("/glade/scratch/pearse/marshall/coen/FLOAT/ELEVATION.float", dtype=np.single)<br>
+E3d = E.reshape((120,120,14))</p>
+<h1>... Create a dataset with coordainte variables and CF compliant attributes ...</h1>
+<p>Thanks again for any help - Scott</p>
+
+
+
+<a name="49860"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49860" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49860">(Feb 01 2022 at 15:26)</a>:</h4>
+<p>I have a typo in my above message - The horizontal Coordinate Variables can be anything - but the vertical Coordinate Variable must be defined by the 120x120x14 ELEVATION file.  Thanks again.</p>
+
+
+
+<a name="49883"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49883" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49883">(Feb 01 2022 at 20:03)</a>:</h4>
+<p>Answering my open question:</p>
+<p>zDim = 14<br>
+yDim = 120<br>
+xDim = 120<br>
+lats = np.linspace(start=0, stop=44444.4, num=yDim);<br>
+lons = np.linspace(start=0, stop=44444.4, num=xDim);<br>
+E = np.fromfile(dataDir + "/ELEVATION.float", dtype=np.single)<br>
+E3d = E.reshape((14,120,120))</p>
+<p>timestep = 212<br>
+b = np.fromfile(dataDir + "/b.float.0" + str(timestep), dtype=np.single)<br>
+b3d = b.reshape(1,zDim,yDim,xDim)<br>
+t = pd.date_range("2021-12-30 10:00:00", periods=1) + timedelta(minutes=timestep)<br>
+ds = xr.DataArray(<br>
+    name = "b",<br>
+    data = b3d,<br>
+    dims=["time","z","y","x"],<br>
+    coords=dict(<br>
+        lon=(["x"],lons),<br>
+        lat=(["y"],lats),<br>
+        ele=(["z","y","x"],E3d),<br>
+        time=t,<br>
+    )<br>
+)</p>
+<p>ds.lon.attrs['axis'] = "X"<br>
+ds.lat.attrs['axis'] = "Y"<br>
+ds.ele.attrs['axis'] = "Z"<br>
+ds.time.attrs['axis'] = "T"</p>
+<p>ds.lat.attrs['units']        = 'm'<br>
+ds.lon.attrs['units']        = 'm'<br>
+ds.ele.attrs['units']        = 'm'</p>
+<p>ds.to_netcdf( dataDir + "/" + str(timestep) + ".nc")</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

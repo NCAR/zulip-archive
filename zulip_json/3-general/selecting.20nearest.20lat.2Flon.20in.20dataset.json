@@ -1,0 +1,98 @@
+[
+    {
+        "content": "<p>This is probably really simple, but I am reading in a new dataset, and am unfamiliar with how to extract locations with lat/lon in the way I usually do with model output. I am using xarray.</p>\n<p>My dataset looks like this:</p>\n<div class=\"codehilite\"><pre><span></span><code>xarray.Dataset\nDimensions: x: 761y: 761z: 30nbounds: 2\nCoordinates:\nx (x) float64 -3.04e+06 -3.032e+06 ... 3.04e+06\ny (y) float64 -3.04e+06 -3.032e+06 ... 3.04e+06\nlon (y, x) float64\nlat (y, x) float64\nz (z) float64 -30.0 -90.0 ... -1.71e+03 -1.77e+03\nz_bnds (z, nbounds) float64\nData variables:\ntemperature (z, y, x) float64\nAttributes: (0)\n</code></pre></div>\n<p>So lat/lon are on a cartesian grid (y,x) .</p>\n<p>I want to find, say, temp at all depths at a the location nearest to a specified lat/lon.</p>\n<p>The typical things I use don't work (either give error, or nonsense).  For example:</p>\n<p>temps.temperature.sel(lat=-65, lon=-110, method = 'nearest').isel(z=0)<br>\nor<br>\nxylar_temps.temperature.where(xylar_temps.lat==-65, xylar_temps.lon==-110).isel(z=0)</p>\n<p>Any thoughts?</p>",
+        "id": 93677,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1703035130
+    },
+    {
+        "content": "<p>You mentioned you are working on a Cartesian grid, so attempting to select using spherical (lat, lon) coordinates might be causing this unexpected behavior.</p>",
+        "id": 93682,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1703070538
+    },
+    {
+        "content": "<p>I would start off by converting your <code>lat</code> and <code>lon</code> into their respective <code>x</code> <code>y</code> and <code>z</code> Cartesian representation and see if that gives your expected results when selecting.</p>",
+        "id": 93683,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1703070659
+    },
+    {
+        "content": "<p>Do you mind printing out the min &amp; max of your lat / lon coordinates?</p>",
+        "id": 93684,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1703070696
+    },
+    {
+        "content": "<p>Xoak can also help with this problem (indexing multidimensional coordinates).  There's an example here: <a href=\"https://pop-tools.readthedocs.io/en/latest/examples/xoak-example.html\">https://pop-tools.readthedocs.io/en/latest/examples/xoak-example.html</a></p>",
+        "id": 93688,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1703091408
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"279\">@Philip Chmielowiec</span> <br>\nThe min/max range for lat is : -90 to  -51.84956701<br>\nfor lon, the range is -179.9 to 180.<br>\n(The grid is centered over Antarctica roughly).</p>\n<p>I'm also not sure what you mean by converting the lat/lon onto the cartesian grid. They are already given in terms of the (y,x) grid.</p>",
+        "id": 93690,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1703097070
+    },
+    {
+        "content": "<p>Got it, I've been working with unstructured grids mostly, so sometimes instead of <code>lat</code> <code>lon</code> our coordinates are in terms of <code>x</code> <code>y</code> <code>z</code>, so just wanted to make sure :)</p>",
+        "id": 93691,
+        "sender_full_name": "Philip Chmielowiec",
+        "timestamp": 1703097156
+    },
+    {
+        "content": "<p>Hi Mira. What does your code return when this is used:<br>\n<code>temps.temperature.sel(lat=-65, lon=-110, method = 'nearest').isel(z=0)</code></p>",
+        "id": 93693,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1703098654
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"234\">@Daniel Adriaansen</span> <br>\nI get the following error: <br>\nKeyError: \"no index found for coordinate 'lat'\"</p>",
+        "id": 93694,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1703098736
+    },
+    {
+        "content": "<p>I believe because lat/lon are not dimension coordinates, using <code>sel()</code> will not work in this case. Do your data have a specific projection on the Earth?</p>",
+        "id": 93695,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1703099323
+    },
+    {
+        "content": "<p>I don't believe they are projected, its a regular grid. <br>\nBasically I want to be able to do the opposite of this, where isntead of selecting an x/y to get a lat/lon, I want to be able to do the opposite:</p>\n<div class=\"codehilite\"><pre><span></span><code>temps.temperature.isel(x=100,y=100, z=0)\n\nxarray.DataArray&#39;temperature&#39;\narray(0.379751)\nCoordinates:\nx () float64 -2.24e+06\ny () float64 -2.24e+06\nlon () float64 -135.0\nlat () float64 -61.43\nz () float64 -30.0\nAttributes:\nunits :\ndegree_celsius\nlong_name :\ncorrected pot. temp\n</code></pre></div>",
+        "id": 93696,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1703099786
+    },
+    {
+        "content": "<p>OK thanks! If there are two-dimensional latitude/longitude arrays I think it should have some projection unless it is a latitude/longitude projection and instead of 1D lat/lon you have 2D lat/lon for some reason but I've never seen this and I think your dimensions would be lat/lon and not x/y. I'd double check the file header to see if there is grid information in there. Regardless, take a look here: <a href=\"https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates\">https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates</a>. There are several approaches mentioned, but the only thing I will caution is that simply taking a minimum difference between the latitude and longitude arrays may not give you the correct result if you do have projected data. I could take a look at a file if you're able to share, or provide header information here.</p>",
+        "id": 93697,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1703100433
+    },
+    {
+        "content": "<p>Thanks very much, I'll check out the link you provided.  If it helps, the header for the file is :</p>\n<div class=\"codehilite\"><pre><span></span><code>netcdf obs_temperature_1995-2017_8km_x_60m {\ndimensions:\n        x = 761 ;\n        y = 761 ;\n        z = 30 ;\n        nbounds = 2 ;\nvariables:\n        double x(x) ;\n                x:_FillValue = nan ;\n                x:units = &quot;meters&quot; ;\n        double y(y) ;\n                y:_FillValue = nan ;\n                y:units = &quot;meters&quot; ;\n        double temperature(z, y, x) ;\n                temperature:_FillValue = nan ;\n                temperature:units = &quot;degree_celsius&quot; ;\n                temperature:long_name = &quot;corrected pot. temp&quot; ;\n                temperature:coordinates = &quot;lon lat&quot; ;\n        double lon(y, x) ;\n                lon:_FillValue = nan ;\n                lon:units = &quot;degrees&quot; ;\n        double lat(y, x) ;\n                lat:_FillValue = nan ;\n                lat:units = &quot;degrees&quot; ;\n        double z(z) ;\n                z:_FillValue = nan ;\n                z:units = &quot;meters&quot; ;\n                z:bounds = &quot;z_bnds&quot; ;\n                z:standard_name = &quot;depth&quot; ;\n                z:positive = &quot;up&quot; ;\n                z:axis = &quot;Z&quot; ;\n        double z_bnds(z, nbounds) ;\n                z_bnds:_FillValue = nan ;\n                z_bnds:comment = &quot;depth bounds&quot; ;\n\n// global attributes:\n                :coordinates = &quot;z_bnds&quot; ;\n</code></pre></div>",
+        "id": 93699,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1703102099
+    },
+    {
+        "content": "<p>You're right, I see no grid information in there. Do you have any information about the model or observation dataset that this file came from?</p>",
+        "id": 93722,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1703177615
+    },
+    {
+        "content": "<p>I believe I figured out a way, with help from the stackoverflow site in the thread above:</p>\n<div class=\"codehilite\"><pre><span></span><code>#  plot the verticies of each point\ntemps.temperature.isel(z=0).plot(x=&#39;lon&#39;, y=&#39;lat&#39;)\n\n# I want to find the temp at a certain lat/lon point.\nmylat = -65\nmylon = -110\n\n# First, find the index of the grid point nearest a specific lat/lon.\nabslat = np.abs(temps.lat-mylat)\nabslon = np.abs(temps.lon-mylon)\nc = np.maximum(abslon, abslat)\n\n([xloc], [yloc]) = np.where(c == np.min(c))\n\n# Now I can use that index location to get the values at the x/y diminsion\ntemp_at_myLoc = temps.isel(x=yloc,y=xloc)\ntemp_at_myLoc\n</code></pre></div>",
+        "id": 93752,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1703200121
+    },
+    {
+        "content": "<p>Great! That particular poster has more information in a Jupyter Notebook here: <a href=\"https://github.com/blaylockbk/pyBKB_v3/blob/master/demo/Nearest_lat-lon_Grid.ipynb\">https://github.com/blaylockbk/pyBKB_v3/blob/master/demo/Nearest_lat-lon_Grid.ipynb</a></p>",
+        "id": 93753,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1703201220
+    }
+]

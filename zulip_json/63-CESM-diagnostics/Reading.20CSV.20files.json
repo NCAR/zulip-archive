@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>I have the following code. It appears to create a numpy array of the values I want from the dataframe. However, when I do the plot, it remembers the time axis from the dataframe. So, it plots the values versus real years (1979 -) I want to reset years to 0 to 40 say. I have tried reset_index() and this appeared to do what I wanted, but I still got a plot versus the real years. I also tried to_numpy(). Same thing. Does anyone have experience with dataframes here?</p>\n<div class=\"codehilite\"><pre><span></span><code>### Read in the NSIDC data from files\n\npath_nsidc = &#39;/glade/campaign/cesm/development/pcwg/ice/data/NSIDC_SeaIce_extent/&#39;\n\nsep_nsidc = pd.read_csv(path_nsidc+&#39;N_09_extent_v3.0.csv&#39;)\n\nsep_area = sep_nsidc.iloc[:,5].values\n\nsep_area\n\nplt.plot(sep_area)\n</code></pre></div>",
+        "id": 95318,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706722939
+    },
+    {
+        "content": "<p>Is possible you're working in a notebook where there's some holdover from a prior plot?  The <code>.values</code> should just give the values in a numpy array.  That's odd behavior.</p>",
+        "id": 95321,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1706723835
+    },
+    {
+        "content": "<p>I even tried doing:</p>\n<p>x =np. linspace(1,np.size(sep_area),np.size(sep_area))</p>\n<p>plt.plot(x,sep_area)</p>\n<p>and same result.</p>",
+        "id": 95322,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706724379
+    },
+    {
+        "content": "<p>Does something like this help at all?</p>\n<div class=\"codehilite\"><pre><span></span><code>plt.clf() # clear figure\nx = np.linspace(1,np.size(sep_area),np.size(sep_area))\nplt.plot(x,sep_area)\n</code></pre></div>",
+        "id": 95323,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1706726676
+    },
+    {
+        "content": "<p>This did not help unfortunately.</p>",
+        "id": 95336,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706730931
+    },
+    {
+        "content": "<p>What else is going on in your notebook? And what environment / package versions are you running? I copied and pasted your code into a new notebook using <code>NPL 2024a</code> and it doesn't put the years on the axes:</p>\n<p><a href=\"/user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png\">dave-issue.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png\" title=\"dave-issue.png\"><img src=\"/user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png\"></a></div>",
+        "id": 95340,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706731325
+    },
+    {
+        "content": "<p>Well crap. I was trying to overplot in on the same axis as two xarray averaged quantities. I'm guessing the problem is a month axis thing.</p>",
+        "id": 95342,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706733929
+    },
+    {
+        "content": "<p>Sorry about the confusion.</p>",
+        "id": 95343,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1706734213
+    },
+    {
+        "content": "<p>No worries.  Glad you got it tracked down!</p>",
+        "id": 95344,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1706734289
+    }
+]

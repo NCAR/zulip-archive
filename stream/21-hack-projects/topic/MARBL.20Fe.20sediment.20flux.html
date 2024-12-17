@@ -1,0 +1,46 @@
+<html>
+<head><meta charset="utf-8"><title>MARBL Fe sediment flux · hack-projects · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/index.html">hack-projects</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/MARBL.20Fe.20sediment.20flux.html">MARBL Fe sediment flux</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="6462"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/MARBL%20Fe%20sediment%20flux/near/6462" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/MARBL.20Fe.20sediment.20flux.html#6462">(Apr 10 2020 at 23:08)</a>:</h4>
+<p><strong>Objective</strong><br/>
+I want to create a reproducible workflow to generate the sedimentary iron forcing for CESM. </p>
+<p><strong>Repository and other resources</strong></p>
+<ul>
+<li>
+<p>I have started this project here:<br/>
+<a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux">https://github.com/marbl-ecosys/forcing-Fe-sedflux</a></p>
+</li>
+<li>
+<p>This depends on <code>esmlab</code> <br/>
+<a href="https://github.com/NCAR/esmlab" target="_blank" title="https://github.com/NCAR/esmlab">https://github.com/NCAR/esmlab</a></p>
+</li>
+<li>
+<p>and on <code>esmlab-regrid</code>:<br/>
+<a href="https://github.com/NCAR/esmlab-regrid" target="_blank" title="https://github.com/NCAR/esmlab-regrid">https://github.com/NCAR/esmlab-regrid</a><br/>
+which implements regridding operation with a slightly different API that <code>xESMF</code>.</p>
+</li>
+</ul>
+<p>It should perhaps depend on <code>geocat</code>!</p>
+<p><strong>General parts</strong><br/>
+The work flow is sketched out but not fully verified. I aim to finish this off to generate a dataset that we can use in our upcoming JRA integration (see <a class="stream" data-stream-id="20" href="/#narrow/stream/23-0.2E1.C2.B0-JRA-BGC-Run">#0.1° JRA BGC Run</a>). Once that's done, it would be great to solicit some help from <span class="user-group-mention" data-user-group-id="1">@geocat</span>  and <span class="user-group-mention" data-user-group-id="4">@xdev</span>. I think this is a reasonable motivating use case to support for re-gridding. It's POP specific, but I would like to make it model agnostic.</p>
+<p>@all, this repo might provide an example for project layout (see <a href="#narrow/stream/24-hack-projects/topic/project.20template.20repo" title="#narrow/stream/24-hack-projects/topic/project.20template.20repo">#hack-projects: project template repo</a>).</p>
+
+
+
+<a name="6816"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/MARBL%20Fe%20sediment%20flux/near/6816" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/MARBL.20Fe.20sediment.20flux.html#6816">(Apr 20 2020 at 15:08)</a>:</h4>
+<p>I made some progress on this project last week, but I haven't quite pulled it all together yet. I am now using <code>papermill</code> to parameterize and run the notebooks in a workflow. This is useful because I can produce different versions of the dataset for different ocean grids, for instance, re-using the same code and documenting each step in the process. I am still ironing out little bugs in the elements of the workflow, but I hope to wrap this up on Friday.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

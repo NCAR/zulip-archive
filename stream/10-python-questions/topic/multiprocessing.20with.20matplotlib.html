@@ -1,0 +1,166 @@
+<html>
+<head><meta charset="utf-8"><title>multiprocessing with matplotlib · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html">multiprocessing with matplotlib</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="52064"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52064" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52064">(Mar 14 2022 at 15:50)</a>:</h4>
+<p>I am attempting to parallelize three calls to <code>pcolormesh</code> using the Python <code>multiprocessing</code> module. Here is some pseduo-code:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="k">def</span> <span class="nf">setup_ax</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+  <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=-</span><span class="mf">97.5</span><span class="p">,</span><span class="n">central_latitude</span><span class="o">=</span><span class="mf">38.5</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="n">idstr</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="o">.</span><span class="n">with_scale</span><span class="p">(</span><span class="s1">'50m'</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">STATES</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_comp</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">ax</span><span class="p">,</span><span class="n">field</span><span class="p">,</span><span class="n">minval</span><span class="p">,</span><span class="n">cmap</span><span class="p">,</span><span class="n">norm</span><span class="p">):</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lon0</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">lat0</span><span class="p">,</span><span class="n">ds</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'z0'</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'z0'</span><span class="p">)</span><span class="o">&gt;</span><span class="n">minval</span><span class="p">),</span><span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">setup_ax</span><span class="p">(</span><span class="s1">'ax1'</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">setup_ax</span><span class="p">(</span><span class="s1">'ax2'</span><span class="p">)</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">setup_ax</span><span class="p">(</span><span class="s1">'ax3'</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span><span class="n">ax2</span><span class="p">,</span><span class="n">ax3</span><span class="p">]</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'f1'</span><span class="p">,</span><span class="s1">'f2'</span><span class="p">,</span><span class="s1">'f3'</span><span class="p">]</span>
+<span class="n">mv</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="p">[</span><span class="n">col1</span><span class="p">,</span><span class="n">col2</span><span class="p">,</span><span class="n">col3</span><span class="p">]</span>
+<span class="n">nm</span> <span class="o">=</span> <span class="p">[</span><span class="n">norm1</span><span class="p">,</span><span class="n">norm2</span><span class="p">,</span><span class="n">norm3</span><span class="p">]</span>
+
+<span class="n">mp</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">plot_comp</span><span class="p">,[(</span><span class="n">ds</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span> <span class="ow">in</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span><span class="n">fn</span><span class="p">,</span><span class="n">mv</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">nm</span><span class="p">))])</span>
+</code></pre></div>
+<p>I get an error that I am having trouble interpreting:</p>
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;plot_mdv64_field.py&quot;, line 136, in &lt;module&gt;
+    results = mp.starmap(plot_comp,[(fileData,a,f,m,c,n) for a,f,m,c,n in tuple(zip(ax,fn,mv,cm,nm))])
+  File &quot;/home/dadriaan/.conda/envs/icicle/lib/python3.8/multiprocessing/pool.py&quot;, line 372, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+  File &quot;/home/dadriaan/.conda/envs/icicle/lib/python3.8/multiprocessing/pool.py&quot;, line 771, in get
+    raise self._value
+multiprocessing.pool.MaybeEncodingError: Error sending result: &#39;[&lt;matplotlib.collections.QuadMesh object at 0x7f7c5879ba90&gt;]&#39;. Reason: &#39;AttributeError(&quot;Can&#39;t pickle local object &#39;GeoAxes._pcolormesh_patched.&lt;locals&gt;.&lt;lambda&gt;&#39;&quot;)&#39;
+</code></pre></div>
+<p>I can only imagine this has something to do with figures or subplots, but I'm not quite sure in what way. I would expect <code>results</code> to just be a list of three objects returned from <code>pcolormesh</code> in <code>plot_comp()</code>, but I must be missing something.</p>
+<p>Does anyone have any insight? Thank you!</p>
+
+
+
+<a name="52072"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52072" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52072">(Mar 14 2022 at 17:17)</a>:</h4>
+<p><span class="user-mention" data-user-id="234">@Daniel Adriaansen</span>, I am not exactly sure what's going wrong, but in previous instances I've found that <code>matplotlib</code> is not thread-safe. I have used <code>dask.delayed</code> to successfully parallelize plotting. For example, see <a href="https://gist.github.com/matt-long/542bca173e77d8d2c455afc6ae20aab2">here</a>.</p>
+
+
+
+<a name="52078"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52078" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52078">(Mar 14 2022 at 19:21)</a>:</h4>
+<p><span class="user-mention" data-user-id="234">@Daniel Adriaansen</span>:  <span class="user-mention" data-user-id="14">@Matt Long</span>'s suggestion of using Dask for parallelism is a good one.  Can I ask if this is "new code" that you have written and it is failing?  Or is this an old script that <em>used to work</em> but now does not?</p>
+
+
+
+<a name="52240"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52240" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52240">(Mar 16 2022 at 15:59)</a>:</h4>
+<p>Thank you <span class="user-mention" data-user-id="14">@Matt Long</span> and <span class="user-mention" data-user-id="8">@Kevin Paul</span>! To answer Kevin's question- this is new code that I wrote and is failing. Are you mostly curious from a version standpoint (i.e. new versions breaking my old code)? Or is there something else that might be at play here?</p>
+<p>I have not used Dask before, and frankly misunderstood it as only useful for parallelizing problems with specific Pythonic data containers/objects like ndarray/DataArray and DataFrames. It turns out that Dask can be used by itself and this opens up a whole new world. From the Dask documentation here <a href="https://examples.dask.org/delayed.html">https://examples.dask.org/delayed.html</a>, I see "Systems like Dask.dataframe are built with Dask.delayed. If you have a problem that is paralellizable, but isn’t as simple as just a big array or a big dataframe, then dask.delayed may be the right choice for you."</p>
+<p>Thanks to <span class="user-mention" data-user-id="14">@Matt Long</span> for the example and suggestion!</p>
+
+
+
+<a name="52264"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52264" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52264">(Mar 16 2022 at 16:52)</a>:</h4>
+<p>Hi Daniel, note that matplotlib is constrained to have one process/thread produce the plot itself.   Dask is best used to parallelize the data processing steps for the plot, but  the process of constructing the plot itself cannot be easily parallelized.</p>
+
+
+
+<a name="52269"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52269" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52269">(Mar 16 2022 at 17:04)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="9">@Brian Bonnlander</span>. <span class="user-mention" data-user-id="14">@Matt Long</span> example above shows using dask.delayed for constructing the plot itself, presumably in parallel. Again, I am very new to Dask so I may not fully grasp what is going on in the example. Is using dask.delayed useful for calls to things like <code>contourf</code> and <code>pcolormesh</code>?</p>
+
+
+
+<a name="52284"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52284" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52284">(Mar 16 2022 at 19:50)</a>:</h4>
+<p>Hi Daniel, I just looked at the example and it seems related to data processing, not plotting.   I could be wrong, but everything I've read suggests that <code>contourf</code> and <code>pcolormesh</code> are non-parallizable.   Producing the data values for these plots are parallelizable using Dask, however.</p>
+
+
+
+<a name="52290"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52290" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52290">(Mar 16 2022 at 20:09)</a>:</h4>
+<p>OK thanks- I think I understand. What I am trying to do is get a single Python script to call three instances of <code>pcolormesh</code> simultaneously for three different plots (not the same plot). This would be equivalent to running three separate python scripts at the same time to call <code>pcolormesh</code>. Separate resources are used for each, but I just want to do it from a single script. I'm not actually interesting in parallellizing the work that's done within <code>pcolormesh</code>, but rather running multiple calls to those simultaneously on the same piece of hardware.</p>
+
+
+
+<a name="52295"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52295" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52295">(Mar 16 2022 at 20:43)</a>:</h4>
+<p>Ah, I see.  It may be possible to do that, as long as the plots are completely distinct and not combined as separate subplots.   Again though, this is more based on what I've read.</p>
+
+
+
+<a name="52342"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52342" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52342">(Mar 17 2022 at 19:43)</a>:</h4>
+<p>After much tinkering (including with <code>dask</code> a bit), I was ultimately successful with my original approach using <code>multiprocessing</code>:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">multiprocessing</span>
+
+<span class="k">def</span> <span class="nf">setup_ax</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+  <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span><span class="n">projection</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">LambertConformal</span><span class="p">(</span><span class="n">central_longitude</span><span class="o">=-</span><span class="mf">97.5</span><span class="p">,</span><span class="n">central_latitude</span><span class="o">=</span><span class="mf">38.5</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="n">idstr</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">COASTLINE</span><span class="o">.</span><span class="n">with_scale</span><span class="p">(</span><span class="s1">'50m'</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">STATES</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="n">cfeature</span><span class="o">.</span><span class="n">BORDERS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+  <span class="k">return</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plot_comp</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span><span class="n">field</span><span class="p">,</span><span class="n">minval</span><span class="p">,</span><span class="n">cmap</span><span class="p">,</span><span class="n">norm</span><span class="p">):</span>
+  <span class="n">ax</span> <span class="o">=</span> <span class="n">setup_ax</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+  <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">lon0</span><span class="p">,</span><span class="n">ds</span><span class="o">.</span><span class="n">lat0</span><span class="p">,</span><span class="n">ds</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'z0'</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">field</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'z0'</span><span class="p">)</span><span class="o">&gt;</span><span class="n">minval</span><span class="p">),</span><span class="n">transform</span><span class="o">=</span><span class="n">ccrs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span><span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+  <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">+</span><span class="s1">'.png'</span><span class="p">)</span>
+
+<span class="c1"># New figure</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>
+
+<span class="c1"># Items for parallelizing</span>
+<span class="n">fn</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'f1'</span><span class="p">,</span><span class="s1">'f2'</span><span class="p">,</span><span class="s1">'f3'</span><span class="p">]</span>
+<span class="n">mv</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">]</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="p">[</span><span class="n">col1</span><span class="p">,</span><span class="n">col2</span><span class="p">,</span><span class="n">col3</span><span class="p">]</span>
+<span class="n">nm</span> <span class="o">=</span> <span class="p">[</span><span class="n">norm1</span><span class="p">,</span><span class="n">norm2</span><span class="p">,</span><span class="n">norm3</span><span class="p">]</span>
+
+<span class="n">mp</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">mp</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">plot_comp</span><span class="p">,[(</span><span class="n">ds</span><span class="p">[</span><span class="n">fn</span><span class="p">],</span><span class="n">f</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">n</span> <span class="ow">in</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span><span class="n">mv</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">nm</span><span class="p">))])</span>
+</code></pre></div>
+<p>The major change I think was defining a new axis and saving the figure within <code>plot_comp()</code>. Thus, nothing is returned from <code>multiprocessing</code> in this instance. Timing within Python shows roughly a 40-50% speedup taking this approach for three fields.</p>
+
+
+
+<a name="52345"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52345" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52345">(Mar 18 2022 at 02:07)</a>:</h4>
+<p>Nice <span class="user-mention" data-user-id="234">@Daniel Adriaansen</span> . This would make a great blogpost for the ESDS blog if you're up for contributing: <a href="https://ncar.github.io/esds/">https://ncar.github.io/esds/</a></p>
+
+
+
+<a name="52451"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52451" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52451">(Mar 21 2022 at 16:19)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> <a href="#narrow/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib/near/52345">said</a>:</p>
+<blockquote>
+<p>Nice <span class="user-mention silent" data-user-id="234">Daniel Adriaansen</span> . This would make a great blogpost for the ESDS blog if you're up for contributing: <a href="https://ncar.github.io/esds/">https://ncar.github.io/esds/</a></p>
+</blockquote>
+<p>Thanks for the opportunity! I'd be happy to contribute this as an example. What's the best way to coordinate? Feel free to email me directly (I believe my email is visible in my profile, but if not reply here and I will send it directly).</p>
+
+
+
+<a name="52477"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/multiprocessing%20with%20matplotlib/near/52477" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib.html#52477">(Mar 22 2022 at 14:30)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="234">Daniel Adriaansen</span> <a href="#narrow/stream/10-python-questions/topic/multiprocessing.20with.20matplotlib/near/52451">said</a>:<br>
+ What's the best way to coordinate? </p>
+<div class="codehilite"><pre><span></span><code>A pull request here would be best: https://github.com/NCAR/esds .
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

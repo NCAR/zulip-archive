@@ -1,0 +1,86 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> <br>\nas an update <a href=\"/user_uploads/2/3b/JcFrkXmYfN4BeaRjioPIDicR/log_20231205.txt\">log_20231205.txt</a>  here is output from ROMS with print statements on the MARBL end showing the various contributions to <code>Jint_Ntot</code> and print statements on the ROMS end showing the tracer and interior tendencies values at each level (for NO3,NH4,DON,DONR) before and after the call to <code>interior_tendency_compute</code></p>\n<p>The <code>Jint_Ntot</code> contributions are :</p>\n<div class=\"codehilite\"><pre><span></span><code>nfix=-0.1303031320222460E-012\nno3=0.2114891178390254E-004\nnh4=0.1116407491877611E-004\ndon=-0.3932067222230340E-005\ndonr=0.3553308574834122E-008\nzooc=-0.1175304232702107E-005\nautoc=-0.2722524839079615E-004\ndenitrif=0.0000000000000000E+000\nsed_denitrif=0.1342360290901569E-007\nPON_sed_loss=0.4047631781123396E-009\n</code></pre></div>\n<p>for a total of 0.246E-008 (exceeding the threshold of 0.434E-012)</p>",
+        "id": 93009,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1701820667
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"184\">@Dafydd Stephenson</span> is this the same column that had a bunch of zeros before, and now you've gotten non-zero values but they still violate the threshold criteria?</p>",
+        "id": 93034,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1701836655
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"184\">@Dafydd Stephenson</span> , what MARBL code base are you running with?<br>\nIf it has mods from MARBL repo, has the MARBL test suite been run on the code base?<br>\nI'm asking to help separate between MARBL code issues and ROMS/MARBL driver issues.</p>",
+        "id": 93232,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1701982166
+    },
+    {
+        "content": "<p>Hi Keith, sorry I didn't post an update straight away but I found out late yesterday that indeed the issue stemmed from being on the wrong MARBL branch. Good catch! Will be pushing a first version of the driver in this example configuration to GitHub today or tomorrow</p>",
+        "id": 93233,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1701982353
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/28-MARBL/topic/roms.20driver/near/93034\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"184\">Dafydd Stephenson</span> is this the same column that had a bunch of zeros before, and now you've gotten non-zero values but they still violate the threshold criteria?</p>\n</blockquote>\n<p>and yes Mike this is the same column, we caught an issue where halo effects were leaking in during the handover to MARBL and patched it but the error continued after (though has now been caught).</p>",
+        "id": 93234,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1701982707
+    },
+    {
+        "content": "<p>I've updated the driver to include MARBL saved state i/o (was previously just populating the <code>saved_state</code> components of the MARBL instance with 0) but this is causing a crash out in <code>marbl_co2calc_mod/drtsafe</code>:<br>\n(There are a lot more WARNINGs before this but they're effectively the same thing at different levels). The model runs for about 11 model days before the warnings start.</p>\n<div class=\"codehilite\"><pre><span></span><code> Task 7) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) it = 4\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x1,f =  0.4340482E-008-0.3731634E-004\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x2,f =  0.6879200E-005-0.2497997E-002\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): bounding bracket for pH solution not found\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) dic =  0.2371843E+004\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) ta =  0.2902752E+004\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) pt =  0.0000000E+000\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) sit =  0.0000000E+000\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) temp =  0.1578623E+002\n Task 7) Message from (i,j) (4,4) at level 10\n Task 7) MARBL ERROR (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) salt =  0.3543604E+002\n Task 7) MARBL ERROR (marbl_co2calc_mod:comp_htotal): Error reported from drtsafe\n Task 7) MARBL ERROR (marbl_co2calc_mod:marbl_co2calc_interior): Error reported from comp_htotal()\n Task 7) MARBL ERROR (marbl_interior_tendency_mod:compute_carbonate_chemistry): Error reported from marbl_co2calc_interior() with dic\n Task 7) MARBL ERROR (marbl_interior_tendency_mod:marbl_interior_tendency_compute): Error reported from compute_carbonate_chemistry()\n Task 7) MARBL ERROR (marbl_interface:interior_tendency_compute): Error reported from marbl_interior_tendency_compute()\n Task 7) MARBL ERROR (MARBL_tracers_column_physics): Error reported from marbl_instance%interior_tendency_compute()\n</code></pre></div>\n<p>(The driver can be seen at  <code>https://github.com/dafyddstephenson/ROMS_MARBL_BATS/blob/saved_state/code/marbl_driver.F</code> if needed)</p>",
+        "id": 95095,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1706227558
+    },
+    {
+        "content": "<p>Some other things I've noticed are:</p>\n<ul>\n<li>If I start from cold the error sometimes occurs, but sometimes doesn't (this is particularly alarming)</li>\n<li>Any cold starts that run to completion produce bitwise identical restart files</li>\n<li>Restarting from these files leads to an interior tendency abort at the same time step every time</li>\n</ul>\n<p>Digging further again, I've removed the variables from the restart files (ROMS behaviour is then to initialise them to 0). This leads to an abort during the first call to <code>interior_tendency_compute</code>.</p>\n<p>Interestingly, if I go to the point in the code where the MARBL instance is populated with these values and instead hardcode them to 0, the run completes fine. It seems like they're getting junk values from somewhere but anywhere I've had the values printed out they seem normal. I will look into this further.</p>",
+        "id": 95251,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1706569023
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"184\">Dafydd Stephenson</span> <a href=\"#narrow/stream/28-MARBL/topic/roms.20driver/near/95251\">said</a>:</p>\n<blockquote>\n<p>Digging further again, I've removed the variables from the restart files (ROMS behaviour is then to initialise them to 0). This leads to an abort during the first call to <code>interior_tendency_compute</code>.</p>\n<p>Interestingly, if I go to the point in the code where the MARBL instance is populated with these values and instead hardcode them to 0, the run completes fine. It seems like they're getting junk values from somewhere but anywhere I've had the values printed out they seem normal. I will look into this further.</p>\n</blockquote>\n<p>So if you remove saved state from the restart file, you expect <code>marbl_ss_3d</code> to be 0 but setting</p>\n<div class=\"codehilite\" data-code-language=\"Fortran\"><pre><span></span><code><span class=\"n\">MARBL_instance</span><span class=\"p\">%</span><span class=\"n\">interior_tendency_saved_state</span><span class=\"p\">%</span><span class=\"n\">state</span><span class=\"p\">(</span><span class=\"n\">m</span><span class=\"p\">)%</span><span class=\"n\">field_3d</span><span class=\"p\">(:,</span><span class=\"mi\">1</span><span class=\"p\">)</span><span class=\"o\">=</span><span class=\"n\">marbl_ss_3d</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"p\">,</span><span class=\"n\">j</span><span class=\"p\">,</span><span class=\"n\">nz</span><span class=\"p\">:</span><span class=\"mi\">1</span><span class=\"p\">:</span><span class=\"o\">-</span><span class=\"mi\">1</span><span class=\"p\">,</span><span class=\"n\">m</span><span class=\"p\">)</span><span class=\"w\"></span>\n</code></pre></div>\n<p>aborts while</p>\n<div class=\"codehilite\" data-code-language=\"Fortran\"><pre><span></span><code><span class=\"n\">MARBL_instance</span><span class=\"p\">%</span><span class=\"n\">interior_tendency_saved_state</span><span class=\"p\">%</span><span class=\"n\">state</span><span class=\"p\">(</span><span class=\"n\">m</span><span class=\"p\">)%</span><span class=\"n\">field_3d</span><span class=\"p\">(:,</span><span class=\"mi\">1</span><span class=\"p\">)</span><span class=\"o\">=</span><span class=\"mi\">0</span><span class=\"w\"></span>\n</code></pre></div>\n<p>is okay? that definitely sounds like <code>marbl_ss_3d</code> is getting corrupted</p>",
+        "id": 95253,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706569173
+    },
+    {
+        "content": "<p>Yes, that's exactly it.  I'll go back to getting a full dump of the values because I can't think of anything else that tracks with this behaviour</p>",
+        "id": 95254,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1706569331
+    },
+    {
+        "content": "<p>In <code>step3d_t_ISO.F</code>, you are passing <code>marbldrv_column_physics</code> <code>marbl_saved_state_2d(istr:iend,jstr:jend,:)</code> and <code>marbl_saved_state_3d(istr:iend,jstr:jend,:,:)</code>, so your <code>(i,j)</code> dimensions will be remapped to <code>(1:iend-istr+1, 1:jend-jstr+1)</code>. In <code>marbldrv_column_physics</code> you are looping from <code>istr</code> and <code>jstr</code> to <code>iend</code> and <code>jend</code>, so the last <code>(istr-1)</code> and <code>(jstr-1)</code> items are out of the bounds of the array. Try passing <code>marbl_saved_state_2d(:,:,:)</code> and <code>marbl_saved_state_3d(:,:,:,:)</code> instead</p>",
+        "id": 95255,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706569395
+    },
+    {
+        "content": "<p>I now remember why the call is written like this: arrays are defined to be padded around the outside. In this example, indices -1 and 0 point to the first two rows and columns of the array, so passing the full array remaps these to row/column 1 and 2. Dumping the values shows the ones in the restart file are correctly passed into MARBL in the right places. I don't think this exact format for the call to MARBL is ideal, but it is functional in the simple configuration where istr=jstr=1,iend=jend=4, and each CPU is working with a local ~4x4 subset of the global array (sometimes with some additional padding (rows/columns &lt;1 or &gt;4) that we don't want to show to MARBL). </p>\n<p>However, I've found a bug in the ROMS source code that initialises variables absent in the restart file to 0 _only in a single layer_ which explains why removing saved state from the restart file led to a rapid corruption with junk values in that particular case. I have now patched this and can confirm that whether or not the saved_state values are in the restart file, the model errors out at the same point in time.</p>",
+        "id": 95315,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1706659011
+    },
+    {
+        "content": "<p>OK, this turned out to be triggered independently by the above mentioned bug in ROMS (now patched) <strong>and</strong> a physics problem with the test configuration (now fixed). It now runs without the issue.</p>",
+        "id": 95386,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1706823927
+    },
+    {
+        "content": "<p>awesome, glad you got it up and running! I'm a little surprised that passing the subarrays kept the subarray index, but then I had no idea what else to suggest :)</p>",
+        "id": 95387,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1706824464
+    },
+    {
+        "content": "<p>It happens that the indices coincide with the size of the subarray but this formulation at best ugly and at worst asking for trouble... I think it'd be better to pass the subarray and then loop over its full shape (not an easy change to make currently, but definitely due at some point). Thanks for your help!</p>",
+        "id": 95388,
+        "sender_full_name": "Dafydd Stephenson",
+        "timestamp": 1706824817
+    }
+]

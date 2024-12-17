@@ -1,0 +1,61 @@
+<html>
+<head><meta charset="utf-8"><title>hypsometric equation · ESDS · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html">hypsometric equation</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="85534"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Tom Cram <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85534">(Jul 13 2023 at 15:50)</a>:</h4>
+<p>I am searching for a Python equivalent of the NCL function cz2ccm, which computes geopotential height at hybrid model levels in CESM output.  Can anyone refer me to a Python function that does this, or do you have you written your own function that you can share with me?  <br>
+NCL reference: <a href="https://www.ncl.ucar.edu/Document/Functions/Built-in/cz2ccm.shtml">https://www.ncl.ucar.edu/Document/Functions/Built-in/cz2ccm.shtml</a><br>
+NCL Fortran source code for cz2ccm: <a href="https://github.com/NCAR/ncl/blob/develop/ni/src/lib/nfpfort/cz2ccm_dp.f">https://github.com/NCAR/ncl/blob/develop/ni/src/lib/nfpfort/cz2ccm_dp.f</a></p>
+
+
+
+<a name="85536"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85536" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85536">(Jul 13 2023 at 16:10)</a>:</h4>
+<p>This is a good question for <span class="user-group-mention" data-user-group-id="1">@geocat</span>. I found a <a href="https://geocat-comp.readthedocs.io/en/stable/internal_api/generated/geocat.comp.interpolation._geo_height_extrapolate.html">similar function in geocat-comp</a>, but I don't think it does the hybrid model levels.</p>
+
+
+
+<a name="85540"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85540" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85540">(Jul 13 2023 at 16:56)</a>:</h4>
+<p>It doesn't look like we have this in GeoCAT at the moment, but could be a good candidate for including.  </p>
+<p>I'll log an issue/feature request on GeoCAT-comp (unless you beat me to it) and look into this.  </p>
+<p>If you have other suggestions for computational or visualization functionalities from (NCL or otherwise) that might be missing from GeoCAT (especially if that functionality isn't available elsewhere in Python), please let us know!   </p>
+<p>We also have a feature request form on the GitHub issue trackers for <a href="https://github.com/NCAR/geocat-comp/issues/new/choose">GeoCAT-comp</a> or <a href="https://github.com/NCAR/geocat-viz/issues/new/choose">GeoCAT-viz</a>.</p>
+
+
+
+<a name="85542"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85542" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Tom Cram <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85542">(Jul 13 2023 at 17:13)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> Thank you.  I have not submitted a feature request yet, so I will allow you to do so.  FWIW, ECMWF has a function in their Metview package to do this, so we might try this in the meantime until it's supported in GeoCAT:<br>
+<a href="https://metview.readthedocs.io/en/latest/api/functions/mvl_geopotential_on_ml.html">https://metview.readthedocs.io/en/latest/api/functions/mvl_geopotential_on_ml.html</a></p>
+
+
+
+<a name="85544"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85544" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85544">(Jul 13 2023 at 17:32)</a>:</h4>
+<p>Oh good.  Glad there’s something you all can use for the time being.  Thanks for sharing that.</p>
+
+
+
+<a name="85554"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85554" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85554">(Jul 13 2023 at 18:16)</a>:</h4>
+<p>Is it one of the <a href="http://cfconventions.org/Data/cf-conventions/cf-conventions-1.10/cf-conventions.html#parametric-v-coord">CF standard equations</a>? If so, does CESM write out the appropriate CF attributes? If so, we could easily add it to <a href="https://cf-xarray.readthedocs.io/en/latest/parametricz.html">cf-xarray</a></p>
+
+
+
+<a name="85569"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/hypsometric%20equation/near/85569" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Tom Cram <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/hypsometric.20equation.html#85569">(Jul 13 2023 at 20:08)</a>:</h4>
+<p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> Yes, it appears CESM writes the appropriate CF attributes.  See, for example, the output located at /gpfs/csfs1/collections/cmip/CMIP6/timeseries-cmip6/b.e21.BHIST.f09_g17.CMIP6-historical.011/atm/proc/tseries/hour_6</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

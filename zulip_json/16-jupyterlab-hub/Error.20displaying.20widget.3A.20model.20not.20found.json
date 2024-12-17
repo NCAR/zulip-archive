@@ -1,0 +1,50 @@
+[
+    {
+        "content": "<p>Hi everyone, </p>\n<p>I'm using a self-created conda environment that explicitly installs dask_jobqueue and  ipywidgets.   It also includes jupyterlab and a bunch of extensions, but I'm not installing these packages explicitly; they are somehow being installed as a dependencies to other packages.  </p>\n<p>When I am using this conda environment in jupyterhub, I am unable to see the distributed client widget after running this code; instead I get the error message \"Error displaying widget: model not found\":</p>\n<div class=\"codehilite\"><pre><span></span><code>from dask_jobqueue import PBSCluster\n\nnum_jobs = 20\nwalltime = &#39;0:20:00&#39;\nmemory=&#39;10GB&#39;\n\ncluster = PBSCluster(cores=1, processes=1, walltime=walltime, memory=memory, queue=&#39;casper&#39;,\n                     resource_spec=&#39;select=1:ncpus=1:mem=10GB&#39;,)\ncluster.scale(jobs=num_jobs)\n\n\nfrom distributed import Client\nclient = Client(cluster)\ncluster\n</code></pre></div>\n<p><code>    Error displaying widget: model not found</code></p>\n<p>Has anyone seen this message before, and knows how to get around it?</p>",
+        "id": 80053,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1682641369
+    },
+    {
+        "content": "<p>I've seen it and suspect its a version mismatch between your env and the hub. The <code>client</code> repr works so i didn't look for a workaround</p>",
+        "id": 80054,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1682691295
+    },
+    {
+        "content": "<p>OK, thanks!   I have not been using the hub much over the past couple of years and always used my custom environment before that.   If there is some special package that I want to use not available from those provided, is it up to me to provide a complete env that does not conflict with the hub's jupyter settings?</p>",
+        "id": 80066,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1682701239
+    },
+    {
+        "content": "<p>After some trial and error, it looks like if the custom environment includes the <code>ipywidgets</code> package, then <code>jupyterlab</code> and some associated packages also get installed.   </p>\n<p>Having <code>jupyterlab</code> installed in a custom conda environment appears to create conflicts with jupyterhub settings, which is probably to be expected. </p>\n<p>If <code>jupyterlab</code> and other jupyter-related packages are not in the custom environment, then the Client widget is displayed properly for me.</p>",
+        "id": 80092,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1682714976
+    },
+    {
+        "content": "<p>I've seen this previous post <a href=\"#narrow/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found/near/80053\">https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found/near/80053</a></p>\n<p>but I tried making a fresh environment making sure no jupyterlab/notebook dependencies were installed. I still get <code>Error displaying widget: model not found</code></p>\n<p>Here is the code I'm testing the packaging with from this <a href=\"https://stackoverflow.com/questions/63384326/how-to-update-interactive-figure-in-loop-with-jupyterlab/63517891#63517891\">stackx</a>:</p>\n<div class=\"codehilite\"><pre><span></span><code>import matplotlib.pyplot as plt\nimport asyncio\n%matplotlib widget\nfig = plt.figure()\n\n\nasync def update():\n    for i in range(5):\n        print(i)\n        x = list(range(i + 2))\n        xx = [x**2 for x in x]\n        plt.clf()\n        plt.plot(x, xx)\n        fig.canvas.draw()\n        await asyncio.sleep(1)\n\n\nloop = asyncio.get_event_loop()\nloop.create_task(update());\n</code></pre></div>",
+        "id": 85415,
+        "sender_full_name": "Dhamma Kimpara (he/him)",
+        "timestamp": 1689113969
+    },
+    {
+        "content": "<p>When you try \"conda activate\" and \"conda list | grep jupyter\", do you see any jupyter-related packages?</p>",
+        "id": 85429,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1689176287
+    },
+    {
+        "content": "<p>i see:</p>\n<div class=\"codehilite\"><pre><span></span><code>jupyter_client\njupyter_core\njupyterlab_widgets\n</code></pre></div>",
+        "id": 85458,
+        "sender_full_name": "Dhamma Kimpara (he/him)",
+        "timestamp": 1689182326
+    },
+    {
+        "content": "<p>I don't have much experience with updating an interactive figure in a loop.   I do see some ESDS blog posts on the topic, maybe it is worth trying a different example using holoviews or hvplot.    See for example:   <a href=\"https://ncar.github.io/esds/posts/2021/intake-esm-holoviews-diagnostics/\">https://ncar.github.io/esds/posts/2021/intake-esm-holoviews-diagnostics/</a></p>",
+        "id": 85459,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1689183048
+    }
+]

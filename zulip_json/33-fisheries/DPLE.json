@@ -1,0 +1,398 @@
+[
+    {
+        "content": "<p>Hello <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> I've found my notebook that processes DPLE and does the drift correction. I think it should still work just fine. However, I need to get the unprocessed DPLE data. Before (when I was processing a bunch of DPLE variables) I usually grabbed the data files off tape for the variables I needed (I think they were compressed tar files) and put it on my scratch space (then deleted them after I processed them). However, now I can't remember where it is on tape (and my post-it that has the path to the data on tape is hanging on my office wall at NCAR-- not too useful!) <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> do you know where i can find the orginal dple output? Not sure if it would be only on tape ... or if it's located elsewhere on glade..</p>",
+        "id": 32989,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1622233723
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> -- there's a DPLE directory on campaign: <code>/glade/campaign/cesm/collections/CESM1-DPLE</code> I don't know much about the experiment, so no idea how complete the data set is... it could be the case that Gary is still moving data from HPSS over</p>",
+        "id": 33012,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1622235609
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> !! I think that directory should have all the data we need (and the files are already in netcdf rather than tar - yay! one less step:))</p>",
+        "id": 33016,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1622235939
+    },
+    {
+        "content": "<p>DPLE data is here</p>\n<div class=\"codehilite\"><pre><span></span>/glade/campaign/cesm/collections/CESM1-DPLE\n</pre></div>\n\n\n<p><span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span> or <span class=\"user-mention\" data-user-id=\"63\">@Elizabeth Maroon</span> have you advanced the state-of-the-art in DPLE processing/drift correction? Could you point <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> and <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> to a latest example code? We're spinning up to assess predictability of fishes.</p>",
+        "id": 33049,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1622294680
+    },
+    {
+        "content": "<p>The notebooks I have come from <span class=\"user-mention\" data-user-id=\"63\">@Elizabeth Maroon</span> .</p>",
+        "id": 33050,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1622295905
+    },
+    {
+        "content": "<p>The notebooks that <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> has are pretty old, and while they do get the job done, Steve, Who, and I have been iterating on a cleaner/better notebook over the past few months. Adding a drift correction function to them is currently on my desk. I'll put that on the short list of things to get done next week and get back to you soon.  </p>\n<p>For now, you can find the current example notebook that does everything <em>except</em> drift correction here: <a href=\"https://github.com/NCAR/RAPCDI-analysis/blob/main/notebooks/DPLE_ENSO_check.ipynb\" target=\"_blank\" title=\"https://github.com/NCAR/RAPCDI-analysis/blob/main/notebooks/DPLE_ENSO_check.ipynb\">https://github.com/NCAR/RAPCDI-analysis/blob/main/notebooks/DPLE_ENSO_check.ipynb</a></p>",
+        "id": 33052,
+        "sender_full_name": "Elizabeth Maroon",
+        "timestamp": 1622312594
+    },
+    {
+        "content": "<p>Thanks!</p>",
+        "id": 33053,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1622320100
+    },
+    {
+        "content": "<p>Hello, just wanted to provide an update here. I used <span class=\"user-mention\" data-user-id=\"63\">@Elizabeth Maroon</span> 's new notebook for processing the DPLE and was able to get some of the necessary variables for FEISTY processed. Right now I'm just trying to process 2 year (24 month) forecasts from 1970 to 2018 (just as a starting point).  I've combined Liz's notebook (with her new drift correction) with some functions from the <code>proc-cesm-dple-fields.ipynb</code> notebook from the fish-offline repo. I successfully processed 150m mean temp, and depth integrated spC, diatC, zooC, and zoo loss variables. the output is here: <code>/glade/work/kristenk/fish-offline/</code> . However, I'm having trouble with making the bottom field variables for TEMP and POC_FLUX_IN. My notebook is here and you can see the error I'm getting concerning the <code>field_at_bottom</code> function when I try to make a quick map of the anomalies (I get the same error when trying to load the dso_anoms before writing out the netcdf): <code>https://github.com/kristenkrumhardt/fish-offline/blob/kristens_branch/notebooks/DPLE_process_FEISTY_fields.ipynb</code></p>\n<p>I worked with <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> briefly on friday to try to find a solution (our attempts are in a copy of the above notebook, not yet in my branch of the fish-offline repo), but we weren't able to fix it yet...</p>\n<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> do you have any suggestions on how to proceed?</p>",
+        "id": 35060,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1624293413
+    },
+    {
+        "content": "<p>Hello! I am finally through processing the DPLE variables necessary for FEISTY. You'll find monthly drift-corrected anomalies for 150m integrated spC, diatC, zooC,  and zoo_loss, 150m mean TEMP, and bottom fields for TEMP and  POC_FLUX_IN here:</p>\n<p><code>/glade/scratch/kristenk/fish-offline</code></p>\n<p>I did all forecast start years (1954-2017), 10 year (122 month) forecasts. <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>  let me know if you have questions! Thanks :)</p>",
+        "id": 36414,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1625582709
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ! Does this DPLPE use a different gridspec than the FOSI with <code>grid-data-POP_gx1v6.nc</code>? I don't think it does, but I'm trying to understand why the variables seem to have a different number of non-nan grid cells from that and from each other. Do you know why only pelagic temperature agrees?<br>\nFor example,<br>\nbottom temp      86199                         <br>\nbottom POC        86199                          <br>\ndiatC                      85813                      <br>\npelagic temp      86212                   <br>\nzooC                       85813<br>\nzoo loss                 85813                          <br>\nPOP                        86212</p>",
+        "id": 37398,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1626299187
+    },
+    {
+        "content": "<p>hmmm that is a good question! I will look into it and let you know:)</p>",
+        "id": 37417,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1626300500
+    },
+    {
+        "content": "<p>The DPLE and FOSI use the same grid. What do you mean by</p>\n<blockquote>\n<p>Do you know why only pelagic temperature agrees?</p>\n</blockquote>\n<p>Also, what is that list of numbers?</p>\n<p>Do you see differences in the NaNs if you manually mask our land? You can do this as follows:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">field_masked</span> <span class=\"o\">=</span> <span class=\"n\">field</span><span class=\"o\">.</span><span class=\"n\">where</span><span class=\"p\">(</span><span class=\"n\">KMT</span> <span class=\"o\">&gt;</span> <span class=\"mi\">0</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>for example.</p>",
+        "id": 37445,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1626353907
+    },
+    {
+        "content": "<p>I used the region_mask in the POP grid data file to create the land_mask, but I just tested your method using KMT instead. Both of those methods give 86212 ocean cells. I like to verify that all of these grid cells contain non-nan (or non-FillValue) values for each forcing variable otherwise it doesn't make sense to run FEISTY in those cells.</p>\n<p>All the numbers I listed are the number of non-nan grid cells for that variable for a given time. For example, </p>\n<div class=\"codehilite\"><pre><span></span>sum( find( ~isnan( diatC(:,:,1) ) ) ) = 85813\n</pre></div>\n\n\n<p>Which means that there are some ocean cells of the DPLE files missing variables even though they aren't land. This was not the case for the FOSI run where all the forcing variables listed had 86212 non-nan cells, the same number as the land-masked cells.</p>",
+        "id": 37794,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1626476838
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, here's a path to the CESM-LENS tag code base:<br>\n/glade/p/cgd/oce/people/mclong/cesm/cesm1_1_2_LENS_n19/models/ocn/pop2/source</p>",
+        "id": 38316,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1626981625
+    },
+    {
+        "content": "<p>Here is the equation for <code>zoo_loss</code></p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">zoo_loss</span> <span class=\"o\">=</span> <span class=\"n\">z_mort2</span> <span class=\"o\">*</span> <span class=\"n\">Zprime</span><span class=\"o\">**</span><span class=\"mf\">1.4_r8</span> <span class=\"o\">+</span> <span class=\"n\">z_mort</span> <span class=\"o\">*</span> <span class=\"n\">Zprime</span>\n</pre></div>",
+        "id": 38317,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1626981678
+    },
+    {
+        "content": "<div class=\"codehilite\"><pre><span></span>   <span class=\"n\">thres_z1</span>          <span class=\"o\">=</span> <span class=\"mi\">10</span><span class=\"mf\">0.0e2_r8</span>\n   <span class=\"n\">thres_z2</span>          <span class=\"o\">=</span> <span class=\"mi\">20</span><span class=\"mf\">0.0e2_r8</span>\n   <span class=\"n\">loss_thres_zoo</span>    <span class=\"o\">=</span> <span class=\"mf\">0.2_r8</span>\n\n  <span class=\"n\">parm_z_mort_0</span>  <span class=\"o\">=</span> <span class=\"mf\">0.08_r8</span> <span class=\"o\">*</span> <span class=\"n\">dps</span>\n  <span class=\"n\">parm_z_mort2_0</span>  <span class=\"o\">=</span> <span class=\"mf\">0.42_r8</span> <span class=\"o\">*</span> <span class=\"n\">dps</span>\n\n   <span class=\"n\">z_mort2</span>   <span class=\"o\">=</span> <span class=\"n\">parm_z_mort2_0</span>   <span class=\"o\">*</span> <span class=\"n\">Tfunc</span>\n   <span class=\"n\">z_mort</span>    <span class=\"o\">=</span> <span class=\"n\">parm_z_mort_0</span>    <span class=\"o\">*</span> <span class=\"n\">Tfunc</span>\n\n   <span class=\"k\">if</span> <span class=\"p\">(</span><span class=\"n\">zt</span><span class=\"p\">(</span><span class=\"n\">k</span><span class=\"p\">)</span> <span class=\"o\">&gt;</span> <span class=\"n\">thres_z1</span><span class=\"p\">)</span> <span class=\"k\">then</span>\n<span class=\"k\">      if</span> <span class=\"p\">(</span><span class=\"n\">zt</span><span class=\"p\">(</span><span class=\"n\">k</span><span class=\"p\">)</span> <span class=\"o\">&lt;</span> <span class=\"n\">thres_z2</span><span class=\"p\">)</span> <span class=\"k\">then</span>\n<span class=\"k\">         </span><span class=\"n\">f_loss_thres</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">thres_z2</span> <span class=\"o\">-</span> <span class=\"n\">zt</span><span class=\"p\">(</span><span class=\"n\">k</span><span class=\"p\">))</span><span class=\"o\">/</span><span class=\"p\">(</span><span class=\"n\">thres_z2</span> <span class=\"o\">-</span> <span class=\"n\">thres_z1</span><span class=\"p\">)</span>\n      <span class=\"k\">else</span>\n<span class=\"k\">         </span><span class=\"n\">f_loss_thres</span> <span class=\"o\">=</span> <span class=\"n\">c0</span>\n      <span class=\"n\">endif</span>\n   <span class=\"k\">else</span>\n<span class=\"k\">      </span><span class=\"n\">f_loss_thres</span> <span class=\"o\">=</span> <span class=\"n\">c1</span>\n   <span class=\"n\">endif</span>\n\n   <span class=\"n\">C_loss_thres</span> <span class=\"o\">=</span> <span class=\"n\">f_loss_thres</span> <span class=\"o\">*</span> <span class=\"n\">loss_thres_zoo</span>\n   <span class=\"n\">Zprime</span> <span class=\"o\">=</span> <span class=\"nb\">max</span><span class=\"p\">(</span><span class=\"n\">zooC_loc</span> <span class=\"o\">-</span> <span class=\"n\">C_loss_thres</span><span class=\"p\">,</span> <span class=\"n\">c0</span><span class=\"p\">)</span>\n\n  <span class=\"n\">zoo_loss</span> <span class=\"o\">=</span> <span class=\"n\">z_mort2</span> <span class=\"o\">*</span> <span class=\"n\">Zprime</span><span class=\"o\">**</span><span class=\"mf\">1.4_r8</span> <span class=\"o\">+</span> <span class=\"n\">z_mort</span> <span class=\"o\">*</span> <span class=\"n\">Zprime</span>\n</pre></div>",
+        "id": 38323,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1626982093
+    },
+    {
+        "content": "<p>More on the discrepancies in the number of non-NaN grid cells in the DPLE. The integrated variables (diatC, spC, zooC, zoo_loss) have extra NaNs in the Baltic, Black, Caspian, and Red Seas. However, the bottom variables (TEMP_bottom and POC_flux) have extra NaNs in 13 distinct locations:<br>\n    Lat       Lon  <br>\n    _______    ______<br>\n    -76.015    182.19<br>\n    -76.015    183.31<br>\n    -76.015    184.44<br>\n    -74.947    325.06<br>\n    -74.947    326.19<br>\n    -74.947    327.31<br>\n    -74.947    328.44<br>\n     60.869    355.98<br>\n     61.279    355.73<br>\n     61.688    355.46<br>\n     67.058    334.03<br>\n     67.455    333.73<br>\n     67.854    333.41</p>",
+        "id": 38348,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1626989905
+    },
+    {
+        "content": "<p>Ok, so we should be ignoring \"marginal seas,\" which are designated by negative values in the <code>REGION_MASK</code> variable.</p>\n<p>The points you note as different are likely \"src\" locations for the \"overflow\" parameterization, which \"pops\" up <code>KMT</code>. The <code>pop_tools.get_grid</code> method does not have these \"pop up\" locations, so where we use <code>KMT</code> from that tool, we're probably indexing <code>KMT + 1</code> and getting a NaN. </p>\n<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>, can you work with <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> to get these discrepancies reconciled?</p>",
+        "id": 38524,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1627066491
+    },
+    {
+        "content": "<p>Ideally, we would add code to <code>pop_tools.get_grid</code> that reads the overflow input file <a href=\"https://github.com/ESCOMP/POP2-CESM/blob/master/input_templates/gx1v6_overflow\" target=\"_blank\" title=\"https://github.com/ESCOMP/POP2-CESM/blob/master/input_templates/gx1v6_overflow\">here</a> and applies the <code>KMT</code> modifications.</p>",
+        "id": 38526,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1627066644
+    },
+    {
+        "content": "<p>The DPLE outputs Kristen kindly post-processed are drift-corrected anomalies. Can I get actual values for forcing FEISTY by adding these anomalies to the appropriate FOSI year and month?</p>",
+        "id": 38826,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1627943631
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, I think there is an order of operations question here and I apologize for not catching this sooner. It seems to me that the most appropriate approach would be to compute the fish on the DPLE output—and then apply the drift correction procedure to generate forcast anomalies in the fish.</p>",
+        "id": 38847,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1628004463
+    },
+    {
+        "content": "<p>I can easily generate non-drift corrected DPLE output for the variables needed for FEISTY. Then we can do the drift correction on the FEISTY output later on.. <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , I'll let you know when I've got these files ready for you:)</p>",
+        "id": 38848,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1628005471
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>  and <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> .</p>",
+        "id": 38928,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1628042056
+    },
+    {
+        "content": "<p>Welcome <span class=\"user-mention\" data-user-id=\"185\">@Zhuomin Chen</span> to Zulip!</p>\n<p><span class=\"user-mention\" data-user-id=\"185\">@Zhuomin Chen</span> just started as a researcher at UCONN and will be analyzing the DPLE</p>",
+        "id": 39229,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1628194901
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"14\">Matt Long</span> <a href=\"#narrow/stream/33-fisheries/topic/DPLE/near/39229\">said</a>:</p>\n<blockquote>\n<p>Welcome <span class=\"user-mention silent\" data-user-id=\"185\">Zhuomin Chen</span> to Zulip!</p>\n<p><span class=\"user-mention silent\" data-user-id=\"185\">Zhuomin Chen</span> just started as a researcher at UCONN and will be analyzing the DPLE</p>\n</blockquote>\n<p>Thank you Matt! I am new to Zulip, and very happy to join this forum!</p>",
+        "id": 39239,
+        "sender_full_name": "Zhuomin Chen",
+        "timestamp": 1628198777
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , I couldn't find 3 parameters in the ecosys code: c0 (zero?), c1 (one?), and T0_Kelvin (273.15?). Just want to be sure before moving forward on the quadratic mortality back calculation.</p>",
+        "id": 39244,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1628211475
+    },
+    {
+        "content": "<p>you got it, except for some reason, POP uses T0_Kelvin = 273.16, as you can see <a href=\"https://github.com/ESCOMP/POP2-CESM/blob/177be5849c3ccd75266ac5b4798d5b1b54849e4c/source/constants.F90#L234\">here</a>. The other constants are defined in that module too.</p>",
+        "id": 39250,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1628262081
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> ! I prepared the non-drift corrected FEISTY variables. They are here: <code>/glade/scratch/kristenk/fish-offline/*_nodriftcorr.nc</code></p>",
+        "id": 39677,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1628791195
+    },
+    {
+        "content": "<p>Excellent, thanks <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ! I'll start working with these. Could you also help me process additional FOSI outputs? I tried to modify the <code>proc-cesm-dple-fields.ipynb</code> code to include all 3 phytoplankton production individual outputs (integrated over top 150m), but I'm having troubling starting a dask cluster.</p>",
+        "id": 39741,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1628816830
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , I can definitely help with this. So, just to clarify, do you need the photoC_sp, photoC_diat, and photoC_diaz terms depth integrated from the FOSI? these are net primary production from each phytoplankton functional type. I ran my version of <code>proc_cesm-dple-fields.ipynb</code>  (with an updated dask part) on those three variables. Output is here: <code>/glade/work/kristenk/fish-offline/g.e11_LENS.GECOIAF.T62_g16.009.phytoNPP_FIESTY-forcing.nc</code></p>",
+        "id": 39765,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1628870698
+    },
+    {
+        "content": "<p>Thanks, you're the best! I'm going to test if phyto production rather than phyto biomass is a better way to split the zoo into small and large. I'll let you know how it goes.</p>",
+        "id": 39771,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1628875838
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>, Can you help get <span class=\"user-mention\" data-user-id=\"185\">@Zhuomin Chen</span> pointed in the right direction working with the DPLE output? She is ramping up on an analysis looking at predictability of O2, pO2, and T. In particular, it would be helpful to point her to (and perhaps walk her thru) the drift correction/analysis codes you have.</p>\n<p>cc <span class=\"user-mention\" data-user-id=\"34\">@Stephen Yeager</span>, <span class=\"user-mention\" data-user-id=\"63\">@Elizabeth Maroon</span>, <span class=\"user-mention\" data-user-id=\"124\">@Samantha Siedlecki</span></p>",
+        "id": 40224,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1629407252
+    },
+    {
+        "content": "<p>Sure, <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> ! Hi <span class=\"user-mention\" data-user-id=\"185\">@Zhuomin Chen</span> ! I'd be delighted to help you out. I have a few notebooks that have been working nicely for me here: <code>/glade/u/home/kristenk/fish-offline/notebooks</code> .. sometimes it helps to preprocess data into a 2-D variable before doing the drift correction. I think it might be best to set up a meeting so I can walk you through these notebooks. I'll send you a PM to set up a time to meet.</p>",
+        "id": 40225,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1629408350
+    },
+    {
+        "content": "<p>@Stephen Yeager, @Elizabeth Maroon, please weigh in if you have important updates...or possibly this is an opportunity to expand your circle of potential developers.</p>",
+        "id": 40226,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1629408456
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"28\">Kristen Krumhardt</span> <a href=\"#narrow/stream/33-fisheries/topic/DPLE/near/39765\">said</a>:</p>\n<blockquote>\n<p>... just to clarify, do you need the photoC_sp, photoC_diat, and photoC_diaz terms depth integrated from the FOSI? these are net primary production from each phytoplankton functional type. I ran my version of <code>proc_cesm-dple-fields.ipynb</code>  (with an updated dask part) on those three variables...</p>\n</blockquote>\n<p>Using all 3 phytoplankton types seemed to help with splitting the zooplankton into mesozooplankton, leading to better regional variability (oligotrophic vs. eutrophic areas) of the fish biomass. Could you please run your version of <code>proc_cesm-dple-fields.ipynb</code> to get the integrated diazC fields from the FOSI? I'm trying a few more parameter tests, but we may need to include this output with the full DPLE.</p>",
+        "id": 41642,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1630534205
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , didn't realize that the above wouldn't ping you.</p>",
+        "id": 41644,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1630536484
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> Sure, I'll do the diazC FOSI processing today and let you know when it's done. </p>\n<p>Also, no problem to process diazC for the DPLE, just let me know:)</p>",
+        "id": 41656,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1630588768
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , the FOSI diazC file is here:<br>\n<code>/glade/work/kristenk/fish-offline/g.e11_LENS.GECOIAF.T62_g16.009.diazC_FIESTY-forcing.nc</code></p>",
+        "id": 41758,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1630605903
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ! And I finally was able to run one of your notebooks, so hopefully I won't have to ask for such minor requests in the future.</p>",
+        "id": 41761,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1630608233
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>. The biomass of all 3 phytoplankton was better than just diat and small. Could you please update and reprocess the DPLE notebook to create the FEISTY outputs with all 3 phytoC variables? Thanks!</p>",
+        "id": 45428,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1634769300
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> ! So you just need DPLE diazC integrated from 150m, right? no drift correction, right?</p>",
+        "id": 45429,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1634769954
+    },
+    {
+        "content": "<p>Yes, I need the diazC 150m integration in regular biomass units in addition to zooC, zoo_loss, diatC, spC, etc., non-drift corrected.</p>",
+        "id": 45461,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1634835610
+    },
+    {
+        "content": "<p>Ok, I'll let you know when I'm done processing this (probably tomorrow)</p>",
+        "id": 45475,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1634841794
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , I just finished processing DPLE depth integrated diazC (no drift correction). All output is here: <code>/glade/scratch/kristenk/fish-offline</code>. please let me know if there's anything missing</p>",
+        "id": 45548,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1634925881
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ! Looks good so far.</p>",
+        "id": 47588,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1638403450
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , after discussing order of operations again with Matt and Charlie, we decided to use the drift-corrected anomalies (added to the climatology to get fish relevant values) to force FEISTY. Would you mind processing these again? I need the 150m mean of temp, bottom temp, bottom POC, and the 150m integration of zooC, zoo_loss, diatC, spC, diazC. The diazC might not have been in your notebook the last time you did this.</p>",
+        "id": 49424,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1642627418
+    },
+    {
+        "content": "<p>Hi Colleen! Sure I will start on this shortly. If I remember correctly, there are two steps to make these drift-corrected anomalies, so it may take a bit of time. I will also add diazC to my workflow. Will be in touch when I have an idea on when this will all be ready :) (hopefully within the next week or so)</p>",
+        "id": 49425,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1642627650
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , thank you!</p>",
+        "id": 49550,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1642797048
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>! Drift-corrected anomalies for forcing FEISTY are ready. They are here: <code>/glade/scratch/kristenk/fish-offline/</code> .</p>",
+        "id": 49707,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1643206875
+    },
+    {
+        "content": "<p>Hey <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , maybe I took too long to work with these files, but it seems that TEMP_bottom and diazC_150m files are missing.</p>\n<p>Also, does your drift correction notebook have a good example of how to match up the DPLE ensemble member with the equivalent time in the FOSI? Thanks!</p>",
+        "id": 51363,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1646262616
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , are you looking here for the DPLE files?: <code>/glade/scratch/kristenk/fish-offline</code></p>\n<p>I think all the files are there... I actually haven't done any time alignment of the DPLE and FOSI in any of my notebooks but I think I might be able to find you an example from the SMYLE repo.. I'll take a look soon and let you know :)</p>",
+        "id": 51378,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1646266676
+    },
+    {
+        "content": "<p>I was looking at your home folder <span aria-label=\"face palm\" class=\"emoji emoji-1f926\" role=\"img\" title=\"face palm\">:face_palm:</span> <br>\nThey are all in scratch.</p>",
+        "id": 51379,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1646266761
+    },
+    {
+        "content": "<p>Hey <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> , glad you found the files :) I tried to find an example for lining up the FOSI with DPLE ensemble members in the SMYLE repo.. so I haven't found precisely that but there's an example of lining up ERA5 sea level pressure observational data with the DPLE ensemble mean in this notebook (it's not my notebook, but it's in the SMYLE repo so I have a copy of it in my directory): <code>/glade/u/home/kristenk/SMYLE-analysis/notebooks/PaperFigsSMYLEvsDPLE_GlobMaps_SLP.ipynb</code></p>\n<p>Look at cells 22 and 23. There's a function called <code>leadtime_corr_byseas </code> that uses the xarray align function. that notebook uses seasonal averages rather than monthly, though. Not sure if that's helpful...</p>",
+        "id": 51470,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1646411612
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , I'll look into the function in this notebook. <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , do you have any other suggestions for aligning the DPLE ensemble members with the equivalent time in the FOSI?</p>",
+        "id": 51488,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1646418910
+    },
+    {
+        "content": "<p>I think it's mainly a question of careful indexing. unfortunately, I don't think I have a clear example to point you to.</p>",
+        "id": 51491,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1646419493
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> Like we talked about yesterday, I'm going to do one more set of \"matlab vs python\" comparisons using <code>FOSI_cesm.m</code>; I used <code>daily_interp_cesm_fosi_totmort_extend_LfracB_allphytos.m</code> to generate 68 <code>Data_cesm_fosi_v6_daily_NN.mat</code> files (<code>NN</code> in <code>01</code> -&gt; <code>68</code>). I also found <code>Data_grid_POP_gx1v6_noSeas.mat</code> (I think I copied it out of your directory on cheyenne); the last thing I'm missing is the initialization file. The <code>.m</code> file is trying to run</p>\n<div class=\"codehilite\" data-code-language=\"Matlab\"><pre><span></span><code><span class=\"nb\">load</span><span class=\"p\">([</span><span class=\"s\">'/Volumes/MIP/NC/CESM_MAPP/'</span><span class=\"p\">,</span><span class=\"n\">simname</span><span class=\"w\"> </span><span class=\"s\">'/Last_mo_spin_'</span><span class=\"w\"> </span><span class=\"n\">init_sim</span><span class=\"w\"> </span><span class=\"s\">'.mat'</span><span class=\"p\">]);</span><span class=\"w\"></span>\n</code></pre></div>\n<p>I changed all the <code>/Volumes/MIP/NC</code> paths to <code>input_data</code> in  <code>FOSI_cesm.m</code> and <code>sub_fname_cesm_fosi_exper.m</code>, but the former is now giving me an error because it can't find the file <code>Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_sMZ090_mMZ045_nmort1_BE08_CC80_RE00100/Last_mo_spin_v14_Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_sMZ090_mMZ045_nmort1_BE08_CC80_RE00100.mat</code>. Do you have this on your laptop? Could you either copy it to cheyenne or let me know how to generate it?</p>\n<p>Thanks!</p>",
+        "id": 52273,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1647451416
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> , I totally meant to upload this on Tuesday before going out of town. I uploaded the initialization file to the <code>input_data</code> folder. I also added an example of the daily forcing files <code>Data_cesm_fosi_daily_1.mat</code>. I will take a look at the daily files you created.</p>",
+        "id": 52466,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1647902263
+    },
+    {
+        "content": "<p>Where can I find the <code>daily_interp_cesm_fosi_totmort_extend_LfracB_allphytos.m</code> file?</p>",
+        "id": 52467,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1647902686
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> <code>/glade/work/mlevy/codes/fish-offline/MatFEISTY/cesm_mfiles/daily_interp_cesm_fosi_totmort_extend_LfracB_allphytos.m</code></p>",
+        "id": 52468,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1647903560
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> I'm seeing differences between matlab's FOSI results and python's FOSI results, which I think might be due to different parameterizations. The differences between the two setups are as follows (<code>&lt;</code> is testcase, <code>&gt;</code> is FOSI):</p>\n<div class=\"codehilite\" data-code-language=\"Diff\"><pre><span></span><code>62c62\n&lt;     param.CC = 0; % 80\n<span class=\"gd\">---</span>\n&gt;     param.CC = 80; % 80\n91,94d85\n&lt;\n&lt;     param.D  = 0.75;   %Demersal feeding in pelagic reduction\n&lt;     param.A  = 0.5;    %Adult predation reduction %*****\n&lt;     param.MZ = 1.0;    %Preference on one mesozooplankton group\n96,97c87,91\n&lt;     param.MF_phi_MZ = 0.45 * param.MZ;\n&lt;     param.MF_phi_LZ = 1.0;\n<span class=\"gd\">---</span>\n&gt;     param.D  = 0.75;  %Demersal feeding in pelagic reduction\n&gt;     param.A  = 0.5;   %Adult predation reduction %*****\n&gt;     param.MZ = 0.9;   %Preference on one mesozooplankton group\n&gt;\n&gt;     param.MF_phi_MZ = 0.5 * param.MZ;\n100,101c94\n&lt;     param.MP_phi_MZ = 0.45 * param.MZ;\n&lt;     param.MP_phi_LZ = 1.0;\n<span class=\"gd\">---</span>\n&gt;     param.MP_phi_MZ = 0.5 * param.MZ;\n</code></pre></div>\n<p>I was able to change the carrying capacity, but I'm not sure what to make of the rest.</p>\n<ol>\n<li>What are the values of  <code>param.MF_phi_LZ</code> and <code>param.MP_phi_LZ</code> if they aren't specified in this file?</li>\n<li>Is <code>param.MZ = 1.0; </code> used directly? Because it looks like <code>param.MF_phi_MZ</code> and <code>param.MP_phi_MZ</code> are unchanged (<code>0.5*0.9 == 0.45*1.0</code>), but maybe other values need to change from 1 -&gt; 0.9?</li>\n</ol>",
+        "id": 52618,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648065534
+    },
+    {
+        "content": "<p>Actually, I think I figured it out -- <code>param.MF_phi_LZ</code> and <code>param.MP_phi_LZ</code> are used in <code>sub_futbio.m</code> but not <code>sub_futbio_1meso.m</code> so we don't need it, and <code>param.MZ</code> is the preference rate of <code>Sf</code>, <code>Sp</code>, and <code>Sd</code> for <code>zoo</code>. That might not  be the cleanest definition, but it's changing <code>preference</code> from <code>1.</code> to <code>0.9</code> below (I added the comment as a helpful reminder ):</p>\n<div class=\"codehilite\" data-code-language=\"YAML\"><pre><span></span><code><span class=\"nt\">food_web</span><span class=\"p\">:</span>\n  <span class=\"c1\"># small forage</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"nt\">predator</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">Sf</span>\n    <span class=\"nt\">prey</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">Zoo</span>\n    <span class=\"nt\">preference</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">1.</span> <span class=\"c1\"># [params.MZ]</span>\n\n  <span class=\"c1\"># small piscivore</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"nt\">predator</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">Sp</span>\n    <span class=\"nt\">prey</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">Zoo</span>\n    <span class=\"nt\">preference</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">1.</span> <span class=\"c1\"># [params.MZ]</span>\n\n  <span class=\"c1\"># small demersal</span>\n  <span class=\"p p-Indicator\">-</span> <span class=\"nt\">predator</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">Sd</span>\n    <span class=\"nt\">prey</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">Zoo</span>\n    <span class=\"nt\">preference</span><span class=\"p\">:</span> <span class=\"l l-Scalar l-Scalar-Plain\">1.</span> <span class=\"c1\"># [params.MZ]</span>\n</code></pre></div>",
+        "id": 52619,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648066767
+    },
+    {
+        "content": "<p>Differences between matlab and python results in a 10-day FOSI-forced run:</p>\n<table>\n<thead>\n<tr>\n<th>group</th>\n<th>Matlab Value</th>\n<th>Python Value</th>\n<th>Rel Err</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Sf (t=6, X=39888)</td>\n<td>1.4075e-02</td>\n<td>1.4075e-02</td>\n<td>1.0128e-12</td>\n</tr>\n<tr>\n<td>Sp (t=6, X=39888)</td>\n<td>1.1563e-04</td>\n<td>1.1563e-04</td>\n<td>1.0116e-12</td>\n</tr>\n<tr>\n<td>Sd (t=5, X=66815)</td>\n<td>7.0344e-05</td>\n<td>7.0344e-05</td>\n<td>4.3271e-13</td>\n</tr>\n<tr>\n<td>Mf (t=0, X=56619)</td>\n<td>1.3451e-314</td>\n<td>1.3451e-314</td>\n<td>3.6730e-10</td>\n</tr>\n<tr>\n<td>Mp (t=7, X=56619)</td>\n<td>1.4058e-314</td>\n<td>1.4058e-314</td>\n<td>7.0289e-10</td>\n</tr>\n<tr>\n<td>Md (t=9, X=50253)</td>\n<td>1.7869e-01</td>\n<td>1.7869e-01</td>\n<td>1.3669e-14</td>\n</tr>\n<tr>\n<td>Lp (t=2, X=43345)</td>\n<td>1.8280e-322</td>\n<td>1.6798e-322</td>\n<td>8.1081e-02</td>\n</tr>\n<tr>\n<td>Ld (t=9, X=50253)</td>\n<td>1.3507e+00</td>\n<td>1.3507e+00</td>\n<td>1.8083e-15</td>\n</tr>\n<tr>\n<td>benthic_prey (t=9, X=72149)</td>\n<td>5.5872e-01</td>\n<td>5.5872e-01</td>\n<td>1.3910e-15</td>\n</tr>\n</tbody>\n</table>\n<p>filtering out values &lt; 1e-300, things look promising:</p>\n<table>\n<thead>\n<tr>\n<th>group</th>\n<th>Matlab Value</th>\n<th>Python Value</th>\n<th>Rel Err</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Sf (t=6, X=39888)</td>\n<td>1.4075e-02</td>\n<td>1.4075e-02</td>\n<td>1.0128e-12</td>\n</tr>\n<tr>\n<td>Sp (t=6, X=39888)</td>\n<td>1.1563e-04</td>\n<td>1.1563e-04</td>\n<td>1.0116e-12</td>\n</tr>\n<tr>\n<td>Sd (t=5, X=66815)</td>\n<td>7.0344e-05</td>\n<td>7.0344e-05</td>\n<td>4.3271e-13</td>\n</tr>\n<tr>\n<td>Mf (t=9, X=68694)</td>\n<td>2.5383e+00</td>\n<td>2.5383e+00</td>\n<td>7.3482e-15</td>\n</tr>\n<tr>\n<td>Mp (t=4, X=76742)</td>\n<td>1.2744e-20</td>\n<td>1.2744e-20</td>\n<td>2.6092e-14</td>\n</tr>\n<tr>\n<td>Md (t=9, X=50253)</td>\n<td>1.7869e-01</td>\n<td>1.7869e-01</td>\n<td>1.3669e-14</td>\n</tr>\n<tr>\n<td>Lp (t=9, X=41142)</td>\n<td>3.0484e-31</td>\n<td>3.0484e-31</td>\n<td>2.1820e-13</td>\n</tr>\n<tr>\n<td>Ld (t=9, X=50253)</td>\n<td>1.3507e+00</td>\n<td>1.3507e+00</td>\n<td>1.8083e-15</td>\n</tr>\n<tr>\n<td>benthic_prey (t=9, X=72149)</td>\n<td>5.5872e-01</td>\n<td>5.5872e-01</td>\n<td>1.3910e-15</td>\n</tr>\n</tbody>\n</table>\n<p>performance is an issue, though. Running the matlab code for a year takes about 90s, while the python is in the neighborhood of 20s / day (more than 2 hours / year). That's a factor of 80 slower, and I thought we had gotten closer to 50x but even that would be 75 minutes per year...</p>",
+        "id": 52620,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648068091
+    },
+    {
+        "content": "<p>You should be using <code>sub_futbio_1meso.m</code> not <code>sub_futbio.m</code> because we only have one zooplankton group from CESM. <br>\n<a href=\"/user_uploads/2/f6/7M4tCzFnFimFeVb5Q9s0Zw55/Screen-Shot-2022-03-23-at-2.33.42-PM.png\">Screen-Shot-2022-03-23-at-2.33.42-PM.png</a><br>\nThe correct prey preferences are (ones we eventually want to use for global runs):<br>\nparam.CC = 80<br>\nparam.D  = 0.75;   %Demersal feeding in pelagic reduction<br>\nparam.A  = 0.5;      %Adult predation reduction <br>\nparam.MZ = 0.9;    %Preference on one mesozooplankton group<br>\nparam.MF_phi_MZ = 0.5 * param.MZ;<br>\nparam.MP_phi_MZ = 0.5 * param.MZ;</p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/f6/7M4tCzFnFimFeVb5Q9s0Zw55/Screen-Shot-2022-03-23-at-2.33.42-PM.png\" title=\"Screen-Shot-2022-03-23-at-2.33.42-PM.png\"><img src=\"/user_uploads/2/f6/7M4tCzFnFimFeVb5Q9s0Zw55/Screen-Shot-2022-03-23-at-2.33.42-PM.png\"></a></div>",
+        "id": 52636,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1648071538
+    },
+    {
+        "content": "<p>Okay, I ran for a full year and it wasn't quite as slow as I feared (but was still really slow): 93 minutes (so a little over 60x slower than the matlab code). Results looked okay, though:</p>\n<table>\n<thead>\n<tr>\n<th>biomass</th>\n<th>Matlab Value</th>\n<th>Python Value</th>\n<th>Rel Err</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Sf (t=258, X=60616)</td>\n<td>1.5367e-02</td>\n<td>1.5367e-02</td>\n<td>2.9886e-11</td>\n</tr>\n<tr>\n<td>Sp (t=138, X=799)</td>\n<td>3.0873e-26</td>\n<td>3.0873e-26</td>\n<td>1.4703e-10</td>\n</tr>\n<tr>\n<td>Sd (t=258, X=60616)</td>\n<td>3.2256e-05</td>\n<td>3.2256e-05</td>\n<td>2.9868e-11</td>\n</tr>\n<tr>\n<td>Mf (t=364, X=72257)</td>\n<td>2.5577e+00</td>\n<td>2.5577e+00</td>\n<td>5.8565e-13</td>\n</tr>\n<tr>\n<td>Mp (t=248, X=12340)</td>\n<td>3.0945e-01</td>\n<td>3.0945e-01</td>\n<td>6.2886e-12</td>\n</tr>\n<tr>\n<td>Md (t=330, X=2822)</td>\n<td>6.4599e-01</td>\n<td>6.4599e-01</td>\n<td>2.4319e-13</td>\n</tr>\n<tr>\n<td>Lp (t=284, X=54698)</td>\n<td>9.8967e-205</td>\n<td>9.8967e-205</td>\n<td>4.0915e-11</td>\n</tr>\n<tr>\n<td>Ld (t=257, X=39946)</td>\n<td>4.9865e+00</td>\n<td>4.9865e+00</td>\n<td>5.5929e-14</td>\n</tr>\n<tr>\n<td>benthic_prey (t=134, X=77347)</td>\n<td>5.0557e-01</td>\n<td>5.0557e-01</td>\n<td>2.1016e-13</td>\n</tr>\n</tbody>\n</table>",
+        "id": 52637,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648086604
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> , did the path to the DPLE change? When I try accessing it I am told that the directory does not exist.</p>",
+        "id": 53377,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1649377078
+    },
+    {
+        "content": "<p>Are you trying to access /glade/campaign from the Cheyenne login node? That’s not possible; campaign is only accessible via Casper.</p>",
+        "id": 53379,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1649382740
+    }
+]

@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>I'm not even sure what's happening now.  The old call and packages I've been doing to with a function that gets workers by calling PBSCluster now throws a bunch of errors. I'm still able to get workers, but the start of the error message is below<br>\n<code>tornado.application - ERROR - Uncaught exception GET /individual-workers/ws (::1)\nHTTPServerRequest(protocol='http', host='localhost:8888', method='GET', uri='/individual-workers/ws', version='HTTP/1.1', remote_ip='::1')\nTraceback (most recent call last):\n  File \"/glade/u/home/wwieder/miniconda3/envs/lens-py/lib/python3.7/site-packages/tornado/websocket.py\", line 954, in _accept_connection</code></p>\n<p>are there packages I should be updating? (note the same thing happened with a different environment that used dask and dask-core  v 2021.10.0 ).  </p>\n<p>suggestions appreciated.</p>",
+        "id": 52149,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1647379423
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span>, can you post the full traceback/error message you are getting?</p>",
+        "id": 52150,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1647379660
+    },
+    {
+        "content": "<p>/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/dask_jobqueue/core.py:20: FutureWarning: tmpfile is deprecated and will be removed in a future release. Please use dask.utils.tmpfile instead.<br>\n  from distributed.utils import tmpfile</p>\n<p>tornado.application - ERROR - Uncaught exception GET /individual-workers/ws (::1)<br>\nHTTPServerRequest(protocol='http', host='localhost:8888', method='GET', uri='/individual-workers/ws', version='HTTP/1.1', remote_ip='::1')<br>\nTraceback (most recent call last):<br>\n  File \"/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/tornado/websocket.py\", line 954, in _accept_connection<br>\n    open_result = handler.open(*handler.open_args, **handler.open_kwargs)<br>\n  File \"/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/tornado/web.py\", line 3173, in wrapper<br>\n    return method(self, *args, **kwargs)<br>\n  File \"/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/bokeh/server/views/ws.py\", line 137, in open<br>\n    raise ProtocolError(\"Subprotocol header is not 'bokeh'\")<br>\nbokeh.protocol.exceptions.ProtocolError: Subprotocol header is not 'bokeh'<br>\ntornado.application - ERROR - Uncaught exception GET /individual-nprocessing/ws (::1)<br>\nHTTPServerRequest(protocol='http', host='localhost:8888', method='GET', uri='/individual-nprocessing/ws', version='HTTP/1.1', remote_ip='::1')<br>\nTraceback (most recent call last):<br>\n  File \"/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/tornado/websocket.py\", line 954, in _accept_connection<br>\n    open_result = handler.open(*handler.open_args, **handler.open_kwargs)<br>\n  File \"/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/tornado/web.py\", line 3173, in wrapper<br>\n    return method(self, *args, **kwargs)<br>\n  File \"/glade/u/home/wwieder/miniconda3/envs/tiff2nc/lib/python3.7/site-packages/bokeh/server/views/ws.py\", line 137, in open<br>\n    raise ProtocolError(\"Subprotocol header is not 'bokeh'\")<br>\nbokeh.protocol.exceptions.ProtocolError: Subprotocol header is not 'bokeh'</p>",
+        "id": 52274,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1647454891
+    },
+    {
+        "content": "<p>Are you running this notebook from the JupyterHub?</p>",
+        "id": 52275,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1647456486
+    },
+    {
+        "content": "<p>Or are you launching the Jupyter server yourself?</p>",
+        "id": 52276,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1647456510
+    },
+    {
+        "content": "<p>from the server I logged into with jupyter-forward.  The code never grabs workers when I log in via JupyterHub.</p>",
+        "id": 52277,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1647458148
+    },
+    {
+        "content": "<p>Installing <code>jupyter-server-proxy</code> into the same environment your notebook is running from, rather than where your kernels are should address the issue. </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>conda install -c conda-forge jupyter-server-proxy\n</code></pre></div>",
+        "id": 52282,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1647459205
+    },
+    {
+        "content": "<p>You may want to install the <code>dask-labextension</code> instead (it depends on <code>jupyter-server-proxy</code>) into the same environment your notebook is running from... </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>conda install -c conda-forge dask-labextension\n</code></pre></div>",
+        "id": 52283,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1647459427
+    },
+    {
+        "content": "<p>Yes, this resolved the issues.  Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span></p>",
+        "id": 52306,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1647517351
+    },
+    {
+        "content": "<p>This topic was moved here from <a class=\"stream-topic\" data-stream-id=\"41\" href=\"/#narrow/stream/41-ESDS/topic/Dask.20Dashboard.3A.20Subprotocols.20issue.20with.20bokeh\">#ESDS &gt; Dask Dashboard: Subprotocols issue with bokeh</a> by <span class=\"user-mention silent\" data-user-id=\"13\">Anderson Banihirwe</span></p>",
+        "id": 52310,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1647523459
+    }
+]

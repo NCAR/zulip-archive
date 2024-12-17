@@ -1,16 +1,16 @@
 <html>
 <head><meta charset="utf-8"><title>GeoCAT · general · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/GeoCAT.html">GeoCAT</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html">GeoCAT</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="2451"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/3-general/topic/GeoCAT/near/2451" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="https://ncar.github.io/zulip-archive/stream/3-general/topic/GeoCAT.html#2451">(Mar 05 2020 at 21:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/2451" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#2451">(Mar 05 2020 at 21:56)</a>:</h4>
 <p><span class="user-mention" data-user-id="*">@all</span>, GeoCAT is developing examples that you may find useful:<br/>
 <a href="https://geocat-examples.readthedocs.io/en/latest/" target="_blank" title="https://geocat-examples.readthedocs.io/en/latest/">https://geocat-examples.readthedocs.io/en/latest/</a></p>
 <p>See also:<br/>
@@ -18,5 +18,195 @@
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<a name="52010"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52010" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52010">(Mar 11 2022 at 20:12)</a>:</h4>
+<p>I am trying to use the geocat interp_hybrid_to_pressure function and getting an error importing it. Here's the error:<br>
+|  ImportError: cannot import name 'interp_hybrid_to_pressure' from 'geocat.comp' (/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/geocat/comp/__init__.py)</p>
+<p>I have geocat in my environment and use it for some other purposes, so it's just importing this one function that isn't working. So it's probably something with my environment, but  when I do a conda list in my environment it looks like I have this installed already:<br>
+|geocat-comp               0.2                        py_0    ncar<br>
+|geocat-datafiles          2021.1.0                   py_0    ncar<br>
+|geocat-ncomp              0.1a             py37h03ebfcd_0    ncar<br>
+|geocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>
+<p>I'm kind of stuck on how to proceed and would appreciate some help figuring this environment issue out. Unfortunately I don't think I'll be able to come to ESDS office hours next week to ask then (family visiting).</p>
+<p>If it helps, I've been  following the example here:<br>
+<a href="https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py">https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py</a></p>
+<p>And gone through the function documentation here:<br>
+<a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html">https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html</a></p>
+
+
+
+<a name="52011"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52011" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52011">(Mar 11 2022 at 20:20)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span> this sounds like an issue with an outdated version of <code>geocat.comp</code> -- <code>interp_hybrid_to_pressure</code> was added in <code>v2021.03.0</code>, and "geocat-comp 0.2" looks like an older version numbering system altogether. Could you create a new environment with the latest version of each package you are using, and see if everything works there? (if your luck is anything like mine, you'll get a handful of errors before you even get to the <code>interp_hybrid_to_pressure()</code> call)</p>
+
+
+
+<a name="52012"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52012" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52012">(Mar 11 2022 at 20:21)</a>:</h4>
+<p><span class="user-mention" data-user-id="140">@Jesse Nusbaumer</span>  gave a solution that works</p>
+<p>|import geocat.comp as gcomp<br>
+Then use gcomp.interpolation.interp_hybrid_to_pressure(XXXX)</p>
+<p>I had been unsuccessfully trying <br>
+|from geocat.comp import interp_hybrid_to_pressure<br>
+based on following the geocat example:<br>
+<a href="https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py">https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py</a></p>
+<p><span class="user-mention silent" data-user-id="153">Alice DuVivier</span> <a href="#narrow/stream/3-general/topic/GeoCAT/near/52010">said</a>:</p>
+<blockquote>
+<p>I am trying to use the geocat interp_hybrid_to_pressure function and getting an error importing it. Here's the error:<br>
+|  ImportError: cannot import name 'interp_hybrid_to_pressure' from 'geocat.comp' (/glade/work/duvivier/miniconda3/envs/antarctica_som_env/lib/python3.7/site-packages/geocat/comp/__init__.py)</p>
+<p>I have geocat in my environment and use it for some other purposes, so it's just importing this one function that isn't working. So it's probably something with my environment, but  when I do a conda list in my environment it looks like I have this installed already:<br>
+|geocat-comp               0.2                        py_0    ncar<br>
+|geocat-datafiles          2021.1.0                   py_0    ncar<br>
+|geocat-ncomp              0.1a             py37h03ebfcd_0    ncar<br>
+|geocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>
+<p>I'm kind of stuck on how to proceed and would appreciate some help figuring this environment issue out. Unfortunately I don't think I'll be able to come to ESDS office hours next week to ask then (family visiting).</p>
+<p>If it helps, I've been  following the example here:<br>
+<a href="https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py">https://geocat-examples.readthedocs.io/en/latest/gallery/Contours/NCL_conwomap_5.html#sphx-glr-gallery-contours-ncl-conwomap-5-py</a></p>
+<p>And gone through the function documentation here:<br>
+<a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html">https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.interpolation.interp_hybrid_to_pressure.html</a></p>
+</blockquote>
+
+
+
+<a name="52013"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52013" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52013">(Mar 11 2022 at 20:21)</a>:</h4>
+<p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
+
+
+
+<a name="52014"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52014" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michaela Sizemore <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52014">(Mar 11 2022 at 20:22)</a>:</h4>
+<p>Beat me to it, Michael! I agree, it looks like your version is out of date with GeoCAT-comp, our most recent version is 2021.10.0 and I couldn't find the last time we had 0.2 as a version, which implies outdated version for your environment</p>
+
+
+
+<a name="52023"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52023" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52023">(Mar 11 2022 at 22:01)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span> even if you solved the issue, I'd highly recommend to follow <span class="user-mention" data-user-id="10">@Michael Levy</span> 's suggeestion and update your environment to use the newest GeoCAT-comp as yours seems to be outdated. This is important not only for geocat-comp version, but we made significant changes on GeoCAT stack, left using geocat-ncomp and replaced it with geocat-f2py for example.</p>
+
+
+
+<a name="52024"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52024" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52024">(Mar 11 2022 at 22:09)</a>:</h4>
+<p><span class="user-mention" data-user-id="18">@Orhan Eroglu</span> <span class="user-mention" data-user-id="105">@Michaela Sizemore</span> <span class="user-mention" data-user-id="10">@Michael Levy</span> <span class="user-group-mention" data-user-group-id="1">@geocat</span> </p>
+<p>I am in the process of doing this. Hopefully the update all goes smoothly. I agree that updating makes a lot of sense even if I did figure out the loading part.</p>
+
+
+
+<a name="52025"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52025" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52025">(Mar 11 2022 at 22:14)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span> , we'd love to hear your feedback about using the <code>interp_hybrid_to_pressure</code>function, e.g. performance, any issues, thoughts as well as if your environment update goes smooth, etc. Best,</p>
+
+
+
+<a name="52027"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52027" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52027">(Mar 11 2022 at 22:27)</a>:</h4>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span> </p>
+<p>I got the versions updated (See below). Honestly it was a bit confusing to follow how to do this just from the geocat documentation and be sure I was installing all the pieces of geocat (comp, viz, and datafiles separately). And the documentation doesn't have specific instructions for how to add geocat to an existing environment or updating it. Those would be useful things for those of us who are not python super-users. </p>
+<p>But now my notebook is running reasonably. I'll give you any thoughts about the function as I work with it more. :)</p>
+<p>geocat-comp               2021.10.0                  py_0    ncar<br>
+geocat-datafiles          2021.1.0                   py_0    ncar<br>
+geocat-f2py               2022.02.0        py37h3d0eb6f_0    ncar<br>
+geocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>
+
+
+
+<a name="52030"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52030" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52030">(Mar 11 2022 at 23:17)</a>:</h4>
+<p>Good to hear that it's working. <br>
+As a conda environment improvement, I'd suggest running the following commands:</p>
+<div class="codehilite"><pre><span></span><code>conda config --prepend channels conda-forge
+conda clean --all
+conda install python=3.9
+conda update conda
+conda update --all
+conda clean --all
+</code></pre></div>
+
+
+
+<a name="52031"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52031" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52031">(Mar 11 2022 at 23:21)</a>:</h4>
+<p>NumPy ended support for python 3.7 last August, and we are ending support for python 3.7 as well, starting with release 2022.03.0</p>
+
+
+
+<a name="52033"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52033" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52033">(Mar 12 2022 at 00:33)</a>:</h4>
+<p><span class="user-mention" data-user-id="153">@Alice DuVivier</span></p>
+
+
+
+<a name="52054"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52054" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52054">(Mar 12 2022 at 19:41)</a>:</h4>
+<p>Done!</p>
+<p><span class="user-mention silent" data-user-id="97">Alea Kootz</span> <a href="#narrow/stream/3-general/topic/GeoCAT/near/52030">said</a>:</p>
+<blockquote>
+<p>Good to hear that it's working. <br>
+As a conda environment improvement, I'd suggest running the following commands:</p>
+<p><div class="codehilite"><pre><span></span><code>conda config --prepend channels conda-forge
+conda clean --all
+conda install python=3.9
+conda update conda
+conda update --all
+conda clean --all
+</code></pre></div><br>
+</p>
+</blockquote>
+
+
+
+<a name="52068"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52068" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52068">(Mar 14 2022 at 16:25)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="153">Alice DuVivier</span> <a href="#narrow/stream/3-general/topic/GeoCAT/near/52027">said</a>:</p>
+<blockquote>
+<p><span class="user-group-mention" data-user-group-id="1">@geocat</span> </p>
+<p>I got the versions updated (See below). Honestly it was a bit confusing to follow how to do this just from the geocat documentation and be sure I was installing all the pieces of geocat (comp, viz, and datafiles separately). And the documentation doesn't have specific instructions for how to add geocat to an existing environment or updating it. Those would be useful things for those of us who are not python super-users. </p>
+<p>But now my notebook is running reasonably. I'll give you any thoughts about the function as I work with it more. :)</p>
+<p>geocat-comp               2021.10.0                  py_0    ncar<br>
+geocat-datafiles          2021.1.0                   py_0    ncar<br>
+geocat-f2py               2022.02.0        py37h3d0eb6f_0    ncar<br>
+geocat-viz                2020.7.30.1        pyh39e3cac_0    ncar</p>
+</blockquote>
+<p>This sounds great! I have created a <a href="https://github.com/NCAR/GeoCAT/issues/43">GeoCAT issue</a> regarding your thoughts and initially assigned <span class="user-mention" data-user-id="114">@Anissa Zacharias</span> and <span class="user-mention" data-user-id="107">@Heather Craker</span> as they were currently discussing/working about improvements to. the GeoCAT contributor's guide, but we will have our team discussion on this as well.</p>
+
+
+
+<a name="52103"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52103" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52103">(Mar 14 2022 at 23:33)</a>:</h4>
+<p>Sounds good. I'm happy to provide feedback as needed. I did get to the actual interpolation today with interp_hybrid_to_pressure and it worked great.</p>
+
+
+
+<a name="52852"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52852" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52852">(Mar 29 2022 at 18:24)</a>:</h4>
+<p>Hi <span class="user-mention" data-user-id="153">@Alice DuVivier</span> I'm working on the GitHub issue that Orhan opened for this. Can you tell me which documentation pages you were looking at? We have installation instructions linked in the GeoCAT-examples gallery as well as in the documentation for GeoCAT-comp and GeoCAT-f2py. The contributor's guide also has installation of the entire GeoCAT project rather than instructions for one package like geocat-comp.</p>
+
+
+
+<a name="52871"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52871" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52871">(Mar 29 2022 at 18:45)</a>:</h4>
+<p>I believe this was related to the installation instructions here:<br>
+<a href="https://geocat-comp.readthedocs.io/en/latest/installation.html">https://geocat-comp.readthedocs.io/en/latest/installation.html</a></p>
+<p>All these directions show how to create a new environment with geocat. However, as someone who already had an environment I just needed to update the environment and had a hard time determining how to do that from the page. I got a lot of guidance on this forum directly but not through the formal documentation.</p>
+<p><span class="user-mention silent" data-user-id="107">Heather Craker</span> <a href="#narrow/stream/3-general/topic/GeoCAT/near/52852">said</a>:</p>
+<blockquote>
+<p>Hi <span class="user-mention silent" data-user-id="153">Alice DuVivier</span> I'm working on the GitHub issue that Orhan opened for this. Can you tell me which documentation pages you were looking at? We have installation instructions linked in the GeoCAT-examples gallery as well as in the documentation for GeoCAT-comp and GeoCAT-f2py. The contributor's guide also has installation of the entire GeoCAT project rather than instructions for one package like geocat-comp.</p>
+</blockquote>
+
+
+
+<a name="52886"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52886" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52886">(Mar 29 2022 at 19:27)</a>:</h4>
+<p>Thank you <span class="user-mention" data-user-id="153">@Alice DuVivier</span>! I'll be sure to update that page along with our contributor's guide. I can let you know once I have a GitHub pull request to fix this if you would like.</p>
+
+
+
+<a name="52922"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/GeoCAT/near/52922" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/3-general/topic/GeoCAT.html#52922">(Mar 30 2022 at 16:43)</a>:</h4>
+<p>I have opened a PR to add clarification to the geocat-comp installation webpage. If anyone wants to take a look at make sure the instructions makes sense now, please feel free to leave comments and reviews <a href="https://github.com/NCAR/geocat-comp/pull/214">https://github.com/NCAR/geocat-comp/pull/214</a></p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

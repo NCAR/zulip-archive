@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I have a silly question about GridSpec. I am trying to do a 3 panel plot with the third one in a second row, centered in the middle. When I do something like:</p>\n<p>gs = GridSpec(2,2)</p>\n<p>ax = fig.add_subplot(gs[0,0], ...)</p>\n<p>ax = fig.add_subplot(gs[0,1], ...)</p>\n<p>ax = fig.add_subplot(gs[1,:], ...)</p>\n<p>The plot in the second row is right-aligned instead of centered. I can get it to work with GridSpec(3,3), but then I have a bunch of whitespace. What am I missing here?</p>\n<p>Dave</p>",
+        "id": 93784,
+        "sender_full_name": "David Bailey",
+        "timestamp": 1703795039
+    },
+    {
+        "content": "<p>Hello Dave,</p>\n<p>I think you might actually want to try <code>subplot_mosaic</code> if you're open to abandoning <code>GridSpec</code>.</p>\n<p>See <a href=\"https://matplotlib.org/stable/gallery/specialty_plots/mri_with_eeg.html#sphx-glr-gallery-specialty-plots-mri-with-eeg-py\">this example</a> that has a very similar layout to what you're describing</p>",
+        "id": 93785,
+        "sender_full_name": "Anissa Zacharias",
+        "timestamp": 1703795272
+    },
+    {
+        "content": "<p>Here's a <a href=\"https://matplotlib.org/stable/gallery/text_labels_and_annotations/label_subplots.html#sphx-glr-gallery-text-labels-and-annotations-label-subplots-py\">more general <code>subplot_mosaic</code> example</a> , too . This is my preferred method to do anything with non-standard subplot layouts!</p>",
+        "id": 93786,
+        "sender_full_name": "Anissa Zacharias",
+        "timestamp": 1703795405
+    },
+    {
+        "content": "<p>Hi Dave,</p>\n<p>I think this is what you want.</p>\n<p>fig = plt.figure(tight_layout=True)<br>\ngs = gridspec.GridSpec(2, 4)<br>\nax1 = fig.add_subplot(gs[0, :2])<br>\nax2 = fig.add_subplot(gs[0, 2:])<br>\nax3 = fig.add_subplot(gs[1, 1:3])</p>\n<p>Cheers,<br>\nFred</p>",
+        "id": 93808,
+        "sender_full_name": "Fred Castruccio",
+        "timestamp": 1704222175
+    }
+]

@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>This notebook generates a <code>prescribed_volcaero_file</code> without Mt Pinatubo. <br>\n<a href=\"https://github.com/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb\" target=\"_blank\" title=\"https://github.com/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb\">https://github.com/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb</a><br>\n(<a href=\"https://nbviewer.jupyter.org/github/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb\" target=\"_blank\" title=\"https://nbviewer.jupyter.org/github/matt-long/pinatubo-LE/blob/main/notebooks/generate-novolc-forcing.ipynb\">viewable here</a>)</p>\n<p>It simply replaces the 5 years of data bracketing the event with the preceding 5 years.  This is a very crude first cut. </p>\n<p><span class=\"user-mention\" data-user-id=\"126\">@Andrew Gettelman</span>, what do you think of this approach? What should we look at to ensure it's acceptable? Is this the only forcing file we need to modify?</p>",
+        "id": 20551,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1603898498
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> One of <span class=\"user-mention\" data-user-id=\"126\">@Andrew Gettelman</span>'s early emails about this suggested replacing each year in 1991-1995 with the monthly climatology from 1986-1990 rather than repeating the five-year period exactly. Another possibility was linearly interpolating each month from 1990 to 1996 (e.g. drawing a line from Jan 1990 - Jan 1996 and using those values to compute Jan '91, '92, '93, '94, and '95 then doing the same for Feb and so on)</p>",
+        "id": 20554,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1603899281
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> 's method seems fine. His method is doing what you want: remove Pinatubo from the forcing and have a 'clean' emission file. I think the figure indicates this is fine. Hard to tell how smooth it is in either side given the scale, but I think it's fine and serves the purpose. If there are some subtle jumps, maybe a linear ramp is needed, but I doubt it.</p>",
+        "id": 20555,
+        "sender_full_name": "Andrew Gettelman",
+        "timestamp": 1603901428
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"126\">@Andrew Gettelman</span>. There is a little blip prior to the eruption in my censored version. Note that I haven't done any pressure weighting to produce those plots—just straight sums over <code>lev</code>.</p>",
+        "id": 20556,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1603901893
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span>  I would also worry about the small bump or any other small perturbations prior to eruption day, based on recent work suggesting potential impacts of very small perturbations on ENSO phase post eruption: <a href=\"https://www.nature.com/articles/s43247-020-0013-y\" target=\"_blank\" title=\"https://www.nature.com/articles/s43247-020-0013-y\">https://www.nature.com/articles/s43247-020-0013-y</a>  <br>\nMaybe use exact eruption month/day, e.g.  <code>where (199106&lt;ds.time)</code> in [15] to ensure the forcing is exactly the same prior to eruption day?</p>",
+        "id": 20568,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1603903223
+    },
+    {
+        "content": "<p>I think it depends on the fraction of the total that the blip is. I don't think small perturbations are going to matter. ENSO effects seem somewhat stochastic to me.</p>",
+        "id": 20569,
+        "sender_full_name": "Andrew Gettelman",
+        "timestamp": 1603903313
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"14\">Matt Long</span>  I would also worry about the small bump or any other small perturbations prior to eruption day, based on recent work suggesting potential impacts of very small perturbations on ENSO phase post eruption: <a href=\"https://www.nature.com/articles/s43247-020-0013-y\" target=\"_blank\" title=\"https://www.nature.com/articles/s43247-020-0013-y\">https://www.nature.com/articles/s43247-020-0013-y</a>  <br>\nMaybe use exact eruption month/day, e.g.  <code>where (199106&lt;ds.time)</code> in [15] to ensure the forcing is exactly the same prior to eruption day?</p>\n</blockquote>\n<p>This seems reasonable to me. The blip seems really tiny—but I just threw that notebook together to get the ball rolling. <span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span>, want to submit a PR?</p>",
+        "id": 20574,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1603904641
+    },
+    {
+        "content": "<p>Sure thing!</p>",
+        "id": 20576,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1603905601
+    },
+    {
+        "content": "<p>Sounds good to me. What is a PR, by the way?</p>",
+        "id": 20720,
+        "sender_full_name": "Galen McKinley",
+        "timestamp": 1604082276
+    },
+    {
+        "content": "<p>PR = pull request on GitHub</p>",
+        "id": 20721,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1604082367
+    },
+    {
+        "content": "<p>OK. right. I am a newbie there too</p>",
+        "id": 20722,
+        "sender_full_name": "Galen McKinley",
+        "timestamp": 1604082537
+    },
+    {
+        "content": "<p>Thanks for getting this going!</p>",
+        "id": 20723,
+        "sender_full_name": "Galen McKinley",
+        "timestamp": 1604083204
+    }
+]

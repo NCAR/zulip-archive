@@ -1,0 +1,45 @@
+<html>
+<head><meta charset="utf-8"><title>plotting data grouped by dayofyear · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/plotting.20data.20grouped.20by.20dayofyear.html">plotting data grouped by dayofyear</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="38128"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/plotting%20data%20grouped%20by%20dayofyear/near/38128" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/plotting.20data.20grouped.20by.20dayofyear.html#38128">(Jul 21 2021 at 17:09)</a>:</h4>
+<p>Hi all, I was wondering if anyone has already dealt with this issue. I have data grouped by and averaged by day of year (0 to 364). I am plotting it's mean, +/-std, +/-2std and max and min. I was wondering if anyone has suggestions about how to shift the time axis to begin July 1 and replace dayofyear with month in the x-axis labels.  I could brute force it by plotting vs. doy2 = np.mod((doy+180),365) but that causes wrapping artifacts in the plot that I can deal with but it's not elegant. Here's the current figure:<br>
+<a href="/user_uploads/2/f/paU70tIQOI9xLrBIzErqB1GH/u60n.png" target="_blank" title="u60n.png">u60n.png</a></p>
+<div class="message_inline_image"><a href="/user_uploads/2/f/paU70tIQOI9xLrBIzErqB1GH/u60n.png" target="_blank" title="u60n.png"><img src="/user_uploads/2/f/paU70tIQOI9xLrBIzErqB1GH/u60n.png"></a></div>
+
+
+
+<a name="38130"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/plotting%20data%20grouped%20by%20dayofyear/near/38130" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/plotting.20data.20grouped.20by.20dayofyear.html#38130">(Jul 21 2021 at 17:16)</a>:</h4>
+<p>I am hoping to create something like this: <a href="/user_uploads/2/a/KdiR_IeitLRRZr1PKOYKl47n/u60n_10_2021_merra2.pdf" target="_blank" title="u60n_10_2021_merra2.pdf">u60n_10_2021_merra2.pdf</a></p>
+
+
+
+<a name="38133"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/plotting%20data%20grouped%20by%20dayofyear/near/38133" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/plotting.20data.20grouped.20by.20dayofyear.html#38133">(Jul 21 2021 at 17:36)</a>:</h4>
+<p>Use <code>.roll</code> to move the data in a circular fashion.  I think you'll have to manually set the xaxis labels or create a fake time axis using <code>xr.cftime_range</code> and plot against that.</p>
+
+
+
+<a name="38134"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/plotting%20data%20grouped%20by%20dayofyear/near/38134" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/plotting.20data.20grouped.20by.20dayofyear.html#38134">(Jul 21 2021 at 17:37)</a>:</h4>
+<p>longer term: I think we should consider making <code>ClimatologyTimeIndex</code> that we can plug in to xarray for things like this. cc <span class="user-group-mention" data-user-group-id="4">@xdev</span></p>
+
+
+
+<a name="38194"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/plotting%20data%20grouped%20by%20dayofyear/near/38194" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/plotting.20data.20grouped.20by.20dayofyear.html#38194">(Jul 21 2021 at 21:00)</a>:</h4>
+<p>Thanks - rolling the data and creating a new time axis 'days from July 1' should work. I will look into manually setting x-axis labels to the month names.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

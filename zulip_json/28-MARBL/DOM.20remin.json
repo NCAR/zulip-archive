@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>, <br>\nI am confused by something. </p>\n<p>I read the following in <a href=\"https://www.biogeosciences.net/12/209/2015/bg-12-209-2015.pdf\" target=\"_blank\" title=\"https://www.biogeosciences.net/12/209/2015/bg-12-209-2015.pdf\">Letscher et al. 2015, top of pg 212</a></p>\n<blockquote>\n<p>Remineralization is more rapid for semilabile DOM in the euphotic zone, with lifetimes on the order of 5 months for DON + DOP and ∼ 8 months for DOC. Longer lifetimes for semilabile DOM are assigned in the mesopelagic zone with the order of remineralization lifetimes following C &gt; P &gt; N.</p>\n</blockquote>\n<p>However, their numbers in Table 1 seem to show the opposite, with longer lifetimes (enhanced remin) in the euphotic zone (and lifetimes in years, not months).</p>\n<p>The values in their Table 1  appear to match <a href=\"https://github.com/marbl-ecosys/MARBL/blob/4fbd2ab4e790a18fe0a2c7c730570cf7139524c3/src/marbl_settings_mod.F90#L171\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/MARBL/blob/4fbd2ab4e790a18fe0a2c7c730570cf7139524c3/src/marbl_settings_mod.F90#L171\">what we have for parameter values</a>.</p>\n<p>What am I missing?</p>",
+        "id": 8078,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588800022
+    },
+    {
+        "content": "<p>reading on in Letscher et al, </p>\n<blockquote>\n<p>Remineralization lifetimes (κ−1)  differ for SLDOM depending on location in the water column with longer lifetimes for the euphotic zone (depths where PAR &gt; 1 %) than for the mesopelagic zone</p>\n</blockquote>",
+        "id": 8079,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588800351
+    },
+    {
+        "content": "<p>so maybe I just need to read more carefully.</p>",
+        "id": 8080,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588800379
+    },
+    {
+        "content": "<p>Indeed, the difference is between what were the previous defaults and the optimized values.</p>",
+        "id": 8084,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588800562
+    },
+    {
+        "content": "<p>Sounds like you're satisfied. Your dialog replays very closely an email exchange that I had with Rob Letscher in 2015. My final statement in the thread was \"Thanks for the explanation. I had searched your paper for the word light and found where you wrote 'Remineralization is more rapid for semilabile DOM in the euphotic zone'. I now see that this was referring to the 1.2.2 model, not the optimized parameter set. Sloppy reading on my part.\".</p>",
+        "id": 8089,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588802572
+    },
+    {
+        "content": "<blockquote>\n<p>Sloppy reading on my part</p>\n</blockquote>\n<p>Indeed, sloppy reading on my part too! Though I was also hung up on the expectation that DOM should cycle faster where there is light. I wonder about confounding factors/unrepresented processes that might lead the optimization astray.</p>",
+        "id": 8090,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588803044
+    },
+    {
+        "content": "<p>I am satisfied, thanks!</p>",
+        "id": 8091,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588803068
+    },
+    {
+        "content": "<p>FYI, below is a slightly-edited email excerpt regarding UV enhancement of RDOM remin. It's probably too much detail for your paper, but some amount of this detail probably belongs in the MARBL scientific documentation</p>\n<div class=\"codehilite\"><pre><span></span>I proposed a change based on:\n1) assume photoreduction is all UV\n2) assume UV at surf is a constant fraction of PAR\n(they diverge below the surface because UV is absorbed more readily by seawater)\n3) get extinction coefficient from literature of UV that photoreduces DOM\n4) from 2 and 3, compute penetration depth of UV dz_UV,\ni.e. z where UV drops below some threshold\nBecause UV is absorbed so well, this will presumably be in the first model layer.\nIt will also be 0 when there is no light.\n5) term that is added to DOM remin is dz_UV/dz(1)/(photoreduction timescale) * DOM\n\nThere are some tunable parameters here, but this approach has the following properties:\n1) it turns off when there is no light\n2) depth over which photoreduction occurs is independent of vertical grid.\n3) as it is tied to UV absorption instead of PAR, it is focused in the very near surface, where UV is present.\n\nKeith and Rob Letscher seemed to think this approach was better than what was in the code.\nIt still has ad-hoc assumptions. In particular, UV at high latitudes is probably not proportional to PAR.\nI&#39;m sure clouds attenuate UV and PAR differently too. But, it&#39;s something to work with.\n\nHere&#39;s the math\n\nUV(z=0) = C*PAR(z=0) ! C is unknown constant of proportionality\nUV(z) = C*PAR(z=0)*exp(-z/L) ! L is unknown, but probably short, length scale\nLet UV* denote threshold where photoreduction occurs only if UV&gt;UV*.\n(This is ad-hoc too. The process is probably a continuous function of UV, not a step function.)\nThen z*, the depth at which photoreduction ceases (dz_UV from above), solves\nUV* = C*PAR(z=0)*exp(-z*/L)\nSolving for z* yields\nz* = L*log(C*PAR(z=0)/UV*)\nNote that only holds if z* is positive (i.e. argument of log()&gt;1).\nThat is, if PAR(z=0) is not big enough, we don&#39;t want z* above the sea surface\nSo we really have\nz* = L*log(C*PAR(z=0)/UV*), if PAR(z=0) &gt; UV*/C\n        0,     if PAR(z=0) &lt; UV*/C\nNow I really make stuff up. Other PAR based switches in the code use 1 W/m^2 as a threshold.\nSo I assume UV*/C = 1, out of convenience. So I get\nz* = L*log(PAR(z=0)), if PAR(z=0) &gt; 1\n        0,     if PAR(z=0) &lt; 1\n\nPlugging this into my 5) from above yields that the additional remin from UV is\nL*log(PAR(z=0))/dz(1)/(photoreduction timescale) * DOM (if PAR(z=0)&gt;1)\nI then redefine L to be L/10e2, which is dz(1) in our current grid and get\n(L*log(PAR(z=0)))*(10.0e2/dz(1))/(photoreduction timescale) * DOM (if PAR(z=0)&gt;1)\nThis way, 10e2/dz(1) is 1.0 for our current grid, but we get grid dependence built in.\nNow I tune to get the same net photoreduction that Keith had previously tuned for.\nI kept the photoreduction timescale to be the value that Keith had tuned for.\nI did a diagnostic run where I computed the time space mean of log(max(PAR(z=0),1)).\nI then solved for L so that L*mean(log(max(PAR(z=0),1)) = 1, to match Keith&#39;s values.\nThis yields L=0.4373.\nPutting it all together yields the expression in the code:\n(log(PAR_in(subcol_ind))*0.4373_r8) * (10.0e2_r8/dz1)\n</pre></div>",
+        "id": 8095,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588804002
+    },
+    {
+        "content": "<p>This formulation, and the derivation that it is based on, is problematic if the top layer is smaller than the thickness that UV is absorbed within. This seems unlikely in POP, but not so in MOM6. So I think this needs to be revisited.</p>",
+        "id": 8101,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1588849006
+    },
+    {
+        "content": "<p>thanks, Keith</p>",
+        "id": 8102,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1588858132
+    }
+]

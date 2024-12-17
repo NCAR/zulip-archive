@@ -1,0 +1,62 @@
+<html>
+<head><meta charset="utf-8"><title>✔ Accessing WLDAS Data · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html">✔ Accessing WLDAS Data</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="102740"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102740" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Miles Alan Moore <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102740">(Jul 20 2024 at 21:44)</a>:</h4>
+<p>Hello all,</p>
+<p>I am a graduate student working with Will Wieder (TSS/CGD) at the Mesa Lab. I am looking to use <a href="https://disc.gsfc.nasa.gov/datasets/WLDAS_NOAHMP001_DA1_D1.0/summary?keywords=WLDAS">NASA Western Land Data Assimilation System</a> data  in an analysis we are working on. To my knowledge, it is not already in any campaign directories or on glade. Even if I clip to my AOI, the data are still several Terabytes. I wonder if anyone has experience compiling data of this size onto glade or otherwise? </p>
+<p>The WLDAS documentation provides good documentation for downloading the data (using curl, wget), but the download will likely take a couple days using the wget/curl methods. I'm afraid that would be a pretty careless and wasteful use of our project's compute resources. Any advice here? Thank you for your time!</p>
+<p>Cheers,</p>
+<p>Miles</p>
+
+
+
+<a name="102865"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102865" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102865">(Jul 22 2024 at 19:28)</a>:</h4>
+<p><span class="user-mention" data-user-id="395">@Miles Alan Moore</span> it looks like this is a fairly recent product.  It's possible someone's grabbed this (especially LSM / hydrology folks), but I'd guess you're right that it's not archived in a shared location.  <span class="user-mention" data-user-id="71">@Negin Sobhani</span> or someone else in the support group (also reachable here: <a href="https://ithelp.ucar.edu/plugins/servlet/desk/site/rc">https://ithelp.ucar.edu/plugins/servlet/desk/site/rc</a>) might know better and/or have some advice.  </p>
+<p>They'd likely have better recommendations for how to do data transfers as well.  I know there are some dedicated resources for supporting certain types of data transfers.</p>
+
+
+
+<a name="102912"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102912" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Miles Alan Moore <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102912">(Jul 22 2024 at 21:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> Thank you so much for the kind and helpful response! Someone had mentioned to me that it was fine to run a disowned processing running (like <code>wget</code> via a <code>screen</code> ) in a casper login node for a while to download data of this sort into my glade <em>scratch/</em> space. This way I am not hogging any compute resources that others could be using. So this is what I've done for now! If anyone thinks this is actually a bad idea / party foul, I'm happy to do it differently.</p>
+<p>Thank you, again, for your time! <span aria-label="grinning face with smiling eyes" class="emoji emoji-1f601" role="img" title="grinning face with smiling eyes">:grinning_face_with_smiling_eyes:</span></p>
+
+
+
+<a name="102913"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102913" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102913">(Jul 22 2024 at 21:47)</a>:</h4>
+<p>Glad you got this sorted!</p>
+
+
+
+<a name="102914"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102914" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102914">(Jul 22 2024 at 21:47)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="339">Katelyn FitzGerald</span> has marked this topic as resolved.</p>
+
+
+
+<a name="102967"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102967" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102967">(Jul 23 2024 at 18:28)</a>:</h4>
+<p>Hello <span class="user-mention" data-user-id="395">@Miles Alan Moore</span> , There should not be an issue with downloading files via <code>wget</code> as long as you have sufficient storage space, but I would suggest <strong>NOT using casper login</strong> nodes as they are usually very busy and high usage will cause slowness for all users. Instead, I suggest submitting jobs to the queue to download the files. If you prefer using login nodes, I recommend using Derecho rather than Casper. Please avoid running large wget processes on Casper login nodes to ensure optimal performance for everyone. <br>
+If you have any further questions or need assistance, feel free to reach out at <a href="mailto:rchelp@ucar.edu">rchelp@ucar.edu</a>.</p>
+
+
+
+<a name="102972"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20Accessing%20WLDAS%20Data/near/102972" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Miles Alan Moore <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20Accessing.20WLDAS.20Data.html#102972">(Jul 23 2024 at 18:37)</a>:</h4>
+<p><span class="user-mention" data-user-id="71">@Negin Sobhani</span>  Thank you for your response! I'll stop my wget process on the Casper Login node and resubmit as a job.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

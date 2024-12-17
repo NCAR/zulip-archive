@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Has anyone had an error like this before while plotting?<br>\n| IllegalArgumentException: Points of LinearRing do not form a closed linestring<br>\n...<br>\n| ValueError: GEOSGeom_createLinearRing_r returned a NULL pointer</p>\n<p>The error happens when I'm trying to plot and seems to be related to my np array for the contouring. But I've looked it through front and back and can't figure out what's going on. Internet searches suggest it's related to the geometry/polygons, but that doesn't make sense in the context of the error. If anyone has insight into an error like this please reach out. :)</p>",
+        "id": 55791,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1653694481
+    },
+    {
+        "content": "<p>There's a hard to nail down bug somewhere in Cartopy's contour where it converts the contours to proper geometry objects (in order to e.g. clip the contours to the map boundary). See for example: <a href=\"https://github.com/SciTools/cartopy/issues/1711\">https://github.com/SciTools/cartopy/issues/1711</a></p>\n<p>The best workaround is to tweak your contour interval or map boundaries to try to avoid the problematic contours.</p>",
+        "id": 55796,
+        "sender_full_name": "Ryan May",
+        "timestamp": 1653843481
+    },
+    {
+        "content": "<p>Great, thanks for the advice</p>",
+        "id": 55829,
+        "sender_full_name": "Alice DuVivier",
+        "timestamp": 1654023593
+    }
+]

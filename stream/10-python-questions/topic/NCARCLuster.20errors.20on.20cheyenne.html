@@ -1,19 +1,61 @@
 <html>
 <head><meta charset="utf-8"><title>NCARCLuster errors on cheyenne · python-questions · Zulip Chat Archive</title></head>
-<div class='page-content'><h2>Stream: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html">NCARCLuster errors on cheyenne</a></h3>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html">NCARCLuster errors on cheyenne</a></h3>
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu/">
+<base href="https://zulip2.cloud.ucar.edu">
 
-<head><link href="https://ncar.github.io/zulip-archive/style.css" rel="stylesheet"></head>
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="16800"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/NCARCLuster%20errors%20on%20cheyenne/near/16800" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html#16800">(Sep 03 2020 at 21:46)</a>:</h4>
+<p>I need a little guidance on how to run Dask properly on cheyenne.  I have been doing most of my development on Casper until now, and it's my understanding I have to switch from using SLURMCluster to NCARCluster when working on cheyenne.   But I get errors:</p>
+<div class="codehilite"><pre><span></span>import dask
+from ncar_jobqueue import NCARCluster
+from distributed import Client
+
+cluster = NCARCluster()
+
+~/miniconda3/envs/lens-conversion/lib/python3.8/site-packages/dask/config.py in get(key, default, config)
+    452         k = canonical_name(k, result)
+    453         try:
+--&gt; 454             result = result[k]
+    455         except (TypeError, IndexError, KeyError):
+    456             if default is not no_default:
+
+KeyError: &#39;death-timeout&#39;
+</pre></div>
+
+
+<p>I am using a conda environment that I built through miniconda3 on Casper.    I have no idea if it works to use such an environment on cheyenne, but I had the feeling it should be OK.    Anyone see what I should fix?   Thanks!</p>
+
+
+
+<a name="16802"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/NCARCLuster%20errors%20on%20cheyenne/near/16802" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html#16802">(Sep 03 2020 at 22:15)</a>:</h4>
+<p>ugh i have this stupid issue too and it has persisted even after recereating my environment. It's really weird. The code is supposed to catch <code>KeyError</code> but is apparently not doing that!</p>
+
+
+
+<a name="16803"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/NCARCLuster%20errors%20on%20cheyenne/near/16803" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html#16803">(Sep 03 2020 at 22:16)</a>:</h4>
+<p>My solution is to <code>import distributed</code> after creating the cluster. I thought this was some weirdness with my env but this makes me thing there's some more fundamental issue</p>
+
+
+
+<a name="16808"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/NCARCLuster%20errors%20on%20cheyenne/near/16808" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html#16808">(Sep 03 2020 at 22:23)</a>:</h4>
+<p>Thanks Deepak!  That worked for me.</p>
+
+
 
 <a name="49721"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu/#narrow/stream/10-python-questions/topic/NCARCLuster%20errors%20on%20cheyenne/near/49721" class="zl"><img src="https://ncar.github.io/zulip-archive/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="https://ncar.github.io/zulip-archive/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html#49721">(Jan 26 2022 at 19:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/NCARCLuster%20errors%20on%20cheyenne/near/49721" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/NCARCLuster.20errors.20on.20cheyenne.html#49721">(Jan 26 2022 at 19:45)</a>:</h4>
 <p>This topic was moved here from <a class="stream-topic" data-stream-id="16" href="/#narrow/stream/16-jupyterlab-hub/topic/NCARCLuster.20errors.20on.20cheyenne.20jupyterhub">#jupyterlab-hub &gt; NCARCLuster errors on cheyenne jupyterhub</a> by <span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span></p>
 
 
 
-<hr><p>Last updated: Jan 30 2022 at 12:01 UTC</p>
-</html></div>
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

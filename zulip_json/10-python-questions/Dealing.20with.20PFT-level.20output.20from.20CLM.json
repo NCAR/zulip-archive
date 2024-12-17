@@ -1,0 +1,74 @@
+[
+    {
+        "content": "<p>Hi all,</p>\n<p>I've been working with some PFT-level data from CLM5 (e.g. NPP for each PFT) and have been using Python code from the NCAR-ESDS documentation to do the processing (<a href=\"https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/\">Sparse arrays and the CESM land model component — NCAR-ESDS 0.1 documentation</a>). This worked great until this week and I am now running into strange errors I'm not sure I understand. Following the example code, I convert the PFT output to a sparse matrix, then to an Xarray DataSet called sparse_data1. The following line:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">data1</span> <span class=\"o\">=</span> <span class=\"n\">sparse_data1</span><span class=\"o\">.</span><span class=\"n\">NPP</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">vegtype</span><span class=\"o\">=</span><span class=\"mi\">14</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">groupby</span><span class=\"p\">(</span><span class=\"s2\">\"time.year\"</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">year</span><span class=\"o\">=</span><span class=\"mi\">2015</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>does what you would expect. However, I'm trying to do time series analysis, and this line:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">data1</span> <span class=\"o\">=</span> <span class=\"n\">sparse_data3</span><span class=\"o\">.</span><span class=\"n\">NPP</span><span class=\"o\">.</span><span class=\"n\">isel</span><span class=\"p\">(</span><span class=\"n\">vegtype</span><span class=\"o\">=</span><span class=\"mi\">14</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">groupby</span><span class=\"p\">(</span><span class=\"s2\">\"time.year\"</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">()</span>\n</code></pre></div>\n<p>returns an error when I try to extract the output or do any operations on it.</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"nb\">print</span> <span class=\"p\">(</span><span class=\"n\">data1</span><span class=\"o\">.</span><span class=\"n\">values</span><span class=\"p\">)</span>\n<span class=\"p\">[</span><span class=\"o\">...</span><span class=\"p\">]</span>\n<span class=\"ne\">ValueError</span><span class=\"p\">:</span> <span class=\"n\">This</span> <span class=\"n\">operation</span> <span class=\"n\">requires</span> <span class=\"n\">consistent</span> <span class=\"n\">fill</span><span class=\"o\">-</span><span class=\"n\">values</span><span class=\"p\">,</span> <span class=\"n\">but</span> <span class=\"n\">argument</span> <span class=\"mi\">1</span> <span class=\"n\">had</span> <span class=\"n\">a</span> <span class=\"n\">fill</span> <span class=\"n\">value</span> <span class=\"n\">of</span> <span class=\"mf\">7.0</span><span class=\"p\">,</span> <span class=\"n\">which</span> <span class=\"ow\">is</span> <span class=\"n\">different</span> <span class=\"kn\">from</span> <span class=\"nn\">a</span> <span class=\"n\">fill_value</span> <span class=\"n\">of</span> <span class=\"mf\">5.0</span> <span class=\"ow\">in</span> <span class=\"n\">the</span> <span class=\"n\">first</span> <span class=\"n\">argument</span><span class=\"o\">.</span>\n</code></pre></div>\n<p>Attempting to slice the years using</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">year</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">2015</span><span class=\"p\">,</span><span class=\"mi\">2100</span><span class=\"p\">))</span>\n</code></pre></div>\n<p>has the same issue. I'm unable to convert the output into a numpy array, and viewing its properties suggests there <br>\nis a text description of the data where the actual values should be. This code all worked fine last week so it's probably something to do with updates to the various Python packages involved, but I wondered if anyone else working with PFT-level output has encountered this problem or found a solution?<br>\nCheers,<br>\nJames</p>",
+        "id": 58435,
+        "sender_full_name": "James King",
+        "timestamp": 1657561458
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"302\">@James King</span> I haven't experienced this issue, but given that you were able to get it working previously it makes sense that package versions could be part of it. Tagging <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> and <span class=\"user-mention\" data-user-id=\"120\">@Daniel Kennedy</span> here in case they have any additional insight.</p>",
+        "id": 58450,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1657573158
+    },
+    {
+        "content": "<p>Nice ot see that code is being used ! =)</p>\n<p>Can you show us the output of <code>xr.show_versions()</code> please</p>",
+        "id": 58463,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1657574700
+    },
+    {
+        "content": "<p>Rerunning that blogpost notebook with latest versions</p>\n<div class=\"codehilite\"><pre><span></span><code>cartopy   : 0.19.0.post1\nnumpy     : 1.23.1\nxarray    : 2022.3.0\nmatplotlib: 3.5.1\njson      : 2.0.9\nsys       : 3.8.6 | packaged by conda-forge | (default, Jan 25 2021, 23:21:18)\n[GCC 9.3.0]\nsparse    : 0.13.0\n</code></pre></div>\n<p>works for me...</p>",
+        "id": 58465,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1657574779
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> and <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> ,  it's a great bit of code! The output of <code>python xr.show_versions() </code> is below. </p>\n<div class=\"codehilite\"><pre><span></span><code>xarray: 0.20.2\npandas: 1.3.5\nnumpy: 1.21.6\nscipy: 1.7.3\nnetCDF4: 1.5.8\npydap: installed\nh5netcdf: None\nh5py: 3.6.0\nNio: None\nzarr: 2.11.3\ncftime: 1.6.0\nnc_time_axis: None\nPseudoNetCDF: None\nrasterio: None\ncfgrib: None\niris: 3.1.0\nbottleneck: 1.3.4\ndask: 2022.02.0\ndistributed: 2022.02.0\nmatplotlib: 3.5.2\ncartopy: 0.20.2\nseaborn: 0.11.2\nnumbagg: None\nfsspec: 2022.5.0\ncupy: None\npint: 0.18\nsparse: 0.13.0\nsetuptools: 59.8.0\npip: 22.1.2\nconda: None\npytest: 7.1.2\nIPython: 7.33.0\nsphinx: None\n</code></pre></div>",
+        "id": 58478,
+        "sender_full_name": "James King",
+        "timestamp": 1657616631
+    },
+    {
+        "content": "<p>I'm trying to plot spatial means and sums of various PFT-level variables over time as line plots rather than spatial maps. Step 1 is getting them into an array with only a time dimension, and the code seemingly allows me to do that, but that error is thrown whenever I try to look at or plot the data (e.g. putting it into a pandas dataframe to calculate a running mean)</p>",
+        "id": 58480,
+        "sender_full_name": "James King",
+        "timestamp": 1657635644
+    },
+    {
+        "content": "<p>Oh hmm.. I found this <a href=\"https://github.com/dask/dask/issues/7169\">dask issue</a></p>",
+        "id": 58490,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1657637913
+    },
+    {
+        "content": "<p>Are you ever computing std or var in the pipeline? Or only mean?</p>",
+        "id": 58491,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1657638126
+    },
+    {
+        "content": "<p>Yes I saw that too! Looks like it's a recent problem there. I'm only calculating means and sums with this code at the moment, depending on the variable</p>",
+        "id": 58502,
+        "sender_full_name": "James King",
+        "timestamp": 1657641520
+    },
+    {
+        "content": "<p>This seems to work:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">data1_yearmean</span> <span class=\"o\">=</span> <span class=\"n\">data1</span><span class=\"o\">.</span><span class=\"n\">groupby</span><span class=\"p\">(</span><span class=\"s2\">\"time.year\"</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">()</span>\n<span class=\"n\">data1_chunk</span> <span class=\"o\">=</span> <span class=\"n\">data1_yearmean</span><span class=\"o\">.</span><span class=\"n\">chunk</span><span class=\"p\">({</span><span class=\"s2\">\"year\"</span><span class=\"p\">:</span> <span class=\"mi\">100</span><span class=\"p\">})</span>\n<span class=\"n\">ts1</span> <span class=\"o\">=</span> <span class=\"n\">data1_chunk</span><span class=\"o\">.</span><span class=\"n\">mean</span><span class=\"p\">((</span><span class=\"s2\">\"lat\"</span><span class=\"p\">,</span> <span class=\"s2\">\"lon\"</span><span class=\"p\">))</span>\n<span class=\"n\">ts2</span> <span class=\"o\">=</span> <span class=\"n\">ts1</span><span class=\"o\">.</span><span class=\"n\">compute</span><span class=\"p\">()</span>\n<span class=\"n\">ts3</span> <span class=\"o\">=</span> <span class=\"n\">ts1</span><span class=\"o\">.</span><span class=\"n\">copy</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"o\">=</span><span class=\"n\">ts1</span><span class=\"o\">.</span><span class=\"n\">data</span><span class=\"o\">.</span><span class=\"n\">todense</span><span class=\"p\">())</span>\n</code></pre></div>\n<p>though it's fairly slow</p>",
+        "id": 58506,
+        "sender_full_name": "James King",
+        "timestamp": 1657641741
+    },
+    {
+        "content": "<p>(don't worry, the mean will be area-weighted now I seem to have a solution to implement!)</p>",
+        "id": 58507,
+        "sender_full_name": "James King",
+        "timestamp": 1657641803
+    },
+    {
+        "content": "<ul>\n<li></li>\n</ul>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">ts3</span> <span class=\"o\">=</span> <span class=\"n\">ts2</span><span class=\"o\">.</span><span class=\"n\">copy</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"o\">=</span><span class=\"n\">ts2</span><span class=\"o\">.</span><span class=\"n\">data</span><span class=\"o\">.</span><span class=\"n\">todense</span><span class=\"p\">())</span>\n</code></pre></div>",
+        "id": 58634,
+        "sender_full_name": "James King",
+        "timestamp": 1657738912
+    }
+]

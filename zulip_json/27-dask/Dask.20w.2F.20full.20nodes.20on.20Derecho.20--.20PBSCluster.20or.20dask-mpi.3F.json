@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>Hi all,</p>\n<p>Has anyone used Dask with full nodes on Derecho, not Casper?  When I use Casper, I typically request N workers needing 2-4GB/each, and it works fine (with N ranging from 2 - 200).  On Derecho, though, since full nodes are the default allocation, I wasn't sure how best to do this, and am admittedly a Dask neophyte.  I'd love any guidance, including whether I should just switch to dask-mpi within a job, or continue to use PBSCluster under dask_jobqueue.</p>\n<p>Thank you!</p>\n<p>- Brian</p>",
+        "id": 103888,
+        "sender_full_name": "Brian Dobbins",
+        "timestamp": 1724183416
+    },
+    {
+        "content": "<p>I haven't personally, but would be curious to hear more about others experiences.</p>\n<p>I know <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> and <span class=\"user-mention\" data-user-id=\"141\">@Brian Vanderwende</span> wrote the <a href=\"https://ncar.github.io/dask-tutorial/README.html\">NCAR Dask Tutorial</a> and the <a href=\"https://ncar.github.io/Xarray-Dask-ESDS-2024/README.html\">ESDS 2024 Xarray and Dask Tutorial</a>, but I think these largely focus on Casper.  Not sure if they have thoughts on this and/or other resources.</p>",
+        "id": 103891,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1724260765
+    },
+    {
+        "content": "<p>Hey <span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span> , we don't suggest running the Dask workflow on Derecho, especially using Casper workflows (i.e. <code>PBSCluster</code>) , since users will be charged for the full node. </p>\n<p>Besides, since Dask is designed for me-intensive workflows, it is also more suitable for Casper (data analysis machine), which has more memory per node. Derecho, with its lower memory per core, is better suited for compute-heavy tasks. </p>\n<p>That being said, you can indeed use Dask on derecho with different methods of organizing workers and much less flexibility. </p>\n<p>I can put together some example dask workflows for Derecho that I can share if you are interested but overall I strongly advice running dask on Derecho. If you are interested I can talk more about dask-jobqueue vs dask-mpi. </p>\n<p>Is there any particular reason you are interested in running dask workflows on Derecho?</p>",
+        "id": 103896,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1724268142
+    },
+    {
+        "content": "<p>Thanks for the replies, Katelyn and Negin!  My interest in running on Derecho is because we're evaluating a new time-series conversion tool for potential use in CMIP7 -- the current tools run via MPI, on Derecho, but have some limitations.  We want to set up a 1:1 comparison since this is a major workflow, to evaluate performance and memory needs of each.  Currently, we don't expect (at normal resolutions) the memory / core limitations on Derecho to be a problem.</p>\n<p>I <em>think</em> I can just do this with dask-mpi, I just wasn't sure if there were other recommended ways.  I think if the tests / performance look good, we'd also <em>consider</em> running these workflows on Casper, but given the scale of the CMIP7 runs, and the amount of data, I'm not yet sure that's the best platform for this, even though it's obviously superior for interactive / smaller-scale data analysis.</p>\n<p>Thanks!</p>\n<ul>\n<li>Brian</li>\n</ul>",
+        "id": 103897,
+        "sender_full_name": "Brian Dobbins",
+        "timestamp": 1724268720
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span> is dask-mpi still actively being developed?</p>",
+        "id": 103899,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1724269876
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> That's a good question - I hadn't thought so, but it does seem like Kevin Paul and others are indeed making very occasional commits in Github:</p>\n<p><a href=\"https://github.com/dask/dask-mpi/commits/main/\">https://github.com/dask/dask-mpi/commits/main/</a></p>\n<p>Ultimately, the method by which we use Dask doesn't matter to us too much; I think for now I'm just interested in setting up the performance and memory tests, and depending on the results of said tests, we can consider how best to deploy it, and where.  Casper may indeed be viable, I just don't know - the speed will likely be the big factor there.</p>",
+        "id": 103901,
+        "sender_full_name": "Brian Dobbins",
+        "timestamp": 1724270292
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span> . </p>\n<p>Yes, you can indeed use dask-mpi to run dask on Derecho, but please note that there is no swap space on Derecho nodes, and dask rely heavily on swap space to avoid memory errors. I still think casper will be more performant if you want to go through large dataset (i.e. CMIP7 runs) with dask. </p>\n<p><span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> : Yes, I think there are some recent development on dask-mpi from the repository but the simplest and preferred method for running dask workflows on HPC systems is dask-jobqueue.</p>",
+        "id": 103902,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1724270331
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span> : Please let me know if you'd like to meet to talk more about this. I would be happy to help. :-)</p>",
+        "id": 103903,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1724270442
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span>Is there a way to submit a job on Casper from derecho? If so, can jobs on one machine be held until a job on the other machine completes successfully? The CMIP workflow <span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span> briefly mentioned is basically: (1) Run CESM, (2) run some post-processing tools, (3) repeat 1 &amp; 2 a bunch of times. It would be pretty cool if those two steps could run on different machines while still running sequentially!</p>",
+        "id": 103907,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1724276201
+    },
+    {
+        "content": "<p>Thanks for explaining the workflow <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> . </p>\n<p>Yes, cross-submission is a cool feature we have recently.   Here is how you can do this workflow entirely from Derecho (while running post-processing on casper): </p>\n<p>(1) Run CESM on Derecho (job 1: JOBID1)<br>\n(2) From Derecho, submit post-processing job to casper (i.e. job 2 that depends on job 1):</p>\n<p><code> qsub -q casper@casper-pbs -W depend=afterok:$JOBID1 postproc.pbs</code></p>\n<p>Notice the syntax for cross submission to casper (i.e. <code>-q casper@casper-pbs </code>)</p>\n<p><span class=\"user-mention\" data-user-id=\"65\">@Brian Dobbins</span> and <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> Please check our docs for the cross-system PBS capabilities: <a href=\"https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/\">https://ncar-hpc-docs.readthedocs.io/en/latest/pbs/</a></p>",
+        "id": 103908,
+        "sender_full_name": "Negin Sobhani",
+        "timestamp": 1724277789
+    }
+]

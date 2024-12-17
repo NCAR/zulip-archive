@@ -1,0 +1,73 @@
+<html>
+<head><meta charset="utf-8"><title>Failing github actions · git · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/56-git/index.html">git</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html">Failing github actions</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="105156"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105156" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html#105156">(Dec 17 2024 at 16:13)</a>:</h4>
+<p>I have a repository that runs some Github Actions overnight, and now these tests are failing in the <code>mamba-org/setup-micromamba@v2</code> stage while trying to install some dependencies with <code>pip</code>:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code>  <span class="n">Installing</span> <span class="n">pip</span> <span class="n">packages</span><span class="p">:</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">click</span><span class="p">,</span> <span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">autoyaml</span><span class="p">,</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dask</span><span class="o">/</span><span class="n">dask</span><span class="o">-</span><span class="n">mpi</span><span class="o">.</span><span class="n">git</span><span class="p">,</span> <span class="o">--</span><span class="n">editable</span><span class="o">=..</span>
+    <span class="n">error</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">-</span><span class="n">exited</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">error</span>
+
+    <span class="err">×</span> <span class="n">Getting</span> <span class="n">requirements</span> <span class="n">to</span> <span class="n">build</span> <span class="n">wheel</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">run</span> <span class="n">successfully</span><span class="o">.</span>
+    <span class="err">│</span> <span class="n">exit</span> <span class="n">code</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="err">╰─</span><span class="o">&gt;</span> <span class="p">[</span><span class="mi">17</span> <span class="n">lines</span> <span class="n">of</span> <span class="n">output</span><span class="p">]</span>
+        <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+          <span class="n">File</span> <span class="s2">"/home/runner/micromamba/envs/dev-feisty/lib/python3.9/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">353</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+            <span class="n">main</span><span class="p">()</span>
+          <span class="n">File</span> <span class="s2">"/home/runner/micromamba/envs/dev-feisty/lib/python3.9/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">335</span><span class="p">,</span> <span class="ow">in</span> <span class="n">main</span>
+            <span class="n">json_out</span><span class="p">[</span><span class="s1">'return_val'</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="o">**</span><span class="n">hook_input</span><span class="p">[</span><span class="s1">'kwargs'</span><span class="p">])</span>
+          <span class="n">File</span> <span class="s2">"/home/runner/micromamba/envs/dev-feisty/lib/python3.9/site-packages/pip/_vendor/pyproject_hooks/_in_process/_in_process.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">118</span><span class="p">,</span> <span class="ow">in</span> <span class="n">get_requires_for_build_wheel</span>
+            <span class="k">return</span> <span class="n">hook</span><span class="p">(</span><span class="n">config_settings</span><span class="p">)</span>
+          <span class="n">File</span> <span class="s2">"/tmp/pip-build-env-bly_n4i8/overlay/lib/python3.9/site-packages/setuptools/build_meta.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">334</span><span class="p">,</span> <span class="ow">in</span> <span class="n">get_requires_for_build_wheel</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_build_requires</span><span class="p">(</span><span class="n">config_settings</span><span class="p">,</span> <span class="n">requirements</span><span class="o">=</span><span class="p">[])</span>
+          <span class="n">File</span> <span class="s2">"/tmp/pip-build-env-bly_n4i8/overlay/lib/python3.9/site-packages/setuptools/build_meta.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">304</span><span class="p">,</span> <span class="ow">in</span> <span class="n">_get_build_requires</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_setup</span><span class="p">()</span>
+          <span class="n">File</span> <span class="s2">"/tmp/pip-build-env-bly_n4i8/overlay/lib/python3.9/site-packages/setuptools/build_meta.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">522</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run_setup</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run_setup</span><span class="p">(</span><span class="n">setup_script</span><span class="o">=</span><span class="n">setup_script</span><span class="p">)</span>
+          <span class="n">File</span> <span class="s2">"/tmp/pip-build-env-bly_n4i8/overlay/lib/python3.9/site-packages/setuptools/build_meta.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">320</span><span class="p">,</span> <span class="ow">in</span> <span class="n">run_setup</span>
+            <span class="n">exec</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">locals</span><span class="p">())</span>
+          <span class="n">File</span> <span class="s2">"&lt;string&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">3</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+        <span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">'yaml'</span>
+        <span class="p">[</span><span class="n">end</span> <span class="n">of</span> <span class="n">output</span><span class="p">]</span>
+
+    <span class="n">note</span><span class="p">:</span> <span class="n">This</span> <span class="n">error</span> <span class="n">originates</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">subprocess</span><span class="p">,</span> <span class="ow">and</span> <span class="ow">is</span> <span class="n">likely</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">problem</span> <span class="k">with</span> <span class="n">pip</span><span class="o">.</span>
+  <span class="n">error</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">-</span><span class="n">exited</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">error</span>
+
+  <span class="err">×</span> <span class="n">Getting</span> <span class="n">requirements</span> <span class="n">to</span> <span class="n">build</span> <span class="n">wheel</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">run</span> <span class="n">successfully</span><span class="o">.</span>
+  <span class="err">│</span> <span class="n">exit</span> <span class="n">code</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="err">╰─</span><span class="o">&gt;</span> <span class="n">See</span> <span class="n">above</span> <span class="k">for</span> <span class="n">output</span><span class="o">.</span>
+
+  <span class="n">note</span><span class="p">:</span> <span class="n">This</span> <span class="n">error</span> <span class="n">originates</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">subprocess</span><span class="p">,</span> <span class="ow">and</span> <span class="ow">is</span> <span class="n">likely</span> <span class="ow">not</span> <span class="n">a</span> <span class="n">problem</span> <span class="k">with</span> <span class="n">pip</span><span class="o">.</span>
+  <span class="n">critical</span> <span class="n">libmamba</span> <span class="n">pip</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">install</span> <span class="n">packages</span>
+</code></pre></div>
+<p>The last successful run was <a href="https://github.com/marbl-ecosys/feisty/actions/runs/12343969085/job/34445849443">Sunday night</a>, and then <a href="https://github.com/marbl-ecosys/feisty/actions/runs/12364257695/job/34507157858">it started to fail</a>. As far as I can tell, <code>pyyaml</code> is in the environment that <code>mamba</code> is trying to create, but I've tried:</p>
+<ol>
+<li>Explicitly adding <code>pyyaml</code> to the environment file</li>
+<li>Running <code>pip install pyyaml</code> before running <code>micromamba</code> (it was already installed with the system python)</li>
+<li>Pinning versions of the packages installed by <code>pip</code></li>
+</ol>
+<p>I don't see what else changed between those two runs... has anyone else seen something like this? Did you find a solution?</p>
+
+
+
+<a name="105157"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105157" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html#105157">(Dec 17 2024 at 16:52)</a>:</h4>
+<p>I'd have to look deeper to know exactly what's going on, but often the conda/mamba + pip installs are quite brittle and more things are on conda-forge these days.  It might be worth seeing if you can install everything via conda-forge.</p>
+
+
+
+<a name="105159"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105159" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html#105159">(Dec 17 2024 at 18:06)</a>:</h4>
+<p>Moving from pip to conda-forge seems to have done the trick -- thanks for the suggestion! I'm getting a sphinx build error in the build-docs test, but at least the environment is being created successfully :)</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

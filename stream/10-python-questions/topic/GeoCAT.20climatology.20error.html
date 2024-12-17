@@ -1,0 +1,86 @@
+<html>
+<head><meta charset="utf-8"><title>GeoCAT climatology error · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html">GeoCAT climatology error</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="88327"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/GeoCAT%20climatology%20error/near/88327" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html#88327">(Sep 07 2023 at 16:50)</a>:</h4>
+<p>Hi all,<br>
+I'm getting an error while using the GeoCAT function <code>climate_anomaly</code>. The error is <code>AttributeError: 'DataArray' object has no attribute '_data'</code>. The data is from the CESM2 large ensemble. Here's a complete example that I was just trying to run on casper:</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">geocat.comp</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="c1">#</span>
+<span class="c1"># LOAD SST FOR ONE MEMBER OF CESM2 LARGE ENSEMBLE</span>
+<span class="c1">#</span>
+<span class="n">varname</span> <span class="o">=</span> <span class="s2">"SST"</span>
+<span class="n">loc</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">"/glade/campaign/cgd/cesm/CESM2-LE/timeseries/atm/proc/tseries/month_1/</span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">case</span> <span class="o">=</span> <span class="s2">"b.e21.BHISTcmip6.f09_g17.LE2-1281.002"</span>
+<span class="n">srch</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">".cam.h0.</span><span class="si">{</span><span class="n">varname</span><span class="si">}</span><span class="s2">.*.nc"</span>
+<span class="n">fils</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">loc</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">case</span><span class="o">+</span><span class="n">srch</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fils</span><span class="p">)</span><span class="si">}</span><span class="s2"> files."</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="c1"># open dataset and correct the time coordinate to month mid-point</span>
+<span class="c1">#</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">fils</span><span class="p">,</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">'time_bnds'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'nbnd'</span><span class="p">)</span>
+<span class="n">t</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">attrs</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">"time"</span><span class="p">:</span><span class="n">t</span><span class="p">})</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">decode_cf</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
+<span class="c1">#</span>
+<span class="c1"># calculate the SST anomaly using GeoCAT</span>
+<span class="c1">#</span>
+<span class="n">ds_p_anom</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">climate_anomaly</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">],</span> <span class="s1">'month'</span><span class="p">,</span> <span class="n">time_dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">)</span>
+</code></pre></div>
+<p>Anyone have any input for this?</p>
+<p>Note that replacing the last line with these two lines seems to work  (and the whole thing runs in about 13s):</p>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">climo</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'time.month'</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'time'</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="n">anom</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'time.month'</span><span class="p">)</span> <span class="o">-</span> <span class="n">climo</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+<a name="88328"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/GeoCAT%20climatology%20error/near/88328" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cora Schneck <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html#88328">(Sep 07 2023 at 16:53)</a>:</h4>
+<p>There is an issue with how geocat is currently working with XArray (<a href="https://github.com/NCAR/geocat-comp/issues/381#issuecomment-1627832266">https://github.com/NCAR/geocat-comp/issues/381#issuecomment-1627832266</a>)</p>
+
+
+
+<a name="88329"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/GeoCAT%20climatology%20error/near/88329" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html#88329">(Sep 07 2023 at 16:57)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="364">@Cora Schneck</span>  That is definitely the same issue I'm hitting.</p>
+
+
+
+<a name="88331"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/GeoCAT%20climatology%20error/near/88331" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cora Schneck <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html#88331">(Sep 07 2023 at 16:59)</a>:</h4>
+<p>There is the local fix (by changing contains_cftime_datetimes), but I'm not sure about a more general fix</p>
+
+
+
+<a name="88344"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/GeoCAT%20climatology%20error/near/88344" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cora Schneck <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html#88344">(Sep 07 2023 at 18:00)</a>:</h4>
+<p>Here is a <a href="https://github.com/pydata/xarray/issues/7645#issuecomment-1475150683">more general solution</a></p>
+<p>So I believe it should be:<br>
+<code>ds = xr.decode_cf(ds)</code><br>
+ To<br>
+<code>ds = xr.decode_cf(ds.variable)</code></p>
+
+
+
+<a name="88350"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/GeoCAT%20climatology%20error/near/88350" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anissa Zacharias <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/GeoCAT.20climatology.20error.html#88350">(Sep 07 2023 at 18:06)</a>:</h4>
+<p><span class="user-mention" data-user-id="61">@Brian Medeiros</span>  This is also an open issue on geocat-comp. Pinning <code>xarray&lt;=2023.02.0</code> should get you around the error until we address it in a release.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>Is there a simply way to perform a reverse cumulative sum with xarray?  For example, if I have an xarray dataarray foo with a 'depth' coordinate/dimension, then foo.cumsum('depth') will give me the top-down cumulative sum, but I want the bottom-up sum. I know how to reverse the dimension using \"::-1\" on the underlying numpy array, but I want to avoid hardcoding knowledge of the dimension location.</p>",
+        "id": 53712,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1650293911
+    },
+    {
+        "content": "<p>One clunky method is the following (is the best available method?):</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">foo_cumsum</span> <span class=\"o\">=</span> <span class=\"n\">foo</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">depth</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"kc\">None</span><span class=\"p\">,</span><span class=\"kc\">None</span><span class=\"p\">,</span><span class=\"o\">-</span><span class=\"mi\">1</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">(</span><span class=\"s1\">'depth'</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">depth</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"kc\">None</span><span class=\"p\">,</span><span class=\"kc\">None</span><span class=\"p\">,</span><span class=\"o\">-</span><span class=\"mi\">1</span><span class=\"p\">))</span>\n</code></pre></div>",
+        "id": 53713,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1650294508
+    },
+    {
+        "content": "<p>yes.</p>\n<p>we could add a flag to cf_xarray. that lets you specify order. This would only work if <code>depth</code> has <code>attrs[\"positive\"]</code> set to either <code>up</code> or <code>down</code></p>",
+        "id": 53718,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1650295365
+    },
+    {
+        "content": "<p>There's similar discussion at xgcm: <a href=\"https://github.com/xgcm/xgcm/issues/337\">https://github.com/xgcm/xgcm/issues/337</a></p>",
+        "id": 53719,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1650295373
+    },
+    {
+        "content": "<p>I think you can probably reverse the coordinate by specifying a \"-1\" stride in the indexing:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">foo_cumsum</span> <span class=\"o\">=</span> <span class=\"n\">foo</span><span class=\"p\">[:,</span> <span class=\"p\">::</span><span class=\"o\">-</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"p\">:,</span> <span class=\"p\">:]</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">(</span><span class=\"s1\">'depth'</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>Obviously, you need to know the index position.</p>",
+        "id": 53789,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1650371316
+    },
+    {
+        "content": "<p>Thanks both. Matt, yes but it's desirable not to have to hard-code assumptions about array dimensionality. Deepak, fixes using cf_xarray or xgcm are possible, but I would think this should be considered as an option for the cumsum method of xarray.</p>",
+        "id": 53796,
+        "sender_full_name": "Stephen Yeager",
+        "timestamp": 1650385425
+    }
+]

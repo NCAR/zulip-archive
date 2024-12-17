@@ -1,0 +1,55 @@
+<html>
+<head><meta charset="utf-8"><title>example casper batch script? · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/example.20casper.20batch.20script.3F.html">example casper batch script?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="74304"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/example%20casper%20batch%20script%3F/near/74304" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Christine Shields <a href="http://127.0.0.1:4000/html/stream/3-general/topic/example.20casper.20batch.20script.3F.html#74304">(Feb 14 2023 at 23:56)</a>:</h4>
+<p>Hi everyone. I am very new to the python ecosystem, so apologies if this is obvious, or an ill-formed question.  Using a typical cshell batch script, I am trying to run a series of .py files that I originally developed as notebooks.  I am now in production mode and would like to use the batch/qsub workflow outside of Jupyterhub, for efficiency-sake.  I developed the scripts using the "NPL (conda)  kernal from the Jupyterhub framework, so I would like to use the same python environment. I have checked  <a href="http://url">https://arc.ucar.edu/knowledge_base/72581396#StartingCasperjobswithPBS-Fortcshusers</a> and <a href="http://url">https://arc.ucar.edu/knowledge_base/83853599#UsingCondaandPython-UsingCondainbatchjobs</a>, but I am still failing to execute the correct module and/or environment sequence.  Does anyone have an example they would be willing to share? Thanks!</p>
+
+
+
+<a name="74316"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/example%20casper%20batch%20script%3F/near/74316" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/example.20casper.20batch.20script.3F.html#74316">(Feb 15 2023 at 15:42)</a>:</h4>
+<p><span class="user-mention" data-user-id="66">@Christine Shields</span> , here is a pretty old example that worked for me:  <br>
+/glade/u/home/yeager/analysis/python/toshare/POPMOC.DPLE.sh<br>
+You need to 'conda activate' the environment you used for the .py files.</p>
+
+
+
+<a name="74317"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/example%20casper%20batch%20script%3F/near/74317" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/example.20casper.20batch.20script.3F.html#74317">(Feb 15 2023 at 16:19)</a>:</h4>
+<p><span class="user-mention" data-user-id="66">@Christine Shields</span> this sounds like a case where it's easiest to just hop on a call and watch you walk through the process. Do you have 15 or 20 minutes either today or tomorrow? [edit: or Friday? we're apparently not as close to the weekend as I thought.] I'm happy to sit with you on zoom -- my calendar is up-to-date if you want to send an invite, or we can figure out details in a private message</p>
+
+
+
+<a name="74336"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/example%20casper%20batch%20script%3F/near/74336" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Christine Shields <a href="http://127.0.0.1:4000/html/stream/3-general/topic/example.20casper.20batch.20script.3F.html#74336">(Feb 15 2023 at 18:07)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="34">Stephen Yeager</span> <a href="#narrow/stream/3-general/topic/example.20casper.20batch.20script.3F/near/74316">said</a>:</p>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="66">Christine Shields</span> , here is a pretty old example that worked for me:  <br>
+/glade/u/home/yeager/analysis/python/toshare/POPMOC.DPLE.sh<br>
+You need to 'conda activate' the environment you used for the .py files.</p>
+</blockquote>
+<p>Thanks Steve, I'll give it a try!</p>
+
+
+
+<a name="74337"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/example%20casper%20batch%20script%3F/near/74337" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Christine Shields <a href="http://127.0.0.1:4000/html/stream/3-general/topic/example.20casper.20batch.20script.3F.html#74337">(Feb 15 2023 at 18:08)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="10">Michael Levy</span> <a href="#narrow/stream/3-general/topic/example.20casper.20batch.20script.3F/near/74317">said</a>:</p>
+<blockquote>
+<p><span class="user-mention silent" data-user-id="66">Christine Shields</span> this sounds like a case where it's easiest to just hop on a call and watch you walk through the process. Do you have 15 or 20 minutes either today or tomorrow? [edit: or Friday? we're apparently not as close to the weekend as I thought.] I'm happy to sit with you on zoom -- my calendar is up-to-date if you want to send an invite, or we can figure out details in a private message</p>
+</blockquote>
+<p>Thanks Mike!  Let me fiddle w/Steve's script this morning, but I will email you for a consult if needed!  This afternoon works great for me, I'll be in touch.</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

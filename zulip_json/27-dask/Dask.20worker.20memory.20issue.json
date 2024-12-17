@@ -1,0 +1,164 @@
+[
+    {
+        "content": "<p>Hey, I am trying to calculate an ensemble mean for CESM2 data which is 1.9TB in size and the final mean is around 50GB. I am using dask to read the data through intake function. I tried different ways and combination of chunks, number of workers, but some of the workers run out of memory and then the entire process freezes. Any suggestions to overcome this?</p>\n<p>The data has 40 ensemble members and years from 1850-2015 at 6 hourly interval.</p>",
+        "id": 55976,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654198642
+    },
+    {
+        "content": "<p>You'll have to \"batch\" it. Dask is bad about optimizing for memory and will tend to execute more \"read-data\" tasks than \"reduce-data\" tasks unfortunately. Are you doing this for multiple variables at the same time? If so, the easiest would be to just loop through the variables and compute them one at a time.</p>",
+        "id": 55977,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654204374
+    },
+    {
+        "content": "<p>I am just doing it for one variable. I am rechunking it so that all the ensemble members are in one chunk, also each chunk is around 85MB in memory. How do I batch it?</p>",
+        "id": 55979,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654205042
+    },
+    {
+        "content": "<p>Can you not calculate it without rechunking?</p>",
+        "id": 55981,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654209091
+    },
+    {
+        "content": "<p>It can be done without rechunking but then each chunk would be larger. Also, I thought it would be better to keep all the members in one chunk across which the mean is to be taken. Let me try it without rechunking and see. Thanks for the help.</p>",
+        "id": 55982,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654209988
+    },
+    {
+        "content": "<blockquote>\n<p>It can be done without rechunking but then each chunk would be larger</p>\n</blockquote>\n<p>In that case control the chunk size at read time along dimensions present in a single file.</p>",
+        "id": 55983,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654210195
+    },
+    {
+        "content": "<p>I thought of that. The thing is I am reading in files through the intake function, and the way the instruction I am following the files are read in and then concatenated through xr.concat. Now the concat function does not give an option to chunk it while reading in (or does it?).</p>",
+        "id": 55984,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654210761
+    },
+    {
+        "content": "<p>pass something like <code>chunks={\"nlat\": 100, \"nlon\": 100}</code> in <code>cdf_kwargs</code> or <code>zarr_kwargs</code> to chunk along those dimensions</p>",
+        "id": 55985,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654211362
+    },
+    {
+        "content": "<p>That could be helpful and I am sorry but I am confused a little bit. I don't see any syntax regarding chunks in xr.concat. Here is a screenshot if it helps:</p>\n<p><a href=\"/user_uploads/2/cc/E1Qg2WfaWbvXOv63eAFqC8NJ/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/cc/E1Qg2WfaWbvXOv63eAFqC8NJ/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/cc/E1Qg2WfaWbvXOv63eAFqC8NJ/image.png\"></a></div>",
+        "id": 55986,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654211851
+    },
+    {
+        "content": "<p>Thanks thats helpful. Can you show me what one <code>ds</code> in <code>dsets</code> looks like. You'll have to pass <code>chunks</code> in <code>to_dataset_dict()</code> not to concat. That will set chunks at read time</p>",
+        "id": 55987,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654211957
+    },
+    {
+        "content": "<p><a href=\"/user_uploads/2/15/6Mn__J2b771iZP23uERjyhex/image.png\">image.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/15/6Mn__J2b771iZP23uERjyhex/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/15/6Mn__J2b771iZP23uERjyhex/image.png\"></a></div><p>This is how the dsets look.  I tried doing the chunks in the <code>to_dataset_dict</code> but it shows the same error and the reason is that the <code>to_dataset_dict</code> command is an esm command and not xarray.</p>\n<p><a href=\"http://\">Uploading image.png…</a></p>\n<p>Also, thank you so much Deepak for helping me with this.</p>",
+        "id": 55989,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654212772
+    },
+    {
+        "content": "<p>Ah I forgot to mention that you'll need <code>to_dataset_dict(cdf_kwargs={\"chunks\": ...})</code>. That said this seems to be chunked OK (128MiB). Along which dimensions are you calculating the mean?</p>",
+        "id": 56001,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654269465
+    },
+    {
+        "content": "<p>That makes sense and I might try that. I tried sub selecting certain longitudes beforehand and that sped up the process for sure. What happens is that near the end of the entire process, even though the memory of workers are at 20% (80% remaining) it would just freeze. </p>\n<p>I am calculating the mean along ensemble members. But the data is 6 hourly. I know you are busy but I can meet you on zoom or at NCAR if that would be more convenient. Once again thank you so much for taking out time to help :).</p>",
+        "id": 56016,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654279952
+    },
+    {
+        "content": "<p>Are you using <code>.compute</code> or <code>.load</code>. If so, the 'freeze' might be that it's sending 50GB of data back to your \"head node\" and then stitching it together to create an array. Instead you could call <code>to_zarr</code> which would write in parallel as each chunk is done.</p>",
+        "id": 56018,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654282216
+    },
+    {
+        "content": "<p>The final step is saving the file as netcdf on scratch directory and that means it would be invoking <code>.load</code>. I used the <code>cdf_kwargs</code> and it worked. A quick question, where do I put the <code>to_zarr</code> command? I have never used it. Thanks, Deepak.</p>",
+        "id": 56023,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654285093
+    },
+    {
+        "content": "<p>Replace <code>to_netcdf</code> with <code>to_zarr</code> (and change the extension). If you do need a netCDF file, you can convert it later. parallel writes with <code>zarr</code> work a lot better with dask+distributed in my experience.</p>",
+        "id": 56024,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654285225
+    },
+    {
+        "content": "<p>Awesome. That might just work. I will try it.</p>",
+        "id": 56025,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654285251
+    },
+    {
+        "content": "<p><code>vivt_ds.to_zarr('/glade/scratch/rudradutt/AR_CESM2/hist_sim/trial.zarr')</code> This is what I wrote. And yet it again froze near the end. It nearly made it and then froze. This is so strange. I have never ran into issues like this. </p>\n<p><a href=\"/user_uploads/2/6/qeQICpbpav1xIUFl-jU33C7Y/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/6/qeQICpbpav1xIUFl-jU33C7Y/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/6/qeQICpbpav1xIUFl-jU33C7Y/image.png\"></a></div>",
+        "id": 56027,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654286585
+    },
+    {
+        "content": "<p>ah really close. Can your print out <code>xarray.show_versions()</code></p>",
+        "id": 56028,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654286672
+    },
+    {
+        "content": "<p>Yeah sure. It is the v2022.3.0. It is the only one in which the esm-intake function was compatible. </p>\n<p><a href=\"/user_uploads/2/5c/y60llYFrfTF78-LRvjMSG_f5/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/5c/y60llYFrfTF78-LRvjMSG_f5/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/5c/y60llYFrfTF78-LRvjMSG_f5/image.png\"></a></div>",
+        "id": 56029,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654286738
+    },
+    {
+        "content": "<p>what about dask and distributed. I think that's where the issue lies</p>",
+        "id": 56030,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654286756
+    },
+    {
+        "content": "<p>dask is 2022.05.1<br>\ndistributed is 2022.5.1</p>",
+        "id": 56031,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654286826
+    },
+    {
+        "content": "<p>Here's a report of a similar \"deadlock\": <a href=\"https://github.com/dask/distributed/issues/6493\">https://github.com/dask/distributed/issues/6493</a></p>\n<p>Maybe try upgrading on downgrading. Sorry I don't have any better solutions.</p>",
+        "id": 56033,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654286940
+    },
+    {
+        "content": "<p>I will try that. And you have been huge help Deepak! Thank you so much.</p>",
+        "id": 56034,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654286991
+    },
+    {
+        "content": "<p>Huh. This was the most annoying thing. It was just an issue with the version of Dask. I am sorry for all the hassle. But thank you so much for all the help and tips, Deepak.</p>",
+        "id": 56046,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654294932
+    },
+    {
+        "content": "<p>Ah too bad. So to conclude, needed latest dask/distributed and used <code>to_zarr</code> instead of <code>to_netcdf</code> to write output in parallel</p>",
+        "id": 56048,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654295038
+    },
+    {
+        "content": "<p>Yeah. Phew!! And <code>to_netcdf</code> also works perfectly fine.</p>",
+        "id": 56050,
+        "sender_full_name": "Rudradutt Thaker",
+        "timestamp": 1654295235
+    }
+]

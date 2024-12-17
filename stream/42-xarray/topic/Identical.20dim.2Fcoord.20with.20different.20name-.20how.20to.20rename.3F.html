@@ -1,0 +1,176 @@
+<html>
+<head><meta charset="utf-8"><title>Identical dim/coord with different name- how to rename? · xarray · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html">Identical dim/coord with different name- how to rename?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="73296"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73296" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73296">(Feb 01 2023 at 21:35)</a>:</h4>
+<p>I have this situation:</p>
+<div class="codehilite"><pre><span></span><code>&gt;&gt;&gt; ds
+&lt;xarray.Dataset&gt;
+Dimensions:  (x0: 3, y0: 3, y1: 3)
+Coordinates:
+  * x0       (x0) int64 0 1 2
+  * y0       (y0) int64 0 1 2
+  * y1       (y1) int64 0 1 2
+Data variables:
+    da1      (x0, y0) int64 20 30 40 50 60 70 80 90 100
+    da2      (x0, y1) int64 20 30 40 50 60 70 80 90 100
+</code></pre></div>
+<p>I know that <code>y0</code> and <code>y1</code> are identical, and I do not want <code>y1</code> to be a part of the dataset. I'd like to drop <code>y1</code> as a dimension and coordinate, and reassign it to use <code>y0</code> without losing variables. Does anyone have any tips on the combination of Xarray operators to accomplish this? Thanks!</p>
+
+
+
+<a name="73335"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73335" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73335">(Feb 01 2023 at 22:05)</a>:</h4>
+<p>I can accomplish this in a for loop like this:</p>
+<div class="codehilite"><pre><span></span><code>for v in ds.data_vars:
+  if &#39;y1&#39; in ds[v].coords:
+    ds[v] = ds[v].swap_dims({&#39;y1&#39;:&#39;y0&#39;})
+</code></pre></div>
+<p>But when I do:<br>
+<code>ds.swap_dims({'y1':'y0'})</code></p>
+<p>I get this error:</p>
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/home/dadriaan/.conda/envs/icing/lib/python3.9/site-packages/xarray/core/dataset.py&quot;, line 3559, in swap_dims
+    raise ValueError(
+ValueError: replacement dimension &#39;y0&#39; is not a 1D variable along the old dimension &#39;y1&#39;
+</code></pre></div>
+<p>that I don't quite understand.</p>
+
+
+
+<a name="73393"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73393" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73393">(Feb 02 2023 at 15:37)</a>:</h4>
+<p>Hmm that looks like a bug. How about a simple <code>ds.rename_dims({"y1": "y0"})</code></p>
+
+
+
+<a name="73395"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73395" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73395">(Feb 02 2023 at 15:43)</a>:</h4>
+<p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> <a href="#narrow/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F/near/73393">said</a>:</p>
+<blockquote>
+<p>Hmm that looks like a bug. How about a simple <code>ds.rename_dims({"y1": "y0"})</code></p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>ValueError: Cannot rename y1 to y0 because y0 already exists. Try using swap_dims instead.
+</code></pre></div>
+<p><span aria-label="upside down" class="emoji emoji-1f643" role="img" title="upside down">:upside_down:</span></p>
+
+
+
+<a name="73396"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73396" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73396">(Feb 02 2023 at 15:47)</a>:</h4>
+<p>Also, here is more code for testing:</p>
+<div class="codehilite"><pre><span></span><code>import xarray as xr
+da1 = xr.DataArray([[20,30,40],[50,60,70],[80,90,100]],dims=[&#39;x0&#39;,&#39;y0&#39;],coords={&#39;x0&#39;:[0,1,2],&#39;y0&#39;:[0,1,2]})
+da2 = xr.DataArray([[20,30,40],[50,60,70],[80,90,100]],dims=[&#39;x0&#39;,&#39;y1&#39;],coords={&#39;x0&#39;:[0,1,2],&#39;y1&#39;:[0,1,2]})
+ds = xr.Dataset(data_vars={&#39;da1&#39;:da1,&#39;da2&#39;:da2})
+print(ds)
+for v in ds.data_vars:
+  if &#39;y1&#39; in ds[v].coords:
+    ds[v] = ds[v].swap_dims({&#39;y1&#39;:&#39;y0&#39;})
+print(ds)
+#ds.swap_dims({&#39;y1&#39;:&#39;y0&#39;})
+#ds.rename_dims({&quot;y1&quot;: &quot;y0&quot;})
+</code></pre></div>
+<p>I am using 2022.3.0. I will try it also with 2023.1.0 right now and see what I get.</p>
+
+
+
+<a name="73397"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73397" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73397">(Feb 02 2023 at 15:47)</a>:</h4>
+<p>Oh yeah that might help. 2022.3.0 merged in some major under-the-hood changes, and many bugs have been fixed since then.</p>
+
+
+
+<a name="73398"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73398" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73398">(Feb 02 2023 at 15:53)</a>:</h4>
+<p>Identical behavior:</p>
+<div class="codehilite"><pre><span></span><code>&gt;&gt;&gt; ds.swap_dims({&#39;y1&#39;:&#39;y0&#39;})
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/home/dadriaan/.conda/envs/xrbug/lib/python3.10/site-packages/xarray/core/dataset.py&quot;, line 3829, in swap_dims
+    raise ValueError(
+ValueError: replacement dimension &#39;y0&#39; is not a 1D variable along the old dimension &#39;y1&#39;
+&gt;&gt;&gt; print(xr.__version__)
+2023.1.0
+&gt;&gt;&gt; ds.rename_dims({&#39;y1&#39;:&#39;y0&#39;})
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/home/dadriaan/.conda/envs/xrbug/lib/python3.10/site-packages/xarray/core/dataset.py&quot;, line 3707, in rename_dims
+    raise ValueError(
+ValueError: Cannot rename y1 to y0 because y0 already exists. Try using swap_dims instead.
+</code></pre></div>
+
+
+
+<a name="73417"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73417" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73417">(Feb 02 2023 at 17:41)</a>:</h4>
+<p>OK, the example code in the documentation returns the same error at this page:<br>
+<a href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.swap_dims.html">https://docs.xarray.dev/en/stable/generated/xarray.Dataset.swap_dims.html</a></p>
+<div class="codehilite"><pre><span></span><code>ds = xr.Dataset(
+    data_vars={&quot;a&quot;: (&quot;x&quot;, [5, 7]), &quot;b&quot;: (&quot;x&quot;, [0.1, 2.4])},
+    coords={&quot;x&quot;: [&quot;a&quot;, &quot;b&quot;], &quot;y&quot;: (&quot;x&quot;, [0, 1])},
+)
+ds.swap_dims({&quot;x&quot;: &quot;y&quot;})
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;/home/dadriaan/.conda/envs/xrbug/lib/python3.10/site-packages/xarray/core/dataset.py&quot;, line 3833, in swap_dims
+    raise ValueError(
+ValueError: replacement dimension &#39;y&#39; is not a 1D variable along the old dimension &#39;x&#39;
+</code></pre></div>
+<p>I will open an issue over on GitHub.</p>
+
+
+
+<a name="73420"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73420" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73420">(Feb 02 2023 at 17:59)</a>:</h4>
+<p>Scratch that, the copy-paste from the docs caused that issue. If I reformat the creation of ds, it works. I will do some more testing.</p>
+
+
+
+<a name="73422"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73422" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73422">(Feb 02 2023 at 18:02)</a>:</h4>
+<div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">del</span> <span class="n">ds</span><span class="p">[</span><span class="s2">"y1"</span><span class="p">]</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"y1"</span><span class="p">:</span> <span class="s2">"y0"</span><span class="p">})</span>
+</code></pre></div>
+<p>this seems to work</p>
+
+
+
+<a name="73423"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Identical%20dim/coord%20with%20different%20name-%20how%20to%20rename%3F/near/73423" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Identical.20dim.2Fcoord.20with.20different.20name-.20how.20to.20rename.3F.html#73423">(Feb 02 2023 at 18:36)</a>:</h4>
+<p>Interesting, that does work.</p>
+<p>Also in <code>dataset.py</code>, it works if I comment out the section of code that causes it to fail:</p>
+<div class="codehilite"><pre><span></span><code>            if v in self.variables and self.variables[v].dims != (k,):
+                raise ValueError(
+                    f&quot;replacement dimension {v!r} is not a 1D &quot;
+                    f&quot;variable along the old dimension {k!r}&quot;
+                )
+</code></pre></div>
+<p>I am struggling to understand what that code ^^^ is doing or what edge case it's designed to catch.</p>
+<p>It also works if I choose a random name that doesn't exist in <code>self.variables</code>, because the second half of the <code>and</code> in the above code fails:</p>
+<div class="codehilite"><pre><span></span><code>ds.swap_dims({&quot;y1&quot;:&quot;foo&quot;})
+&lt;xarray.Dataset&gt;
+Dimensions:  (x0: 3, y0: 3, foo: 3)
+Coordinates:
+  * x0       (x0) int64 0 1 2
+  * y0       (y0) int64 0 1 2
+    y1       (foo) int64 0 1 2
+Dimensions without coordinates: foo
+Data variables:
+    da1      (x0, y0) int64 20 30 40 50 60 70 80 90 100
+    da2      (x0, foo) int64 20 30 40 50 60 70 80 90 100
+</code></pre></div>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

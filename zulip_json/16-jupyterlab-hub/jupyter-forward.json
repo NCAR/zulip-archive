@@ -1,0 +1,68 @@
+[
+    {
+        "content": "<p>I had to update my OS, but now I can't make jupyter-forward function as expected.</p>\n<p>This also required reinstalling jupyter-forward which  I did, but now after launching  I go through Authentication, sanity checks, Checking $TMPDIR and $HOME on casper, but get hung here , where nothing seems to happen.<br>\n<strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>**Launching Jupyter Lab </strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong>**<br>\nsh -l -c \"jupyter lab --no-browser --ip=\\$(hostname -f) &gt;&amp; $TMPDIR/.jupyter_forward/log.2022-02-11T09-36-38\"<br>\n<span aria-label=\"rainy\" class=\"emoji emoji-1f327\" role=\"img\" title=\"rainy\">:rainy:</span>  Parsing $TMPDIR/.jupyter_forward/log.2022-02-11T09-36-38 log file on <br>\n<a href=\"http://casper.ucar.edu\">casper.ucar.edu</a> for jupyter information</p>\n<p>Am I missing an additional setup step?</p>",
+        "id": 50501,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1644597659
+    },
+    {
+        "content": "<p>Which version of jupyter-forward are you running? </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>jupyter-forward --version\n</code></pre></div>",
+        "id": 50509,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1644600684
+    },
+    {
+        "content": "<p>Also, does the following command seem to work on Casper? </p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>sh -l -c <span class=\"s2\">\"jupyter lab --no-browser --ip=\\$(hostname -f)\"</span>\n</code></pre></div>",
+        "id": 50510,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1644600722
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> I'm using  version 2022.1.15</p>",
+        "id": 50537,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1644616705
+    },
+    {
+        "content": "<p>on Casper I get  the following <br>\n<code>Variable name must contain alphanumeric characters.</code></p>",
+        "id": 50538,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1644616807
+    },
+    {
+        "content": "<p>ah sorry, it seems to work from bash</p>\n<div class=\"codehilite\"><pre><span></span><code>[I 15:22:12.065 LabApp] [nb_conda_kernels] enabled, 8 kernels found\n[I 15:22:15.376 LabApp] The port 8888 is already in use, trying another port....\n[I 15:22:18.666 LabApp] http://casper-login1:8923/\n[I 15:22:18.666 LabApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).\n</code></pre></div>",
+        "id": 50539,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1644618254
+    },
+    {
+        "content": "<blockquote>\n<p>on Casper I get the following<br>\nVariable name must contain alphanumeric characters.<br>\nah sorry, it seems to work from bash</p>\n</blockquote>\n<p>Is <code>tcsh</code> your default shell on Casper? I am asking because I use bash and I was unable to reproduce the error.  </p>\n<p>We tried to make <code>jupyter-forward</code> shell agnostic  (with a bias towards bash <span aria-label=\"smile\" class=\"emoji emoji-1f642\" role=\"img\" title=\"smile\">:smile:</span>). It has become clear that some syntax can't directly be shell agnostic and we may have to do some refactoring to accommodate the syntax that is too specific to a shell.</p>",
+        "id": 50541,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1644686723
+    },
+    {
+        "content": "<p>yes, tcsh is my default shell, but I try to remember to switch to bash  for anything python related.<br>\nso, back to my fist question, how do I lauch a jupyter notebook from the comand line, as before?   Currently my juypter-forward command gets hun here</p>\n<p>(<strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>** Launching Jupyter Lab </strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong><strong>*</strong>***<br>\nsh -l -c \"conda activate lens-py &amp;&amp; jupyter lab --no-browser --ip=\\$(hostname -f) &gt;&amp; $TMPDIR/.jupyter_forward/log.2022-02-20T06-17-27\"<br>\n<span aria-label=\"partly sunny\" class=\"emoji emoji-26c5\" role=\"img\" title=\"partly sunny\">:partly_sunny:</span>️  Parsing $TMPDIR/.jupyter_forward/log.2022-02-20T06-17-27 log file on <br>\n<a href=\"http://casper.ucar.edu\">casper.ucar.edu</a> for jupyter information)</p>",
+        "id": 50907,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1645363136
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span>,  the latest release of <code>jupyter-forward</code> (<code>v2022.2.25</code>) includes better <code>tcsh/csh</code> support. When you get a chance could you give it a try?</p>",
+        "id": 51179,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1645983443
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> I updated  to this new version and can now launch a notebook successfully!</p>",
+        "id": 51180,
+        "sender_full_name": "Will Wieder",
+        "timestamp": 1646054959
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"67\">Will Wieder</span> <a href=\"#narrow/stream/16-jupyterlab-hub/topic/jupyter-forward/near/51180\">said</a>:</p>\n<blockquote>\n<p>Thanks <span class=\"user-mention silent\" data-user-id=\"13\">Anderson Banihirwe</span> I updated  to this new version and can now launch a notebook successfully!</p>\n</blockquote>\n<p>We (mostly <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span>) also added some continuous integration tests to github that run on a variety of shells, so hopefully we will stop pushing commits that break <code>tcsh</code> support from here on out. It should be noted that the <code>--launch-command</code> option doesn't work with <code>tcsh</code> yet, but there's <a href=\"https://github.com/ncar-xdev/jupyter-forward/issues/141\">an issue ticket</a> open already and hopefully we can address it soon</p>",
+        "id": 51183,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1646062343
+    }
+]

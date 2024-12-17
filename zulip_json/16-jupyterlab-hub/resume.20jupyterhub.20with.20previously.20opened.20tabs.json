@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Until recently, when I would start a jupyterhub session/server, the tabs that were open in my previous session would be restored and the file selector would show files from the directory I was previously working in. This was convenient for resuming work after logging off.</p>\n<p>This behavior changed for me recently. The tabs are no longer restored and the file selector is in my home directory. I just asked another user and this is not happening for them, so it's not system wide. So I'm assuming a setting related to this got changed, perhaps by me. I have been unable to figure out how to restore the previous behavior.</p>\n<p>Have others seen this change in behavior?</p>\n<p>Any suggestions on how to restore the previous behavior?</p>",
+        "id": 35767,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1624896402
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>, if I am not mistaken, jupyter uses <code>/glade/u/home/klindsay/.jupyter/lab/workspaces</code> to control this behavior.  </p>\n<p>It appears that  you have a few clones of your <code>default</code> workspace that may have diverged from your default profile</p>\n<div class=\"codehilite\"><pre><span></span>-rw-r--r-- <span class=\"m\">1</span> klindsay ncar <span class=\"m\">2</span>.4K Feb  <span class=\"m\">9</span> <span class=\"m\">16</span>:11 lab-a511.jupyterlab-workspace\n-rw-r--r-- <span class=\"m\">1</span> klindsay ncar <span class=\"m\">3</span>.3K Jun <span class=\"m\">25</span> <span class=\"m\">15</span>:18 default-37a8.jupyterlab-workspace\n-rw-r--r-- <span class=\"m\">1</span> klindsay ncar  <span class=\"m\">914</span> Jun <span class=\"m\">26</span> <span class=\"m\">07</span>:54 auto-s-f09b.jupyterlab-workspace\n-rw-r--r-- <span class=\"m\">1</span> klindsay ncar <span class=\"m\">1</span>.2K Jun <span class=\"m\">28</span> <span class=\"m\">09</span>:54 auto-j-d74f.jupyterlab-workspace\n-rw-r--r-- <span class=\"m\">1</span> klindsay ncar  <span class=\"m\">376</span> Jun <span class=\"m\">28</span> <span class=\"m\">09</span>:56 auto-g-1261.jupyterlab-workspace\n-rw-r--r-- <span class=\"m\">1</span> klindsay ncar  <span class=\"m\">554</span> Jun <span class=\"m\">28</span> <span class=\"m\">10</span>:07 auto-v-64f5.jupyterlab-workspace\n</pre></div>\n\n\n<p>Can you confirm that your <code>jupyterlab</code> session is using the default workspace (there shouldn't be <code>/workspaces/</code> in your jupyterlab URL)?</p>",
+        "id": 35814,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624905241
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> , thanks for taking a look...<br>\nI just started a new session/server and got the URL <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab/workspaces/auto-F</code>.<br>\nThere is a corresponding new file in the directory <code>/glade/u/home/klindsay/.jupyter/lab/workspaces/</code>.<br>\nI tried truncating the URL to <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab</code>, and it got extended with <code>workspace/auto-S</code>.</p>",
+        "id": 35817,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1624906102
+    },
+    {
+        "content": "<p>Try resetting the workspace by closing all <strong>jupyterlab tabs</strong>, and opening a new tab with this URL: <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab?reset</code></p>",
+        "id": 35824,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624910903
+    },
+    {
+        "content": "<p>I just gave that a try and opened a tab after resetting. However, when I closed the session/server and started a new one, the tab that I had opened was not restored, and the URL that I got was <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab/workspaces/auto-j</code>.  Could I walk through this with you during office hours?</p>",
+        "id": 35834,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1624913771
+    },
+    {
+        "content": "<blockquote>\n<p>Could I walk through this with you during office hours? </p>\n</blockquote>\n<p>Sure <span aria-label=\"+1\" class=\"emoji emoji-1f44d\" role=\"img\" title=\"+1\">:+1:</span></p>",
+        "id": 35836,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1624913814
+    },
+    {
+        "content": "<p>For future reference, <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> helped me track down a jupyterhub tab from an old session that was open in my browser that I didn't realize was there. This tab's presence was leading to the non-restoring behavior that I was experiencing. The restoring behavior was restored when this tab was closed. Thanks for the help <span class=\"user-mention\" data-user-id=\"13\">@Anderson Banihirwe</span> .</p>",
+        "id": 35855,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1624918146
+    },
+    {
+        "content": "<p>This problem has reappeared for me since last week's HPC downtime.<br>\nHowever, I don't see lingering jhub tabs in my browser, the previous culprit.<br>\nI'm trying to determine if the reappearance is specific to my setup/settings, or if it is due to a change in the system.<br>\nAre others experiencing this behavior?</p>",
+        "id": 54985,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1652733925
+    },
+    {
+        "content": "<p>made runtime / workspace directories ephemeral so keep them clean because they weren't keeping clean on their own and folks were ending up with thousands of socket files in their $HOME space. This may prevent a restoration as they're cleaned up at the end of jobs.</p>",
+        "id": 54993,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1652737938
+    }
+]

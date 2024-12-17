@@ -1,0 +1,203 @@
+<html>
+<head><meta charset="utf-8"><title>Dask on cheyenne Example? · jupyterlab-hub · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html">Dask on cheyenne Example?</a></h3>
+
+<hr>
+
+<base href="https://zulip2.cloud.ucar.edu">
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="17112"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17112" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17112">(Sep 09 2020 at 21:57)</a>:</h4>
+<p>I'm unable to get the Dask dashboard working on cheyenne.   </p>
+<p>Is anyone able to post an example of importing and running Dask with the dashboard using JupyterHub on Cheyenne?   I would be very grateful, as Casper resources are very hard to get right now.   I am using Dask through a conda environment that I built on Casper, so I'm a little worried that it might not be configured properly to work on cheyenne.</p>
+
+
+
+<a name="17113"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17113" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17113">(Sep 09 2020 at 22:04)</a>:</h4>
+<blockquote>
+<p>I'm unable to get the Dask dashboard working on cheyenne. </p>
+</blockquote>
+<p>Are you getting an <code>404</code> error or some other error?</p>
+
+
+
+<a name="17114"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17114" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17114">(Sep 09 2020 at 22:05)</a>:</h4>
+<p>I don't know what the dashboard URL is supposed to be.   I'm not seeing an HTTP error (yet).</p>
+
+
+
+<a name="17116"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17116" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17116">(Sep 09 2020 at 22:10)</a>:</h4>
+<blockquote>
+<p>I don't know what the dashboard URL is supposed to be.  </p>
+</blockquote>
+<p>The template of the dashboard link should be <code> "https://jupyterhub.ucar.edu/ch/user/{USER}/proxy/{port}/status"</code></p>
+
+
+
+<a name="17117"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17117" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17117">(Sep 09 2020 at 22:10)</a>:</h4>
+<p>Are you using <code>ncar-jobqueue</code> or <code>dask-jobqueue</code> to instantiate the cluster?</p>
+
+
+
+<a name="17118"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17118" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17118">(Sep 09 2020 at 22:12)</a>:</h4>
+<p>Thank you, I will try that.   Do you also happen to know what parameters to pass when creating the cluster, so that CPU and memory resources are reasonable for the cheyenne architecture?</p>
+
+
+
+<a name="17120"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17120" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17120">(Sep 09 2020 at 22:16)</a>:</h4>
+<p>Try </p>
+<div class="codehilite"><pre><span></span><span class="n">cores</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">processes</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">memory</span> <span class="o">=</span> <span class="s1">&#39;109GB&#39;</span>
+</pre></div>
+
+
+
+<a name="17121"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17121" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17121">(Sep 09 2020 at 22:18)</a>:</h4>
+<p>if you find yourself getting <code>KilledWorker</code> errors, try reducing the number of processes</p>
+
+
+
+<a name="17122"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17122" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17122">(Sep 09 2020 at 22:29)</a>:</h4>
+<p>Thank you, I am assuming I have to use <code>ncar-jobqueue</code> on cheyenne.  I will post shortly the code I am trying.</p>
+
+
+
+<a name="17123"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17123" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17123">(Sep 09 2020 at 22:32)</a>:</h4>
+<blockquote>
+<p>I am assuming I have to use ncar-jobqueue on cheyenne </p>
+</blockquote>
+<p>When using <code>ncar-jobqueue</code> in conjunction with the <code>hub</code>, the dashboard link is set for you i.e. should work out of the box without you needing to set it manually.</p>
+
+
+
+<a name="17124"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17124" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17124">(Sep 09 2020 at 22:35)</a>:</h4>
+<p>I was worried that by using my own Dask configuration, that the dashboard link would not be set by default, but I will try it as you suggest.</p>
+
+
+
+<a name="17125"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17125" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17125">(Sep 09 2020 at 22:39)</a>:</h4>
+<p>Does this code look reasonable?</p>
+<div class="codehilite"><pre><span></span>import dask
+
+machine = &#39;cheyenne&#39;  # &#39;casper&#39;
+
+if machine == &#39;cheyenne&#39;:
+    # The following is supposedly set when using NCARCluster
+    #dask.config.set({&#39;distributed.dashboard.link&#39;: &quot;https://jupyterhub.ucar.edu/ch/user/{USER}/proxy/{port}/status&quot;})
+    from ncar_jobqueue import NCARCluster
+    cluster = NCARCluster(cores=10, processes=20, memory=&#39;109GB&#39;, project=&#39;STDD0003&#39;)
+    cluster.scale(jobs=20)
+else:
+    # Assume machine is Casper.
+    dask.config.set({&#39;distributed.dashboard.link&#39;: &#39;/proxy/{port}/status&#39;})
+    from dask_jobqueue import SLURMCluster
+    cluster = SLURMCluster(cores=8, memory=&#39;200GB&#39;, project=&#39;STDD0003&#39;)
+    cluster.scale(jobs=8)
+
+from distributed import Client
+client = Client(cluster)
+cluster
+</pre></div>
+
+
+
+<a name="17126"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17126" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17126">(Sep 09 2020 at 22:45)</a>:</h4>
+<p>The primary objective of <code>ncar-jobqueue</code> is to abstract the <code>if</code> statements...  </p>
+<p>My recommendation is to just use </p>
+<div class="codehilite"><pre><span></span>from ncar_jobqueue import NCARCluster
+cluster = NCARCluster(cores=10, processes=20, memory=&#39;109GB&#39;, project=&#39;STDD0003&#39;)
+</pre></div>
+
+
+<p>If you want to have separate configurations (such as memory, cores, etcc) for casper and/or cheyenne, You could just put them in the <code>~/.config/dask/jobqueue.yaml</code> file</p>
+
+
+
+<a name="17127"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17127" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17127">(Sep 09 2020 at 22:55)</a>:</h4>
+<p>OK, that is good information, I will give it a try on both systems and report back if there are problems.  Thank you again!</p>
+
+
+
+<a name="17146"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17146" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17146">(Sep 09 2020 at 23:25)</a>:</h4>
+<p>OK, the dashboard works on cheyenne now, but Dask freezes with errors.    I might be related to the operations I am trying, but still I wonder if I have the right package versions for Dask.</p>
+<p>I am using these package versions:</p>
+<div class="codehilite"><pre><span></span>bokeh                     1.4.0            py38h32f6830_1    conda-forge
+dask                      2.14.0                     py_0    conda-forge
+dask-core                 2.14.0                     py_0    conda-forge
+dask-jobqueue             0.7.1                      py_0    conda-forge
+distributed               2.14.0           py38h32f6830_0    conda-forge
+ncar-jobqueue             2020.3.4                 pypi_0    pypi
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span>tornado.application - ERROR - Exception in callback &lt;bound method BokehTornado._keep_alive of &lt;bokeh.server.tornado.BokehTornado object at 0x2b3a03b7a790&gt;&gt;
+Traceback (most recent call last):
+  File &quot;/glade/u/home/bonnland/miniconda3/envs/lens-conversion/lib/python3.8/site-packages/tornado/ioloop.py&quot;, line 907, in _run
+    return self.callback()
+  File &quot;/glade/u/home/bonnland/miniconda3/envs/lens-conversion/lib/python3.8/site-packages/bokeh/server/tornado.py&quot;, line 579, in _keep_alive
+    c.send_ping()
+  File &quot;/glade/u/home/bonnland/miniconda3/envs/lens-conversion/lib/python3.8/site-packages/bokeh/server/connection.py&quot;, line 80, in send_ping
+    self._socket.ping(codecs.encode(str(self._ping_count), &quot;utf-8&quot;))
+  File &quot;/glade/u/home/bonnland/miniconda3/envs/lens-conversion/lib/python3.8/site-packages/tornado/websocket.py&quot;, line 447, in ping
+    raise WebSocketClosedError()
+tornado.websocket.WebSocketClosedError
+</pre></div>
+
+
+<p>I am also getting back warnings from<code>intake-esm.to_dataset_dict()</code> like this:</p>
+<div class="codehilite"><pre><span></span>/glade/u/home/bonnland/miniconda3/envs/lens-conversion/lib/python3.8/site-packages/dask/array/core.py:3911: PerformanceWarning: Increasing number of chunks by factor of 65
+  result = blockwise(
+</pre></div>
+
+
+<p>I don't think I am specifying too few chunks...</p>
+
+
+
+<a name="17200"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17200" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17200">(Sep 10 2020 at 20:31)</a>:</h4>
+<p>UPDATE:  I was specifying too few chunks after all, when trying to create a Zarr store.   After increasing the number of chunks and being patient, I was able to get past the original errors.   The error messages still appear, but do not cause the overall computation to halt.</p>
+<p>Users should note that the Dask dashboard can produce 500: Internal Server Error messages and go "dead" (all buttons turn grey) and  for minutes at a time, before "coming back alive" (all buttons turn orange).   It is possible that the computation is still active while these errors are occurring.</p>
+
+
+
+<a name="17248"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17248" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17248">(Sep 11 2020 at 16:41)</a>:</h4>
+<p>I believe I understand better now why the Dask dashboard is not working for me on Cheyenne, while it is working for me on Casper.   </p>
+<p>On Casper, I was ssh-tunneling to my own installed version of Jupyter Lab, which is more recent.   Whereas on Cheyenne, I am logging in via JupyterHub, and using an older version of Jupyter.   Apparently the older version of Jupyter on JupyterHub does not have a properly configured Jupyter instance, or it is out of date, because the Dask dashboard there is constantly "going dead".</p>
+<p>If anyone knows how to run their own JupyterLab instance on Cheyenne, I would really appreciate some tips.   Thanks!</p>
+
+
+
+<a name="17249"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17249" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17249">(Sep 11 2020 at 17:28)</a>:</h4>
+<p>you can use the same tunnelling approach on cheyenne...</p>
+
+
+
+<a name="17251"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Dask%20on%20cheyenne%20Example%3F/near/17251" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Dask.20on.20cheyenne.20Example.3F.html#17251">(Sep 11 2020 at 18:26)</a>:</h4>
+<p>Ah, thanks I didn't know that!</p>
+
+
+
+<hr><p>Last updated: Dec 17 2024 at 18:57 UTC</p>
+</html>

@@ -1,0 +1,8 @@
+[
+    {
+        "content": "<p>If you are installing the latest version of tensorflow (2.15) on casper or derecho and want GPU support, I recommend using the following command, which will install both tensorflow and the cuda toolkit and cudnn compiled with that version of tensorflow:</p>\n<div class=\"codehilite\"><pre><span></span><code>pip install tensorflow[and-cuda]\n</code></pre></div>\n<p>Once you are on a GPU node, run the following command to verify that the GPUs can be detected:</p>\n<div class=\"codehilite\"><pre><span></span><code>python3 -c &quot;import tensorflow as tf; print(tf.config.list_physical_devices(&#39;GPU&#39;))&quot;\n</code></pre></div>\n<p>If you want to use keras 3 with the latest version of tensorflow, you will need to run pip install keras separately since tensorflow is still installing keras 2. That should change whenever tensorflow 2.16 comes out. </p>\n<p>The latest version of tensorflow also has fixed the numpy versioning issue, so you should no longer need to pin your numpy to less than 1.24.</p>",
+        "id": 95624,
+        "sender_full_name": "David John Gagne",
+        "timestamp": 1707435965
+    }
+]

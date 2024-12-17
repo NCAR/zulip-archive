@@ -1,0 +1,26 @@
+[
+    {
+        "content": "<p>I am looking at implementing an alternative to the current version of pop_tools.lateral_fill that uses a SOR solution of the Laplace equation to do the filling. It has the potential advantage of being easily implemented in array syntax without looping or conditionals in the iteration loop (other than checking for convergence). First step is to figure out how to wrap an old F90 version of this algorithm to be callable from python (question posted in the jupyter channel). Next will be an implementation in pure xarray.</p>",
+        "id": 9440,
+        "sender_full_name": "Frank Bryan",
+        "timestamp": 1590174552
+    },
+    {
+        "content": "<p>it may be easier to port the loopy Fortran version to pure python and then compile with numba rather than convert to array syntax</p>",
+        "id": 9448,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1590174800
+    },
+    {
+        "content": "<p>Agreed. This is the way that the current smoother is implemented<br>\n<a href=\"https://github.com/matt-long/pop-tools/blob/master/pop_tools/fill.py\" target=\"_blank\" title=\"https://github.com/matt-long/pop-tools/blob/master/pop_tools/fill.py\">https://github.com/matt-long/pop-tools/blob/master/pop_tools/fill.py</a></p>",
+        "id": 9452,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1590174955
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"44\">@Frank Bryan</span>, note that this provides a generic <code>xarray</code> interface, so your task would be confined to a pure numpy implementation.</p>",
+        "id": 9455,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1590175024
+    }
+]

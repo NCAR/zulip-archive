@@ -1,0 +1,62 @@
+[
+    {
+        "content": "<p>I'm using xarray 0.16.2 and zarr 2.6.1.</p>\n<p>I am trying to save Zarr stores created from merging together Xarray datasets created from separate NetCDF files, using intake-esm's <code>to_dataset_dict()</code> function.   The default behavior of the merge operation seems to be to preserve metadata that is identical across all source datasets.   However, I'm trying to control the value of a metadata attribute that has conflicting values across the source datasets, like this:</p>\n<div class=\"codehilite\"><pre><span></span>        del ds[&#39;time&#39;].attrs[&#39;calendar&#39;]\n        ds[&#39;time&#39;].attrs[&#39;calendar&#39;] = &#39;gregorian&#39;\n        ds.to_zarr(&quot;/path/to/store&quot;, consolidated=True)\n</pre></div>\n\n\n<p>I get the following error message:</p>\n<p><code>Failed to write /glade/scratch/bonnland/na-cordex/zarr/tas.eval.day.NAM-22i.raw.zarr: failed to prevent overwriting existing key calendar in attrs. This is probably an encoding field used by xarray to describe how a variable is serialized. To proceed, remove this key from the variable's attributes manually.</code></p>",
+        "id": 25754,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614110430
+    },
+    {
+        "content": "<p>Is there a way to control such metadata parameters that I might be missing?   Thanks for any help.</p>",
+        "id": 25758,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614111043
+    },
+    {
+        "content": "<p>After some digging into the xarray code,  it appears that XArray datasets with datetime64 time values cannot set or change the \"units\" and \"calendar\" attributes.   These apparently help interpret the time axis values in a critical way.   But  the values for \"units\" and \"calendar\" do not show up in the list of attributes for ds['time'], so I'm not sure exactly what's going on.</p>",
+        "id": 25761,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614113613
+    },
+    {
+        "content": "<p>I think both <code>units</code> and <code>calendar</code> are in <code>ds[\"time\"].encoding</code></p>",
+        "id": 25762,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1614113827
+    },
+    {
+        "content": "<p>OK, but the error message seems misleading then.   Also, I suspect users won't typically look in <code>ds[\"time\"].encoding </code> to understand what kind of calendar they are using.   Or maybe I'm not aware of the conventions...</p>",
+        "id": 25763,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614114164
+    },
+    {
+        "content": "<p>I think the error message is actually pretty informative: \"<code>This is probably an encoding field</code>\" Though I didn't realize it was refering to <code>da.encoding</code> until I started playing around on my own :) Also, I'm a little confused about how you mention you want to \"control the value of a metadata attribute that has conflicting values across the source datasets\". Didn't this come up at an Xdev meeting a while back? What do you expect to happen when you create a single dataset from many different datasets using different time axes?</p>",
+        "id": 25764,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1614114514
+    },
+    {
+        "content": "<p>When properly combined, the merged dataset has time axis values from the union of all datasets.  This is the Gregorian calendar in most cases I have.</p>",
+        "id": 25765,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614114615
+    },
+    {
+        "content": "<p>Thanks for your note about the message.   I take it that <code>ds['time'].attrs</code> is not the conventional home for \"units\" and \"calendar\", which is news to me.</p>",
+        "id": 25766,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614114711
+    },
+    {
+        "content": "<p>It must be time-specific, maybe when it recognizes that it is reading a <code>datetime</code> or <code>cftime</code> object? I know <code>units</code> is typically in <code>da.attrs</code> for other fields</p>",
+        "id": 25767,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1614114858
+    },
+    {
+        "content": "<p>Yes, I can set attributes for any other coordinate or variable other than the time dimension, which I know now I should just leave alone.   Thanks for your insights...</p>",
+        "id": 25769,
+        "sender_full_name": "Brian Bonnlander",
+        "timestamp": 1614116457
+    }
+]

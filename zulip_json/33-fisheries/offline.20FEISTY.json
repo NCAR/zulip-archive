@@ -1,0 +1,398 @@
+[
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, here's a repo for coordinating analysis of DPLE-FEISTY<br>\n<a href=\"https://github.com/matt-long/fish-offline\" target=\"_blank\" title=\"https://github.com/matt-long/fish-offline\">https://github.com/matt-long/fish-offline</a></p>\n<p>As a first step, I started a notebook for extracting data from the FOSI integration:<br>\n<a href=\"https://github.com/matt-long/fish-offline/blob/main/notebooks/proc-cesm-dple-fields.ipynb\" target=\"_blank\" title=\"https://github.com/matt-long/fish-offline/blob/main/notebooks/proc-cesm-dple-fields.ipynb\">https://github.com/matt-long/fish-offline/blob/main/notebooks/proc-cesm-dple-fields.ipynb</a></p>\n<p>This creates a netCDF file, on disk here:<br>\n/glade/work/mclong/fish-offline/g.e11_LENS.GECOIAF.T62_g16.009.FIESTY-forcing.nc</p>\n<p>I imagine this will require some iteration. Let me know what questions you have.</p>",
+        "id": 22567,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1607211007
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , I forked the directory, but have not yet run the code on Jupyterhub. Just looking at it, I realize I misspoke about the FEISTY inputs. The plankton fields should be 100-m integrations [sum(mass*dz)] in units of mass per m2. The cell thicknesses all look equal in the top 100 m, but it may be good to explicitly include it in the calculation.</p>",
+        "id": 22755,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1607465270
+    },
+    {
+        "content": "<p>The integral is a straightforward modification.</p>",
+        "id": 22756,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1607465445
+    },
+    {
+        "content": "<p>I have been unable to spawn a server on DAV.</p>",
+        "id": 22931,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1607648879
+    },
+    {
+        "content": "<p>I have a hypothesis:<br>\nSSH into the machine: <br>\n<code>ssh -Y [your username]@cheyenne.ucar.edu</code></p>\n<p>Execute this command:<br>\n<code>mkdir -p /glade/scratch/${USER}/.jupyter_logs</code></p>\n<p>Try again via <a href=\"http://jupyterhub.ucar.edu\" target=\"_blank\" title=\"http://jupyterhub.ucar.edu\">jupyterhub.ucar.edu</a>.</p>",
+        "id": 22940,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1607703104
+    },
+    {
+        "content": "<p>Excellent, that was the issue. Now a new one:</p>\n<hr>\n<p>ModuleNotFoundError                       Traceback (most recent call last)<br>\n&lt;ipython-input-4-df93822554da&gt; in &lt;module&gt;<br>\n----&gt; 1 from ncar_jobqueue import NCARCluster<br>\n      2 from dask.distributed import Client<br>\n      3 try:<br>\n      4     cluster<br>\n      5     client</p>\n<p>ModuleNotFoundError: No module named 'ncar_jobqueue'</p>",
+        "id": 22989,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1607732174
+    },
+    {
+        "content": "<p>Looks like you are not running in the right kernel. I apologize in advance, this is a bit arduous:</p>\n<ol>\n<li>Get a shell prompt on the machine (either via SSH or JupyterLab)</li>\n<li>\n<p>Download minicode:<br>\n<code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</code></p>\n</li>\n<li>\n<p>Run it<br>\n<code>bash Miniconda3-latest-Linux-x86_64.sh</code><br>\nand follow the prompts (you can accept defaults)</p>\n</li>\n<li>\n<p>Once you have a working <code>conda</code> installation (by following the steps above) generate the <code>fish-offline</code> environment by cd-ing into the repo directory and doing:<br>\n<code>conda create -n fish-offline --file environment/conda-linux-64.lock</code><br>\n(Note: more generally you can do <code>conda env create -f environment/environment.yml</code>, but using the lock file replicates the environment I used exactly.)</p>\n</li>\n<li>\n<p>Re-open your notebook and specific the <code>fish-offline</code> kernel (little drop down in upper right shows the kernel).</p>\n</li>\n</ol>\n<p>(<span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>, did I miss anything?)</p>",
+        "id": 22992,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1607732903
+    },
+    {
+        "content": "<p>I did 1-3 on JupyterLab. To do 4, do I need to fork and clone the repo to my directory (/glade/u/home/cpetrik)? Currently, the kernel showing for the notebook is Pangeo Python 3.6. I do not get a drop down to change it anymore.</p>",
+        "id": 23348,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1608603303
+    },
+    {
+        "content": "<p>you don't need to fork the repo, but rather clone it locally:</p>\n<div class=\"codehilite\"><pre><span></span>$ git clone REPO_URL\n</pre></div>",
+        "id": 23349,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1608603379
+    },
+    {
+        "content": "<p>the <code>environment</code> directory is in the repo. Does that make any sense?</p>",
+        "id": 23350,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1608603417
+    },
+    {
+        "content": "<p>Ok, I have set the conda fish offline environment. When I get to the 2nd section (Spin up dask cluster) I get an error:</p>\n<p>Task exception was never retrieved<br>\nfuture: &lt;Task finished coro=&lt;_wrap_awaitable() done, defined at /glade/u/home/cpetrik/.conda/envs/fish-offline/lib/python3.7/asyncio/tasks.py:623&gt; exception=RuntimeError('Command exited with non-zero exit code.\\nExit code: 1\\nCommand:\\nsbatch /glade/scratch/cpetrik/tmpn5s3ha6q.sh\\nstdout:\\n\\nstderr:\\nsbatch: error: You must specify an account (--account)\\nsbatch: error: Contact <a href=\"mailto:cislhelp@ucar.edu\" title=\"mailto:cislhelp@ucar.edu\">cislhelp@ucar.edu</a> for assistance\\nsbatch: error: Batch job submission failed: Access/permission denied\\n\\n')&gt;<br>\nTraceback (most recent call last):<br>\n  File \"/glade/u/home/cpetrik/.conda/envs/fish-offline/lib/python3.7/asyncio/tasks.py\", line 630, in _wrap_awaitable<br>\n    return (yield from awaitable.__await__())<br>\n  File \"/glade/u/home/cpetrik/.conda/envs/fish-offline/lib/python3.7/site-packages/distributed/deploy/spec.py\", line 50, in _\n    await self.start()<br>\n  File \"/glade/u/home/cpetrik/.conda/envs/fish-offline/lib/python3.7/site-packages/dask_jobqueue/core.py\", line 310, in start<br>\n    out = await self._submit_job(fn)<br>\n  File \"/glade/u/home/cpetrik/.conda/envs/fish-offline/lib/python3.7/site-packages/dask_jobqueue/core.py\", line 293, in _submit_job<br>\n    return self._call(shlex.split(self.submit_command) + [script_filename])<br>\n  File \"/glade/u/home/cpetrik/.conda/envs/fish-offline/lib/python3.7/site-packages/dask_jobqueue/core.py\", line 393, in _call<br>\n    \"stderr:\\n{}\\n\".format(proc.returncode, cmd_str, out, err)<br>\nRuntimeError: Command exited with non-zero exit code.<br>\nExit code: 1<br>\nCommand:<br>\nsbatch /glade/scratch/cpetrik/tmpn5s3ha6q.sh<br>\nstdout:</p>\n<p>stderr:<br>\nsbatch: error: You must specify an account (--account)<br>\nsbatch: error: Contact <a href=\"mailto:cislhelp@ucar.edu\" title=\"mailto:cislhelp@ucar.edu\">cislhelp@ucar.edu</a> for assistance<br>\nsbatch: error: Batch job submission failed: Access/permission denied</p>",
+        "id": 23552,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1609801012
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, try adding the following to the argument list of in the call to <code>NCARCluster</code>:<br>\n<code>project='NCGD0011'</code></p>",
+        "id": 23553,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609801215
+    },
+    {
+        "content": "<p>Also, you can copy this file</p>\n<div class=\"codehilite\"><pre><span></span>/glade/u/home/mclong/.config/dask/ncar-jobqueue.yaml\n</pre></div>\n\n\n<p>to your home directory (<code>~cpetrik/.config/dask/.</code>) and edit to change all instances of <code>mclong</code> to <code>cpetrik</code>.</p>",
+        "id": 23554,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609801323
+    },
+    {
+        "content": "<p>Thanks, Matt. Got the code running. What is the syntax for calculating the integrated biomass over the top 100 m?<br>\nda.sel(z_t=slice(0, 100e2)).sum('z_t')<br>\nor do I need a new function to compute sum(biom*dz)?</p>",
+        "id": 23573,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1609808660
+    },
+    {
+        "content": "<p>Yes, to compute the integral, you need to multiply by <code>dz</code></p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">da_zint_100m</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">da</span> <span class=\"o\">*</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">sum</span><span class=\"p\">(</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">)</span>\n</pre></div>\n\n\n<p>A wrinkle, however, is that the biomass terms are stored on an alternative vertical dimension, <code>z_t_150m</code>, which is the upper 150 m (top 15 vertical levels).  You can do something like</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"n\">dz_150m</span> <span class=\"o\">=</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">rename</span><span class=\"p\">({</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;z_t_150m&#39;</span><span class=\"p\">})</span>\n</pre></div>\n\n\n<p>and then use <code>dz_150m</code> in the computation of the integral.</p>",
+        "id": 23574,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609816698
+    },
+    {
+        "content": "<p>Something like this:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">field_100m_int</span><span class=\"p\">(</span><span class=\"n\">da</span><span class=\"p\">):</span>\n    <span class=\"sd\">&quot;&quot;&quot;compute integrated upper 100 m&quot;&quot;&quot;</span>\n    <span class=\"n\">depth_slice</span> <span class=\"o\">=</span> <span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">)</span>\n    <span class=\"k\">with</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">set_options</span><span class=\"p\">(</span><span class=\"n\">keep_attrs</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">):</span>\n        <span class=\"k\">if</span> <span class=\"s1\">&#39;z_t&#39;</span> <span class=\"ow\">in</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">dims</span><span class=\"p\">:</span>\n            <span class=\"k\">return</span> <span class=\"n\">da_zint_100m</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">da</span> <span class=\"o\">*</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">sum</span><span class=\"p\">(</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">)</span>\n        <span class=\"k\">elif</span> <span class=\"s1\">&#39;z_t_150m&#39;</span> <span class=\"ow\">in</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">dims</span><span class=\"p\">:</span>\n            <span class=\"n\">dz_150m</span> <span class=\"o\">=</span> <span class=\"n\">ds</span><span class=\"o\">.</span><span class=\"n\">dz</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">rename</span><span class=\"p\">({</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;z_t_150m&#39;</span><span class=\"p\">})</span>\n            <span class=\"n\">da_100m</span> <span class=\"o\">=</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">))</span>\n            <span class=\"k\">return</span> <span class=\"n\">da_zint_100m</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"n\">da_100m</span> <span class=\"o\">*</span> <span class=\"n\">dz_150m</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">sum</span><span class=\"p\">(</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 23636,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1609896585
+    },
+    {
+        "content": "<p>Also, how long should it take to execute? Just computing the TEMP mean has been running for over 25 min.</p>",
+        "id": 23637,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1609896647
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, looks like you are on the right track there. Here's a revised function:</p>\n<div class=\"codehilite\"><pre><span></span><span class=\"k\">def</span> <span class=\"nf\">field_zint</span><span class=\"p\">(</span><span class=\"n\">da</span><span class=\"p\">,</span> <span class=\"n\">dz</span><span class=\"p\">,</span> <span class=\"n\">depth_slice</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">100e2</span><span class=\"p\">)):</span>\n    <span class=\"sd\">&quot;&quot;&quot;compute integral over `depth_slice&quot;&quot;&quot;</span>\n    <span class=\"k\">if</span> <span class=\"s1\">&#39;z_t&#39;</span> <span class=\"ow\">in</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">dims</span><span class=\"p\">:</span>\n        <span class=\"n\">dz_loc</span> <span class=\"o\">=</span> <span class=\"n\">dz</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"n\">depth_slice</span><span class=\"p\">)</span>\n        <span class=\"n\">zdim</span> <span class=\"o\">=</span> <span class=\"s1\">&#39;z_t&#39;</span>\n    <span class=\"k\">elif</span> <span class=\"s1\">&#39;z_t_150m&#39;</span> <span class=\"ow\">in</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">dims</span><span class=\"p\">:</span>\n        <span class=\"n\">dz_loc</span> <span class=\"o\">=</span> <span class=\"n\">dz</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t</span><span class=\"o\">=</span><span class=\"nb\">slice</span><span class=\"p\">(</span><span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"mf\">150e2</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">rename</span><span class=\"p\">({</span><span class=\"s1\">&#39;z_t&#39;</span><span class=\"p\">:</span> <span class=\"s1\">&#39;z_t_150m&#39;</span><span class=\"p\">})</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">(</span><span class=\"n\">z_t_150m</span><span class=\"o\">=</span><span class=\"n\">depth_slice</span><span class=\"p\">)</span>\n        <span class=\"n\">zdim</span> <span class=\"o\">=</span> <span class=\"s1\">&#39;z_t_150m&#39;</span>\n    <span class=\"n\">da_loc</span> <span class=\"o\">=</span> <span class=\"n\">da</span><span class=\"o\">.</span><span class=\"n\">sel</span><span class=\"p\">({</span><span class=\"n\">zdim</span><span class=\"p\">:</span> <span class=\"n\">depth_slice</span><span class=\"p\">})</span>\n\n    <span class=\"k\">with</span> <span class=\"n\">xr</span><span class=\"o\">.</span><span class=\"n\">set_options</span><span class=\"p\">(</span><span class=\"n\">keep_attrs</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">):</span>\n        <span class=\"k\">return</span> <span class=\"p\">(</span><span class=\"n\">da_loc</span> <span class=\"o\">*</span> <span class=\"n\">dz_loc</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">sum</span><span class=\"p\">(</span><span class=\"n\">zdim</span><span class=\"p\">)</span>\n</pre></div>",
+        "id": 23638,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609948460
+    },
+    {
+        "content": "<blockquote>\n<p>Also, how long should it take to execute? Just computing the TEMP mean has been running for over 25 min.</p>\n</blockquote>\n<p>I can't recall how long it took to execute. I think you want to check the dask dashboard to ensure it's working on something had hasn't hung. I ran the original notebook to completion and 20-30 min seems about right.</p>",
+        "id": 23639,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1609948533
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, I committed the changes we made to the repo. Output forcing file is here:<br>\n/glade/work/mclong/fish-offline/g.e11_LENS.GECOIAF.T62_g16.009.FIESTY-forcing.nc</p>\n<p>Your CISL account has been restored. Looking forward to seeing some CESM-FIESTY results!</p>",
+        "id": 25507,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1613777494
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , I'll have to call CISL help to reset my password tomorrow. In addition to the forcing variables, I also need a gridfile with the depths and areas of each lat/lon grid cell.</p>",
+        "id": 25609,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1614042217
+    },
+    {
+        "content": "<p>Here's a grid file for you:<br>\n<code>/glade/work/mclong/fish-offline/grid-data-POP_gx1v6.nc</code><br>\ncreated by a new notebook in the repo. The grid area is <code>TAREA</code> and the depth of the model bottom in <code>HT</code>:<br>\n<code>HT[j, i] = z_w_bot[KMT[j, i]]</code><br>\n Note that <code>HT</code> in this file is off by 1 k-level in a few isolated points comprising the locations of the \"overflow\" parameterization. Don't worry about this.</p>",
+        "id": 25701,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1614084882
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> ! I got my account working and have downloaded the files. Should be able to start running the FEISTY simulation tomorrow.</p>",
+        "id": 25787,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1614133111
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , I thought I'd start working on the Reynolds decomposition simulations. Should the mean of the forcing variable be a simple time average, a seasonal climatology, a linear trend (if one exists), or something else?</p>",
+        "id": 25861,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1614212013
+    },
+    {
+        "content": "<p>I think that depends on what the research question is. Drivers of interannual variability? That would make the seasonal climatology an appropriate reference, I think.</p>",
+        "id": 25862,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1614214533
+    },
+    {
+        "content": "<p>Yeah, I think interannual variation is the question to start with.</p>",
+        "id": 25880,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1614280219
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, where are you at wrt working with the full DPLE?</p>",
+        "id": 28100,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617209437
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , I have not started working with the full DPLE.  We will need to extract similar means/integrations from the outputs. Will we be able to use the same method as the FOSI?</p>",
+        "id": 28103,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617210198
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> I processed some of my 4 phyto/4 zoo  model output to be ready for FEISTY. The output is here <code>/glade/work/kristenk/fish-offline/g.e22a06.G1850ECOIAF_JRA_PHYS_DEV.TL319_g17.4p4z.004.FIESTY-forcing.nc</code> </p>\n<p>Please let me know if you have any questions about the variables :) </p>\n<p>I'd be curious to see how the 4P4Z model does with FEISTY, whether or not you get reasonable fish distributions when using the this version of CESM...</p>",
+        "id": 28129,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1617218644
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ! I downloaded the file and will let you know how it goes.</p>",
+        "id": 28292,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617305755
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> and <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , when post-processing the CESM outputs, I noticed that both the FOSI and 4P4Z zooplankton biomass integrations have negative values. How is this possible?</p>",
+        "id": 28423,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617394144
+    },
+    {
+        "content": "<p>Hi Colleen, I think biomass fields can go slightly negative if calculated losses exceed production. I always treat negatives as zero. <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , perhaps you have a better explanation?</p>",
+        "id": 28425,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1617399041
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, negative values are typically associated with numerical errors in advection. These are typically isolated and small in magnitude—so if you are seeing negative integrals over the upper 150 m, I would suspect that there is a problem. Note that the advection scheme is mass conserving, inclusive of the negative values.</p>",
+        "id": 28426,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617399544
+    },
+    {
+        "content": "<p>Would you like to look into this issue before I proceed, or should I just treat all negative values as zeros?</p>",
+        "id": 28447,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617402279
+    },
+    {
+        "content": "<p>I think if you are integrating, you can just ignore them.</p>",
+        "id": 28448,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617402367
+    },
+    {
+        "content": "<p>if you are looking pointwise, treat negative values as zero</p>",
+        "id": 28449,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1617402390
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , preliminary runs forcing FEISTY with the 4P4Z output suggest that the largest zooplankton mortality term is not large enough. FEISTY is typically run with 2 distinct mesozooplankton groups, small fish feed exclusively on the medium zoo, while medium fish feed with 25% preference on medium zoo and 100% preference on large zoo. FEISTY can also be run with 1 mesozooplankton group, allowing both small and medium fish to consume it with 100% preference. With 2 separate meszooplankton, almost no large pelagic fish can survive. The large pelagic biomass improves with combined mesozooplankton, but there are still regions without either large pelagic fish or small pelagic fish (forage fish) where we expect to find them. I attached a figure for comparison. <a href=\"/user_uploads/2/4c/hFDzGDm3FM5lbnlCT8NwMiDW/4P4Z_comparison_Pfish.png\" target=\"_blank\" title=\"4P4Z_comparison_Pfish.png\">4P4Z_comparison_Pfish.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/4c/hFDzGDm3FM5lbnlCT8NwMiDW/4P4Z_comparison_Pfish.png\" target=\"_blank\" title=\"4P4Z_comparison_Pfish.png\"><img src=\"/user_uploads/2/4c/hFDzGDm3FM5lbnlCT8NwMiDW/4P4Z_comparison_Pfish.png\"></a></div>",
+        "id": 28676,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617737813
+    },
+    {
+        "content": "<p>Forage fish are here: <a href=\"/user_uploads/2/e6/2ekSmXz379P_XMeDIE9DPTtG/4P4Z_comparison_Ffish.png\" target=\"_blank\" title=\"4P4Z_comparison_Ffish.png\">4P4Z_comparison_Ffish.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/e6/2ekSmXz379P_XMeDIE9DPTtG/4P4Z_comparison_Ffish.png\" target=\"_blank\" title=\"4P4Z_comparison_Ffish.png\"><img src=\"/user_uploads/2/e6/2ekSmXz379P_XMeDIE9DPTtG/4P4Z_comparison_Ffish.png\"></a></div>",
+        "id": 28677,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617737859
+    },
+    {
+        "content": "<p>Zooplankton biomasses are higher in the 4P4Z runs compared to the FOSI, but the mortality rates are much lower. And these are used to cap fish consumption so that mass is conserved with the BGC model.</p>",
+        "id": 28678,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617737895
+    },
+    {
+        "content": "<p>Thanks, <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> ! This is really helpful to know... I was suspecting the mortality terms for zoo4 might be too low. I have some output from an older simulation where the mortality on zoo4 is quite a bit higher. I will process the output from this run for FEISTY and point you to the output, then perhaps you could re-make these plots with that output?</p>",
+        "id": 28681,
+        "sender_full_name": "Kristen Krumhardt",
+        "timestamp": 1617738317
+    },
+    {
+        "content": "<p>No problem, <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> . And let me know if there are other quantities you'd like to see. I also output the ratio of fish consumption to mortality if that is helpful.</p>",
+        "id": 28764,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1617744971
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> , the FEISTY FOSI output is here <br>\n<code>/glade/work/cpetrik/fish-offline/feisty_output/Dc_Lam700_enc70-b200_m400-b175-k086_c20-b250_D075_A050_sMZ090_mMZ045_nmort1_BE08_CC80_RE00100/FOSI/</code><br>\naggregated by group. s=small; m=medium; l=large, f=forage; p=large pelagic; d=demersal; b=benthic inverts; v=all vertebrates (all fish)</p>",
+        "id": 53417,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1649462407
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>! </p>\n<p>FYI, I had to do this to make your files readable by Xarray:</p>\n<div class=\"codehilite\" data-code-language=\"Bash\"><pre><span></span><code>module load nco\nncrename -d lat,nlat -d lon,nlon feisty_cesm-fosi_monthly_tvb_.nc feisty_cesm-fosi_monthly_tvb_.nc\n</code></pre></div>\n<p>The dimensions <code>lon</code> and <code>lat</code> conflicted with the 2D variables <code>lon</code> and <code>lat</code>, which violates the netCDF data model conventions.</p>",
+        "id": 53419,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1649616049
+    },
+    {
+        "content": "<p>gWW m-2 = g wet weight?</p>",
+        "id": 53420,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1649616279
+    },
+    {
+        "content": "<p>Here is a plot of globally integrated total fish (all vertebrates) biomass:<br>\n<a href=\"/user_uploads/2/48/fIcQH9lMoxceVQJt8bmvjDC5/image.png\">image.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/48/fIcQH9lMoxceVQJt8bmvjDC5/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/48/fIcQH9lMoxceVQJt8bmvjDC5/image.png\"></a></div><p>Does that make sense to you? I don't have any clear sense of what the right order of magnitude should be. Order 1 Pg?</p>",
+        "id": 53421,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1649616523
+    },
+    {
+        "content": "<p>Annual mean fish:<br>\n<a href=\"/user_uploads/2/3c/EG5mdklyFdhedUm9xHblaq4C/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/3c/EG5mdklyFdhedUm9xHblaq4C/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/3c/EG5mdklyFdhedUm9xHblaq4C/image.png\"></a></div>",
+        "id": 53422,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1649627216
+    },
+    {
+        "content": "<p>Std dev.<br>\n<a href=\"/user_uploads/2/91/Q5EVz-BGF2UkdxHnpWL5qB0R/image.png\">image.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/91/Q5EVz-BGF2UkdxHnpWL5qB0R/image.png\" title=\"image.png\"><img src=\"/user_uploads/2/91/Q5EVz-BGF2UkdxHnpWL5qB0R/image.png\"></a></div>",
+        "id": 53423,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1649627229
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span>, I generated FEISTY forcing from the SMYLE-FOSI here:<br>\n/glade/work/mclong/fish-offline/g.e22.GOMIPECOIAF_JRA-1p4-2018.TL319_g17.SMYLE.005.FIESTY-forcing.nc</p>\n<p>Used upper 100m as this was the only depth over which zoo_loss was available.</p>",
+        "id": 54983,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652732461
+    },
+    {
+        "content": "<p>cc <span class=\"user-mention\" data-user-id=\"20\">@Fred Castruccio</span></p>",
+        "id": 54984,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1652732489
+    },
+    {
+        "content": "<p>Thanks, I downloaded it. Are we doing these runs for any particular reason?</p>",
+        "id": 55655,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1653514550
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"185\">@Zhuomin Chen</span> Hi Zhoumin, Thanks for comments in last meeting. I would like to follow your analysis for DPLE for consistency of results. Could you point your method specifically or script for temperature if you don't mind? I use grads and fortran scripts before but I would like to learn new coding as well.</p>",
+        "id": 59952,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1658861633
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> ,  Thanks for your comment. utils.py is now loaded in prep_upper_fields_DPLE.ipynb based on CMIP kernal. I run it that shows the error message. I wonder this is what you saw before. </p>\n<hr>\n<p>AssertionError                            Traceback (most recent call last)<br>\n/glade/scratch/hglim/ipykernel_70577/1003656566.py in &lt;module&gt;<br>\n     11             #first get this particular file<br>\n     12             ds = xr.open_dataset(<br>\n---&gt; 13             utils.file_in(var,styear,member),<br>\n     14             decode_coords=False,<br>\n     15             decode_times=True,</p>\n<p>~/analysis/FEISTY/NOTE/kristenk/fish-offline-kristens_branch/notebooks/utils.py in file_in(var, styear, member)<br>\n     53 <br>\n     54 <br>\n---&gt; 55     assert os.path.exists(file), f'missing {file}'<br>\n     56     return file<br>\n     57 </p>\n<p>AssertionError: missing /glade/campaign/cesm/collections/CESM1-DPLE/ocn/proc/tseries/monthly/zooC/b.e11.BDP.f09_g16.1954-11.001.pop.h.zooC.195411-196412.nc</p>\n<hr>\n<p>if I run \"prep_bottom_fields_DPLE.ipynb\" I can see below message after runing PBSCluster section. </p>\n<hr>\n<p>tornado.application - ERROR - Exception in callback functools.partial(&lt;bound method IOLoop._discard_future_result of &lt;zmq.eventloop.ioloop.ZMQIOLoop object at 0x7fbda8a657d0&gt;&gt;, &lt;Task finished coro=&lt;SpecCluster._correct_state_internal() done, defined at /ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/distributed/deploy/spec.py:333&gt; exception=RuntimeError('Command exited with non-zero exit code.\\nExit code: 170\\nCommand:\\nqsub /glade/scratch/hglim/tmpg7uyk2kh.sh\\nstdout:\\n\\nstderr:\\nqsub: Unknown queue\\n\\n')&gt;)<br>\nTraceback (most recent call last):<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/tornado/ioloop.py\", line 741, in _run_callback<br>\n    ret = callback()<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/tornado/ioloop.py\", line 765, in _discard_future_result<br>\n    future.result()<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/distributed/deploy/spec.py\", line 371, in _correct_state_internal<br>\n    await w  # for tornado gen.coroutine support<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/distributed/deploy/spec.py\", line 67, in _\n    await self.start()<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/dask_jobqueue/core.py\", line 325, in start<br>\n    out = await self._submit_job(fn)<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/dask_jobqueue/core.py\", line 308, in _submit_job<br>\n    return self._call(shlex.split(self.submit_command) + [script_filename])<br>\n  File \"/ncar/usr/jupyterhub/envs/cmip6-201910/lib/python3.7/site-packages/dask_jobqueue/core.py\", line 408, in _call<br>\n    \"stderr:\\n{}\\n\".format(proc.returncode, cmd_str, out, err)<br>\nRuntimeError: Command exited with non-zero exit code.<br>\nExit code: 170<br>\nCommand:<br>\nqsub /glade/scratch/hglim/tmpg7uyk2kh.sh<br>\nstdout:</p>\n<p>stderr:<br>\nqsub: Unknown queue</p>",
+        "id": 60030,
+        "sender_full_name": "Hyunggyu Lim",
+        "timestamp": 1658929119
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"274\">Hyunggyu Lim</span> <a href=\"#narrow/stream/33-fisheries/topic/offline.20FEISTY/near/59952\">said</a>:</p>\n<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"185\">Zhuomin Chen</span> Hi Zhoumin, Thanks for comments in last meeting. I would like to follow your analysis for DPLE for consistency of results. Could you point your method specifically or script for temperature if you don't mind? I use grads and fortran scripts before but I would like to learn new coding as well.</p>\n</blockquote>\n<p>Hi Hyunggyu, sorry I usually missed messages here. I have just replied your email about your questions. If you would like to look at temperature predictability using DPLE, I could help with that as I have done it already (maybe not on the same level). <span class=\"user-mention\" data-user-id=\"274\">@Hyunggyu Lim</span></p>",
+        "id": 60679,
+        "sender_full_name": "Zhuomin Chen",
+        "timestamp": 1659389973
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> and I have been working on this quite a bit recently, and it seems like we're long overdue for an update in this channel... all of the plots I'm going to share came from code on a branch that is still in an <a href=\"https://github.com/marbl-ecosys/feisty/pull/45\">open PR (#45)</a> but I hope to merge it back to <code>main</code> today or tomorrow.</p>\n<p>So first the good news:</p>\n<ol>\n<li>There are some notebooks demonstrating how <a href=\"https://github.com/mnlevy1981/feisty/blob/add_highres/examples/Run%20Multiple%20Years%20(highres).ipynb\">FEISTY can run</a> reading forcing directly from POP output (in this case, we generated time series files from the history output but no other post-processing occurred); pretty much all FEISTY configuration can now be done in <a href=\"https://github.com/mnlevy1981/feisty/blob/add_highres/examples/feisty-config.TL319_t13.4p2z.001.yml\">a YAML file</a></li>\n<li>We have high-res output for with all the necessary output for FEISTY from 1980 - 2021, and the 1˚ companion run has the necessary output for the full JRA cycle (1958 - 2021)</li>\n<li>There's a flag you can enable to repeat a single year of forcing. In my first attempt at spinning up the model, I've run 125 years with repeat-1980 forcing in the companion run and 103 years with repeat-1980 in the 0.1˚ run. (TODO: it looks like I never committed the notebooks that run the spin-up to my branch)</li>\n</ol>\n<p>Exploring the spin-up has led to some bad news, though:</p>\n<ol>\n<li>I don't really know how to determine that the model is actually spun up. I had randomly selected a point in the 1 degree model a while back, and it looked like it got close to equilibrium after  50 or 60 years:</li>\n</ol>\n<p><a href=\"/user_uploads/2/14/Toqoot98hzXAkdna-9m_0HCH/125-year-spinup-003.png\">125-year-spinup-003.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/14/Toqoot98hzXAkdna-9m_0HCH/125-year-spinup-003.png\" title=\"125-year-spinup-003.png\"><img src=\"/user_uploads/2/14/Toqoot98hzXAkdna-9m_0HCH/125-year-spinup-003.png\"></a></div><p>but then the pelagic functional types seemed to be constantly declining at another point :</p>\n<p><a href=\"/user_uploads/2/3f/yLJVlUYSjfE8nGrKlPt5fzWl/125-year-spinup-003-diff-gridpoint.png\">125-year-spinup-003-diff-gridpoint.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/3f/yLJVlUYSjfE8nGrKlPt5fzWl/125-year-spinup-003-diff-gridpoint.png\" title=\"125-year-spinup-003-diff-gridpoint.png\"><img src=\"/user_uploads/2/3f/yLJVlUYSjfE8nGrKlPt5fzWl/125-year-spinup-003-diff-gridpoint.png\"></a></div><p>and a third point shows multi-year cycles (despite the forcing being a 1-year cycle):</p>\n<p><a href=\"/user_uploads/2/64/hxlDVuvla7AlU72wHIcUbAh3/125-year-spinup-003-third-gridpoint.png\">125-year-spinup-003-third-gridpoint.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/64/hxlDVuvla7AlU72wHIcUbAh3/125-year-spinup-003-third-gridpoint.png\" title=\"125-year-spinup-003-third-gridpoint.png\"><img src=\"/user_uploads/2/64/hxlDVuvla7AlU72wHIcUbAh3/125-year-spinup-003-third-gridpoint.png\"></a></div><ol start=\"2\">\n<li>I also started looking at some mid-year maps just to get a sense of what was happening spatially. This is small foragers 4 1/2 years into a transient run, initialized with the 125 year spinup:</li>\n</ol>\n<p><a href=\"/user_uploads/2/3/PeXn7hptaw5Dm3e1WPSagmBr/June-30-1984-companion-Sf-map.png\">June-30-1984-companion-Sf-map.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/3/PeXn7hptaw5Dm3e1WPSagmBr/June-30-1984-companion-Sf-map.png\" title=\"June-30-1984-companion-Sf-map.png\"><img src=\"/user_uploads/2/3/PeXn7hptaw5Dm3e1WPSagmBr/June-30-1984-companion-Sf-map.png\"></a></div><p>note all the noise in the eastern equatorial Pacific -- the time series plot that shows the multi-year cycles is actually a point in that noisy region.</p>\n<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> I think we (including Kristen and Elena) should talk some to figure out next steps...</p>",
+        "id": 73419,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1675360701
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span>  (and <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> , <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> , <span class=\"user-mention\" data-user-id=\"331\">@Rémy Denéchère</span> ). These 3 examples are all common in spinup. </p>\n<p>#1 is what you hope to achieve in most places.</p>\n<p>#2 is what happens in locations where either (a) there are not enough resources to sustain large pelagic fish or (b) the demersal fish outcompete the large pelagics. Any time that their biomass (gWW/m2) drops below 10^-6 they are effectively not there. It is fine to stop the spinup before they equilibrate, because they will just drop to whatever the minimum value allowed in the simulation is (in the Matlab version, it was 10^-16). </p>\n<p>#3 is the result of predator-prey cycles between the forage fish and the large pelagics. This is expected from a theoretical ecology perspective. It tends to happen in highly productive regions like the Eastern Equatorial Pacific upwelling zone and creates that incoherent pattern of high and low biomasses in neighboring grid cells. The cycles are just out of phase with each other in those cells. Thus it is important to average over a chunk of time to create the initial biomasses from the spinup. I use the mean of the last year of the spinup, but it would be good to calculate how long the cycles are. I also think that tuning the model will dampen these cycles, as the base model of FEISTY forced by COBALT does not result in them.</p>",
+        "id": 73429,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1675366221
+    },
+    {
+        "content": "<p>p.s. Can we move these messages out of the \"literature\" stream and into the \"offline FEISTY\" stream?</p>",
+        "id": 73430,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1675366315
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"122\">Colleen Petrik</span> <a href=\"#narrow/stream/33-fisheries/topic/offline.20FEISTY/near/73430\">said</a>:</p>\n<blockquote>\n<p>p.s. Can we move these messages out of the \"literature\" stream and into the \"offline FEISTY\" stream?</p>\n</blockquote>\n<p>well, I seem to have made it worse... I thought I was moving my message out of literature (I could've sworn I had put it in \"high res\"), but it looks like I maybe merged all of literature into offline FEISTY?</p>",
+        "id": 73432,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1675366900
+    },
+    {
+        "content": "<p>okay, the comment about IPSL is back in <a class=\"stream-topic\" data-stream-id=\"33\" href=\"/#narrow/stream/33-fisheries/topic/literature\">#fisheries &gt; literature</a> ; I scanned through this topic and didn't see any other messages that looked like they had been moved but if I missed anything let me know.</p>\n<p>Back on topic, thanks for the details on the different possible spinup modes. Should we introduce a floor for the biomass (perhaps 1e-16, to match the matlab code)? I'll look into using an average value for the initial conditions, right now we're just starting from the Dec 31 values as if we were continuing the run exactly. Do you think initializing from a time mean instead of instantaneous value will fix the spatial noise we are seeing in the [instantaneous] map?</p>",
+        "id": 73448,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1675367558
+    },
+    {
+        "content": "<p>I've found two more interesting points in the high res spinup (the companion spinup does not have any grid cells exhibiting this behavior): in one, most of the biomass grows uncontrollably large:</p>\n<p><a href=\"/user_uploads/2/e7/Dlec8MCU7J9JUb4TOzat49XA/highres-103-year-spinup-uncontrolled-benthic.png\">highres-103-year-spinup-uncontrolled-benthic.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/e7/Dlec8MCU7J9JUb4TOzat49XA/highres-103-year-spinup-uncontrolled-benthic.png\" title=\"highres-103-year-spinup-uncontrolled-benthic.png\"><img src=\"/user_uploads/2/e7/Dlec8MCU7J9JUb4TOzat49XA/highres-103-year-spinup-uncontrolled-benthic.png\"></a></div><p>In this plot, the demersal biomasses all go negative (and the drop in large demersal coincides with the beginning of the growth of benthic prey).</p>\n<p>In the other grid cell, benthic prey biomass goes negative in year 15 and that seems to cause the demersal biomasses to grow uncontrollably.</p>\n<p><a href=\"/user_uploads/2/58/p0ZiYpGBN_3F0sCTw5-hz2_D/highres-103-year-spinup-negative-benthic.png\">highres-103-year-spinup-negative-benthic.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/58/p0ZiYpGBN_3F0sCTw5-hz2_D/highres-103-year-spinup-negative-benthic.png\" title=\"highres-103-year-spinup-negative-benthic.png\"><img src=\"/user_uploads/2/58/p0ZiYpGBN_3F0sCTw5-hz2_D/highres-103-year-spinup-negative-benthic.png\"></a></div><p>The small pelagic biomass does not go negative, but it does plummet to 2.5e-323 by year 50 and then stay there for the rest of the run. (I'm surprised this does not trigger underflow warnings... or maybe it does and I'm not looking for them in the right place?)</p>\n<p><span class=\"user-mention\" data-user-id=\"122\">@Colleen Petrik</span> have you run into individual points going off the rails like this? <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span>, did you want to chime in with your thoughts on the effect the high resolution dynamics might be playing? (I don't want to misrepresent what you mentioned after the BGCWG meeting)</p>",
+        "id": 74026,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1675896964
+    },
+    {
+        "content": "<p>Despite the above issue (which we can also discuss <a href=\"https://github.com/marbl-ecosys/feisty/issues/47\">on github</a>), I just merged my PR. <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> and <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> you should be able to switch to <code>main</code>. I did sneak in a last-second change to the temporal offset applied to POP forcing; rather than subtracting a full day from the POP calendar (treating 0001-01-02 0:00:00 as the start of January 1st), I only subtract a half day (treating it as 0001-01-01 12:00:00). This should have a small effect on the runs, but I think fixing the issues in the spinup will have a much bigger effect.</p>",
+        "id": 74029,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1675899523
+    },
+    {
+        "content": "<p>Some diagnostics for tuning FEISTY, to be calculated within the model at each time step:<br>\nfeeding level [unitless]= consumption [g/g/d] / cmax [g/g/d]<br>\ngross growth efficiency (gge) [unitless] =  nu [g/g/d] / consumption [g/g/d]<br>\nproduction [g/m2/d] = nu [g/g/d] * biomass [g/m2]</p>",
+        "id": 74080,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1675969952
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"10\">Michael Levy</span> <a href=\"#narrow/stream/33-fisheries/topic/offline.20FEISTY/near/74026\">said</a>:</p>\n<blockquote>\n<p>I've found two more interesting points in the high res spinup (the companion spinup does not have any grid cells exhibiting this behavior): in one, most of the biomass grows uncontrollably large:</p>\n<p><a href=\"/user_uploads/2/e7/Dlec8MCU7J9JUb4TOzat49XA/highres-103-year-spinup-uncontrolled-benthic.png\">highres-103-year-spinup-uncontrolled-benthic.png</a> </p>\n<p>In this plot, the demersal biomasses all go negative (and the drop in large demersal coincides with the beginning of the growth of benthic prey).</p>\n<p>In the other grid cell, benthic prey biomass goes negative in year 15 and that seems to cause the demersal biomasses to grow uncontrollably.</p>\n<p><a href=\"/user_uploads/2/58/p0ZiYpGBN_3F0sCTw5-hz2_D/highres-103-year-spinup-negative-benthic.png\">highres-103-year-spinup-negative-benthic.png</a></p>\n<p>The small pelagic biomass does not go negative, but it does plummet to 2.5e-323 by year 50 and then stay there for the rest of the run. (I'm surprised this does not trigger underflow warnings... or maybe it does and I'm not looking for them in the right place?)</p>\n<p><span class=\"user-mention silent\" data-user-id=\"122\">Colleen Petrik</span> have you run into individual points going off the rails like this? <span class=\"user-mention silent\" data-user-id=\"28\">Kristen Krumhardt</span>, did you want to chime in with your thoughts on the effect the high resolution dynamics might be playing? (I don't want to misrepresent what you mentioned after the BGCWG meeting)</p>\n</blockquote>\n<p>In today's meeting we mentioned the need to prevent negative biomasses and negative POC fluxes before forcing FEISTY and after each time step. And also setting a floor for biomass would be good.</p>",
+        "id": 74082,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1675970091
+    },
+    {
+        "content": "<p>I've got a question about diagnostics... in previous meetings, we've talked about saving production and catch along with biomass. I think the full list of diagnostics we can currently provide from the python code is</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code>    <span class=\"n\">diagnostic_names</span><span class=\"o\">=</span><span class=\"p\">[</span>\n        <span class=\"s2\">\"T_habitat\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"ingestion_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"predation_flux\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"predation_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"metabolism_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"mortality_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"energy_avail_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"growth_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"reproduction_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"recruitment_flux\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"fish_catch_rate\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"encounter_rate_link\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"encounter_rate_total\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"consumption_rate_max_pred\"</span><span class=\"p\">,</span>\n        <span class=\"s2\">\"consumption_rate_link\"</span><span class=\"p\">,</span>\n    <span class=\"p\">],</span>\n</code></pre></div>\n<p>The <code>fish_catch_rate</code> varies by functional type, but has no spatial or temporal variance:</p>\n<div class=\"codehilite\"><pre><span></span><code>Sf: 0.0\nSp: 0.0\nSd: 0.0\nMf: 0.000821917808219178\nMp: 8.219178082191781e-05\nMd: 8.219178082191781e-05\nLp: 0.000821917808219178\nLd: 0.000821917808219178\n</code></pre></div>\n<p>Do we want to multiply this term by <code>biomass</code>? Or do we need to compute something different?</p>\n<p>Also, is the production term just <code>growth_rate</code> or the sum of <code>growth_rate</code> and a few other terms? Or maybe something else entirely?</p>",
+        "id": 75956,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1678124985
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> , I provided how to calculate the diagnostics for feeding level, gross growth efficiency, and production in the comment above on Feb 9th. Those were the names of the terms in the Matlab code, their names in the Python code are (I think)</p>\n<ul>\n<li>consumption rate = ingestion rate</li>\n<li>nu = energy avail rate</li>\n<li>maximum consumption = consumption_rate_max_pred?</li>\n</ul>\n<p>For fishing yield, it is not the catch rate. It is the fishing mortality * selectivity * biomass at each time step. In the Matlab code it is the \"caught\" term calculated with the \"sub_fishing_rate.m\" function.</p>",
+        "id": 76241,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1678310286
+    },
+    {
+        "content": "<p>It has taken a little while, but I added production (<code>biomass * energy_avail_rate</code>) and fish yield (<code>biomass * fish_catch_rate</code>) to the diagnostic output in the python version of FEISTY. Adding two additional variables causes <code>dask</code> to hang on the <code>ds.to_zarr()</code> call in the high-res case, but I can look at these variables in the 1 degree while I ponder how to refactor the code to be more memory-friendly... here's a spatial plot of total fish yield for 1958 (I'm 99% sure the units are <code>g / m^2 / year</code>):</p>\n<p><a href=\"/user_uploads/2/b1/S2OOnxvzJ8yzNGTceDfFg1s4/fish_yield.png\">fish_yield.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/b1/S2OOnxvzJ8yzNGTceDfFg1s4/fish_yield.png\" title=\"fish_yield.png\"><img src=\"/user_uploads/2/b1/S2OOnxvzJ8yzNGTceDfFg1s4/fish_yield.png\"></a></div><p>The plot to compare to in Colleen's 2019 paper is a scatter plot:</p>\n<p><a href=\"/user_uploads/2/1f/pQErX2qTW1spyrcdZ7nPBu2e/fish-yield-Petrik2019.png\">fish-yield-Petrik2019.png</a> </p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/1f/pQErX2qTW1spyrcdZ7nPBu2e/fish-yield-Petrik2019.png\" title=\"fish-yield-Petrik2019.png\"><img src=\"/user_uploads/2/1f/pQErX2qTW1spyrcdZ7nPBu2e/fish-yield-Petrik2019.png\"></a></div><p>As a first-order check, I just looked at the min and max of log10 of yield for each of the four classes in the scatter plot above:</p>\n<div class=\"codehilite\"><pre><span></span><code>Forager yield ranges from -68.39 to 0.52 (log scale)\nLarge pelagic yield ranges from -68.79 to 0.51 (log scale)\nDemersal yield ranges from -3.07 to 1.23 (log scale)\nTotal yield ranges from -1.13 to 1.31 (log scale)\n</code></pre></div>\n<p>Comparing those numbers to y-axis of each of the four panels, I think we're doing this computation right... <span class=\"user-mention\" data-user-id=\"28\">@Kristen Krumhardt</span> will try to recreate the scatter plot once this is merged to <code>main</code></p>",
+        "id": 85478,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1689191925
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"10\">@Michael Levy</span> and <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> . I just saw the git comment on fishing units. The native units in FEISTY are grams wet weight per m2 (per day if a rate). Thus, all ESM forcing variables are converted into those units. The fishing yield output is gWW/m2/d. If you want to calculate annual fishing yield, you just multiply by the grid cell area and 365.</p>",
+        "id": 87569,
+        "sender_full_name": "Colleen Petrik",
+        "timestamp": 1692731298
+    }
+]

@@ -520,5 +520,191 @@
         "id": 45580,
         "sender_full_name": "Matt Long",
         "timestamp": 1634933089
+    },
+    {
+        "content": "<p>New <a href=\"https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/\">blog post</a> from <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> and I!  </p>\n<p>An experiment with representing sparse arrays (here vegetation types from CLM) with xarray + dask. This was prompted by a Zulip conversation from a few months ago.</p>",
+        "id": 51118,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1645742616
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> ! Python tools for remapping PFT-level output came up in our CLM meeting today, so this is excellent timing.<br>\ncc <span class=\"user-mention\" data-user-id=\"74\">@Danica Lombardozzi</span> <span class=\"user-mention\" data-user-id=\"67\">@Will Wieder</span> <span class=\"user-mention\" data-user-id=\"120\">@Daniel Kennedy</span></p>",
+        "id": 51121,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1645744042
+    },
+    {
+        "content": "<blockquote>\n<p>This was prompted by a Zulip conversation from a few months ago. </p>\n</blockquote>\n<p>Xref the relevant Zulip topic <a href=\"#narrow/stream/41-ESDS/topic/Code.20examples.20for.20plotting.20CLM.20Plant.20Functional.20Types\">Code examples for plotting CLM Plant Functional Types</a></p>",
+        "id": 51122,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1645744126
+    },
+    {
+        "content": "<p>Thanks <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span> and <span class=\"user-mention\" data-user-id=\"47\">@Katie Dagon</span> ! It's great to see this -- translating from vector to mult-dimensional grids has always been problematic and time consuming! LENS2 has numerous vector files, and I wonder if we can devise a way to handle multiple files at once to make it easier for people to work with those data</p>",
+        "id": 51123,
+        "sender_full_name": "Danica Lombardozzi",
+        "timestamp": 1645745142
+    },
+    {
+        "content": "<p>Thanks Danica. The function works with xarray Datasets, so as long as you make one using <code>xr.open_mfdataset</code> it should work! (assuming it has the appropriate 1D PFT variables)</p>",
+        "id": 51126,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1645759802
+    },
+    {
+        "content": "<p>Two new blogposts!</p>\n<ol>\n<li>Anderson &amp; <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> demonstrate <a href=\"https://ncar.github.io/esds/posts/2022/batch-processing-notebooks-with-papermill/\">\"Batch Processing Jupyter Notebooks with Papermill\"</a></li>\n<li>I wrote up a <a href=\"https://ncar.github.io/esds/posts/2022/dask-debug-detrend/\">dask debugging adventure</a> looking at detrending. It has simple tips on what to look for if your dask workflows aren't flowing.</li>\n</ol>",
+        "id": 53010,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1648745517
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"12\">@Julia Kent</span> has a great new blog post on <a href=\"https://ncar.github.io/esds/posts/2022/debugging/\">debugging</a>, which I initially discovered via the <a href=\"https://twitter.com/Project_Pythia\">Project Pythia twitter account</a> <span aria-label=\"grinning\" class=\"emoji emoji-1f600\" role=\"img\" title=\"grinning\">:grinning:</span></p>",
+        "id": 54841,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1652393651
+    },
+    {
+        "content": "<p>Thanks Katie!</p>",
+        "id": 54842,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1652393948
+    },
+    {
+        "content": "<p>After attending today's great <a href=\"https://github.com/NCAR/GPU_workshop/blob/workshop/12_CuPyAndLegate/12_CuPyAndLegate.ipynb\">CuPy tutorial</a> at the GPU workshop, I adapted some of that notebook to showcase <a href=\"https://cupy-xarray.readthedocs.io/quickstart.html\">integrating cupy arrays in xarray</a></p>",
+        "id": 60237,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1659043306
+    },
+    {
+        "content": "<p><span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span>,   you might find this interesting given your recent work exploring GeoCAT routines on GPUs:  <a href=\"https://xarray.dev/blog/xarray-kvikio\">https://xarray.dev/blog/xarray-kvikio</a></p>",
+        "id": 62854,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1661896855
+    },
+    {
+        "content": "<p>for folks interested in keeping track of physical units while using Xarray: <a href=\"https://xarray.dev/blog/introducing-pint-xarray\">https://xarray.dev/blog/introducing-pint-xarray</a></p>",
+        "id": 62980,
+        "sender_full_name": "Anderson Banihirwe",
+        "timestamp": 1661990336
+    },
+    {
+        "content": "<p>New blog post from <span class=\"user-mention\" data-user-id=\"107\">@Heather Craker</span> on seasonal averaging using <span class=\"user-group-mention\" data-user-group-id=\"1\">@geocat</span>'s <code>climatology_average</code> function. This post came out of some discussions we had during the ESDS Event a couple weeks ago.<br>\n<a href=\"https://ncar.github.io/esds/posts/2022/xarray-groupby-vs-geocat-climatology/\">https://ncar.github.io/esds/posts/2022/xarray-groupby-vs-geocat-climatology/</a></p>",
+        "id": 69296,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1670016933
+    },
+    {
+        "content": "<p>New blog post with <span class=\"user-mention\" data-user-id=\"66\">@Christine Shields</span> on regridding CAM-SE using xESMF + an existing ESMF weights file: <a href=\"https://ncar.github.io/esds/posts/2022/cam-se-regridding/\">https://ncar.github.io/esds/posts/2022/cam-se-regridding/</a></p>",
+        "id": 69978,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1670865350
+    },
+    {
+        "content": "<p>New blog post recapping the ESDS Event back in November. All materials from that event (recordings, slides, notes) are linked in the post:<br>\n<a href=\"https://ncar.github.io/esds/posts/2022/esds-event-recap/\">https://ncar.github.io/esds/posts/2022/esds-event-recap/</a></p>",
+        "id": 70745,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1671474977
+    },
+    {
+        "content": "<p>New blog post on generating virtual aggregate datasets for CESM MOM6 output with the <code>kerchunk</code> package:<br>\n<a href=\"https://ncar.github.io/esds/posts/2023/kerchunk-mom6/\">https://ncar.github.io/esds/posts/2023/kerchunk-mom6/</a></p>\n<blockquote>\n<p>we use kerchunk to generate a JSON file containing “references” to binary blocks stored elsewhere. The JSON file is structured to look like a Zarr dataset. Such a file can be interpreted as an aggregate Zarr dataset using fsspec and zarr.</p>\n</blockquote>\n<p>Amongst other things, this approach allows you to open a dataset by only reading a single JSON file (and not touching 1000s of netCDF files, and not having to coerce Xarray into combining them sensibly)</p>",
+        "id": 76317,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1678402334
+    },
+    {
+        "content": "<p>New blog post for anyone hoping to help out with office hours!</p>\n<p><a href=\"https://ncar.github.io/esds/posts/2023/office-hours-help/\">https://ncar.github.io/esds/posts/2023/office-hours-help/</a></p>",
+        "id": 80861,
+        "sender_full_name": "Julia Kent",
+        "timestamp": 1683832358
+    },
+    {
+        "content": "<p>Recap of the unstructured grid collab work time event: <a href=\"https://ncar.github.io/esds/posts/2023/unstructured-grid-collab-1/\">https://ncar.github.io/esds/posts/2023/unstructured-grid-collab-1/</a> . It was fun!</p>",
+        "id": 80988,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1684179902
+    },
+    {
+        "content": "<p>Zarr developer blog post on recent talks about Zarr enhancements: <a href=\"https://zarr.dev/blog/zarr-talks/\">https://zarr.dev/blog/zarr-talks/</a></p>",
+        "id": 84020,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1687885857
+    },
+    {
+        "content": "<p>New Xarray blogpost on \"cubed\", an alternative to dask: <a href=\"https://xarray.dev/blog/cubed-xarray\">https://xarray.dev/blog/cubed-xarray</a></p>",
+        "id": 84915,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1688398094
+    },
+    {
+        "content": "<p>New blogpost on Pangeo-forge: <a href=\"https://medium.com/pangeo/pangeo-forge-is-all-in-on-apache-beam-d7370299405f\">https://medium.com/pangeo/pangeo-forge-is-all-in-on-apache-beam-d7370299405f</a></p>\n<blockquote>\n<p>Pangeo Forge, a modular Python toolkit for reproducibile and scalable production of analysis ready cloud optimized (ARCO) ocean, weather, and climate datasets, is now all in on Apache Beam. This blog recaps the background of Pangeo Forge and its prior architecture, explains the motivations and costs of this major shift in direction, and concludes with a discussion of the opportunities presented by this change.<br>\n...<br>\nWe’re so excited to start putting the 0.10.0 release to use building ARCO data for the community, and in particular building ambitious datasets that previously felt unattainable due to their scale or technical complexity, but which are now within reach due to the scalability and features of Apache Beam.</p>\n</blockquote>",
+        "id": 85587,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1689309698
+    },
+    {
+        "content": "<p>New <a href=\"https://xarray.dev/blog/flox\">blogpost</a> on speeding up Xarray groupby with <a href=\"https://flox.readthedocs.io\">flox</a>:</p>\n<blockquote>\n<p>Significantly faster groupby calculations are now possible through a new-ish package in the Xarray/Dask/Pangeo ecosystem called <a href=\"https://flox.readthedocs.io/en/latest/\">flox</a>.<br>\nPractically, this means faster climatologies, faster resampling, faster histogramming, and faster compositing of array datasets.<br>\nIt also means that <a href=\"https://github.com/pangeo-data/pangeo/issues/266\">very</a> <a href=\"https://github.com/pangeo-data/pangeo/issues/271\">very</a> <a href=\"https://github.com/dask/distributed/issues/2602\">many</a> <a href=\"https://github.com/pydata/xarray/issues/2237\">discussions</a> in the <a href=\"https://pangeo.io\">Pangeo</a> community are now closed <span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span> <span aria-label=\"scream\" class=\"emoji emoji-1f631\" role=\"img\" title=\"scream\">:scream:</span> 🤯 🥳.</p>\n</blockquote>",
+        "id": 85715,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1689708532
+    },
+    {
+        "content": "<p>New <a href=\"https://ncar.github.io/esds/posts/2023/scipy23/\">blog post</a> from <span class=\"user-mention\" data-user-id=\"311\">@Elena Romashkova</span> recapping ESDS at SciPy 2023!</p>",
+        "id": 87924,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1693331033
+    },
+    {
+        "content": "<p>New ESDS blog post on <a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/\">Analyzing and visualizing CAM-SE output in Python</a> <span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span></p>\n<p>This one was in the works for a while, inspired by the event ESDS hosted this past spring on <a href=\"https://ncar.github.io/esds/posts/2023/unstructured-grid-collab-1/\">working with unstructured grids</a>. </p>\n<p>BIG thanks to all who participated in those discussions, contributed code for CAM-SE analysis/viz, and reviewed the blog post. Let us know what you think / if you try out the code!</p>",
+        "id": 88660,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1694560646
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"47\">Katie Dagon</span> <a href=\"#narrow/stream/41-ESDS/topic/Blog.20Posts/near/88660\">said</a>:</p>\n<blockquote>\n<p>New ESDS blog post on <a href=\"https://ncar.github.io/esds/posts/2023/cam-se-analysis/\">Analyzing and visualizing CAM-SE output in Python</a> <span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span></p>\n<p>This one was in the works for a while, inspired by the event ESDS hosted this past spring on <a href=\"https://ncar.github.io/esds/posts/2023/unstructured-grid-collab-1/\">working with unstructured grids</a>. </p>\n<p>BIG thanks to all who participated in those discussions, contributed code for CAM-SE analysis/viz, and reviewed the blog post. Let us know what you think / if you try out the code!</p>\n</blockquote>\n<p>Nice work! FYI GeoCAT's Philip Chmielowiec will be giving a talk at CISL's next WIP session on the status of visualizing unstructured grids (e.g. CAM-SE)  without resampling using UXarray , Tuesday, October 10, 1pm in the Mesa Lab Main Seminar Room, or virtually <a href=\"https://meet.google.com/xxr-vqnk-pua?authuser=0&amp;hs=122\">zoom</a>.</p>",
+        "id": 88683,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1694632370
+    },
+    {
+        "content": "<p>Hi <span class=\"user-mention\" data-user-id=\"19\">@John Clyne</span> is there a calendar invite or formal event page for that 10 October event?</p>",
+        "id": 88708,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1694645381
+    },
+    {
+        "content": "<p>Yes there is. Here's the calendar <a href=\"https://calendar.google.com/calendar/event?action=TEMPLATE&amp;tmeid=N2FmYWR1aGt0b2x1bmd0Z2VrMW5pMW8wYmZfMjAyMzEwMTBUMTkwMDAwWiBjbHluZUB1Y2FyLmVkdQ&amp;tmsrc=clyne%40ucar.edu\">invite</a></p>",
+        "id": 88709,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1694645903
+    },
+    {
+        "content": "<p>Thanks John. That is the event on your calendar only, and it simply says \"busy\" with no other details. I tried checking the CISL calendar here: <a href=\"https://www2.cisl.ucar.edu/events/calendar\">https://www2.cisl.ucar.edu/events/calendar</a>, but I don't see anything for 10 Oct. Maybe I'll keep an eye on staff notes daily for a bit.</p>",
+        "id": 88710,
+        "sender_full_name": "Daniel Adriaansen",
+        "timestamp": 1694648000
+    },
+    {
+        "content": "<p>Hmm. I'm not sure how to re-share the calendar invite.  I'll look into it. BTW, Katie pointed out that Philip will be giving a version of this talk at the Oct 2. ESDS forum.</p>",
+        "id": 88711,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1694657218
+    },
+    {
+        "content": "<p>Here are the meeting coordinates for this:</p>\n<p>CISL WIP Talks<br>\nTuesday, October 10 · 1:00 – 2:00pm<br>\nTime zone: America/Denver<br>\nGoogle Meet joining info<br>\nVideo call link: <a href=\"https://meet.google.com/xxr-vqnk-pua\">https://meet.google.com/xxr-vqnk-pua</a><br>\nOr dial: ‪(US) +1 484-416-4699‬ PIN: ‪280 807 531‬#<br>\nMore phone numbers: <a href=\"https://tel.meet/xxr-vqnk-pua?pin=4128857278087\">https://tel.meet/xxr-vqnk-pua?pin=4128857278087</a></p>",
+        "id": 89319,
+        "sender_full_name": "John Clyne",
+        "timestamp": 1695679569
+    },
+    {
+        "content": "<p>Cool post by <span class=\"user-mention\" data-user-id=\"71\">@Negin Sobhani</span> : <a href=\"https://xarray.dev/blog/cupy-tutorial\">https://xarray.dev/blog/cupy-tutorial</a></p>",
+        "id": 94734,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1705811336
+    },
+    {
+        "content": "<p>We have a new <a href=\"https://ncar.github.io/esds/posts/2024/esds-annual-event-recap/\">ESDS blog post</a> with a brief recap of the 2024 Annual Event and links to slides, recordings (on the new <a href=\"https://www.youtube.com/@ncar_ucar_esds\">ESDS YouTube channel</a><span aria-label=\"tada\" class=\"emoji emoji-1f389\" role=\"img\" title=\"tada\">:tada:</span>), and other resources!</p>",
+        "id": 96356,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1709754591
     }
 ]

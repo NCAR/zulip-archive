@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I have a netcdf file from the UK ESM with 360 day calendar origin 2015-01-01. The netcdf will only open in xarray if I use \"decode_cf = False\".... so then I lose all of the time data. What argument(s) should I use to open the file and specify calendar type and origin?</p>",
+        "id": 58932,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1657907364
+    },
+    {
+        "content": "<p>What's the error it raises?</p>",
+        "id": 58934,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1657907442
+    },
+    {
+        "content": "<p>If I open without the \"decode_cf = False\" argument I get </p>\n<p>AttributeError: 'CFTimeIndex' object has no attribute '_cache'</p>\n<p>Opening with the argument means I get time as a series of days since origin. Oh I forgot to mention time is \"t\" not \"time\":</p>\n<p>&lt;xarray.Dataset&gt;<br>\nDimensions:    (ht: 1, latitude: 144, longitude: 192, t: 12960)<br>\nCoordinates:</p>\n<p>* longitude  (longitude) float32 0.9375 2.8125 4.6875 ... 357.1875 359.0625<br>\n  * latitude   (latitude) float32 -89.375 -88.125 -86.875 ... 88.125 89.375<br>\n  * ht         (ht) float32 -1.0<br>\n  * t          (t) float32 6840.5 6841.5 6842.5 ... 19797.5 19798.5 19799.5<br>\nData variables:<br>\n    temp       (t, ht, latitude, longitude) float32 ...<br>\n    temp_1     (t, ht, latitude, longitude) float32 ...<br>\n    temp_2     (t, ht, latitude, longitude) float32 ...<br>\nAttributes:<br>\n    history:  Sat Apr 16 07:23:29 UTC 2022 - CONVSH V1.91 16-February-2006</p>",
+        "id": 58948,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1657907982
+    },
+    {
+        "content": "<p>You might have some incompatible versions: <a href=\"https://github.com/pydata/xarray/issues/4891\">https://github.com/pydata/xarray/issues/4891</a></p>",
+        "id": 58955,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1657908156
+    },
+    {
+        "content": "<p>Perfect, that solved it! Thanks!</p>",
+        "id": 58996,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1657916832
+    }
+]

@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>Hi,</p>\n<p>I have a method that I've used  without issue to open multiple ocean temperature files and sort them.</p>\n<p>The way I read my data in is as follows:</p>\n<h5>READ TEMP iTrace runs</h5>\n<p>ddir = '/glade/scratch/mberdahl/iTrace/Ocean/TEMP/'<br>\ndfiles = sorted(glob(ddir + '<em>.TEMP.</em>.nc'))  # use sorted to make sure the files are in order for concatenation<br>\nmfds4 = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={'time': 6}, data_vars=['TEMP', 'time_bound'], decode_times=False) <br>\nmfds4 = xr.decode_cf(fixmonth(mfds4)) <br>\nTEMP_iTrace = mfds4.TEMP<br>\n##################################################################################</p>\n<p>I just tried using this with a new dataset (iTrace runs), and running into a MergeError.  The error says:<br>\nMergeError: conflicting values for variable 'REGION_MASK' on objects to be combined. You can skip this check by specifying compat='override'.</p>\n<p>I've tried the suggestion to add compat='override' but it does not help, instead producing a new error:<br>\nValueError: Cannot specify both coords='different' and compat='override'.</p>\n<p>Does anyone have advice on how to overcome this?  If I process the data in smaller subsets (every 1000 years) the error does not appear, but then I still have to merge them after so it doesn't exactly help.  Thanks for any help!</p>",
+        "id": 55991,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1654212895
+    },
+    {
+        "content": "<p>For some reason the <code>REGION_MASK</code> variable is different in these files. To pass <code>compat=\"override\"</code> you'll have to pass <code>coords=\"minimal\"</code> too. This will ignore any differences in <code>REGION_MASK</code> and other coordinate variables and just pick values from the first file. By default <code>coords=\"different\"</code>, which means xarray will try to see if the values are different in different files. If so, it will add a new dimension and concatenate them.</p>",
+        "id": 56002,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1654269552
+    },
+    {
+        "content": "<p>Looks like this works now -- thanks so much <span class=\"user-mention\" data-user-id=\"25\">@Deepak Cherian</span></p>",
+        "id": 56014,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1654274217
+    }
+]

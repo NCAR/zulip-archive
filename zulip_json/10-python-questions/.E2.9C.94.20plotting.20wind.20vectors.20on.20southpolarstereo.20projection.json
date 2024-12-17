@@ -1,0 +1,38 @@
+[
+    {
+        "content": "<p>I'm having weird results when trying to plot wind barbs using quiver in xarray.  When I use the platecarree projection there is no problem, but when I just switch to polarstereo (or anything other than platecarree),  it is wrong (all the arrows originate at the pole) </p>\n<p>Attached is a screenshot showing the successful plot in PlateCarree, and another screenshot s <a href=\"/user_uploads/2/55/akuDIj5AXwJoWtsHmUUkw4TC/Screen-Shot-2023-02-13-at-3.34.44-PM.png\">Screen-Shot-2023-02-13-at-3.34.44-PM.png</a> howing the unsuccessful result with SouthPolarStereo. Can anyone see what I'm missing? I have changed nothing about lon, lat or the datasets between the two plots. <a href=\"/user_uploads/2/5a/QFmkHyGKt-XOpS-KMC2omuH5/Screen-Shot-2023-02-13-at-3.36.50-PM.png\">Screen-Shot-2023-02-13-at-3.36.50-PM.png</a></p>\n<div class=\"message_inline_image\"><a href=\"/user_uploads/2/55/akuDIj5AXwJoWtsHmUUkw4TC/Screen-Shot-2023-02-13-at-3.34.44-PM.png\" title=\"Screen-Shot-2023-02-13-at-3.34.44-PM.png\"><img src=\"/user_uploads/2/55/akuDIj5AXwJoWtsHmUUkw4TC/Screen-Shot-2023-02-13-at-3.34.44-PM.png\"></a></div><div class=\"message_inline_image\"><a href=\"/user_uploads/2/5a/QFmkHyGKt-XOpS-KMC2omuH5/Screen-Shot-2023-02-13-at-3.36.50-PM.png\" title=\"Screen-Shot-2023-02-13-at-3.36.50-PM.png\"><img src=\"/user_uploads/2/5a/QFmkHyGKt-XOpS-KMC2omuH5/Screen-Shot-2023-02-13-at-3.36.50-PM.png\"></a></div>",
+        "id": 74206,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1676331452
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"259\">Mira Berdahl</span> has marked this topic as resolved.</p>",
+        "id": 74211,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1676336873
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"259\">Mira Berdahl</span> has marked this topic as unresolved.</p>",
+        "id": 74212,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1676336890
+    },
+    {
+        "content": "<p>Just to say, this has been solved.<br>\nA couple things were missing:<br>\nthe transform argument was the main thing.  But also, regrid_shape was helpful with a polar projection. And finally, quiver wants numpy arrays, not xarray DataArrays, so I had to do .data .<br>\nCopied a working example below:</p>\n<div class=\"codehilite\"><pre><span></span><code>n_rows = 1\nn_cols = 3\n\nfig, axs = plt.subplots(nrows=n_rows, ncols = n_cols, figsize = (12,4), subplot_kw=dict(projection=ccrs.SouthPolarStereo()))\ncolor_sparse = np.sqrt(((v_ctrl)/2)**2 + ((u_ctrl)/2)**2)\n\naxs[0].coastlines(lw=0.2)\naxs[1].coastlines(lw=0.2)\naxs[2].coastlines(lw=0.2)\n\nq = axs[0].quiver(lon, lat, u_ctrl.data, v_ctrl.data, color_sparse.data, transform=ccrs.PlateCarree(), regrid_shape=150, scale = 100)\nq1 = axs[1].quiver(lon, lat, u_PIctrl.data, v_PIctrl.data, color_sparse.data, transform=ccrs.PlateCarree(), regrid_shape=150, scale = 100)\nq2 = axs[2].quiver(lon, lat, (u_ctrl - u_PIctrl).data, (v_ctrl-v_PIctrl).data, color_sparse.data, transform=ccrs.PlateCarree(), regrid_shape=150, scale = 100)\n\nfig.suptitle(&#39;SURFACE WINDS&#39;, fontsize = 18, y=0.999)\nfig.tight_layout()\n\naxs[0].set_title(&#39;Surface winds, 127kaCtrl&#39;)\naxs[1].set_title(&#39;Surface winds, PI Ctrl&#39;)\naxs[2].set_title(&#39;127kaCtrl - PI&#39;)\n\naxs[0].set_extent([-180, 180, -90,-45], ccrs.PlateCarree())\naxs[1].set_extent([-180, 180, -90,-45], ccrs.PlateCarree())\naxs[2].set_extent([-180, 180, -90,-45], ccrs.PlateCarree())\n\nplt.show()\n</code></pre></div>",
+        "id": 74213,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1676338012
+    },
+    {
+        "content": "<p><span class=\"user-mention silent\" data-user-id=\"259\">Mira Berdahl</span> has marked this topic as resolved.</p>",
+        "id": 74214,
+        "sender_full_name": "Notification Bot",
+        "timestamp": 1676338027
+    },
+    {
+        "content": "<blockquote>\n<p>And finally, quiver wants numpy arrays, not xarray DataArrays,</p>\n</blockquote>\n<p>There is <a href=\"https://docs.xarray.dev/en/stable/user-guide/plotting.html#quiver\">Dataset.plot.quiver</a></p>",
+        "id": 74215,
+        "sender_full_name": "Deepak Cherian",
+        "timestamp": 1676342399
+    }
+]

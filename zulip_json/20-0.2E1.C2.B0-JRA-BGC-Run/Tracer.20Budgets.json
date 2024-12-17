@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I noticed tracer budgets as an item on the <a href=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis\" target=\"_blank\" title=\"https://github.com/marbl-ecosys/HiRes-CESM-analysis\">Hi-Res-CESM-analysis</a> diagnostics package list and thought to share initial attempts and issues found while working with the 5 year CORE-forced 0.1º runs. </p>\n<p>The main issue so far for demonstrating budget closure is that not all budget terms are available for all tracers. e.g. for O2, all budget terms were available  in the Annual Cycle CORE-forced runs except <code>TEND_O2</code>. <span class=\"user-mention\" data-user-id=\"14\">@Matt Long</span> pointed out that <code>TEND_O2</code> is now saved as output in the current runs in progress, but <code>HDIFE_O2</code> and <code>HDIFN_O2</code> don't seem to be. The latter's contributions are generally small and I concur that they are not a priority given storage constraints, but I  wonder if it is worth or feasible saving a short (~month-long) period with all budget terms output to demonstrate budget closure? or perhaps just for one tracer but for the whole run?</p>",
+        "id": 16133,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1598406208
+    },
+    {
+        "content": "<p>Here is an <a href=\"https://gist.github.com/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8\" target=\"_blank\" title=\"https://gist.github.com/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8\">O2 budget notebook</a> adapted to outputs from the 0004 run in progress, showing the O2 budget \"visually\" closes, with a residual that has the expected spatial patterns and magnitude of <code>HDIFE_O2</code> and <code>HDIFN_O2</code> (based on the CORE-Forced runs). I have computed the budget terms via simple <code>xarray.roll</code> operations as well as using <code>XGCM</code> with the <code>metrics</code> functionality. Besides some minor differences along the edges, they yield similar results. A review and comments/suggestions on the notebook and/or methods are very welcome.</p>",
+        "id": 16134,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1598406407
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"84\">@Yassir Eddebbar</span> , thanks for chiming in.<br>\nMy rationale for excluding the <code>HDIFE</code> and <code>HDIFN</code> terms for tracers is that because the mixing coefficients are constant in time, these terms can be computed exactly offline from the tracer values. That's the conclusion I came to from inspecting the code.<br>\nAre you saying that when you attempt to close the budget with <code>HDIFE</code> and <code>HDIFN</code> computed using <code>xgcm</code>, that the mismatch is similar to omitting <code>HDIFE</code> and <code>HDIFN</code>. That sounds worrisome. But maybe I'm misunderstanding what you meant.</p>",
+        "id": 16135,
+        "sender_full_name": "Keith Lindsay",
+        "timestamp": 1598407263
+    },
+    {
+        "content": "<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span> ,  sorry I should clarify. The <code>HDIFE</code>  and  <code>HDIFN</code>  terms were not included/calculated in XGCM, so the mismatch being similar to omitting them is expected since they were omitted in the budget sum in the notebook, so I don't think this is worrisome.</p>",
+        "id": 16163,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1598461324
+    },
+    {
+        "content": "<blockquote>\n<p><span class=\"user-mention silent\" data-user-id=\"84\">Yassir Eddebbar</span> , thanks for chiming in.<br>\nMy rationale for excluding the <code>HDIFE</code> and <code>HDIFN</code> terms for tracers is that because the mixing coefficients are constant in time, these terms can be computed exactly offline from the tracer values. That's the conclusion I came to from inspecting the code.</p>\n</blockquote>\n<p><span class=\"user-mention\" data-user-id=\"31\">@Keith Lindsay</span>  that sounds good. Are the mixing coefficients spatially variable?  Happy to jump on a call to discuss more.</p>",
+        "id": 16244,
+        "sender_full_name": "Yassir Eddebbar",
+        "timestamp": 1598542412
+    }
+]

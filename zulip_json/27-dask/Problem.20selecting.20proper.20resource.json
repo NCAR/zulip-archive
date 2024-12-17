@@ -1,0 +1,44 @@
+[
+    {
+        "content": "<p>I'm not sure if this is a <code>dask</code> problem, a JupyterHub problem, or a PBS issue... <span class=\"user-mention\" data-user-id=\"154\">@Jared Baker</span>, I'm tagging you in case it's a Hub or PBS problem, since I don't know if you check out this channel regularly. I was chatting with <span class=\"user-mention\" data-user-id=\"199\">@Holly Olivarez</span>, who ran into this issue first, but I was able to reproduce it on my own:</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"kn\">from</span> <span class=\"nn\">dask_jobqueue</span> <span class=\"kn\">import</span> <span class=\"n\">PBSCluster</span>\n<span class=\"kn\">from</span> <span class=\"nn\">dask.distributed</span> <span class=\"kn\">import</span> <span class=\"n\">Client</span>\n\n<span class=\"n\">cluster</span> <span class=\"o\">=</span> <span class=\"n\">PBSCluster</span><span class=\"p\">(</span>\n    <span class=\"n\">cores</span><span class=\"o\">=</span><span class=\"mi\">36</span><span class=\"p\">,</span>\n    <span class=\"n\">memory</span><span class=\"o\">=</span><span class=\"s1\">'300 GB'</span><span class=\"p\">,</span>\n    <span class=\"n\">processes</span><span class=\"o\">=</span><span class=\"mi\">9</span><span class=\"p\">,</span>\n    <span class=\"n\">resource_spec</span><span class=\"o\">=</span><span class=\"s1\">'select=1:ncpus=36:mem=300GB'</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n\n<span class=\"n\">cluster</span><span class=\"o\">.</span><span class=\"n\">scale</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>Works fine</p>\n<div class=\"codehilite\" data-code-language=\"Python\"><pre><span></span><code><span class=\"n\">client</span> <span class=\"o\">=</span> <span class=\"n\">Client</span><span class=\"p\">(</span><span class=\"n\">cluster</span><span class=\"p\">)</span>\n</code></pre></div>\n<p>fails with</p>\n<div class=\"codehilite\"><pre><span></span><code>RuntimeError: Command exited with non-zero exit code.\nExit code: 1\nCommand:\nqsub /glade/scratch/mlevy/tmpdir/tmpaxepzplf.sh\nstdout:\nThere was a problem selecting the proper resource. Please open a research computing ticket.\n\nstderr:\n</code></pre></div>\n<p>this is dask <code>2022.01.0</code>, not sure if it would be useful to have version numbers from anything else. I was using the Hub to run from a Casper PBS node, and Holly was on the Casper login node.</p>\n<p>Has anyone seen this before? As mentioned early in this stream (but a different topic), this <code>PBSCluster()</code> command was working fine just a few days ago... I believe out of the same conda environment I'm using to reproduce Holly's error.</p>",
+        "id": 53056,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648825076
+    },
+    {
+        "content": "<p>where are you running on? JupyterHub Stable?</p>",
+        "id": 53057,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1648825129
+    },
+    {
+        "content": "<p>yup, JupyterHub Stable</p>",
+        "id": 53058,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648825194
+    },
+    {
+        "content": "<p>okay. I know where that message comes from. Give me just a few seconds.</p>",
+        "id": 53059,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1648825225
+    },
+    {
+        "content": "<p>What about now?</p>",
+        "id": 53060,
+        "sender_full_name": "Jared Baker",
+        "timestamp": 1648825526
+    },
+    {
+        "content": "<p>looks like it's working, thanks! (I needed to add the <code>queue</code> argument, but that's probably an issue in my configuration :)</p>",
+        "id": 53061,
+        "sender_full_name": "Michael Levy",
+        "timestamp": 1648825762
+    },
+    {
+        "content": "<p>Yeah, it looks to me like the queuing system was not getting sufficient information (i.e., the queue!).</p>",
+        "id": 53085,
+        "sender_full_name": "Matt Long",
+        "timestamp": 1648828728
+    }
+]

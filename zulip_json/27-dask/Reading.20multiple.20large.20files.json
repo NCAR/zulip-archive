@@ -1,0 +1,14 @@
+[
+    {
+        "content": "<p>Hi,<br>\nI'm trying to read in some large, high resolution (0.1deg), ocean (POP) output.<br>\nIn the past, I've used the following without issue (with 1deg ocean), but the 0.1deg files are bigger and so it stalls out and crashes. Can anyone help me optimize this so it runs more efficiently? I'm running on JupyterHub.</p>\n<p>import numpy as np<br>\nimport xarray as xr<br>\n#from matplotlib import pyplot as plt<br>\nimport <a href=\"http://cartopy.crs\">cartopy.crs</a> as ccrs<br>\nimport nc_time_axis as nc_time_axis<br>\nimport cmocean<br>\nimport zarr<br>\nimport <a href=\"http://numpy.ma\">numpy.ma</a> as ma<br>\nimport pop_tools</p>\n<p>import matplotlib.pyplot as plt<br>\nfrom distributed import Client<br>\nfrom ncar_jobqueue import NCARCluster</p>\n<h1>on cheyenne</h1>\n<p>cluster = NCARCluster(project = 'ULNL0002', memory=\"125GB\", walltime='1:00:00', cores=4, processes=4, resource_spec='select=1:ncpus=4:mem=125GB')<br>\ncluster.scale(32)<br>\n#cluster.adapt(minimum_jobs=1, maximum_jobs=5)<br>\nclient = Client(cluster)<br>\ncluster</p>\n<p>#############################################################################################################<br>\nfrom glob import glob</p>\n<p>################### READ 0.1degree data ######################################################<br>\nddir = '/glade/campaign/collections/cmip/CMIP6/CESM-HR/BHIST/HR/b.e13.BHISTC5.ne120_t12.cesm-ihesp-sehires38-1850-2005.001/ocn/proc/tseries/month_1/'<br>\ndfiles = sorted(glob(ddir + '<em>.TEMP.</em>.nc'))  # use sorted to make sure the files are in order for concatenation</p>\n<h4>a tried and true method from Anderson.</h4>\n<p>mfds = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={'time': 6}, data_vars=['TEMP', 'time_bound'], decode_times=False) <br>\nmfds = xr.decode_cf(fixmonth(mfds)) <br>\nmfds<br>\n############################################################################################</p>",
+        "id": 93321,
+        "sender_full_name": "Mira Berdahl",
+        "timestamp": 1702074408
+    },
+    {
+        "content": "<p>If you are loading a larger amount of data, I would increase the number of CPUs and memory you are requesting so that you can take advantage of parallelism and larger nodes. If you are running on casper, you can ask for up to 384 GB and 36 CPUs per node. </p>\n<p>If that doesn't work, then I would suggest performing analysis in a way that does not require opening all the files at once. You may have to write a more manual loop instead of using open_mfdataset.</p>",
+        "id": 93367,
+        "sender_full_name": "David John Gagne",
+        "timestamp": 1702312005
+    }
+]
