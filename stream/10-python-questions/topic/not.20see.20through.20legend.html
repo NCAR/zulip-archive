@@ -5,43 +5,42 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="31140"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31140" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31140">(May 10 2021 at 23:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31140" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31140">(May 10 2021 at 23:34)</a>:</h4>
 <p>Hi all, I'm struggling with this: I'd like to put a legend on my plot that is not see through. I tried facecolor white, frameaalpha=1, whichever I do the legend it still see through. I also tried to put a white patch where the legend is and put the legend on top, but I can't make it go over the patch. =/ anyone knows how to make it so that my legend sits in a nice white box on top / covering that part of the figure?</p>
 
 
 
 <a name="31141"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31141" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31141">(May 10 2021 at 23:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31141" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31141">(May 10 2021 at 23:36)</a>:</h4>
 <p><code>facealpha</code> or <code>alpha</code>?</p>
 
 
 
 <a name="31142"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31142" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31142">(May 11 2021 at 01:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31142" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31142">(May 11 2021 at 01:45)</a>:</h4>
 <p>nope, facealpha doesn't exist, alpha is an unexpected keyword</p>
 
 
 
 <a name="31144"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31144" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31144">(May 11 2021 at 05:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31144" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31144">(May 11 2021 at 05:11)</a>:</h4>
 <p>Try <code>plt.legend(facecolor='white', framealpha=1)</code>, from <a href="https://stackoverflow.com/questions/19863368/matplotlib-legend-background-color" target="_blank" title="https://stackoverflow.com/questions/19863368/matplotlib-legend-background-color">https://stackoverflow.com/questions/19863368/matplotlib-legend-background-color</a></p>
 
 
 
 <a name="31146"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31146" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31146">(May 11 2021 at 14:05)</a>:</h4>
-<p><a href="/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a>  doesn't work for me, the same with plt. doesn't work either</p>
-<div class="message_inline_image"><a href="/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png"></a></div>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31146" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31146">(May 11 2021 at 14:05)</a>:</h4>
+<p><a href="../../../user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a>  doesn't work for me, the same with plt. doesn't work either</p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png" target="_blank" title="pasted image"><img src="../../../user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png"></a></div>
 
 
 
 <a name="31147"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31147" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31147">(May 11 2021 at 14:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31147" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31147">(May 11 2021 at 14:14)</a>:</h4>
 <p>Try this</p>
 <div class="codehilite"><pre><span></span>legend = plt.legend(loc=&#39;upper left&#39;, frameon=1, framealpha=1)
 frame = legend.get_frame()
@@ -51,38 +50,38 @@ frame.set_color(&#39;white&#39;)
 
 
 <a name="31148"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31148" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31148">(May 11 2021 at 14:34)</a>:</h4>
-<p>Thanks <span class="user-mention" data-user-id="134">@Max Grover</span> , that works. I think the key here is that I have two axes, so I have to gather my labels and use <code>plt.legend()</code> rather than <code>ax.legend()</code>. <a href="/user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png"></a></div>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31148" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31148">(May 11 2021 at 14:34)</a>:</h4>
+<p>Thanks <span class="user-mention" data-user-id="134">@Max Grover</span> , that works. I think the key here is that I have two axes, so I have to gather my labels and use <code>plt.legend()</code> rather than <code>ax.legend()</code>. <a href="../../../user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png" target="_blank" title="pasted image"><img src="../../../user_uploads/2/6d/p9PjIT1tEP-AzL8S2z7dQxZt/pasted_image.png"></a></div>
 
 
 
 <a name="31150"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31150" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31150">(May 11 2021 at 14:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31150" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31150">(May 11 2021 at 14:36)</a>:</h4>
 <p>Awesome- I will add this onto the FAQ page. Thanks for bringing up this question - I am sure plenty of other people have had similar struggles with the nuances of matplotlib!</p>
 
 
 
 <a name="31181"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31181" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31181">(May 11 2021 at 16:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31181" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31181">(May 11 2021 at 16:13)</a>:</h4>
 <blockquote>
-<p><a href="/user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a>  doesn't work for me, the same with plt. doesn't work either</p>
+<p><a href="../../../user_uploads/2/a4/kgE45-QLBd74turFV3qifzY8/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a>  doesn't work for me, the same with plt. doesn't work either</p>
 </blockquote>
 <p>ah I see what's happening, the second axis is on top of the first axis (which has the legend), so those colored bars are on top of the legend. if you change the <code>zorder</code> for the second axis, it should work the easy way. I bet Max's solution is adding the legend on the second axis, so it works. I also bet the <code>get_frame</code> workaround isn't doing anything.</p>
 
 
 
 <a name="31183"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31183" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31183">(May 11 2021 at 16:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31183" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31183">(May 11 2021 at 16:14)</a>:</h4>
 <p>correct, it works with the commented line as well (though that way it has a frame around the legend that I didn't like). How do I change <code>zorder</code></p>
 
 
 
 <a name="31184"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31184" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31184">(May 11 2021 at 16:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/not%20see%20through%20legend/near/31184" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/not.20see.20through.20legend.html#31184">(May 11 2021 at 16:16)</a>:</h4>
 <p><code>ax.set_zorder(-1)</code>? There's some subtlety here. If the background for the first axis is not transparent, you wouldn't see it. I would just add the legend after doing the <code>fill_*</code> call (which is what <code>plt.legend</code> is doing)</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

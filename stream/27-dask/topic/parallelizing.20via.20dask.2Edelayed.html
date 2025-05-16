@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="54439"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54439" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54439">(Apr 29 2022 at 22:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54439">(Apr 29 2022 at 22:37)</a>:</h4>
 <p>I have a class that has a <code>.run(nsteps)</code> method and that method creates / populates <code>self._ds</code> (an xarray Dataset). So <code>large_obj._ds</code> does not exist when you initialize <code>large_obj</code>, but it gets created when you run <code>large_obj.run(nsteps)</code>.</p>
 <p>Class objects have datasets with an <code>X</code> dimension, and instead of just having a single object where <code>X=81000</code>, I've constructed a list of 9 objects each with <code>X=9000</code>. I was thinking that I could just do</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">tmp_list</span><span class="o">=</span><span class="p">[]</span>
@@ -35,26 +34,26 @@
 
 
 <a name="54442"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54442" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54442">(Apr 30 2022 at 03:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54442" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54442">(Apr 30 2022 at 03:02)</a>:</h4>
 <p>For (2) you probably have to save the return value from <code>dask.compute</code>. If you're using <code>distributed</code>, it communicates over the network interface and ends up copying objects. So the thing you send is not the thing you get back.</p>
 <p>For (1) I would try changing the dask version either up or down. Things are. moving. quite rapidly, so it could just be a bug.</p>
 
 
 
 <a name="54444"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54444" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54444">(May 02 2022 at 14:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54444" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54444">(May 02 2022 at 14:54)</a>:</h4>
 <p>I updated to the latest <code>dask</code> (I think I went from a Dec 2021 release to Apr 2022), and the problem persisted. I tried to make a simple example that mimicked the structure of my code, but it ran fine... some it seems likely the issue is in code I wrote. Bummer.</p>
 
 
 
 <a name="54445"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54445" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54445">(May 02 2022 at 15:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54445" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54445">(May 02 2022 at 15:05)</a>:</h4>
 <p>Although I realize I was running my test case on a (casper) login node and the actual notebook on a compute node -- if I start on the login node for the actual code, I get <code>StreamClosedError</code> instead of the <code>CancelledError</code>; in that case, it does look like the jobs are being sent out to the cluster, and the error is thrown when the tasks return results</p>
 
 
 
 <a name="54451"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54451" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54451">(May 02 2022 at 16:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54451" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54451">(May 02 2022 at 16:31)</a>:</h4>
 <p>Can you run a small subset of your problem in serial? </p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s2">"sync"</span><span class="p">):</span>
     <span class="n">dask</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -64,7 +63,7 @@
 
 
 <a name="54452"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54452" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54452">(May 02 2022 at 16:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54452" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54452">(May 02 2022 at 16:33)</a>:</h4>
 <p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I can try that, but currently I'm running with</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feisty_drivers</span><span class="p">)):</span>
     <span class="n">tmp_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dask</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">feisty_drivers</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">run</span><span class="p">)(</span><span class="n">nsteps</span><span class="p">,</span><span class="n">return_ds</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
@@ -79,31 +78,31 @@
 
 
 <a name="54454"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54454" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54454">(May 02 2022 at 16:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54454" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54454">(May 02 2022 at 16:54)</a>:</h4>
 <p>Yup, calling <code>dask.compute(*tmp_output)</code> with <code>dask.config.set(scheduler="sync")</code> ran fine (and even dumped output from my <code>.run()</code> function to <code>stdout</code> instead of losing it to the void / log files that I never look at)</p>
 
 
 
 <a name="54455"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54455" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54455">(May 02 2022 at 17:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54455" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54455">(May 02 2022 at 17:02)</a>:</h4>
 <p>and does <code>results = dask.persist(*tmp_output)</code> succeed? or is that when the errors start? Either way it looks like something weird in distributed.</p>
 
 
 
 <a name="54462"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54462" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54462">(May 02 2022 at 17:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54462" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54462">(May 02 2022 at 17:09)</a>:</h4>
 <p><code>results = dask.persist(*tmp_output)</code> succeeds, but it returns a list of <code>Delayed</code> objects; I know the <code>Delayed</code> objects are all lists of <code>Datasets</code>, but I've been using the <code>feisty_drivers[n]._ds = tmp.compute()</code> to actually access the lists. Is there a better option on that end? <code>tmp.load()</code>?</p>
 
 
 
 <a name="54478"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54478" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54478">(May 02 2022 at 19:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54478" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54478">(May 02 2022 at 19:05)</a>:</h4>
 <p>So is <code>feisty_drivers[n]._ds = tmp.compute()</code> where it fails?</p>
 
 
 
 <a name="54479"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54479" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54479">(May 02 2022 at 19:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54479" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54479">(May 02 2022 at 19:18)</a>:</h4>
 <p>Sorry, it got confusing since I was testing a few different things out while trying to keep this thread up-to-date. Hopefully this summary will make sense... consider</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">def</span> <span class="nf">methodA</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feisty_drivers</span><span class="p">)):</span>
@@ -127,13 +126,13 @@
 
 
 <a name="54480"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54480" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54480">(May 02 2022 at 19:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54480" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54480">(May 02 2022 at 19:19)</a>:</h4>
 <p>and yes, the error is always in the <code>results = dask.compute(*tmp_output)</code> or <code>feisty_drivers[n]._ds = tmp.compute()</code> line; <code>dask.persist()</code> seems to be okay.</p>
 
 
 
 <a name="54491"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54491" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54491">(May 03 2022 at 12:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54491" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54491">(May 03 2022 at 12:24)</a>:</h4>
 <p>Not sure I follow everything, but perhaps wrapping the driver in a function would help?</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">def</span> <span class="nf">run_feisty</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
   <span class="n">obj</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
@@ -143,13 +142,13 @@
 
 
 <a name="54492"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54492" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54492">(May 03 2022 at 12:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54492" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54492">(May 03 2022 at 12:24)</a>:</h4>
 <p>then run <code>dask.delayed</code> on that function?</p>
 
 
 
 <a name="54493"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54493" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54493">(May 03 2022 at 12:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54493" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54493">(May 03 2022 at 12:51)</a>:</h4>
 <p>Or do you need to scatter first?</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">objs_delayed</span> <span class="o">=</span> <span class="p">[</span><span class="n">client</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">]</span>
 
@@ -162,16 +161,16 @@
 
 
 <a name="54499"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54499" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54499">(May 03 2022 at 16:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54499" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54499">(May 03 2022 at 16:04)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> one idea that came out of talking with <span class="user-mention" data-user-id="25">@Deepak Cherian</span> was to try to use <code>xr.map_blocks</code> -- <code>map_blocks()</code> will pass numpy arrays through even if they aren't dask-ified, so it will actually turn into a much cleaner interface. This is still a work in progress, but I think I'll just need to add a <code>parallel</code> argument to <code>.run()</code> that will chunk the forcing / domain / <code>state_t</code> datasets (and maybe refactor <code>_solve()</code> some)</p>
 
 
 
 <a name="54500"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54500" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54500">(May 03 2022 at 16:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/parallelizing%20via%20dask.delayed/near/54500" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/parallelizing.20via.20dask.2Edelayed.html#54500">(May 03 2022 at 16:05)</a>:</h4>
 <p>Using dask in<code>self._ds</code> is preferable to splitting that dataset into several small ones and then trying to concatenate them on the back end (in some of my tests, the <code>xr.concat()</code> was eating into a significant portion of the time savings from parallelization)</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

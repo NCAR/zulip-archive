@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>A ticket was created about Dask workers hitting walltime but still having completed their work earlier. Because of this, they abort non-gracefully and then generate excessive email warnings.</p>\n<p>Is there an agreed upon way to terminate Dask jobs cleanly to ensure efficient use of compute resources but also avoid those emails? See <a href=\"https://dask.discourse.group/t/trying-to-shutdown-workers-with-completed-tasks-in-order-to-reduce-costs/3523\">this Dask Discourse thread</a> for related discussion and possible solution.</p>\n<p>I know using <code>cluster = PBSCluster(..., job_extra_directives = ['-m n']) </code> should fix email problem but that's not ideal.</p>",
+        "id": 106116,
+        "sender_full_name": "Daniel Howard",
+        "timestamp": 1744829346
+    },
+    {
+        "content": "<p>I usually run:</p>\n<div class=\"codehilite\"><pre><span></span><code>client.close()\ncluster.close()\n</code></pre></div>\n<p>at the bottom of a notebook when I'm done working to shutdown my dask workers. But I guess this requires that extra step of manually closing. It would be interesting to explore an automated solution (that doesn't involve letting the wallclock run out).</p>",
+        "id": 106121,
+        "sender_full_name": "Katie Dagon",
+        "timestamp": 1744927320
+    },
+    {
+        "content": "<p>Thanks. Per some of the threads online, those commands didn't appear to always give an \"error-free\" exit despite yes, the commands actually closing each Dask task. I see the worker.close() command so maybe that would be helpful to try too if placed at the end of a set of work assigned to a worker. <a href=\"https://distributed.dask.org/en/stable/worker.html\">https://distributed.dask.org/en/stable/worker.html</a></p>\n<p>I'll share with Fred C and maybe update here if they recommend differently.</p>",
+        "id": 106124,
+        "sender_full_name": "Daniel Howard",
+        "timestamp": 1745013221
+    }
+]

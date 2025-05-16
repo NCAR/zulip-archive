@@ -1,0 +1,20 @@
+[
+    {
+        "content": "<p>I am looking at an xarray routine that internally computes cell boundaries.  Then the next routine complains that the<br>\ncell boundaries are not monotonic.   It looks to me like a roundoff error and I wonder if anyone here knows how to avoid it?<br>\nThe cell bounds in question are below.  <br>\n       [ -1.8848168 ,  -0.9424084 ],<br>\n       [ -0.94240844,   0.        ],<br>\n       [  0.        ,   0.94240844],<br>\n       [  0.9424084 ,   1.8848168 ],</p>\n<p>The routine that calculates these boundaries is open_mfdataset with argument  add_bounds=[\"X\", \"Y\"]</p>",
+        "id": 105882,
+        "sender_full_name": "Jim Edwards",
+        "timestamp": 1742237881
+    },
+    {
+        "content": "<p>Do you have test/sample data I can work though?</p>",
+        "id": 105885,
+        "sender_full_name": "Thomas Martin",
+        "timestamp": 1742321133
+    },
+    {
+        "content": "<p>Are you using xcdat for your first routine? <code>add_bounds</code> is not functionality default in xarray.</p>\n<p>xcdat appears to calculate a naive linear interpolation between your grid coords, ie <code>0.5 * (x_2 - x_1)</code>. This approach is simple but potentially a.) not a realistic representation for curvilinear grids and b.) susceptible to imprecise math. If this is fine for your approach, you could try manually rounding a few digits off your calculated boundaries. This may minorly exaggerate the existing error of this linear grid spacing approximation.</p>\n<p>You could also open up an issue on the xcdat GitHub to see what other folks are doing or recommend, but this doesn't seem to necessarily be a bug on their end.</p>\n<p>I might consider other methods for calculating cell boundaries, or getting that information from the underlying model or grid specifications.</p>\n<p>Echoing Thomas: providing sample code, data, and your traceback could also illuminate potential solutions in your dependent routine as well.</p>",
+        "id": 105894,
+        "sender_full_name": "Drew Camron",
+        "timestamp": 1742327953
+    }
+]

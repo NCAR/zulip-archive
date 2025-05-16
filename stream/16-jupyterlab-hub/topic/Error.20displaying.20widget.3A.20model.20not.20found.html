@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="80053"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80053" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80053">(Apr 28 2023 at 00:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80053" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80053">(Apr 28 2023 at 00:22)</a>:</h4>
 <p>Hi everyone, </p>
 <p>I'm using a self-created conda environment that explicitly installs dask_jobqueue and  ipywidgets.   It also includes jupyterlab and a bunch of extensions, but I'm not installing these packages explicitly; they are somehow being installed as a dependencies to other packages.  </p>
 <p>When I am using this conda environment in jupyterhub, I am unable to see the distributed client widget after running this code; instead I get the error message "Error displaying widget: model not found":</p>
@@ -35,19 +34,19 @@ cluster
 
 
 <a name="80054"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80054" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80054">(Apr 28 2023 at 14:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80054" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80054">(Apr 28 2023 at 14:14)</a>:</h4>
 <p>I've seen it and suspect its a version mismatch between your env and the hub. The <code>client</code> repr works so i didn't look for a workaround</p>
 
 
 
 <a name="80066"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80066" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80066">(Apr 28 2023 at 17:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80066" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80066">(Apr 28 2023 at 17:00)</a>:</h4>
 <p>OK, thanks!   I have not been using the hub much over the past couple of years and always used my custom environment before that.   If there is some special package that I want to use not available from those provided, is it up to me to provide a complete env that does not conflict with the hub's jupyter settings?</p>
 
 
 
 <a name="80092"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80092" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80092">(Apr 28 2023 at 20:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/80092" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#80092">(Apr 28 2023 at 20:49)</a>:</h4>
 <p>After some trial and error, it looks like if the custom environment includes the <code>ipywidgets</code> package, then <code>jupyterlab</code> and some associated packages also get installed.   </p>
 <p>Having <code>jupyterlab</code> installed in a custom conda environment appears to create conflicts with jupyterhub settings, which is probably to be expected. </p>
 <p>If <code>jupyterlab</code> and other jupyter-related packages are not in the custom environment, then the Client widget is displayed properly for me.</p>
@@ -55,7 +54,7 @@ cluster
 
 
 <a name="85415"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85415" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dhamma Kimpara (he/him) <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85415">(Jul 11 2023 at 22:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85415" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dhamma Kimpara (he/him) <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85415">(Jul 11 2023 at 22:19)</a>:</h4>
 <p>I've seen this previous post <a href="#narrow/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found/near/80053">https://zulip2.cloud.ucar.edu/#narrow/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found/near/80053</a></p>
 <p>but I tried making a fresh environment making sure no jupyterlab/notebook dependencies were installed. I still get <code>Error displaying widget: model not found</code></p>
 <p>Here is the code I'm testing the packaging with from this <a href="https://stackoverflow.com/questions/63384326/how-to-update-interactive-figure-in-loop-with-jupyterlab/63517891#63517891">stackx</a>:</p>
@@ -83,13 +82,13 @@ loop.create_task(update());
 
 
 <a name="85429"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85429" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85429">(Jul 12 2023 at 15:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85429" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85429">(Jul 12 2023 at 15:38)</a>:</h4>
 <p>When you try "conda activate" and "conda list | grep jupyter", do you see any jupyter-related packages?</p>
 
 
 
 <a name="85458"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85458" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dhamma Kimpara (he/him) <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85458">(Jul 12 2023 at 17:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85458" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dhamma Kimpara (he/him) <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85458">(Jul 12 2023 at 17:18)</a>:</h4>
 <p>i see:</p>
 <div class="codehilite"><pre><span></span><code>jupyter_client
 jupyter_core
@@ -99,10 +98,10 @@ jupyterlab_widgets
 
 
 <a name="85459"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85459" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85459">(Jul 12 2023 at 17:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20displaying%20widget%3A%20model%20not%20found/near/85459" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20displaying.20widget.3A.20model.20not.20found.html#85459">(Jul 12 2023 at 17:30)</a>:</h4>
 <p>I don't have much experience with updating an interactive figure in a loop.   I do see some ESDS blog posts on the topic, maybe it is worth trying a different example using holoviews or hvplot.    See for example:   <a href="https://ncar.github.io/esds/posts/2021/intake-esm-holoviews-diagnostics/">https://ncar.github.io/esds/posts/2021/intake-esm-holoviews-diagnostics/</a></p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

@@ -5,18 +5,17 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="54112"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54112" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Falko Judt <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54112">(Apr 26 2022 at 20:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54112" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Falko Judt <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54112">(Apr 26 2022 at 20:12)</a>:</h4>
 <p>Hi folks, I'm wondering if anyone has computed spherical harmonics in Python from model output. So far I have used NCL's shaeC.  I see that there is the pyspharm package, and will probably try that if there isn't a GeoCAT function that mimics the old NCL shaeC.</p>
 
 
 
 <a name="54113"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54113" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54113">(Apr 26 2022 at 20:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54113" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54113">(Apr 26 2022 at 20:35)</a>:</h4>
 <p><span class="user-mention" data-user-id="97">@Alea Kootz</span> is working on something related to this for the <span class="user-group-mention" data-user-group-id="1">@geocat</span> team after I had requested functionality to replicate NCL's <a href="https://www.ncl.ucar.edu/Document/Functions/Built-in/gradsf.shtml">gradsf</a> function which I used to calculate lat/lon gradients on a fixed grid. Relevant Github issues are pasted below, and there may be something coming via geocat-comp:<br>
 <a href="https://github.com/NCAR/geocat-comp/issues/215">https://github.com/NCAR/geocat-comp/issues/215</a><br>
 <a href="https://github.com/NCAR/geocat-comp/issues/147">https://github.com/NCAR/geocat-comp/issues/147</a></p>
@@ -24,31 +23,31 @@
 
 
 <a name="54156"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54156" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54156">(Apr 26 2022 at 23:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54156" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54156">(Apr 26 2022 at 23:25)</a>:</h4>
 <p><span class="user-mention" data-user-id="273">@Falko Judt</span> Yes there is a spherical harmonics decomposition and recomposition set of functions in geocat-comp. They were released last month. :)</p>
 
 
 
 <a name="54157"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54157" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54157">(Apr 26 2022 at 23:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54157" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54157">(Apr 26 2022 at 23:27)</a>:</h4>
 <p><a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.spherical.decomposition.html#geocat.comp.spherical.decomposition">https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.spherical.decomposition.html#geocat.comp.spherical.decomposition</a></p>
 
 
 
 <a name="54255"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54255" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Falko Judt <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54255">(Apr 27 2022 at 17:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54255" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Falko Judt <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54255">(Apr 27 2022 at 17:47)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="97">@Alea Kootz</span> and <span class="user-mention" data-user-id="47">@Katie Dagon</span>! I think this is exactly what I need.</p>
 
 
 
 <a name="54257"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54257" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54257">(Apr 27 2022 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/54257" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#54257">(Apr 27 2022 at 17:49)</a>:</h4>
 <p>Let me know if you have any questions.</p>
 
 
 
 <a name="55499"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55499" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Falko Judt <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55499">(May 23 2022 at 21:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55499" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Falko Judt <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55499">(May 23 2022 at 21:34)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="97">@Alea Kootz</span> &amp; <span class="user-group-mention" data-user-group-id="1">@geocat</span> ! So I tried to use <code>geocat.comp.spherical.decomposition</code> in the same way I used <code>sheaC</code> in NCL. But there are some issues. </p>
 <p>In NCL, I provided the data on a fixed lat-lon grid (this is the only way the NCL function works), <code>geocat.comp.spherical.decomposition</code> seems to be more general, and so one needs to create weights beforehand with <code>geocat.comp.spherical.scale_voronoi</code>. This is where I'm stuck...</p>
 <p>Here's what I did:</p>
@@ -76,22 +75,22 @@ gc.spherical.decomposition(data, weights, lons1, lats1)
 
 
 <a name="55500"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55500" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55500">(May 23 2022 at 21:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55500" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55500">(May 23 2022 at 21:36)</a>:</h4>
 <p><span class="user-mention" data-user-id="273">@Falko Judt</span>  Check what you are doing with the broadcast you should only need to call it once.</p>
 
 
 
 <a name="55501"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55501" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55501">(May 23 2022 at 21:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55501" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55501">(May 23 2022 at 21:38)</a>:</h4>
 <p>And I would suggest using numpy.meshgrid instead of xr.broadcast for your 2d lat/lon arrays.</p>
 
 
 
 <a name="55505"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55505" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55505">(May 23 2022 at 21:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/spherical%20harmonics%20from%20lat-lon%20grid/near/55505" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid.html#55505">(May 23 2022 at 21:40)</a>:</h4>
 <p>see <a href="https://github.com/NCAR/geocat-comp/blob/main/test/test_spherical.py#L32">here</a> to understand how that works from the spherical.py test setup.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

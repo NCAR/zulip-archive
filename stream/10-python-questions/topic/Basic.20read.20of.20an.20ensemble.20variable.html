@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="39993"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39993" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39993">(Aug 17 2021 at 22:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39993" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39993">(Aug 17 2021 at 22:32)</a>:</h4>
 <p>Greetings, sorry for the silly question, but I'm having a really hard time trying to read an ensemble of files. I'm just trying to read timeseries files of a variable which is a standard 1deg atmosphere variable, 60 timesamples but 250 ensemble members. </p>
 <p>I can do a standard loop with single level variables, but with a multiple level variable, the whole thing comes to a halt.</p>
 <p>So I make an array of files and case names and tried to apply some dask techniques. I thought it worked by now it keeps failing.   And it never seems to use more than 1GB of memory, which may be the problem.</p>
@@ -60,7 +59,7 @@
 
 
 <a name="39998"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39998" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39998">(Aug 17 2021 at 23:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39998" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39998">(Aug 17 2021 at 23:08)</a>:</h4>
 <p><span class="user-mention" data-user-id="126">@Andrew Gettelman</span>, it appears accessing data in question is restricted i.e. I'm getting a <code>permission denied error</code>.  Are you able to adjust the read permissions?</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">src</span><span class="o">/</span><span class="n">netCDF4</span><span class="o">/</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">pyx</span> <span class="ow">in</span> <span class="n">netCDF4</span><span class="o">.</span><span class="n">_netCDF4</span><span class="o">.</span><span class="n">_ensure_nc_success</span><span class="p">()</span>
 
@@ -70,19 +69,19 @@
 
 
 <a name="39999"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39999" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39999">(Aug 17 2021 at 23:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/39999" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#39999">(Aug 17 2021 at 23:25)</a>:</h4>
 <p>Thanks Anderson. Sorry about that. I cannot change the permissions, but let me see if I can get them changed for read access.</p>
 
 
 
 <a name="40000"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40000" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40000">(Aug 18 2021 at 02:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40000" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40000">(Aug 18 2021 at 02:25)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , the permissions have been changed. Note that after some further digging the variable 'CCN3' does not work, but another variable (e.g. varn='soa_a1') does work. I'm wondering if I can speed it up more than I have, or there is a better way.  Thanks!</p>
 
 
 
 <a name="40253"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40253" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40253">(Aug 20 2021 at 02:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40253" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40253">(Aug 20 2021 at 02:17)</a>:</h4>
 <p>Usually this means that the coordinate variables in your files don't line up exactly. (the various warnings about splitting large chunks are a sign that something has gone wrong and you need to investigate).</p>
 <p>I checked this by adding <code>join="exact"</code> to your <code>open_mfdataset</code> call. That raised an error saying that the values for <code>lat</code> in the different files didn't agree exactly. (unfortunately xarray is a bit stupid here for now and doesn't allow you to change tolerance for this comparison yet)</p>
 <p>I then read two different files at random, it looked like the all dimensions: <code>lat, lon, time, lev</code> are exactly the same and all you are doing is concatenating along a new dimension <code>ensemble</code>.</p>
@@ -92,10 +91,10 @@
 
 
 <a name="40299"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40299" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40299">(Aug 20 2021 at 19:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Basic%20read%20of%20an%20ensemble%20variable/near/40299" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Gettelman <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Basic.20read.20of.20an.20ensemble.20variable.html#40299">(Aug 20 2021 at 19:45)</a>:</h4>
 <p>Thanks Deepak!  This is very helpful to know. I appreciate the help very much!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

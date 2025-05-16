@@ -5,16 +5,15 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="52903"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/52903" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#52903">(Mar 29 2022 at 22:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/52903" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#52903">(Mar 29 2022 at 22:56)</a>:</h4>
 <p>Hi,</p>
 <p>I'm loading in data with a script that previously worked (maybe a month or two ago). However, now I am getting an error that says Failed to deserialize, screenshot attached of the error.  </p>
-<p><a href="/user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png">Screen-Shot-2022-03-29-at-3.52.45-PM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png" title="Screen-Shot-2022-03-29-at-3.52.45-PM.png"><img src="/user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png"></a></div><p>The line of code that it does not seem to like is the first time I call:<br>
+<p><a href="../../../user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png">Screen-Shot-2022-03-29-at-3.52.45-PM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png" title="Screen-Shot-2022-03-29-at-3.52.45-PM.png"><img src="../../../user_uploads/2/df/YxZzK7dbR9QtbqXMQbCI2fMS/Screen-Shot-2022-03-29-at-3.52.45-PM.png"></a></div><p>The line of code that it does not seem to like is the first time I call:<br>
 mfds = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={'time':6}, preprocess=fixmonth)</p>
 <p>The cell is copied below in full:</p>
 <div class="codehilite"><pre><span></span><code>from glob import glob
@@ -57,13 +56,13 @@ vwind_ctrl = mfds2_fix.TAUY.mean(&#39;time&#39;)
 
 
 <a name="53001"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53001" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53001">(Mar 31 2022 at 16:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53001" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53001">(Mar 31 2022 at 16:10)</a>:</h4>
 <p>This looks like a dask issue. Can you print out <code>dask.__version__</code> The latest one is <code>2022.3.0</code> I think</p>
 
 
 
 <a name="53003"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53003" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53003">(Mar 31 2022 at 16:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53003" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53003">(Mar 31 2022 at 16:18)</a>:</h4>
 <p>It doesn't seem to even recognize dask,  I get:</p>
 <hr>
 <p>NameError                                 Traceback (most recent call last)<br>
@@ -74,13 +73,13 @@ Input In [25], in &lt;module&gt;<br>
 
 
 <a name="53004"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53004" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53004">(Mar 31 2022 at 16:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53004" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53004">(Mar 31 2022 at 16:23)</a>:</h4>
 <p>That means you haven't explicitly imported dask in your notebook. Use <code>import dask</code> first</p>
 
 
 
 <a name="53005"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53005" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53005">(Mar 31 2022 at 16:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53005" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53005">(Mar 31 2022 at 16:32)</a>:</h4>
 <p>Ok, thanks.  It looks like my version is <br>
 '2022.01.0'<br>
 Do I need to update this?</p>
@@ -89,7 +88,7 @@ Do I need to update this?</p>
 
 
 <a name="53006"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53006" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53006">(Mar 31 2022 at 16:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53006" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53006">(Mar 31 2022 at 16:36)</a>:</h4>
 <p>I think it would be good to update.</p>
 <blockquote>
 <p>do I always have to explicitly import dask into my notebook?</p>
@@ -99,56 +98,56 @@ Do I need to update this?</p>
 
 
 <a name="53009"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53009" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53009">(Mar 31 2022 at 16:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53009" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53009">(Mar 31 2022 at 16:50)</a>:</h4>
 <p>OK, that makes sense, thanks.<br>
 Do you recommend I use mamba for the update?</p>
 
 
 
 <a name="53012"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53012" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53012">(Mar 31 2022 at 16:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53012" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53012">(Mar 31 2022 at 16:54)</a>:</h4>
 <p>yes!</p>
 
 
 
 <a name="53026"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53026" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53026">(Mar 31 2022 at 21:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53026" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53026">(Mar 31 2022 at 21:18)</a>:</h4>
 <p>Hi Deepak,<br>
 Looks like the same problem persists despite the updated dask package... <br>
 Screenshot shows the updated version is being used:<br>
-<a href="/user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png">Screen-Shot-2022-03-31-at-2.16.33-PM-2.png</a> <br>
+<a href="../../../user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png">Screen-Shot-2022-03-31-at-2.16.33-PM-2.png</a> <br>
 Any other thoughts?<br>
 Thanks.</p>
-<div class="message_inline_image"><a href="/user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png" title="Screen-Shot-2022-03-31-at-2.16.33-PM-2.png"><img src="/user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png"></a></div>
+<div class="message_inline_image"><a href="../../../user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png" title="Screen-Shot-2022-03-31-at-2.16.33-PM-2.png"><img src="../../../user_uploads/2/62/zNbbBchiuhzq5zfdz78B2X1H/Screen-Shot-2022-03-31-at-2.16.33-PM-2.png"></a></div>
 
 
 
 <a name="53027"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53027" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53027">(Mar 31 2022 at 21:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53027" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53027">(Mar 31 2022 at 21:34)</a>:</h4>
 <p>Oops sorry. I have seen this before (<a href="https://github.com/pydata/xarray/issues/6226">https://github.com/pydata/xarray/issues/6226</a>). The issue was with <code>cftime</code> and/or <code>pandas</code>. Can you upgrade those two and try again.</p>
 
 
 
 <a name="53040"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53040" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53040">(Mar 31 2022 at 22:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53040" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53040">(Mar 31 2022 at 22:35)</a>:</h4>
 <p>Unfortunately the issue persists despite updating pandas and cftime...</p>
 
 
 
 <a name="53041"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53041" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53041">(Mar 31 2022 at 23:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53041" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53041">(Mar 31 2022 at 23:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="259">@Mira Berdahl</span>, which version of <code>pandas</code> are you running?</p>
 
 
 
 <a name="53042"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53042" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53042">(Mar 31 2022 at 23:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53042" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53042">(Mar 31 2022 at 23:06)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> Looks like it is '1.4.1'</p>
 
 
 
 <a name="53043"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53043" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53043">(Mar 31 2022 at 23:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53043" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53043">(Mar 31 2022 at 23:07)</a>:</h4>
 <p>try downgrading to version earlier than <code>v1.4.0</code> to see if your issue goes away </p>
 <div class="codehilite" data-code-language="Bash"><pre><span></span><code>mamba install <span class="s1">'pandas&lt;1.4.0'</span>
 </code></pre></div>
@@ -156,22 +155,22 @@ Thanks.</p>
 
 
 <a name="53044"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53044" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53044">(Mar 31 2022 at 23:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53044" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53044">(Mar 31 2022 at 23:09)</a>:</h4>
 <p>edit: i meant to write version earlier than <code>v1.4.0</code></p>
 
 
 
 <a name="53045"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53045" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53045">(Mar 31 2022 at 23:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53045" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53045">(Mar 31 2022 at 23:22)</a>:</h4>
 <p>That did the trick!  Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span></p>
 
 
 
 <a name="53046"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53046" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53046">(Mar 31 2022 at 23:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/failed%20to%20deserialize/near/53046" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/failed.20to.20deserialize.html#53046">(Mar 31 2022 at 23:23)</a>:</h4>
 <p>glad to hear it and thank you for your patience!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

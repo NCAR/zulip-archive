@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="35767"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35767" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35767">(Jun 28 2021 at 16:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35767" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35767">(Jun 28 2021 at 16:06)</a>:</h4>
 <p>Until recently, when I would start a jupyterhub session/server, the tabs that were open in my previous session would be restored and the file selector would show files from the directory I was previously working in. This was convenient for resuming work after logging off.</p>
 <p>This behavior changed for me recently. The tabs are no longer restored and the file selector is in my home directory. I just asked another user and this is not happening for them, so it's not system wide. So I'm assuming a setting related to this got changed, perhaps by me. I have been unable to figure out how to restore the previous behavior.</p>
 <p>Have others seen this change in behavior?</p>
@@ -19,7 +18,7 @@
 
 
 <a name="35814"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35814" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35814">(Jun 28 2021 at 18:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35814" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35814">(Jun 28 2021 at 18:34)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>, if I am not mistaken, jupyter uses <code>/glade/u/home/klindsay/.jupyter/lab/workspaces</code> to control this behavior.  </p>
 <p>It appears that  you have a few clones of your <code>default</code> workspace that may have diverged from your default profile</p>
 <div class="codehilite"><pre><span></span>-rw-r--r-- <span class="m">1</span> klindsay ncar <span class="m">2</span>.4K Feb  <span class="m">9</span> <span class="m">16</span>:11 lab-a511.jupyterlab-workspace
@@ -36,7 +35,7 @@
 
 
 <a name="35817"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35817" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35817">(Jun 28 2021 at 18:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35817">(Jun 28 2021 at 18:48)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , thanks for taking a look...<br>
 I just started a new session/server and got the URL <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab/workspaces/auto-F</code>.<br>
 There is a corresponding new file in the directory <code>/glade/u/home/klindsay/.jupyter/lab/workspaces/</code>.<br>
@@ -45,19 +44,19 @@ I tried truncating the URL to <code>https://jupyterhub.hpc.ucar.edu/stable/user/
 
 
 <a name="35824"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35824" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35824">(Jun 28 2021 at 20:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35824" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35824">(Jun 28 2021 at 20:08)</a>:</h4>
 <p>Try resetting the workspace by closing all <strong>jupyterlab tabs</strong>, and opening a new tab with this URL: <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab?reset</code></p>
 
 
 
 <a name="35834"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35834" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35834">(Jun 28 2021 at 20:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35834" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35834">(Jun 28 2021 at 20:56)</a>:</h4>
 <p>I just gave that a try and opened a tab after resetting. However, when I closed the session/server and started a new one, the tab that I had opened was not restored, and the URL that I got was <code>https://jupyterhub.hpc.ucar.edu/stable/user/klindsay/lab/workspaces/auto-j</code>.  Could I walk through this with you during office hours?</p>
 
 
 
 <a name="35836"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35836" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35836">(Jun 28 2021 at 20:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35836" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35836">(Jun 28 2021 at 20:56)</a>:</h4>
 <blockquote>
 <p>Could I walk through this with you during office hours? </p>
 </blockquote>
@@ -66,13 +65,13 @@ I tried truncating the URL to <code>https://jupyterhub.hpc.ucar.edu/stable/user/
 
 
 <a name="35855"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35855" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35855">(Jun 28 2021 at 22:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/35855" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#35855">(Jun 28 2021 at 22:09)</a>:</h4>
 <p>For future reference, <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> helped me track down a jupyterhub tab from an old session that was open in my browser that I didn't realize was there. This tab's presence was leading to the non-restoring behavior that I was experiencing. The restoring behavior was restored when this tab was closed. Thanks for the help <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> .</p>
 
 
 
 <a name="54985"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/54985" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#54985">(May 16 2022 at 20:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/54985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#54985">(May 16 2022 at 20:45)</a>:</h4>
 <p>This problem has reappeared for me since last week's HPC downtime.<br>
 However, I don't see lingering jhub tabs in my browser, the previous culprit.<br>
 I'm trying to determine if the reappearance is specific to my setup/settings, or if it is due to a change in the system.<br>
@@ -81,10 +80,10 @@ Are others experiencing this behavior?</p>
 
 
 <a name="54993"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/54993" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#54993">(May 16 2022 at 21:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/resume%20jupyterhub%20with%20previously%20opened%20tabs/near/54993" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs.html#54993">(May 16 2022 at 21:52)</a>:</h4>
 <p>made runtime / workspace directories ephemeral so keep them clean because they weren't keeping clean on their own and folks were ending up with thousands of socket files in their $HOME space. This may prevent a restoration as they're cleaned up at the end of jobs.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

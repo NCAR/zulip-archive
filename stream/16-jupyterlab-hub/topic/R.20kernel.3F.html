@@ -5,24 +5,23 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="42302"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42302" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42302">(Sep 10 2021 at 17:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42302" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42302">(Sep 10 2021 at 17:02)</a>:</h4>
 <p>Does anyone know how to build an R kernel, preferably using conda, that's available in JupyterLab (jupyterhub)?</p>
 
 
 
 <a name="42378"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42378" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42378">(Sep 10 2021 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42378" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42378">(Sep 10 2021 at 17:49)</a>:</h4>
 <p>I can probably dig up some instructions for it. I used <code>conda</code> to install the one on JupyterHub, but was told that R doesn't get much traction here at NCAR, so only update the installation when requested.</p>
 
 
 
 <a name="42392"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42392" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42392">(Sep 10 2021 at 18:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42392" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42392">(Sep 10 2021 at 18:47)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="154">@Jared Baker</span>! </p>
 <p>I think I am able to build an R environment with conda—but am unsure how to get JLab on the hub to "see" it, i.e. via whatever the <code>nb_conda_kernels</code> equivalent is.  </p>
 <p>I am not much of an R user myself, but there is a small contingent of users at NCAR and it could be nice to document how to construct replete kernels. I tried your default R kernel, but apparently it lack <code>library('ncdf4')</code> which I presume precludes reading netCDF files.</p>
@@ -30,7 +29,7 @@
 
 
 <a name="42393"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42393" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42393">(Sep 10 2021 at 19:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42393" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42393">(Sep 10 2021 at 19:03)</a>:</h4>
 <p>Part of the installation is opening up the R console basically and install the spec file which is basically a json blob if I remember right on how to launch the kernel and such. </p>
 <p><code>IRkernel::installspec(name = 'ir$MAJOR$MINOR, displayname = 'R $VERSION')</code></p>
 <p>here is the json spec for the installed IRkernel specs:</p>
@@ -124,37 +123,37 @@ define(['base/js/namespace'], ({
 
 
 <a name="42396"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42396" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42396">(Sep 10 2021 at 19:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42396" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42396">(Sep 10 2021 at 19:11)</a>:</h4>
 <p>thanks...</p>
 
 
 
 <a name="42397"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42397" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42397">(Sep 10 2021 at 19:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42397" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42397">(Sep 10 2021 at 19:11)</a>:</h4>
 <p>I'll try to play around with this info</p>
 
 
 
 <a name="42399"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42399" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Thomas Hauser <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42399">(Sep 10 2021 at 19:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42399" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Thomas Hauser <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42399">(Sep 10 2021 at 19:30)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span>  my unsolicited advice is to let R users use Rstudio. I've taught parallel R a few times at workshops and my experience with using an R kernel in Jupyterlab was that most learners were hating it because they were used to Rstudio.</p>
 
 
 
 <a name="42400"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42400" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42400">(Sep 10 2021 at 19:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/42400" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#42400">(Sep 10 2021 at 19:33)</a>:</h4>
 <p>Sounds like good advice—though the etymology of "Jupyter" is "a reference to the three core programming languages supported by Jupyter, which are Julia, Python and R."  So I was under the naive impression that R should be easily supported. Also, I don't use R, but my collaborator does—and I was hoping to be able to build collections of notebooks in both Python and R.</p>
 
 
 
 <a name="55719"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/55719" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cassandra Olenick <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#55719">(May 26 2022 at 18:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/55719" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Cassandra Olenick <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#55719">(May 26 2022 at 18:16)</a>:</h4>
 <p>I realize this thread ended a long time ago. I'm an Rstudio user and would like to utilize Rstudio in JupyterLab, I was wondering if anyone knows if this is possible or how to do it. I have JupyterLab installed locally and use the JupyterHub supported at NCAR</p>
 
 
 
 <a name="55729"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/55729" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#55729">(May 26 2022 at 18:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/55729" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#55729">(May 26 2022 at 18:41)</a>:</h4>
 <p>I have never used Rstudio, but my understanding is that it provides an interactive computing environment like Jupyter Notebooks—so you can use one or the other. It is possible use R in a Jupyter Notebook and the NCAR JupyterHub includes an R kernel.</p>
 <p>I was able to build my own R kernel using <a href="https://github.com/NCAR/so-co2-airborne-obs/blob/main/environment-R.yml">this environment file</a> and the following <code>conda</code> command</p>
 <div class="codehilite"><pre><span></span><code>conda env create -f environment-R.yml
@@ -164,10 +163,10 @@ define(['base/js/namespace'], ({
 
 
 <a name="55792"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/55792" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#55792">(May 27 2022 at 23:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/R%20kernel%3F/near/55792" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/R.20kernel.3F.html#55792">(May 27 2022 at 23:37)</a>:</h4>
 <p>We just updated our R kernel to a newer version. If this is insufficient please ping me as I’d like to have a conversation of this doesn’t meet your needs. <span class="user-mention" data-user-id="219">@Cassandra Olenick</span></p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

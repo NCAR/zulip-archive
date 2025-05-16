@@ -5,62 +5,61 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="26049"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26049" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26049">(Mar 02 2021 at 16:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26049" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26049">(Mar 02 2021 at 16:18)</a>:</h4>
 <p>So, the example we benchmarked that proved to scale poorly involved computing monthly means.  So, we applied <code>groupby</code> month, but the dataset was chunked over <code>lat</code> and <code>lon</code>.  After the <code>groupby</code> operation, the intermediate state was chunked over <code>lat</code>, <code>lon</code> and <code>month</code>, which increased the number of chunks by a factor of 12.  The scheduler got bogged down with the number of chunks, and the anomaly calculation stopped scaling.</p>
 <p>Without knowing that Xarray re-chunks over groups, this was surprising to us!  Because if you think about it, the <code>groupby</code>+<code>mean</code> by month operation should be trivially parallelizable over <code>lat</code> and <code>lon</code>.  So, you might imagine that you could do the <code>groupby</code> month operation "in place" (i.e., inside a single dask chunk), but that requires a hand implementation of the <code>groupby</code>+<code>mean</code> operation to be applied over every dask chunk independently...not what Xarray does.</p>
 
 
 
 <a name="26051"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26051" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26051">(Mar 02 2021 at 16:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26051" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26051">(Mar 02 2021 at 16:22)</a>:</h4>
 <p>The takeaway from this was that you should chunk over the same dimension you apply the <code>groupby</code> operation over.</p>
 
 
 
 <a name="26057"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26057" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26057">(Mar 02 2021 at 17:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26057" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26057">(Mar 02 2021 at 17:31)</a>:</h4>
 <p>This looks like a missed opportunity for optimization. See <a href="https://github.com/pydata/xarray/issues/2237" target="_blank" title="https://github.com/pydata/xarray/issues/2237">https://github.com/pydata/xarray/issues/2237</a></p>
 
 
 
 <a name="26058"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26058" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26058">(Mar 02 2021 at 17:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26058" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26058">(Mar 02 2021 at 17:38)</a>:</h4>
 <p>I wouldn't say missed.  Just hasn't begun.  I don't have time and nobody else seems to complain.</p>
 
 
 
 <a name="26059"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26059" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26059">(Mar 02 2021 at 17:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26059" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26059">(Mar 02 2021 at 17:43)</a>:</h4>
 <p>And, actually, I believe my collaborator pointed me to that Xarray issue during our benchmarking effort and we just decided to make note of it and avoid mixing groupby and chunk dimensions.  So, you could say that we learned to optimize our workflows from that issue.</p>
 
 
 
 <a name="26060"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26060" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26060">(Mar 02 2021 at 17:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26060" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26060">(Mar 02 2021 at 17:48)</a>:</h4>
 <p>I have not heard of other people having this problem, and since we discovered it during a benchmarking exercise, our conclusion was that our benchmarking example was not representative of the problems that other people experience...and we felt the issue was well documented in the issue you already referenced.  So, if it's not actively being worked on...is it really a big issue?</p>
 
 
 
 <a name="26061"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26061" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26061">(Mar 02 2021 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26061">(Mar 02 2021 at 17:49)</a>:</h4>
 <p>...However, this is probably something that should be documented as a "best practice."</p>
 
 
 
 <a name="26063"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26063" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26063">(Mar 02 2021 at 17:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26063" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26063">(Mar 02 2021 at 17:54)</a>:</h4>
 <p>I mean missed opportunity for dask to optimize that graph. Yes it is an issue! this kind of inefficiency builds up and breaks at scale.</p>
 <p>Ultimately solving this kind of thing is bottlenecked on the single-digit-number-of-people that can "speak science", "speak xarray" &amp; "speak dask".  And then bottlenecked on getting a dask maintainer to think about and fix it. The second thing is solvable by contracting.  The first thing... I don't know.</p>
 
 
 
 <a name="26074"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26074" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26074">(Mar 02 2021 at 18:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26074" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26074">(Mar 02 2021 at 18:05)</a>:</h4>
 <p>Yeah.  Ok.  I can't follow things closely enough to know if other people are experiencing these problems.  (Was <span class="user-mention" data-user-id="45">@Isla Simpson</span>'s problem related to this?)  So, if it's a routinely encountered problem, then we should figure out how to fix it.</p>
 <p>However, not being a core developer, it's not clear to me if it is an Xarray decision or a Dask decision to make?  Is there a heuristic that can be developed that will tell you when to do the reduction "in-place" (i.e., on the existing chunks) or "out-of-place" (i.e., by creating new chunks).  If a heuristic like that can be devised, then it seems to me that Xarray could make that decision for Dask...?</p>
 <p>...Maybe we should move this discussion to GitHub.  Is this specific enough to warrant a new issue?</p>
@@ -68,7 +67,7 @@
 
 
 <a name="26076"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26076" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26076">(Mar 02 2021 at 18:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/groupby%20operations%20rechunk%20data/near/26076" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/groupby.20operations.20rechunk.20data.html#26076">(Mar 02 2021 at 18:13)</a>:</h4>
 <p>I commented here: <a href="https://github.com/pydata/xarray/issues/2237#issuecomment-789078512" target="_blank" title="https://github.com/pydata/xarray/issues/2237#issuecomment-789078512">https://github.com/pydata/xarray/issues/2237#issuecomment-789078512</a> Maybe that will kickstart more conversation.</p>
 <blockquote>
 <p>However, not being a core developer, it's not clear to me if it is an Xarray decision or a Dask decision to make?</p>
@@ -77,5 +76,5 @@
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

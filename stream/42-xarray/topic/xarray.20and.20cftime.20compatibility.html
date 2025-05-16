@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="49438"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/xarray%20and%20cftime%20compatibility/near/49438" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/xarray.20and.20cftime.20compatibility.html#49438">(Jan 19 2022 at 22:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/xarray%20and%20cftime%20compatibility/near/49438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/xarray.20and.20cftime.20compatibility.html#49438">(Jan 19 2022 at 22:28)</a>:</h4>
 <p>I'm unable to run some calendar conversion code I wrote using xarray a while back.   I'm trying to convert data on a 365-day calendar to a standard calendar by inserting leap days into the time axis.   With version 0.19.0 of xarray, I'm getting this error when calling <code>assign_coords()</code>:</p>
 <div class="codehilite"><pre><span></span><code>ValueError: conflicting sizes for dimension &#39;time&#39;: length 34675 on &#39;time&#39; and length 34698 on {&#39;time&#39;: &#39;tmax&#39;, &#39;lat&#39;: &#39;tmax&#39;, &#39;lon&#39;: &#39;tmax&#39;}
 </code></pre></div>
@@ -44,10 +43,10 @@
 
 
 <a name="49442"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/xarray%20and%20cftime%20compatibility/near/49442" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/xarray.20and.20cftime.20compatibility.html#49442">(Jan 19 2022 at 23:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/xarray%20and%20cftime%20compatibility/near/49442" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/xarray.20and.20cftime.20compatibility.html#49442">(Jan 19 2022 at 23:33)</a>:</h4>
 <p>I'll try to answer my own question:  it looks like installing a deprecated version of <code>xarray</code> will automatically install the appropriate version of <code>cftime</code>.   I didn't realize that the latter package is bundled with the former.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

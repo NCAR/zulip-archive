@@ -5,82 +5,81 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="77488"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77488" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77488">(Mar 23 2023 at 20:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77488" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77488">(Mar 23 2023 at 20:47)</a>:</h4>
 <p>Hi ESDS community. I've been working on a script for vertically integration moisture flux (<a href="https://www.ncl.ucar.edu/Applications/wind.shtml#:~:text=plot%20is%20presented.-,mfc_div_1.ncl,-%3A%20Calculate%20various%20divergence">NCL application -- here</a>). At one point in this script we have to calculate divergence. The NCL fx used is <a href="https://www.ncl.ucar.edu/Document/Functions/Built-in/uv2dvF-1.shtml"><code>uv2dvf</code></a> that uses spherical harmonics in the divergence calculation. Has anyone here used that function before? I would love to learn more about how using spherical harmonics improves the calculation and if it is worth writing a Python method that does this. Thanks!</p>
 
 
 
 <a name="77509"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77509" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77509">(Mar 23 2023 at 21:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77509" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77509">(Mar 23 2023 at 21:56)</a>:</h4>
 <p><span class="user-mention" data-user-id="12">@Julia Kent</span> I haven't used that function before, but we've had some previous discussion on zulip related to spherical harmonics, for example the <code>gradsf</code> function with <span class="user-mention" data-user-id="97">@Alea Kootz</span><br>
 <a href="#narrow/stream/10-python-questions/topic/spherical.20harmonics.20from.20lat-lon.20grid/near/54113">Here's the thread</a> -- apologies if you've already seen this and it's not helpful.</p>
 
 
 
 <a name="77514"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77514" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77514">(Mar 23 2023 at 22:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77514" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77514">(Mar 23 2023 at 22:04)</a>:</h4>
 <p>Thanks Katie! It looks like you were ultimately after a gradient function that used spherical harmonics? It doesn't look like our <a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.gradient.gradient.html"><code>gradient</code></a> fx specifies that it uses those -- so what did you end up using? The gradient seems only one step away from making the divergence function.</p>
 
 
 
 <a name="77518"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77518" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77518">(Mar 23 2023 at 22:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77518" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77518">(Mar 23 2023 at 22:40)</a>:</h4>
 <p>I played around with a couple different options, <a href="https://ajdawson.github.io/windspharm/latest/">the windspharm package</a>, and some non-spherical harmonics options like <code>numpy.gradient</code> and <code>metpy.calc.gradient</code>. <span class="user-mention" data-user-id="97">@Alea Kootz</span> also provided some code to calculate spherical harmonics in python, as I recall.</p>
 
 
 
 <a name="77524"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77524" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77524">(Mar 23 2023 at 23:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77524" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77524">(Mar 23 2023 at 23:01)</a>:</h4>
 <p>How different do you expect your results when using spherical harmonics and not?</p>
 
 
 
 <a name="77527"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77527" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77527">(Mar 23 2023 at 23:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77527">(Mar 23 2023 at 23:33)</a>:</h4>
 <p>I don't think they were that different for my specific case, but it's been a while since I thought about this. Happy to forward emails or share notebooks if that would be helpful.</p>
 
 
 
 <a name="77553"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77553" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77553">(Mar 24 2023 at 14:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77553" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77553">(Mar 24 2023 at 14:33)</a>:</h4>
 <p>Thanks Katie. That's actually a big help. I'd appreciate any notebooks or materials you could send.</p>
 
 
 
 <a name="77573"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77573" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77573">(Mar 24 2023 at 16:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77573" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77573">(Mar 24 2023 at 16:44)</a>:</h4>
 <p>MetPy completed a big refactor last fall to take the earth's curvature into account for these functions, with their example here <a href="https://unidata.github.io/MetPy/latest/examples/calculations/Divergence.html#sphx-glr-examples-calculations-divergence-py">https://unidata.github.io/MetPy/latest/examples/calculations/Divergence.html#sphx-glr-examples-calculations-divergence-py</a> you could also check out the issue thread here <a href="https://github.com/Unidata/MetPy/issues/893">https://github.com/Unidata/MetPy/issues/893</a> which details the associated PRs that pushed it back the finish line and differences between taking the curvature into account vs. ignoring it.</p>
 
 
 
 <a name="77582"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77582" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77582">(Mar 24 2023 at 16:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77582" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77582">(Mar 24 2023 at 16:56)</a>:</h4>
 <p>I'm getting some errors using Metpy's divergence that I don't fully understand yet. Numpy's  gradient is working for me though.</p>
 
 
 
 <a name="77717"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77717" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77717">(Mar 24 2023 at 18:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/77717" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ryan May <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#77717">(Mar 24 2023 at 18:56)</a>:</h4>
 <p><span class="user-mention" data-user-id="12">@Julia Kent</span> Feel free to open an issue/discussion. If we can get to the data, it's easy for us to take a look.</p>
 
 
 
 <a name="78013"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/78013" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ho-Hsuan Wei <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#78013">(Mar 28 2023 at 18:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/78013" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ho-Hsuan Wei <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#78013">(Mar 28 2023 at 18:23)</a>:</h4>
 <p>Hi Julia, I did compare using spherical harmonics and using gradient function to calculate the divergence on spherical coordinate for ERA-Interim 6-hourly data. I am happy to share my code and some plots if you are interested. In short, the main difference for vertically integrated moisture flux is near the fronts.</p>
 
 
 
 <a name="78130"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/78130" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#78130">(Mar 29 2023 at 14:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/Divergence%20Collaboration/near/78130" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julia Kent <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/Divergence.20Collaboration.html#78130">(Mar 29 2023 at 14:53)</a>:</h4>
 <p>I am definitely interested in that. Thanks Ho-Hsuan! Could you point me to a workflow? And potentially a sample file you've calculated vertically integrated moisture flux with? That would be a huge help thanks!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

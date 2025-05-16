@@ -1,0 +1,551 @@
+<html>
+<head><meta charset="utf-8"><title>Trouble saving data xarray to nc/zarr using dask · dask · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html">Trouble saving data xarray to nc/zarr using dask</a></h3>
+
+<hr>
+
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="105654"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105654" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105654">(Feb 24 2025 at 16:38)</a>:</h4>
+<p>Hello, I am having trouble saving small amounts of data (~30 kB) to nc/zarr when using dask:</p>
+<p>When I run<br>
+output_path = '/glade/derecho/scratch/oldend/%s_UOHC_leads.nc'<br>
+ens_ts.to_netcdf(output_path, unlimited_dims=['cycle'])</p>
+<p>I receive</p>
+<p>/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:3162: UserWarning: Sending large graph of size 29.59 MiB.<br>
+This may cause some slowdown.<br>
+Consider scattering data ahead of time and using futures.<br>
+warnings.warn(</p>
+<p>KilledWorker Traceback (most recent call last)<br>
+Cell In[10], line 135<br>
+133 print('saving lead zarr')<br>
+134 output_path = '/glade/derecho/scratch/oldend/%s_UOHC_leads.nc'<br>
+--&gt; 135 ens_ts.to_netcdf(output_path, unlimited_dims=['cycle'])<br>
+136 print('ens ts saved')<br>
+137 #### Regrid OBS</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/dataarray.py:4086, in DataArray.to_netcdf(self, path, mode, format, group, engine, encoding, unlimited_dims, compute, invalid_netcdf)<br>
+4082 else:<br>
+4083 # No problems with the name - so we're fine!<br>
+4084 dataset = self.to_dataset()<br>
+-&gt; 4086 return to_netcdf( # type: ignore # mypy cannot resolve the overloads:(<br>
+4087 dataset,<br>
+4088 path,<br>
+4089 mode=mode,<br>
+4090 format=format,<br>
+4091 group=group,<br>
+4092 engine=engine,<br>
+4093 encoding=encoding,<br>
+4094 unlimited_dims=unlimited_dims,<br>
+4095 compute=compute,<br>
+4096 multifile=False,<br>
+4097 invalid_netcdf=invalid_netcdf,<br>
+4098 )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/backends/api.py:1324, in to_netcdf(dataset, path_or_file, mode, format, group, engine, encoding, unlimited_dims, compute, multifile, invalid_netcdf)<br>
+1321 if multifile:<br>
+1322 return writer, store<br>
+-&gt; 1324 writes = writer.sync(compute=compute)<br>
+1326 if isinstance(target, BytesIO):<br>
+1327 store.sync()</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/backends/common.py:256, in ArrayWriter.sync(self, compute, chunkmanager_store_kwargs)<br>
+253 if chunkmanager_store_kwargs is None:<br>
+254 chunkmanager_store_kwargs = {}<br>
+--&gt; 256 delayed_store = chunkmanager.store(<br>
+257 self.sources,<br>
+258 self.targets,<br>
+259 lock=self.lock,<br>
+260 compute=compute,<br>
+261 flush=True,<br>
+262 regions=self.regions,<br>
+263 **chunkmanager_store_kwargs,<br>
+264 )<br>
+265 self.sources = []<br>
+266 self.targets = []</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/daskmanager.py:233, in DaskManager.store(self, sources, targets, **kwargs)<br>
+225 def store(<br>
+226 self,<br>
+227 sources: DaskArray | Sequence[DaskArray],<br>
+228 targets: Any,<br>
+229 **kwargs,<br>
+230 ):<br>
+231 from dask.array import store<br>
+--&gt; 233 return store(<br>
+234 sources=sources,<br>
+235 targets=targets,<br>
+236 **kwargs,<br>
+237 )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/dask/array/core.py:1236, in store(failed resolving arguments)<br>
+1234 elif compute:<br>
+1235 store_dsk = HighLevelGraph(layers, dependencies)<br>
+-&gt; 1236 compute_as_if_collection(Array, store_dsk, map_keys, **kwargs)<br>
+1237 return None<br>
+1239 else:</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/dask/base.py:406, in compute_as_if_collection(cls, dsk, keys, scheduler, get, **kwargs)<br>
+404 schedule = get_scheduler(scheduler=scheduler, cls=cls, get=get)<br>
+405 dsk2 = optimization_function(cls)(dsk, keys, **kwargs)<br>
+--&gt; 406 return schedule(dsk2, keys, **kwargs)</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:3280, in Client.get(self, dsk, keys, workers, allow_other_workers, resources, sync, asynchronous, direct, retries, priority, fifo_timeout, actors, **kwargs)<br>
+3278 should_rejoin = False<br>
+3279 try:<br>
+-&gt; 3280 results = self.gather(packed, asynchronous=asynchronous, direct=direct)<br>
+3281 finally:<br>
+3282 for f in futures.values():</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:2383, in Client.gather(self, futures, errors, direct, asynchronous)<br>
+2380 local_worker = None<br>
+2382 with shorten_traceback():<br>
+-&gt; 2383 return self.sync(<br>
+2384 self._gather,<br>
+2385 futures,<br>
+2386 errors=errors,<br>
+2387 direct=direct,<br>
+2388 local_worker=local_worker,<br>
+2389 asynchronous=asynchronous,<br>
+2390 )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:2243, in Client._gather(self, futures, errors, direct, local_worker)<br>
+2241 exc = CancelledError(key)<br>
+2242 else:<br>
+-&gt; 2243 raise exception.with_traceback(traceback)<br>
+2244 raise exc<br>
+2245 if errors == "skip":</p>
+<p>KilledWorker: Attempted to run task ('rechunk-merge-5b0135762bd66e79864c3b31aad9a747', 39, 0, 0, 0, 0, 0) on 4 different workers, but all those workers died while running it. The last worker that attempt to run the task was tcp://128.117.208.62:37601. Inspecting worker logs is often a good next step to diagnose what went wrong. For more information see <a href="https://distributed.dask.org/en/stable/killed.html">https://distributed.dask.org/en/stable/killed.html</a>.</p>
+<p>I've attached some worker logs. Really not sure what is going on. If I try to save to zarr I get the same problem (or other errors..) I have tried adding .load() with no avail.</p>
+<p><a href="../../../user_uploads/2/2f/_DFaryQ2ajIlXDsfZRQFURJR/3872229.casper-pbs.ER">3872229.casper-pbs.ER</a><br>
+<a href="../../../user_uploads/2/b8/vjepGSwIvSXAgwxr5MaCtIaL/3872198.casper-pbs.ER">3872198.casper-pbs.ER</a></p>
+<p>Thanks,</p>
+<p>Dylan</p>
+
+
+
+<a name="105668"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105668" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105668">(Feb 24 2025 at 19:15)</a>:</h4>
+<p>How are you creating <code>ens_to</code>? I wonder if the problem is in the setup of the dataset, and the <code>to_netcdf</code> call is the first time dask is trying to run through the whole graph. If you have <code>xr.open_mfdataset()</code> or <code>xr.concat()</code> calls, using <code>compat='override'</code> and <code>join='override'</code> will remove the consistency checks that verify all the coordinate arrays are the same across every file / dataset.</p>
+
+
+
+<a name="105669"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105669" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105669">(Feb 24 2025 at 19:41)</a>:</h4>
+<p>Thanks. I was using xr.open_mfdataset (already with compat='override' and join='override') as well as xr.concat (without those). I've added ens_ts0 = xr.concat([ens_ts0,ens_ts],dim='L',compat="override",join="override") but now I receive this error when doing xr.concat:</p>
+<hr>
+<p>ValueError                                Traceback (most recent call last)<br>
+Cell In[8], line 127<br>
+    125         ens_time_year = dp2_time.isel(L=lvals+i).mean('L')<br>
+    126         ens_ts = ens_ts.assign_coords(time=("time",ens_time_year.data)).expand_dims('L')<br>
+--&gt; 127         ens_ts0 = xr.concat([ens_ts0,ens_ts],dim='L',compat="override",join="override")<br>
+    128 ens_ts = ens_ts0.copy()<br>
+    129 del ens_ts0</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/concat.py:264, in concat(objs, dim, data_vars, coords, compat, positions, fill_value, join, combine_attrs, create_index_for_new_dim)<br>
+    259     raise ValueError(<br>
+    260         f"compat={compat!r} invalid: must be 'broadcast_equals', 'equals', 'identical', 'no_conflicts' or 'override'"<br>
+    261     )<br>
+    263 if isinstance(first_obj, DataArray):<br>
+--&gt; 264     return _dataarray_concat(<br>
+    265         objs,<br>
+    266         dim=dim,<br>
+    267         data_vars=data_vars,<br>
+    268         coords=coords,<br>
+    269         compat=compat,<br>
+    270         positions=positions,<br>
+    271         fill_value=fill_value,<br>
+    272         join=join,<br>
+    273         combine_attrs=combine_attrs,<br>
+    274         create_index_for_new_dim=create_index_for_new_dim,<br>
+    275     )<br>
+    276 elif isinstance(first_obj, Dataset):<br>
+    277     return _dataset_concat(<br>
+    278         objs,<br>
+    279         dim=dim,<br>
+   (...)<br>
+    287         create_index_for_new_dim=create_index_for_new_dim,<br>
+    288     )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/concat.py:755, in _dataarray_concat(arrays, dim, data_vars, coords, compat, positions, fill_value, join, combine_attrs, create_index_for_new_dim)<br>
+    752             arr = arr.rename(name)<br>
+    753     datasets.append(arr._to_temp_dataset())<br>
+--&gt; 755 ds = _dataset_concat(<br>
+    756     datasets,<br>
+    757     dim,<br>
+    758     data_vars,<br>
+    759     coords,<br>
+    760     compat,<br>
+    761     positions,<br>
+    762     fill_value=fill_value,<br>
+    763     join=join,<br>
+    764     combine_attrs=combine_attrs,<br>
+    765     create_index_for_new_dim=create_index_for_new_dim,<br>
+    766 )<br>
+    768 merged_attrs = merge_attrs([da.attrs for da in arrays], combine_attrs)<br>
+    770 result = arrays[0]._from_temp_dataset(ds, name)</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/concat.py:545, in _dataset_concat(datasets, dim, data_vars, coords, compat, positions, fill_value, join, combine_attrs, create_index_for_new_dim)<br>
+    539     datasets = [<br>
+    540         ds.expand_dims(dim_name, create_index_for_new_dim=create_index_for_new_dim)<br>
+    541         for ds in datasets<br>
+    542     ]<br>
+    544 # determine which variables to concatenate<br>
+--&gt; 545 concat_over, equals, concat_dim_lengths = _calc_concat_over(<br>
+    546     datasets, dim_name, dim_names, data_vars, coords, compat<br>
+    547 )<br>
+    549 # determine which variables to merge, and then merge them according to compat<br>
+    550 variables_to_merge = (coord_names | data_names) - concat_over</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/concat.py:440, in _calc_concat_over(datasets, dim, dim_names, data_vars, coords, compat)<br>
+    437         concat_over.update(opt)<br>
+    439 process_subset_opt(data_vars, "data_vars")<br>
+--&gt; 440 process_subset_opt(coords, "coords")<br>
+    441 return concat_over, equals, concat_dim_lengths</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/concat.py:350, in _calc_concat_over.&lt;locals&gt;.process_subset_opt(opt, subset)<br>
+    348 if opt == "different":<br>
+    349     if compat == "override":<br>
+--&gt; 350         raise ValueError(<br>
+    351             f"Cannot specify both {subset}='different' and compat='override'."<br>
+    352         )<br>
+    353     # all nonindexes that are not the same in each dataset<br>
+    354     for k in getattr(datasets[0], subset):</p>
+<p>ValueError: Cannot specify both coords='different' and compat='override'.<br>
+ens_ts</p>
+
+
+
+<a name="105670"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105670" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105670">(Feb 24 2025 at 19:42)</a>:</h4>
+<p>This is how ens_ts is computed:<br>
+lvals = np.arange(nyear)<br>
+    lvalsda = xr.DataArray(np.arange(nleads),dims="L",name="L")<br>
+    for i in range(nleads):<br>
+        if i==range(nleads)[0]:<br>
+            ens_ts0 = ohc_anom.isel(L=lvals+i).mean('L').rename({'Y':'time'}).chunk(dict(time=-1))<br>
+            ens_time_year = dp2_time.isel(L=lvals+i).mean('L')<br>
+            ens_ts0 = ens_ts0.assign_coords(time=("time",ens_time_year.data)).expand_dims('L')<br>
+        else:<br>
+            ens_ts = ohc_anom.isel(L=lvals+i).mean('L').rename({'Y':'time'}).chunk(dict(time=-1))<br>
+            ens_time_year = dp2_time.isel(L=lvals+i).mean('L')<br>
+            ens_ts = ens_ts.assign_coords(time=("time",ens_time_year.data)).expand_dims('L')<br>
+            ens_ts0 = xr.concat([ens_ts0,ens_ts],dim='L',compat="override",join="override")<br>
+    ens_ts = ens_ts0.copy()<br>
+    del ens_ts0</p>
+
+
+
+<a name="105671"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105671" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105671">(Feb 24 2025 at 21:07)</a>:</h4>
+<blockquote>
+<p>I've added ens_ts0 = xr.concat([ens_ts0,ens_ts],dim='L',compat="override",join="override") but now I receive this error when doing xr.concat:</p>
+</blockquote>
+<p>Can you add <code>coords = "minimal"</code> as well? You can read about these options on the <a href="https://docs.xarray.dev/en/stable/generated/xarray.concat.html"><code>xr.concat()</code></a> documentation page, but I think this change (combined with <code>compat="override"</code>) will assume that coordinates are the same across all ensemble members</p>
+
+
+
+<a name="105672"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105672" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105672">(Feb 24 2025 at 21:24)</a>:</h4>
+<p>That does make xr.concat() work, but then when I try to do ens_ts.to_netcdf(output_path) then I get:</p>
+<p>CancelledError                            Traceback (most recent call last)<br>
+Cell In[7], line 138<br>
+    135 print('saving lead')<br>
+    137 output_path = '/glade/derecho/scratch/oldend/%s_UOHC_leads.nc' % model<br>
+--&gt; 138 ens_ts.to_netcdf(output_path)#, unlimited_dims=['cycle'])<br>
+    140 print('ens ts saved')<br>
+    141 #### Regrid OBS</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/dataarray.py:4211, in DataArray.to_netcdf(self, path, mode, format, group, engine, encoding, unlimited_dims, compute, invalid_netcdf, auto_complex)<br>
+   4207 else:<br>
+   4208     # No problems with the name - so we're fine!<br>
+   4209     dataset = self.to_dataset()<br>
+-&gt; 4211 return to_netcdf(  # type: ignore[return-value]  # mypy cannot resolve the overloads:(<br>
+   4212     dataset,<br>
+   4213     path,<br>
+   4214     mode=mode,<br>
+   4215     format=format,<br>
+   4216     group=group,<br>
+   4217     engine=engine,<br>
+   4218     encoding=encoding,<br>
+   4219     unlimited_dims=unlimited_dims,<br>
+   4220     compute=compute,<br>
+   4221     multifile=False,<br>
+   4222     invalid_netcdf=invalid_netcdf,<br>
+   4223     auto_complex=auto_complex,<br>
+   4224 )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/backends/api.py:1882, in to_netcdf(dataset, path_or_file, mode, format, group, engine, encoding, unlimited_dims, compute, multifile, invalid_netcdf, auto_complex)<br>
+   1879 if multifile:<br>
+   1880     return writer, store<br>
+-&gt; 1882 writes = writer.sync(compute=compute)<br>
+   1884 if isinstance(target, BytesIO):<br>
+   1885     store.sync()</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/backends/common.py:351, in ArrayWriter.sync(self, compute, chunkmanager_store_kwargs)<br>
+    348 if chunkmanager_store_kwargs is None:<br>
+    349     chunkmanager_store_kwargs = {}<br>
+--&gt; 351 delayed_store = chunkmanager.store(<br>
+    352     self.sources,<br>
+    353     self.targets,<br>
+    354     lock=self.lock,<br>
+    355     compute=compute,<br>
+    356     flush=True,<br>
+    357     regions=self.regions,<br>
+    358     **chunkmanager_store_kwargs,<br>
+    359 )<br>
+    360 self.sources = []<br>
+    361 self.targets = []</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/namedarray/daskmanager.py:247, in DaskManager.store(self, sources, targets, **kwargs)<br>
+    239 def store(<br>
+    240     self,<br>
+    241     sources: Any | Sequence[Any],<br>
+    242     targets: Any,<br>
+    243     **kwargs: Any,<br>
+    244 ) -&gt; Any:<br>
+    245     from dask.array import store<br>
+--&gt; 247     return store(<br>
+    248         sources=sources,<br>
+    249         targets=targets,<br>
+    250         **kwargs,<br>
+    251     )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/dask/array/core.py:1236, in store(<strong><em>failed resolving arguments</em></strong>)<br>
+   1234 elif compute:<br>
+   1235     store_dsk = HighLevelGraph(layers, dependencies)<br>
+-&gt; 1236     compute_as_if_collection(Array, store_dsk, map_keys, **kwargs)<br>
+   1237     return None<br>
+   1239 else:</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/dask/base.py:402, in compute_as_if_collection(cls, dsk, keys, scheduler, get, **kwargs)<br>
+    400 schedule = get_scheduler(scheduler=scheduler, cls=cls, get=get)<br>
+    401 dsk2 = optimization_function(cls)(dsk, keys, **kwargs)<br>
+--&gt; 402 return schedule(dsk2, keys, **kwargs)</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:3279, in Client.get(self, dsk, keys, workers, allow_other_workers, resources, sync, asynchronous, direct, retries, priority, fifo_timeout, actors, **kwargs)<br>
+   3277         should_rejoin = False<br>
+   3278 try:<br>
+-&gt; 3279     results = self.gather(packed, asynchronous=asynchronous, direct=direct)<br>
+   3280 finally:<br>
+   3281     for f in futures.values():</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:2372, in Client.gather(self, futures, errors, direct, asynchronous)<br>
+   2369     local_worker = None<br>
+   2371 with shorten_traceback():<br>
+-&gt; 2372     return self.sync(<br>
+   2373         self._gather,<br>
+   2374         futures,<br>
+   2375         errors=errors,<br>
+   2376         direct=direct,<br>
+   2377         local_worker=local_worker,<br>
+   2378         asynchronous=asynchronous,<br>
+   2379     )</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:2233, in Client._gather(self, futures, errors, direct, local_worker)<br>
+   2231     else:<br>
+   2232         raise exception.with_traceback(traceback)<br>
+-&gt; 2233     raise exc<br>
+   2234 if errors == "skip":<br>
+   2235     bad_keys.add(key)</p>
+<p>CancelledError: ('store-map-0b438090245098763a0c364fab4fea00', 0, 5, 0)</p>
+
+
+
+<a name="105679"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105679" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jemma Jeffree <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105679">(Feb 25 2025 at 22:40)</a>:</h4>
+<p>A couple of thoughts that might help debug:<br>
+— When you say adding a .load() doesn't fix the problem, does the .load() on its own throw the error, or the saving to netcdf after loading the file? This might narrow down whether it's a netcdf/saving problem or an issue with the dask graph. <br>
+— Does halving what you're computing or making smaller chunk sizes help? In the extreme case, is there some trivial/smallest subset of what you're trying to calculate that works? Or, in the other direction, what happens if you double or triple the memory but keep the number of workers the same?<br>
+— Can you open the dask homepage and watch the memory levels or taskstream just before it crashes? Does it do some computing, then sort-of stop and one worker's memory skyrocket?</p>
+<p>Based on the error you're receiving and what you've described, it seems likely to me that this is not a problem directly related to saving, but instead an error when loading/calculating the thing you want to save. In which case, whatever is causing the error could be code from well before the code that throws the error, that's embedding instructions into the dask graph that's only calculated later</p>
+
+
+
+<a name="105680"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105680" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105680">(Feb 26 2025 at 00:39)</a>:</h4>
+<p>Doing the load() by itself throws an error:</p>
+<hr>
+<p>CancelledError                            Traceback (most recent call last)<br>
+Cell In[19], line 1<br>
+----&gt; 1 ens_ts = ens_ts.load()</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/dataarray.py:1175, in DataArray.load(self, **kwargs)<br>
+   1155 def load(self, **kwargs) -&gt; Self:<br>
+   1156     """Manually trigger loading of this array's data from disk or a<br>
+   1157     remote source into memory and return this array.<br>
+   1158 <br>
+   (...)<br>
+   1173     dask.compute<br>
+   1174     """<br>
+-&gt; 1175     ds = self._to_temp_dataset().load(**kwargs)<br>
+   1176     new = self._from_temp_dataset(ds)<br>
+   1177     self._variable = new._variable</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/core/dataset.py:899, in Dataset.load(self, **kwargs)<br>
+    896 chunkmanager = get_chunked_array_type(*lazy_data.values())<br>
+    898 # evaluate all the chunked arrays simultaneously<br>
+--&gt; 899 evaluated_data: tuple[np.ndarray[Any, Any], ...] = chunkmanager.compute(<br>
+    900     *lazy_data.values(), **kwargs<br>
+    901 )<br>
+    903 for k, data in zip(lazy_data, evaluated_data, strict=False):<br>
+    904     self.variables[k].data = data</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/xarray/namedarray/daskmanager.py:85, in DaskManager.compute(self, *data, **kwargs)<br>
+     80 def compute(<br>
+     81     self, *data: Any, **kwargs: Any<br>
+     82 ) -&gt; tuple[np.ndarray[Any, _DType_co], ...]:<br>
+     83     from dask.array import compute<br>
+---&gt; 85     return compute(*data, **kwargs)</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/dask/base.py:661, in compute(traverse, optimize_graph, scheduler, get, *args, **kwargs)<br>
+    658     postcomputes.append(x.__dask_postcompute__())<br>
+    660 with shorten_traceback():<br>
+--&gt; 661     results = schedule(dsk, keys, **kwargs)<br>
+    663 return repack([f(r, *a) for r, (f, a) in zip(results, postcomputes)])</p>
+<p>File ~/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/client.py:2233, in Client._gather(self, futures, errors, direct, local_worker)<br>
+   2231     else:<br>
+   2232         raise exception.with_traceback(traceback)<br>
+-&gt; 2233     raise exc<br>
+   2234 if errors == "skip":<br>
+   2235     bad_keys.add(key)</p>
+<p>CancelledError: ('transpose-964b93e84eb977cb7290c56ee6ec09a5', 0, 4, 6)</p>
+<p>It shows a lot of movement during the previous parts of the code, then when it gets to the to_netcdf part, it just stays like this, then remains like it before/after the error shows up (see attached)<br>
+<a href="../../../user_uploads/2/68/s1XLNoZT8kfub5F2KSMKhGwB/Capture-décran-2025-02-25-à-16.31.42.png">Capture-décran-2025-02-25-à-16.31.42.png</a><br>
+<a href="../../../user_uploads/2/96/u6rvIruNBdLauR_xSOsUIxWW/Capture-décran-2025-02-25-à-16.30.39.png">Capture-décran-2025-02-25-à-16.30.39.png</a><br>
+<a href="../../../user_uploads/2/29/JVzf_UwJwieGUxaTII7LyvvX/Capture-décran-2025-02-25-à-16.30.18.png">Capture-décran-2025-02-25-à-16.30.18.png</a><br>
+The workers no longer crash, but it throws this strange CancelledError now. I've attached some worker logs<br>
+<a href="../../../user_uploads/2/aa/oGEssRBHM6nv9aweQo3SCIZa/3890166.casper-pbs.ER">3890166.casper-pbs.ER</a><br>
+<a href="../../../user_uploads/2/e5/V0PK-2pU2RDuWog0pVJOeKYO/3890165.casper-pbs.ER">3890165.casper-pbs.ER</a><br>
+<a href="../../../user_uploads/2/41/AuU6bR3iKTD_Fq-0aYB7BUOi/3890161.casper-pbs.ER">3890161.casper-pbs.ER</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/68/s1XLNoZT8kfub5F2KSMKhGwB/Capture-décran-2025-02-25-à-16.31.42.png" title="Capture-décran-2025-02-25-à-16.31.42.png"><img src="../../../user_uploads/2/68/s1XLNoZT8kfub5F2KSMKhGwB/Capture-décran-2025-02-25-à-16.31.42.png"></a></div><div class="message_inline_image"><a href="../../../user_uploads/2/96/u6rvIruNBdLauR_xSOsUIxWW/Capture-décran-2025-02-25-à-16.30.39.png" title="Capture-décran-2025-02-25-à-16.30.39.png"><img src="../../../user_uploads/2/96/u6rvIruNBdLauR_xSOsUIxWW/Capture-décran-2025-02-25-à-16.30.39.png"></a></div><div class="message_inline_image"><a href="../../../user_uploads/2/29/JVzf_UwJwieGUxaTII7LyvvX/Capture-décran-2025-02-25-à-16.30.18.png" title="Capture-décran-2025-02-25-à-16.30.18.png"><img src="../../../user_uploads/2/29/JVzf_UwJwieGUxaTII7LyvvX/Capture-décran-2025-02-25-à-16.30.18.png"></a></div>
+
+
+
+<a name="105681"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105681" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105681">(Feb 26 2025 at 00:45)</a>:</h4>
+<p>The "CancelledError" is the new problem. Previously it seemed like there was a memory overload for the workers, but now that does not seem to be the problem.</p>
+
+
+
+<a name="105682"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105682" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105682">(Feb 26 2025 at 00:46)</a>:</h4>
+<p>The errors changed when I updated all my packages and my conda version. I used to be able to plot these arrays and load() used to work, allowing me to call the values. Now none of it works at all.</p>
+
+
+
+<a name="105683"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105683" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105683">(Feb 26 2025 at 00:53)</a>:</h4>
+<p>Also, when the CancelledError appears, an error appears below where I call the dask client which is too long to even include here, but includes:</p>
+<p>2025-02-25 17:42:54,603 - distributed.protocol.core - CRITICAL - Failed to Serialize<br>
+Traceback (most recent call last):<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/protocol/core.py", line 109, in dumps<br>
+    frames[0] = msgpack.dumps(msg, default=_encode_default, use_bin_type=True)<br>
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/__init__.py", line 35, in packb<br>
+    return Packer(**kwargs).pack(o)<br>
+           ^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 885, in pack<br>
+    self._pack(obj)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 864, in _pack<br>
+    return self._pack_map_pairs(<br>
+           ^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 970, in _pack_map_pairs<br>
+    self._pack(v, nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 819, in _pack<br>
+    n = len(obj) * obj.itemsize<br>
+        ^^^^^^^^<br>
+TypeError: 0-dim memory has no length</p>
+<p>During handling of the above exception, another exception occurred:</p>
+<p>Traceback (most recent call last):<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/protocol/core.py", line 130, in dumps<br>
+    frames[0] = msgpack.dumps(<br>
+                ^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/__init__.py", line 35, in packb<br>
+    return Packer(**kwargs).pack(o)<br>
+           ^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 885, in pack<br>
+    self._pack(obj)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 864, in _pack<br>
+    return self._pack_map_pairs(<br>
+           ^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 970, in _pack_map_pairs<br>
+    self._pack(v, nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 819, in _pack<br>
+    n = len(obj) * obj.itemsize<br>
+        ^^^^^^^^<br>
+TypeError: 0-dim memory has no length<br>
+2025-02-25 17:42:54,608 - distributed.comm.utils - ERROR - 0-dim memory has no length<br>
+Traceback (most recent call last):<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/protocol/core.py", line 109, in dumps<br>
+    frames[0] = msgpack.dumps(msg, default=_encode_default, use_bin_type=True)<br>
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/__init__.py", line 35, in packb<br>
+    return Packer(**kwargs).pack(o)<br>
+           ^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 885, in pack<br>
+    self._pack(obj)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 864, in _pack<br>
+    return self._pack_map_pairs(<br>
+           ^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 970, in _pack_map_pairs<br>
+    self._pack(v, nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 819, in _pack<br>
+    n = len(obj) * obj.itemsize<br>
+        ^^^^^^^^<br>
+TypeError: 0-dim memory has no length</p>
+<p>During handling of the above exception, another exception occurred:</p>
+<p>Traceback (most recent call last):<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/utils.py", line 34, in _to_frames<br>
+    return list(protocol.dumps(msg, **kwargs))<br>
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/protocol/core.py", line 130, in dumps<br>
+    frames[0] = msgpack.dumps(<br>
+                ^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/__init__.py", line 35, in packb<br>
+    return Packer(**kwargs).pack(o)<br>
+           ^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 885, in pack<br>
+    self._pack(obj)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 864, in _pack<br>
+    return self._pack_map_pairs(<br>
+           ^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 970, in _pack_map_pairs<br>
+    self._pack(v, nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 819, in _pack<br>
+    n = len(obj) * obj.itemsize<br>
+        ^^^^^^^^<br>
+TypeError: 0-dim memory has no length<br>
+2025-02-25 17:42:54,611 - distributed.batched - ERROR - Error in batched write<br>
+Traceback (most recent call last):<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/protocol/core.py", line 109, in dumps<br>
+    frames[0] = msgpack.dumps(msg, default=_encode_default, use_bin_type=True)<br>
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/__init__.py", line 35, in packb<br>
+    return Packer(**kwargs).pack(o)<br>
+           ^^^^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 885, in pack<br>
+    self._pack(obj)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 864, in _pack<br>
+    return self._pack_map_pairs(<br>
+           ^^^^^^^^^^^^^^^^^^^^^<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 970, in _pack_map_pairs<br>
+    self._pack(v, nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 861, in _pack<br>
+    self._pack(obj[i], nest_limit - 1)<br>
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/msgpack/fallback.py", line 819, in _pack<br>
+    n = len(obj) * obj.itemsize<br>
+        ^^^^^^^^<br>
+TypeError: 0-dim memory has no length</p>
+<p>It seems like basically every single part of this code is failing.</p>
+
+
+
+<a name="105684"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105684">(Feb 26 2025 at 04:15)</a>:</h4>
+<p>It turns out the problem was with my python environment - when I switch to the built-in NPL 2025a conda environment, everything works. I have no idea why.</p>
+
+
+
+<a name="105685"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105685" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105685">(Feb 26 2025 at 04:16)</a>:</h4>
+<p>Well, not quite true. doing ens_ts = ens_ts.load() gives me a netCDF HDI error, but I can save the file.</p>
+
+
+
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
+</html>

@@ -1,0 +1,41 @@
+<html>
+<head><meta charset="utf-8"><title>xarray open_mfdataset add_bounds problem · general · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20add_bounds.20problem.html">xarray open_mfdataset add_bounds problem</a></h3>
+
+<hr>
+
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="105882"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20add_bounds%20problem/near/105882" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jim Edwards <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20add_bounds.20problem.html#105882">(Mar 17 2025 at 18:58)</a>:</h4>
+<p>I am looking at an xarray routine that internally computes cell boundaries.  Then the next routine complains that the<br>
+cell boundaries are not monotonic.   It looks to me like a roundoff error and I wonder if anyone here knows how to avoid it?<br>
+The cell bounds in question are below.  <br>
+       [ -1.8848168 ,  -0.9424084 ],<br>
+       [ -0.94240844,   0.        ],<br>
+       [  0.        ,   0.94240844],<br>
+       [  0.9424084 ,   1.8848168 ],</p>
+<p>The routine that calculates these boundaries is open_mfdataset with argument  add_bounds=["X", "Y"]</p>
+
+
+
+<a name="105885"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20add_bounds%20problem/near/105885" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Thomas Martin <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20add_bounds.20problem.html#105885">(Mar 18 2025 at 18:05)</a>:</h4>
+<p>Do you have test/sample data I can work though?</p>
+
+
+
+<a name="105894"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20add_bounds%20problem/near/105894" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20add_bounds.20problem.html#105894">(Mar 18 2025 at 19:59)</a>:</h4>
+<p>Are you using xcdat for your first routine? <code>add_bounds</code> is not functionality default in xarray.</p>
+<p>xcdat appears to calculate a naive linear interpolation between your grid coords, ie <code>0.5 * (x_2 - x_1)</code>. This approach is simple but potentially a.) not a realistic representation for curvilinear grids and b.) susceptible to imprecise math. If this is fine for your approach, you could try manually rounding a few digits off your calculated boundaries. This may minorly exaggerate the existing error of this linear grid spacing approximation.</p>
+<p>You could also open up an issue on the xcdat GitHub to see what other folks are doing or recommend, but this doesn't seem to necessarily be a bug on their end.</p>
+<p>I might consider other methods for calculating cell boundaries, or getting that information from the underlying model or grid specifications.</p>
+<p>Echoing Thomas: providing sample code, data, and your traceback could also illuminate potential solutions in your dependent routine as well.</p>
+
+
+
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
+</html>

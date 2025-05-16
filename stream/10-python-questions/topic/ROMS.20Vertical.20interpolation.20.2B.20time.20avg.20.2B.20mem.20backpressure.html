@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="25561"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25561" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25561">(Feb 22 2021 at 17:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25561" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25561">(Feb 22 2021 at 17:07)</a>:</h4>
 <p>Hi folks,</p>
 <p>I'm a software engineer with iHESP, which is a collaboration between NCAR, Texas A&amp;M and QNLM, China. <span class="user-mention" data-user-id="14">@Matt Long</span> added me on here a while ago, but I finally thought I'd drop in and ask a question. One of our projects is the Regional Community Earth System Model (R-CESM), which uses the existing CESM framework to couple ROMS and WRF for a regional domain. As part of that project, we have been learning how to post-process ROMS model output using the Pangeo framework. We're making use of <a href="https://github.com/kthyng/xroms" target="_blank" title="https://github.com/kthyng/xroms">xroms </a>, which builds on grid metrics available through xgcm.</p>
 <p>I'm having issues when trying to chain xgcm's vertical interpolation (wrapped by xroms) with a simple time mean operation. <code>salt</code> has dimensions <code>(ocean_time, s_rho, eta_rho, xi_rho)</code>. </p>
@@ -42,27 +41,27 @@
 
 
 <a name="25562"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25562" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25562">(Feb 22 2021 at 17:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25562" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25562">(Feb 22 2021 at 17:17)</a>:</h4>
 <p><span class="user-mention" data-user-id="86">@Abishek Gopal</span> can you post a reproducible example that I can run on casper?</p>
 <p>One trick is to try <code>.isoslice(..).to_zarr</code> this will write to disk in parallel, and decrease memory. You can then open the zarr file to calculate the time mean.</p>
 
 
 
 <a name="25563"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25563" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25563">(Feb 22 2021 at 17:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25563" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25563">(Feb 22 2021 at 17:25)</a>:</h4>
 <p>If that doesn't work then wrap the <code>.isoslice(...).to_zarr()</code> in a <code>map_blocks</code> call. This forces dask to interpolate and write in the same task (you're forcing dask to "fuse" the two steps), and should definitely work. You can use the <code>region</code> keyword in <code>to_zarr</code> to write to the same store.</p>
 
 
 
 <a name="25564"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25564" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25564">(Feb 22 2021 at 17:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25564" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25564">(Feb 22 2021 at 17:30)</a>:</h4>
 <p>Thank you <span class="user-mention" data-user-id="25">@Deepak Cherian</span>! I haven't tried <code>to_zarr()</code> before, and will need to check out your suggestions. </p>
 <p>I will also look into getting  you a reproducible notebook. Some of our datasets might be on glade, but will need to check.</p>
 
 
 
 <a name="25601"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25601" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25601">(Feb 22 2021 at 22:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25601" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25601">(Feb 22 2021 at 22:28)</a>:</h4>
 <p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I'm running into a few issues when trying to wrap  <code>.isoslice(...).to_zarr()</code> in a <code>map_blocks</code> call. </p>
 <ol>
 <li>I created a new dataset with just the interpolated salinity so that I could call to_zarr() on the dataset. Not sure if there's a better way around that. </li>
@@ -85,19 +84,19 @@
 
 
 <a name="25602"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25602" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25602">(Feb 22 2021 at 22:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25602" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25602">(Feb 22 2021 at 22:33)</a>:</h4>
 <p>return something small like <code>ds_block.time</code> and pass <code>template=ds1.time</code> in <code>map_blocks</code></p>
 
 
 
 <a name="25603"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25603" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25603">(Feb 22 2021 at 22:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25603" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25603">(Feb 22 2021 at 22:34)</a>:</h4>
 <p>(ideally we would have <code>Dataset.to_delayed</code> but we don't so this is a workaround...)</p>
 
 
 
 <a name="25706"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25706" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25706">(Feb 23 2021 at 15:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25706" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25706">(Feb 23 2021 at 15:45)</a>:</h4>
 <p>Thanks for your suggestions! I eventually got <code>map_blocks</code> to work by using <code>template = xr.DataArray(data=np.arange(1)).chunk((1,))</code>. I tried with <code>ds.ocean_time</code> before, but I got an error saying the object was not iterable, probably because it wasn't chunked.</p>
 <p>My map_blocks function appears to write to a zarr store now, but it seems to be writing out only one block in total, despite there being 9 chunks in salinity. Would this be because I haven't used the <code>region</code> keyword in <code>to_zarr</code> yet? I wasn't sure how to get the extents of the current block within the callable function (from map_blocks). I've seen there is a <code>block_info</code> variable in the dask version of <code>map_blocks</code>, but haven't seen an equivalent in the xarray docs. </p>
 <p>Here's my current code</p>
@@ -117,7 +116,7 @@
 
 
 <a name="25707"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25707" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25707">(Feb 23 2021 at 15:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25707" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25707">(Feb 23 2021 at 15:54)</a>:</h4>
 <blockquote>
 <p>Would this be because I haven't used the region keyword in to_zarr yet?</p>
 </blockquote>
@@ -131,27 +130,27 @@
 
 
 <a name="25726"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25726" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25726">(Feb 23 2021 at 16:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25726" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25726">(Feb 23 2021 at 16:57)</a>:</h4>
 <p>Oh got it. Here's what ds.salt looks like. </p>
-<p><a href="/user_uploads/2/8f/M1H6y1vSZ3mPJOS1REvt132U/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/8f/M1H6y1vSZ3mPJOS1REvt132U/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/8f/M1H6y1vSZ3mPJOS1REvt132U/pasted_image.png"></a></div>
+<p><a href="../../../user_uploads/2/8f/M1H6y1vSZ3mPJOS1REvt132U/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/8f/M1H6y1vSZ3mPJOS1REvt132U/pasted_image.png" target="_blank" title="pasted image"><img src="../../../user_uploads/2/8f/M1H6y1vSZ3mPJOS1REvt132U/pasted_image.png"></a></div>
 
 
 
 <a name="25732"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25732" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25732">(Feb 23 2021 at 17:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25732" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25732">(Feb 23 2021 at 17:52)</a>:</h4>
 <p>right so you can use <code>xi_rho</code> and <code>eta_rho</code> to write to the right region</p>
 
 
 
 <a name="25733"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25733" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25733">(Feb 23 2021 at 17:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25733" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25733">(Feb 23 2021 at 17:53)</a>:</h4>
 <p>See <a href="https://xarray.pydata.org/en/stable/io.html#appending-to-existing-zarr-stores" target="_blank" title="https://xarray.pydata.org/en/stable/io.html#appending-to-existing-zarr-stores">https://xarray.pydata.org/en/stable/io.html#appending-to-existing-zarr-stores</a></p>
 
 
 
 <a name="25768"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25768" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25768">(Feb 23 2021 at 21:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25768" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Abishek Gopal <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25768">(Feb 23 2021 at 21:21)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span>! Since I'm chunking in time, I decided to create a temp index along time to simplify the process of selecting the region (<code>.assign_coords(ind=("ocean_time", np.arange(varin.ocean_time.size)))</code>). And then I followed the link you sent to first create a dummy zarr store with zeros across the full size of the variable, and call map_blocks to overwrite specific regions. </p>
 <p>I checked that the dummy zarr store had size:72 along time before calling map_blocks, but I still get this message when appending to the dummy store.</p>
 <p>**ValueError: variable 'ocean_time' already exists with different dimension sizes: {'ocean_time': 7} != {'ocean_time': 0}. to_zarr() only supports changing dimension sizes when explicitly appending, but append_dim=None.<br>
@@ -187,10 +186,10 @@ Here's my code:</p>
 
 
 <a name="25770"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25770" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25770">(Feb 23 2021 at 21:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ROMS%20Vertical%20interpolation%20%2B%20time%20avg%20%2B%20mem%20backpressure/near/25770" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ROMS.20Vertical.20interpolation.20.2B.20time.20avg.20.2B.20mem.20backpressure.html#25770">(Feb 23 2021 at 21:58)</a>:</h4>
 <p>hmm... not sure. I would try the simple example in the documentation first and work from there.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

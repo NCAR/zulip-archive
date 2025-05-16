@@ -1,0 +1,56 @@
+[
+    {
+        "content": "<p>Hello all,</p>\n<p>I created yearly files of daily total precipitation from ERA5. The netCDFs have dimensions:<br>\ndouble time(time) ;<br>\n        time:standard_name = \"time\" ;<br>\n        time:units = \"days since 2023-01-01 00:00:00\" ;<br>\n        time:calendar = \"proleptic_gregorian\" ;<br>\n        time:axis = \"T\" ;<br>\n    double longitude(longitude) ;<br>\n        longitude:standard_name = \"longitude\" ;<br>\n        longitude:long_name = \"longitude\" ;<br>\n        longitude:units = \"degrees_east\" ;<br>\n        longitude:axis = \"X\" ;<br>\n    double latitude(latitude) ;<br>\n        latitude:standard_name = \"latitude\" ;<br>\n        latitude:long_name = \"latitude\" ;<br>\n        latitude:units = \"degrees_north\" ;<br>\n        latitude:axis = \"Y\" ;<br>\n    float TP(time, latitude, longitude) ;<br>\n        TP:_FillValue = NaNf ;<br>\n        TP:missing_value = NaNf ;</p>\n<p>Reading the files into xarray with open_mfdataset throws a cftime error. But reading them in with decode_cf=False gives</p>\n<p>\"ValueError: Coordinate variable time is neither monotonically increasing nor monotonically decreasing on all datasets\"</p>\n<p>Is there a simple work around? Or do I need to recreate the netCDFs with a common base year?</p>\n<p>Thanks,<br>\nMari</p>",
+        "id": 105399,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1738105425
+    },
+    {
+        "content": "<p>Could you share the cftime error?</p>",
+        "id": 105400,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1738105675
+    },
+    {
+        "content": "<p>There were two messages:</p>\n<p>OverflowError: time values outside range of 64 bit signed integers</p>\n<p>During handling of the above exception, another exception occurred:</p>\n<p>ValueError: unable to decode time units 'days since 1982-01-01 00:00:00' with \"calendar 'proleptic_gregorian'\". Try opening your dataset with decode_times=False or installing cftime if it is not installed.</p>",
+        "id": 105402,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1738169102
+    },
+    {
+        "content": "<p>Thanks!</p>\n<p>I think you're right that you do need consistent time units for your time dimension with the multi-file dataset, but you can probably write a preprocess function that handles this (i.e. the adjusting the times to be consistent across files) to pass to open_mfdataset if you'd like to avoid rewriting the files.</p>",
+        "id": 105403,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1738170011
+    },
+    {
+        "content": "<p>Thank you! Would the preprocess be something along these lines?:<br>\ntimes = xr.date_range(start='1940-01-01', end='2023-12-31', freq='D')<br>\nds['dates'] = times<br>\nds01 = ds0.assign_coords({\"index\": ds0.dates.values}).drop(\"time\").rename({\"dates\":\"time\"}).drop_dims(\"index\")</p>",
+        "id": 105404,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1738171017
+    },
+    {
+        "content": "<p>I think you'd want to do something a little different.  Do you have couple of sample files you could point me to?</p>",
+        "id": 105405,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1738173137
+    },
+    {
+        "content": "<p>I've copied a decade into /glade/derecho/scratch/maritye/ERA5/</p>",
+        "id": 105406,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1738174890
+    },
+    {
+        "content": "<p>Agh, it looks like I don't have read permissions.</p>",
+        "id": 105407,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1738175644
+    },
+    {
+        "content": "<p>just changed the permissions</p>",
+        "id": 105408,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1738176139
+    }
+]

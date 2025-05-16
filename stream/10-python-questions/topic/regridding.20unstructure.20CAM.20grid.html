@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="94284"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94284" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94284">(Jan 11 2024 at 23:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94284" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94284">(Jan 11 2024 at 23:04)</a>:</h4>
 <p>I am trying to analyze and plot some high res (0.25 deg) CAM output from the iHESP simulations.  It looks like the data is indexed by ncol, rather than being on a lat/lon grid.  I've never dealt with such  data before.</p>
 <p>I found this really helpful post on dealing with CAM-SE output which seems like it has the same format.<br>
 <a href="https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3">https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3</a></p>
@@ -27,13 +26,13 @@ MissingDimensionsError: &#39;lat&#39; has more than 1-dimension and the same nam
 
 
 <a name="94285"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94285" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94285">(Jan 12 2024 at 00:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94285" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94285">(Jan 12 2024 at 00:55)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="259">@Mira Berdahl</span>. I can't answer your first question, but you may be able to solve your second question by using a version of Xarray &gt;= 2023.08.0. It appears versions after that allow handling data like you have. See this Xarray GitHub issue: <a href="https://github.com/pydata/xarray/issues/2233">https://github.com/pydata/xarray/issues/2233</a> for more details, but the error there looks exactly like the one you have.</p>
 
 
 
 <a name="94312"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94312" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94312">(Jan 12 2024 at 19:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94312" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94312">(Jan 12 2024 at 19:24)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="234">@Daniel Adriaansen</span> .    I just updated my xarray package in the hopes it would help, but now received the following error when importing packages  (the PBSCluster specifically):</p>
 <div class="codehilite"><pre><span></span><code>from dask_jobqueue import PBSCluster
 
@@ -44,7 +43,7 @@ ImportError: cannot import name &#39;tmpfile&#39; from &#39;distributed.utils&#3
 
 
 <a name="94314"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94314" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94314">(Jan 12 2024 at 19:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94314" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94314">(Jan 12 2024 at 19:31)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="259">@Mira Berdahl</span>, when you updated Xarray, did you happen to notice if it updated either Dask or Distributed or both? When you do:<br>
 <code>conda list dask</code><br>
 and<br>
@@ -54,7 +53,7 @@ what is the output?</p>
 
 
 <a name="94315"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94315" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94315">(Jan 12 2024 at 19:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94315" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94315">(Jan 12 2024 at 19:49)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="234">@Daniel Adriaansen</span> , yeah it seems both dask and distributed were both upgraded:</p>
 <div class="codehilite"><pre><span></span><code>- dask-core             2022.1.0  pyhd8ed1ab_0            conda-forge     Cached
   + dask-core            2023.10.1  pyhd8ed1ab_0            conda-forge      863kB
@@ -86,13 +85,13 @@ distributed               2023.10.1          pyhd8ed1ab_0    conda-forge
 
 
 <a name="94316"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94316" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94316">(Jan 12 2024 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94316" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94316">(Jan 12 2024 at 20:02)</a>:</h4>
 <p>maybe the version of dask_jobqueue is the problem? this quickly gets tricky though, as you are seeing. Maybe see what the latest dask_jobqueue is and consider updating it also?</p>
 
 
 
 <a name="94317"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94317" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94317">(Jan 12 2024 at 20:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94317" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94317">(Jan 12 2024 at 20:59)</a>:</h4>
 <p><span class="user-mention" data-user-id="234">@Daniel Adriaansen</span> , Alright, so after updating dask_jobqueue separately I can load the packages again. However, when trying to regrid, I get a new error, that is triggered at the same line in my function as the former error </p>
 <div class="codehilite"><pre><span></span><code>---&gt;  regridded = regridder(updated.rename({&quot;dummy&quot;: &quot;lat&quot;, &quot;ncol&quot;: &quot;lon&quot;}))
 ValueError: Dimension 1 has 2 blocks, adjust_chunks specified with 1 blocks
@@ -103,49 +102,49 @@ mfds = xr.open_mfdataset(dfiles, combine='by_coords', parallel=True , chunks={"l
 
 
 <a name="94318"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94318" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94318">(Jan 12 2024 at 21:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94318" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94318">(Jan 12 2024 at 21:17)</a>:</h4>
 <p>Actually maybe its not to do with the chunking on read-in, as I've played around with that option but the error remains.</p>
 
 
 
 <a name="94319"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94319" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94319">(Jan 12 2024 at 21:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94319" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94319">(Jan 12 2024 at 21:43)</a>:</h4>
 <p>Where is the ValueError originating, is it from xesmf?</p>
 
 
 
 <a name="94321"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94321" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94321">(Jan 12 2024 at 22:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94321" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94321">(Jan 12 2024 at 22:50)</a>:</h4>
 <p>Hah, I just answered similarly to the question about the import error over on the dask stream.</p>
 
 
 
 <a name="94322"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94322" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94322">(Jan 12 2024 at 22:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94322" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94322">(Jan 12 2024 at 22:50)</a>:</h4>
 <p><span class="user-mention" data-user-id="259">@Mira Berdahl</span> for your question about using the same weights file, I think it would be fair to use the same weights file from the blog post on the iHESP output. The file in the blog post is from a very similar CESM1.3 0.25deg simulation setup that John Truesdale made for another project. FWIW it uses bilinear interpolation so if you want a different method, there is some <a href="https://ncar.github.io/esds/posts/2023/cam-se-analysis/#set-cam-se-output-location-and-map-file">information</a> in the blog post about how to create your own map file.</p>
 
 
 
 <a name="94324"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94324" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94324">(Jan 12 2024 at 22:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94324" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94324">(Jan 12 2024 at 22:57)</a>:</h4>
 <p><span class="user-mention" data-user-id="47">@Katie Dagon</span>  I'm fine with bilinear interp so using the weights file from the blog post is good with me - thanks for letting me know. <span class="user-mention" data-user-id="234">@Daniel Adriaansen</span>  I'm trying a new method now (#2 in the blog post <a href="https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3">https://ncar.github.io/esds/posts/2023/cam-se-analysis/#section3</a>).  I can remap now, but running into other errors now though.   Will post again when I have a better handle on what is going on.</p>
 
 
 
 <a name="94325"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94325" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94325">(Jan 12 2024 at 22:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94325" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94325">(Jan 12 2024 at 22:58)</a>:</h4>
 <p>Thanks for testing out the methods in the blog post! It's good to know if they don't work on other datasets.</p>
 
 
 
 <a name="94326"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94326" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94326">(Jan 12 2024 at 22:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94326" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94326">(Jan 12 2024 at 22:59)</a>:</h4>
 <p>Oh, by the way, the package versions I was using to test out those methods are <a href="https://ncar.github.io/esds/posts/2023/cam-se-analysis/#imports">listed at the top</a> - if that helps with debugging.</p>
 
 
 
 <a name="94441"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94441" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94441">(Jan 16 2024 at 23:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94441" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94441">(Jan 16 2024 at 23:43)</a>:</h4>
 <p>It looks like I can remap CAM-SE output with the following function</p>
 <div class="codehilite"><pre><span></span><code>import scipy.sparse as sps
 
@@ -245,50 +244,50 @@ KeyError: &quot;No variable named &#39;U&#39;. Variables on the dataset include 
 
 
 <a name="94443"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94443" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94443">(Jan 17 2024 at 00:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94443" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94443">(Jan 17 2024 at 00:09)</a>:</h4>
 <p>I think <span class="user-mention" data-user-id="34">@Stephen Yeager</span> wrote this function originally, I'd be curious to hear if he has any thoughts about using it repeatedly for multiple variables.</p>
 
 
 
 <a name="94583"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94583" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94583">(Jan 18 2024 at 19:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94583" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94583">(Jan 18 2024 at 19:31)</a>:</h4>
 <p>For others who may encounter this in the future, it appears that adding the line  varlst.clear() at the end of the function does the trick.  Not clear exactly why, it shouldn't be necessary. Thanks to Fred Castruccio for the help.</p>
 
 
 
 <a name="94663"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94663" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94663">(Jan 19 2024 at 02:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94663" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94663">(Jan 19 2024 at 02:24)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="259">@Mira Berdahl</span> . I just wanted to call to your attention NCAR's <a href="https://raijin.ucar.edu/">Project Raijin</a> effort, which is working with the DOE to develop <a href="https://uxarray.readthedocs.io/en/latest/index.html">UXarray</a>: an Xarray-compatible Python package for analyzing and visualize unstructured grid data <strong>without</strong> resampling. We just published a new Pythia <a href="https://projectpythia.org/unstructured-grid-viz-cookbook/README.html">cookbook</a> that  demonstrates plotting with UXarray.</p>
 
 
 
 <a name="94681"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94681" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94681">(Jan 19 2024 at 16:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94681" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94681">(Jan 19 2024 at 16:09)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="19">@John Clyne</span> ! I think  an example of UXarray applied to CAM-SE unstructured output could be really helpful. I think the cookbook only shows MPAS?</p>
 
 
 
 <a name="94703"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94703" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94703">(Jan 19 2024 at 18:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94703" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94703">(Jan 19 2024 at 18:27)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="19">@John Clyne</span> , good to know about this! Agreed with <span class="user-mention" data-user-id="47">@Katie Dagon</span> , an example with CAM-SE would be super helpful.</p>
 
 
 
 <a name="94704"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94704" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94704">(Jan 19 2024 at 18:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94704" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94704">(Jan 19 2024 at 18:29)</a>:</h4>
 <p>Thanks for the input!  <span class="user-mention" data-user-id="279">@Philip Chmielowiec</span> <span class="user-mention" data-user-id="18">@Orhan Eroglu</span>  (in case you didn't already see this)</p>
 
 
 
 <a name="94709"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94709" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94709">(Jan 19 2024 at 19:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/94709" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#94709">(Jan 19 2024 at 19:05)</a>:</h4>
 <p>UXarray currently supports CAM-SE just as MPAS. Please see <a href="https://projectpythia.org/unstructured-grid-viz-cookbook/notebooks/03-uxarray-vis/01-plot-api.html#uxarray-plotting-api-design">this</a></p>
 <p>We will definitely consider putting together CAM-SE examples as well, but you should be able to run any functions on CAM-SE in the way they are documented for MPAS.</p>
 
 
 
 <a name="95770"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95770" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95770">(Feb 13 2024 at 20:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95770" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95770">(Feb 13 2024 at 20:57)</a>:</h4>
 <p>Hi again, I'm having a strange issue crop up from time to time when using this function (remap_camse).  Sometimes it works fine, and other times I end up with the following error:</p>
 <p>FileNotFoundError: [Errno 2] No such file or directory: '/glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/dask-worker-space/worker-5wchvnxg/storage/%28%27open_dataset-concatenate-b1b2ed4bd191a85fa8152a06f16ef99d%27%2C%206%2C%200%2C%200%29'</p>
 <p>The particular line in the function that gets highlighted is this one:<br>
@@ -298,7 +297,7 @@ KeyError: &quot;No variable named &#39;U&#39;. Variables on the dataset include 
 
 
 <a name="95779"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95779" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95779">(Feb 13 2024 at 23:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95779" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95779">(Feb 13 2024 at 23:44)</a>:</h4>
 <p><span class="user-mention" data-user-id="259">@Mira Berdahl</span> and I chatted about this a little bit. We fixed the issue by removing <code>/glade/u/home/mberdahl/FirstLook_LIGruns/DASK_scripts/HistoricalAnalysis/dask-worker-space</code> and replacing it with a softlink to a directory on scratch, but it raises a couple of questions:</p>
 <ol>
 <li>Is there a way to tell dask where to put this directory? <code>dask.config.set(temporary_directory='/path/to/dir')</code> didn't work -- it changed <code>temporary_directory</code> (verified via <code>dask.config.get()</code>), but that isn't where these worker files went.</li>
@@ -308,25 +307,25 @@ KeyError: &quot;No variable named &#39;U&#39;. Variables on the dataset include 
 
 
 <a name="95782"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95782" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95782">(Feb 13 2024 at 23:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95782" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95782">(Feb 13 2024 at 23:52)</a>:</h4>
 <p>For #1, are there other folder settings you can change in the dask config files (<code>~/.config/dask</code> or <code>~/.dask</code>)? Maybe in <code>jobqueue.yaml</code>? I think there are <code>log-directory</code> and <code>local_directory</code> settings.</p>
 
 
 
 <a name="95783"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95783" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95783">(Feb 13 2024 at 23:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95783" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95783">(Feb 13 2024 at 23:53)</a>:</h4>
 <p>For #2, is home full or close to full?</p>
 
 
 
 <a name="95788"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95788" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95788">(Feb 14 2024 at 16:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95788" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95788">(Feb 14 2024 at 16:09)</a>:</h4>
 <p>Thanks for the suggestions, <span class="user-mention" data-user-id="47">@Katie Dagon</span>! I'll look in my config files and see if I can find where I set my temp location. I think I also set <code>$TMPDIR</code> in my <code>.bashrc</code> file, but that might be for VSCode instead of dask. Disk space was my first thought as well, but we checked and <span class="user-mention" data-user-id="259">@Mira Berdahl</span> was only using 2% of her quota; I should have mentioned that in my first reply.</p>
 
 
 
 <a name="95806"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95806" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95806">(Feb 14 2024 at 18:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95806" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95806">(Feb 14 2024 at 18:26)</a>:</h4>
 <p>Agreed with <span class="user-mention" data-user-id="47">@Katie Dagon</span> 's response. </p>
 <p><span class="user-mention" data-user-id="259">@Mira Berdahl</span> and <span class="user-mention" data-user-id="10">@Michael Levy</span>  This indicates spilling to the disk: when worker memory hits the threshold (default 70%) and data spills to disk. That explains why you only see this occasionally when you hit that threshold.</p>
 <p>You can set this by using <code>jobqueue.yaml</code> (as Katie suggested) or using <code>local_directory</code> argument in <code>PBSCluster</code> to automatically set the spill directory:</p>
@@ -342,10 +341,10 @@ KeyError: &quot;No variable named &#39;U&#39;. Variables on the dataset include 
 
 
 <a name="95830"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95830" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95830">(Feb 15 2024 at 00:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/regridding%20unstructure%20CAM%20grid/near/95830" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/regridding.20unstructure.20CAM.20grid.html#95830">(Feb 15 2024 at 00:14)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="71">@Negin Sobhani</span> , <span class="user-mention" data-user-id="47">@Katie Dagon</span> and <span class="user-mention" data-user-id="10">@Michael Levy</span> .  The new line setting the local_directory, in conjunction with limiting the size of the files I'm processing, seems to do the trick.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

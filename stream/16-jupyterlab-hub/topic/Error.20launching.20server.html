@@ -5,64 +5,63 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="63763"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63763" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63763">(Sep 09 2022 at 19:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63763" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63763">(Sep 09 2022 at 19:56)</a>:</h4>
 <p>Is anybody else having issues starting up a JupyterHub session on Casper right now? I'm getting lots of "pending in queue" messages, then a timeout error</p>
 
 
 
 <a name="63766"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63766" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63766">(Sep 09 2022 at 20:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63766" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63766">(Sep 09 2022 at 20:33)</a>:</h4>
 <p>Yes I'm seeing the same. The jhublogin queue may be maxed out in terms of number of jobs; this is something I have encountered before.  <span class="user-group-mention" data-user-group-id="6">@hpcd</span> may have some insight</p>
 
 
 
 <a name="63767"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63767" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63767">(Sep 09 2022 at 20:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63767" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63767">(Sep 09 2022 at 20:44)</a>:</h4>
 <p>We are taking a look now. There are still a couple of free slots but it's constrained and one node is marked offline, so looking into the root cause there. Will update shortly.</p>
 
 
 
 <a name="63768"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63768" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63768">(Sep 09 2022 at 21:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63768" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63768">(Sep 09 2022 at 21:21)</a>:</h4>
 <p>New servers do seem to be starting now at least, but the response time is quite slow. Hopefully you will get on eventually with patience, but we are looking into the performance issue.</p>
 
 
 
 <a name="63769"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63769" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63769">(Sep 09 2022 at 21:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63769" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63769">(Sep 09 2022 at 21:30)</a>:</h4>
 <p>Thanks Brian, I just got on after patiently resubmitting after each timeout :)<br>
 If anyone else is having this issue, the commands <code>qstat -Q</code> and <code>qstat jhublogin</code> are helpful for monitoring progress.</p>
 
 
 
 <a name="63789"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63789" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63789">(Sep 09 2022 at 22:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63789" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63789">(Sep 09 2022 at 22:26)</a>:</h4>
 <p>The slowness of new servers should be much improved now and hopefully the problem is resolved. Have a good weekend all!</p>
 
 
 
 <a name="63790"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63790" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63790">(Sep 09 2022 at 22:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/63790" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#63790">(Sep 09 2022 at 22:27)</a>:</h4>
 <p>thanks <span class="user-mention" data-user-id="141">@Brian Vanderwende</span>, you're help is much appreciated!</p>
 
 
 
 <a name="74387"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/74387" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#74387">(Feb 15 2023 at 21:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/74387" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#74387">(Feb 15 2023 at 21:40)</a>:</h4>
 <p>Hi, I seem to be having similar issues getting jupyter hub to load. I tried (1) just using Caper Login and I was put in a queue and then it timed out, (2) requesting a pbs node and that said "Cluster job running... waiting to connect" but jupyter never loaded. Is anyone else having these issues at the moment? I was also having this issue yesterday. Any help would be great! Thank you.</p>
 
 
 
 <a name="76790"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/76790" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#76790">(Mar 15 2023 at 20:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20launching%20server/near/76790" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20launching.20server.html#76790">(Mar 15 2023 at 20:21)</a>:</h4>
 <p>I'm having this issue again right now, it appears the <code>jhublogin</code> nodes are oversubscribed. 170 users may be the limit?</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

@@ -5,18 +5,17 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="91833"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91833" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91833">(Nov 14 2023 at 17:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91833">(Nov 14 2023 at 17:58)</a>:</h4>
 <p>I have been unable to use jupyterhub today. When I click on a server it does launch another window but then it just sits there for a long time saying "Pending in queue" if I try to stop the server I get an error: "API request failed (400): afoster is pending spawn, please wait" I'm not sure how to go about troubleshooting this. Any help would be much appreciated!</p>
 
 
 
 <a name="91835"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91835" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91835">(Nov 14 2023 at 18:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91835" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91835">(Nov 14 2023 at 18:14)</a>:</h4>
 <p><span class="user-mention" data-user-id="257">@Adrianna Foster</span> I had this issue yesterday -- I was trying to get on a Casper login node, but was sitting in the queue instead. (I think there's a limit of 180 jupyterhub instances on the Casper login nodes, and I was lucky number 181.) Which machine / node were you trying to access? The Casper login nodes don't look quite as busy today, but if you can't get on a login node I'd recommend trying a compute node instead.</p>
 <p>More detail than you probably want, but if you ssh to Casper you can run <code>$ qstat | grep jhublog</code> to see how busy the hub login nodes are (compute node requests go through the <code>htc</code> queue). Right now it looks like there are 144 active jobs, five people waiting, and your job is running:</p>
 <div class="codehilite"><pre><span></span><code>$ qstat | grep jhublog | wc -l
@@ -38,33 +37,33 @@ $ qstat | grep jhublog | tail
 
 
 <a name="91836"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91836" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91836">(Nov 14 2023 at 18:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91836" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91836">(Nov 14 2023 at 18:17)</a>:</h4>
 <p>Hi Adrianna, this happens every now and then for me as well when trying to get a Casper node on JupyterHub and there is a queue. The only way I've been able to get past the stuck server it is to add a new server, or I've also been successful by ssh-ing into casper from the mac terminal, and then using qdel to cancel the job that is stuck in queue.</p>
 
 
 
 <a name="91842"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91842" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91842">(Nov 14 2023 at 18:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/91842" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#91842">(Nov 14 2023 at 18:40)</a>:</h4>
 <p>okay <span class="user-mention" data-user-id="10">@Michael Levy</span> and <span class="user-mention" data-user-id="368">@Danielle Touma</span> thanks! I was able to finally get in but this was super helpful!</p>
 
 
 
 <a name="92380"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92380" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92380">(Nov 28 2023 at 18:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92380" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92380">(Nov 28 2023 at 18:37)</a>:</h4>
 <p><span class="user-mention" data-user-id="257">@Adrianna Foster</span> and <span class="user-mention" data-user-id="368">@Danielle Touma</span>  As Mike mentioned, this happens when there are too many users using casper login instances on JH.</p>
 <p>In these situations I would suggest using Casper Pbs Batch node instead of login to access the JHub.Basically in Jupyterhub under the "Resource Selection", choose PBS batch node instead of login. It will direct the job to another queue instead of jhublog.</p>
 
 
 
 <a name="92384"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92384" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92384">(Nov 28 2023 at 18:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92384" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92384">(Nov 28 2023 at 18:39)</a>:</h4>
 <p>And also one general advice to all users to avoid this issue occurring for other users:<br>
 To prevent access issues on Casper, we strongly encourage you to terminate your JHub login sessions as soon as you have completed your work. We often noticed that some idle JHub sessions prevent other users from accessing login sessions on Casper.</p>
 
 
 
 <a name="92423"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92423" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92423">(Nov 28 2023 at 22:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92423" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92423">(Nov 28 2023 at 22:51)</a>:</h4>
 <p><span class="user-mention" data-user-id="71">@Negin Sobhani</span> , a drawback of stopping a jhub session is that if you restart it you don't get back the tabs that you previously had open (at least I don't). This is my primary reason for using casper login for sessions; they are long-running and I don't have to reopen multiple tabs that I've set up.</p>
 <p>At the end of a <a href="https://zulip.ucar.edu/#narrow/stream/16-jupyterlab-hub/topic/resume.20jupyterhub.20with.20previously.20opened.20tabs">previous zulip thread</a>, <span class="user-mention" data-user-id="154">@Jared Baker</span> explained that this loss of session state is a consequence of cleanup that now occurs in the CISL configuration of jhub.</p>
 <p>If there were a way besides using long-lived sessions to preserve which tabs are open, I would happily close my sessions. If someone here knows how to preserve this session state, I'd be very interested in learning about that.</p>
@@ -72,10 +71,10 @@ To prevent access issues on Casper, we strongly encourage you to terminate your 
 
 
 <a name="92431"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92431" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92431">(Nov 29 2023 at 01:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Pending%20spawn%20issues%3F/near/92431" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Pending.20spawn.20issues.3F.html#92431">(Nov 29 2023 at 01:05)</a>:</h4>
 <p>Hmm, that’s an interesting workflow. Might be able to cook something up to fix that. I’ll think about it over the next day or so. There was a good set of reasons we decided to make the state dirs ephemeral, but we might be able to reduce that scope a bit.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

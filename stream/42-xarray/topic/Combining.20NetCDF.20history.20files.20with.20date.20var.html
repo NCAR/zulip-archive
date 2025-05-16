@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="32534"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32534" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32534">(May 25 2021 at 18:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32534" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32534">(May 25 2021 at 18:19)</a>:</h4>
 <p>Hi, I could really use some help understanding whether there is an efficient way to combine history files along the time dimension, where the time information is in another variable.    I have a whole lot of history files, so efficiency is a concern.</p>
 <p>Here is what one of the NetCDF history files looks like when opened with Xarray:</p>
 <div class="codehilite"><pre><span></span>&lt;xarray.Dataset&gt;
@@ -49,25 +48,25 @@ Attributes:
 
 
 <a name="32539"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32539" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32539">(May 25 2021 at 18:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32539" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32539">(May 25 2021 at 18:26)</a>:</h4>
 <p>sepcify<code>concat_dim="time"</code>? or <code>concat_dim="date"</code>? What have you tried?</p>
 
 
 
 <a name="32540"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32540" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32540">(May 25 2021 at 18:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32540" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32540">(May 25 2021 at 18:28)</a>:</h4>
 <p>I'll try them both; I didn't know what options I had.   Thanks!</p>
 
 
 
 <a name="32541"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32541" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32541">(May 25 2021 at 18:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32541" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32541">(May 25 2021 at 18:30)</a>:</h4>
 <p>OK. If you want to convert <code>date</code> to a proper datetime thing, you'll need to pass a <code>preprocess</code> function that does so.</p>
 
 
 
 <a name="32542"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32542" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32542">(May 25 2021 at 18:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32542" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32542">(May 25 2021 at 18:34)</a>:</h4>
 <p>Maybe the preprocess step will fix this, but choosing either concat_dim option results in:</p>
 <div class="codehilite"><pre><span></span># Create a dataset and drop all but one variable.
 with dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: False}):
@@ -83,13 +82,13 @@ ValueError: Could not find any dimension coordinates to use to order the dataset
 
 
 <a name="32543"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32543" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32543">(May 25 2021 at 18:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32543" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32543">(May 25 2021 at 18:37)</a>:</h4>
 <p><code>combine="nested"</code>? if the list of files is in the right order...</p>
 
 
 
 <a name="32544"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32544" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32544">(May 25 2021 at 18:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Combining%20NetCDF%20history%20files%20with%20date%20var/near/32544" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Combining.20NetCDF.20history.20files.20with.20date.20var.html#32544">(May 25 2021 at 18:46)</a>:</h4>
 <p>That worked!    Thanks very much for the help!   </p>
 <div class="codehilite"><pre><span></span># Create a dataset and drop all but one variable.
 with dask.config.set(**{&#39;array.slicing.split_large_chunks&#39;: False}):
@@ -125,5 +124,5 @@ Data variables: (12/15)
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

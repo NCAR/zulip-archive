@@ -5,34 +5,33 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="31268"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31268" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31268">(May 11 2021 at 23:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31268" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31268">(May 11 2021 at 23:45)</a>:</h4>
 <p>Does anyone have a working example using <code>xarray.DataArray.polyfit</code> (<a href="https://xarray.pydata.org/en/latest/generated/xarray.DataArray.polyfit.html" target="_blank" title="https://xarray.pydata.org/en/latest/generated/xarray.DataArray.polyfit.html">https://xarray.pydata.org/en/latest/generated/xarray.DataArray.polyfit.html</a>), especially when the time coordinate uses <code>cftime.Datetime</code>? I'm trying to calculate the linear trend of temperature over time at each lat/lon gridpoint. I have monthly temperature data (K) so I assumed the coefficients would output as K/month, but the first degree <code>polyfit_coefficients</code> are order 10^-18 which is way too small. I'm wondering if cftime is using some base time units or reference time that causes the magnitude to be small, because the spatial pattern actually looks ok. I'm using xarray version 17.0 which seems to have polyfit implemented accounting for datetime (see also <a href="https://github.com/pydata/xarray/issues/3349" target="_blank" title="https://github.com/pydata/xarray/issues/3349">https://github.com/pydata/xarray/issues/3349</a>).</p>
 
 
 
 <a name="31270"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31270" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31270">(May 12 2021 at 00:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31270" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31270">(May 12 2021 at 00:13)</a>:</h4>
 <p>As an update, it appears the baseunits are in nanoseconds(!), which I figured out by manually differencing the first and last time points. Once I convert from K/ns to K/month the magnitude of the coefficients look reasonable. <br>
 The output of polyfit doesn't have any units attribute, which is why this was a bit tricky to interpret. cc <span class="user-mention" data-user-id="25">@Deepak Cherian</span></p>
 
 
 
 <a name="31285"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31285" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31285">(May 12 2021 at 15:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31285" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31285">(May 12 2021 at 15:29)</a>:</h4>
 <p><span aria-label="see no evil" class="emoji emoji-1f648" role="img" title="see no evil">:see_no_evil:</span> It's hard to set units on the output because we need units on the input . This should be in the docstring though (<a href="https://github.com/pydata/xarray/issues/4455" target="_blank" title="https://github.com/pydata/xarray/issues/4455">https://github.com/pydata/xarray/issues/4455</a>). This would be a great first pull request!</p>
 
 
 
 <a name="31291"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31291" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31291">(May 12 2021 at 15:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/polyfit/near/31291" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/polyfit.html#31291">(May 12 2021 at 15:33)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span> , I can't believe I didn't find this issue before, but it is describing exactly what I was trying to figure out <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span></p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

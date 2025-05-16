@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="30988"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/drop_isel/near/30988" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/drop_isel.html#30988">(May 06 2021 at 17:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/drop_isel/near/30988" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/drop_isel.html#30988">(May 06 2021 at 17:11)</a>:</h4>
 <p>the daily history files from CESM2-LE have two days of data for Jan 1 2015, one each from the HIST and SSP simulations.  <br>
 I thought I should be able to use <code>drop_isel</code> but this doesn't seem to be working.  Suggestions welcome here.</p>
 <p><code>ds.drop_isel(time=(165*365))</code><br>
@@ -19,11 +18,11 @@ InvalidIndexError: Reindexing only valid with uniquely valued Index objects</p>
 
 
 <a name="30997"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/drop_isel/near/30997" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/drop_isel.html#30997">(May 06 2021 at 17:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/drop_isel/near/30997" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/drop_isel.html#30997">(May 06 2021 at 17:48)</a>:</h4>
 <p>This seems to work! <br>
 <code>ds = ds.sel(time=~ds.get_index("time").duplicated(keep='last') )</code></p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

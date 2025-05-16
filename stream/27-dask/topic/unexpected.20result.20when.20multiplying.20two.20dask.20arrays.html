@@ -5,20 +5,19 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="54630"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54630" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54630">(May 07 2022 at 01:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54630" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54630">(May 07 2022 at 01:38)</a>:</h4>
 <p>Hi,<br>
-I'm running into a strange issue when I multiply two dask arrays who have the same dimensions.  Each array has dimension z_t=60, but when I multiply them together the resultant array has only 16 z_t levels. When I manually compute the first 16 entries element by element, they do appear to be correct. I've added screenshots of the arrays, and the results of a very simple example of this issue.  I cannot seem to understand what is going on here. Any help appreciated. <a href="/user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png">Screen-Shot-2022-05-06-at-6.36.10-PM.png</a> <a href="/user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png">Screen-Shot-2022-05-06-at-6.36.18-PM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png" title="Screen-Shot-2022-05-06-at-6.36.10-PM.png"><img src="/user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png"></a></div><div class="message_inline_image"><a href="/user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png" title="Screen-Shot-2022-05-06-at-6.36.18-PM.png"><img src="/user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png"></a></div>
+I'm running into a strange issue when I multiply two dask arrays who have the same dimensions.  Each array has dimension z_t=60, but when I multiply them together the resultant array has only 16 z_t levels. When I manually compute the first 16 entries element by element, they do appear to be correct. I've added screenshots of the arrays, and the results of a very simple example of this issue.  I cannot seem to understand what is going on here. Any help appreciated. <a href="../../../user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png">Screen-Shot-2022-05-06-at-6.36.10-PM.png</a> <a href="../../../user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png">Screen-Shot-2022-05-06-at-6.36.18-PM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png" title="Screen-Shot-2022-05-06-at-6.36.10-PM.png"><img src="../../../user_uploads/2/2c/FKo97d8nvSg68YkH3Kf9TAQi/Screen-Shot-2022-05-06-at-6.36.10-PM.png"></a></div><div class="message_inline_image"><a href="../../../user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png" title="Screen-Shot-2022-05-06-at-6.36.18-PM.png"><img src="../../../user_uploads/2/b2/AoFEDLeLTUkYinng51uA605W/Screen-Shot-2022-05-06-at-6.36.18-PM.png"></a></div>
 
 
 
 <a name="54631"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54631" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54631">(May 07 2022 at 13:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54631" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54631">(May 07 2022 at 13:26)</a>:</h4>
 <p><span class="user-mention" data-user-id="259">@Mira Berdahl</span> , <code>z_t</code> in the variable <code>temp_converted</code> has type <code>float32</code>, while <code>z_t</code> in the variable <code>delta_level</code> has type <code>float64</code>. This mismatch in types might be throwing off xarray's coordinate alignment code.<br>
 Please check out the thread in the <a href="#narrow/stream/41-ESDS/topic/General.20Interest">ESDS General Interest stream</a> from Oct 11, 2021, where Alice got tripped up by this sort of mismatch, and describes a workaround.</p>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> and <span class="user-mention" data-user-id="25">@Deepak Cherian</span> , this seems to be occurring because pop-tools is creating <code>z_t</code> as <code>float64</code>, while model output has <code>z_t</code> as <code>float32</code> by default. Should pop-tools be changed so that the <code>z_t</code> that it generates is consistent with default model output?</p>
@@ -26,28 +25,28 @@ Please check out the thread in the <a href="#narrow/stream/41-ESDS/topic/General
 
 
 <a name="54632"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54632" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54632">(May 07 2022 at 22:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54632" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54632">(May 07 2022 at 22:00)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="31">@Keith Lindsay</span> ,  I would have never guessed this could be the problem.  I used Alice's fix and it seems to be working now! Many thanks for the prompt reply.</p>
 
 
 
 <a name="54708"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54708" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54708">(May 10 2022 at 22:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54708" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54708">(May 10 2022 at 22:37)</a>:</h4>
 <p>I would support this change in pop-tools, perhaps even with a "precision" flag to enable either double or single precision.</p>
 
 
 
 <a name="54716"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54716" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54716">(May 11 2022 at 15:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54716" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54716">(May 11 2022 at 15:02)</a>:</h4>
 <p>Opened an <a href="https://github.com/NCAR/pop-tools/issues/140">issue</a></p>
 
 
 
 <a name="54726"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54726" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54726">(May 11 2022 at 15:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/unexpected%20result%20when%20multiplying%20two%20dask%20arrays/near/54726" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/unexpected.20result.20when.20multiplying.20two.20dask.20arrays.html#54726">(May 11 2022 at 15:14)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="25">@Deepak Cherian</span> . I'll work on a PR.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

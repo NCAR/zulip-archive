@@ -5,35 +5,34 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="6347"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6347" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6347">(Apr 09 2020 at 16:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6347" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6347">(Apr 09 2020 at 16:13)</a>:</h4>
 <p>mom6_tools has some nice plotting functionality in m6plot.py. It would be nice if those of us analyzing POP didn't have to individually reinvent the wheel to generate standard plots. How hard would it be to add a version of m6plot.py to pop_tools?</p>
 
 
 
 <a name="6413"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6413" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6413">(Apr 10 2020 at 19:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6413" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6413">(Apr 10 2020 at 19:42)</a>:</h4>
 <blockquote>
 <p>mom6_tools has some nice plotting functionality in m6plot.py. It would be nice if those of us analyzing POP didn't have to individually reinvent the wheel to generate standard plots. How hard would it be to add a version of m6plot.py to pop_tools?</p>
 </blockquote>
 <p>Adding a version of m6plot.py into pop_tools would not be hard. However, as shown below, it seems some of the plotting capabilities need to be adjusted to work properly with the gx1v7 grid. I am not sure what's happening here...<br>
-<a href="/user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png" target="_blank" title="pasted image"><img src="/user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png"></a></div>
+<a href="../../../user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png" target="_blank" title="pasted_image.png">pasted image</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png" target="_blank" title="pasted image"><img src="../../../user_uploads/2/hjjKzAA1L0SFy2KtuRdORvpA/pasted_image.png"></a></div>
 
 
 
 <a name="6416"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6416" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6416">(Apr 10 2020 at 19:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6416" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6416">(Apr 10 2020 at 19:50)</a>:</h4>
 <p>This may need the <code>add_cyclic_point</code> workaround</p>
 
 
 
 <a name="6436"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6436" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6436">(Apr 10 2020 at 20:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6436" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6436">(Apr 10 2020 at 20:26)</a>:</h4>
 <p>Yes. The longitude in POP grid are not monotonic and most plotting tools don't like that.  We came up with the a workaround. Matt wrapped it in the following function.</p>
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">pop_add_cyclic</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
 
@@ -103,16 +102,16 @@
 
 
 <a name="6437"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6437" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6437">(Apr 10 2020 at 20:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6437" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6437">(Apr 10 2020 at 20:30)</a>:</h4>
 <p>That should go into pop_tools if it is not already there.</p>
 
 
 
 <a name="6723"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6723" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6723">(Apr 16 2020 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/add%20standard%20plotting%20functions%20to%20pop_tools%3F/near/6723" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/add.20standard.20plotting.20functions.20to.20pop_tools.3F.html#6723">(Apr 16 2020 at 20:03)</a>:</h4>
 <p>On a related note, Ben Johnson (who will join soon), apparently has a plotting function that handles the tripole seam. cc <span class="user-mention" data-user-id="26">@Dan Amrhein</span></p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

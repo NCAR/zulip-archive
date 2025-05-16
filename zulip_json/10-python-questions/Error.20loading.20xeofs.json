@@ -1,0 +1,32 @@
+[
+    {
+        "content": "<p>I'm struggling to load the xeofs module. It doesn't appear to be compatible with the most recent NCAR package library*, using a modified version of NPL2024b I get the following error message</p>\n<p>AttributeError: module 'xarray' has no attribute 'DataTree'</p>\n<p>But I have xarray-datatree 0.0.14 in my environment.</p>\n<p><span aria-label=\"asterisk\" class=\"emoji emoji-002a-20e3\" role=\"img\" title=\"asterisk\">:asterisk:</span>  the most recent environment gives this set of messages when I try to install xeofs<br>\nThe following packages are incompatible<br>\n├─ pin-1 is installable and it requires<br>\n│  └─ python 3.12.* , which can be installed;<br>\n└─ xeofs is not installable because there are no viable options<br>\n   ├─ xeofs [0.5.0|0.6.0|...|1.2.0] would require<br>\n   │  └─ pandas &gt;=1.4.1,&lt;2.0.0  but there are no viable options<br>\n   │     ├─ pandas [1.4.1|1.4.2|...|1.5.3] would require<br>\n   │     │  └─ python &gt;=3.10,&lt;3.11.0a0 , which conflicts with any installable versions previously reported;<br>\n   │     ├─ pandas [1.4.1|1.4.2|...|1.5.3] would require<br>\n   │     │  └─ python &gt;=3.8,&lt;3.9.0a0 , which conflicts with any installable versions previously reported;<br>\n   │     ├─ pandas [1.4.1|1.4.2|...|1.5.3] would require<br>\n   │     │  └─ python &gt;=3.9,&lt;3.10.0a0 , which conflicts with any installable versions previously reported;<br>\n   │     └─ pandas [1.5.1|1.5.2|1.5.3] would require<br>\n   │        └─ python &gt;=3.11,&lt;3.12.0a0 , which conflicts with any installable versions previously reported;<br>\n   └─ xeofs [1.2.1|1.2.2|...|3.0.4] would require<br>\n      └─ python &gt;=3.10,&lt;3.12  but there are no viable options<br>\n         ├─ python [3.10.0|3.10.1|...|3.10.9] conflicts with any installable versions previously reported;<br>\n         ├─ python [3.11.0|3.11.1|...|3.11.9] conflicts with any installable versions previously reported;<br>\n         └─ python 3.12.0rc3 would require<br>\n            └─ _python_rc, which does not exist (perhaps a missing channel).</p>\n<p>Pins seem to be involved in the conflict. Currently pinned specs:</p>\n<ul>\n<li>python 3.12.* (labeled as 'pin-1')</li>\n</ul>\n<p>Do you have any suggestions how I can modify my environment(s) ?</p>",
+        "id": 105589,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1739901091
+    },
+    {
+        "content": "<p>It looks like xeofs isn't supported for Python 3.12 yet (<em>via install from conda-forge</em>) and I think the latest NPL uses 3.12.  Is using an older verison of NPL as a starting point an option for you?</p>\n<p>I can't quite tell what's going on here with DataTree, but there might be some versioning things with that as well.  It started as an independent project, but now has been merged into the xarray package (as of v2024.10.0).</p>",
+        "id": 105595,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1739913916
+    },
+    {
+        "content": "<p>It looks like they have made the updates (to support Python 3.12) in the xeofs repo though and on PyPI just not conda.  You might be able to pip install it or install from source in your environment.</p>",
+        "id": 105597,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1739915360
+    },
+    {
+        "content": "<p>Thank you! Rolling back a few versions of environment to install xeofs also worked as an alternative.</p>",
+        "id": 105598,
+        "sender_full_name": "Mari Tye",
+        "timestamp": 1739915436
+    },
+    {
+        "content": "<p>A quick follow up here - there's now a release on conda-forge with the updated requirements info (i.e. allowing for Python 3.12 and hopefully addressing the DataTree issue)</p>",
+        "id": 105626,
+        "sender_full_name": "Katelyn FitzGerald",
+        "timestamp": 1740065155
+    }
+]

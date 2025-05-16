@@ -5,19 +5,18 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="11878"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11878" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11878">(Jun 18 2020 at 18:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11878" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11878">(Jun 18 2020 at 18:45)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> , <span class="user-mention" data-user-id="31">@Keith Lindsay</span>  : Mike told me that the cesm 2.2 code freeze is now July 2. Mike and I are currently working on getting my latest cocco tunings (which I've tested with JRA forcing) into CESM2.2 cocco defaults settings. </p>
 <p>I was wondering if we could meet sometime at the beginning of next week to discuss the 3PFT tuning I've done so far. I've got a couple of decent parameter sets. However, they are somewhat different with respect to certain metrics (e.g., total NPP, POC flux...) , so I'd like to get your opinions to find out which one is better and see if you have suggestions going forward with tuning (or if what I have is good enough).</p>
 
 
 
 <a name="11879"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11879" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11879">(Jun 18 2020 at 18:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11879" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11879">(Jun 18 2020 at 18:49)</a>:</h4>
 <p>Sounds good. I have a wrinkle to add, and I apologize for not thinking this thru this sooner: <br>
 The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CESM2 has a legacy of ad hoc tweaks from our panicked tuning chasing oxygen biases in the coupled model. These biases are not present in the ocean ice configurations and I think we should be moving to an <code>fesedflux</code> dataset that is documented and reproducible. This will be important as we transition to MOM too. </p>
 <p>So I have a new 1° dataset that I hope you can test out at 1°. Perhaps you can switch to this new forcing and run with your latest tunings? </p>
@@ -26,25 +25,25 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="11880"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11880" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11880">(Jun 18 2020 at 18:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11880" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11880">(Jun 18 2020 at 18:51)</a>:</h4>
 <p>Sounds good. My google calendar is up to date, so feel free to schedule a meeting based on that.</p>
 
 
 
 <a name="11881"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11881" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11881">(Jun 18 2020 at 18:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11881" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11881">(Jun 18 2020 at 18:52)</a>:</h4>
 <p>Ok, yes, I could re-run my latest tunings with the new sedimentary Fe forcing over the weekend.</p>
 
 
 
 <a name="11882"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11882" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11882">(Jun 18 2020 at 18:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11882" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11882">(Jun 18 2020 at 18:53)</a>:</h4>
 <p>Sounds good. I will figure out a good time and try scheduling a meeting for next week.</p>
 
 
 
 <a name="11911"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11911" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11911">(Jun 18 2020 at 19:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11911" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11911">(Jun 18 2020 at 19:45)</a>:</h4>
 <p>Here is the <code>fesedflux</code> dataset:<br>
 /glade/work/mclong/cesm_inputdata/fesedflux_total_reduce_oxic_POP_gx1v7.c200618.nc</p>
 <p>This puts about 14.2 Gmol Fe/yr into the ocean, whereas the CESM2 dataset is more like 20 Gmol/yr.</p>
@@ -52,20 +51,20 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="11912"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11912" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11912">(Jun 18 2020 at 19:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11912" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11912">(Jun 18 2020 at 19:46)</a>:</h4>
 <p>Generation documented here<br>
 <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/master/notebooks/output/POP_gx1v7/Fe_sediment_flux_forcing.ipynb" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/master/notebooks/output/POP_gx1v7/Fe_sediment_flux_forcing.ipynb">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/master/notebooks/output/POP_gx1v7/Fe_sediment_flux_forcing.ipynb</a></p>
 
 
 
 <a name="11913"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11913" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11913">(Jun 18 2020 at 19:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/11913" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#11913">(Jun 18 2020 at 19:46)</a>:</h4>
 <p>Ok cool. I'll give it a try. Thanks!</p>
 
 
 
 <a name="12430"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12430" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12430">(Jun 24 2020 at 19:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12430">(Jun 24 2020 at 19:50)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> and / or <span class="user-mention" data-user-id="14">@Matt Long</span>: The current namelist defaults for <code>kappa_iso_deep</code> are</p>
 <div class="codehilite"><pre><span></span>&lt;!--------------------------------------------------------------&gt;
 &lt;!-- enhanced diffusivity at depth, only default for 1 degree --&gt;
@@ -96,23 +95,23 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="12444"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12444" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12444">(Jun 24 2020 at 21:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12444" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12444">(Jun 24 2020 at 21:00)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, this setting obviously has implications for the physical configuration. I'll open a thread in <a class="stream" data-stream-id="8" href="/#narrow/stream/8-CGD-OCE">#CGD-OCE</a>.</p>
 
 
 
 <a name="12828"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12828" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12828">(Jun 25 2020 at 18:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12828" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12828">(Jun 25 2020 at 18:59)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>  and <span class="user-mention" data-user-id="14">@Matt Long</span> , here are the zonal mean plots for NO3, PO4, SiO3, and O2 . I did global, Pacific basin, Atlantic basin, and Indian basin. These ones are for the 004 simulation, but I also have them for all the other simulations I did (though they are quite similar). You can see those in my notebooks which are all here:</p>
 <p><a href="https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/tree/master/diagnotics_MARBL_tuningV2" target="_blank" title="https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/tree/master/diagnotics_MARBL_tuningV2">https://github.com/kristenkrumhardt/CESM2_oceanBGC_diag/tree/master/diagnotics_MARBL_tuningV2</a></p>
 <p>(see towards the bottom of the  "mean-state" notebooks). Also all the other figures I presented yesterday morning are in these notebooks (the 'mean-state' and 'tseries' notebooks).</p>
 <p>Please let me know what you think.</p>
-<p><a href="/user_uploads/2/30/Pz-kOu1_jATGjuE07woDs7RX/zonal_biases004.pdf" target="_blank" title="zonal_biases004.pdf">zonal_biases004.pdf</a></p>
+<p><a href="../../../user_uploads/2/30/Pz-kOu1_jATGjuE07woDs7RX/zonal_biases004.pdf" target="_blank" title="zonal_biases004.pdf">zonal_biases004.pdf</a></p>
 
 
 
 <a name="12836"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12836" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12836">(Jun 25 2020 at 19:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12836" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12836">(Jun 25 2020 at 19:32)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="28">@Kristen Krumhardt</span>. </p>
 <p>I would suggest a run in which we increase<code>parm_SiO2_diss</code>. </p>
 <p>What values do you have for <code>parm_SiO2_gamma</code>?  I think increasing this number effectively puts more Si into the hard subclass, which sinks with a much longer length scale. This is another means of push things deeper in the water column.</p>
@@ -120,26 +119,26 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="12837"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12837" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12837">(Jun 25 2020 at 19:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/12837" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#12837">(Jun 25 2020 at 19:40)</a>:</h4>
 <p>Sure I can increase parm SiO2_diss (right now it's at 400m which I think is a change that was brought over from the OMIP run) so I can increase it back to 700m. or is that too much? </p>
 <p>Right now parm_SiO2_gamma is at 0.1</p>
 
 
 
 <a name="13058"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13058" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13058">(Jun 26 2020 at 13:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13058" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13058">(Jun 26 2020 at 13:29)</a>:</h4>
 <p>parm_SiO2_gamma is zero by default, but I've had it at 0.1 for all my runs. Do you think it should be higher than that?</p>
 
 
 
 <a name="13059"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13059" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13059">(Jun 26 2020 at 13:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13059" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13059">(Jun 26 2020 at 13:55)</a>:</h4>
 <p>no, I don't think so. I am pretty sure we zeroed it out during the great CESM2 oxygen chase</p>
 
 
 
 <a name="13060"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13060" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13060">(Jun 26 2020 at 14:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13060" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13060">(Jun 26 2020 at 14:12)</a>:</h4>
 <p>So do you guys prefer 002 or 004? I would like to use the parameters of one of these runs and then just change the parm_SiO2_diss to 650m (and any other parameters you suggest). I want to start a new simulation this morning so we can see results on Monday. </p>
 <p>The benefits of 002 is that the surface SiO3 in the Southern Ocean has less of a positive bias, but the drawback is that NPP is 48% diatoms. I remember Keith saying that we may need to tolerate a high diatom productivity for better silicate distribution. If so, this is the run we want.</p>
 <p>The benefit of 004 is that we have slightly more overall NPP and it's 40% diatoms, but the drawback is that a positive surface SiO3 bias in the Southern Ocean is still there (albeit much better than the OMIP run).</p>
@@ -147,13 +146,13 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13061"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13061" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13061">(Jun 26 2020 at 14:12)</a>:</h4>
-<p>here is a pdf of my presentation from wednesday, in case you guys want to have a look. <a href="/user_uploads/2/da/1UVmAJ64RIH_Pkb9u-vEWHCg/CESM2.2_tuning_overview.pdf" target="_blank" title="CESM2.2_tuning_overview.pdf">CESM2.2_tuning_overview.pdf</a></p>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13061">(Jun 26 2020 at 14:12)</a>:</h4>
+<p>here is a pdf of my presentation from wednesday, in case you guys want to have a look. <a href="../../../user_uploads/2/da/1UVmAJ64RIH_Pkb9u-vEWHCg/CESM2.2_tuning_overview.pdf" target="_blank" title="CESM2.2_tuning_overview.pdf">CESM2.2_tuning_overview.pdf</a></p>
 
 
 
 <a name="13065"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13065" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13065">(Jun 26 2020 at 14:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13065" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13065">(Jun 26 2020 at 14:51)</a>:</h4>
 <p>When I inspect the zonal SiO3 bias figures, I see too little SiO3 in the deep Southern Ocean and too much SiO3 in mode waters. I'm inferring that we have too little diatom uptake of SiO3. To my eye, this appears worse in 004 than 002. It looks like the area of the plot that goes off both ends of the colorbar has increased.</p>
 <p>Based on the surface phyto pool plots, it looks like the North Pacific diatom superbloom is larger in 004 than in 002.</p>
 <p>Based on these, I'm leaning towards 002. But I'm skeptical that changing <code>parm_SiO2_diss</code> will improve the SO much. I think we need to reduce sp's competitive advantage in the SO to help out diat. Based on an email from Nov 2019, you found <code>alphaPI_per_day</code> to be a large lever, and I think you're using a larger value in the explicit cocco configuration. How about raising this parameter for diatoms.</p>
@@ -161,25 +160,25 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13069"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13069" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13069">(Jun 26 2020 at 15:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13069" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13069">(Jun 26 2020 at 15:12)</a>:</h4>
 <p>Sure, so I will go with the 002 setup for now. I'll try increasing <code>alphaPI_per_day</code> for diatoms. I can also trying increasing <code>parm_SiO2_diss</code> to see if this makes any difference</p>
 
 
 
 <a name="13133"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13133" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13133">(Jun 26 2020 at 19:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13133">(Jun 26 2020 at 19:37)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> are you in the loop regarding the WW3-forced entrainment changes that Qing is bringing in via <a href="https://github.com/ESCOMP/POP2-CESM/pull/31" target="_blank" title="https://github.com/ESCOMP/POP2-CESM/pull/31">https://github.com/ESCOMP/POP2-CESM/pull/31</a>? Should we be concerned about the effect of that PR on Kristen's tuning runs?</p>
 
 
 
 <a name="13134"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13134" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13134">(Jun 26 2020 at 19:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13134" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13134">(Jun 26 2020 at 19:45)</a>:</h4>
 <p>That could have a non-trivial impact. What's the intended default setting? On or off?</p>
 
 
 
 <a name="13136"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13136" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13136">(Jun 26 2020 at 19:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13136">(Jun 26 2020 at 19:47)</a>:</h4>
 <p>From the PR, it looks like the default will be on</p>
 <blockquote>
 <p>Testing with a longer simulation is underway.</p>
@@ -195,13 +194,13 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13137"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13137" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13137">(Jun 26 2020 at 19:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13137" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13137">(Jun 26 2020 at 19:49)</a>:</h4>
 <p>The first step is not bit-for-bit, but just the changes are all round-off from differences in the order of operations</p>
 
 
 
 <a name="13138"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13138" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13138">(Jun 26 2020 at 19:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13138" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13138">(Jun 26 2020 at 19:53)</a>:</h4>
 <p>I'm having a hard time telling from the PR if they are proposing that this gets turned on by default or not.</p>
 <p>They ran a case, with BGC, with the new options turned on, with the CESM2 OMIP JRA as a control. Diagnostics from the physics are available at <a href="http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/diag_work.42-61/" target="_blank" title="http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/diag_work.42-61/">http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/diag_work.42-61/</a></p>
 <p>I'm currently generating regional timeseries plots for this case, compared to CESM2 OMIP JRA. I'll have a link shortly to post.</p>
@@ -209,7 +208,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13140"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13140" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13140">(Jun 26 2020 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13140" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13140">(Jun 26 2020 at 20:02)</a>:</h4>
 <blockquote>
 <p>I'm having a hard time telling from the PR if they are proposing that this gets turned on by default or not.</p>
 </blockquote>
@@ -218,7 +217,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13144"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13144" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13144">(Jun 26 2020 at 20:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13144" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13144">(Jun 26 2020 at 20:11)</a>:</h4>
 <p>Oh, I had already asked Alper about the entrainment scheme in an email earlier today and just got a response (good job, past self!); double quote is me, single quote is Alper's reply:</p>
 <blockquote>
 <blockquote>
@@ -234,7 +233,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13156"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13156" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13156">(Jun 26 2020 at 20:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13156" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13156">(Jun 26 2020 at 20:56)</a>:</h4>
 <p>Regional timeseries for the 1 cycle JRA run with these mods are now online at<br>
 <a href="http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/adhoc_ts/" target="_blank" title="http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/adhoc_ts/">http://webext.cgd.ucar.edu/GIAF/20200517_LF17_GOMIPECOIAF_JRA-1p4-2018_TL319_g17/ocn/adhoc_ts/</a></p>
 <p>I'm inferring from Alper's response that there is a B case with these mods. I wasn't aware of that.</p>
@@ -242,7 +241,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13157"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13157" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13157">(Jun 26 2020 at 21:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13157" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13157">(Jun 26 2020 at 21:08)</a>:</h4>
 <p>I think a whole bunch of us just got cc-ed onto an email thread about this, but I'll try to capture some highlights.</p>
 <ol>
 <li>Alper is suggesting keeping the default unchanged in 2.2.0 and waiting until 2.2.1 to enable the new scheme</li>
@@ -267,7 +266,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13175"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13175" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13175">(Jun 29 2020 at 15:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13175">(Jun 29 2020 at 15:48)</a>:</h4>
 <p>An update on the code freeze (email from Bill Sacks):</p>
 <blockquote>
 <p>Based on a discussion this morning with Mariana, Gokhan and others, with a purpose of reducing stress on software engineers and others: For the upcoming CESM2.2.0 release freeze, we are going to relax the definition of "freeze". Thus, for the tags that are already in the test database, with PRs submitted, we will not require that the tags actually be made by the end of this week. Instead, please take whatever time is needed to appropriately review and test these changes, so that we can have a robust CESM2.2 release. This will delay the release itself; Gokhan and others are comfortable with this.</p>
@@ -295,7 +294,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13176"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13176" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13176">(Jun 29 2020 at 16:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13176" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13176">(Jun 29 2020 at 16:11)</a>:</h4>
 <p>Hello all, I just processed some results from my latest tuning run (<code>005</code>).  One caveat is that these diagnostic notebooks are missing the last 10 years of the 2nd IAF cycle (it's still running; I'll update these plots later today). To recap, I used the setup from the 002 run and then increased the <code>alphaPI_per_day</code> for diatoms and increased the <code>parm_SiO3_diss</code> to 650m. </p>
 <p>Comparing to the <code>002</code> tuning run, I see a slight improvement in the <code>005</code> run for SiO3 upon really close inspection. I do see some improvements in the hovmöller diagrams, especially in the global SiO3 hovmöller, which shows less of a trend in declining deep SiO3 in the new <code>005</code> run than the <code>002</code> run. </p>
 <p>Timeseries plots (including the hovmollers) for <code>002</code> and <code>005</code> are in these notebooks:<br>
@@ -309,7 +308,7 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13240"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13240" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13240">(Jun 30 2020 at 17:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13240" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13240">(Jun 30 2020 at 17:19)</a>:</h4>
 <p>Global SiO3 is improved at some depths (500m-1000m, 4500m-seafloor) and degraded at others (top 500m, 1000m-4500m). Perhaps it's better in an RMS sense, it's hard to tell. I'm not sure if it makes sense to try more options, or call it a day, and devise plans for automating this process more for 2.2.1.</p>
 <p>One worrisome feature that I see, from an automation point of view, is that the deep (5000m) SiO3 bias in the Southern Ocean goes up for the 1st cycle and then drops over the 2nd cycle. We've suggested shortening the run duration in order to be able to run more experiments. This non-monotonic behavior worries me about going too short.</p>
 <p>FYI, Daniel Kennedy is giving an update on the CLM parameter perturbation ensemble (PPE) at the CLM meeting this Thu, July 2 at 1 PM. Let me know if you want the zoom info.</p>
@@ -317,10 +316,10 @@ The sedimentary iron forcing (<code>fesedflux</code>) dataset we're using in CES
 
 
 <a name="13243"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13243" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13243">(Jun 30 2020 at 17:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/19-ocean-bgc/topic/tuning%20CESM2.2/near/13243" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/19-ocean-bgc/topic/tuning.20CESM2.2E2.html#13243">(Jun 30 2020 at 17:31)</a>:</h4>
 <p>Thanks, Keith. I am fine with leaving it here for now, but I may try a few more experimental tuning runs before the end of the week. Yes, I would be interested in hearing Dan Kennedy's  talk this Thursday. Please send along the zoom info:)</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

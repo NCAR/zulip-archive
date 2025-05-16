@@ -5,37 +5,36 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="13274"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13274" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13274">(Jul 01 2020 at 12:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13274" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13274">(Jul 01 2020 at 12:34)</a>:</h4>
 <p>Does anyone have an example of getting ufunc to work for scipy.stats?  Specifically I'm trying to calculate a correlation coefficient (r) and p-values for two xarray data arrays.  This example is good for for the correlation coefficient,  <a href="http://xarray.pydata.org/en/stable/dask.html" target="_blank" title="http://xarray.pydata.org/en/stable/dask.html">http://xarray.pydata.org/en/stable/dask.html</a>, but I'd like to just use scipy.stats</p>
 
 
 
 <a name="13275"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13275" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13275">(Jul 01 2020 at 12:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13275" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13275">(Jul 01 2020 at 12:50)</a>:</h4>
 <p>xarray even has a .corr function now, but still not sure how to get significance levels from this?</p>
 
 
 
 <a name="13276"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13276" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13276">(Jul 01 2020 at 12:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13276" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13276">(Jul 01 2020 at 12:59)</a>:</h4>
 <p><span class="user-mention" data-user-id="67">@Will Wieder</span> , I use <code>xr.apply_ufunc</code> to compute regression slope in <a href="https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/7d17d5cd8a555f1992f45d59764241d455cfe291/src/utils.py#L210-L244" target="_blank" title="https://github.com/klindsay28/CESM2_coup_carb_cycle_JAMES/blob/7d17d5cd8a555f1992f45d59764241d455cfe291/src/utils.py#L210-L244">this code</a>. I'm passing <code>regression_slope_np_1d_2d</code>, a function I wrote that works on plain numpy arrays, to <code>xr.apply_ufunc</code>. This might serve as a template for you, where you would similarly pass a scipy.stats function to <code>xr.apply_ufunc</code>.</p>
 
 
 
 <a name="13277"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13277" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13277">(Jul 01 2020 at 14:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13277" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13277">(Jul 01 2020 at 14:49)</a>:</h4>
 <p><span class="user-mention" data-user-id="67">@Will Wieder</span> do you have an example notebook with your attempt? One complication here is that <code>apply_ufunc</code> cannot deal with multiple return values with dask arrays yet. so you'll have to write a wrapper function that stacks <code>r</code> and <code>p</code> into a (2xN) array and return that. And then unpack it to two dataarrays. </p>
 <p>This example (<a href="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html" target="_blank" title="https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html">https://xarray.pydata.org/en/stable/examples/apply_ufunc_vectorize_1d.html</a>) discusses a lot of the errors you may run in to while doing this.</p>
 
 
 
 <a name="13287"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13287" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13287">(Jul 01 2020 at 15:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13287" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Riley Brady <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13287">(Jul 01 2020 at 15:45)</a>:</h4>
 <p><span class="user-mention" data-user-id="67">@Will Wieder</span> --</p>
 <p>(1) A non-apply-ufunc solution would be to use <code>xskillscore</code> (<a href="https://github.com/raybellwaves/xskillscore/" target="_blank" title="https://github.com/raybellwaves/xskillscore/">https://github.com/raybellwaves/xskillscore/</a>). I've done a lot of development here, and we have it working pretty efficiently. We use <code>apply_ufunc</code> and pure numpy functions under the hood. And it works with <code>dask</code>. So you could just do <code>r = xskillscore.pearson_r(da1, da2, 'time')</code> to get gridded results of correlation coefficients. Then <code>p = xskillscore.pearson_r_p_value(da1, da2, 'time')</code> to get the significance values.</p>
 <p>(2) Getting at what <span class="user-mention" data-user-id="25">@Deepak Cherian</span> is saying, you can get around the multiple output issue with <code>dask</code>/<code>apply_ufunc</code> with the following:</p>
@@ -62,16 +61,16 @@
 
 
 <a name="13305"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13305" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13305">(Jul 01 2020 at 16:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13305" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13305">(Jul 01 2020 at 16:43)</a>:</h4>
 <p>Thanks for the suggestions.  I'll give this  a  try.  For the the purposes of  my current project I  just manually calculated  the critical values for p&lt;0.05 and masked out grid cells that didn't meet this criteria.</p>
 
 
 
 <a name="13316"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13316" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13316">(Jul 01 2020 at 17:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/ufunc%20for%20scipy.stats/near/13316" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/ufunc.20for.20scipy.2Estats.html#13316">(Jul 01 2020 at 17:27)</a>:</h4>
 <p><span class="user-mention" data-user-id="40">@Riley Brady</span> thanks for this example. It's really helpful!  Can more examples like this be provided in the xarray documentation?!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

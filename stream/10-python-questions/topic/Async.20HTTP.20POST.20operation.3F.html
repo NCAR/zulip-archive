@@ -5,18 +5,17 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="60026"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60026" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60026">(Jul 27 2022 at 04:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60026" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60026">(Jul 27 2022 at 04:49)</a>:</h4>
 <p>I realize this isn't exactly a common scientific computing question, but I figured given the depth of Python experience here, maybe people have ideas.  I'm trying to do a simple HTTP 'POST' operation to a public IP address of a REST API, and I'm interested in doing it in an asynchronous fashion so that when I'm on a compute node (or more generally behind a firewall), and it can't actually reach the IP, it doesn't pause for whatever the timeout duration is.  I don't even need a return code, I'm just trying to find a better approach than a 'try/except' loop on a timeout.  Any leads or ideas?</p>
 
 
 
 <a name="60039"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60039" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60039">(Jul 27 2022 at 15:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60039" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60039">(Jul 27 2022 at 15:52)</a>:</h4>
 <p><span class="user-mention" data-user-id="65">@Brian Dobbins</span>,  if you haven't done so already, take a look at the <code>backoff</code> package: <a href="https://pypi.org/project/backoff/">https://pypi.org/project/backoff/</a>. This package provides a decorator that you may use to control the retry logic. For asynchronous calls, you will need an addition package: <code>aiohttp</code>: <a href="https://docs.aiohttp.org/en/stable/">https://docs.aiohttp.org/en/stable/</a> </p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">aiohttp</span>
 <span class="kn">import</span> <span class="nn">backoff</span>
@@ -31,7 +30,7 @@
 
 
 <a name="60058"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60058" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60058">(Jul 27 2022 at 18:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60058" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60058">(Jul 27 2022 at 18:05)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> Thanks very, very much for your help, Anderson.   I'm still a very novice Python coder, so bear with me on a simple follow-up question?  It seems to use the async I/O options, I need a fully async main loop, which complicates some of the <em>synchronous</em> logic I want.  Another option I just tried, which seems to work, uses Python's 'multiprocessing' package to launch a second process that does the POST operation, and terminates that process when the primary logic ends, eg:</p>
 <div class="codehilite"><pre><span></span><code>p = multiprocessing.Process(target=post_function, args=(url, body))
 ...
@@ -43,7 +42,7 @@ p.terminate() # Later on - if the post worked, great.  If not, we don&#39;t care
 
 
 <a name="60135"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60135" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60135">(Jul 27 2022 at 21:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60135" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60135">(Jul 27 2022 at 21:40)</a>:</h4>
 <blockquote>
 <p>Does this approach seem reasonable, too, or are there downsides to it that I'm missing in my inexperience?  </p>
 </blockquote>
@@ -52,7 +51,7 @@ p.terminate() # Later on - if the post worked, great.  If not, we don&#39;t care
 
 
 <a name="60137"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60137" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60137">(Jul 27 2022 at 21:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60137" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60137">(Jul 27 2022 at 21:48)</a>:</h4>
 <p>I'm curious... When the HTTP POST is synchronous, does it result in a significant performance penalty?  I would love to see what you are building with this <span aria-label="smile" class="emoji emoji-1f642" role="img" title="smile">:smile:</span>. It sounds interesting.... </p>
 <blockquote>
 <p>Thanks again - I owe you a drink or lunch sometime. :-)</p>
@@ -62,7 +61,7 @@ p.terminate() # Later on - if the post worked, great.  If not, we don&#39;t care
 
 
 <a name="60155"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60155" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60155">(Jul 28 2022 at 01:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60155" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60155">(Jul 28 2022 at 01:28)</a>:</h4>
 <p>Thanks again, and I'll ping you in a week or so about lunch or drinks.  It'd be fantastic to catch up!</p>
 <p>As for the code, it's part of a dataset tool, with this bit enabling some very basic metrics -- what dataset is someone trying to access, and from where (their IP).  The idea is that with that information, we can not only try to replicate data in areas of high use, but also do it in a way transparent to the user so that notebooks are fully portable while using the closest / fastest copy.  The POST operation is to send those two data points to a REST API (that in turn, writes it to a database), and the reason I don't want it synchronous is that if you're on a system without routing to the internet -like, say, a Cheyenne compute node?- it's really annoying to have a near-instantaneous operation hang for 60+ seconds!  But there's also no trivial way to know if you can route to the internet, so we try, and don't worry about it if we fail.  After all, we allow it to be disabled too.</p>
 <p>I'll share the code (it'll be on Github, really), but since recording an IP is potentially 'user information', we have to chat with the Office of General Counsel to see if it's fine as-is or needs changes before we make the package public.</p>
@@ -70,24 +69,24 @@ p.terminate() # Later on - if the post worked, great.  If not, we don&#39;t care
 
 
 <a name="60156"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60156" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60156">(Jul 28 2022 at 01:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60156" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60156">(Jul 28 2022 at 01:38)</a>:</h4>
 <p>Hi, just saw this "quick timeout" check that might also avoid a long timeout response:</p>
 <p><a href="https://stackoverflow.com/questions/3764291/how-can-i-see-if-theres-an-available-and-active-network-connection-in-python">https://stackoverflow.com/questions/3764291/how-can-i-see-if-theres-an-available-and-active-network-connection-in-python</a></p>
 
 
 
 <a name="60157"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60157" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60157">(Jul 28 2022 at 01:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60157" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60157">(Jul 28 2022 at 01:41)</a>:</h4>
 <p>Ah, but I'm seeing this may no longer work...anyway, I have heard of "fail fast" ways to check if a connection is available.   It's a common use case for applications that rely on network services.</p>
 
 
 
 <a name="60159"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60159" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60159">(Jul 28 2022 at 04:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Async%20HTTP%20POST%20operation%3F/near/60159" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Dobbins <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Async.20HTTP.20POST.20operation.3F.html#60159">(Jul 28 2022 at 04:15)</a>:</h4>
 <p>Interesting, thanks, Brian - lots of ideas in here, some of which I need to understand better.  I think they tend to be focused more on multi-second timeout checks of connectivity, which typically can 'fail fast' in scenarios where links are <em>down</em>, but the firewalled compute nodes are a different beast, since pockets are literally dropped.  So in each of the cases I've tried, it still just falls back to the timeout.  Normally a few seconds should be more than sufficient too, with cached responses taking mere fractions of a second,  but I think an asynchronous approach is even better since it's effectively no time at all.</p>
 <p>Anyway, I have lots more to play with now, so thanks again!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

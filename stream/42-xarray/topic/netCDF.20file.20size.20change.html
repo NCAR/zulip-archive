@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="91859"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/netCDF%20file%20size%20change/near/91859" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/netCDF.20file.20size.20change.html#91859">(Nov 14 2023 at 21:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/netCDF%20file%20size%20change/near/91859" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danielle Touma <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/netCDF.20file.20size.20change.html#91859">(Nov 14 2023 at 21:16)</a>:</h4>
 <p>Hi, I am not sure whats going on. I'm running the same script that I ran about a month ago to analyze and output some large ensemble data using dask and xarray. However, the files that I'm outputting now (using <code>xarray.to_netcdf</code>) are about 10 times the size (1.7GB vs 18GB) than they were when I output them last month. I am 99% sure I did not change my script (other than using  <code>interface = 'ext'</code> for the <code>PBSCluster()</code> function), and when I check for chunking, it is the same between last month's output and these new files - they are in fact identical when inspecting them using <code>ncdump -h -s</code>. Were there any changes in the xarray or netCDF libraries in Casper that could be contributing to this? Or does anyone have any suggestions on how to dig in deeper into the files to see whats going on? Thank you! This is the ncdump output: </p>
 <div class="codehilite"><pre><span></span><code>netcdf CESM2-LE_TREFHTMX_30-day_10-year_100_ens_members_doy001_1980_NWHemi {
 dimensions:
@@ -57,5 +56,5 @@ variables:
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

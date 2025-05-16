@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="27146"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27146" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27146">(Mar 18 2021 at 15:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27146" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27146">(Mar 18 2021 at 15:45)</a>:</h4>
 <p>Does MOM6 have equivalent diagnostics to any of the following from POP output? I'm working out the last kinks in available output from the MOM6 + MARBL compsets, and the following are diagnostics that POP computes that we may need from MOM as well</p>
 <ol>
 <li><code>FvPER_{tracer}</code> and <code>FvICE_{tracer}</code>: I know these are tied to virtual fluxes, which I thought that MOM avoids, so we don't need them for any of the BGC tracers, right?</li>
@@ -22,7 +21,7 @@
 
 
 <a name="27236"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27236" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27236">(Mar 18 2021 at 20:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27236" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27236">(Mar 18 2021 at 20:38)</a>:</h4>
 <p>It looks like per-tracer diagnostics are registered in <a href="https://github.com/NOAA-GFDL/MOM6/blob/8dd907275ffbdf41702f9617cbc42c210b16c107/src/tracer/MOM_tracer_registry.F90#L345-L670" target="_blank" title="https://github.com/NOAA-GFDL/MOM6/blob/8dd907275ffbdf41702f9617cbc42c210b16c107/src/tracer/MOM_tracer_registry.F90#L345-L670">subroutine register_tracer_diagnostics</a>. MARBL is using <code>diag_form=1</code>, the default.</p>
 <ol>
 <li>These fields do not have an analogue in MOM, because MOM uses natural boundary conditions, so there are no virtual fluxes.</li>
@@ -34,50 +33,50 @@
 
 
 <a name="27337"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27337" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27337">(Mar 19 2021 at 18:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27337" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27337">(Mar 19 2021 at 18:10)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="31">@Keith Lindsay</span>. For (3), are you suggesting I add <code>{tracer}_dfx</code> and <code>{tracer}_dfy</code> to replace <code>HDIFE_{tracer}</code> and <code>HDIFN_{tracer}</code>, respectively? Would it also be helpful to include <code>{tracer}_dfxy_conc_tendency</code> and <code>{tracer}_dfxy_cont_tendency</code>? It looks like POP includes the <code>HDIF</code> terms for tracers where we want to compute budgets: Fe, O2, DIC, DIC_ALT_CO2, DOC, and DOCr, and from your comment it isn't clear if the convergence terms are necessary.</p>
 <p>I'll look into the KPP module this afternoon, thanks for pointing me in the right direction.</p>
 
 
 
 <a name="27569"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27569" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27569">(Mar 25 2021 at 16:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27569" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27569">(Mar 25 2021 at 16:09)</a>:</h4>
 <p>For the neutral diffusion scheme, the flux at the velocity point of a cell is a quantity that can be calculated. However, a problem in interpretation arises due to the nonlocality of scheme. Unlike other fluxes, the neutral diffusive flux is NOT symmetric between adjacent cells (e.g. the flux defined at the upstream point of j=1,k=1 is not equal to the flux of the downstream point at j+1,k=1.</p>
 
 
 
 <a name="27570"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27570" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27570">(Mar 25 2021 at 16:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27570" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27570">(Mar 25 2021 at 16:11)</a>:</h4>
 <p>To accurately capture this, we'd need to save 4 sets fluxes for each grid cell making it expensive to store</p>
 
 
 
 <a name="27571"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27571" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27571">(Mar 25 2021 at 16:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27571" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27571">(Mar 25 2021 at 16:12)</a>:</h4>
 <p>When we were debating this, the 3D convergence of the diffusive fluxes or the 2D column integral of diffusive fluxes seemed the most expedient way to enable most analysis applications</p>
 
 
 
 <a name="27573"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27573" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27573">(Mar 25 2021 at 16:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27573" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27573">(Mar 25 2021 at 16:14)</a>:</h4>
 <p>This is a long way of saying that <code>dfx_2d</code> and <code>dfy_2d</code> are well-defined and useable quantities, but that the 3D <code>dfx</code> and <code>dfy</code> aren't...we should probably disable the registration of those diagnostics if <code>NEUTRAL_DIFFUSION</code> is on</p>
 
 
 
 <a name="27823"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27823" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27823">(Mar 29 2021 at 15:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27823" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27823">(Mar 29 2021 at 15:27)</a>:</h4>
 <p>Thanks for the additional info, <span class="user-mention" data-user-id="83">@Andrew Shao</span>. I talked to <span class="user-mention" data-user-id="31">@Keith Lindsay</span> a week and a half ago, and he pointed out that I was kind of blindly looking for 1-to-1 mappings from POP fields to MOM fields when really we want to make sure we include all the terms necessary to balance budgets... which may be done differently in MOM than in POP. So I think I'm going to wait until the first pass at the driver is on <code>dev/ncar</code> before coming back to these diagnostics</p>
 
 
 
 <a name="27939"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27939" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27939">(Mar 29 2021 at 21:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/27939" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#27939">(Mar 29 2021 at 21:29)</a>:</h4>
 <p>Gotcha, yeah I think the only diagnostic which we probably need to add is the dilution/concentration due to boundary freshwater fluxes</p>
 
 
 
 <a name="52649"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/52649" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#52649">(Mar 24 2022 at 19:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/Diagnostic%20output/near/52649" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/Diagnostic.20output.html#52649">(Mar 24 2022 at 19:27)</a>:</h4>
 <p>FYI, I learned today from Alistair on the MOM6 slack channel that FMS, and hence MOM6, does not support taking time means of diagnostics across model restarts. It doesn't do diagnostic restarts. Some implications:<br>
 1) If you're generating monthly/annual means, your restart boundaries need to be on monthly/annual boundaries respectively.<br>
 2) We use annual means for some MARBL tracer budget terms, to reduce output volume. So we'll need to be restricted to running in yearly segments, or output these terms at a higher frequency and do a data reduction offline.<br>
@@ -85,5 +84,5 @@
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

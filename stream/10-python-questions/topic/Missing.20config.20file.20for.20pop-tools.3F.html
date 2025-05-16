@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="9398"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9398" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9398">(May 22 2020 at 16:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9398" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9398">(May 22 2020 at 16:23)</a>:</h4>
 <p>Hi y'all, got a pop-tools problem on cheyenne (version 2020.4.30). When using get_grid, pooch is trying to write temporary files to places I don't permission for, rather than my scratch space or other local directory.  Is there a config file or YAML that I'm missing that tells pooch where to write temporary stuff to? </p>
 <div class="codehilite"><pre><span></span>import pop_tools
 pop_tools.get_grid(&#39;POP_gx1v7&#39;)[&#39;REGION_MASK&#39;]
@@ -41,7 +40,7 @@ PermissionError: [Errno 13] Permission denied: &#39;/glade/p/cesmdata/cseg/tmpod
 
 
 <a name="9401"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9401" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9401">(May 22 2020 at 16:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9401" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9401">(May 22 2020 at 16:55)</a>:</h4>
 <p>I would not expect any download to be necessary. It should be trying to access these files</p>
 <div class="codehilite"><pre><span></span>    <span class="nt">horiz_grid_fname</span><span class="p">:</span> <span class="s">&#39;/glade/p/cesmdata/cseg/inputdata/ocn/pop/gx1v7/grid/horiz_grid_20010402.ieeer8&#39;</span>
     <span class="nt">topography_fname</span><span class="p">:</span> <span class="s">&#39;/glade/p/cesmdata/cseg/inputdata/ocn/pop/gx1v7/grid/topography_20161215.ieeei4&#39;</span>
@@ -62,13 +61,13 @@ PermissionError: [Errno 13] Permission denied: &#39;/glade/p/cesmdata/cseg/tmpod
 
 
 <a name="9403"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9403" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9403">(May 22 2020 at 17:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9403" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9403">(May 22 2020 at 17:04)</a>:</h4>
 <p>Hi Matt, thanks for the quick work-around, setting CESMDATAROOT to something else for now solves the problem. If you think this really is a bug, is it worth posting to the pop-tools github since it might be a cheyenne specific thing?</p>
 
 
 
 <a name="9405"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9405" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9405">(May 22 2020 at 17:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9405" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9405">(May 22 2020 at 17:11)</a>:</h4>
 <p>Would be great if you can file an issue ticket <a href="https://github.com/NCAR/pop-tools" target="_blank" title="https://github.com/NCAR/pop-tools">here</a>.  </p>
 <p>Yes, I think it's a bug. We should be using the files that are available locally on Cheyenne. Somehow your <code>CESMDATAROOT </code> got munged to <code>/glade/p/cesmdata/cseg/tmpodosnjdc</code>, which I don't understand.  If you get a fresh terminal on Cheyenne, is <code>CESMDATAROOT</code> set for you?</p>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>, does CESM use <code>CESMDATAROOT</code>? I have forgotten whether we invented that for <code>pop_tools</code> or if we expropriated it.</p>
@@ -76,7 +75,7 @@ PermissionError: [Errno 13] Permission denied: &#39;/glade/p/cesmdata/cseg/tmpod
 
 
 <a name="9406"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9406" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9406">(May 22 2020 at 17:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9406" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9406">(May 22 2020 at 17:17)</a>:</h4>
 <p>Cool, will file an issue ticket in a few minutes. </p>
 <p>Yes, <code>CESMDATAROOT</code> is set by default for me on Cheyenne (and the student I've been helping through this issue):</p>
 <div class="codehilite"><pre><span></span>echo $CESMDATAROOT
@@ -86,7 +85,7 @@ PermissionError: [Errno 13] Permission denied: &#39;/glade/p/cesmdata/cseg/tmpod
 
 
 <a name="9415"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9415" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9415">(May 22 2020 at 18:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9415" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9415">(May 22 2020 at 18:41)</a>:</h4>
 <p>Yes, <span class="user-mention" data-user-id="14">@Matt Long</span> , CESM/CIME uses <code>CESMDATAROOT</code>, to point to inputdata among other things.</p>
 <p>FYI, I've recently stubled upon <code>git grep</code> and have become rather fond of it.<br>
 For example, if I run <code>git grep -l CESMDATAROOT</code> from a cime root directory, I see where <code>CESMDATAROOT</code> is used:</p>
@@ -102,7 +101,7 @@ tools/statistical_ensemble_test/README
 
 
 <a name="9517"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9517" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9517">(May 22 2020 at 23:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9517" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9517">(May 22 2020 at 23:48)</a>:</h4>
 <blockquote>
 <p>Yes, I think it's a bug. We should be using the files that are available locally on Cheyenne. Somehow your <code>CESMDATAROOT </code> got munged to <code>/glade/p/cesmdata/cseg/tmpodosnjdc</code>, which I don't understand. </p>
 </blockquote>
@@ -111,20 +110,20 @@ tools/statistical_ensemble_test/README
 
 
 <a name="9526"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9526" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9526">(May 23 2020 at 13:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/9526" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#9526">(May 23 2020 at 13:59)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>, see my comment on you PR. I am wondering if we should overload <code>fetch</code> and remove <code>pooch</code> from the equation altogether if <code>inputdata</code> is unwritable. Alternatively, we could support multiple rank-ordered locations from which data can be read and, if the primary is unwritable, cached.</p>
 
 
 
 <a name="23082"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/23082" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#23082">(Dec 15 2020 at 19:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/23082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#23082">(Dec 15 2020 at 19:53)</a>:</h4>
 <p>Fixed?<br>
 <a href="https://github.com/NCAR/pop-tools/releases/tag/v2020.12.15" target="_blank" title="https://github.com/NCAR/pop-tools/releases/tag/v2020.12.15">https://github.com/NCAR/pop-tools/releases/tag/v2020.12.15</a></p>
 
 
 
 <a name="23100"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/23100" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#23100">(Dec 15 2020 at 22:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Missing%20config%20file%20for%20pop-tools%3F/near/23100" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Missing.20config.20file.20for.20pop-tools.3F.html#23100">(Dec 15 2020 at 22:14)</a>:</h4>
 <blockquote>
 <p>Fixed?<br>
 <a href="https://github.com/NCAR/pop-tools/releases/tag/v2020.12.15" target="_blank" title="https://github.com/NCAR/pop-tools/releases/tag/v2020.12.15">https://github.com/NCAR/pop-tools/releases/tag/v2020.12.15</a></p>
@@ -164,5 +163,5 @@ tools/statistical_ensemble_test/README
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

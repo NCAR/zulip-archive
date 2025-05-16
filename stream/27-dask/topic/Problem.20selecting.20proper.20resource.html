@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="53056"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53056" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53056">(Apr 01 2022 at 14:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53056" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53056">(Apr 01 2022 at 14:57)</a>:</h4>
 <p>I'm not sure if this is a <code>dask</code> problem, a JupyterHub problem, or a PBS issue... <span class="user-mention" data-user-id="154">@Jared Baker</span>, I'm tagging you in case it's a Hub or PBS problem, since I don't know if you check out this channel regularly. I was chatting with <span class="user-mention" data-user-id="199">@Holly Olivarez</span>, who ran into this issue first, but I was able to reproduce it on my own:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">from</span> <span class="nn">dask_jobqueue</span> <span class="kn">import</span> <span class="n">PBSCluster</span>
 <span class="kn">from</span> <span class="nn">dask.distributed</span> <span class="kn">import</span> <span class="n">Client</span>
@@ -43,40 +42,40 @@ stderr:
 
 
 <a name="53057"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53057" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53057">(Apr 01 2022 at 14:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53057" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53057">(Apr 01 2022 at 14:58)</a>:</h4>
 <p>where are you running on? JupyterHub Stable?</p>
 
 
 
 <a name="53058"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53058" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53058">(Apr 01 2022 at 14:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53058" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53058">(Apr 01 2022 at 14:59)</a>:</h4>
 <p>yup, JupyterHub Stable</p>
 
 
 
 <a name="53059"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53059" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53059">(Apr 01 2022 at 15:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53059" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53059">(Apr 01 2022 at 15:00)</a>:</h4>
 <p>okay. I know where that message comes from. Give me just a few seconds.</p>
 
 
 
 <a name="53060"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53060" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53060">(Apr 01 2022 at 15:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53060" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53060">(Apr 01 2022 at 15:05)</a>:</h4>
 <p>What about now?</p>
 
 
 
 <a name="53061"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53061" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53061">(Apr 01 2022 at 15:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53061">(Apr 01 2022 at 15:09)</a>:</h4>
 <p>looks like it's working, thanks! (I needed to add the <code>queue</code> argument, but that's probably an issue in my configuration :)</p>
 
 
 
 <a name="53085"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53085" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53085">(Apr 01 2022 at 15:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Problem%20selecting%20proper%20resource/near/53085" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Problem.20selecting.20proper.20resource.html#53085">(Apr 01 2022 at 15:58)</a>:</h4>
 <p>Yeah, it looks to me like the queuing system was not getting sufficient information (i.e., the queue!).</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

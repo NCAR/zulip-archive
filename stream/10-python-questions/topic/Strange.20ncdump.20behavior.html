@@ -5,66 +5,65 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="95437"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95437" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95437">(Feb 02 2024 at 23:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95437" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95437">(Feb 02 2024 at 23:33)</a>:</h4>
 <p>Hello,  At least both Nan and I have experienced this issue.  I'm wondering if anyone else has and knows what's happening.  When I write data out to netcdf from python using xarray data arrays or datasets and then do an ncdump on the file to display the coordinates,  the coordinates appear to contain empty values.  However, they are not actually empty if you read the data back into python. Attached is an example.  I simply read in a file and write it back out again.  If I do an ncdump on the output file it has empty values for all the coordinates but on reading it back in, the coordinates have the right values.  I don't know whether this is an ncdump problem, a python problem, or a derecho/casper problem.  Thanks for any help on this.</p>
-<p><a href="/user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png">Screenshot-at-2024-02-02-16-30-59.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png" title="Screenshot-at-2024-02-02-16-30-59.png"><img src="/user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png"></a></div>
+<p><a href="../../../user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png">Screenshot-at-2024-02-02-16-30-59.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png" title="Screenshot-at-2024-02-02-16-30-59.png"><img src="../../../user_uploads/2/4/tlluZUoxcoKVc1WdA9w2qqdl/Screenshot-at-2024-02-02-16-30-59.png"></a></div>
 
 
 
 <a name="95438"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95438" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95438">(Feb 02 2024 at 23:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95438">(Feb 02 2024 at 23:37)</a>:</h4>
 <p>Another piece of information is that this same problem does not happen on the CGD machines, suggesting it's either a derecho/casper problem or an environment problem.</p>
 
 
 
 <a name="95439"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95439" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95439">(Feb 02 2024 at 23:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95439">(Feb 02 2024 at 23:56)</a>:</h4>
 <p>Another piece of information.  The same file that has missing values for the coordinates on derecho with an ncdump looks normal on another machine.  So it appears to be narrowed down to an ncdump issue on derecho.  I will open up a ticket with cislhelp.</p>
 
 
 
 <a name="95545"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95545" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95545">(Feb 07 2024 at 16:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95545" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95545">(Feb 07 2024 at 16:45)</a>:</h4>
 <p><span class="user-mention" data-user-id="67">@Will Wieder</span> <a href="https://github.com/ESCOMP/CTSM/issues/2347">noticed a similar issue</a> with the most recent CTSM parameter file, which has a new <code>_FillValue</code> attribute (set to NaN) on all the variables. When I remove that attribute with <code>ncatted -a _FillValue,varname,d,, oldfile.nc newfile.nc</code>, <code>ncdump</code> works as expected.</p>
 
 
 
 <a name="95548"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95548" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95548">(Feb 07 2024 at 16:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95548" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95548">(Feb 07 2024 at 16:50)</a>:</h4>
 <p>This unfortunately happens with both versions of the <code>nco</code> module on Casper, 5.1.9 (the default) and 5.1.6</p>
 
 
 
 <a name="95551"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95551" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95551">(Feb 07 2024 at 16:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95551" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95551">(Feb 07 2024 at 16:51)</a>:</h4>
 <p>I'll also ad that we're working to correct this metadata issue in upcoming CTSM tags, but Sam's suggestions seem like a OK workaround for now?</p>
 
 
 
 <a name="95559"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95559" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95559">(Feb 07 2024 at 17:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95559" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95559">(Feb 07 2024 at 17:08)</a>:</h4>
 <p>OK, thanks  It seems strange that this workaround is needed, but it's good to know.</p>
 
 
 
 <a name="95576"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95576" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Nan Rosenbloom <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95576">(Feb 08 2024 at 03:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95576" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Nan Rosenbloom <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95576">(Feb 08 2024 at 03:05)</a>:</h4>
 <p>With Brian Dobbins help:  this fixes it too:<br>
 module swap intel gcc</p>
 
 
 
 <a name="95582"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95582" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95582">(Feb 08 2024 at 17:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Strange%20ncdump%20behavior/near/95582" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Strange.20ncdump.20behavior.html#95582">(Feb 08 2024 at 17:40)</a>:</h4>
 <p>Sounds related to what was posted in the CISL DailyB this morning: <a href="https://arc.ucar.edu/articles/609">https://arc.ucar.edu/articles/609</a></p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

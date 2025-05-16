@@ -5,20 +5,19 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="102053"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102053" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102053">(Jul 09 2024 at 21:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102053" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102053">(Jul 09 2024 at 21:31)</a>:</h4>
 <p>Hello,  I'm using interp_hybrid_to_pressure with extrapolate = True.  This takes much longer than NCL used to but I'm also noticing a big difference between how long it takes on the CISL machines with a dask cluster verus how long it takes on the CGD machines, with CGD machines being much faster.  I'm running the same command on the same data.  It's the GeoCat function but i've pulled it out into my own subroutine to mess around with it (so it may also not be entirely up to date).</p>
 <p>Here's the timing on CGD machines:<br>
-<a href="/user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png">Screen-Shot-2024-07-09-at-3.32.07-PM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png" title="Screen-Shot-2024-07-09-at-3.32.07-PM.png"><img src="/user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png"></a></div><p>Here's the timing on casper:<br>
-<a href="/user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png">interpolate_cisl.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png" title="interpolate_cisl.png"><img src="/user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png"></a></div><p>I had already loaded all the inputs prior to executing this command.  It's taking about four times longer on casper.  On casper I'm using a dask cluster with the following resources:</p>
-<p><a href="/user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png">Screen-Shot-2024-07-09-at-3.21.01-PM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png" title="Screen-Shot-2024-07-09-at-3.21.01-PM.png"><img src="/user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png"></a></div><p>I'm assuming these resources are much greater than what we have on the CGD postprocessor machines, so I would have expected it to be faster.  But it seems like maybe the fact that this is using a dask cluster  with the chunking that entails is making it much slower.</p>
+<a href="../../../user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png">Screen-Shot-2024-07-09-at-3.32.07-PM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png" title="Screen-Shot-2024-07-09-at-3.32.07-PM.png"><img src="../../../user_uploads/2/0/XE6QXzdv5_dY1Y65rydiwqJd/Screen-Shot-2024-07-09-at-3.32.07-PM.png"></a></div><p>Here's the timing on casper:<br>
+<a href="../../../user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png">interpolate_cisl.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png" title="interpolate_cisl.png"><img src="../../../user_uploads/2/97/Kde0AvVsoI6ez_L9xV3JO_KD/interpolate_cisl.png"></a></div><p>I had already loaded all the inputs prior to executing this command.  It's taking about four times longer on casper.  On casper I'm using a dask cluster with the following resources:</p>
+<p><a href="../../../user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png">Screen-Shot-2024-07-09-at-3.21.01-PM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png" title="Screen-Shot-2024-07-09-at-3.21.01-PM.png"><img src="../../../user_uploads/2/62/k93lF4MDXRhE7NT39pz7hpy3/Screen-Shot-2024-07-09-at-3.21.01-PM.png"></a></div><p>I'm assuming these resources are much greater than what we have on the CGD postprocessor machines, so I would have expected it to be faster.  But it seems like maybe the fact that this is using a dask cluster  with the chunking that entails is making it much slower.</p>
 <p>In general I'm finding vertical interpolation to be an extreme bottleneck now with GeoCAT.  NCL was a LOT faster.  This is not a big dataset.  It's 1 degree resolution, 58 years, monthly time resolution.  It's relatively small compared to the datasets that we need to interpolate and for it to take 48 minutes with those resources, it's kind of unmanageable.  I'm wondering if there's anything we could do to try to speed this up?  I'd be happy to brainstorm with someone about ideas or try things out because this is really a critical need for GeoCAT if we can no longer use NCL.  Alternatively, if anyone can provide guidance on how I might set things up better on the casper to make it more efficient, I'd be glad to hear it.</p>
 <p><span class="user-group-mention" data-user-group-id="1">@geocat</span> <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> <span class="user-mention" data-user-id="18">@Orhan Eroglu</span> </p>
 <p>Here's my actual code on the CISL machines: /glade/u/home/islas/python/RRAtlantic/DATA_SORT/plev_interp/GOGA/plevinterp_U.ipynb</p>
@@ -28,14 +27,14 @@ Isla</p>
 
 
 <a name="102054"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102054" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anissa Zacharias <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102054">(Jul 09 2024 at 21:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102054" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anissa Zacharias <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102054">(Jul 09 2024 at 21:50)</a>:</h4>
 <p>Hi Isla! We recently released some performance improvements for <code>interp_hybrid_to_pressure</code> (<a href="https://github.com/NCAR/geocat-comp/pull/592">PR #592</a>, if you're curious) in <a href="https://github.com/NCAR/geocat-comp/releases/tag/v2024.04.0">v2024.04.0</a> that I hope can help your issue.</p>
 <p>I would try pulling the most recent version of the function and see if that improves your performance.</p>
 
 
 
 <a name="102067"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102067" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102067">(Jul 10 2024 at 13:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102067" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102067">(Jul 10 2024 at 13:52)</a>:</h4>
 <p>That's great to here!  I'm excited to try this out.  However, I'm having trouble updating my environment.  I'm not the most experienced with conda.  I have updated ny conda installation and then i have run </p>
 <p>conda update geocat-comp</p>
 <p>but it still keeps me at version 2022.07.0.    Do you know why?  I suppose I could specify the geocat-comp version in my yml file but I'm confused about why this doesn't work.</p>
@@ -43,7 +42,7 @@ Isla</p>
 
 
 <a name="102073"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102073" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102073">(Jul 10 2024 at 14:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102073" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102073">(Jul 10 2024 at 14:40)</a>:</h4>
 <p>Ah, I think that's the newest version on the older "ncar" conda channel.  You'll need to switch where you're installing from. </p>
 <p>I would do the following:</p>
 <div class="codehilite"><pre><span></span><code>conda remove geocat-comp
@@ -53,57 +52,57 @@ conda install -c conda-forge geocat-comp
 
 
 <a name="102122"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102122" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102122">(Jul 10 2024 at 19:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102122" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102122">(Jul 10 2024 at 19:06)</a>:</h4>
 <p>Hello <span class="user-mention" data-user-id="45">@Isla Simpson</span> I have noticed a discrepancy in your dask <code>PBSClusger</code> resources specs. </p>
 <p>Here you specify <code>memory = 30 GB</code> while your resouce_specs are requesting 10 GB chunks on each node. The  <code>memory</code> parameters provide information to Dask, while the <code>resource_spec</code> provides information to PBS. So essentially this means that your dask resources think they can use up to 30 GB before spilling to disk while PBS only assign 10 GB per worker. If the memory on the node is mostly used, this means that your workers are using swap memory which leads to poor performance ...</p>
 
 
 
 <a name="102162"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102162" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102162">(Jul 11 2024 at 17:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102162" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102162">(Jul 11 2024 at 17:04)</a>:</h4>
 <p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> <span class="user-mention" data-user-id="71">@Negin Sobhani</span> .  Thanks for both of these suggestions.  I'm trying to work with the new version of geocat.  I'm now using version 2024.04.0 but whenever I try to run the vertical interpolation code I get the following error.  I closed my dask cluster and started again and still got this error.  Any thoughts on what do to about it?<br>
-<a href="/user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png">Screen-Shot-2024-07-11-at-11.02.44-AM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png" title="Screen-Shot-2024-07-11-at-11.02.44-AM.png"><img src="/user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png"></a></div><p>Thanks!</p>
+<a href="../../../user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png">Screen-Shot-2024-07-11-at-11.02.44-AM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png" title="Screen-Shot-2024-07-11-at-11.02.44-AM.png"><img src="../../../user_uploads/2/e4/Jm9iRbwQlBFQnqV-xvbGJ8ez/Screen-Shot-2024-07-11-at-11.02.44-AM.png"></a></div><p>Thanks!</p>
 
 
 
 <a name="102164"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102164" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102164">(Jul 11 2024 at 17:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102164" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102164">(Jul 11 2024 at 17:13)</a>:</h4>
 <p>another note on this is that I also just tried doubling the resources I'm using.  I first tried cluster.scale(12) and then tried cluster.scale(24) and I got an error for both of them.</p>
 
 
 
 <a name="102166"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102166" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102166">(Jul 11 2024 at 17:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102166" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102166">(Jul 11 2024 at 17:27)</a>:</h4>
 <p>Hrm, I'm not sure offhand and did run a modified version of your code when troubleshooting this the first time around on Casper.  Not that something couldn't still be wrong.    </p>
 <p>Is there any more info you can get from <code>qhist</code>?</p>
 
 
 
 <a name="102168"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102168" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102168">(Jul 11 2024 at 17:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102168" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102168">(Jul 11 2024 at 17:32)</a>:</h4>
 <p>Hmm, I'm not sure what to look for in qhist.  Here's the output...<br>
-<a href="/user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png">Screen-Shot-2024-07-11-at-11.31.46-AM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png" title="Screen-Shot-2024-07-11-at-11.31.46-AM.png"><img src="/user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png"></a></div>
+<a href="../../../user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png">Screen-Shot-2024-07-11-at-11.31.46-AM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png" title="Screen-Shot-2024-07-11-at-11.31.46-AM.png"><img src="../../../user_uploads/2/de/mQF7PADb6RNyH76RsX1WhyWU/Screen-Shot-2024-07-11-at-11.31.46-AM.png"></a></div>
 
 
 
 <a name="102169"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102169" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102169">(Jul 11 2024 at 17:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102169" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102169">(Jul 11 2024 at 17:33)</a>:</h4>
 <p>I did just try using the older version of the interpolation code and I got the same error.  So it seems like it isn't something about the new geocat code, but rather something about my new environment that is not working nicely with it.</p>
 
 
 
 <a name="102170"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102170" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102170">(Jul 11 2024 at 17:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102170" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102170">(Jul 11 2024 at 17:51)</a>:</h4>
 <p>I don't know if this helps, but this text appears under my cell where I open up the dask cluster as well.<br>
-<a href="/user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png">Screen-Shot-2024-07-11-at-11.50.34-AM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png" title="Screen-Shot-2024-07-11-at-11.50.34-AM.png"><img src="/user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png"></a></div>
+<a href="../../../user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png">Screen-Shot-2024-07-11-at-11.50.34-AM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png" title="Screen-Shot-2024-07-11-at-11.50.34-AM.png"><img src="../../../user_uploads/2/1/JddET8RGgSs3ObtgvfnSa3cJ/Screen-Shot-2024-07-11-at-11.50.34-AM.png"></a></div>
 
 
 
 <a name="102171"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102171" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102171">(Jul 11 2024 at 18:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102171" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102171">(Jul 11 2024 at 18:10)</a>:</h4>
 <p>I thought the job might be getting cancelled for some reason, but it looks like that's not the case.   </p>
 <p>I wonder if you have some older versions of things in your environment that aren't working well (maybe Dask?).  </p>
 <p>You could try updating with the following:<br>
@@ -113,72 +112,72 @@ conda install -c conda-forge geocat-comp
 
 
 <a name="102176"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102176" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102176">(Jul 11 2024 at 19:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102176" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102176">(Jul 11 2024 at 19:28)</a>:</h4>
 <p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> thanks for the further suggestions.  I updated my environment with the command you suggested and I'm still getting this error.  My script is here /glade/u/home/islas/python/RRAtlantic/DATA_SORT/plev_inter/RRAtlantic/plevinterp_U.ipynb.  It seems like the cell that opens the dask cluster executes fine without warnings and then it's when the pressure level interpolation cell fails that all the warnings in the screenshot above appear.  I'd be interested to see if you find the same thing and if not maybe we can compare environments to see what's different?  Thanks</p>
 
 
 
 <a name="102177"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102177" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102177">(Jul 11 2024 at 19:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102177" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102177">(Jul 11 2024 at 19:49)</a>:</h4>
 <p>Thanks for sharing.  I’ll take a look. Might be a moment since I’m at a conference, but I should have some time later today.</p>
 
 
 
 <a name="102178"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102178" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102178">(Jul 11 2024 at 19:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102178" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102178">(Jul 11 2024 at 19:50)</a>:</h4>
 <p>No rush.  I've actually done what I need to do already on the CGD machines.  It just concerns me for the future if I can't get this up and running on the CISL machines once the CGD machines go away.  Thanks!</p>
 
 
 
 <a name="102188"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102188" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102188">(Jul 11 2024 at 20:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102188" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102188">(Jul 11 2024 at 20:58)</a>:</h4>
 <p>I wasn't able to run a copy of your notebook, because of datafile permissions, but I did confirm my older test notebook (based on what you shared before) is working with the a copy of the NPL2024a env with updated geocat-comp.  I'll check to see if there's a new one coming soon that might have the updated geocat-comp.  </p>
 <p>I also noticed you have some lingering compute and/or load calls in your new notebook (I think those got added in troubleshooting before or as a workaround if I recall correctly).  I'd try removing those.</p>
 
 
 
 <a name="102262"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102262" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102262">(Jul 15 2024 at 02:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102262" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102262">(Jul 15 2024 at 02:11)</a>:</h4>
 <p>HI Katelyn,  Thanks for looking into it further.  I've changed my notebook to point toward files that you should be able to see at /glade/u/home/islas/python/RRAtlantic/DATA_SORT/plev_interp/RRAtlantic/plevinterp_U.ipynb.  If you were willing to give it a shot with your  environment I'd be interested to know whether it works.  I just tried creating my environment from scratch again and had the same problem.  I then made a very simple environment that only contains the basic things, to avoid there being anything weird about it and I still get the same "FutureCancelledError".  I created that simple environment using this yml file /glade/u/home/islas/python/envs/islaenv_simple.yml.  Thanks.</p>
 
 
 
 <a name="102263"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102263" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102263">(Jul 15 2024 at 14:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102263" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102263">(Jul 15 2024 at 14:51)</a>:</h4>
 <p>Thanks, I'll take a look again today.</p>
 
 
 
 <a name="102393"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102393" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102393">(Jul 16 2024 at 23:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102393" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102393">(Jul 16 2024 at 23:16)</a>:</h4>
 <p>Just getting to this after some stuff came up yesterday and some JupyterHub issues today.  I can't seem to access "/glade/campaign/cgd/cas/observations/ERA5/mon/ua/u_2023.nc" though.</p>
 
 
 
 <a name="102397"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102397" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102397">(Jul 16 2024 at 23:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102397" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102397">(Jul 16 2024 at 23:55)</a>:</h4>
 <p>Sorry.  I have hopefully fixed the permissions now.  But I've also copied that file into the directory that I copied all the other files and changed the path on my original script to point toward that.</p>
 
 
 
 <a name="102398"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102398" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102398">(Jul 17 2024 at 00:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102398" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102398">(Jul 17 2024 at 00:23)</a>:</h4>
 <p>Ok, so I was able to replicate what you're seeing (I'm fairly sure anyway).  I think it has to do with Dask and how it's interacting with the function as applied to a larger dataset.  This didn't come up with the smaller subset I was working with before, but I did notice some things that might be worth taking a deeper look at now.</p>
 <p>Thanks for documenting this and bringing it up.</p>
 
 
 
 <a name="102399"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102399" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102399">(Jul 17 2024 at 00:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102399" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102399">(Jul 17 2024 at 00:27)</a>:</h4>
 <p>One additional note - it does seem to work if you subset the time dimension some to make the dataset and resulting Dask task graph smaller.  Obviously this isn't ideal, but it is a workaround for the moment.</p>
 
 
 
 <a name="102410"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102410" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102410">(Jul 17 2024 at 15:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/slowness%20of%20geocat%20interp_hybrid_to_pressure/near/102410" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/slowness.20of.20geocat.20interp_hybrid_to_pressure.html#102410">(Jul 17 2024 at 15:46)</a>:</h4>
 <p>HI Katelyn,  I guess I'm glad to know it's not just me!  Thanks for looking into it and for the workaround suggestion.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

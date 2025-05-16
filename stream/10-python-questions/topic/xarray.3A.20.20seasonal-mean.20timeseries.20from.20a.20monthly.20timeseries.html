@@ -5,18 +5,17 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="21905"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21905" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21905">(Nov 22 2020 at 21:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21905" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21905">(Nov 22 2020 at 21:32)</a>:</h4>
 <p>I'm struggling to find clear web documentation on how to convert a monthly DataArray (time: 720) into a yearly DataArray(time:60) that represents a seasonal average ('DJF' or 'JFM', etc). Apparently, this requires using the resample method, but I find the documentation of <code>xarray.Dataset.resample</code> to be unhelpful. Can anyone share a clear example of how this is done?</p>
 
 
 
 <a name="21906"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21906" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21906">(Nov 22 2020 at 21:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21906" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21906">(Nov 22 2020 at 21:50)</a>:</h4>
 <p>I'm sure there's a slicker way to do this with resample and/or groupby('time.season'), but here's how I've done this in the past using rolling to calculate running 3-month-means then grabbing every 12th mean:</p>
 <div class="codehilite"><pre><span></span>startmonth=11 #for DJF, if first month = January; D=11 w/0-indexing
 endmonth=len(ds[&#39;time&#39;])
@@ -27,13 +26,13 @@ djfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))
 
 
 <a name="21907"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21907" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21907">(Nov 22 2020 at 22:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21907" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21907">(Nov 22 2020 at 22:04)</a>:</h4>
 <p>Oops - look like I had the startmonth off; for DJF should be 13 (for February). By default, rolling using the right side of the window as the time index.</p>
 
 
 
 <a name="21908"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21908" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21908">(Nov 22 2020 at 23:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21908" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21908">(Nov 22 2020 at 23:19)</a>:</h4>
 <p>I came up with the following which seems to work: </p>
 <div class="codehilite"><pre><span></span>def jfm_mean(ds):
     month_length = ds.time.dt.days_in_month
@@ -45,13 +44,13 @@ djfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))
 
 
 <a name="21909"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21909" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21909">(Nov 22 2020 at 23:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/21909" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Elizabeth Maroon <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#21909">(Nov 22 2020 at 23:24)</a>:</h4>
 <p>Appears to work on a test dataset over here.</p>
 
 
 
 <a name="70687"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70687" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70687">(Dec 16 2022 at 23:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70687" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70687">(Dec 16 2022 at 23:11)</a>:</h4>
 <p>I'm following up on this old post, as I've tried following along with <span class="user-mention" data-user-id="34">@Stephen Yeager</span> 's method, but getting an outcome I don't understand (it takes a long time to run, and then the output is an array with time=0, size 0. )</p>
 <div class="codehilite"><pre><span></span><code>def djf_mean(ds):
     # Make a DataArray with the number of days in each month, size = len(time)
@@ -64,25 +63,25 @@ djfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))
 <p>I've taken a screenshot of my input array into this function (2m air temp, 1000 years of monthly data), as well as the result after applying the function.  I think the issue arises in the calculation of the numerator, but when I break it down into smaller pieces to test, its not obvious what is going wrong, other than this operation produces an array of size 0 even though both ds and month_length look good:</p>
 <div class="codehilite"><pre><span></span><code>(ds * month_length).resample(time=&#39;QS-DEC&#39;).sum()
 </code></pre></div>
-<p>Thoughts? <a href="/user_uploads/2/71/NR7lD95rbSLS_sb8ezXdj-DF/Screen-Shot-2022-12-16-at-3.10.01-PM-2.png">Screen-Shot-2022-12-16-at-3.10.01-PM-2.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/71/NR7lD95rbSLS_sb8ezXdj-DF/Screen-Shot-2022-12-16-at-3.10.01-PM-2.png" title="Screen-Shot-2022-12-16-at-3.10.01-PM-2.png"><img src="/user_uploads/2/71/NR7lD95rbSLS_sb8ezXdj-DF/Screen-Shot-2022-12-16-at-3.10.01-PM-2.png"></a></div>
+<p>Thoughts? <a href="../../../user_uploads/2/71/NR7lD95rbSLS_sb8ezXdj-DF/Screen-Shot-2022-12-16-at-3.10.01-PM-2.png">Screen-Shot-2022-12-16-at-3.10.01-PM-2.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/71/NR7lD95rbSLS_sb8ezXdj-DF/Screen-Shot-2022-12-16-at-3.10.01-PM-2.png" title="Screen-Shot-2022-12-16-at-3.10.01-PM-2.png"><img src="../../../user_uploads/2/71/NR7lD95rbSLS_sb8ezXdj-DF/Screen-Shot-2022-12-16-at-3.10.01-PM-2.png"></a></div>
 
 
 
 <a name="70695"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70695" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70695">(Dec 19 2022 at 16:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70695" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70695">(Dec 19 2022 at 16:08)</a>:</h4>
 <p><span class="user-mention" data-user-id="259">@Mira Berdahl</span> since the older post was created, GeoCAT-comp has created some functions that I believe do what you want. Are you looking for climatological seasonal averages across all years of your data or do you want the average for the seasons in each year?</p>
 
 
 
 <a name="70699"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70699" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70699">(Dec 19 2022 at 16:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70699" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70699">(Dec 19 2022 at 16:38)</a>:</h4>
 <p>Depending on what kind of average you want, you can use either <a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.climatologies.climatology_average.html#geocat.comp.climatologies.climatology_average"><code>climatology_average</code></a> or <a href="https://geocat-comp.readthedocs.io/en/latest/user_api/generated/geocat.comp.climatologies.calendar_average.html#geocat.comp.climatologies.calendar_average"><code>calendar_average</code></a>. I've linked to the documentation page for both</p>
 
 
 
 <a name="70761"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70761" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70761">(Dec 19 2022 at 18:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70761" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70761">(Dec 19 2022 at 18:42)</a>:</h4>
 <p><span class="user-mention" data-user-id="107">@Heather Craker</span> Thanks for the tips on using GeoCAT.  I was looking for the calendar_average method, so that's good to know it exists.  In the meantime, I found my mistake in the function I was trying to use, the last line should read :</p>
 <div class="codehilite"><pre><span></span><code>return result.sel(time=result[&#39;time.moth&#39;]==12)
 </code></pre></div>
@@ -91,13 +90,13 @@ djfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))
 
 
 <a name="70774"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70774" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70774">(Dec 19 2022 at 18:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/70774" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Heather Craker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#70774">(Dec 19 2022 at 18:51)</a>:</h4>
 <p>Great! I'm glad you found a solution! If you need any help with geocat functions, just let me know! You should be able to ping <span class="user-group-mention" data-user-group-id="1">@geocat</span> to get help from any of us on the team</p>
 
 
 
 <a name="94893"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94893" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94893">(Jan 24 2024 at 20:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94893" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94893">(Jan 24 2024 at 20:31)</a>:</h4>
 <p>Hey Steve,</p>
 <p>Is there documentation somewhere about the time='QS-JAN' option to resample? Does this syntax always mean JFM?</p>
 <p>Dave</p>
@@ -116,25 +115,25 @@ djfmean=ds.rolling(time=3).mean().isel(time=slice(startmonth,endmonth,12))
 
 
 <a name="94898"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94898" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94898">(Jan 24 2024 at 21:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94898" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94898">(Jan 24 2024 at 21:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="93">@David Bailey</span> it's documented with <a href="https://xarray.pydata.org/en/v0.8.2/generated/xarray.Dataset.resample.html"><code>xr.Dataset.resample()</code></a> -- the <code>QS</code> part means "quarterly", and the <code>-JAN</code> part means "starting on January 1"</p>
 
 
 
 <a name="94899"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94899" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94899">(Jan 24 2024 at 21:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94899" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94899">(Jan 24 2024 at 21:01)</a>:</h4>
 <p>There's a not so obvious (took me a bit to find it a while back, but is really helpful) reference and link to the Pandas time/offset/freq aliases in the xarray.resample docs.  This should help: <a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#anchored-offsets">https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#anchored-offsets</a> and there's more general info on that page.</p>
 
 
 
 <a name="94901"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94901" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94901">(Jan 24 2024 at 21:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94901" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94901">(Jan 24 2024 at 21:04)</a>:</h4>
 <p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> that's far more extensive documentation! So <code>QE-[mon]</code> instead of <code>QS-[mon]</code> would be "quarterly, ending in [mon]" (presumably on the ladst of the month?); I was wondering why the <code>S</code> was included in the argument :)</p>
 
 
 
 <a name="94931"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94931" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94931">(Jan 24 2024 at 21:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/94931" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#94931">(Jan 24 2024 at 21:13)</a>:</h4>
 <p>This is all very helpful. It is still not quite was I was hoping for. So when I do the following:</p>
 <p>month_length = ds1.time.dt.days_in_month<br>
 weights_season = month_length.groupby(seasons) / month_length.groupby(seasons).sum()<br>
@@ -145,14 +144,14 @@ weights_monthly = month_length.groupby("time.year") / month_length.groupby("time
 
 
 <a name="95010"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/95010" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#95010">(Jan 24 2024 at 22:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/95010" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#95010">(Jan 24 2024 at 22:46)</a>:</h4>
 <p>If you're looking to average over the seasons of all years, another option is something like <code>DataArray.groupby("time.season").mean()</code> (maybe this is what you're talking about). </p>
 <p>I'd have to think a bit more about season/year/i/j dim solution.  I think you'd need to reshape/reindex.</p>
 
 
 
 <a name="95013"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/95013" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#95013">(Jan 24 2024 at 22:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%3A%20%20seasonal-mean%20timeseries%20from%20a%20monthly%20timeseries/near/95013" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.3A.20.20seasonal-mean.20timeseries.20from.20a.20monthly.20timeseries.html#95013">(Jan 24 2024 at 22:49)</a>:</h4>
 <p>Right. I was trying to do that with the weights_season example here, but with custom seasons.</p>
 <p>months = ds1.time.dt.month<br>
 seasons = xr.full_like(months, fill_value="none", dtype="U4")<br>
@@ -166,5 +165,5 @@ seasons[months.isin([10, 11, 12])] = "OND"</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

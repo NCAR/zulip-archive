@@ -5,24 +5,23 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="96227"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96227" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96227">(Mar 01 2024 at 02:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96227" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96227">(Mar 01 2024 at 02:10)</a>:</h4>
 <p>Hello, I'm trying to get a dask cluster going but it's a command that worked earlier today is now giving an error related to /glade/scratch saying permission denied.  I assume this is because /glade/scratch is no more.   I'm using the PBSCluster command from the dask_jobqueue.  Is it possible that something is hardcoded in here to use /glade/scratch and that this needs to be updated?</p>
 
 
 
 <a name="96228"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96228" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96228">(Mar 01 2024 at 14:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96228" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96228">(Mar 01 2024 at 14:16)</a>:</h4>
 <p>I'm also getting that same error</p>
 
 
 
 <a name="96236"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96236" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96236">(Mar 01 2024 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96236" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96236">(Mar 01 2024 at 17:41)</a>:</h4>
 <p>I was able to solve this by modifying the following file<br>
 ~/.config/dask/ncar-jobqueue.yaml</p>
 <p>Update the following lines under <code>casper-dav</code><br>
@@ -34,19 +33,19 @@
 
 
 <a name="96237"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96237" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96237">(Mar 01 2024 at 17:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96237" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96237">(Mar 01 2024 at 17:52)</a>:</h4>
 <p>That fixed it! Thank you so much, Gustavo!! :)</p>
 
 
 
 <a name="96239"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96239" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96239">(Mar 01 2024 at 18:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96239" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96239">(Mar 01 2024 at 18:13)</a>:</h4>
 <p>Hmm, this is not resolving the issue for me.  I didn't have an ncar-jobqueue.yml file in ~/.config/dasks.  I had a jobqueue.yml file and I changed all the occurrences of /glade/scratch in there to /glade/derecho/scratch.  That didn't work.  I then copied over Gustavo's ncar-jobqueue.yml file into ~/.config/dask and that still didn't work.  I restarted jupyterhub each time.  Any other thoughts?</p>
 
 
 
 <a name="96245"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96245" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96245">(Mar 01 2024 at 19:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96245" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96245">(Mar 01 2024 at 19:52)</a>:</h4>
 <p><span class="user-mention" data-user-id="45">@Isla Simpson</span> Yes <code>/glade/scratch</code> is not longer available. Your dask default settings are either in ~/.config/dask/ncar-jobqueue.yaml (as <span class="user-mention" data-user-id="15">@Gustavo M Marques</span> suggested ) or in ~/.dask/jobqueueu.yml.</p>
 <p>For you specifically, I checked, and you need to update the local directory or log directory and job extra arguments in the following file:<br>
 cat ~/.dask/jobqueue.yaml</p>
@@ -92,7 +91,7 @@ jobqueue:
 
 
 <a name="96246"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96246" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96246">(Mar 01 2024 at 19:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96246" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Negin Sobhani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96246">(Mar 01 2024 at 19:57)</a>:</h4>
 <p>Also, I noticed the default values in this file are not very optimal. I would argue the following values instead:</p>
 <div class="codehilite"><pre><span></span><code>  pbs:
     cores: 1
@@ -112,10 +111,10 @@ jobqueue:
 
 
 <a name="96248"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96248" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96248">(Mar 01 2024 at 21:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic//glade/scratch%20issue%20with%20dask%20cluster/near/96248" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/.2Fglade.2Fscratch.20issue.20with.20dask.20cluster.html#96248">(Mar 01 2024 at 21:26)</a>:</h4>
 <p>Oh, I see.  I have too jobqueue.yaml files.  On in ~/.dask and one in ~/config/dask and I only changed the one in ~/.config/dask.  I've changed the correct one now and I'm not getting the error any more.  Thanks a lot!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

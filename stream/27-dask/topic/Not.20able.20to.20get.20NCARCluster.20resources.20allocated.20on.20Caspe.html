@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="44566"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44566" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44566">(Oct 07 2021 at 16:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44566" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44566">(Oct 07 2021 at 16:45)</a>:</h4>
 <p>Hi,</p>
 <p>I am trying to run a geocat-comp function via Dask on Casper but can't get the requested cluster/client resources allocated for the last two days, i.e. always getting zero workers, zero memory. I am using the same <code>ncar-jobqueue</code> configs with a colleague, who is able to  run Dask clusters successfully. My config file is located at <code>/glade/u/home/oero/.config/dask</code> for reference. Here are what I do in order:</p>
 <ul>
@@ -26,35 +25,35 @@ cluster.scale(jobs=5)
 client = dd.Client(cluster)
 </code></pre></div>
 <p>And this is what I always get for the client in the last two days:<br>
-<a href="/user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png">image.png</a> </p>
-<div class="message_inline_image"><a href="/user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png" title="image.png"><img src="/user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png"></a></div><p>I couldn't get it fixed. Any thoughts?</p>
+<a href="../../../user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png">image.png</a> </p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png" title="image.png"><img src="../../../user_uploads/2/1a/trGlYxarfoYyU3pGt4CdeZlp/image.png"></a></div><p>I couldn't get it fixed. Any thoughts?</p>
 
 
 
 <a name="44569"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44569" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44569">(Oct 07 2021 at 16:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44569" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44569">(Oct 07 2021 at 16:54)</a>:</h4>
 <p><code>cluster.scale(jobs=5)</code> call is asynchronous. As a result, you may get a report with zero workers when you print the client right after calling <code>cluster.scale()</code> and jobs submitted are still in a <code>pending</code> state...</p>
 <p>Do you see any jobs via <code>qstat -u $USER</code> from the command line?</p>
 
 
 
 <a name="44571"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44571" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44571">(Oct 07 2021 at 16:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44571" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44571">(Oct 07 2021 at 16:54)</a>:</h4>
 <p>When you get a moment, can you post here the output of <code>print(cluster.job_script())</code>?</p>
 
 
 
 <a name="44574"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44574" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44574">(Oct 07 2021 at 16:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44574" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44574">(Oct 07 2021 at 16:58)</a>:</h4>
 <p>Yeah, I thought about it being asynchronous and kept trying to run the remaining cells, while having the Dashboard open. Dashboard never showed me some realtime resources either. </p>
 <p><code>qstat -u $USER</code> returned me nothing in this morning, but it gives me now:</p>
-<p><a href="/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png">image.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png" title="image.png"><img src="/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png"></a></div>
+<p><a href="../../../user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png">image.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png" title="image.png"><img src="../../../user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png"></a></div>
 
 
 
 <a name="44575"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44575" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44575">(Oct 07 2021 at 16:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44575" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44575">(Oct 07 2021 at 16:59)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="18">@Orhan Eroglu</span> </p>
 <p>My own experience is that NCARCluster acted differently on Casper after the switch from SLURM  to PBS.    I could be wrong, but the config settings for PBS were originally designed for Cheyenne.   You want to start by specifying everything (#workers, #cores, etc) in your NCARCluster call to make sure of your settings.   Keep in mind that your <code>cluster.scale()</code> command is how to select multiple copies of your original settings.</p>
 <p>Your default settings are found in <code>~/.dask/jobqueue.yaml</code> I believe.</p>
@@ -62,7 +61,7 @@ client = dd.Client(cluster)
 
 
 <a name="44576"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44576" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44576">(Oct 07 2021 at 16:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44576" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44576">(Oct 07 2021 at 16:59)</a>:</h4>
 <p>And, this is what I get from <code>print(cluster.job_script())</code>:</p>
 <p>#PBS -N dask-worker-casper-dav<br>
 #PBS -q casper<br>
@@ -76,7 +75,7 @@ client = dd.Client(cluster)
 
 
 <a name="44577"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44577" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44577">(Oct 07 2021 at 17:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44577" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44577">(Oct 07 2021 at 17:03)</a>:</h4>
 <blockquote>
 <p>My own experience is that NCARCluster acted differently on Casper after the switch from SLURM to PBS. I could be wrong, but the config settings for PBS were originally designed for Cheyenne. </p>
 </blockquote>
@@ -85,13 +84,13 @@ client = dd.Client(cluster)
 
 
 <a name="44578"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44578" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44578">(Oct 07 2021 at 17:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44578" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44578">(Oct 07 2021 at 17:04)</a>:</h4>
 <p>OK thanks, that was a total guess on my part.</p>
 
 
 
 <a name="44579"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44579" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44579">(Oct 07 2021 at 17:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44579" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44579">(Oct 07 2021 at 17:10)</a>:</h4>
 <p><span class="user-mention" data-user-id="18">@Orhan Eroglu</span>, </p>
 <blockquote>
 <p>/glade/work/oero/miniconda3/envs/s_at_s/bin/python -m distributed.cli.dask_worker tcp://10.12.206.18:36731 --nthreads 0 --nprocs 12 --memory-limit 9.93GiB</p>
@@ -106,7 +105,7 @@ client = dd.Client(cluster)
 
 
 <a name="44581"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44581" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44581">(Oct 07 2021 at 17:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44581" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44581">(Oct 07 2021 at 17:16)</a>:</h4>
 <p>Here it is</p>
 <p>{'name': 'dask-worker',<br>
  'cores': 36,<br>
@@ -124,13 +123,13 @@ client = dd.Client(cluster)
 
 
 <a name="44582"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44582" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44582">(Oct 07 2021 at 17:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44582" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44582">(Oct 07 2021 at 17:18)</a>:</h4>
 <p>Yes, like me you might still have your own personal NCARCluster config settings that were originally designed for Cheyenne.   I see that in the resource-spec line.</p>
 
 
 
 <a name="44583"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44583" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44583">(Oct 07 2021 at 17:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44583" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44583">(Oct 07 2021 at 17:19)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="9">Brian Bonnlander</span> <a href="#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44582">said</a>:</p>
 <blockquote>
 <p>Yes, like me you might still have your own personal NCARCluster config settings that were originally designed for Cheyenne.   I see that in the resource-spec line.</p>
@@ -140,19 +139,19 @@ client = dd.Client(cluster)
 
 
 <a name="44584"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44584" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44584">(Oct 07 2021 at 17:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44584" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44584">(Oct 07 2021 at 17:20)</a>:</h4>
 <p>My way around this is to be explicit in the NCARCluster call; don't rely on defaults at first.   Then modify the defaults when you find a good configuration.</p>
 
 
 
 <a name="44585"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44585" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44585">(Oct 07 2021 at 17:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44585" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44585">(Oct 07 2021 at 17:21)</a>:</h4>
 <p>Actually I switched to PBSCluster because for the moment, all HPC resources are managed with PBS.</p>
 
 
 
 <a name="44586"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44586" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44586">(Oct 07 2021 at 17:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44586" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44586">(Oct 07 2021 at 17:26)</a>:</h4>
 <p>But keep in mind, the above outputs are when I run <code>dask.config.get('jobqueue.pbs')</code> right after <code>import dask</code>. Instead, when I run it after NCARCluster initialization, the output is (which seems good  think):</p>
 <p>{'name': 'dask-worker-casper-dav',<br>
  'cores': 2,<br>
@@ -175,13 +174,13 @@ client = dd.Client(cluster)
 
 
 <a name="44587"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44587" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44587">(Oct 07 2021 at 17:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44587" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44587">(Oct 07 2021 at 17:27)</a>:</h4>
 <p>OK, my theory is easily falsified, making it a great theory in one sense <span aria-label="smile" class="emoji emoji-1f642" role="img" title="smile">:smile:</span></p>
 
 
 
 <a name="44588"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44588" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44588">(Oct 07 2021 at 17:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44588" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44588">(Oct 07 2021 at 17:33)</a>:</h4>
 <blockquote>
 <p>But keep in mind, the above outputs are when I run dask.config.get('jobqueue.pbs') right after import dask. Instead, when I run it after NCARCluster initialization, the output is (which seems good think):</p>
 </blockquote>
@@ -195,25 +194,25 @@ client = dd.Client(cluster)
 
 
 <a name="44589"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44589" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44589">(Oct 07 2021 at 17:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44589" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44589">(Oct 07 2021 at 17:36)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="18">Orhan Eroglu</span> <a href="#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44574">said</a>:</p>
 <blockquote>
 <p>Yeah, I thought about it being asynchronous and kept trying to run the remaining cells, while having the Dashboard open. Dashboard never showed me some realtime resources either. </p>
 <p><code>qstat -u $USER</code> returned me nothing in this morning, but it gives me now:</p>
-<p><a href="/user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png">image.png</a></p>
+<p><a href="../../../user_uploads/2/d4/zQNoN0umW5PfO57XnWMczz0x/image.png">image.png</a></p>
 </blockquote>
 <p>I missed this message <span aria-label="frown" class="emoji emoji-1f641" role="img" title="frown">:frown:</span></p>
 
 
 
 <a name="44590"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44590" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44590">(Oct 07 2021 at 17:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44590" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44590">(Oct 07 2021 at 17:38)</a>:</h4>
 <p>Since you don't have any jobs in the queue, my hunch is that the batch script submission is not working properly due to some errors... I am going to take a look at logs in <code>/glade/scratch/oero/dask/casper-dav/logs</code> to see if I can figure out what's going on</p>
 
 
 
 <a name="44591"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44591" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44591">(Oct 07 2021 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44591" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44591">(Oct 07 2021 at 17:41)</a>:</h4>
 <p>I found this in one of your logs</p>
 <div class="codehilite" data-code-language="Bash"><pre><span></span><code>$ cat /glade/scratch/oero/dask/casper-dav/logs/1242944.casper-pbs.ER
 Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
@@ -232,7 +231,7 @@ Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
 
 
 <a name="44592"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44592" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44592">(Oct 07 2021 at 17:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44592" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44592">(Oct 07 2021 at 17:46)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span> <a href="#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44588">said</a>:</p>
 <blockquote>
 <p>Because Casper and Cheyenne are using the same scheduler (PBS) and dask doesn't know about this, NCARJobqueue introduces a hack that </p>
@@ -243,7 +242,7 @@ Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
 
 
 <a name="44593"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44593" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44593">(Oct 07 2021 at 17:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44593" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44593">(Oct 07 2021 at 17:48)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span> <a href="#narrow/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe/near/44591">said</a>:</p>
 <blockquote>
 <p>I found this in one of your logs</p>
@@ -267,19 +266,19 @@ Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
 
 
 <a name="44594"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44594" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44594">(Oct 07 2021 at 17:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44594" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44594">(Oct 07 2021 at 17:52)</a>:</h4>
 <p>Another option is to upgrade your <code>distributed</code> version to a more recent version (<code>v2021.09.1</code>)</p>
 
 
 
 <a name="44595"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44595" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44595">(Oct 07 2021 at 17:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44595" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44595">(Oct 07 2021 at 17:54)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> ! Let me try these. Will keep you posted</p>
 
 
 
 <a name="44598"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44598" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44598">(Oct 07 2021 at 18:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44598" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44598">(Oct 07 2021 at 18:10)</a>:</h4>
 <blockquote>
 <p>Just so we're clear: which configurations are the "right" ones? The ones originally intended for Slurm?</p>
 </blockquote>
@@ -288,10 +287,10 @@ Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
 
 
 <a name="44637"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44637" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44637">(Oct 07 2021 at 22:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Not%20able%20to%20get%20NCARCluster%20resources%20allocated%20on%20Caspe/near/44637" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Not.20able.20to.20get.20NCARCluster.20resources.20allocated.20on.20Caspe.html#44637">(Oct 07 2021 at 22:44)</a>:</h4>
 <p>Thanks a lot <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>  for figuring this out! Installing a fresh conda environment did the fix  (I chose this way since I noticed I had a several month-old one). The new environment has distributed (v2021.09.1) and click (v8.0.1) FYI.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="53139"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53139" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julien Chastang <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53139">(Apr 04 2022 at 16:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53139" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julien Chastang <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53139">(Apr 04 2022 at 16:09)</a>:</h4>
 <h1>Problem Reading RDA netCDF WRF file with Xarray / Dask Cluster / Kubernetes / JupyterHub</h1>
 <p>Hello. Here is my first thread on the Zulip @ UCAR so here goes:</p>
 <p>I am trying to perform some analysis and visualization of WRF output from the RDA on a Dask cluster (my own, not NCAR's).</p>
@@ -64,20 +63,20 @@ ds.load()
 
 
 <a name="53142"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53142" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53142">(Apr 04 2022 at 16:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53142" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53142">(Apr 04 2022 at 16:21)</a>:</h4>
 <p><span class="user-mention" data-user-id="269">@Julien Chastang</span>:  Can you provide more detail about your Dask cluster?  Is it distributed?  (Looks like you are creating it using Dask Gateway.  How is your Dask Gateway configured?)</p>
 <p>I ask because it is almost like you don't have a shared filesystem.  That is, it's like you downloaded the file to the container where the JupyterLab session is running, but it isn't accessible to the worker containers.  Could that be the case?</p>
 
 
 
 <a name="53146"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53146" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53146">(Apr 04 2022 at 16:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53146" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53146">(Apr 04 2022 at 16:39)</a>:</h4>
 <p>Incidentally, a different filesystem for each worker would also explain why the <code>open_dataset</code> option <em>without</em> the <code>chunks</code> parameter works (i.e., you read and load data from the JupyterLab container only), and why the THREDDS use works (i.e., the dask client passes the URL/Filepath to the workers and the workers read from the URL/Filepath).</p>
 
 
 
 <a name="53159"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53159" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julien Chastang <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53159">(Apr 04 2022 at 16:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53159" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julien Chastang <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53159">(Apr 04 2022 at 16:48)</a>:</h4>
 <p>Thank you <span class="user-mention" data-user-id="8">@Kevin Paul</span>  for the super-quick response :-) I will try to answer your questions. <a href="https://js-156-66.jetstream-cloud.org/">I have also added you to the allow list on my JupyterHub which you can login with your GitHub credentials.</a>. Run the <code>wrf.ipynb</code> notebook which should be ready to go including data.</p>
 <blockquote>
 <p>Can you provide more detail about your Dask cluster? Is it distributed? </p>
@@ -96,26 +95,26 @@ a.mean().compute()
 
 
 <a name="53162"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53162" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53162">(Apr 04 2022 at 16:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53162" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53162">(Apr 04 2022 at 16:50)</a>:</h4>
 <p>I’ll take a look. Thanks for the access!</p>
 
 
 
 <a name="53190"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53190" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53190">(Apr 04 2022 at 20:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53190" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53190">(Apr 04 2022 at 20:55)</a>:</h4>
 <p>Hey, <span class="user-mention" data-user-id="269">@Julien Chastang</span>:  I'm stuck starting up a server.  Maybe there aren't enough resources?</p>
 
 
 
 <a name="53191"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53191" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53191">(Apr 04 2022 at 20:55)</a>:</h4>
-<p><a href="/user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png">Screen-Shot-2022-04-04-at-2.54.50-PM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png" title="Screen-Shot-2022-04-04-at-2.54.50-PM.png"><img src="/user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png"></a></div>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53191" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53191">(Apr 04 2022 at 20:55)</a>:</h4>
+<p><a href="../../../user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png">Screen-Shot-2022-04-04-at-2.54.50-PM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png" title="Screen-Shot-2022-04-04-at-2.54.50-PM.png"><img src="../../../user_uploads/2/2f/sTTKOe1k_LW-V-19nbdrsX0Q/Screen-Shot-2022-04-04-at-2.54.50-PM.png"></a></div>
 
 
 
 <a name="53201"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53201" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julien Chastang <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53201">(Apr 04 2022 at 21:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53201" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Julien Chastang <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53201">(Apr 04 2022 at 21:11)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="8">@Kevin Paul</span> yeah, I think I am hogging up all the resources, but basically, you hit the nail on the head. I was able to confirm with my colleague (Andrea Zonca, SDSC) that indeed these data volumes will not support multi-attach. In retrospect, I think my line of reasoning was a bit off with the local data solution. I am finding that a THREDDS server may be sufficient for my purposes moreover, it seems like zarr may also offer another avenue of exploration (though I admittedly do not know much about this area). By the way, I did not mention that I am running all of this on the NSF Jetstream Cloud which is about to be decommissioned and replaced with Jetstream2. </p>
 <p>As an aside, I had <strong>a lot</strong> of trouble setting up these dask clusters. Basically, it was a huge challenge to sync up client / worker / scheduler environments, but I believe I am past that now and I am seeing some pretty nice performance when accessing the data via a THREDDS server (definitely way better than single threaded).</p>
 <p>Thanks again for your insight. :-) I'd still be stuck otherwise.</p>
@@ -123,11 +122,11 @@ a.mean().compute()
 
 
 <a name="53202"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53202" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53202">(Apr 04 2022 at 21:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Problem%20Reading%20netCDF%20WRF%20file%20with%20Xarray%20/%20Dask%20Cluster/near/53202" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Problem.20Reading.20netCDF.20WRF.20file.20with.20Xarray.20.2F.20Dask.20Cluster.html#53202">(Apr 04 2022 at 21:16)</a>:</h4>
 <p><span class="user-mention" data-user-id="269">@Julien Chastang</span>:  I'm glad that helped!  Yeah.  The general cloud model does not assume that you have a shared filesystem.  This is generally true because you typically have access to data that is available via object store, which is accessed via a REST API.  Hence, the workers only need internet access to the object store!  And local storage on the workers is used only for Dask's "spill" capability.</p>
 <p>It takes a bit to wrap your head around <em>not</em> having a shared filesystem, if you are used to HPC systems.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

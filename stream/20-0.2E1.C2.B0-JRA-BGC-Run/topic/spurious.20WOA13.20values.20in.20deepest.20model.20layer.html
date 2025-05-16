@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="15771"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/spurious%20WOA13%20values%20in%20deepest%20model%20layer/near/15771" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/spurious.20WOA13.20values.20in.20deepest.20model.20layer.html#15771">(Aug 19 2020 at 15:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/spurious%20WOA13%20values%20in%20deepest%20model%20layer/near/15771" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/spurious.20WOA13.20values.20in.20deepest.20model.20layer.html#15771">(Aug 19 2020 at 15:22)</a>:</h4>
 <p>A couple of notebooks (<a href="https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_003.ipynb" target="_blank" title="https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_003.ipynb">003</a>, <a href="https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_004.ipynb" target="_blank" title="https://github.com/marbl-ecosys/HiRes-CESM-analysis/blob/master/notebooks/plot_suite_004.ipynb">004</a>) have been added to the <code>HiRes-CESM-analysis</code> repo that have 'quick-look' views of a handful of variables.</p>
 <p>MARBL tracers in 004 were initialized from a x1 companion that was run for 2 JRA cycles. In 003, macronutrients and O2 were initialized from WOA13, DIC and ALK were initialized from GLODAPv2, and the remaining tracers were initialized from the x1 companion.</p>
 <p>One observation from the notebooks is that the histograms for <code>O2_ZMIN</code> indicate has some very large magnitude negative <code>O2</code> values in 003. I dug into this and have discovered what I think is the culprit. The bad news is that the regridding of WOA13 fields to the <code>tx0.1v3</code> grid generated all zeros in the deepest <code>tx0.1v3</code> layer. The problem is that all of the deepest model layer is deeper than the deepest WOA13 layer, and the vertical remapping function that I wrote generated zeros in this case. This problem is not present for GLODAPv2 interpolated fields. Unfortunately, I missed these bad values when inspecting the generated IC files <span aria-label="sad" class="emoji emoji-2639" role="img" title="sad">:sad:</span>. I suspect that the zero values lead to very large tracer gradients, which leads to numerical advection errors which generated the large magnitude negative <code>O2</code> values. The problem is present for all WOA13 interpolated fields: O2, PO4, NO3, SiO3. All of these tracers have spurious values near where <code>KMT</code> reaches 62. The good news is that the spurious values seem to mix out within a handful of months.</p>
@@ -19,10 +18,10 @@
 
 
 <a name="15774"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/spurious%20WOA13%20values%20in%20deepest%20model%20layer/near/15774" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/spurious.20WOA13.20values.20in.20deepest.20model.20layer.html#15774">(Aug 19 2020 at 15:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/spurious%20WOA13%20values%20in%20deepest%20model%20layer/near/15774" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/spurious.20WOA13.20values.20in.20deepest.20model.20layer.html#15774">(Aug 19 2020 at 15:28)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="31">@Keith Lindsay</span>; I agree with your ultimate conclusion.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

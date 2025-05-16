@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="6773"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6773" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Charlie Koven <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6773">(Apr 17 2020 at 20:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6773" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Charlie Koven <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6773">(Apr 17 2020 at 20:35)</a>:</h4>
 <p>Hi All, Not sure if this is the right place to post this but I have a question.  I'm trying to plot a thing, using xarray via jupyter on cheyenne, and am getting the following error:</p>
 <p>ImportError: Plotting of arrays of cftime.datetime objects or arrays indexed by cftime.datetime objects requires the optional <code>nc-time-axis</code> (v1.2.0 or later) package.</p>
 <p>which I see arises from here: <a href="https://github.com/pydata/xarray/blob/master/xarray/plot/utils.py#L570" target="_blank" title="https://github.com/pydata/xarray/blob/master/xarray/plot/utils.py#L570">https://github.com/pydata/xarray/blob/master/xarray/plot/utils.py#L570</a></p>
@@ -19,7 +18,7 @@
 
 
 <a name="6774"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6774" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6774">(Apr 17 2020 at 20:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6774" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6774">(Apr 17 2020 at 20:42)</a>:</h4>
 <p>I think you have two options.</p>
 <p>Option 1 : Follow "Creating your own clone of the NCAR Package Library" and then pip install nc-time-axis</p>
 <p>- <a href="https://www2.cisl.ucar.edu/resources/python-%E2%80%93-ncar-package-library" target="_blank" title="https://www2.cisl.ucar.edu/resources/python-%E2%80%93-ncar-package-library">https://www2.cisl.ucar.edu/resources/python-%E2%80%93-ncar-package-library</a></p>
@@ -28,7 +27,7 @@
 
 
 <a name="6775"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6775" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6775">(Apr 17 2020 at 20:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6775" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6775">(Apr 17 2020 at 20:43)</a>:</h4>
 <p><span class="user-mention" data-user-id="95">@Charlie Koven</span>, my recommendation is use <code>conda</code> to create your own environment. </p>
 <p>The README here<br/>
 <a href="https://github.com/NCAR/ncar-python-tutorial" target="_blank" title="https://github.com/NCAR/ncar-python-tutorial">https://github.com/NCAR/ncar-python-tutorial</a> <br/>
@@ -53,16 +52,16 @@ You can modify this to suit your purposes, then run </p>
 
 
 <a name="6776"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6776" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Charlie Koven <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6776">(Apr 17 2020 at 20:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6776" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Charlie Koven <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6776">(Apr 17 2020 at 20:45)</a>:</h4>
 <p>ok, thanks both.  i'll try those.  i've managed to avoid having to make a conda install on cheyenne thusfar but i guess it may be necessary.</p>
 
 
 
 <a name="6777"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6777" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Charlie Koven <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6777">(Apr 17 2020 at 20:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/python%20dependencies%20on%20cheyenne/near/6777" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Charlie Koven <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/python.20dependencies.20on.20cheyenne.html#6777">(Apr 17 2020 at 20:53)</a>:</h4>
 <p>ok <span class="user-mention" data-user-id="25">@Deepak Cherian</span> your method worked.  no conda install needed. cheers both!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="94840"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94840" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94840">(Jan 23 2024 at 20:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94840" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94840">(Jan 23 2024 at 20:37)</a>:</h4>
 <p>Since the updates I've been getting this warning message quite a lot. I'm assuming it's because I'm not doing something correctly?</p>
 <div class="codehilite"><pre><span></span><code>/glade/work/afoster/conda-envs/ml_analysis/lib/python3.11/site-packages/distributed/client.py:3162: UserWarning: Sending large graph of size 15.50 MiB.
 This may cause some slowdown.
@@ -33,19 +32,19 @@ Consider scattering data ahead of time and using futures.
 
 
 <a name="94842"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94842" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94842">(Jan 23 2024 at 21:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94842" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94842">(Jan 23 2024 at 21:04)</a>:</h4>
 <p>okay so I removed the <code>.compute()</code> from the function and now it runs extremely quickly... I'm not sure if this is a fluke, but it does make sense I think?</p>
 
 
 
 <a name="94843"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94843" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94843">(Jan 23 2024 at 21:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94843" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94843">(Jan 23 2024 at 21:05)</a>:</h4>
 <p>though it's now just slowing down at a different location...</p>
 
 
 
 <a name="94844"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94844" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94844">(Jan 23 2024 at 21:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94844" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94844">(Jan 23 2024 at 21:08)</a>:</h4>
 <p><code>.compute()</code> is doing the computation, and I believe returning the result to the task running the notebook. If you want to do the computation, but leave the result distributed (which I think is what the warning about scattering wants you to do), you could do</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ann_mean</span> <span class="o">=</span> <span class="n">cf1</span><span class="o">*</span><span class="p">(</span><span class="n">days_per_month</span><span class="o">*</span><span class="n">da</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'time.year'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
 <span class="n">wait</span><span class="p">(</span><span class="n">ann_mean</span><span class="p">)</span>
@@ -55,16 +54,16 @@ Consider scattering data ahead of time and using futures.
 
 
 <a name="94845"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94845" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94845">(Jan 23 2024 at 21:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94845" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94845">(Jan 23 2024 at 21:09)</a>:</h4>
 <p><code>.persist()</code> will start executing the dask task list, but it's non-blocking. The <code>wait()</code> call makes it blocking, so the function won't return until the annual mean has been computed</p>
 
 
 
 <a name="94846"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94846" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94846">(Jan 23 2024 at 21:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/scattering%20data/near/94846" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/scattering.20data.html#94846">(Jan 23 2024 at 21:10)</a>:</h4>
 <p>thanks!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

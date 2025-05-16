@@ -5,28 +5,27 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="70880"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20cf-xarray%20get_bounds%28%29%20failure/near/70880" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure.html#70880">(Dec 20 2022 at 22:10)</a>:</h4>
-<p>I'm using xesmf to regrid CMIP6 data (ingested from glade-cmip6.json using intake). Conservative regridding with xesmf requires lat/lon bounds that are computed using cf.get_bounds(). My code is failing on one dataset that has 'longitude' and 'latitude' coordinates, but cf cannot seem to find the 'longitude' key (see attached summary of the error). Anyone have an idea what's going wrong? <a href="/user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png">Screen-Shot-2022-12-20-at-3.01.23-PM.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png" title="Screen-Shot-2022-12-20-at-3.01.23-PM.png"><img src="/user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png"></a></div>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20cf-xarray%20get_bounds%28%29%20failure/near/70880" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure.html#70880">(Dec 20 2022 at 22:10)</a>:</h4>
+<p>I'm using xesmf to regrid CMIP6 data (ingested from glade-cmip6.json using intake). Conservative regridding with xesmf requires lat/lon bounds that are computed using cf.get_bounds(). My code is failing on one dataset that has 'longitude' and 'latitude' coordinates, but cf cannot seem to find the 'longitude' key (see attached summary of the error). Anyone have an idea what's going wrong? <a href="../../../user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png">Screen-Shot-2022-12-20-at-3.01.23-PM.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png" title="Screen-Shot-2022-12-20-at-3.01.23-PM.png"><img src="../../../user_uploads/2/cf/LPUi6QTnxyXyqWo1TAycynMp/Screen-Shot-2022-12-20-at-3.01.23-PM.png"></a></div>
 
 
 
 <a name="72097"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20cf-xarray%20get_bounds%28%29%20failure/near/72097" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure.html#72097">(Jan 20 2023 at 21:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20cf-xarray%20get_bounds%28%29%20failure/near/72097" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure.html#72097">(Jan 20 2023 at 21:23)</a>:</h4>
 <p>Well there are no bounds for longitude. You can use <code>.cf.add_bounds</code> for a reasonable guess: <a href="https://cf-xarray.readthedocs.io/en/latest/bounds.html">https://cf-xarray.readthedocs.io/en/latest/bounds.html</a></p>
 
 
 
 <a name="93055"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20cf-xarray%20get_bounds%28%29%20failure/near/93055" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure.html#93055">(Dec 06 2023 at 17:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20cf-xarray%20get_bounds%28%29%20failure/near/93055" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure.html#93055">(Dec 06 2023 at 17:57)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="34">Stephen Yeager</span> has marked this topic as resolved.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

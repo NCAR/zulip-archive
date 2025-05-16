@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="44239"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44239" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44239">(Oct 04 2021 at 16:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44239" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44239">(Oct 04 2021 at 16:49)</a>:</h4>
 <p>I'd like to use geocat's <code>interp_hybrid_to_pressure</code> function on a large series of simulations, but it seems very slow. I noticed that its output is a dask object, so I figured this was a good opportunity to try to learn how to use dask better on casper. Unfortunately, my attempt has totally failed. Using a single dataarray, the function no longer even completes the interpolation step (takes about a minute without setting up the dask cluster). I tried to follow the example of setting up dask from <a href="https://ncar.github.io/esds/posts/2021/casper_pbs_dask/">https://ncar.github.io/esds/posts/2021/casper_pbs_dask/</a> and I upped the resources to be 6 cores, 128GB memory, and 12 processes.  Here's how I tried to set up the cluster:</p>
 <div class="codehilite"><pre><span></span><code># Import dask
 import dask
@@ -45,39 +44,39 @@ cluster = PBSCluster(queue=&#39;casper&#39;)
 
 
 <a name="44244"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44244" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44244">(Oct 04 2021 at 17:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44244" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44244">(Oct 04 2021 at 17:10)</a>:</h4>
 <p>Hi Brian,  I'm not sure I can be helpful in seeing what's going on but I have  been using the interp_hybrid_to_pressure with some success.  I was trying to do things quickly and rather than using geocat I just pasted the function into my notebooks.  An examples is here...<br>
 /glade/u/home/islas/scripts/setupSNAP/postprocess/6hrZ/postprocessdata_6hrZ_3D.ipynb.  It does seem slow to be compared to NCL, but it does actually complete and is not terribly slow.  Glad to hear if there are more efficient ways or if there's something that I have set here that makes a difference.</p>
 
 
 
 <a name="44245"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44245" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44245">(Oct 04 2021 at 17:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44245" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44245">(Oct 04 2021 at 17:13)</a>:</h4>
 <p>cc <span class="user-group-mention" data-user-group-id="1">@geocat</span></p>
 
 
 
 <a name="44250"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44250" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44250">(Oct 04 2021 at 17:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44250" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44250">(Oct 04 2021 at 17:21)</a>:</h4>
 <p>Thanks, <span class="user-mention" data-user-id="45">@Isla Simpson</span> . Yeah, the function itself works okay. My backup plan is to use the version of the function that I had passed on to the geocat folks and wrap it using Numba, which makes it much faster by compiling the function. I'm hoping that I can someday figure out how to get dask to speed up code (so far my experience seems to go in the opposite direction).</p>
 
 
 
 <a name="44251"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44251" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44251">(Oct 04 2021 at 17:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44251" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44251">(Oct 04 2021 at 17:22)</a>:</h4>
 <p><span class="user-mention" data-user-id="61">@Brian Medeiros</span> <span class="user-mention" data-user-id="45">@Isla Simpson</span> these are great cases for us to test <code>interp_hybrid_to_pressure</code> with real data sets. I will try to work on both of your cases with <span class="user-mention" data-user-id="114">@Anissa Zacharias</span>, who did a lot of Dask investigations recently, once both of us have some time. That way we can see if there are bottlenecks with our function flow and/or Dask use. Will keep you all updated.</p>
 
 
 
 <a name="44268"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44268" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44268">(Oct 04 2021 at 20:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44268" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44268">(Oct 04 2021 at 20:49)</a>:</h4>
 <p><span class="user-mention" data-user-id="61">@Brian Medeiros</span> Is it possible you need to add a <code>cluster.scale</code> command before the <code>Client(cluster)</code> command? This is something I do following the examples I've seen. I think it relates to asking for a certain number of dask workers, but I'm not always sure how to set the number. I also noticed you have a second <code>cluster = PBSCluster()</code> command at the bottom of your code example above - might this be resetting the previous PBSCluster command?<br>
 When using dask in a Jupyter notebook, I have also found the dask dashboard  very helpful to verify that the workers are ready, and for monitoring progress.</p>
 
 
 
 <a name="44558"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44558" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44558">(Oct 07 2021 at 16:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44558" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44558">(Oct 07 2021 at 16:21)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="61">@Brian Medeiros</span>  and maybe <span class="user-mention" data-user-id="45">@Isla Simpson</span> , </p>
 <p><span class="user-mention" data-user-id="114">@Anissa Zacharias</span> and I worked on Brian's code and were able to get it run successfully in about 25 seconds on Casper with Dask. I think it is a good wall time for such a big data set (let us know your thought though), but it could be made a bit better if we play with the chunk sizes etc. more.  </p>
 <p>I'd like to share a few findings of ours with your code below, and I am happy to have a video chat with you and others in this topic to go through the details and get your end up and running (e.g. looking into your personal Dask configs on glade etc.):</p>
@@ -117,10 +116,10 @@ When using dask in a Jupyter notebook, I have also found the dask dashboard  ver
 
 
 <a name="44580"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44580" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44580">(Oct 07 2021 at 17:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Using%20dask%20on%20casper%20with%20geocat/near/44580" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Using.20dask.20on.20casper.20with.20geocat.html#44580">(Oct 07 2021 at 17:12)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="18">@Orhan Eroglu</span> and <span class="user-mention" data-user-id="114">@Anissa Zacharias</span> !! There's a lot here; I'll go through it in detail as soon as I can.  I'll be in touch if I have follow-up questions.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

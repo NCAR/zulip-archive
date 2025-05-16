@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="45176"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45176" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45176">(Oct 15 2021 at 22:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45176" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45176">(Oct 15 2021 at 22:42)</a>:</h4>
 <p>I'm using intake-esm to ingest CMIP6 OMIP data using:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">catalog_file</span> <span class="o">=</span> <span class="s1">'/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json'</span>
 <span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">catalog_file</span><span class="p">)</span>
@@ -23,13 +22,13 @@
     <span class="n">cdf_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">'chunks'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'time'</span><span class="p">:</span><span class="mi">12</span><span class="p">},</span><span class="s1">'decode_times'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'use_cftime'</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>This returns an xarray.concat() error for key '<a href="http://OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn">OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn</a>'. The catalog for that key (<a href="/user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png">Screen-Shot-2021-10-15-at-4.41.26-PM.png</a>) shows duplicate entries (different versions) as well as missing data for one member_id. I don't know if this is related to ongoing updates to OMIP data holdings or if the json catalog needs updating. Who should I ask about this?</p>
-<div class="message_inline_image"><a href="/user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png" title="Screen-Shot-2021-10-15-at-4.41.26-PM.png"><img src="/user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png"></a></div>
+<p>This returns an xarray.concat() error for key '<a href="http://OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn">OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn</a>'. The catalog for that key (<a href="../../../user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png">Screen-Shot-2021-10-15-at-4.41.26-PM.png</a>) shows duplicate entries (different versions) as well as missing data for one member_id. I don't know if this is related to ongoing updates to OMIP data holdings or if the json catalog needs updating. Who should I ask about this?</p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png" title="Screen-Shot-2021-10-15-at-4.41.26-PM.png"><img src="../../../user_uploads/2/a2/4WlXany1PC8oDfOhd1HjROfr/Screen-Shot-2021-10-15-at-4.41.26-PM.png"></a></div>
 
 
 
 <a name="45182"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45182" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45182">(Oct 18 2021 at 13:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45182" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45182">(Oct 18 2021 at 13:48)</a>:</h4>
 <blockquote>
 <p>This returns an xarray.concat() error for key '<a href="http://OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn">OMIP.IPSL.IPSL-CM6A-LR.omip1.Omon.gn</a>'. The catalog for that key (Screen-Shot-2021-10-15-at-4.41.26-PM.png) shows duplicate entries (different versions) </p>
 </blockquote>
@@ -48,13 +47,13 @@ so_Omon_IPSL-CM6A-LR_omip1_r2i1p1f1_gn_180001-189912.nc
 
 
 <a name="45193"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45193" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45193">(Oct 18 2021 at 17:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45193" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45193">(Oct 18 2021 at 17:18)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> . Shiquan Su informed me that the update to OMIP data holdings on glade is still ongoing. Will the glade-cmip6.json file get updated automatically as data is added?</p>
 
 
 
 <a name="45201"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45201" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45201">(Oct 18 2021 at 18:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45201" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45201">(Oct 18 2021 at 18:13)</a>:</h4>
 <blockquote>
 <p>Will the glade-cmip6.json file get updated automatically as data is added?</p>
 </blockquote>
@@ -63,22 +62,22 @@ so_Omon_IPSL-CM6A-LR_omip1_r2i1p1f1_gn_180001-189912.nc
 
 
 <a name="45250"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45250" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45250">(Oct 18 2021 at 23:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45250" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45250">(Oct 18 2021 at 23:07)</a>:</h4>
 <p><span class="user-mention" data-user-id="16">@Eric Nienhouse</span>, there is a growing community using <code>intake-esm</code> to access data on the CMIP AP. Would be great to discuss with @xdev how to automate the process of keep catalogs up to date.</p>
 
 
 
 <a name="45537"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45537" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45537">(Oct 22 2021 at 16:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/45537" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#45537">(Oct 22 2021 at 16:53)</a>:</h4>
 <p>I'd like to be part of this discussion. <span class="user-mention" data-user-id="134">@Max Grover</span> wrote a blog post discussing a problem I was having using <code>intake-esm</code> for CMIP6 OMIP data (<a href="https://ncar.github.io/esds/posts/2021/intake_cmip6_debug/">https://ncar.github.io/esds/posts/2021/intake_cmip6_debug/</a>). The root of the problem was missing data on the CMIP AP. I put in a request for a full update of OMIP data on CMIP AP back in late September, and am finding that this process takes a very long time, to the point that <code>intake-esm</code> may not be a viable solution for me.</p>
 
 
 
 <a name="53495"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/53495" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#53495">(Apr 13 2022 at 14:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake%20to_dataset_dict%20error/near/53495" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake.20to_dataset_dict.20error.html#53495">(Apr 13 2022 at 14:50)</a>:</h4>
 <p>I'd like to revisit the issues with the CMIP6 data catalog discussed above. The download for CMIP6 OMIP data is complete and it would be helpful if someone could regenerate the catalog (/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json) to exclude duplicate/erroneous entries for experiment_id=['omip1', 'omip2'].  The workarounds discussed above introduce messy kludges in notebooks that we want to eventually share.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

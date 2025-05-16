@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="101566"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101566" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101566">(Jun 28 2024 at 17:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101566" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101566">(Jun 28 2024 at 17:26)</a>:</h4>
 <p>I'm trying to take a data set with (time, lat, lon) dimensions and convert it to (year, month, lat, lon). I can <em>usually</em> do that by assigning <code>year</code> and <code>month</code> coordinates to the dataset and then unstacking <code>time</code>. But I ran into an issue doing that with a new data set. Trying to diagnose what was happening led me to this small example which I absolutely do not understand. Here I make a 2-year time series and then get the days per month with xarray's accessor method.  I make two versions of the "days per month" array, which are identical according to the <code>.identical</code> method. However, with one version I can unstack time but with the other one I can't. </p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"python </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -83,56 +82,56 @@ ValueError: IndexVariable objects must be 1-dimensional
 
 
 <a name="101589"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101589" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101589">(Jun 28 2024 at 21:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101589" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101589">(Jun 28 2024 at 21:28)</a>:</h4>
 <p>Interesting.  I'm having trouble tracking this down.  I noticed it worked in an older env I had and it seems to stop working with v2023.5.0.</p>
 
 
 
 <a name="101591"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101591" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101591">(Jun 28 2024 at 21:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101591" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101591">(Jun 28 2024 at 21:49)</a>:</h4>
 <p>There was some work on the dt accessor released in that version.</p>
 <p>I'd consider reporting it as a bug if you haven't already.</p>
 
 
 
 <a name="101592"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101592" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101592">(Jun 28 2024 at 21:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101592" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101592">(Jun 28 2024 at 21:51)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> . I haven't reported it yet because I wasn't sure how to even describe it. I guess I'll just provide this example and see where it goes.</p>
 
 
 
 <a name="101593"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101593" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101593">(Jun 28 2024 at 21:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101593" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101593">(Jun 28 2024 at 21:56)</a>:</h4>
 <p>I think with the additional info about the version where it worked, your nice example here, and the trace/log, someone will be able to piece together what's going on <span aria-label="fingers crossed" class="emoji emoji-1f91e" role="img" title="fingers crossed">:fingers_crossed:</span> .</p>
 
 
 
 <a name="101661"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101661" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101661">(Jul 01 2024 at 18:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101661" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101661">(Jul 01 2024 at 18:34)</a>:</h4>
 <p><span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> -- I did post this to Xarray's issues: <a href="https://github.com/pydata/xarray/issues/9190">https://github.com/pydata/xarray/issues/9190</a></p>
 <p>It looks like the issue comes down to the difference between IndexVariable and Variable.</p>
 
 
 
 <a name="101706"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101706" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101706">(Jul 02 2024 at 16:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101706" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101706">(Jul 02 2024 at 16:27)</a>:</h4>
 <p>So it looks like <code>dss.reset_index("time").dt.daysinmonth</code> addresses the issue with days0 by changing it from an IndexVariable to Variable and the the dt accessor respects that  and returns a Variable as well so it doesn't fail later on.  </p>
 <p>It is interesting that this worked until relatively recently (I checked that it's still an IndexVariable in earlier versions).</p>
 
 
 
 <a name="101707"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101707" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101707">(Jul 02 2024 at 16:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101707" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101707">(Jul 02 2024 at 16:30)</a>:</h4>
 <p>Ah, it works in older versions because dt.daysinmonth was previously changing it back to a Variable from the IndexVariable.</p>
 <p>Sorry I didn't catch this sooner.</p>
 
 
 
 <a name="101708"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101708" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101708">(Jul 02 2024 at 16:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/unstack%20failing%20mysteriously/near/101708" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Medeiros <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/unstack.20failing.20mysteriously.html#101708">(Jul 02 2024 at 16:48)</a>:</h4>
 <p>Yeah. To me that was mysterious because I didn't even realize there was a <code>variable</code> attribute or a distinction between Variable and IndexVariable. I was hoping that the <code>identical</code> method would have told me about that, but I guess it doesn't check that.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

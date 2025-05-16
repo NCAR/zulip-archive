@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="87252"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87252" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87252">(Aug 15 2023 at 15:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87252" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87252">(Aug 15 2023 at 15:46)</a>:</h4>
 <p>This is probably a question for <span class="user-mention" data-user-id="141">@Brian Vanderwende</span> -- CESM uses python scripts to set up an appropriate environment and call <code>make</code>; I believe Jim Edwards talked to you yesterday about how using <code>qcmd</code> to call the <code>case.build</code> script on a derecho compute node failed if the <code>conda</code> module was loaded, and now the script runs successfully... but I'm still seeing</p>
 <div class="codehilite"><pre><span></span><code>CommandNotFoundError: Your shell has not been properly configured to use &#39;conda activate&#39;.
 To initialize your shell, run
@@ -35,25 +34,25 @@ IMPORTANT: You may need to close and restart your shell after running &#39;conda
 
 
 <a name="87266"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87266" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87266">(Aug 15 2023 at 17:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87266" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87266">(Aug 15 2023 at 17:01)</a>:</h4>
 <p>Thanks for the heads up Mike. I'm taking a look now.</p>
 
 
 
 <a name="87279"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87279" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87279">(Aug 15 2023 at 19:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87279" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87279">(Aug 15 2023 at 19:07)</a>:</h4>
 <p>When I've had this issue before, I've solved it by replacing <code>conda activate envname; python scriptname</code> with <code>conda run -n envname python scriptname</code>.</p>
 
 
 
 <a name="87283"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87283" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87283">(Aug 15 2023 at 19:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87283" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Sam Rabin <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87283">(Aug 15 2023 at 19:11)</a>:</h4>
 <p>As noted <a href="https://www.scivision.dev/conda-run-non-interactive-script/">here</a>, <code>conda activate</code> is intended for interactive shells only. <code>qcmd</code> is sort of a gray area, but may be affected for this reason.</p>
 
 
 
 <a name="87284"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87284" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87284">(Aug 15 2023 at 19:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87284" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87284">(Aug 15 2023 at 19:19)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="343">Sam Rabin</span> <a href="#narrow/stream/10-python-questions/topic/conda.20on.20derecho/near/87283">said</a>:</p>
 <blockquote>
 <p>As noted <a href="https://www.scivision.dev/conda-run-non-interactive-script/">here</a>, <code>conda activate</code> is intended for interactive shells only. <code>qcmd</code> is sort of a gray area, but may be affected for this reason.</p>
@@ -63,14 +62,14 @@ IMPORTANT: You may need to close and restart your shell after running &#39;conda
 
 
 <a name="87285"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87285" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87285">(Aug 15 2023 at 19:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87285" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87285">(Aug 15 2023 at 19:21)</a>:</h4>
 <p>Yeah, that would explain why <code>qcmd</code> usage gives you that error. <code>qcmd</code> will pass along environment variables, but shell functions (which conda activate) will use do not get propagated, so the init aspects get broken to some degree. I'll see if I can make this a bit more robust, but it shouldn't prevent you from using an environment you have activated before running the qcmd (since all of the modifications conda would do to activate an env are stored in variables).</p>
 <p>It's an edge case, but probably common enough given how the CESM scripts work.</p>
 
 
 
 <a name="87286"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87286" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87286">(Aug 15 2023 at 19:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87286" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87286">(Aug 15 2023 at 19:27)</a>:</h4>
 <p>I was able to fix this in my <code>.bashrc</code> by wrapping the <code>conda activate</code> in an if statement:</p>
 <div class="codehilite" data-code-language="Bash"><pre><span></span><code><span class="k">if</span> <span class="o">[</span> -t <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
   conda activate
@@ -81,7 +80,7 @@ IMPORTANT: You may need to close and restart your shell after running &#39;conda
 
 
 <a name="87289"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87289" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87289">(Aug 15 2023 at 21:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87289" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87289">(Aug 15 2023 at 21:01)</a>:</h4>
 <p>After doing some testing - I think this is working as expected. If you were using miniconda, things would be initialized in your <strong>.bashrc</strong> by the init commands it injects. With our module, it is similar. <span class="user-mention" data-user-id="10">@Michael Levy</span> your workaround should be fine to keep if it meets all of your needs. If you would like <code>conda</code> to work in batch shells to, you could add <code>module load conda</code> to your <strong>.bashrc</strong> before the <code>conda activate</code>, instead of having it loaded by a default module set or your <strong>.profile</strong>.</p>
 <p>This does not happen on Cheyenne because some module reloading tricks are happening on Derecho to bring in CESM-specific modules during the build. These tricks seem to interact with the conda module in ways I didn't anticipate, but hopefully now are harmless.</p>
 <p>Thanks again for raising the concern.</p>
@@ -89,10 +88,10 @@ IMPORTANT: You may need to close and restart your shell after running &#39;conda
 
 
 <a name="87290"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87290" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87290">(Aug 15 2023 at 21:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/conda%20on%20derecho/near/87290" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/conda.20on.20derecho.html#87290">(Aug 15 2023 at 21:06)</a>:</h4>
 <p>yeah, I'll just stick with what I have since it seems to be working :) Thanks for all the details about why things are working the way they are!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

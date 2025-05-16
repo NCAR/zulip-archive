@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="95318"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95318" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95318">(Jan 31 2024 at 17:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95318" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95318">(Jan 31 2024 at 17:42)</a>:</h4>
 <p>I have the following code. It appears to create a numpy array of the values I want from the dataframe. However, when I do the plot, it remembers the time axis from the dataframe. So, it plots the values versus real years (1979 -) I want to reset years to 0 to 40 say. I have tried reset_index() and this appeared to do what I wanted, but I still got a plot versus the real years. I also tried to_numpy(). Same thing. Does anyone have experience with dataframes here?</p>
 <div class="codehilite"><pre><span></span><code>### Read in the NSIDC data from files
 
@@ -28,13 +27,13 @@ plt.plot(sep_area)
 
 
 <a name="95321"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95321" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95321">(Jan 31 2024 at 17:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95321" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95321">(Jan 31 2024 at 17:57)</a>:</h4>
 <p>Is possible you're working in a notebook where there's some holdover from a prior plot?  The <code>.values</code> should just give the values in a numpy array.  That's odd behavior.</p>
 
 
 
 <a name="95322"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95322" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95322">(Jan 31 2024 at 18:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95322" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95322">(Jan 31 2024 at 18:06)</a>:</h4>
 <p>I even tried doing:</p>
 <p>x =np. linspace(1,np.size(sep_area),np.size(sep_area))</p>
 <p>plt.plot(x,sep_area)</p>
@@ -43,7 +42,7 @@ plt.plot(sep_area)
 
 
 <a name="95323"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95323" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95323">(Jan 31 2024 at 18:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95323" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95323">(Jan 31 2024 at 18:44)</a>:</h4>
 <p>Does something like this help at all?</p>
 <div class="codehilite"><pre><span></span><code>plt.clf() # clear figure
 x = np.linspace(1,np.size(sep_area),np.size(sep_area))
@@ -53,36 +52,36 @@ plt.plot(x,sep_area)
 
 
 <a name="95336"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95336" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95336">(Jan 31 2024 at 19:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95336" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95336">(Jan 31 2024 at 19:55)</a>:</h4>
 <p>This did not help unfortunately.</p>
 
 
 
 <a name="95340"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95340" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95340">(Jan 31 2024 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95340" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95340">(Jan 31 2024 at 20:02)</a>:</h4>
 <p>What else is going on in your notebook? And what environment / package versions are you running? I copied and pasted your code into a new notebook using <code>NPL 2024a</code> and it doesn't put the years on the axes:</p>
-<p><a href="/user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png">dave-issue.png</a></p>
-<div class="message_inline_image"><a href="/user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png" title="dave-issue.png"><img src="/user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png"></a></div>
+<p><a href="../../../user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png">dave-issue.png</a></p>
+<div class="message_inline_image"><a href="../../../user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png" title="dave-issue.png"><img src="../../../user_uploads/2/cd/UBjJSGBx-_g4pPF9Lxxt7POH/dave-issue.png"></a></div>
 
 
 
 <a name="95342"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95342" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95342">(Jan 31 2024 at 20:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95342" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95342">(Jan 31 2024 at 20:45)</a>:</h4>
 <p>Well crap. I was trying to overplot in on the same axis as two xarray averaged quantities. I'm guessing the problem is a month axis thing.</p>
 
 
 
 <a name="95343"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95343" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95343">(Jan 31 2024 at 20:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95343" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Bailey <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95343">(Jan 31 2024 at 20:50)</a>:</h4>
 <p>Sorry about the confusion.</p>
 
 
 
 <a name="95344"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95344" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95344">(Jan 31 2024 at 20:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/Reading%20CSV%20files/near/95344" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/Reading.20CSV.20files.html#95344">(Jan 31 2024 at 20:51)</a>:</h4>
 <p>No worries.  Glad you got it tracked down!</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

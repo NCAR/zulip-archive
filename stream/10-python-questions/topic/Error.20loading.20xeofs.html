@@ -1,0 +1,71 @@
+<html>
+<head><meta charset="utf-8"><title>Error loading xeofs · python-questions · Zulip Chat Archive</title></head>
+<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Error.20loading.20xeofs.html">Error loading xeofs</a></h3>
+
+<hr>
+
+
+<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+
+<a name="105589"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Error%20loading%20xeofs/near/105589" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Error.20loading.20xeofs.html#105589">(Feb 18 2025 at 17:51)</a>:</h4>
+<p>I'm struggling to load the xeofs module. It doesn't appear to be compatible with the most recent NCAR package library*, using a modified version of NPL2024b I get the following error message</p>
+<p>AttributeError: module 'xarray' has no attribute 'DataTree'</p>
+<p>But I have xarray-datatree 0.0.14 in my environment.</p>
+<p><span aria-label="asterisk" class="emoji emoji-002a-20e3" role="img" title="asterisk">:asterisk:</span>  the most recent environment gives this set of messages when I try to install xeofs<br>
+The following packages are incompatible<br>
+├─ pin-1 is installable and it requires<br>
+│  └─ python 3.12.* , which can be installed;<br>
+└─ xeofs is not installable because there are no viable options<br>
+   ├─ xeofs [0.5.0|0.6.0|...|1.2.0] would require<br>
+   │  └─ pandas &gt;=1.4.1,&lt;2.0.0  but there are no viable options<br>
+   │     ├─ pandas [1.4.1|1.4.2|...|1.5.3] would require<br>
+   │     │  └─ python &gt;=3.10,&lt;3.11.0a0 , which conflicts with any installable versions previously reported;<br>
+   │     ├─ pandas [1.4.1|1.4.2|...|1.5.3] would require<br>
+   │     │  └─ python &gt;=3.8,&lt;3.9.0a0 , which conflicts with any installable versions previously reported;<br>
+   │     ├─ pandas [1.4.1|1.4.2|...|1.5.3] would require<br>
+   │     │  └─ python &gt;=3.9,&lt;3.10.0a0 , which conflicts with any installable versions previously reported;<br>
+   │     └─ pandas [1.5.1|1.5.2|1.5.3] would require<br>
+   │        └─ python &gt;=3.11,&lt;3.12.0a0 , which conflicts with any installable versions previously reported;<br>
+   └─ xeofs [1.2.1|1.2.2|...|3.0.4] would require<br>
+      └─ python &gt;=3.10,&lt;3.12  but there are no viable options<br>
+         ├─ python [3.10.0|3.10.1|...|3.10.9] conflicts with any installable versions previously reported;<br>
+         ├─ python [3.11.0|3.11.1|...|3.11.9] conflicts with any installable versions previously reported;<br>
+         └─ python 3.12.0rc3 would require<br>
+            └─ _python_rc, which does not exist (perhaps a missing channel).</p>
+<p>Pins seem to be involved in the conflict. Currently pinned specs:</p>
+<ul>
+<li>python 3.12.* (labeled as 'pin-1')</li>
+</ul>
+<p>Do you have any suggestions how I can modify my environment(s) ?</p>
+
+
+
+<a name="105595"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Error%20loading%20xeofs/near/105595" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Error.20loading.20xeofs.html#105595">(Feb 18 2025 at 21:25)</a>:</h4>
+<p>It looks like xeofs isn't supported for Python 3.12 yet (<em>via install from conda-forge</em>) and I think the latest NPL uses 3.12.  Is using an older verison of NPL as a starting point an option for you?</p>
+<p>I can't quite tell what's going on here with DataTree, but there might be some versioning things with that as well.  It started as an independent project, but now has been merged into the xarray package (as of v2024.10.0).</p>
+
+
+
+<a name="105597"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Error%20loading%20xeofs/near/105597" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Error.20loading.20xeofs.html#105597">(Feb 18 2025 at 21:49)</a>:</h4>
+<p>It looks like they have made the updates (to support Python 3.12) in the xeofs repo though and on PyPI just not conda.  You might be able to pip install it or install from source in your environment.</p>
+
+
+
+<a name="105598"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Error%20loading%20xeofs/near/105598" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Error.20loading.20xeofs.html#105598">(Feb 18 2025 at 21:50)</a>:</h4>
+<p>Thank you! Rolling back a few versions of environment to install xeofs also worked as an alternative.</p>
+
+
+
+<a name="105626"></a>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Error%20loading%20xeofs/near/105626" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Error.20loading.20xeofs.html#105626">(Feb 20 2025 at 15:25)</a>:</h4>
+<p>A quick follow up here - there's now a release on conda-forge with the updated requirements info (i.e. allowing for Python 3.12 and hopefully addressing the DataTree issue)</p>
+
+
+
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
+</html>

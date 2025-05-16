@@ -5,165 +5,164 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="34573"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34573" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34573">(Jun 16 2021 at 06:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34573" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34573">(Jun 16 2021 at 06:40)</a>:</h4>
 <p>I am trying to create a Python wrapper for Fortan code using Cython but i need help to split the Cython module to pxd and pyx files and sharing it with another module. I just wonder that is there anybody in the list that has Cython experience  and willing to help me to pass couple of issue in the prototype application.</p>
 
 
 
 <a name="34618"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34618" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34618">(Jun 16 2021 at 15:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34618" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34618">(Jun 16 2021 at 15:28)</a>:</h4>
 <p>Ccing <span class="user-mention" data-user-id="97">@Austin Kootz</span>, <span class="user-mention" data-user-id="18">@Orhan Eroglu</span> - -The resident experts for interfacing Python with Fortran -- in case they are able to help <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span></p>
 
 
 
 <a name="34640"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34640" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34640">(Jun 16 2021 at 16:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34640" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34640">(Jun 16 2021 at 16:03)</a>:</h4>
 <p><span class="user-mention" data-user-id="56">@Ufuk Turuncoglu</span> I would strongly reccomend using numpy's <code>f2py</code> package to compile your fortran into an importable python shared object file.</p>
 
 
 
 <a name="34641"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34641" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34641">(Jun 16 2021 at 16:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34641" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34641">(Jun 16 2021 at 16:04)</a>:</h4>
 <p>I'm open to scheduling a one-one tutorial on how to do that.</p>
 
 
 
 <a name="34662"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34662" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34662">(Jun 16 2021 at 16:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34662" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34662">(Jun 16 2021 at 16:41)</a>:</h4>
 <p>Thanks for your help and suggestion <span class="user-mention" data-user-id="97">@Austin Kootz</span>. Actually, my simple project has lots of user defined data types which i know it is not supported by f2py. There is an extension of f2py, which is called as f90wrap, to support user defined Fortran data types but it seems it is not working in my case (maybe it is lack of my experience) and seems hiding all the details to make customizations. So, my limited experience directed to me a Cython. I know you need to do lots of things manually but it allow you to make customization and full control. Anyway, let me know what do you think?</p>
 
 
 
 <a name="34665"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34665" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34665">(Jun 16 2021 at 16:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34665" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34665">(Jun 16 2021 at 16:46)</a>:</h4>
 <p>Frankly we found Cython solutions unworkable.  In fact we replaced our cython based stack to f2py last year, and it took us only about 10% as long to re implement everything compared to the first cython implementation.</p>
 
 
 
 <a name="34666"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34666" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34666">(Jun 16 2021 at 16:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34666" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34666">(Jun 16 2021 at 16:47)</a>:</h4>
 <p>I would strongly suggest re-working the user-defined data types into types that are supported by f2py, and then using it.</p>
 
 
 
 <a name="34668"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34668" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34668">(Jun 16 2021 at 16:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34668" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34668">(Jun 16 2021 at 16:59)</a>:</h4>
 <p><span class="user-mention" data-user-id="97">@Austin Kootz</span> the user defined types are not part of the code that i developed and they are coming from an external library. Also, the functions that i am trying to expose to Python also coming from that external library. So, i have no control on those parts. I am just trying to create a wrapper around it. Do you think still i could use it f2py?</p>
 
 
 
 <a name="34669"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34669" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34669">(Jun 16 2021 at 17:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34669" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34669">(Jun 16 2021 at 17:00)</a>:</h4>
 <p><span class="user-mention" data-user-id="97">@Austin Kootz</span>  Maybe we could meet in your free time and i could try to explain what i am plaing to do it.</p>
 
 
 
 <a name="34671"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34671" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34671">(Jun 16 2021 at 17:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34671" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34671">(Jun 16 2021 at 17:04)</a>:</h4>
 <p>Just give me some nouns so I can look at the code for a minute. What's the external library that you are trying to expose?</p>
 
 
 
 <a name="34672"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34672" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34672">(Jun 16 2021 at 17:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34672" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34672">(Jun 16 2021 at 17:07)</a>:</h4>
 <p>It is ESMF (<a href="https://github.com/esmf-org/esmf" target="_blank" title="https://github.com/esmf-org/esmf">https://github.com/esmf-org/esmf</a>) and i am trying to write followng sample code in Python (<a href="https://github.com/esmf-org/nuopc-app-prototypes/tree/develop/SingleModelProto" target="_blank" title="https://github.com/esmf-org/nuopc-app-prototypes/tree/develop/SingleModelProto">https://github.com/esmf-org/nuopc-app-prototypes/tree/develop/SingleModelProto</a>). At this point i am just aiming <code>driver.F90</code> file. My initial implementation is in here <a href="https://github.com/uturuncoglu/SingleModelProtoPy" target="_blank" title="https://github.com/uturuncoglu/SingleModelProtoPy">https://github.com/uturuncoglu/SingleModelProtoPy</a> but this does not have all the code that i have. i did not push my recent development but this could give you an idea.</p>
 
 
 
 <a name="34675"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34675" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34675">(Jun 16 2021 at 17:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34675" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34675">(Jun 16 2021 at 17:13)</a>:</h4>
 <p>ESMF is already available in python's conda package manager, and has a python interface here: <a href="https://github.com/esmf-org/esmf/blob/develop/src/addon/ESMPy/README.md" target="_blank" title="https://github.com/esmf-org/esmf/blob/develop/src/addon/ESMPy/README.md">https://github.com/esmf-org/esmf/blob/develop/src/addon/ESMPy/README.md</a></p>
 
 
 
 <a name="34676"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34676" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34676">(Jun 16 2021 at 17:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34676" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34676">(Jun 16 2021 at 17:15)</a>:</h4>
 <p>Driver.py should be easy to use with f2py</p>
 
 
 
 <a name="34677"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34677" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34677">(Jun 16 2021 at 17:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34677" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34677">(Jun 16 2021 at 17:16)</a>:</h4>
 <p>Are you on darwin(macos) or linux?</p>
 
 
 
 <a name="34678"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34678" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34678">(Jun 16 2021 at 17:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34678" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34678">(Jun 16 2021 at 17:19)</a>:</h4>
 <p>Yes, i know and i am also workin as a part of ESMF team. the ESMPy is very limited capabilityit does not  provide what i need. It just have loose connection with ESMF for just regridding etc. and there is no way to call core ESMF functions from Python using ESMPy. For example, if you look at ESMF_Init call (<a href="https://github.com/esmf-org/esmf/blob/develop/src/Superstructure/ESMFMod/src/ESMF_Init.F90" target="_blank" title="https://github.com/esmf-org/esmf/blob/develop/src/Superstructure/ESMFMod/src/ESMF_Init.F90">https://github.com/esmf-org/esmf/blob/develop/src/Superstructure/ESMFMod/src/ESMF_Init.F90</a>) it uses couple of user defined types that might be defined in the Python layer. Anyway, i am still learning but if you think that it could be done with f2py, then i could chnage my approach and go with f2py.</p>
 
 
 
 <a name="34680"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34680" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34680">(Jun 16 2021 at 17:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34680" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34680">(Jun 16 2021 at 17:21)</a>:</h4>
 <p>I prefer to use Linux. I had previously issue with MPI implementation under MacOS. The code also need to run in parallel. So, all those functions defined in ESMF side are collective operations that ESMPy does not support it as we need.</p>
 
 
 
 <a name="34685"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34685" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34685">(Jun 16 2021 at 17:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34685" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34685">(Jun 16 2021 at 17:38)</a>:</h4>
 <p>Linux is good, f2py works great on that platform. you'll want to make sure you have numpy &gt;=1.20.2 and gfortran_linux-64 installed from the conda-forge channel in your conda environment.</p>
 
 
 
 <a name="34686"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34686" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34686">(Jun 16 2021 at 17:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34686" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34686">(Jun 16 2021 at 17:39)</a>:</h4>
 <p>I am doing my development on Cheyenne and i could install all the requiremsnts to my user with pip.</p>
 
 
 
 <a name="34688"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34688" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34688">(Jun 16 2021 at 17:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34688" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34688">(Jun 16 2021 at 17:40)</a>:</h4>
 <p>on cheyenne, you can also use conda.</p>
 
 
 
 <a name="34691"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34691" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34691">(Jun 16 2021 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34691" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34691">(Jun 16 2021 at 17:41)</a>:</h4>
 <p><a href="https://docs.conda.io/en/latest/miniconda.html#linux-installers" target="_blank" title="https://docs.conda.io/en/latest/miniconda.html#linux-installers">https://docs.conda.io/en/latest/miniconda.html#linux-installers</a></p>
 
 
 
 <a name="34693"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34693" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34693">(Jun 16 2021 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34693" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34693">(Jun 16 2021 at 17:41)</a>:</h4>
 <p>sure. if you have time this week we could discuss about it. i am not sure how initial desing will look like.</p>
 
 
 
 <a name="34695"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34695" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34695">(Jun 16 2021 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34695" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34695">(Jun 16 2021 at 17:41)</a>:</h4>
 <p>And I would strongly advise using conda so as to have far more control and separation for your various python environements.</p>
 
 
 
 <a name="34696"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34696" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34696">(Jun 16 2021 at 17:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34696" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34696">(Jun 16 2021 at 17:42)</a>:</h4>
 <p>3:30 MDT tomorrow works for me.</p>
 
 
 
 <a name="34697"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34697" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34697">(Jun 16 2021 at 17:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34697" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34697">(Jun 16 2021 at 17:43)</a>:</h4>
 <p>okay. that is good idea. btw, i am scheduling a call for that time.</p>
 
 
 
 <a name="34698"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34698" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34698">(Jun 16 2021 at 17:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34698" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34698">(Jun 16 2021 at 17:43)</a>:</h4>
 <p>thanks for your help</p>
 
 
 
 <a name="34699"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34699" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34699">(Jun 16 2021 at 17:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/Cython/near/34699" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Ufuk Turuncoglu <a href="http://127.0.0.1:4000/html/stream/3-general/topic/Cython.html#34699">(Jun 16 2021 at 17:45)</a>:</h4>
 <p>I have just sent it, if you did not get invitation just let me know</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

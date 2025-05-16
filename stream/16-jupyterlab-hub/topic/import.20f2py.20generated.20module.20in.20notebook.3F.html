@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="9430"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9430" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9430">(May 22 2020 at 19:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9430">(May 22 2020 at 19:03)</a>:</h4>
 <p>I am trying to merge some old analysis code in f90 into a workflow. I have it working in a python script invoked from the command line, but cannot get it to work in a notebook. Looking for guidance on how to inform jupyter where to find the resulting shared object file.</p>
 <p>Here is a very simplified example exhibiting the same problematic behavior:</p>
 <p>The fortran code:<br>
@@ -45,7 +44,7 @@ import fhello</p>
 
 
 <a name="9438"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9438" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9438">(May 22 2020 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9438">(May 22 2020 at 19:08)</a>:</h4>
 <p><span class="user-mention" data-user-id="44">@Frank Bryan</span>, what is the output of </p>
 <ul>
 <li>
@@ -59,13 +58,13 @@ import fhello</p>
 
 
 <a name="9441"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9441" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9441">(May 22 2020 at 19:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9441" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9441">(May 22 2020 at 19:09)</a>:</h4>
 <p>It's likely that Conda packages and system libraries are colliding</p>
 
 
 
 <a name="9442"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9442" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9442">(May 22 2020 at 19:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9442" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9442">(May 22 2020 at 19:10)</a>:</h4>
 <p><span class="user-mention" data-user-id="44">@Frank Bryan</span>, you may need to do </p>
 <div class="codehilite"><pre><span></span>module purge
 conda activate my-env
@@ -77,7 +76,7 @@ conda activate my-env
 
 
 <a name="9444"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9444" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9444">(May 22 2020 at 19:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9444" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9444">(May 22 2020 at 19:10)</a>:</h4>
 <p>analysis) bryan@casper21: echo $LD_LIBRARY_PATH<br>
 /glade/u/apps/dav/opt/openmpi/3.1.4/intel/18.0.5/lib:/glade/u/apps/opt/intel/2018u4/compilers_and_libraries/linux/lib/intel64:/glade/u/apps/dav/opt/usr/lib64<br>
 (analysis) bryan@casper21: module list</p>
@@ -88,7 +87,7 @@ conda activate my-env
 
 
 <a name="9445"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9445" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9445">(May 22 2020 at 19:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9445" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9445">(May 22 2020 at 19:10)</a>:</h4>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="44">Frank Bryan</span>, you may need to do </p>
 </blockquote>
@@ -103,39 +102,39 @@ conda activate my-env</p>
 
 
 <a name="9446"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9446" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9446">(May 22 2020 at 19:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9446" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9446">(May 22 2020 at 19:11)</a>:</h4>
 <p>See here: <a href="https://github.com/matt-long/remap_z_to_sigma/tree/master" target="_blank" title="https://github.com/matt-long/remap_z_to_sigma/tree/master">https://github.com/matt-long/remap_z_to_sigma/tree/master</a><br>
 for an example of where I do something like this.</p>
 
 
 
 <a name="9447"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9447" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9447">(May 22 2020 at 19:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9447" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9447">(May 22 2020 at 19:12)</a>:</h4>
 <p>though it looks like I neglected appropriate environment conditioning in my build script:<br>
 <a href="https://github.com/matt-long/remap_z_to_sigma/blob/master/remap_z/build.sh" target="_blank" title="https://github.com/matt-long/remap_z_to_sigma/blob/master/remap_z/build.sh">https://github.com/matt-long/remap_z_to_sigma/blob/master/remap_z/build.sh</a></p>
 
 
 
 <a name="9451"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9451" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9451">(May 22 2020 at 19:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/9451" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#9451">(May 22 2020 at 19:15)</a>:</h4>
 <p>Worked (mostly). Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> .</p>
 <p>Not an issue for my real problem, but where does output to stdout from the f90 code go ? Doesn't show up in the output cell but the return code is correct so I think it worked.</p>
 
 
 
 <a name="18566"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/18566" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#18566">(Oct 01 2020 at 23:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/18566" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#18566">(Oct 01 2020 at 23:46)</a>:</h4>
 <p>Frank, prior to compiling the .f90 code with f2py, did you use f2py to generate a .pyf header file, then update the header file with <code>intent(&lt;in/out/inout/hide&gt;)</code> for each variable?</p>
 
 
 
 <a name="18573"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/18573" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#18573">(Oct 02 2020 at 01:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/import%20f2py%20generated%20module%20in%20notebook%3F/near/18573" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Frank Bryan <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/import.20f2py.20generated.20module.20in.20notebook.3F.html#18573">(Oct 02 2020 at 01:27)</a>:</h4>
 <p>That was a long time ago and I ended up moving to a pure python implementation, so I'm not remembering well, but it looks like no, I just compile the Fortran source with<br>
 python -m numpy.f2py -c land_fillin.f90 -m land_fillin</p>
 <p>No pyf file was required. My F90 subroutine already had all arguments declared with intent</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

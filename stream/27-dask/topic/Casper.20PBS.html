@@ -5,25 +5,24 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="28786"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/28786" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#28786">(Apr 06 2021 at 23:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/28786" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#28786">(Apr 06 2021 at 23:24)</a>:</h4>
 <p>@all Here is a post detailing how to get started using Dask with PBSCluster on Casper through the new Jupyterhub which launches tomorrow <a href="https://ncar.github.io/esds/posts/casper_pbs_dask/" target="_blank" title="https://ncar.github.io/esds/posts/casper_pbs_dask/">https://ncar.github.io/esds/posts/casper_pbs_dask/</a></p>
 
 
 
 <a name="40504"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40504" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40504">(Aug 21 2021 at 00:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40504" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40504">(Aug 21 2021 at 00:25)</a>:</h4>
 <p>If anybody has this working, I'm trying to do it currently but am unsure of the order of things. Any help much appreciated!</p>
 <p>Currently I'm starting a JupyterHub session (e.g. Casper batch, 2 nodes, 16 CPUs per node, 100GiB per node) and then running  a version of the example code (from the GitHub page) in the resulting notebook. But it seems strange to me to be providing all the session information again rather than just, say, a Job ID from which this could be grabbed. Additionally the <code>PBSCluster</code> documentation suggests that it is setting up a new job from scratch (e.g. passing arguments to #PBS), rather than using the one I already have. Am I doing things the right way around, or asking for a whole new job after already starting one? And - apologies for two questions in one post! - what is the significance of <code>cluster.scale(2)</code> ?</p>
 
 
 
 <a name="40829"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40829" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40829">(Aug 24 2021 at 20:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40829" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40829">(Aug 24 2021 at 20:01)</a>:</h4>
 <p>Hi Dafydd,<br>
 I am using that function to get dask workers for my notebooks.</p>
 <p>I think of those dask clusters as associated with a specific notebook rather than with a JupyterHub session. So I don't ask for my computational resources when I am logging into JupyterHub, I just adjust the wallclock. Then I ask for the required number of CPUs within a given notebook with that PBSCluster sequence. </p>
@@ -33,14 +32,14 @@ I am using that function to get dask workers for my notebooks.</p>
 
 
 <a name="40859"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40859" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40859">(Aug 24 2021 at 21:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40859" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40859">(Aug 24 2021 at 21:35)</a>:</h4>
 <p>Hi Daniel,<br>
 This makes sense, thanks! I've managed to get this behaving more as expected by launching the notebook on the login node and then requesting the dask workers on the compute nodes from within the notebook. I suppose a related question would then be how to get dask to use an existing set of resources (say for running a python script to process output at the end of a model run which is already using many nodes/cpus), but that's probably one for another stream.</p>
 
 
 
 <a name="40866"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40866" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40866">(Aug 24 2021 at 22:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40866" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40866">(Aug 24 2021 at 22:34)</a>:</h4>
 <p><span class="user-mention" data-user-id="184">@Dafydd Stephenson</span>, </p>
 <blockquote>
 <p>I suppose a related question would then be how to get dask to use an existing set of resources (say for running a python script to process output at the end of a model run which is already using many nodes/cpus), but that's probably one for another stream.</p>
@@ -50,7 +49,7 @@ This makes sense, thanks! I've managed to get this behaving more as expected by 
 
 
 <a name="40868"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40868" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40868">(Aug 24 2021 at 22:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Casper%20PBS/near/40868" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Casper.20PBS.html#40868">(Aug 24 2021 at 22:36)</a>:</h4>
 <blockquote>
 <p>You may find <code>dask-mpi</code> to be useful for this kind of setup: <a href="https://mpi.dask.org/en/latest/">https://mpi.dask.org/en/latest/</a></p>
 </blockquote>
@@ -58,5 +57,5 @@ This makes sense, thanks! I've managed to get this behaving more as expected by 
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

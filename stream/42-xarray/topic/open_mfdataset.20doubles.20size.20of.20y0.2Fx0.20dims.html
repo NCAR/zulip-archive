@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="48248"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/open_mfdataset%20doubles%20size%20of%20y0/x0%20dims/near/48248" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/open_mfdataset.20doubles.20size.20of.20y0.2Fx0.20dims.html#48248">(Dec 14 2021 at 20:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/open_mfdataset%20doubles%20size%20of%20y0/x0%20dims/near/48248" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/open_mfdataset.20doubles.20size.20of.20y0.2Fx0.20dims.html#48248">(Dec 14 2021 at 20:37)</a>:</h4>
 <p>I am attempting to load data from two netCDF files using xr.open_mfdataset. The call looks like this:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ncData</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_mfdataset</span><span class="p">(</span><span class="n">urls</span><span class="p">,</span><span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">combine</span><span class="o">=</span><span class="s1">'by_coords'</span><span class="p">,</span><span class="n">preprocess</span><span class="o">=</span><span class="n">preprocess</span><span class="p">,</span><span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">)</span>
 </code></pre></div>
@@ -70,16 +69,16 @@
 
 
 <a name="48251"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/open_mfdataset%20doubles%20size%20of%20y0/x0%20dims/near/48251" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/open_mfdataset.20doubles.20size.20of.20y0.2Fx0.20dims.html#48251">(Dec 14 2021 at 21:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/open_mfdataset%20doubles%20size%20of%20y0/x0%20dims/near/48251" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/open_mfdataset.20doubles.20size.20of.20y0.2Fx0.20dims.html#48251">(Dec 14 2021 at 21:49)</a>:</h4>
 <p>As I somewhat expected, given my past success with this code, it's a garbage in, garbage out issue. It appears that my 2D x0 and y0 coordinate variables are ever so slightly different. Is there a way to tell open_mfdataset() to ignore this and choose from the first or last dataset in the list? Or from a particular specification of cooridinates? I thought override='compat' would do that, but maybe not?</p>
 
 
 
 <a name="48289"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/open_mfdataset%20doubles%20size%20of%20y0/x0%20dims/near/48289" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/open_mfdataset.20doubles.20size.20of.20y0.2Fx0.20dims.html#48289">(Dec 15 2021 at 16:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/open_mfdataset%20doubles%20size%20of%20y0/x0%20dims/near/48289" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/open_mfdataset.20doubles.20size.20of.20y0.2Fx0.20dims.html#48289">(Dec 15 2021 at 16:24)</a>:</h4>
 <p>Use <code>join="override"</code> because <code>x0</code> and. <code>y0</code> are dimension coordiante variables. <code>compat</code> controls the checking of non-dimension coordinate variables.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>

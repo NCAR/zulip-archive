@@ -5,12 +5,11 @@
 
 <hr>
 
-<base href="https://zulip2.cloud.ucar.edu">
 
 <head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
 
 <a name="10782"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10782" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10782">(Jun 08 2020 at 15:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10782" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10782">(Jun 08 2020 at 15:39)</a>:</h4>
 <p>I've run into my first set big issue with the high resolution run -- trying to use <code>shr_stream</code> to read the tracer restoring fields blows memory. I talked with <span class="user-mention" data-user-id="31">@Keith Lindsay</span> about it on Friday, and the best we can figure is that the share code reads the stream file on master task and then distributes it. From <code>cesm.log</code> in <code>/glade/scratch/mlevy/SMS_Ld1.TL319_t13.G1850ECOIAF_JRA_HR.cheyenne_intel.pop-highres_JRA_cice.019/run</code>:</p>
 <div class="codehilite"><pre><span></span>828:MCT::m_AttrVect::init_: allocate() error, stat =41
 828:33C.MCT(MPEU)::die.: from MCT::m_AttrVect::init_()
@@ -49,22 +48,22 @@
 
 
 <a name="10783"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10783" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10783">(Jun 08 2020 at 15:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10783" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10783">(Jun 08 2020 at 15:45)</a>:</h4>
 <p>I meant to add that <code>aV%rAttr</code> is ~28 GB in size, and <code>allocate() error, stat =41</code> indicates <a href="https://software.intel.com/content/www/us/en/develop/documentation/fortran-compiler-developer-guide-and-reference/top/compiler-reference/error-handling/handling-run-time-errors/list-of-run-time-error-messages.html" target="_blank" title="https://software.intel.com/content/www/us/en/develop/documentation/fortran-compiler-developer-guide-and-reference/top/compiler-reference/error-handling/handling-run-time-errors/list-of-run-time-error-messages.html">"[i]nsufficient virtual memory"</a></p>
 
 
 
 <a name="10785"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10785" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10785">(Jun 08 2020 at 15:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10785" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10785">(Jun 08 2020 at 15:55)</a>:</h4>
 <p>Option 4. Don't apply the restoring. I think this is worth considering.</p>
 
 
 
 <a name="10794"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10794" class="zl"><img src="http://127.0.0.1:4000/assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10794">(Jun 08 2020 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Memory%20issues/near/10794" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Memory.20issues.html#10794">(Jun 08 2020 at 20:02)</a>:</h4>
 <p>I asked about this on the CIME slack board, and Jim said "We are developing new esmf based data models with issues like this in mind.  Are you willing to try some bleeding edge code in your experiment?" That won't be available in 2.2.0, so I think proceeding without restoring for now and then trying the new infrastructure seems like a good path forward.</p>
 
 
 
-<hr><p>Last updated: Jan 27 2025 at 22:16 UTC</p>
+<hr><p>Last updated: May 16 2025 at 17:14 UTC</p>
 </html>
