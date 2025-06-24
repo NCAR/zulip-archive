@@ -1,47 +1,47 @@
 <html>
 <head><meta charset="utf-8"><title>unstructured regridding ESMF · ESDS · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/index.html">ESDS</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html">unstructured regridding ESMF</a></h3>
+<h2>Stream: <a href="../../..//stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html">unstructured regridding ESMF</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="40803"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40803" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40803">(Aug 24 2021 at 19:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40803" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40803">(Aug 24 2021 at 19:25)</a>:</h4>
 <p>I'm wondering if there's still a plan to port the NCL ESMF_regrid functionality into GeoCAT?  The last comment on this was from a couple years ago:  <a href="https://github.com/NCAR/geocat-comp/issues/6">https://github.com/NCAR/geocat-comp/issues/6</a><br>
 This is desirable because xesmf does not appear to be able to handle unstructured grids (eg. CAM-SE) even if the weights have been precomputed (using SCRIP, for example).</p>
 
 
 
 <a name="40922"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40922" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40922">(Aug 25 2021 at 17:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40922" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40922">(Aug 25 2021 at 17:29)</a>:</h4>
 <p>Thanks for bringing this into attention, <span class="user-mention" data-user-id="34">@Stephen Yeager</span> ! We would absolutely work on the unstructured grids part of this under the scope of the Project Raijin, which is recently awarded by NSF for unstructured grids research. We would also need to determine how we should proceed with the regular lat/lon regridding, taking the existence of XESMF into account. </p>
 <p>cc'ing GeoCAT team: <span class="user-mention" data-user-id="97">@Alea Kootz</span> <span class="user-mention" data-user-id="114">@Anissa Zacharias</span> <span class="user-mention" data-user-id="105">@Michaela Sizemore</span></p>
 
 
 
 <a name="40928"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40928" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40928">(Aug 25 2021 at 18:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40928" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40928">(Aug 25 2021 at 18:47)</a>:</h4>
 <p><span class="user-mention" data-user-id="34">@Stephen Yeager</span>, it might be helpful to see what the limitation in xESMF is with the unstructured grid. Hardcoded assumption about the grid being 2D?</p>
 
 
 
 <a name="40946"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40946" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40946">(Aug 25 2021 at 19:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40946" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40946">(Aug 25 2021 at 19:37)</a>:</h4>
 <p>I also noticed that there is no issue about unstructured grid support at the xESMF repository (<a href="https://github.com/pangeo-data/xESMF">https://github.com/pangeo-data/xESMF</a>). It would be good to ask them about plans and if they are open to contributions</p>
 
 
 
 <a name="40948"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40948" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40948">(Aug 25 2021 at 19:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40948" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40948">(Aug 25 2021 at 19:42)</a>:</h4>
 <p>Ah there is an issue on the older, abandoned repo: <a href="https://github.com/JiaweiZhuang/xESMF/issues/18">https://github.com/JiaweiZhuang/xESMF/issues/18</a></p>
 
 
 
 <a name="40979"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40979" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40979">(Aug 25 2021 at 20:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40979" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40979">(Aug 25 2021 at 20:02)</a>:</h4>
 <p>I've tried to generate a regridder using xesmf to regrid CAM-SE (ne120) data to a regular 0.25x0.25 grid using:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">regrid_ne120</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span><span class="n">ds_cam_ne120</span><span class="p">,</span> <span class="n">target_p25</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'bilinear'</span><span class="p">,</span><span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
@@ -54,7 +54,7 @@ so it appears to be trying to force the ne120 to look like a 2d mesh?</p>
 
 
 <a name="40991"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40991" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40991">(Aug 25 2021 at 20:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40991" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40991">(Aug 25 2021 at 20:06)</a>:</h4>
 <p>The notebook is here: <br>
 /glade/u/home/yeager/analysis/python/Robinson.ipynb<br>
 which also includes a failed attempt to use ESMpy (it won't read in the ne120 grid file correctly).</p>
@@ -62,7 +62,7 @@ which also includes a failed attempt to use ESMpy (it won't read in the ne120 gr
 
 
 <a name="40997"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40997" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40997">(Aug 25 2021 at 20:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/40997" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#40997">(Aug 25 2021 at 20:08)</a>:</h4>
 <p>From the xesmf documention:<br>
 "ESMPy is actually able to deal with general irregular meshes (example), but designing an elegant front-end for that is very challenging. Plain 2D arrays cannot describe irregular meshes. There needs to be additional information for connectivity, as suggested by UGRID Conventions.</p>
 <p>xESMF supports quadrilateral grids and has limited support of triangular or hexagonal meshes. xESMF also supports complex polygonal meshes, but only in the context of regional averaging.</p>
@@ -71,7 +71,7 @@ which also includes a failed attempt to use ESMpy (it won't read in the ne120 gr
 
 
 <a name="41036"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/41036" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#41036">(Aug 25 2021 at 21:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/unstructured%20regridding%20ESMF/near/41036" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> John Clyne <a href="../../..//stream/41-ESDS/topic/unstructured.20regridding.20ESMF.html#41036">(Aug 25 2021 at 21:14)</a>:</h4>
 <p>FWIW the unstructured grid support planned as part of Project Raijin will be based around extensions to XArray that are modeled on the UGRID specifications: <a href="http://ugrid-conventions.github.io/ugrid-conventions">http://ugrid-conventions.github.io/ugrid-conventions</a>. At least that is the plan of record :-).</p>
 
 

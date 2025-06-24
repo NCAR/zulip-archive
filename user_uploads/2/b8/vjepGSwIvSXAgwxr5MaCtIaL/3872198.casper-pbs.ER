@@ -1,0 +1,279 @@
+2025-02-24 08:55:58,114 - distributed.nanny - INFO -         Start Nanny at: 'tcp://128.117.208.62:34905'
+2025-02-24 08:55:58,990 - distributed.worker - INFO -       Start worker at: tcp://128.117.208.62:46739
+2025-02-24 08:55:58,990 - distributed.worker - INFO -          Listening to: tcp://128.117.208.62:46739
+2025-02-24 08:55:58,990 - distributed.worker - INFO -           Worker name:              PBSCluster-18
+2025-02-24 08:55:58,990 - distributed.worker - INFO -          dashboard at:       128.117.208.62:40479
+2025-02-24 08:55:58,990 - distributed.worker - INFO - Waiting to connect to: tcp://128.117.208.103:41281
+2025-02-24 08:55:58,990 - distributed.worker - INFO - -------------------------------------------------
+2025-02-24 08:55:58,990 - distributed.worker - INFO -               Threads:                          1
+2025-02-24 08:55:58,990 - distributed.worker - INFO -                Memory:                  29.80 GiB
+2025-02-24 08:55:58,990 - distributed.worker - INFO -       Local Directory: /glade/derecho/scratch/oldend/dask-scratch-space/worker-mci0rfb4
+2025-02-24 08:55:58,990 - distributed.worker - INFO - -------------------------------------------------
+2025-02-24 08:55:59,337 - distributed.worker - INFO - Starting Worker plugin shuffle
+2025-02-24 08:55:59,338 - distributed.worker - INFO -         Registered to: tcp://128.117.208.103:41281
+2025-02-24 08:55:59,338 - distributed.worker - INFO - -------------------------------------------------
+2025-02-24 08:55:59,339 - distributed.core - INFO - Starting established connection to tcp://128.117.208.103:41281
+ERROR 1: PROJ: proj_create_from_database: Open of /glade/u/home/oldend/anaconda3/envs/derecho/share/proj failed
+2025-02-24 09:03:05,788 - distributed.worker - ERROR - failed during get data with tcp://128.117.208.62:46739 -> tcp://128.117.208.64:38829
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 861, in _read_to_buffer
+    bytes_read = self.read_from_fd(buf)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 1116, in read_from_fd
+    return self.socket.recv_into(buf, len(buf))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 1780, in get_data
+    response = await comm.read(deserializers=serializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 140, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc.__class__.__name__}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed)  local=tcp://128.117.208.62:46739 remote=tcp://128.117.208.64:55946>: TimeoutError: [Errno 110] Connection timed out
+2025-02-24 09:03:05,789 - distributed.core - INFO - Lost connection to 'tcp://128.117.208.64:55946'
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 861, in _read_to_buffer
+    bytes_read = self.read_from_fd(buf)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 1116, in read_from_fd
+    return self.socket.recv_into(buf, len(buf))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: [Errno 110] Connection timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 969, in _handle_comm
+    result = await result
+             ^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1116, in wrapper
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 1780, in get_data
+    response = await comm.read(deserializers=serializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 140, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc.__class__.__name__}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed)  local=tcp://128.117.208.62:46739 remote=tcp://128.117.208.64:55946>: TimeoutError: [Errno 110] Connection timed out
+2025-02-24 09:03:54,349 - distributed.worker - ERROR - Worker stream died during communication: tcp://128.117.208.62:41419
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 225, in read
+    frames_nosplit_nbytes_bin = await stream.read_bytes(fmt_size)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tornado.iostream.StreamClosedError: Stream is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2056, in gather_dep
+    response = await get_data_from_worker(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2860, in get_data_from_worker
+    response = await send_recv(
+               ^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1153, in send_recv
+    response = await comm.read(deserializers=deserializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 142, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed) Ephemeral Worker->Worker for gather local=tcp://128.117.208.62:38476 remote=tcp://128.117.208.62:41419>: Stream is closed
+2025-02-24 09:05:09,545 - distributed.worker - ERROR - failed during get data with tcp://128.117.208.62:46739 -> tcp://128.117.208.82:37979
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 861, in _read_to_buffer
+    bytes_read = self.read_from_fd(buf)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 1116, in read_from_fd
+    return self.socket.recv_into(buf, len(buf))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 1780, in get_data
+    response = await comm.read(deserializers=serializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 140, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc.__class__.__name__}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed)  local=tcp://128.117.208.62:46739 remote=tcp://128.117.208.82:54974>: ConnectionResetError: [Errno 104] Connection reset by peer
+2025-02-24 09:05:09,546 - distributed.core - INFO - Lost connection to 'tcp://128.117.208.82:54974'
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 861, in _read_to_buffer
+    bytes_read = self.read_from_fd(buf)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/tornado/iostream.py", line 1116, in read_from_fd
+    return self.socket.recv_into(buf, len(buf))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 969, in _handle_comm
+    result = await result
+             ^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1116, in wrapper
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 1780, in get_data
+    response = await comm.read(deserializers=serializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 140, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc.__class__.__name__}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed)  local=tcp://128.117.208.62:46739 remote=tcp://128.117.208.82:54974>: ConnectionResetError: [Errno 104] Connection reset by peer
+2025-02-24 09:16:22,934 - distributed.worker - ERROR - Worker stream died during communication: tcp://128.117.208.75:38951
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 227, in read
+    frames_nosplit = await read_bytes_rw(stream, frames_nosplit_nbytes)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 368, in read_bytes_rw
+    actual = await stream.read_into(chunk)  # type: ignore[arg-type]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tornado.iostream.StreamClosedError: Stream is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2056, in gather_dep
+    response = await get_data_from_worker(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2860, in get_data_from_worker
+    response = await send_recv(
+               ^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1153, in send_recv
+    response = await comm.read(deserializers=deserializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 142, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed) Ephemeral Worker->Worker for gather local=tcp://128.117.208.62:59384 remote=tcp://128.117.208.75:38951>: Stream is closed
+2025-02-24 09:18:11,731 - distributed.worker - ERROR - Worker stream died during communication: tcp://128.117.208.69:33625
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 225, in read
+    frames_nosplit_nbytes_bin = await stream.read_bytes(fmt_size)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tornado.iostream.StreamClosedError: Stream is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2056, in gather_dep
+    response = await get_data_from_worker(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2860, in get_data_from_worker
+    response = await send_recv(
+               ^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1153, in send_recv
+    response = await comm.read(deserializers=deserializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 142, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed) Ephemeral Worker->Worker for gather local=tcp://128.117.208.62:44548 remote=tcp://128.117.208.69:33625>: Stream is closed
+2025-02-24 09:18:12,952 - distributed.worker - ERROR - Worker stream died during communication: tcp://128.117.208.67:34911
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 225, in read
+    frames_nosplit_nbytes_bin = await stream.read_bytes(fmt_size)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tornado.iostream.StreamClosedError: Stream is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2056, in gather_dep
+    response = await get_data_from_worker(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2860, in get_data_from_worker
+    response = await send_recv(
+               ^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1153, in send_recv
+    response = await comm.read(deserializers=deserializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 142, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed) Ephemeral Worker->Worker for gather local=tcp://128.117.208.62:49176 remote=tcp://128.117.208.67:34911>: Stream is closed
+2025-02-24 09:20:01,624 - distributed.worker - ERROR - Worker stream died during communication: tcp://128.117.208.75:33365
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 225, in read
+    frames_nosplit_nbytes_bin = await stream.read_bytes(fmt_size)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tornado.iostream.StreamClosedError: Stream is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2056, in gather_dep
+    response = await get_data_from_worker(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2860, in get_data_from_worker
+    response = await send_recv(
+               ^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1153, in send_recv
+    response = await comm.read(deserializers=deserializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 142, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed) Ephemeral Worker->Worker for gather local=tcp://128.117.208.62:59844 remote=tcp://128.117.208.75:33365>: Stream is closed
+2025-02-24 09:20:07,552 - distributed.worker - ERROR - Worker stream died during communication: tcp://128.117.208.62:38421
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 225, in read
+    frames_nosplit_nbytes_bin = await stream.read_bytes(fmt_size)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tornado.iostream.StreamClosedError: Stream is closed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2056, in gather_dep
+    response = await get_data_from_worker(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/worker.py", line 2860, in get_data_from_worker
+    response = await send_recv(
+               ^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/core.py", line 1153, in send_recv
+    response = await comm.read(deserializers=deserializers)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 237, in read
+    convert_stream_closed_error(self, e)
+  File "/glade/u/home/oldend/anaconda3/envs/derecho/lib/python3.12/site-packages/distributed/comm/tcp.py", line 142, in convert_stream_closed_error
+    raise CommClosedError(f"in {obj}: {exc}") from exc
+distributed.comm.core.CommClosedError: in <TCP (closed) Ephemeral Worker->Worker for gather local=tcp://128.117.208.62:41162 remote=tcp://128.117.208.62:38421>: Stream is closed
+2025-02-24 09:21:10,287 - distributed.core - INFO - Event loop was unresponsive in Worker for 4.13s.  This is often caused by long-running GIL-holding functions or moving large chunks of data. This can cause timeouts and instability.
+2025-02-24 09:22:09,422 - distributed.core - INFO - Event loop was unresponsive in Worker for 54.64s.  This is often caused by long-running GIL-holding functions or moving large chunks of data. This can cause timeouts and instability.
+2025-02-24 09:22:09,834 - distributed.worker.memory - WARNING - Worker is at 86% memory usage. Pausing worker.  Process memory: 25.81 GiB -- Worker memory limit: 29.80 GiB
+2025-02-24 09:22:11,153 - distributed.nanny.memory - WARNING - Worker tcp://128.117.208.62:46739 (pid=67634) exceeded 95% memory budget. Restarting...
+2025-02-24 09:22:11,250 - distributed.nanny - INFO - Worker process 67634 was killed by signal 15
+2025-02-24 09:22:12,020 - distributed.nanny - WARNING - Restarting worker
+2025-02-24 09:22:13,397 - distributed.worker - INFO -       Start worker at: tcp://128.117.208.62:41649
+2025-02-24 09:22:13,397 - distributed.worker - INFO -          Listening to: tcp://128.117.208.62:41649
+2025-02-24 09:22:13,397 - distributed.worker - INFO -           Worker name:              PBSCluster-18
+2025-02-24 09:22:13,397 - distributed.worker - INFO -          dashboard at:       128.117.208.62:35243
+2025-02-24 09:22:13,397 - distributed.worker - INFO - Waiting to connect to: tcp://128.117.208.103:41281
+2025-02-24 09:22:13,397 - distributed.worker - INFO - -------------------------------------------------
+2025-02-24 09:22:13,397 - distributed.worker - INFO -               Threads:                          1
+2025-02-24 09:22:13,397 - distributed.worker - INFO -                Memory:                  29.80 GiB
+2025-02-24 09:22:13,397 - distributed.worker - INFO -       Local Directory: /glade/derecho/scratch/oldend/dask-scratch-space/worker-emzjfwj4
+2025-02-24 09:22:13,397 - distributed.worker - INFO - -------------------------------------------------
+2025-02-24 09:22:13,723 - distributed.worker - INFO - Starting Worker plugin shuffle
+2025-02-24 09:22:13,723 - distributed.worker - INFO -         Registered to: tcp://128.117.208.103:41281
+2025-02-24 09:22:13,724 - distributed.worker - INFO - -------------------------------------------------
+2025-02-24 09:22:13,724 - distributed.core - INFO - Starting established connection to tcp://128.117.208.103:41281

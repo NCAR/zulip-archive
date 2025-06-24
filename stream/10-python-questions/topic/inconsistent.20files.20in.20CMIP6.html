@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>inconsistent files in CMIP6 · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html">inconsistent files in CMIP6</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html">inconsistent files in CMIP6</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="40388"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40388" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40388">(Aug 20 2021 at 23:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40388" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40388">(Aug 20 2021 at 23:10)</a>:</h4>
 <p>Hi I am trying to read the CMIP6 files on CGD in /project/data/cmip6/historical/day/tas/GFDL-CM4/r1i1p1f1/gr1.<br>
 I use xr.open_mfdata: ds=xr.open_mfdataset(files, concat_dim="time")</p>
 <p>The problem is that the last file (<a href="http://tas_day_GFDL-CM4_historical_r1i1p1f1_gr1_20100101-20141231.nc">tas_day_GFDL-CM4_historical_r1i1p1f1_gr1_20100101-20141231.nc</a>) has a variable (height)<br>
@@ -19,7 +19,7 @@ to work.  I can't find a way to ignore this additional variable.  Thanks!</p>
 
 
 <a name="40393"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40393" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40393">(Aug 20 2021 at 23:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40393" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40393">(Aug 20 2021 at 23:14)</a>:</h4>
 <p>You can use the <code>preprocess</code> argument to provide a function that "cleans" up every dataset before the combine stage.</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"ignore"</span><span class="p">)</span>
@@ -30,7 +30,7 @@ to work.  I can't find a way to ignore this additional variable.  Thanks!</p>
 
 
 <a name="40403"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40403" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40403">(Aug 20 2021 at 23:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40403" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40403">(Aug 20 2021 at 23:22)</a>:</h4>
 <p>I am getting the error message</p>
 <p>Traceback (most recent call last):<br>
   File "interp_daily_tas_to_cities.py", line 59, in &lt;module&gt;<br>
@@ -48,13 +48,13 @@ AttributeError: 'Dataset' object has no attribute 'drop_vars'</p>
 
 
 <a name="40517"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40517" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40517">(Aug 22 2021 at 16:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40517" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40517">(Aug 22 2021 at 16:42)</a>:</h4>
 <p>hmm.. must be an older version. Use <code>.drop</code> instead then</p>
 
 
 
 <a name="40654"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40654" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40654">(Aug 23 2021 at 20:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/40654" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jean-Francois Lamarque <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#40654">(Aug 23 2021 at 20:13)</a>:</h4>
 <p>Thanks, Deepak!  It needed another step for it to work (to ensure that only the files that have "height" are affected by "drop"</p>
 <p>def preprocess(ds):<br>
     if 'height' in list(ds.keys()):<br>
@@ -65,7 +65,7 @@ AttributeError: 'Dataset' object has no attribute 'drop_vars'</p>
 
 
 <a name="49719"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/49719" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#49719">(Jan 26 2022 at 19:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/inconsistent%20files%20in%20CMIP6/near/49719" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="../../..//stream/10-python-questions/topic/inconsistent.20files.20in.20CMIP6.html#49719">(Jan 26 2022 at 19:43)</a>:</h4>
 <p>This topic was moved here from <a class="stream-topic" data-stream-id="16" href="/#narrow/stream/16-jupyterlab-hub/topic/inconsistent.20files.20in.20CMIP6">#jupyterlab-hub &gt; inconsistent files in CMIP6</a> by <span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span></p>
 
 

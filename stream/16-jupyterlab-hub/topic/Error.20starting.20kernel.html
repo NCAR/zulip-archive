@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Error starting kernel · jupyterlab-hub · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html">Error starting kernel</a></h3>
+<h2>Stream: <a href="../../..//stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html">Error starting kernel</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="55028"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55028" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55028">(May 17 2022 at 15:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55028" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55028">(May 17 2022 at 15:19)</a>:</h4>
 <p>I am attempting to start work on <a href="http://jupyterhub.hpc.ucar.edu">jupyterhub.hpc.ucar.edu</a> (Casper PBS Batch) and encountering the following error when selecting a kernel for my notebooks:</p>
 <div class="codehilite"><pre><span></span><code>Error Starting Kernel
 [Errno 2] No such file or directory: &#39;/glade/u/home/mclong/.jupyter_rt_asm/kernel-99d3c958-377d-4d59-877e-30c2e4a06df6.json&#39;
@@ -19,32 +19,32 @@
 
 
 <a name="55029"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55029" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55029">(May 17 2022 at 15:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55029" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55029">(May 17 2022 at 15:20)</a>:</h4>
 <p>It doesn't seem to matter which kernel—they all trigger a similar error (different missing file)</p>
 
 
 
 <a name="55030"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55030" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55030">(May 17 2022 at 15:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55030" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55030">(May 17 2022 at 15:29)</a>:</h4>
 <p>Restarting my server has solved the problem. I noticed that the directory <code>~/.jupyter_rt_asm</code> was missing ("asm" was my named server), but <code>~/.jupyter_rt_ch</code> was there ("ch" was my Cheyenne Login server). </p>
 <p>Something must have gone wrong in the start up sequence...</p>
 
 
 
 <a name="55036"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55036" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55036">(May 17 2022 at 16:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55036" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55036">(May 17 2022 at 16:09)</a>:</h4>
 <p>I'll have a closer look. Those rt directories are only supposed to be purged on sigterm of the PBS job. I'll have to see if it proliferates if you get sigterm on a kernel triggering the trap.</p>
 
 
 
 <a name="55117"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55117" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dan Amrhein <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55117">(May 18 2022 at 18:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/55117" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dan Amrhein <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#55117">(May 18 2022 at 18:59)</a>:</h4>
 <p>I had the same issue; restarting worked for me as well.</p>
 
 
 
 <a name="56649"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/56649" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#56649">(Jun 15 2022 at 18:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/Error%20starting%20kernel/near/56649" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/16-jupyterlab-hub/topic/Error.20starting.20kernel.html#56649">(Jun 15 2022 at 18:58)</a>:</h4>
 <p>Thanks for posting your issue and solution here, Matt, as I had the same problem today and your post helped me resolve it faster that I might have!</p>
 
 

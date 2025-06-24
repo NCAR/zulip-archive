@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>cartopy import error · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html">cartopy import error</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html">cartopy import error</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="10814"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10814" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10814">(Jun 09 2020 at 13:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10814" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10814">(Jun 09 2020 at 13:29)</a>:</h4>
 <p>I recently updated my environment and get the following error on importing <code>cartopy</code>:</p>
 <div class="codehilite"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
 <span class="ne">ImportError</span>                               <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
@@ -42,7 +42,7 @@
 
 
 <a name="10815"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10815" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10815">(Jun 09 2020 at 13:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10815" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10815">(Jun 09 2020 at 13:42)</a>:</h4>
 <p>I am on somewhat up-to-date versions of <code>cartopy</code> and <code>proj</code> and things seem to work fine ( I tested the import)</p>
 <div class="codehilite"><pre><span></span>$ conda list cartopy
 <span class="c1"># packages in environment at /glade/work/abanihi/softwares/miniconda3/envs/analysis:</span>
@@ -80,25 +80,25 @@ pyproj                    <span class="m">2</span>.5.0            py37he3cd046_1
 
 
 <a name="10816"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10816" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10816">(Jun 09 2020 at 13:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10816" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10816">(Jun 09 2020 at 13:46)</a>:</h4>
 <p>no, I did not pin my <code>proj</code> and <code>pyproj</code> versions, but I bet that this is the problem.  I don't include them in my specific list of dependencies.</p>
 
 
 
 <a name="10817"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10817">(Jun 09 2020 at 13:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10817">(Jun 09 2020 at 13:48)</a>:</h4>
 <p>Here's the environment: <a href="https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml" target="_blank" title="https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml">https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml</a></p>
 
 
 
 <a name="10818"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10818" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10818">(Jun 09 2020 at 13:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10818" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10818">(Jun 09 2020 at 13:48)</a>:</h4>
 <p>Can you suggest a modification?</p>
 
 
 
 <a name="10819"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10819" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10819">(Jun 09 2020 at 13:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10819" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10819">(Jun 09 2020 at 13:48)</a>:</h4>
 <blockquote>
 <p>Can you suggest a modification?</p>
 </blockquote>
@@ -107,37 +107,37 @@ pyproj                    <span class="m">2</span>.5.0            py37he3cd046_1
 
 
 <a name="10820"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10820" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10820">(Jun 09 2020 at 13:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10820" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10820">(Jun 09 2020 at 13:49)</a>:</h4>
 <p>i am inspecting the environment to see what packages may be restricting <code>pyproj</code> and  <code>proj</code> to be updated</p>
 
 
 
 <a name="10821"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10821" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10821">(Jun 09 2020 at 13:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10821" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10821">(Jun 09 2020 at 13:50)</a>:</h4>
 <p>many thanks!</p>
 
 
 
 <a name="10822"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10822" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10822">(Jun 09 2020 at 13:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10822" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10822">(Jun 09 2020 at 13:51)</a>:</h4>
 <p>Anytime!</p>
 
 
 
 <a name="10823"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10823" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10823">(Jun 09 2020 at 13:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10823" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10823">(Jun 09 2020 at 13:51)</a>:</h4>
 <p>Are you using this environment file: <a href="https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml" target="_blank" title="https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml">https://github.com/matt-long/krill-cesm-le/blob/master/environment/environment.yml</a>?</p>
 
 
 
 <a name="10824"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10824" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10824">(Jun 09 2020 at 13:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10824" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10824">(Jun 09 2020 at 13:52)</a>:</h4>
 <p>yes</p>
 
 
 
 <a name="10825"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10825" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10825">(Jun 09 2020 at 14:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10825" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10825">(Jun 09 2020 at 14:02)</a>:</h4>
 <p>I happened to have a <code>krill</code> environment. I tried updating it with  <code>conda env update -f environment/environment.yml</code> and I noticed that <code>proj</code> and <code>pyproj</code> versions didn't change i.e. before and after the update:</p>
 <div class="codehilite"><pre><span></span>$ conda list proj
 <span class="c1"># packages in environment at /glade/work/abanihi/softwares/miniconda3/envs/krill:</span>
@@ -157,31 +157,31 @@ pyproj                    <span class="m">2</span>.6.0            py37h34dd122_1
 
 
 <a name="10826"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10826" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10826">(Jun 09 2020 at 14:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10826" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10826">(Jun 09 2020 at 14:05)</a>:</h4>
 <p>thanks, I'll try it</p>
 
 
 
 <a name="10831"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10831" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10831">(Jun 09 2020 at 14:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10831" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10831">(Jun 09 2020 at 14:58)</a>:</h4>
 <p>this seems to have fixed my import error</p>
 
 
 
 <a name="10832"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10832" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10832">(Jun 09 2020 at 14:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10832" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10832">(Jun 09 2020 at 14:58)</a>:</h4>
 <p>thanks!</p>
 
 
 
 <a name="10833"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#10833">(Jun 09 2020 at 15:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/10833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#10833">(Jun 09 2020 at 15:00)</a>:</h4>
 <p>Awesome <span aria-label="tada" class="emoji emoji-1f389" role="img" title="tada">:tada:</span></p>
 
 
 
 <a name="94641"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/94641" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#94641">(Jan 18 2024 at 23:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/94641" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#94641">(Jan 18 2024 at 23:13)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> , looks like this happened a while ago for you, but do you recall how you resolved it? This exact thing just happened to me. </p>
 <p><span class="user-mention silent" data-user-id="14">Matt Long</span> <a href="#narrow/stream/10-python-questions/topic/cartopy.20import.20error/near/10814">said</a>:</p>
 <blockquote>
@@ -216,7 +216,7 @@ pyproj                    <span class="m">2</span>.6.0            py37h34dd122_1
 
 
 <a name="94720"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/94720" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/cartopy.20import.20error.html#94720">(Jan 19 2024 at 20:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/cartopy%20import%20error/near/94720" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="../../..//stream/10-python-questions/topic/cartopy.20import.20error.html#94720">(Jan 19 2024 at 20:41)</a>:</h4>
 <p>Something like this is usually an environment conflict or other mismatch of dependencies. Are you using conda? Can you activate the environment and share the output of <code>conda list</code>? <em>Sometimes</em> a <code>conda update --all</code> might get you there, depending on how complex your environment is.</p>
 
 

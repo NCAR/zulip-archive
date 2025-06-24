@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Reading multiple large files · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Reading.20multiple.20large.20files.html">Reading multiple large files</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Reading.20multiple.20large.20files.html">Reading multiple large files</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="93321"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Reading%20multiple%20large%20files/near/93321" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Reading.20multiple.20large.20files.html#93321">(Dec 08 2023 at 22:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Reading%20multiple%20large%20files/near/93321" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/27-dask/topic/Reading.20multiple.20large.20files.html#93321">(Dec 08 2023 at 22:26)</a>:</h4>
 <p>Hi,<br>
 I'm trying to read in some large, high resolution (0.1deg), ocean (POP) output.<br>
 In the past, I've used the following without issue (with 1deg ocean), but the 0.1deg files are bigger and so it stalls out and crashes. Can anyone help me optimize this so it runs more efficiently? I'm running on JupyterHub.</p>
@@ -45,7 +45,7 @@ mfds<br>
 
 
 <a name="93367"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Reading%20multiple%20large%20files/near/93367" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David John Gagne <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Reading.20multiple.20large.20files.html#93367">(Dec 11 2023 at 16:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Reading%20multiple%20large%20files/near/93367" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David John Gagne <a href="../../..//stream/27-dask/topic/Reading.20multiple.20large.20files.html#93367">(Dec 11 2023 at 16:26)</a>:</h4>
 <p>If you are loading a larger amount of data, I would increase the number of CPUs and memory you are requesting so that you can take advantage of parallelism and larger nodes. If you are running on casper, you can ask for up to 384 GB and 36 CPUs per node. </p>
 <p>If that doesn't work, then I would suggest performing analysis in a way that does not require opening all the files at once. You may have to write a more manual loop instead of using open_mfdataset.</p>
 

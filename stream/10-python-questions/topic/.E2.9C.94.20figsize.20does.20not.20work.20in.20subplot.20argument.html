@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>✔ figsize does not work in subplot argument · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html">✔ figsize does not work in subplot argument</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html">✔ figsize does not work in subplot argument</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="71709"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71709" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71709">(Jan 13 2023 at 20:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71709" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71709">(Jan 13 2023 at 20:13)</a>:</h4>
 <p>Hi,<br>
 When I try to change the figsize in the below script, it does not change the size of my figure. Any ideas what is going on?  Interestingly, if I include colorbars, the colorbars change size, but the maps do not.</p>
 <div class="codehilite"><pre><span></span><code>fig, axs = plt.subplots(1,3, figsize = (26,10), subplot_kw=dict(projection=ccrs.Robinson()))
@@ -47,14 +47,14 @@ land = axs[2].add_feature(cartopy.feature.NaturalEarthFeature(&#39;physical&#39;
 
 
 <a name="71897"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71897" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Ahijevych <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71897">(Jan 18 2023 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71897" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David Ahijevych <a href="../../..//stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71897">(Jan 18 2023 at 20:03)</a>:</h4>
 <p>Hi Mira, <br>
 I copied and pasted your code into Jupyterlab and added a simple fake dataset. While changing figsize did not affect the figure size in the notebook, it did affect the output image size if I used the savefig method, i.e. fig.savefig().</p>
 
 
 
 <a name="71985"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71985">(Jan 19 2023 at 18:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71985">(Jan 19 2023 at 18:31)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="243">David Ahijevych</span> <a href="#narrow/stream/10-python-questions/topic/figsize.20does.20not.20work.20in.20subplot.20argument/near/71897">said</a>:</p>
 <blockquote>
 <p>Hi Mira, <br>
@@ -65,7 +65,7 @@ I copied and pasted your code into Jupyterlab and added a simple fake dataset. W
 
 
 <a name="71986"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71986" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71986">(Jan 19 2023 at 18:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/%E2%9C%94%20figsize%20does%20not%20work%20in%20subplot%20argument/near/71986" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="../../..//stream/10-python-questions/topic/.E2.9C.94.20figsize.20does.20not.20work.20in.20subplot.20argument.html#71986">(Jan 19 2023 at 18:39)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> has marked this topic as resolved.</p>
 
 

@@ -1,51 +1,51 @@
 <html>
 <head><meta charset="utf-8"><title>request: challenging xarray/dask computations · ESDS · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/index.html">ESDS</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html">request: challenging xarray/dask computations</a></h3>
+<h2>Stream: <a href="../../..//stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html">request: challenging xarray/dask computations</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="79222"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79222" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79222">(Apr 13 2023 at 14:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79222" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79222">(Apr 13 2023 at 14:46)</a>:</h4>
 <p>Hi I'm looking for examples of challenging computations with xarray and dask that are requiring workarounds like loops to complete. The goal is to get simplified examples to use to <a href="https://github.com/coiled/benchmarks/issues/770">inform</a> dask.array development. I think a real use case involving a big regridding, rolling window operations, <code>rolling.construct</code>, or <code>groupby.map</code> would be good examples.</p>
 
 
 
 <a name="79223"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79223" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79223">(Apr 13 2023 at 14:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79223" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79223">(Apr 13 2023 at 14:54)</a>:</h4>
 <p>I have one that I have been struggling with.  It is interpolating atmospheric model data from one set of hybrid coordinates to another e.g., interpolating ERA5 model level data to the CAM grid.  The issue is that both the original vertical pressure levels and the new vertical pressure levels are a function of longitude latitude and time.  So I end up having to loop over longitude, latitude and time.  I can make a cleaned up example if this is an example you want to follow (am out of town right now so can't do it right now).</p>
 
 
 
 <a name="79224"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79224" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79224">(Apr 13 2023 at 14:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79224" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79224">(Apr 13 2023 at 14:56)</a>:</h4>
 <p>I would be surprised if this is still an issue with <code>xgcm.transform</code> (<a href="https://xgcm.readthedocs.io/en/latest/transform.html">https://xgcm.readthedocs.io/en/latest/transform.html</a>).</p>
 
 
 
 <a name="79257"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79257" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79257">(Apr 13 2023 at 21:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79257" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79257">(Apr 13 2023 at 21:20)</a>:</h4>
 <p>oh ok, I wasn't area of this.  I'll look into it.  Thanks</p>
 
 
 
 <a name="79267"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79267" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79267">(Apr 14 2023 at 14:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79267" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79267">(Apr 14 2023 at 14:34)</a>:</h4>
 <p><a href="https://github.com/NCAR/iPOGS/blob/main/notebooks/AMOCsig2_0.1deg_RCP_loop_time.ipynb">Here</a> is an example of a big dask computation that requires looping over time chunks. This notebook computes MOC(sigma) from 0.1° POP output spanning 2006-2100, and requires multiple 3D fields at monthly resolution. We got it working for 10-year chunks at a time.</p>
 
 
 
 <a name="79301"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79301" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79301">(Apr 15 2023 at 02:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79301" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79301">(Apr 15 2023 at 02:27)</a>:</h4>
 <p>I got it to work 2006-2050 at one go (well I didn't complete but its looking good). Let's follow up on the repo</p>
 
 
 
 <a name="79488"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79488" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79488">(Apr 18 2023 at 21:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79488" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79488">(Apr 18 2023 at 21:08)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> <a href="#narrow/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations/near/79224">said</a>:</p>
 <blockquote>
 <p>I would be surprised if this is still an issue with <code>xgcm.transform</code> (<a href="https://xgcm.readthedocs.io/en/latest/transform.html">https://xgcm.readthedocs.io/en/latest/transform.html</a>).</p>
@@ -55,13 +55,13 @@
 
 
 <a name="79724"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79724" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79724">(Apr 22 2023 at 21:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79724" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79724">(Apr 22 2023 at 21:28)</a>:</h4>
 <p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> or anyone else really, do you know if there's a full-depth POP 1/10° dataset  on the cloud that I could use to replicate? The <a href="https://catalog.pangeo.io/browse/master/ocean/CESM_POP/CESM_POP_hires_RCP8_5/">Pangeo cloud version</a> seems to have only two depth levels:</p>
 
 
 
 <a name="79862"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79862" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79862">(Apr 25 2023 at 18:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/request%3A%20challenging%20xarray/dask%20computations/near/79862" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/request.3A.20challenging.20xarray.2Fdask.20computations.html#79862">(Apr 25 2023 at 18:14)</a>:</h4>
 <p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> I don't know but I'd ask Ryan Abernathy because he was talking to Ping Chang about putting some of the iHESP data on the cloud.</p>
 
 

@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Modifying time objects in xarray · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html">Modifying time objects in xarray</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html">Modifying time objects in xarray</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="14133"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14133">(Jul 17 2020 at 21:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14133">(Jul 17 2020 at 21:13)</a>:</h4>
 <p>Is it possible to modify dates on the time axis in an xarray dataset?   In the following example, I am trying to change one kind of datetime object into another for the first time step.</p>
 <div class="codehilite"><pre><span></span>import xarray as xr
 import pandas as pd
@@ -28,26 +28,26 @@ SyntaxError: cannot assign to function call
 
 
 <a name="14138"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14138" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14138">(Jul 17 2020 at 21:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14138" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14138">(Jul 17 2020 at 21:23)</a>:</h4>
 <p>Note that I'm ultimately trying to convert all elements to datetime64 objects.  And modify their 'dayofyear' values in the process.</p>
 
 
 
 <a name="14147"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14147" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14147">(Jul 17 2020 at 22:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14147" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14147">(Jul 17 2020 at 22:00)</a>:</h4>
 <p>You should not be using <code>isel</code> for assignment: <br>
 <a href="http://xarray.pydata.org/en/stable/indexing.html#assigning-values-with-indexing" target="_blank" title="http://xarray.pydata.org/en/stable/indexing.html#assigning-values-with-indexing">http://xarray.pydata.org/en/stable/indexing.html#assigning-values-with-indexing</a></p>
 
 
 
 <a name="14151"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14151" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14151">(Jul 17 2020 at 23:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14151" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14151">(Jul 17 2020 at 23:30)</a>:</h4>
 <p>The easier but obscure way of doing that is <code>ds["time"] = ds.indexes["time"].to_datetimeindex()</code>. <span class="user-mention" data-user-id="9">@Brian Bonnlander</span> Can you open an issue about making this transformation easier</p>
 
 
 
 <a name="14152"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14152" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14152">(Jul 18 2020 at 04:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14152" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14152">(Jul 18 2020 at 04:30)</a>:</h4>
 <blockquote>
 <p>Can you open an issue about making this transformation easier</p>
 </blockquote>
@@ -56,25 +56,25 @@ SyntaxError: cannot assign to function call
 
 
 <a name="14185"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14185" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14185">(Jul 20 2020 at 20:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14185" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14185">(Jul 20 2020 at 20:44)</a>:</h4>
 <p>what's the error? I am actually using that line in a notebook now and it works.</p>
 
 
 
 <a name="14186"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14186" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14186">(Jul 20 2020 at 20:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14186" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14186">(Jul 20 2020 at 20:45)</a>:</h4>
 <p>I am having connection issues to Casper/Glade, but I will get you that error.  It has to do with converting Feb. 30, I believe.</p>
 
 
 
 <a name="14187"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14187" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14187">(Jul 20 2020 at 20:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14187" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14187">(Jul 20 2020 at 20:46)</a>:</h4>
 <p>Have you tried the file in my example?</p>
 
 
 
 <a name="14188"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14188" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14188">(Jul 20 2020 at 20:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14188" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14188">(Jul 20 2020 at 20:49)</a>:</h4>
 <div class="codehilite"><pre><span></span>&quot;ValueError: Cannot convert date 1950-02-29 12:00:00 to a date in the standard calendar.  Reason: day is out of range for month.&quot;
 </pre></div>
 
@@ -84,50 +84,50 @@ SyntaxError: cannot assign to function call
 
 
 <a name="14189"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14189" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14189">(Jul 20 2020 at 20:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14189" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14189">(Jul 20 2020 at 20:55)</a>:</h4>
 <p>Yes I agree <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>  I hope I can loop over years, subset the dates, convert each date to "days since Jan.1", and then use these integers as indexes into an array of dates for the Gregorian Calendar.   Essentially I am trying to distribute the 5-6 missing dates in the 360-day calendar evenly over each year.</p>
 
 
 
 <a name="14392"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14392" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14392">(Jul 21 2020 at 23:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14392" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14392">(Jul 21 2020 at 23:40)</a>:</h4>
 <p><span class="user-mention" data-user-id="25">@Deepak Cherian</span>  I am still looking for any possible way to modify the cftime.Datetime360Day objects in xarray.   Does this generally need to be done in a single operation for all time objects at once, or can each time object be modified individually?   I have written a function that computes the replacement Gregorian date for any date on the 360-day calendar.   I just can't see how to apply that function to the objects on the time axis.</p>
 
 
 
 <a name="14394"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14394" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14394">(Jul 21 2020 at 23:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14394" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14394">(Jul 21 2020 at 23:42)</a>:</h4>
 <p><code>ds["time"] = [your_function(t) for t in ds.time.values]</code>?</p>
 
 
 
 <a name="14395"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14395" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14395">(Jul 21 2020 at 23:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14395" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14395">(Jul 21 2020 at 23:43)</a>:</h4>
 <p>OK, I will give that a try.  Thank you!</p>
 
 
 
 <a name="14431"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14431" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14431">(Jul 22 2020 at 21:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14431" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14431">(Jul 22 2020 at 21:32)</a>:</h4>
 <p>Thanks Deepak, your advice worked nicely.   I can post code if anyone else wants to see an example of calendar conversion.</p>
 
 
 
 <a name="14433"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14433">(Jul 22 2020 at 21:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14433">(Jul 22 2020 at 21:36)</a>:</h4>
 <p><span class="user-mention" data-user-id="9">@Brian Bonnlander</span> </p>
 <p>A short blog post on <a href="https://ncar.github.io/xdev/" target="_blank" title="https://ncar.github.io/xdev/">https://ncar.github.io/xdev/</a> is welcome too ;)</p>
 
 
 
 <a name="14434"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14434" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14434">(Jul 22 2020 at 21:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14434" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14434">(Jul 22 2020 at 21:37)</a>:</h4>
 <p>Good idea.  Are there any instructions on how to write a blog post?  I think Nikola is somehow involved but I haven't done it before.</p>
 
 
 
 <a name="14435"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14435" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14435">(Jul 22 2020 at 21:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14435" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14435">(Jul 22 2020 at 21:38)</a>:</h4>
 <blockquote>
 <p>I think Nikola is somehow involved but I haven't done it before. </p>
 </blockquote>
@@ -136,13 +136,13 @@ SyntaxError: cannot assign to function call
 
 
 <a name="14441"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14441" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14441">(Jul 22 2020 at 21:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14441" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14441">(Jul 22 2020 at 21:45)</a>:</h4>
 <p>OK, I will start writing and reply when it's ready.  Thank you!</p>
 
 
 
 <a name="14451"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14451" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14451">(Jul 22 2020 at 21:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Modifying%20time%20objects%20in%20xarray/near/14451" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Modifying.20time.20objects.20in.20xarray.html#14451">(Jul 22 2020 at 21:55)</a>:</h4>
 <p>Awesome! Looking forward to it</p>
 
 

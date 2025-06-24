@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Clean exit for Dask workers and cluster · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html">Clean exit for Dask workers and cluster</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html">Clean exit for Dask workers and cluster</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="106116"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Clean%20exit%20for%20Dask%20workers%20and%20cluster/near/106116" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Howard <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html#106116">(Apr 16 2025 at 18:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Clean%20exit%20for%20Dask%20workers%20and%20cluster/near/106116" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Howard <a href="../../..//stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html#106116">(Apr 16 2025 at 18:49)</a>:</h4>
 <p>A ticket was created about Dask workers hitting walltime but still having completed their work earlier. Because of this, they abort non-gracefully and then generate excessive email warnings.</p>
 <p>Is there an agreed upon way to terminate Dask jobs cleanly to ensure efficient use of compute resources but also avoid those emails? See <a href="https://dask.discourse.group/t/trying-to-shutdown-workers-with-completed-tasks-in-order-to-reduce-costs/3523">this Dask Discourse thread</a> for related discussion and possible solution.</p>
 <p>I know using <code>cluster = PBSCluster(..., job_extra_directives = ['-m n']) </code> should fix email problem but that's not ideal.</p>
@@ -17,7 +17,7 @@
 
 
 <a name="106121"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Clean%20exit%20for%20Dask%20workers%20and%20cluster/near/106121" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html#106121">(Apr 17 2025 at 22:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Clean%20exit%20for%20Dask%20workers%20and%20cluster/near/106121" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="../../..//stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html#106121">(Apr 17 2025 at 22:02)</a>:</h4>
 <p>I usually run:</p>
 <div class="codehilite"><pre><span></span><code>client.close()
 cluster.close()
@@ -27,7 +27,7 @@ cluster.close()
 
 
 <a name="106124"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Clean%20exit%20for%20Dask%20workers%20and%20cluster/near/106124" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Howard <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html#106124">(Apr 18 2025 at 21:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Clean%20exit%20for%20Dask%20workers%20and%20cluster/near/106124" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Howard <a href="../../..//stream/27-dask/topic/Clean.20exit.20for.20Dask.20workers.20and.20cluster.html#106124">(Apr 18 2025 at 21:53)</a>:</h4>
 <p>Thanks. Per some of the threads online, those commands didn't appear to always give an "error-free" exit despite yes, the commands actually closing each Dask task. I see the worker.close() command so maybe that would be helpful to try too if placed at the end of a set of work assigned to a worker. <a href="https://distributed.dask.org/en/stable/worker.html">https://distributed.dask.org/en/stable/worker.html</a></p>
 <p>I'll share with Fred C and maybe update here if they recommend differently.</p>
 

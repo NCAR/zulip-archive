@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>CMIP6 data using intake-esm · ESDS · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/index.html">ESDS</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html">CMIP6 data using intake-esm</a></h3>
+<h2>Stream: <a href="../../..//stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html">CMIP6 data using intake-esm</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="31104"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31104" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31104">(May 10 2021 at 18:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31104" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31104">(May 10 2021 at 18:28)</a>:</h4>
 <p>I'm trying to read in ocean temperature and salinity data from CMIP6 OMIP runs using intake-esm, as follows: </p>
 <div class="codehilite"><pre><span></span><span class="n">catalog_file</span> <span class="o">=</span> <span class="s1">&#39;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&#39;</span>
 <span class="n">col</span> <span class="o">=</span> <span class="n">intake</span><span class="o">.</span><span class="n">open_esm_datastore</span><span class="p">(</span><span class="n">catalog_file</span><span class="p">)</span>
@@ -27,32 +27,32 @@
 
 
 <a name="31111"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31111" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31111">(May 10 2021 at 18:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31111" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31111">(May 10 2021 at 18:59)</a>:</h4>
 <p><span class="user-mention" data-user-id="34">@Stephen Yeager</span>, I think there is a mismatch in the length of the time axis for <code>so</code> and <code>thetaso</code>. If you load these seperately for the <code>CNRM-CM6-1</code> model, I think it will work (i.e., add <code>source_id='CNRM-CM6-1'</code> to your search and <code>variable_id=['so']</code> then  <code>variable_id=['thetao']</code> separately).</p>
 <p>You can use the information in <code>cat.df</code>, which is a <code>pandas.DataFrame</code> to inspect the underlying files. I think there is probably a chunk of time missing.</p>
 
 
 
 <a name="31117"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31117" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31117">(May 10 2021 at 19:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31117" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31117">(May 10 2021 at 19:50)</a>:</h4>
 <p>I think debugging this particular problem would be an interesting blog post. Or entry in the <code>intake-esm</code> documentation</p>
 
 
 
 <a name="31121"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31121" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31121">(May 10 2021 at 20:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31121" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31121">(May 10 2021 at 20:01)</a>:</h4>
 <p>agreed!</p>
 
 
 
 <a name="31133"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31133">(May 10 2021 at 21:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/31133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#31133">(May 10 2021 at 21:58)</a>:</h4>
 <p>Anderson's talk today reminded me of the <code>aggregate=False</code> keyword argument to <code>to_dataset_dict</code>. That could be useful here too.</p>
 
 
 
 <a name="34617"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34617" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34617">(Jun 16 2021 at 15:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34617" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34617">(Jun 16 2021 at 15:27)</a>:</h4>
 <p>Hi all,</p>
 <p>I'm trying to familiarize myself with intake-esm and accessing CMIP6 atmospheric data. I have code that reads in atmospheric variables to calculate equilibrium climate sensitivity.  </p>
 <p>It starts with reading the catalog:</p>
@@ -85,13 +85,13 @@ OSError: <br>
 
 
 <a name="34633"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34633" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34633">(Jun 16 2021 at 15:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34633" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34633">(Jun 16 2021 at 15:53)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span>, I am looking into this... Will get back to you shortly</p>
 
 
 
 <a name="34657"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34657" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34657">(Jun 16 2021 at 16:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34657" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34657">(Jun 16 2021 at 16:17)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> it looks like the file being flagged is a softlink to a relative path:</p>
 <div class="codehilite"><pre><span></span>$ ls -lh /glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc
 lrwxrwxrwx 1 cmip6 stdd0003 76 Sep 27  2019 /glade/collections/cmip/CMIP6/CMIP/NCAR/CESM2/abrupt-4xCO2/r1i1p1f1/Amon/rsut/gn/v20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc -&gt; ../files/d20190927/rsut_Amon_CESM2_abrupt-4xCO2_r1i1p1f1_gn_085001-089912.nc
@@ -103,7 +103,7 @@ lrwxrwxrwx 1 cmip6 stdd0003 76 Sep 27  2019 /glade/collections/cmip/CMIP6/CMIP/N
 
 
 <a name="34663"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34663" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34663">(Jun 16 2021 at 16:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34663" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34663">(Jun 16 2021 at 16:42)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, it's my understanding that netcdf4-python/xarray are able to open a symlink as long as the target exists.... </p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
@@ -154,7 +154,7 @@ lrwxrwxrwx 1 cmip6 stdd0003 76 Sep 27  2019 /glade/collections/cmip/CMIP6/CMIP/N
 
 
 <a name="34664"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34664" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34664">(Jun 16 2021 at 16:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34664" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34664">(Jun 16 2021 at 16:44)</a>:</h4>
 <blockquote>
 <p>My current speculation is that the issue has to with dask/intake-esm. I haven't found the exact culprit, but I have a working/temporary solution.  </p>
 </blockquote>
@@ -163,14 +163,14 @@ lrwxrwxrwx 1 cmip6 stdd0003 76 Sep 27  2019 /glade/collections/cmip/CMIP6/CMIP/N
 
 
 <a name="34674"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34674" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34674">(Jun 16 2021 at 17:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/34674" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#34674">(Jun 16 2021 at 17:10)</a>:</h4>
 <p>Thanks - that works! Since I was planning on using dask anyway this is good. <br>
 NCAR CMIP6 CESM ECS calculation here: /glade/u/home/marsh/projects/cmip6-temperature-demo/notebooks/CESM_ECS.ipynb</p>
 
 
 
 <a name="35442"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35442" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35442">(Jun 23 2021 at 18:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35442" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35442">(Jun 23 2021 at 18:53)</a>:</h4>
 <p>All, I cannot seem to get plot to work with CESM " (time) object 0210-02-01 00:00:00 ... 0210-01-01 00:00:00"  as the x-axis when reading in datasets via intake-esm. Even with installing nc-time-axis, I get the error:<br>
 TypeError: float() argument must be a string or a number, not 'cftime._cftime.datetime'<br>
 Opening the file using xr.open_datset will plot the same data without issue. <br>
@@ -182,13 +182,13 @@ In the same directory is the notebook that created the catalog from WACCM timese
 
 
 <a name="35550"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35550" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35550">(Jun 23 2021 at 23:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35550" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35550">(Jun 23 2021 at 23:22)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span>, I was not able to reproduce this error in your notebook using xarray verion 0.17.0.</p>
 
 
 
 <a name="35552"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35552" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35552">(Jun 24 2021 at 01:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35552" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35552">(Jun 24 2021 at 01:02)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span>  Thanks for trying. Max reported something similar. Well, I was able to get it to work, but I am not sure why you were able to make it work without modifications. The change I had to make was adding 'decode_times': False to cdf_kwargs</p>
 <p>dsets = cat.to_dataset_dict(cdf_kwargs={'chunks': {'time': 8}, 'decode_times': False})</p>
 <p>then I added decode_cf and sortby</p>
@@ -201,7 +201,7 @@ ds = ds.sortby('time')</p>
 
 
 <a name="35571"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35571" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35571">(Jun 24 2021 at 16:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/35571" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#35571">(Jun 24 2021 at 16:28)</a>:</h4>
 <blockquote>
 <p>This seemed to work. It was a bit of surprise that when extracting a timeseries from dsets that the data were not sorted in time  </p>
 </blockquote>
@@ -210,7 +210,7 @@ ds = ds.sortby('time')</p>
 
 
 <a name="37377"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37377" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37377">(Jul 14 2021 at 20:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37377" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37377">(Jul 14 2021 at 20:56)</a>:</h4>
 <p>All, I am trying to make a catalog that includes multiple cases of a particular model configuration of CESM (WACCM with middle atmosphere chemistry at 1 degree). The data are all under /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/<br>
 The runs are a PI control (BWma1850), 4xCO2 (BWmaCO2x4), an ensemble of 3 historical simulations (BWmaHIST) and an SSP245 (BWSSP245).</p>
 <p>I am interested only the timeseries atmospheric data at 1- and 5-day and monthly resolution, so had to include a lengthy exclude pattern: <br>
@@ -228,7 +228,7 @@ I can create a case by case catalog by specifying the full path (e.g., b.e21.BWm
 
 
 <a name="37411"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37411" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37411">(Jul 14 2021 at 22:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37411" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37411">(Jul 14 2021 at 22:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span>, </p>
 <p>Can you confirm that you have access to all directories under  <code>/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg</code>? I am asking because when I try accessing a file under the <code>b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001</code> case, I get a permission denied error: </p>
 <div class="codehilite"><pre><span></span>$ ncdump -h /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/day_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231.nc
@@ -238,7 +238,7 @@ ncdump: /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_
 
 
 <a name="37416"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37416" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37416">(Jul 14 2021 at 22:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37416" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37416">(Jul 14 2021 at 22:08)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> ,</p>
 <p>It looks like I do:<br>
 <code>ncdump -h /glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001/atm/proc/tseries/day_1/b.e21.BWSSP245.f09_g17.release-cesm2.1.3.WACCM-MA-1deg.001.cam.h1.ACTNL.20150101-20241231.nc
@@ -256,19 +256,19 @@ dimensions:
 
 
 <a name="37419"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37419" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37419">(Jul 14 2021 at 22:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37419" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37419">(Jul 14 2021 at 22:15)</a>:</h4>
 <p>Okay... It looks like it's just me who lacks read permissions <span aria-label="frown" class="emoji emoji-1f641" role="img" title="frown">:frown:</span></p>
 
 
 
 <a name="37427"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37427" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37427">(Jul 14 2021 at 22:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37427" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37427">(Jul 14 2021 at 22:21)</a>:</h4>
 <p>That is frustrating - I have no idea why read permissions are group restricted. I can try to get that opened up. Do you see any problems with how I have tried to create my catalog?</p>
 
 
 
 <a name="37430"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37430">(Jul 14 2021 at 22:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37430">(Jul 14 2021 at 22:25)</a>:</h4>
 <blockquote>
 <p>Do you see any problems with how I have tried to create my catalog?</p>
 </blockquote>
@@ -281,19 +281,19 @@ dimensions:
 
 
 <a name="37433"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37433">(Jul 14 2021 at 22:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37433">(Jul 14 2021 at 22:28)</a>:</h4>
 <p>I am using: 0.0.post44</p>
 
 
 
 <a name="37435"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37435" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37435">(Jul 14 2021 at 22:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37435" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37435">(Jul 14 2021 at 22:52)</a>:</h4>
 <p>Possibly (probably) a dumb question, but do all directories have to have the same output? What happens if, for example, daily U is not in all the atm/proc/tseries/day_1 directories?</p>
 
 
 
 <a name="37438"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37438">(Jul 15 2021 at 00:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37438">(Jul 15 2021 at 00:18)</a>:</h4>
 <p>Aha! That could be the problem...   Try the unreleased version from the main branch</p>
 <div class="codehilite"><pre><span></span>python -m pip install  git+https://github.com/NCAR/ecgtools.git
 </pre></div>
@@ -310,7 +310,7 @@ dimensions:
 
 
 <a name="37439"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37439">(Jul 15 2021 at 00:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37439">(Jul 15 2021 at 00:24)</a>:</h4>
 <blockquote>
 <p>but do all directories have to have the same output? </p>
 </blockquote>
@@ -321,7 +321,7 @@ dimensions:
 
 
 <a name="37467"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37467" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37467">(Jul 15 2021 at 15:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37467" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37467">(Jul 15 2021 at 15:15)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> </p>
 <p>Apologies for the long reply below!</p>
 <p>Okay, I installed the unrealeased version. That didn't seem to fix the issue. I still only get 3 streams for one case: </p>
@@ -350,7 +350,7 @@ b = Builder(
 
 
 <a name="37474"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37474" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37474">(Jul 15 2021 at 15:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37474" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37474">(Jul 15 2021 at 15:53)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span>, it sounds like the issue resides in <code>parse_cesm_timeseries</code> function (this function doesn't cover all edge cases <span aria-label="frown" class="emoji emoji-1f641" role="img" title="frown">:frown:</span>) </p>
 <p>Could you run the following code snippet on one of files that aren't appearing in the catalog:</p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">ecgtools.parsers.cesm</span> <span class="kn">import</span> <span class="n">parse_cesm_timeseries</span>
@@ -370,19 +370,19 @@ b = Builder(
 
 
 <a name="37479"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37479" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37479">(Jul 15 2021 at 16:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37479" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37479">(Jul 15 2021 at 16:37)</a>:</h4>
 <p>Ahh another problem here might be that we are using the <code>parse_cesm_timeseries</code> parser when we should use the <code>parse_cesm_history</code>. Although these files have multiple times, there are multiple variables (the <code>timeseries</code> within ecgools refers to files that have one variable, with multiple times, output from the various timeseries generation tools). Also, within the filename, the timeseries parser is looking for the start and end time. I ran the revised version from the PR on ecgtools, and it works for those files you mentioned <span class="user-mention" data-user-id="145">@Daniel Marsh</span></p>
 
 
 
 <a name="37484"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37484" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37484">(Jul 15 2021 at 16:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37484" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37484">(Jul 15 2021 at 16:52)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span> I am only trying to point to single variable timeseries files in the tseries/month_1, day_5 and day_1 directories.  I don't think any of them have multiple variables. Elsewhere, there's a lot of other stuff (h0s with many vars) in these case directories that I have done my best to exclude them.</p>
 
 
 
 <a name="37491"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37491" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37491">(Jul 15 2021 at 16:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37491" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37491">(Jul 15 2021 at 16:54)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <br>
 That code segment worked fine:<br>
 <code>{'component': 'atm',
@@ -402,7 +402,7 @@ That code segment worked fine:<br>
 
 
 <a name="37495"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37495" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37495">(Jul 15 2021 at 16:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37495" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37495">(Jul 15 2021 at 16:58)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span> sounds good- it looks like this file does have multiple variables and multiple times <code>/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/atm/h6/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918.cam.h6.0208-01-01-00000.nc</code>, which was one of the files which required the history parser... the 3D variables (time, lat, lon) include:</p>
 <ul>
 <li><code>THzm</code>  - zonal mean potential temperature</li>
@@ -417,19 +417,19 @@ That code segment worked fine:<br>
 
 
 <a name="37496"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37496" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37496">(Jul 15 2021 at 17:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37496" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37496">(Jul 15 2021 at 17:02)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span>   <code>"*/atm/h6/*"</code> is in my exclude patterns so that's odd. Does * not begin below the the data dir which is the first argument to Builder?</p>
 
 
 
 <a name="37497"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37497" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37497">(Jul 15 2021 at 17:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37497" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37497">(Jul 15 2021 at 17:17)</a>:</h4>
 <p>Ohhh good point. Sorry! I tried testing this on the first directory I saw it the atmosphere component.</p>
 
 
 
 <a name="37513"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37513" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37513">(Jul 15 2021 at 18:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37513" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37513">(Jul 15 2021 at 18:18)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span> changing the depth from 5 to 4 seemed to solve the problem. Using this block for setting up the builder works</p>
 <div class="codehilite"><pre><span></span><span class="c1"># esm_dir = &quot;/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/b.e21.BWma1850.f09_g17.release-cesm2.1.3.c20200918/atm/proc/tseries/month_1/&quot;</span>
 <span class="n">esm_dir</span> <span class="o">=</span> <span class="s2">&quot;/glade/campaign/cesm/development/wawg/WACCM6-MA-1deg/&quot;</span>
@@ -464,7 +464,7 @@ That code segment worked fine:<br>
 
 
 <a name="37514"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37514" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37514">(Jul 15 2021 at 18:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37514" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37514">(Jul 15 2021 at 18:20)</a>:</h4>
 <blockquote>
 <p>@Daniel Marsh changing the depth from 5 to 4 seemed to solve the problem. Using this block for setting up the builder works</p>
 </blockquote>
@@ -473,20 +473,20 @@ That code segment worked fine:<br>
 
 
 <a name="37515"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37515" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37515">(Jul 15 2021 at 18:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37515" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37515">(Jul 15 2021 at 18:25)</a>:</h4>
 <p><span class="user-mention" data-user-id="145">@Daniel Marsh</span> could you install from the main branch? We merged the PR that fixes the issues you raised</p>
 
 
 
 <a name="37576"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37576" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37576">(Jul 15 2021 at 20:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/37576" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Marsh <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#37576">(Jul 15 2021 at 20:44)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span>  and <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> <br>
 I made the change and updated to 2021.6.21.post2 and all looks good! Thanks very much. Now onto using it!</p>
 
 
 
 <a name="93356"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93356" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93356">(Dec 10 2023 at 16:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93356" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93356">(Dec 10 2023 at 16:22)</a>:</h4>
 <p>I'm having trouble using <code>intake v0.7.0</code> to access data from the CMIP6 catalog on glade. The catalog appears to include the OMIP2 data I'm interested in, but the call to <code>to_dataset_dict</code> fails with error <code>Failed to load dataset with key='OMIP.MRI.MRI-ESM2-0.omip2.Omon.gn'</code>.  The data files are sitting on glade here: /glade/collections/cmip/CMIP6/OMIP/MRI/MRI-ESM2-0/omip2/r1i1p1f1/Omon/thetao/gn/v20210510/thetao/, so I don't know why intake is failing.</p>
 <p><a href="../../../user_uploads/2/6b/vVo4SkFLpH5awspdfHeO6Z2O/Screenshot-2023-12-10-at-9.08.02-AM.png">Screenshot-2023-12-10-at-9.08.02-AM.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/6b/vVo4SkFLpH5awspdfHeO6Z2O/Screenshot-2023-12-10-at-9.08.02-AM.png" title="Screenshot-2023-12-10-at-9.08.02-AM.png"><img src="../../../user_uploads/2/6b/vVo4SkFLpH5awspdfHeO6Z2O/Screenshot-2023-12-10-at-9.08.02-AM.png"></a></div>
@@ -494,31 +494,31 @@ I made the change and updated to 2021.6.21.post2 and all looks good! Thanks very
 
 
 <a name="93457"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93457" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93457">(Dec 12 2023 at 18:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93457" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93457">(Dec 12 2023 at 18:34)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> Hi Mike, I think there might be issues with the json file I'm reading using intake. Do you have any recommendations for how to debug an issue with <code>to_dataset_dict</code>?</p>
 
 
 
 <a name="93458"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93458" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93458">(Dec 12 2023 at 18:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93458" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93458">(Dec 12 2023 at 18:35)</a>:</h4>
 <p>Did <code>/glade/collections</code> get moved to campaign?</p>
 
 
 
 <a name="93459"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93459" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93459">(Dec 12 2023 at 18:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93459" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93459">(Dec 12 2023 at 18:35)</a>:</h4>
 <p>I see <code>/glade/campaign/collections/cmip/CMIP6/</code> but not <code>OMIP</code> in that subdirectory</p>
 
 
 
 <a name="93463"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93463" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93463">(Dec 12 2023 at 18:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93463" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93463">(Dec 12 2023 at 18:38)</a>:</h4>
 <p>oh, sorry... for some reason <code>/glade/collections/</code> is available from casper but not derecho. Let me look into this a little bit</p>
 
 
 
 <a name="93485"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93485" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93485">(Dec 12 2023 at 18:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93485" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93485">(Dec 12 2023 at 18:50)</a>:</h4>
 <p>It looks like you need an additional <code>xarray_open_kwargs</code> key: I was able to open the data but updating your last line to the following</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'array.slicing.split_large_chunks'</span><span class="p">:</span> <span class="kc">True</span><span class="p">}):</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">to_dataset_dict</span><span class="p">(</span><span class="n">xarray_open_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">'chunks'</span><span class="p">:{</span><span class="s1">'time'</span><span class="p">:</span><span class="mi">1</span><span class="p">},</span> <span class="s1">'use_cftime'</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
@@ -527,7 +527,7 @@ I made the change and updated to 2021.6.21.post2 and all looks good! Thanks very
 
 
 <a name="93487"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93487" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93487">(Dec 12 2023 at 18:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93487" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93487">(Dec 12 2023 at 18:51)</a>:</h4>
 <p>I tracked this down because the full error message included</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="ne">TypeError</span><span class="p">:</span> <span class="n">Cannot</span> <span class="n">combine</span> <span class="n">along</span> <span class="n">dimension</span> <span class="s1">'time'</span> <span class="k">with</span> <span class="n">mixed</span> <span class="n">types</span><span class="o">.</span> <span class="n">Found</span><span class="p">:</span> <span class="n">DatetimeProlepticGregorian</span><span class="p">,</span> <span class="n">Timestamp</span><span class="o">.</span> <span class="n">If</span> <span class="n">importing</span> <span class="n">data</span> <span class="n">directly</span> <span class="kn">from</span> <span class="nn">a</span> <span class="n">file</span> <span class="n">then</span> <span class="n">setting</span> <span class="err">`</span><span class="n">use_cftime</span><span class="o">=</span><span class="kc">True</span><span class="err">`</span> <span class="n">may</span> <span class="n">fix</span> <span class="n">this</span> <span class="n">issue</span><span class="o">.</span>
 
@@ -538,7 +538,7 @@ I made the change and updated to 2021.6.21.post2 and all looks good! Thanks very
 
 
 <a name="93532"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93532" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93532">(Dec 13 2023 at 19:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CMIP6%20data%20using%20intake-esm/near/93532" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/41-ESDS/topic/CMIP6.20data.20using.20intake-esm.html#93532">(Dec 13 2023 at 19:48)</a>:</h4>
 <p><span aria-label="+1" class="emoji emoji-1f44d" role="img" title="+1">:+1:</span>  Thanks. The additional <code>xarray_open_kwargs</code> argument solved this issue.</p>
 
 

@@ -1,40 +1,40 @@
 <html>
 <head><meta charset="utf-8"><title>Calling multiple decadal output datasets: CESM2-LE · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html">Calling multiple decadal output datasets: CESM2-LE</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html">Calling multiple decadal output datasets: CESM2-LE</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="97338"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97338" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97338">(Mar 29 2024 at 19:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97338" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97338">(Mar 29 2024 at 19:49)</a>:</h4>
 <p>Hi all! Using dask and xr.open_mfdataset, I want to call CESM2-LE monthly DIC output from 185001-201412. What is an efficient way to do this? Previously I only needed two decades so I called one decade a time and concatenated them. Thanks in advance for suggestions and/or script you can share.</p>
 
 
 
 <a name="97350"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97350" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97350">(Apr 01 2024 at 14:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97350" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97350">(Apr 01 2024 at 14:04)</a>:</h4>
 <p><span class="user-mention" data-user-id="199">@Holly Olivarez</span> The biggest slowdown is typically in trying to compare common variables among all the files; for CESM output, where you know (for example) that all the grid information is the same in each file, you can use <code>xr.open_mfdataset('*.nc', compat='override', data_vars='minimal', coords='minimal')</code> (the <code>data_vars</code> and <code>coords</code> arguments will prevent the time dimesion from being added to time invariant variables / coordinates). I would recommend being more specific than <code>*.nc</code> in the <code>paths</code> argument :)</p>
 
 
 
 <a name="97359"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97359" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97359">(Apr 01 2024 at 16:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97359" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97359">(Apr 01 2024 at 16:47)</a>:</h4>
 <p>@Michael Levy  Thanks. My issue, though, is how to type the path in order to get all of those decades at once. I am sorry I wasn't more clear.</p>
 
 
 
 <a name="97363"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97363" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97363">(Apr 01 2024 at 17:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97363" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97363">(Apr 01 2024 at 17:51)</a>:</h4>
 <p>If I'm understanding right, I think it'll be a little tricky to set up (but we can definitely do it) - there are 50 ensemble members, and each one has 165 years of output split over 17 files for the historical period and another 86 years split over 9 files for future runs. Do you want to read in all 1300 files and add a <code>member_id</code> or <code>ensemble_id</code> dimension?</p>
 <p>If so, I think you need to do this step by step... start with looping over ensemble members, and for each one use two calls to <code>xr.open_mfdataset()</code> to get separate datasets for the historical and future runs. Then use <code>xr.concat()</code> to concatenate them along the time dimension. Once you have 50 datasets, I think you can use <code>xr.concat()</code> again to create the <code>member_id</code> dimension (but use the <code>data_vars='DIC'</code> to avoid adding the new dimension to every variable).</p>
 
 
 
 <a name="97372"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97372" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97372">(Apr 01 2024 at 18:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97372" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97372">(Apr 01 2024 at 18:42)</a>:</h4>
 <p>Thank you for thinking on this with me, Mike! Let me clarify what I am trying to do. </p>
 <ol>
 <li>My first experiments have been for DIC for the output files of 199001-199912, 200001-200912, and 201001-201412.  No future scenarios needed.</li>
@@ -57,7 +57,7 @@ Thanks again for your help with this!</li>
 
 
 <a name="97375"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97375" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97375">(Apr 01 2024 at 19:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97375" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97375">(Apr 01 2024 at 19:25)</a>:</h4>
 <p>Thanks for clarifying! Only looking at the historical makes things a bit easier :) It sounds like you have two options:</p>
 <ol>
 <li>Read in every file from a given decade at once, and then concatenate along <code>time</code> to stitch them together</li>
@@ -117,19 +117,19 @@ Thanks again for your help with this!</li>
 
 
 <a name="97376"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97376" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97376">(Apr 01 2024 at 19:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97376" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97376">(Apr 01 2024 at 19:28)</a>:</h4>
 <p>It looks like something weird happened with the chunking -- I'd expect <code>time</code> to have chunksize 12 instead of 1, and <code>nlat</code> and <code>nlon</code> to have size 384 and 320, respectively... but lets start with this and see how actually using the data goes</p>
 
 
 
 <a name="97377"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97377" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97377">(Apr 01 2024 at 19:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97377" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97377">(Apr 01 2024 at 19:28)</a>:</h4>
 <p>Oh wow, this is great! This is exactly what I was asking for. I am going to try it now. You just taught me something, Mike, and I will be sure to pass it along. Thank you! <span aria-label="grinning face with smiling eyes" class="emoji emoji-1f601" role="img" title="grinning face with smiling eyes">:grinning_face_with_smiling_eyes:</span></p>
 
 
 
 <a name="97378"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97378" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97378">(Apr 01 2024 at 19:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97378" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97378">(Apr 01 2024 at 19:30)</a>:</h4>
 <p>note that I just edited the long message; the last line should be</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">ds_list</span><span class="p">,</span> <span class="s1">'member_id'</span><span class="p">,</span> <span class="n">data_vars</span><span class="o">=</span><span class="p">[</span><span class="s1">'DIC'</span><span class="p">],</span> <span class="n">coords</span><span class="o">=</span><span class="s1">'minimal'</span><span class="p">,</span> <span class="n">compat</span><span class="o">=</span><span class="s1">'override'</span><span class="p">)</span>
 </code></pre></div>
@@ -138,13 +138,13 @@ Thanks again for your help with this!</li>
 
 
 <a name="97379"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97379" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97379">(Apr 01 2024 at 19:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97379" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97379">(Apr 01 2024 at 19:39)</a>:</h4>
 <p>Okay, it looks like <code>open_mfdataset()</code> needs help with the chunking... I added the <code>chunks={'time': 4, 'nlat': 384, 'nlon': 320, 'z_t': 60}</code> argument to both calls (inside the <code>ds_list.append()</code> calls), which should give you 112.5 MB chunks. Too late for me to go back and edit the long call, though</p>
 
 
 
 <a name="97380"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97380" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97380">(Apr 01 2024 at 19:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Calling%20multiple%20decadal%20output%20datasets%3A%20CESM2-LE/near/97380" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Calling.20multiple.20decadal.20output.20datasets.3A.20CESM2-LE.html#97380">(Apr 01 2024 at 19:54)</a>:</h4>
 <p>No problem. Thanks again! I'll follow up if I get stuck anywhere.</p>
 
 

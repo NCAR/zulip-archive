@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>killed workers after interpolation · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/killed.20workers.20after.20interpolation.html">killed workers after interpolation</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/killed.20workers.20after.20interpolation.html">killed workers after interpolation</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="59693"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/killed%20workers%20after%20interpolation/near/59693" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/killed.20workers.20after.20interpolation.html#59693">(Jul 23 2022 at 22:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/killed%20workers%20after%20interpolation/near/59693" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="../../..//stream/27-dask/topic/killed.20workers.20after.20interpolation.html#59693">(Jul 23 2022 at 22:54)</a>:</h4>
 <p>Hello,</p>
 <p>Can anyone help me with this killed workers issue?  I'm dealing with data on the 1/10th degree ocean/sea ice grid.  I'm trying to interpolate the monthly sea ice data to daily.  I think my problem is that when I do the time interpolation I lose my chunking in space i.e., it only has one chunk after the interpolation.  Then I re-chunk it and it looks like the chunks are a reasonable size but when I come to writing out the result, the workers die.  I think it's maybe the re-chunking stage that is the problem?  No matter how small I make the chunks or how many workers I throw at it, it dies.  I looked into using the Rechunker tool as recommended <a href="https://github.com/pangeo-data/rechunker">here</a> but it needed an older version of python than what I'm using.  Glad to hear any advice on this.  My code is here...</p>
 <p>/glade/u/home/islas/CVCWG/Atlantic_RR/deriveICEFRAC_lininterp/derive_icefrac.ipynb</p>
@@ -18,7 +18,7 @@
 
 
 <a name="59715"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/killed%20workers%20after%20interpolation/near/59715" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/killed.20workers.20after.20interpolation.html#59715">(Jul 25 2022 at 15:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/killed%20workers%20after%20interpolation/near/59715" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/killed.20workers.20after.20interpolation.html#59715">(Jul 25 2022 at 15:36)</a>:</h4>
 <ul>
 <li>After reading, you have 1 years of monthly data in one chunk (12 timesteps). </li>
 <li>Then you're interpolating to daily frequency. So each chunk increase by 365/12 ~ 30x. So an initial ~400MB chunk <em>should</em> becomes 12 GB. </li>
@@ -30,7 +30,7 @@
 
 
 <a name="59748"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/killed%20workers%20after%20interpolation/near/59748" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/killed.20workers.20after.20interpolation.html#59748">(Jul 25 2022 at 18:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/killed%20workers%20after%20interpolation/near/59748" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="../../..//stream/27-dask/topic/killed.20workers.20after.20interpolation.html#59748">(Jul 25 2022 at 18:23)</a>:</h4>
 <p>Oh, thank you.  Silly mistake on the coordinate names for the chunking.  This is working now!</p>
 
 

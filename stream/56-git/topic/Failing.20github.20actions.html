@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Failing github actions · git · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/56-git/index.html">git</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html">Failing github actions</a></h3>
+<h2>Stream: <a href="../../..//stream/56-git/index.html">git</a></h2>
+<h3>Topic: <a href="../../..//stream/56-git/topic/Failing.20github.20actions.html">Failing github actions</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="105156"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105156" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html#105156">(Dec 17 2024 at 16:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105156" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/56-git/topic/Failing.20github.20actions.html#105156">(Dec 17 2024 at 16:13)</a>:</h4>
 <p>I have a repository that runs some Github Actions overnight, and now these tests are failing in the <code>mamba-org/setup-micromamba@v2</code> stage while trying to install some dependencies with <code>pip</code>:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code>  <span class="n">Installing</span> <span class="n">pip</span> <span class="n">packages</span><span class="p">:</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">click</span><span class="p">,</span> <span class="n">sphinxcontrib</span><span class="o">-</span><span class="n">autoyaml</span><span class="p">,</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dask</span><span class="o">/</span><span class="n">dask</span><span class="o">-</span><span class="n">mpi</span><span class="o">.</span><span class="n">git</span><span class="p">,</span> <span class="o">--</span><span class="n">editable</span><span class="o">=..</span>
     <span class="n">error</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">-</span><span class="n">exited</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">error</span>
@@ -57,13 +57,13 @@
 
 
 <a name="105157"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105157" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html#105157">(Dec 17 2024 at 16:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105157" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/56-git/topic/Failing.20github.20actions.html#105157">(Dec 17 2024 at 16:52)</a>:</h4>
 <p>I'd have to look deeper to know exactly what's going on, but often the conda/mamba + pip installs are quite brittle and more things are on conda-forge these days.  It might be worth seeing if you can install everything via conda-forge.</p>
 
 
 
 <a name="105159"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105159" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/56-git/topic/Failing.20github.20actions.html#105159">(Dec 17 2024 at 18:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/56-git/topic/Failing%20github%20actions/near/105159" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/56-git/topic/Failing.20github.20actions.html#105159">(Dec 17 2024 at 18:06)</a>:</h4>
 <p>Moving from pip to conda-forge seems to have done the trick -- thanks for the suggestion! I'm getting a sphinx build error in the build-docs test, but at least the environment is being created successfully :)</p>
 
 

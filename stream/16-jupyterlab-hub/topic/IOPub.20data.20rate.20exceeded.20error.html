@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>IOPub data rate exceeded error · jupyterlab-hub · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html">IOPub data rate exceeded error</a></h3>
+<h2>Stream: <a href="../../..//stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html">IOPub data rate exceeded error</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="102361"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102361" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102361">(Jul 16 2024 at 17:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102361" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102361">(Jul 16 2024 at 17:28)</a>:</h4>
 <p>I'm getting this error when trying to plot a figure. I'm running lines of plot that work with other data, and as far as I can tell just my xarray dataset I regridded with xesmf throws this. Searching the internet for solutions suggested that I do what the error message suggests and make a jupyter notebook config file to raise the data rate limit, but I'm not sure what that does, exactly, or if I could, so am hesitant to try. Here's the error message:</p>
 <div class="codehilite"><pre><span></span><code>msgpack.exceptions.ExtraData: unpack(b) received extra data.
 IOPub data rate exceeded.
@@ -30,13 +30,13 @@ ServerApp.rate_limit_window=3.0 (secs)
 
 
 <a name="102529"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102529" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102529">(Jul 17 2024 at 23:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102529" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102529">(Jul 17 2024 at 23:16)</a>:</h4>
 <p>Alright, well, it doesn't seem to matter the chunk size, I'm regridding a single selected variable that's already been meaned across time, so its pretty reduced with 60 depths going from lat/lon of 145, 360 to 384, 320. The dask and xesmf github issues I'm reading through seem like this shouldn't be a problem, and my attempts to generate and change a config file to increase the rate limit manually don't seem to work. Not sure what else to try.</p>
 
 
 
 <a name="102540"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102540" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102540">(Jul 18 2024 at 03:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102540" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102540">(Jul 18 2024 at 03:26)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="405">Emma Hoffman</span> <a href="#narrow/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error/near/102361">said</a>:</p>
 <blockquote>
 <p>as far as I can tell just my xarray dataset I regridded with xesmf throws this</p>
@@ -50,7 +50,7 @@ ServerApp.rate_limit_window=3.0 (secs)
 
 
 <a name="102541"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102541" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102541">(Jul 18 2024 at 03:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102541" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102541">(Jul 18 2024 at 03:49)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> <br>
 I did run compute on the time mean and as a netcdf file, then read that back in to use in the regridding, so I know it's not coming from that step, at least. I just tried on temperature instead of my desired oxygen and the regridding worked fine, both compute() and plot() ran without errors and a plot spit out. Hmm.</p>
 <p>For dask, I was asking for 1 node, for 20 minutes, with 100GB and 30 workers. The dashboard never even started to load though, it didn't overload and kill workers, or anything, as far as I can tell.</p>
@@ -58,19 +58,19 @@ I did run compute on the time mean and as a netcdf file, then read that back in 
 
 
 <a name="102542"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102542" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102542">(Jul 18 2024 at 04:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102542" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102542">(Jul 18 2024 at 04:03)</a>:</h4>
 <p>Just tried oxygen again, and it seems to work? Plots are loading, at least, but when I tried subtracting the regridded data from the data originally on that grid, which is the original goal, and now I'm getting the IOPub data rate error when I run compute or plot on that. No idea what's going on.</p>
 
 
 
 <a name="102545"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102545" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102545">(Jul 18 2024 at 14:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102545" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102545">(Jul 18 2024 at 14:36)</a>:</h4>
 <p>Weird. Can you dump the regridded oxygen to netCDF and then read it back in? It definitely seems like a memory / resource limitation, but given your description there isn't really a resource-limited step. If you point me to your notebook, I'm happy to take a look and try to run it myself</p>
 
 
 
 <a name="102557"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102557" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102557">(Jul 18 2024 at 15:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102557" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102557">(Jul 18 2024 at 15:42)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> <br>
 Thank you so much for your help. This is the path to the notebook I'm running:<br>
 u/home/emmah/1_Variability_Ventilation_O2/exploration_setup.ipynb</p>
@@ -79,19 +79,19 @@ u/home/emmah/1_Variability_Ventilation_O2/exploration_setup.ipynb</p>
 
 
 <a name="102628"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102628" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102628">(Jul 18 2024 at 22:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102628" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102628">(Jul 18 2024 at 22:29)</a>:</h4>
 <p>I started to poke around this afternoon, but couldn't find a conda environment to run it in (I tried cloning Yassir's <code>TPAC_CO2</code> environment but that's missing <code>geopy</code>). What environment are you using?</p>
 
 
 
 <a name="102629"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102629" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102629">(Jul 18 2024 at 22:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102629" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Emma Hoffman <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102629">(Jul 18 2024 at 22:46)</a>:</h4>
 <p>so sorry about that, I just updated the environment folder in the 1_Variability_Ventilation_O2 folder</p>
 
 
 
 <a name="102636"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102636" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102636">(Jul 19 2024 at 15:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/IOPub%20data%20rate%20exceeded%20error/near/102636" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/16-jupyterlab-hub/topic/IOPub.20data.20rate.20exceeded.20error.html#102636">(Jul 19 2024 at 15:32)</a>:</h4>
 <p>I was able to install your environment and play with your notebook some. I don't have any definitive answers, but I do have a few suggestions:</p>
 <ol>
 <li>10 minutes is pretty short for keeping your workers around - I would request 30 minutes (<code>C=CLSTR(1,"00:30",100,30)</code>)</li>

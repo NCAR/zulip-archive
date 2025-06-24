@@ -1,40 +1,40 @@
 <html>
 <head><meta charset="utf-8"><title>✔ xesmf error computing grid bounds · general · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html">✔ xesmf error computing grid bounds</a></h3>
+<h2>Stream: <a href="../../..//stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="../../..//stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html">✔ xesmf error computing grid bounds</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="92452"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/92452" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#92452">(Nov 29 2023 at 17:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/92452" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#92452">(Nov 29 2023 at 17:25)</a>:</h4>
 <p>I'm using <code>xesmf v0.8.2</code> and get an error when trying to use <code>Regridder(...method='conservative')</code>. The grid_in has 2D longitude and latitude coordinates. The lat and lon bounds should be computed in xesmf using <code>cf.get_bounds()</code>, but this call is returning "No results found for 'longitude'" even though <code>longitude</code> is a coordinate. <a href="../../../user_uploads/2/9/-TEepb6N7VkSJdss3EKMDoaT/Screenshot-2023-11-29-at-10.18.36-AM.png">Screenshot-2023-11-29-at-10.18.36-AM.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/9/-TEepb6N7VkSJdss3EKMDoaT/Screenshot-2023-11-29-at-10.18.36-AM.png" title="Screenshot-2023-11-29-at-10.18.36-AM.png"><img src="../../../user_uploads/2/9/-TEepb6N7VkSJdss3EKMDoaT/Screenshot-2023-11-29-at-10.18.36-AM.png"></a></div>
 
 
 
 <a name="92510"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/92510" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#92510">(Nov 29 2023 at 20:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/92510" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="../../..//stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#92510">(Nov 29 2023 at 20:21)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="34">Stephen Yeager</span> has marked this topic as resolved.</p>
 
 
 
 <a name="93054"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/93054" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#93054">(Dec 06 2023 at 17:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/93054" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="../../..//stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#93054">(Dec 06 2023 at 17:50)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="34">@Stephen Yeager</span> I was thinking about this question the other day and wondering how you resolved it? I know in the past I've had to be careful about how to define bounds for conservative regridding with <code>xesmf</code>.</p>
 
 
 
 <a name="93060"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/93060" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#93060">(Dec 06 2023 at 18:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/93060" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#93060">(Dec 06 2023 at 18:03)</a>:</h4>
 <p>I realized I had asked a similar question before that Deepak <a href="#narrow/stream/42-xarray/topic/.E2.9C.94.20cf-xarray.20get_bounds.28.29.20failure">answered</a>. The <code>cf.get_bounds()</code> returns bounds that already exist, while <code>cf.add_bounds</code> attempts to guess them. I continue to have a lot of difficulty using xesmf for conservative regridding when lon/lat are 2D arrays because Regridder does not know how to generate the lon_bnds/lat_bnds that should have dimension (ny+1,nx+1). Seems like that has to be done by hand before calling xesmf.</p>
 
 
 
 <a name="93077"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/93077" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#93077">(Dec 06 2023 at 19:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/%E2%9C%94%20xesmf%20error%20computing%20grid%20bounds/near/93077" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="../../..//stream/3-general/topic/.E2.9C.94.20xesmf.20error.20computing.20grid.20bounds.html#93077">(Dec 06 2023 at 19:01)</a>:</h4>
 <p>Yeah, that's sounding familiar with what I've encountered as well (creating the bounds beforehand). Good to know about 2D arrays. Thanks for clarifying!</p>
 
 

@@ -1,21 +1,21 @@
 <html>
 <head><meta charset="utf-8"><title>OOM error when running Keras model with GPU · general · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/OOM.20error.20when.20running.20Keras.20model.20with.20GPU.html">OOM error when running Keras model with GPU</a></h3>
+<h2>Stream: <a href="../../..//stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="../../..//stream/3-general/topic/OOM.20error.20when.20running.20Keras.20model.20with.20GPU.html">OOM error when running Keras model with GPU</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="77549"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/OOM%20error%20when%20running%20Keras%20model%20with%20GPU/near/77549" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fang Wang <a href="http://127.0.0.1:4000/html/stream/3-general/topic/OOM.20error.20when.20running.20Keras.20model.20with.20GPU.html#77549">(Mar 24 2023 at 13:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/OOM%20error%20when%20running%20Keras%20model%20with%20GPU/near/77549" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fang Wang <a href="../../..//stream/3-general/topic/OOM.20error.20when.20running.20Keras.20model.20with.20GPU.html#77549">(Mar 24 2023 at 13:32)</a>:</h4>
 <p>Hi everyone, I am a new user for running deep learning model with GPU. My model can run smoothly for the first several thousand iterations, but it stopped running due to out of memory issue. I attached the error file in this message. <a href="../../../user_uploads/2/2c/iuKBQ8XbWxF2gMReq4zOnrWO/mpi_job.o6092769">mpi_job.o6092769</a> . I had adjusted batch sizes and also decreased input data (just one quarter of the total training data), but it still has this problem. For my understanding, the GPU has difficulties to release memory and it broke at certain iteration step. Each iteration should use a very similar memory. Please let me know if you have similar problem as mine and how you solved it. Thank you very much!</p>
 
 
 
 <a name="78369"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/OOM%20error%20when%20running%20Keras%20model%20with%20GPU/near/78369" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David John Gagne <a href="http://127.0.0.1:4000/html/stream/3-general/topic/OOM.20error.20when.20running.20Keras.20model.20with.20GPU.html#78369">(Mar 30 2023 at 21:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/OOM%20error%20when%20running%20Keras%20model%20with%20GPU/near/78369" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> David John Gagne <a href="../../..//stream/3-general/topic/OOM.20error.20when.20running.20Keras.20model.20with.20GPU.html#78369">(Mar 30 2023 at 21:30)</a>:</h4>
 <p>I would suggest adding the following commands before initializing your keras model so that tensorflow minimizes memory usage of the GPU:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">gpus</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get_visible_devices</span><span class="p">(</span><span class="s2">"GPU"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">device</span> <span class="ow">in</span> <span class="n">gpus</span><span class="p">:</span>

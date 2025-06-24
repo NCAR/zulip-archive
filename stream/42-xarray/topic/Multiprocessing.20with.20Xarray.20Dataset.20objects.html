@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Multiprocessing with Xarray Dataset objects · xarray · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html">Multiprocessing with Xarray Dataset objects</a></h3>
+<h2>Stream: <a href="../../..//stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="../../..//stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html">Multiprocessing with Xarray Dataset objects</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="65169"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65169" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65169">(Sep 29 2022 at 20:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65169" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65169">(Sep 29 2022 at 20:01)</a>:</h4>
 <p>I am working on a Linux workstation (not HPC) so tend to use Python's multiprocessing module frequently. Recently I encountered an error I do not understand, when passing a Dataset object to a function being called via <code>multiprocessing.Pool</code>. What's more interesting, is that if I subset the Dataset (via <code>isel</code> or <code>sel</code>, or by subsetting by passing a single variable like <code>ds[['variable']]</code>) prior to passing to the function, I do not get the error.</p>
 <p>Here is some pseudocode:</p>
 <div class="codehilite"><pre><span></span><code>def calc_nearest_stat(ds,stat_name):
@@ -49,25 +49,25 @@ AttributeError: Can&#39;t pickle local object &#39;open_mfdataset.&lt;locals&gt;
 
 
 <a name="65170"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65170" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65170">(Sep 29 2022 at 20:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65170" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65170">(Sep 29 2022 at 20:08)</a>:</h4>
 <p>Can you post this on the Xarray issue tracker please? This seems like a bug.</p>
 
 
 
 <a name="65171"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65171" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65171">(Sep 29 2022 at 20:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65171" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65171">(Sep 29 2022 at 20:45)</a>:</h4>
 <p>Just to confirm you mean here: <a href="https://github.com/pydata/xarray/issues">https://github.com/pydata/xarray/issues</a>? Sure thing, thank you <span class="user-mention" data-user-id="25">@Deepak Cherian</span> !</p>
 
 
 
 <a name="65172"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65172" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65172">(Sep 29 2022 at 20:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65172" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65172">(Sep 29 2022 at 20:49)</a>:</h4>
 <p>Yes. thanks</p>
 
 
 
 <a name="65175"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65175">(Sep 30 2022 at 02:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Multiprocessing%20with%20Xarray%20Dataset%20objects/near/65175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/42-xarray/topic/Multiprocessing.20with.20Xarray.20Dataset.20objects.html#65175">(Sep 30 2022 at 02:44)</a>:</h4>
 <p>For reference: <a href="https://github.com/pydata/xarray/issues/7109">https://github.com/pydata/xarray/issues/7109</a></p>
 
 

@@ -1,29 +1,29 @@
 <html>
 <head><meta charset="utf-8"><title>NA-CORDEX · hack-projects · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/index.html">hack-projects</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html">NA-CORDEX</a></h3>
+<h2>Stream: <a href="../../..//stream/21-hack-projects/index.html">hack-projects</a></h2>
+<h3>Topic: <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html">NA-CORDEX</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="3061"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3061">(Mar 13 2020 at 18:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3061">(Mar 13 2020 at 18:44)</a>:</h4>
 <p>I'm working on an esm-intake catalog for the NA-CORDEX dataset.  We'll use that to convert the dataset to zarr format, then upload it to AWS as a contribution to the Amazon Sustainability Data Initiative.  </p>
 <p>I also want to develop some pangeo jupyter notebooks for working with the data.  I'm currently thinking we'll do some of the standard visualizations that we use for QA and general evaluation, but I'm open to ideas and suggestions.</p>
 
 
 
 <a name="3181"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3181" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3181">(Mar 13 2020 at 21:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3181" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3181">(Mar 13 2020 at 21:40)</a>:</h4>
 <p>I cloned the intake-esm-datastore repo on github and have added a first version of the catalog and JSON for the NA-CORDEX dataset:  <a href="https://github.com/sethmcg/intake-esm-datastore" target="_blank" title="https://github.com/sethmcg/intake-esm-datastore">https://github.com/sethmcg/intake-esm-datastore</a></p>
 <p>I think it should be functional, but I'm not sure where to go from here.  How do I check and test it?  <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> ?</p>
 
 
 
 <a name="3193"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3193" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3193">(Mar 13 2020 at 22:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3193" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3193">(Mar 13 2020 at 22:09)</a>:</h4>
 <p>There seems to be some formatting errors in the json:</p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">intake</span>
 
@@ -92,19 +92,19 @@
 
 
 <a name="3195"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3195" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3195">(Mar 13 2020 at 22:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3195" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3195">(Mar 13 2020 at 22:11)</a>:</h4>
 <p>To validate the json against the schema, we have a tool (esmcol-validator), you can install it via conda or pip</p>
 
 
 
 <a name="3197"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3197" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3197">(Mar 13 2020 at 22:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3197" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3197">(Mar 13 2020 at 22:11)</a>:</h4>
 <p>Instructions  on how to install it are available here: <a href="https://github.com/NCAR/esmcol-validator" target="_blank" title="https://github.com/NCAR/esmcol-validator">https://github.com/NCAR/esmcol-validator</a></p>
 
 
 
 <a name="3198"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3198" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3198">(Mar 13 2020 at 22:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3198" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3198">(Mar 13 2020 at 22:12)</a>:</h4>
 <p>Once it is installed, you can run</p>
 <div class="codehilite"><pre><span></span>$ esmcol-validator glade-na-cordex.json
 </pre></div>
@@ -112,7 +112,7 @@
 
 
 <a name="3271"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3271" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="http://127.0.0.1:4000/html/stream/21-hack-projects/topic/NA-CORDEX.html#3271">(Mar 13 2020 at 23:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/21-hack-projects/topic/NA-CORDEX/near/3271" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="../../..//stream/21-hack-projects/topic/NA-CORDEX.html#3271">(Mar 13 2020 at 23:38)</a>:</h4>
 <p>Thanks!  Looks like it's time for me to learn how to manage pull requests, so I will return to this later.</p>
 
 

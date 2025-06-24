@@ -1,22 +1,22 @@
 <html>
 <head><meta charset="utf-8"><title>Using GeoTIFF files · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html">Using GeoTIFF files</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html">Using GeoTIFF files</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="20356"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20356" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20356">(Oct 26 2020 at 16:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20356" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20356">(Oct 26 2020 at 16:48)</a>:</h4>
 <p>Does anyone have experience using GeoTIFF files for model evaluation? I received some satellite-derived GPP data in .tif format (/glade/work/dll/SIF_GPP/data.globalecology.unh.edu/data/GOSIF-GPP_v2/Monthly/Mean/) and would like to ultimately compare to CLM GPP. </p>
 <p>There is some information online about working with GeoTIFF files (<a href="https://towardsdatascience.com/reading-and-visualizing-geotiff-images-with-python-8dcca7a74510" target="_blank" title="https://towardsdatascience.com/reading-and-visualizing-geotiff-images-with-python-8dcca7a74510">https://towardsdatascience.com/reading-and-visualizing-geotiff-images-with-python-8dcca7a74510</a>), but I'm having trouble getting started. I don't know how to update or change environments on casper to be able to add the <code>georaster</code> or <code>osgeo</code> modules so that I can read in the data. From there, it's not clear to me how I will be able to manipulate the data for comparison against CLM. Any thoughts or advice for reading in and manipulating data in GeoTIFF format are very much appreciated!</p>
 
 
 
 <a name="20357"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20357" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20357">(Oct 26 2020 at 17:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20357" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20357">(Oct 26 2020 at 17:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, </p>
 <p>If you haven't done so already, give xarray + rasterio a try </p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
@@ -52,7 +52,7 @@
 
 
 <a name="20358"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20358" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20358">(Oct 26 2020 at 17:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20358" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20358">(Oct 26 2020 at 17:11)</a>:</h4>
 <blockquote>
 <p>I don't know how to update or change environments on casper to be able to add the georaster or osgeo modules so that I can read in the data</p>
 </blockquote>
@@ -61,20 +61,20 @@
 
 
 <a name="20359"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20359" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20359">(Oct 26 2020 at 17:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20359" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20359">(Oct 26 2020 at 17:16)</a>:</h4>
 <p>rioxarray may also be helpful (<a href="https://corteva.github.io/rioxarray/stable/index.html" target="_blank" title="https://corteva.github.io/rioxarray/stable/index.html">https://corteva.github.io/rioxarray/stable/index.html</a>)</p>
 
 
 
 <a name="20360"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20360" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20360">(Oct 26 2020 at 17:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20360" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20360">(Oct 26 2020 at 17:29)</a>:</h4>
 <p>Thank you Anderson and Deepak! I was able to read in the file. Now I just have to figure out how to use it. <br>
 @Anderson Banihirwe: I don't know whether I own the environment or not. Is there an easy way to check? I'm using conda env: miniconda-analysis. I participated in several different tutorials that set up environments before I really knew what this meant. I'd ultimately like to clean up the environment space and gain a better understanding of how to set up and manage my own environments.</p>
 
 
 
 <a name="20368"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20368" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20368">(Oct 26 2020 at 17:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20368" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20368">(Oct 26 2020 at 17:38)</a>:</h4>
 <blockquote>
 <p>I don't know whether I own the environment or not. Is there an easy way to check? </p>
 </blockquote>
@@ -91,13 +91,13 @@
 
 
 <a name="20374"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20374" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20374">(Oct 26 2020 at 17:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20374" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20374">(Oct 26 2020 at 17:39)</a>:</h4>
 <p>^ nice! should go in the xdev FAQ.</p>
 
 
 
 <a name="20380"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20380" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20380">(Oct 26 2020 at 18:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20380" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20380">(Oct 26 2020 at 18:00)</a>:</h4>
 <blockquote>
 <p>. I'd ultimately like to clean up the environment space and gain a better understanding of how to set up and manage my own environments.</p>
 </blockquote>
@@ -109,13 +109,13 @@
 
 
 <a name="20469"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20469" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20469">(Oct 26 2020 at 22:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20469" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20469">(Oct 26 2020 at 22:21)</a>:</h4>
 <p>Thanks for sharing these resources! I will take a look and try to improve my environment. It looks like the environment I'm using is my personal environment, so hopefully I should be able to set that up properly.</p>
 
 
 
 <a name="20479"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20479" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20479">(Oct 26 2020 at 23:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20479" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20479">(Oct 26 2020 at 23:59)</a>:</h4>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="74">Danica Lombardozzi</span>, </p>
 <p>If you haven't done so already, give xarray + rasterio a try </p>
@@ -156,7 +156,7 @@
 
 
 <a name="20527"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20527">(Oct 27 2020 at 20:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20527">(Oct 27 2020 at 20:33)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span> , that's strange... </p>
 <blockquote>
 <p>it looks to me as if there aren't any data in the file.</p>
@@ -185,7 +185,7 @@
 
 
 <a name="20528"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20528">(Oct 27 2020 at 20:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20528">(Oct 27 2020 at 20:57)</a>:</h4>
 <p>I think I figured out how to get an image/plot from the data. </p>
 <p>Using <code>da.squeeze().plot.imshow()</code> --which displays data as an image, i.e., on a 2D regular raster-- works perfectly fine:</p>
 <p><a href="../../../user_uploads/2/b/moC-Vj1gmsuaBGCL4eiFRBmA/Screen-Shot-2020-10-27-at-2.39.59-PM.png" target="_blank" title="Screen-Shot-2020-10-27-at-2.39.59-PM.png">Screen-Shot-2020-10-27-at-2.39.59-PM.png</a></p>
@@ -196,7 +196,7 @@
 
 
 <a name="20530"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20530" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20530">(Oct 27 2020 at 22:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20530" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20530">(Oct 27 2020 at 22:24)</a>:</h4>
 <p>Thanks Anderson! I was able to get that to work, and I'm glad to know that the data are there. I was wondering if you can help with another problem related to these data. The data are on a very high resolution grid (0.05-degree), and I would like to make direct comparisons to CESM simulations. I've been using the xesmf tool to regrid, but it hangs for 10 minutes or more before I give up. I'm currently testing the code for only a single file and I have many more that I hope to regrid (and save). Is there an easy way to make this more efficient that what I'm currently doing? This assumes that I'm doing the regridding correctly in the first place, which I've not yet verified. </p>
 <div class="codehilite"><pre><span></span>#Data
 sifdat = xr.open_rasterio(sifdir + &quot;GOSIF_GPP_2001.M01_Mean.tif&quot;)
@@ -220,7 +220,7 @@ sif_out = regridder(sif_coarse)
 
 
 <a name="20531"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20531" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20531">(Oct 27 2020 at 22:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20531" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20531">(Oct 27 2020 at 22:43)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, that problem may be too big for xesmf, which calls the serial version of the ESMF to generate weights.</p>
 <p>Here's a script that invokes a parallel version of <code>ESMF_RegridWeightGen</code><br>
 <a href="https://github.com/marbl-ecosys/marbl-forcing/blob/master/Fe_sediment_flux/esmf_gen_weights.pbs" target="_blank" title="https://github.com/marbl-ecosys/marbl-forcing/blob/master/Fe_sediment_flux/esmf_gen_weights.pbs">https://github.com/marbl-ecosys/marbl-forcing/blob/master/Fe_sediment_flux/esmf_gen_weights.pbs</a></p>
@@ -236,25 +236,25 @@ sif_out = regridder(sif_coarse)
 
 
 <a name="20532"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20532" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20532">(Oct 27 2020 at 22:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20532" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alea Kootz <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20532">(Oct 27 2020 at 22:44)</a>:</h4>
 <p>Consider us informed, I'll start reading and see if our current or planned regridding tools would help in this case.</p>
 
 
 
 <a name="20547"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20547" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20547">(Oct 28 2020 at 14:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/20547" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#20547">(Oct 28 2020 at 14:41)</a>:</h4>
 <p>Thanks Matt! I'll see if I can get something working based on the scripts you point me to.</p>
 
 
 
 <a name="21676"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21676" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21676">(Nov 17 2020 at 23:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21676" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21676">(Nov 17 2020 at 23:42)</a>:</h4>
 <p>Another question related to GeoTIFF files: Is there a way to read in multiple files? I've been using <code>open_rasterio</code>, but can only seem to open a single file at a time. I have &gt;200 monthly files that I'd like to open as a data array, so I think I'm looking for the equivalent of <code>open_mfdataset</code> for GeoTiff files in xarray. Thanks!</p>
 
 
 
 <a name="21694"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21694" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21694">(Nov 17 2020 at 23:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21694" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21694">(Nov 17 2020 at 23:55)</a>:</h4>
 <p>It's my understanding that  currently <code>xarray.open_mfdataset()</code> works for <code>netCDF</code> and <code>HDF</code> files only (this may change in the future). </p>
 <p>So, to read in multiple GeoTiff files, you may want to try something along these lines:</p>
 <div class="codehilite"><pre><span></span><span class="n">list_of_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;file1.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;file2.tif&#39;</span><span class="p">]</span>
@@ -271,13 +271,13 @@ sif_out = regridder(sif_coarse)
 
 
 <a name="21703"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21703" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21703">(Nov 18 2020 at 00:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21703" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21703">(Nov 18 2020 at 00:01)</a>:</h4>
 <p><span aria-label="warning" class="emoji emoji-26a0" role="img" title="warning">:warning:</span> <span aria-label="warning" class="emoji emoji-26a0" role="img" title="warning">:warning:</span>  It turns out that the code snippet above has a bug in it <span aria-label="slight smile" class="emoji emoji-1f642" role="img" title="slight smile">:slight_smile:</span>...</p>
 
 
 
 <a name="21711"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21711" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21711">(Nov 18 2020 at 00:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21711" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21711">(Nov 18 2020 at 00:11)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, is this what you are looking for?</p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
@@ -311,7 +311,7 @@ sif_out = regridder(sif_coarse)
 
 
 <a name="21712"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21712" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21712">(Nov 18 2020 at 00:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21712" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21712">(Nov 18 2020 at 00:12)</a>:</h4>
 <p>The resulting <code>ds</code> looks like:</p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">39</span><span class="p">]:</span> <span class="n">ds</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">39</span><span class="p">]:</span>
@@ -335,13 +335,13 @@ sif_out = regridder(sif_coarse)
 
 
 <a name="21713"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21713" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21713">(Nov 18 2020 at 00:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21713" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21713">(Nov 18 2020 at 00:33)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>! I'll try that out.</p>
 
 
 
 <a name="21714"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21714" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21714">(Nov 18 2020 at 00:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21714" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21714">(Nov 18 2020 at 00:38)</a>:</h4>
 <p>Of course! Let me know how it goes.. I don't know how much memory you have access to, but it looks like you need at least 10GB to load all 200+ files in memory...  or you could chunk the files (which will allow you to take advantage of dask's parallelism) by changing this line </p>
 <div class="codehilite"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 </pre></div>
@@ -354,19 +354,19 @@ sif_out = regridder(sif_coarse)
 
 
 <a name="21715"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21715" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21715">(Nov 18 2020 at 00:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21715" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21715">(Nov 18 2020 at 00:51)</a>:</h4>
 <p>Oh, thanks! Do I specify a value in <code>chunks={}</code>, or does leaving it open also work?</p>
 
 
 
 <a name="21731"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21731" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21731">(Nov 18 2020 at 19:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/21731" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#21731">(Nov 18 2020 at 19:09)</a>:</h4>
 <p>Leaving <code>chunks={}</code> open works too. Each file will be loaded in a single chunk of <code>~ 50MB</code></p>
 
 
 
 <a name="22882"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22882" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22882">(Dec 10 2020 at 21:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22882" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22882">(Dec 10 2020 at 21:47)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> : I am circling back to trying to figure out regridding using the information you provided here but still having trouble.  I am trying to use the <code>latlon_to_scrip</code> function you wrote (from <a href="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292" target="_blank" title="https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292">https://github.com/matt-long/krill-cesm-le/blob/75d749197e2754f3bd6c2a714866816b56822d3a/notebooks/util.py#L292</a>), but when I apply it to my data, I get an error message.</p>
 <div class="codehilite"><pre><span></span>ds
 &lt;xarray.DataArray (sif_gpp: 216, band: 1, y: 3600, x: 7200)&gt;
@@ -416,27 +416,27 @@ ValueError: The truth value of an array with more than one element is ambiguous.
 
 
 <a name="22883"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22883" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22883">(Dec 10 2020 at 22:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22883" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22883">(Dec 10 2020 at 22:13)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, the function signature for <code>latlon_to_scrip</code> expects <code>nx</code> and <code>ny</code>, which are number of  of grid cells in the x and y directions, respectively. It looks to me like you are passing in <code>x</code> and <code>y</code> themselves.</p>
 
 
 
 <a name="22884"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22884" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22884">(Dec 10 2020 at 22:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22884" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22884">(Dec 10 2020 at 22:16)</a>:</h4>
 <p>Here's a hi-res-regridding weigh generation step:<br>
 <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/esmf_gen_weights_etopo1_to_POP.pbs" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/esmf_gen_weights_etopo1_to_POP.pbs">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/esmf_gen_weights_etopo1_to_POP.pbs</a></p>
 
 
 
 <a name="22924"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22924" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22924">(Dec 11 2020 at 00:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22924" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22924">(Dec 11 2020 at 00:01)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span> . I was able to get the <code>latlon_to_scrip</code> function to work and create the files. I've submitted a script similar to the example you shared to generate the weights. </p>
 <p>Assuming this works, I'm still not sure how to to apply these weights using the xESMF regridder. The documentation shows <code>xe.Regridder(grid_in, grid_out, method)</code>, with options to reuse and clean weights, but I don't see an option to use or specify a weights file. Do you know how to do this or have an example? Thanks!</p>
 
 
 
 <a name="22928"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22928" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22928">(Dec 11 2020 at 00:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22928" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22928">(Dec 11 2020 at 00:04)</a>:</h4>
 <p>My latest incarnation of this is here:<br>
 <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb</a></p>
 <p>Relying on a module <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/regrid_tools/core.py" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/regrid_tools/core.py">regrid_tools</a></p>
@@ -445,13 +445,13 @@ ValueError: The truth value of an array with more than one element is ambiguous.
 
 
 <a name="22930"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22930" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22930">(Dec 11 2020 at 00:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/22930" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#22930">(Dec 11 2020 at 00:07)</a>:</h4>
 <p>Thanks! I'll give it a shot tomorrow -- hopefully the script to create the weights will be done by then!</p>
 
 
 
 <a name="23165"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/23165" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#23165">(Dec 16 2020 at 18:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/23165" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Danica Lombardozzi <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#23165">(Dec 16 2020 at 18:28)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> Thanks for all your help so far. I'm still struggling with the <code>regrid</code> function from your regrid_tools module and was hoping you can point me in the right direction. I created the <code>src</code>, <code>dst</code>, and <code>weights</code> files, but I think I'm likely specifying the inputs for <code>regrid</code> incorrectly.  Note that the <code>src</code> (<a href="http://sifgrid_latlon_0.05x0.05_180W.nc" target="_blank" title="http://sifgrid_latlon_0.05x0.05_180W.nc">sifgrid_latlon_0.05x0.05_180W.nc</a>) and <code>dst</code> (<a href="http://CESM_latlon_1x1_180W.nc" target="_blank" title="http://CESM_latlon_1x1_180W.nc">CESM_latlon_1x1_180W.nc</a>) files are here: /glade/work/dll/esmlab-regrid and the <code>weights</code> file is here: /glade/work/dll/esmlab-regrid/weights.</p>
 <div class="codehilite"><pre><span></span>ds
 
@@ -515,7 +515,7 @@ AttributeError: &#39;str&#39; object has no attribute &#39;grid_file&#39;
 
 
 <a name="23320"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/23320" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#23320">(Dec 21 2020 at 22:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Using%20GeoTIFF%20files/near/23320" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/Using.20GeoTIFF.20files.html#23320">(Dec 21 2020 at 22:11)</a>:</h4>
 <p><span class="user-mention" data-user-id="74">@Danica Lombardozzi</span>, sorry, I probably won't have time to get back to you until the New Year.</p>
 
 

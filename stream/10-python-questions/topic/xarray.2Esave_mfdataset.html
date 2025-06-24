@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>xarray.save_mfdataset · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.2Esave_mfdataset.html">xarray.save_mfdataset</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/xarray.2Esave_mfdataset.html">xarray.save_mfdataset</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="24638"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray.save_mfdataset/near/24638" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.2Esave_mfdataset.html#24638">(Feb 03 2021 at 06:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray.save_mfdataset/near/24638" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="../../..//stream/10-python-questions/topic/xarray.2Esave_mfdataset.html#24638">(Feb 03 2021 at 06:41)</a>:</h4>
 <p>I'm trying to use xarray.save_mfdataset to write out a bunch of netcdf files from a dask-enabled jupyter notebook.</p>
 <p>Is there any way to specify the encoding and unlimited_dim as you would using the <code>to_netcdf()</code> function?  <br>
 Tagging <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span></p>
@@ -17,7 +17,7 @@ Tagging <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span><
 
 
 <a name="24639"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray.save_mfdataset/near/24639" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.2Esave_mfdataset.html#24639">(Feb 03 2021 at 14:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray.save_mfdataset/near/24639" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/xarray.2Esave_mfdataset.html#24639">(Feb 03 2021 at 14:01)</a>:</h4>
 <p>The solution is to loop over and update <code>DataArray.encoding</code> and <code>Dataset.encoding</code> before calling <code>save_mfdataset</code></p>
 <blockquote>
 <p>unlimited_dims may also be set via dataset.encoding["unlimited_dims"].</p>
@@ -26,7 +26,7 @@ Tagging <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span><
 
 
 <a name="24661"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray.save_mfdataset/near/24661" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.2Esave_mfdataset.html#24661">(Feb 03 2021 at 18:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray.save_mfdataset/near/24661" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Seth McGinnis <a href="../../..//stream/10-python-questions/topic/xarray.2Esave_mfdataset.html#24661">(Feb 03 2021 at 18:51)</a>:</h4>
 <p>Thanks, I'll give that a shot!</p>
 
 

@@ -1,52 +1,52 @@
 <html>
 <head><meta charset="utf-8"><title>model configuration · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html">model configuration</a></h3>
+<h2>Stream: <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html">model configuration</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="3175"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gokhan Danabasoglu <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3175">(Mar 13 2020 at 21:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gokhan Danabasoglu <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3175">(Mar 13 2020 at 21:09)</a>:</h4>
 <p>Regarding the drift and deep isopycnal mixing values.... Are you planning to use isopycnal mixing in these simulations? Submeso can be turned on as it is separate than the iso/GM part.</p>
 
 
 
 <a name="3275"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3275" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3275">(Mar 14 2020 at 23:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3275" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3275">(Mar 14 2020 at 23:04)</a>:</h4>
 <p>We're planning on configuring the physics hi-res experiment as the existing JRA hi-res run has been done, except for updating the JRA forcing. This enables us to (mostly) cleanly initialize the physics from the existing run. So I don't think we are considering turning on submeso in the hi-res.</p>
 <p>The lo-res companion experiment serves 2 purposes, spinning up near-surface BGC tracers for initializing them in the hi-res experiment, and for comparison to the hi-res experiment. For the lo-res, we are not tied to an existing lo-res configuration. We are considering decreased deep Redi min so that tracer drift is more comparable to the hi-res. There is also experience with this configuration. While we could turn off submeso in the lo-res, in order to be more compatible with the hi-res, I'm less sure about our experience with this configuration with JRA forcing.</p>
 
 
 
 <a name="3279"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3279" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gokhan Danabasoglu <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3279">(Mar 15 2020 at 16:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3279" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gokhan Danabasoglu <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3279">(Mar 15 2020 at 16:11)</a>:</h4>
 <p>Thank you for this explanation. Although I do not disagree fundamentally for the desire to "match" what was done before, I see this also as an impediment to try new things in the high-res simulations. We seem to be following what was done over 5 years ago. Certain missing physics is being propagated and I can see ourselves following similar approaches in the future for comparisons to existing simulations. Not sure when is ever the right time to revisit some of these choices.</p>
 
 
 
 <a name="3280"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3280" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3280">(Mar 16 2020 at 13:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3280" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3280">(Mar 16 2020 at 13:51)</a>:</h4>
 <p><span class="user-mention" data-user-id="62">@Gokhan Danabasoglu</span>, are you advocating for turning submeso on in the hi-res configuration?</p>
 
 
 
 <a name="3424"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3424" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3424">(Mar 17 2020 at 00:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/3424" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Fred Castruccio <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#3424">(Mar 17 2020 at 00:32)</a>:</h4>
 <p>I think we should have submeso and isopycnal mixing for the tracers in the hires configuration. Maybe not in this first BGC run but in the future.</p>
 
 
 
 <a name="4309"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/4309" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#4309">(Mar 20 2020 at 17:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/4309" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#4309">(Mar 20 2020 at 17:54)</a>:</h4>
 <p>I'm starting to put together a tag for this, based on <code>cesm2_2_alpha04d</code>. It looks CIME has the JRA configuration updates that <span class="user-mention" data-user-id="31">@Keith Lindsay</span> brought in to CESM 2.1 [in other words, the CIME team has merged <code>maint-5.6</code> into <code>master</code>], but the POP tag is still missing those updates. I'll talk to Alper this afternoon, but I think the best plan forward is to merge the <code>cesm2_1_x_rel</code>branch onto POP's <code>master</code> branch, make a new tag, and then start a branch for this run off of that new tag. Does that seem like a reasonable path? Another option is to make a new branch now and cherry-pick Keith's JRA changes onto it, but I think that will complicate the process of merging this branch back onto <code>master</code></p>
 
 
 
 <a name="6786"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6786" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6786">(Apr 17 2020 at 22:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6786" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6786">(Apr 17 2020 at 22:53)</a>:</h4>
 <p><code>cesm2_2_beta04</code> has been tagged, and I'm using that as a starting point for the <code>highres_JRA_BGC</code> branch of POP. So far I've created the following compset</p>
 <div class="codehilite"><pre><span></span> &lt;compset&gt;
    &lt;!-- latest JRA forcing, ecosys, high-res --&gt;
@@ -65,25 +65,25 @@ err=Died at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/components/p
 
 
 <a name="6794"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6794" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6794">(Apr 17 2020 at 22:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6794" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6794">(Apr 17 2020 at 22:57)</a>:</h4>
 <p>For now I'm just trying to get a <code>SMS_Ld1.TL319_t13.GIAFECO_JRA_HR.cheyenne_intel.pop-performance_eval</code> test built and running. Once I've cleared that hurdle, I'll move on to a longer run to get a better feel for the total model cost with output disabled... (note to self:  I still need to update the <code>OCN_BGC_CONFIG</code> variable to turn on the coccolithophores)</p>
 
 
 
 <a name="6806"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6806" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6806">(Apr 17 2020 at 23:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6806" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6806">(Apr 17 2020 at 23:04)</a>:</h4>
 <p>And it looks like the plan for tracer initial conditions is "BGC 1° spin-up" -- if someone (<span class="user-mention" data-user-id="31">@Keith Lindsay</span> ?) can point me to that run, I can map fields to the high-res grid (unless that's been done already? apologies if I missed a post about it in this channel)</p>
 
 
 
 <a name="6815"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6815" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6815">(Apr 20 2020 at 15:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6815" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6815">(Apr 20 2020 at 15:00)</a>:</h4>
 <p>I haven't generated one yet, but am close. If this is holding you up, set the field to zero.</p>
 
 
 
 <a name="6841"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6841" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6841">(Apr 20 2020 at 17:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6841" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6841">(Apr 20 2020 at 17:24)</a>:</h4>
 <p>This dataset contains a <strong>preliminary</strong> <code>fesedflux</code> file for the <code>tx0.1v3</code> grid:</p>
 <div class="codehilite"><pre><span></span>/glade/work/mclong/cesm_inputdata/fesedflux_total_reduce_oxic_POP_tx0.1v3.c200420.nc
 </pre></div>
@@ -121,19 +121,19 @@ err=Died at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/components/p
 
 
 <a name="6843"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6843" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6843">(Apr 20 2020 at 17:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6843" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6843">(Apr 20 2020 at 17:34)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> , we don't currently have IC for hi-res BGC, particularly with explicit cocco. I'll put something together today for your testing.</p>
 
 
 
 <a name="6844"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6844" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6844">(Apr 20 2020 at 17:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6844" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6844">(Apr 20 2020 at 17:35)</a>:</h4>
 <p>Thanks Keith! No need to include cocco, first run will be without it and I think I still have a script or notebook from when Kristen and I added cocco to the x1 initial condition file</p>
 
 
 
 <a name="6845"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6845" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6845">(Apr 20 2020 at 17:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6845" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6845">(Apr 20 2020 at 17:40)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> </p>
 <blockquote>
 <p>In previous attempts to write netCDF3 from xarray, I found it was not possible. Perhaps this has been fixed, but I haven't checked. I believe that the model cannot read netCDF4 on some machines?</p>
@@ -146,13 +146,13 @@ err=Died at /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/components/p
 
 
 <a name="6846"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6846" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6846">(Apr 20 2020 at 17:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6846" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6846">(Apr 20 2020 at 17:42)</a>:</h4>
 <p>("errrors" is a portmanteau of "errors" and the sound I made when I realized some files could be read by CESM 2.1 but not 2.2)</p>
 
 
 
 <a name="6905"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6905" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6905">(Apr 20 2020 at 22:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6905" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6905">(Apr 20 2020 at 22:34)</a>:</h4>
 <p>A few more updates:</p>
 <ol>
 <li>I created a new directory for preliminary inputdata: <code>/glade/p/cesmdata/cseg/inputdata/ocn/pop/tx0.1v3/tmp</code> with a <code>README</code> file explaining its purpose</li>
@@ -184,20 +184,20 @@ out=build-namelist - ERROR: No default value found for nox_flux_monthly_input%fi
 
 
 <a name="6907"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6907" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6907">(Apr 20 2020 at 22:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6907" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6907">(Apr 20 2020 at 22:38)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> may already have Ndep fields interpolated.</p>
 
 
 
 <a name="6910"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6910" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6910">(Apr 20 2020 at 23:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6910" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6910">(Apr 20 2020 at 23:14)</a>:</h4>
 <p>Yes, Ndep is available at<br>
 /glade/p/cgd/oce/people/klindsay/oldcgdoce/BGC_2/ndep/ndep_ocn_1850_w_nhx_emis_tx0.1v3_c191115.nc</p>
 
 
 
 <a name="6915"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6915" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6915">(Apr 20 2020 at 23:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6915" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6915">(Apr 20 2020 at 23:36)</a>:</h4>
 <p>Thanks Keith! I copied it to the <code>tmp/</code> directory I created in inputdata, and that brings us to</p>
 <div class="codehilite"><pre><span></span>ERROR: Command /glade/work/mlevy/codes/CESM/cesm2_2_beta04+GECO_JRA_HR/components/pop/bld/build-namelist failed rc=255
 out=build-namelist - ERROR: No default value found for riv_flux_shr_stream_file
@@ -213,7 +213,7 @@ out=build-namelist - ERROR: No default value found for riv_flux_shr_stream_file
 
 
 <a name="6916"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6916" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6916">(Apr 21 2020 at 02:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6916" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6916">(Apr 21 2020 at 02:40)</a>:</h4>
 <p>I do not have the BGC riv flux forcings for tx0.1v3.</p>
 <p>I think that <span class="user-mention" data-user-id="14">@Matt Long</span> was going to do that, and I recall him saying that his riv flux regridding scripts needed some generalizing work.</p>
 <p>I didn't create the gx1v7 riv flux file, I copied it to inputdata from /glade/work/mclong/cesm_inputdata/.</p>
@@ -223,25 +223,25 @@ out=build-namelist - ERROR: No default value found for riv_flux_shr_stream_file
 
 
 <a name="6936"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6936" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6936">(Apr 21 2020 at 19:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6936" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6936">(Apr 21 2020 at 19:15)</a>:</h4>
 <p>The riverine nutrient dataset uses the same mapping files as freshwater, so I will need to ensure that the nutrient data are on the relevant  runoff grid. It's on my list.</p>
 
 
 
 <a name="6969"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6969" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6969">(Apr 21 2020 at 21:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/6969" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#6969">(Apr 21 2020 at 21:40)</a>:</h4>
 <p>It looks like the nutrient file on JRA grid is <code>/glade/work/mclong/cesm_inputdata/work/river_nutrients.GNEWS_GNM.JRA55.20190602.nc</code> and the mapping file for JRA -&gt; 0.1 deg is <code>/glade/p/cesmdata/cseg/inputdata/cpl/gridmaps/rJRA025/map_JRA025m_to_tx0.1v3_nnsm_e333r100_190226.nc</code></p>
 
 
 
 <a name="7013"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7013" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7013">(Apr 22 2020 at 19:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7013" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7013">(Apr 22 2020 at 19:52)</a>:</h4>
 <p>I expect to have a hi-res BGC IC late tonight. It will be obs for macro-nutrients, O2, DIC, and ALK. Everything else is from the CESM2 piControl restart file at 0501-01-01. This is what was done for OMIP IC. I've got a notebook that generates this running now, though it is kinda slow. It's taking ~30 minutes per tracer.  The lateral fill after lateral regridding and smoothing of the fill takes nearly 99% of this time.</p>
 
 
 
 <a name="7164"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7164" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7164">(Apr 23 2020 at 23:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7164" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7164">(Apr 23 2020 at 23:54)</a>:</h4>
 <p>Here is an obs based IC:<br>
 <code>/glade/work/klindsay/cesm_inputdata/ecosys_jan_IC_omip_POP_tx0.1v3_c200423.nc</code><br>
 It does not include explicit coccolithophore tracers.</p>
@@ -249,7 +249,7 @@ It does not include explicit coccolithophore tracers.</p>
 
 
 <a name="7181"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7181" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7181">(Apr 24 2020 at 19:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7181" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7181">(Apr 24 2020 at 19:03)</a>:</h4>
 <p>So it looks like the three files still missing are</p>
 <div class="codehilite"><pre><span></span>riv_flux_shr_stream_file
 restore_data_filenames_derived
@@ -261,7 +261,7 @@ restore_inv_tau_input%filename
 
 
 <a name="7185"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7185" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7185">(Apr 24 2020 at 19:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7185" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7185">(Apr 24 2020 at 19:27)</a>:</h4>
 <p>I propose that BGC restoring could be turned off in your initial test runs.<br>
 It looks like this could be accomplished by having the following in user_nl_marbl</p>
 <div class="codehilite"><pre><span></span>tracer_restore_vars(1) = &quot;&quot;
@@ -279,14 +279,14 @@ I suggest modifying build-namelist to only call <code>add_default</code> for <co
 
 
 <a name="7190"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7190" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7190">(Apr 24 2020 at 20:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7190" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7190">(Apr 24 2020 at 20:17)</a>:</h4>
 <p>I think you can run without BGC river fluxes by adding <code>riv_flux_shr_stream_file='unknown'</code> to user_nl_pop.<br>
 This would be a workaround until that forcing is available.</p>
 
 
 
 <a name="7191"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7191" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7191">(Apr 24 2020 at 20:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/7191" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#7191">(Apr 24 2020 at 20:18)</a>:</h4>
 <p>Good thoughts, Keith! What I've done is alter <code>build-namelist</code> to look at the length of <code>restorable_tracer_names(1)</code> and only add <code>restore_data_filenames_derived</code> to the namelist if the length is non-zero. In that same block of logic, the value of <code>restore_inv_tau_opt</code> determines whether <code>restore_inv_tau_const</code> or <code>restore_inv_tau_input%[*]</code> gets added to well (with nothing added if no tracers are being restored).</p>
 <p>This is definitely a good short-term fix for getting an initial test up and running, but I need to think about it a little more before determining whether it should stay in the code long-term or get pulled out. The big question mark in my mind is how POP's <code>restorable_tracer_names</code> interacts with MARBL's<code>tracer_restore_vars</code>. I think they are independent, but POP will throw an error in initialization if MARBL lists a tracer in <code>tracer_restore_vars</code> that is not in POP's <code>restorable_tracer_names</code>... in which case I think it's okay to only include <code>restore_data_filenames_derived</code>, <code>restore_inv_tau_opt</code>, and either <code>restore_inv_tau_const</code> or <code>restore_inv_tau_input%[*]</code> in pop_in if <code>restorable_tracer_names</code> contains at least 1 tracer.</p>
 <p>Also, it's worth noting that the MARBL default for <code>tracer_restore_vars</code> is also empty unless we're running on the <code>x1</code> or <code>x3</code>; so at least for now no mods are required in <code>user_nl_marbl</code></p>
@@ -294,7 +294,7 @@ This would be a workaround until that forcing is available.</p>
 
 
 <a name="14117"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14117" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14117">(Jul 17 2020 at 18:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14117" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14117">(Jul 17 2020 at 18:26)</a>:</h4>
 <p>I think things are ready to go when cheyenne is returned to service. The plan is to create a new case (<code>G1850ECOIAF_JRA_HR</code> compset, <code>TL319_t13</code> resolution) with the following mods:</p>
 <p><strong>Some variables that will be used in multiple places</strong></p>
 <div class="codehilite"><pre><span></span><span class="nv">ref_dir</span><span class="o">=</span>/glade/work/mlevy/hi-res_BGC_JRA/restarts_from_alper
@@ -370,19 +370,19 @@ cat &gt;&gt; user_nl_cice <span class="s">&lt;&lt; EOF</span>
 
 
 <a name="14121"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14121" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14121">(Jul 17 2020 at 18:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14121" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14121">(Jul 17 2020 at 18:55)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>: does this include the advection scheme settings we discussed?</p>
 
 
 
 <a name="14122"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14122" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14122">(Jul 17 2020 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14122" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14122">(Jul 17 2020 at 19:08)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> it does -- I talked to <span class="user-mention" data-user-id="31">@Keith Lindsay</span> about it and details about the implementation are at <a href="https://github.com/ESCOMP/POP2-CESM/pull/34#issuecomment-659633147" target="_blank" title="https://github.com/ESCOMP/POP2-CESM/pull/34#issuecomment-659633147">https://github.com/ESCOMP/POP2-CESM/pull/34#issuecomment-659633147</a></p>
 
 
 
 <a name="14124"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14124" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14124">(Jul 17 2020 at 19:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14124" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14124">(Jul 17 2020 at 19:11)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> and <span class="user-mention" data-user-id="14">@Matt Long</span> : I've created a case at <code>/glade/work/mlevy/hi-res_BGC_JRA/cases/test_case_setup_script</code> if you could look at the namelists and make sure everything looks okay. For comparison, <code>pop_in</code> and <code>ice_in</code> from Alper's high-res runs are in <code>/glade/scratch/altuntas/temp/g.e20.G.TL319_t13.control.001_hfreq/CaseDocs</code></p>
 <p>One set of changes that I didn't include in my list from earlier today (but have made in my sandbox); Alper had a few mods in <code>user_nl_pop</code> that I had missed:</p>
 <div class="codehilite"><pre><span></span>! other changes from Alper (g.e20.G.TL319_t13.control.001_hfreq)
@@ -394,13 +394,13 @@ ltidal_mixing = .true.
 
 
 <a name="14126"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14126" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14126">(Jul 17 2020 at 19:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14126" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14126">(Jul 17 2020 at 19:13)</a>:</h4>
 <p>I'd like to get the run going as soon as cheyenne is back up, so if anything looks off I'll fix it now</p>
 
 
 
 <a name="14134"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14134" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14134">(Jul 17 2020 at 21:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14134" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14134">(Jul 17 2020 at 21:13)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> , here are some differences between Alper's env_run.xml and your.<br>
 '&lt;' is Alper's case, '&gt;' is yours.</p>
 <div class="codehilite"><pre><span></span>&lt;     &lt;entry id=&quot;ATM2OCN_FMAPNAME&quot; value=&quot;/glade/work/fredc/cesm/mapping_JRA55/map_TL319_TO_tx0.1v3_patc_blin_merged.180705.nc&quot;&gt;
@@ -425,62 +425,62 @@ There are xmlchange commands in his CaseStatus for these variables.</p>
 
 
 <a name="14135"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14135" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14135">(Jul 17 2020 at 21:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14135" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14135">(Jul 17 2020 at 21:17)</a>:</h4>
 <p>Maybe we should seek Alper's input on why he made these changes from whatever the defaults were for his case.</p>
 
 
 
 <a name="14136"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14136">(Jul 17 2020 at 21:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14136">(Jul 17 2020 at 21:17)</a>:</h4>
 <p>I'll send him an email and ask (I can cc you if you'd like)</p>
 
 
 
 <a name="14137"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14137" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14137">(Jul 17 2020 at 21:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14137" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14137">(Jul 17 2020 at 21:18)</a>:</h4>
 <p>yes please</p>
 
 
 
 <a name="14140"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14140" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14140">(Jul 17 2020 at 21:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14140" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14140">(Jul 17 2020 at 21:37)</a>:</h4>
 <p>I wish I had noticed this earlier... if we do use the updated <code>ATM2OCN</code> mapping file, I'd have updated <code>config/cesm/config_grids_mct.xml</code> in CIME to get it by default (maybe I can still sneak that update in). The mapping file was copied from Fred's work directory to <code>/glade/p/cesmdata/cseg/inputdata/cpl/gridmaps/TL319/map_TL319_TO_tx0.1v3_patc_blin_merged.180705.nc</code>, so at least I can use the version in inputdata</p>
 
 
 
 <a name="14149"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14149" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14149">(Jul 17 2020 at 22:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14149" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14149">(Jul 17 2020 at 22:10)</a>:</h4>
 <p>Alper confirmed that we should use the updated maps. He didn't recall the reasoning behind changing <code>CPL_SEQ_OPTION</code> but for consistency I think we should match his runs. To that end, <code>/glade/work/mlevy/hi-res_BGC_JRA/cases/test_case_setup_script.002</code> was built from a sandbox with cime mods (<a href="https://github.com/ESMCI/cime/pull/3624" target="_blank" title="https://github.com/ESMCI/cime/pull/3624">https://github.com/ESMCI/cime/pull/3624</a>) for the <code>ATM2OCN</code> maps and an <code>xmlchange</code> command for <code>CPL_SEQ_OPTION</code></p>
 
 
 
 <a name="14161"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14161" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14161">(Jul 20 2020 at 14:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14161" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14161">(Jul 20 2020 at 14:18)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> , I've think that I've got my notebook for regridded from g17 to t13 ready. Can you please point me to the low-res 2-cycle JRA55 case of <span class="user-mention" data-user-id="28">@Kristen Krumhardt</span> that has the same marbl settings that are being used in the hi-res case? Thanks.</p>
 
 
 
 <a name="14166"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14166" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14166">(Jul 20 2020 at 14:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14166" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14166">(Jul 20 2020 at 14:48)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> I believe it's the output in <code>/glade/scratch/kristenk/archive/g.e22b05.G1850ECOIAF_JRA.TL319_g17
 .cocco.001</code>, though I'd like <span class="user-mention" data-user-id="28">@Kristen Krumhardt</span> to verify</p>
 
 
 
 <a name="14178"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14178" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14178">(Jul 20 2020 at 15:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14178" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14178">(Jul 20 2020 at 15:47)</a>:</h4>
 <p>Yes, Mike has the right path</p>
 
 
 
 <a name="14179"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14179" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14179">(Jul 20 2020 at 16:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14179" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14179">(Jul 20 2020 at 16:53)</a>:</h4>
 <p>Thanks for confirming this.</p>
 
 
 
 <a name="14184"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14184" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14184">(Jul 20 2020 at 20:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14184" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14184">(Jul 20 2020 at 20:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, the new obs based IC is<br>
 /glade/scratch/klindsay/cesm_inputdata/ecosys_jan_IC_omip_plus_g.e22b05.G1850ECOIAF_JRA.TL319_g17.cocco.001_0123-01-01_POP_tx0.1v3_c200720.nc<br>
 I think this should be ready to go, with no additional processing.</p>
@@ -488,26 +488,26 @@ I think this should be ready to go, with no additional processing.</p>
 
 
 <a name="14209"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14209" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14209">(Jul 20 2020 at 22:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14209" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14209">(Jul 20 2020 at 22:58)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> , the IC based just on Kristen's case is<br>
 /glade/scratch/klindsay/cesm_inputdata/ecosys_jan_IC_g.e22b05.G1850ECOIAF_JRA.TL319_g17.cocco.001_0123-01-01_POP_tx0.1v3_c200720.nc</p>
 
 
 
 <a name="14210"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14210" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14210">(Jul 20 2020 at 23:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14210" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14210">(Jul 20 2020 at 23:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> -- thanks! I copied the file to <code>/glade/p/cesmdata/cseg/inputdata/ocn/pop/tx0.1v3/tmp/ecosys_jan_IC_omip_plus_g.e22b05.G1850ECOIAF_JRA.TL319_g17.cocco.001_0123-01-01_POP_tx0.1v3_c200720.nc</code> and am back to waiting for my job to start... hopefully it'll go overnight, it's been in the queue for almost 3 hours already.</p>
 
 
 
 <a name="14211"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14211" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14211">(Jul 20 2020 at 23:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14211" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14211">(Jul 20 2020 at 23:01)</a>:</h4>
 <p>oh, wait... your second link is a different file. I'll get that job queued up as well</p>
 
 
 
 <a name="14212"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14212" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14212">(Jul 20 2020 at 23:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/model%20configuration/near/14212" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/model.20configuration.html#14212">(Jul 20 2020 at 23:02)</a>:</h4>
 <p>The job with the WOA / Kristen combined initial conditions is queued, and I'll submit the "Kristen IC w/ out WOA" ASAP</p>
 
 

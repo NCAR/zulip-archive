@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>✔ landunit to lat/lon · xarray · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html">✔ landunit to lat/lon</a></h3>
+<h2>Stream: <a href="../../..//stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="../../..//stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html">✔ landunit to lat/lon</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="91896"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/91896" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#91896">(Nov 15 2023 at 20:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/91896" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="../../..//stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#91896">(Nov 15 2023 at 20:37)</a>:</h4>
 <p>Hi,</p>
 <p>I am trying to analyze some data in <code>/glade/campaign/cgd/tss/people/oleson/CLM_LAND_ONLY_RELEASE/CLM5/clm50_r270_1deg_GSWP3V1_iso_newpopd_hist/lnd/proc/tseries/month_1</code>, and the history variables are indexed by <code>landunit</code>. I'm not sure how to work with this data using typical xarray plotting. For example, a command that <span class="user-mention" data-user-id="67">@Will Wieder</span> uses:</p>
 <div class="codehilite"><pre><span></span><code>cf = ax.pcolormesh(clm_sub.lon, clm_sub.lat,
@@ -54,19 +54,19 @@ ValueError: not enough values to unpack (expected 2, got 1)
 
 
 <a name="91898"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/91898" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#91898">(Nov 15 2023 at 21:30)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/91898" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Notification Bot <a href="../../..//stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#91898">(Nov 15 2023 at 21:30)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="257">Adrianna Foster</span> has marked this topic as resolved.</p>
 
 
 
 <a name="91991"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/91991" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#91991">(Nov 16 2023 at 21:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/91991" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="../../..//stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#91991">(Nov 16 2023 at 21:15)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="257">@Adrianna Foster</span> it looks like you marked this as resolved, but if others are wondering about how to analyze 1D output from CESM there are a few resources I can point to. We have an ESDS blog post on using <a href="https://ncar.github.io/esds/posts/2023/cam-se-analysis/">CAM-SE output</a> which is indexed by <code>ncol</code> instead of lat/lon. There is another <a href="https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/">blog post</a> on analyzing CLM output indexed by <code>pft</code>. I'm not sure we have an example for data indexed by <code>landunit</code> but I would imagine the remapping would be similar to these other cases. If you do find that the solution or analysis is different, this would be a useful contribution!</p>
 
 
 
 <a name="92348"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/92348" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#92348">(Nov 27 2023 at 21:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/%E2%9C%94%20landunit%20to%20lat/lon/near/92348" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Adrianna Foster <a href="../../..//stream/42-xarray/topic/.E2.9C.94.20landunit.20to.20lat.2Flon.html#92348">(Nov 27 2023 at 21:56)</a>:</h4>
 <p>Thank you! I ended up using a different dataset that was indexed by lat/lon instead of <code>landunit</code> but this blog post was helpful!</p>
 
 

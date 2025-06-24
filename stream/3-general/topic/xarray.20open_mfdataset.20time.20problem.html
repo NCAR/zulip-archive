@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>xarray open_mfdataset time problem · general · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html">xarray open_mfdataset time problem</a></h3>
+<h2>Stream: <a href="../../..//stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html">xarray open_mfdataset time problem</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="105399"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105399" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105399">(Jan 28 2025 at 23:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105399" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105399">(Jan 28 2025 at 23:03)</a>:</h4>
 <p>Hello all,</p>
 <p>I created yearly files of daily total precipitation from ERA5. The netCDFs have dimensions:<br>
 double time(time) ;<br>
@@ -39,13 +39,13 @@ Mari</p>
 
 
 <a name="105400"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105400" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105400">(Jan 28 2025 at 23:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105400" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105400">(Jan 28 2025 at 23:07)</a>:</h4>
 <p>Could you share the cftime error?</p>
 
 
 
 <a name="105402"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105402" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105402">(Jan 29 2025 at 16:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105402" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105402">(Jan 29 2025 at 16:45)</a>:</h4>
 <p>There were two messages:</p>
 <p>OverflowError: time values outside range of 64 bit signed integers</p>
 <p>During handling of the above exception, another exception occurred:</p>
@@ -54,14 +54,14 @@ Mari</p>
 
 
 <a name="105403"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105403" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105403">(Jan 29 2025 at 17:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105403" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105403">(Jan 29 2025 at 17:00)</a>:</h4>
 <p>Thanks!</p>
 <p>I think you're right that you do need consistent time units for your time dimension with the multi-file dataset, but you can probably write a preprocess function that handles this (i.e. the adjusting the times to be consistent across files) to pass to open_mfdataset if you'd like to avoid rewriting the files.</p>
 
 
 
 <a name="105404"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105404" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105404">(Jan 29 2025 at 17:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105404" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105404">(Jan 29 2025 at 17:16)</a>:</h4>
 <p>Thank you! Would the preprocess be something along these lines?:<br>
 times = xr.date_range(start='1940-01-01', end='2023-12-31', freq='D')<br>
 ds['dates'] = times<br>
@@ -70,25 +70,25 @@ ds01 = ds0.assign_coords({"index": ds0.dates.values}).drop("time").rename({"date
 
 
 <a name="105405"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105405" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105405">(Jan 29 2025 at 17:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105405" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105405">(Jan 29 2025 at 17:52)</a>:</h4>
 <p>I think you'd want to do something a little different.  Do you have couple of sample files you could point me to?</p>
 
 
 
 <a name="105406"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105406" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105406">(Jan 29 2025 at 18:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105406" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105406">(Jan 29 2025 at 18:21)</a>:</h4>
 <p>I've copied a decade into /glade/derecho/scratch/maritye/ERA5/</p>
 
 
 
 <a name="105407"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105407" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105407">(Jan 29 2025 at 18:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105407" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105407">(Jan 29 2025 at 18:34)</a>:</h4>
 <p>Agh, it looks like I don't have read permissions.</p>
 
 
 
 <a name="105408"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105408" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="http://127.0.0.1:4000/html/stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105408">(Jan 29 2025 at 18:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/xarray%20open_mfdataset%20time%20problem/near/105408" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mari Tye <a href="../../..//stream/3-general/topic/xarray.20open_mfdataset.20time.20problem.html#105408">(Jan 29 2025 at 18:42)</a>:</h4>
 <p>just changed the permissions</p>
 
 

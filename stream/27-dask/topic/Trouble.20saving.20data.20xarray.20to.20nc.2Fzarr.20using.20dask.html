@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Trouble saving data xarray to nc/zarr using dask · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html">Trouble saving data xarray to nc/zarr using dask</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html">Trouble saving data xarray to nc/zarr using dask</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="105654"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105654" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105654">(Feb 24 2025 at 16:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105654" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105654">(Feb 24 2025 at 16:38)</a>:</h4>
 <p>Hello, I am having trouble saving small amounts of data (~30 kB) to nc/zarr when using dask:</p>
 <p>When I run<br>
 output_path = '/glade/derecho/scratch/oldend/%s_UOHC_leads.nc'<br>
@@ -119,13 +119,13 @@ Cell In[10], line 135<br>
 
 
 <a name="105668"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105668" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105668">(Feb 24 2025 at 19:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105668" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105668">(Feb 24 2025 at 19:15)</a>:</h4>
 <p>How are you creating <code>ens_to</code>? I wonder if the problem is in the setup of the dataset, and the <code>to_netcdf</code> call is the first time dask is trying to run through the whole graph. If you have <code>xr.open_mfdataset()</code> or <code>xr.concat()</code> calls, using <code>compat='override'</code> and <code>join='override'</code> will remove the consistency checks that verify all the coordinate arrays are the same across every file / dataset.</p>
 
 
 
 <a name="105669"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105669" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105669">(Feb 24 2025 at 19:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105669" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105669">(Feb 24 2025 at 19:41)</a>:</h4>
 <p>Thanks. I was using xr.open_mfdataset (already with compat='override' and join='override') as well as xr.concat (without those). I've added ens_ts0 = xr.concat([ens_ts0,ens_ts],dim='L',compat="override",join="override") but now I receive this error when doing xr.concat:</p>
 <hr>
 <p>ValueError                                Traceback (most recent call last)<br>
@@ -206,7 +206,7 @@ ens_ts</p>
 
 
 <a name="105670"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105670" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105670">(Feb 24 2025 at 19:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105670" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105670">(Feb 24 2025 at 19:42)</a>:</h4>
 <p>This is how ens_ts is computed:<br>
 lvals = np.arange(nyear)<br>
     lvalsda = xr.DataArray(np.arange(nleads),dims="L",name="L")<br>
@@ -226,7 +226,7 @@ lvals = np.arange(nyear)<br>
 
 
 <a name="105671"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105671" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105671">(Feb 24 2025 at 21:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105671" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105671">(Feb 24 2025 at 21:07)</a>:</h4>
 <blockquote>
 <p>I've added ens_ts0 = xr.concat([ens_ts0,ens_ts],dim='L',compat="override",join="override") but now I receive this error when doing xr.concat:</p>
 </blockquote>
@@ -235,7 +235,7 @@ lvals = np.arange(nyear)<br>
 
 
 <a name="105672"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105672" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105672">(Feb 24 2025 at 21:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105672" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105672">(Feb 24 2025 at 21:24)</a>:</h4>
 <p>That does make xr.concat() work, but then when I try to do ens_ts.to_netcdf(output_path) then I get:</p>
 <p>CancelledError                            Traceback (most recent call last)<br>
 Cell In[7], line 138<br>
@@ -333,7 +333,7 @@ Cell In[7], line 138<br>
 
 
 <a name="105679"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105679" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jemma Jeffree <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105679">(Feb 25 2025 at 22:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105679" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jemma Jeffree <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105679">(Feb 25 2025 at 22:40)</a>:</h4>
 <p>A couple of thoughts that might help debug:<br>
 — When you say adding a .load() doesn't fix the problem, does the .load() on its own throw the error, or the saving to netcdf after loading the file? This might narrow down whether it's a netcdf/saving problem or an issue with the dask graph. <br>
 — Does halving what you're computing or making smaller chunk sizes help? In the extreme case, is there some trivial/smallest subset of what you're trying to calculate that works? Or, in the other direction, what happens if you double or triple the memory but keep the number of workers the same?<br>
@@ -343,7 +343,7 @@ Cell In[7], line 138<br>
 
 
 <a name="105680"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105680" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105680">(Feb 26 2025 at 00:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105680" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105680">(Feb 26 2025 at 00:39)</a>:</h4>
 <p>Doing the load() by itself throws an error:</p>
 <hr>
 <p>CancelledError                            Traceback (most recent call last)<br>
@@ -399,19 +399,19 @@ The workers no longer crash, but it throws this strange CancelledError now. I've
 
 
 <a name="105681"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105681" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105681">(Feb 26 2025 at 00:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105681" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105681">(Feb 26 2025 at 00:45)</a>:</h4>
 <p>The "CancelledError" is the new problem. Previously it seemed like there was a memory overload for the workers, but now that does not seem to be the problem.</p>
 
 
 
 <a name="105682"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105682" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105682">(Feb 26 2025 at 00:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105682" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105682">(Feb 26 2025 at 00:46)</a>:</h4>
 <p>The errors changed when I updated all my packages and my conda version. I used to be able to plot these arrays and load() used to work, allowing me to call the values. Now none of it works at all.</p>
 
 
 
 <a name="105683"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105683" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105683">(Feb 26 2025 at 00:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105683" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105683">(Feb 26 2025 at 00:53)</a>:</h4>
 <p>Also, when the CancelledError appears, an error appears below where I call the dask client which is too long to even include here, but includes:</p>
 <p>2025-02-25 17:42:54,603 - distributed.protocol.core - CRITICAL - Failed to Serialize<br>
 Traceback (most recent call last):<br>
@@ -536,13 +536,13 @@ TypeError: 0-dim memory has no length</p>
 
 
 <a name="105684"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105684">(Feb 26 2025 at 04:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105684">(Feb 26 2025 at 04:15)</a>:</h4>
 <p>It turns out the problem was with my python environment - when I switch to the built-in NPL 2025a conda environment, everything works. I have no idea why.</p>
 
 
 
 <a name="105685"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105685" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105685">(Feb 26 2025 at 04:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Trouble%20saving%20data%20xarray%20to%20nc/zarr%20using%20dask/near/105685" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dylan Oldenburg <a href="../../..//stream/27-dask/topic/Trouble.20saving.20data.20xarray.20to.20nc.2Fzarr.20using.20dask.html#105685">(Feb 26 2025 at 04:16)</a>:</h4>
 <p>Well, not quite true. doing ens_ts = ens_ts.load() gives me a netCDF HDI error, but I can save the file.</p>
 
 

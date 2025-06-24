@@ -1,28 +1,28 @@
 <html>
 <head><meta charset="utf-8"><title>optimizing compression for fast reading · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html">optimizing compression for fast reading</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html">optimizing compression for fast reading</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="40920"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/40920" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Trude Eidhammer <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#40920">(Aug 25 2021 at 17:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/40920" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Trude Eidhammer <a href="../../..//stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#40920">(Aug 25 2021 at 17:27)</a>:</h4>
 <p>Hi <br>
 We have  a 250 member ensemble with time series. The time series are created from CESM outputs and compressed (time chunk = 1). This is not efficient for reading the files, and I am wondering if anyone have scripts for compressing files that also can be read in efficiently.</p>
 
 
 
 <a name="40923"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/40923" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Trude Eidhammer <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#40923">(Aug 25 2021 at 17:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/40923" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Trude Eidhammer <a href="../../..//stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#40923">(Aug 25 2021 at 17:56)</a>:</h4>
 <p>FYI, I am compressing the files with : nccopy -d1 -c time/1,lat/$lath,lon/$lonh $fname1 $fname2</p>
 
 
 
 <a name="42301"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/42301" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maria Frediani <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#42301">(Sep 10 2021 at 17:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/42301" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maria Frediani <a href="../../..//stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#42301">(Sep 10 2021 at 17:02)</a>:</h4>
 <p>Trude, in the past I used to save the variables I was interested in as a native numpy format (.npy). I didn't use dask at all but maybe this suits your needs because it loads quickly and compressed the data size. <br>
 To save the array compressed:<br>
 np.savez_compressed(fileout, ifile=filename, var=varname, data=mydata)<br>
@@ -33,7 +33,7 @@ Let me know if that works for you and I can give you my scripts.</p>
 
 
 <a name="42325"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/42325" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James McCreight <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#42325">(Sep 10 2021 at 17:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/optimizing%20compression%20for%20fast%20reading/near/42325" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James McCreight <a href="../../..//stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading.html#42325">(Sep 10 2021 at 17:09)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="148">Trude Eidhammer</span> <a href="#narrow/stream/27-dask/topic/optimizing.20compression.20for.20fast.20reading/near/40920">said</a>:</p>
 <blockquote>
 <p>Hi <br>

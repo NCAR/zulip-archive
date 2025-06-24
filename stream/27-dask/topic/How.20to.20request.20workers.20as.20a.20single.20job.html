@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>How to request workers as a single job · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html">How to request workers as a single job</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html">How to request workers as a single job</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="81779"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/How%20to%20request%20workers%20as%20a%20single%20job/near/81779" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html#81779">(May 30 2023 at 18:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/How%20to%20request%20workers%20as%20a%20single%20job/near/81779" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html#81779">(May 30 2023 at 18:05)</a>:</h4>
 <p>I am trying to spin up a dask cluster with 72 workers, and when the machine gets busy it can take a lot of time for all the workers to be ready at once... so several workers may sit idle for a while (and, in extreme cases, the first workers to get launched may run out of walltime before the rest of the cluster is available).</p>
 <p>I'm currently running</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">cluster</span> <span class="o">=</span> <span class="n">PBSCluster</span><span class="p">(</span>
@@ -46,13 +46,13 @@
 
 
 <a name="81798"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/How%20to%20request%20workers%20as%20a%20single%20job/near/81798" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html#81798">(May 30 2023 at 19:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/How%20to%20request%20workers%20as%20a%20single%20job/near/81798" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katie Dagon <a href="../../..//stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html#81798">(May 30 2023 at 19:42)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> Have you seen <a href="https://github.com/NCAR/dask-tutorial/blob/main/notebooks/05-dask-hpc.ipynb">this notebook</a> from the dask tutorial led by <span class="user-mention" data-user-id="71">@Negin Sobhani</span> and <span class="user-mention" data-user-id="141">@Brian Vanderwende</span> this past spring? I found it to be a very helpful resource for understanding PBS and dask. I'm not sure if it answers your exact question though. Maybe tweaking the <code>resource_spec</code> relative to the <code>cores</code>parameter? Could <a href="https://docs.dask.org/en/stable/how-to/adaptive.html">adaptive scaling</a> be useful here?</p>
 
 
 
 <a name="81799"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/How%20to%20request%20workers%20as%20a%20single%20job/near/81799" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html#81799">(May 30 2023 at 19:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/How%20to%20request%20workers%20as%20a%20single%20job/near/81799" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/How.20to.20request.20workers.20as.20a.20single.20job.html#81799">(May 30 2023 at 19:48)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="47">@Katie Dagon</span> ! I hadn't seen that notebook, but I'll read through it and follow some of the links. I think my use-case is different from most, though, so I'd like to stay away from adaptive scaling. While typical scripts can start running with a few workers and then scale up, I'd really like to make sure we have all the memory / cores we requested before doing any computation - and if we're going to wait for all of the workers to be available, it makes sense to let PBS treat it as a single job request instead of running one worker at a time as the resources become available.</p>
 
 

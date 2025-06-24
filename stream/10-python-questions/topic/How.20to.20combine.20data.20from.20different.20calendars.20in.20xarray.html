@@ -1,21 +1,21 @@
 <html>
 <head><meta charset="utf-8"><title>How to combine data from different calendars in xarray · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html">How to combine data from different calendars in xarray</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html">How to combine data from different calendars in xarray</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="11520"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11520" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11520">(Jun 16 2020 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11520" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11520">(Jun 16 2020 at 17:41)</a>:</h4>
 <p>The NA-CORDEX climate dataset has simulation runs  with daily values from several different calendars (360-day, 365 day noleap, 365 with leap), that I would like to combine into a single xarray dataset.   Is anyone familiar with an example of how to do this in xarray?  If it's not too difficult to do, I hope that the combined dataset does not throw away values, but pads out missing days from one calendar or the other with NaN values.     I have looked online for examples of how to do this, but have not found anything yet.   Thanks in advance for any pointers.</p>
 
 
 
 <a name="11527"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11527">(Jun 16 2020 at 18:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11527">(Jun 16 2020 at 18:10)</a>:</h4>
 <p>maybe something like </p>
 <div class="codehilite"><pre><span></span><span class="n">ds360</span> <span class="o">=</span> <span class="n">ds360</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">ds360</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">asi8</span><span class="p">)</span>
 <span class="o">...</span>
@@ -30,19 +30,19 @@
 
 
 <a name="11528"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11528">(Jun 16 2020 at 18:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11528">(Jun 16 2020 at 18:15)</a>:</h4>
 <p>Thanks for the suggestion!  I may not be able to try it right away, but my goal is to create an example notebook that demonstrates this.</p>
 
 
 
 <a name="11529"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11529" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11529">(Jun 16 2020 at 18:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11529" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11529">(Jun 16 2020 at 18:27)</a>:</h4>
 <p>the best way might be to open an issue at <code>cftime</code> asking for a function to convert between calendars.</p>
 
 
 
 <a name="11557"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11557" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Thyng <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11557">(Jun 17 2020 at 14:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11557" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Thyng <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11557">(Jun 17 2020 at 14:10)</a>:</h4>
 <p>I have found pandas time handling to almost always be able to do what I need. Have you used that much? It has the best timezone handling I have seen, too.</p>
 <p>Something like,</p>
 <blockquote>
@@ -54,7 +54,7 @@ pd.Timestamp([your time array])</p>
 
 
 <a name="11558"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11558" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11558">(Jun 17 2020 at 14:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11558" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11558">(Jun 17 2020 at 14:18)</a>:</h4>
 <blockquote>
 <p>I have found pandas time handling to almost always be able to do what I need. Have you used that much? It has the best timezone handling I have seen, too.</p>
 </blockquote>
@@ -63,25 +63,25 @@ pd.Timestamp([your time array])</p>
 
 
 <a name="11559"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11559" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11559">(Jun 17 2020 at 14:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11559" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11559">(Jun 17 2020 at 14:20)</a>:</h4>
 <p>However, I think <span class="user-mention" data-user-id="89">@Kristen Thyng</span> makes a good point that <em>many</em> times (not always) you only need to know timestamps, and <em>durations</em> (i.e., distances between timestamps) are not needed.  When you do not need to use durations, then pandas should be fine.  If you need to use durations, then some smart handling of calendars is needed.</p>
 
 
 
 <a name="11560"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11560" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11560">(Jun 17 2020 at 14:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11560" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11560">(Jun 17 2020 at 14:22)</a>:</h4>
 <p>...Although some care probably needs to be taken to make sure that the timestamps generated for non-standard calendars actually make sense.</p>
 
 
 
 <a name="11561"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11561" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11561">(Jun 17 2020 at 14:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11561" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11561">(Jun 17 2020 at 14:22)</a>:</h4>
 <p>I am not sure it's a good idea to combine datasets with different calendars into a single xarray Datatset.</p>
 
 
 
 <a name="11568"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11568" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Thyng <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11568">(Jun 17 2020 at 15:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/How%20to%20combine%20data%20from%20different%20calendars%20in%20xarray/near/11568" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Thyng <a href="../../..//stream/10-python-questions/topic/How.20to.20combine.20data.20from.20different.20calendars.20in.20xarray.html#11568">(Jun 17 2020 at 15:12)</a>:</h4>
 <blockquote>
 <p>However, I think <span class="user-mention silent" data-user-id="89">Kristen Thyng</span> makes a good point that <em>many</em> times (not always) you only need to know timestamps, and <em>durations</em> (i.e., distances between timestamps) are not needed.  When you do not need to use durations, then pandas should be fine.  If you need to use durations, then some smart handling of calendars is needed.</p>
 </blockquote>

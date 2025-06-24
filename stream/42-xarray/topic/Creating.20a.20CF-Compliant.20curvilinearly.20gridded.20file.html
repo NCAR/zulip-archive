@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Creating a CF-Compliant curvilinearly gridded file · xarray · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html">Creating a CF-Compliant curvilinearly gridded file</a></h3>
+<h2>Stream: <a href="../../..//stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="../../..//stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html">Creating a CF-Compliant curvilinearly gridded file</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="49856"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49856" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49856">(Jan 31 2022 at 23:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49856" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="../../..//stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49856">(Jan 31 2022 at 23:11)</a>:</h4>
 <p>I'm trying to convert a binary dataset into CF Compliant NetCDF.  Thank you in advance for any thoughts, tips, and suggestions.</p>
 <p>I have a file on glade that has float32 bit values for a single variable on a 120x120x14 grid.<br>
    /glade/scratch/pearse/marshall/coen/FLOAT/u.float.0212</p>
@@ -29,13 +29,13 @@ E3d = E.reshape((120,120,14))</p>
 
 
 <a name="49860"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49860" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49860">(Feb 01 2022 at 15:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49860" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="../../..//stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49860">(Feb 01 2022 at 15:26)</a>:</h4>
 <p>I have a typo in my above message - The horizontal Coordinate Variables can be anything - but the vertical Coordinate Variable must be defined by the 120x120x14 ELEVATION file.  Thanks again.</p>
 
 
 
 <a name="49883"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49883" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49883">(Feb 01 2022 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/Creating%20a%20CF-Compliant%20curvilinearly%20gridded%20file/near/49883" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Scott Pearse <a href="../../..//stream/42-xarray/topic/Creating.20a.20CF-Compliant.20curvilinearly.20gridded.20file.html#49883">(Feb 01 2022 at 20:03)</a>:</h4>
 <p>Answering my open question:</p>
 <p>zDim = 14<br>
 yDim = 120<br>

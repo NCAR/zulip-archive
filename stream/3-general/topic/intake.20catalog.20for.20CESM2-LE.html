@@ -1,33 +1,33 @@
 <html>
 <head><meta charset="utf-8"><title>intake catalog for CESM2-LE · general · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html">intake catalog for CESM2-LE</a></h3>
+<h2>Stream: <a href="../../..//stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html">intake catalog for CESM2-LE</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="95889"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95889" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95889">(Feb 16 2024 at 17:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95889" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95889">(Feb 16 2024 at 17:00)</a>:</h4>
 <p>I have old notebooks that use intake to ingest CESM2-LE data, pointing to this json file that no longer exists: <code>/glade/work/mgrover/intake-esm-catalogs/glade-cesm2-le.json</code>.  Can anyone tell me where the CESM2-LE catalog file now resides?</p>
 
 
 
 <a name="95890"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95890" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95890">(Feb 16 2024 at 17:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95890" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95890">(Feb 16 2024 at 17:02)</a>:</h4>
 <p>This is what I've got: /glade/campaign/cgd/cesm/CESM2-LE/</p>
 
 
 
 <a name="95891"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95891" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95891">(Feb 16 2024 at 17:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95891" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95891">(Feb 16 2024 at 17:10)</a>:</h4>
 <p>Answered my own question. It's here:  <code>/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json</code></p>
 
 
 
 <a name="95895"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95895" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95895">(Feb 16 2024 at 17:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95895" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95895">(Feb 16 2024 at 17:59)</a>:</h4>
 <p>However, I'm getting an error when trying to use intake v2.0.1 to read in this catalog.</p>
 <div class="codehilite"><pre><span></span><code>catalog_file = &quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json&quot;
 col = intake.open_esm_datastore(catalog_file)
@@ -40,7 +40,7 @@ col = intake.open_esm_datastore(catalog_file)
 
 
 <a name="95901"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95901" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95901">(Feb 16 2024 at 19:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/95901" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#95901">(Feb 16 2024 at 19:32)</a>:</h4>
 <p><span class="user-mention" data-user-id="34">@Stephen Yeager</span> and I got to the point where he was getting a different error</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">pydantic_core</span><span class="o">.</span><span class="n">_pydantic_core</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">:</span> <span class="mi">1</span> <span class="n">validation</span> <span class="n">error</span> <span class="k">for</span> <span class="n">ESMCatalogModel</span>
 <span class="n">aggregation_control</span><span class="o">.</span><span class="n">aggregations</span><span class="mf">.0</span><span class="o">.</span><span class="n">options</span>
@@ -52,13 +52,13 @@ col = intake.open_esm_datastore(catalog_file)
 
 
 <a name="96056"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/96056" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#96056">(Feb 26 2024 at 19:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/96056" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#96056">(Feb 26 2024 at 19:36)</a>:</h4>
 <p>I do about once per week <span class="user-mention" data-user-id="10">@Michael Levy</span>  (Zulip, not that repo). Thanks for opening an issue!</p>
 
 
 
 <a name="96129"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/96129" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maurício Rebouças Rocha <a href="http://127.0.0.1:4000/html/stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#96129">(Feb 27 2024 at 18:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/intake%20catalog%20for%20CESM2-LE/near/96129" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Maurício Rebouças Rocha <a href="../../..//stream/3-general/topic/intake.20catalog.20for.20CESM2-LE.html#96129">(Feb 27 2024 at 18:28)</a>:</h4>
 <p>Interesting, I use intake and haven't had issues. catalog = intake.open_esm_datastore(<br>
     '/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cesm2-le.json'<br>
 )</p>

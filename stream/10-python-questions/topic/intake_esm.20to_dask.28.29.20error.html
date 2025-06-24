@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>intake_esm to_dask() error · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html">intake_esm to_dask() error</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html">intake_esm to_dask() error</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="14944"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14944" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14944">(Aug 05 2020 at 15:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14944" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14944">(Aug 05 2020 at 15:34)</a>:</h4>
 <p>Hi all, I'm currently trying to look for some variables in the OMIP experiment on glade using intake_esm and I'm getting an error I haven't seen before. I have loaded the columns </p>
 <div class="codehilite"><pre><span></span>catalog_path = &quot;/glade/collections/cmip/catalog/intake-esm-datastore/catalogs/glade-cmip6.json&quot;
 col = intake.open_esm_datastore(catalog_path)
@@ -147,7 +147,7 @@ I have used this before and it worked, and now it doesn't. any tips?</p>
 
 
 <a name="14980"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14980" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14980">(Aug 05 2020 at 17:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14980" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14980">(Aug 05 2020 at 17:53)</a>:</h4>
 <p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, I am looking into this. So far, I have been able to isolate  some of the problematic files/datasets by loading each variable in its own dataset instead of merging  multiple variables into a single dataset:</p>
 <p><a href="../../../user_uploads/2/c8/k_4VuQyJ7agMbCJOEj8ERwKQ/Screen-Shot-2020-08-05-at-11.46.38-AM.png" target="_blank" title="Screen-Shot-2020-08-05-at-11.46.38-AM.png">Screen-Shot-2020-08-05-at-11.46.38-AM.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/c8/k_4VuQyJ7agMbCJOEj8ERwKQ/Screen-Shot-2020-08-05-at-11.46.38-AM.png" target="_blank" title="Screen-Shot-2020-08-05-at-11.46.38-AM.png"><img src="../../../user_uploads/2/c8/k_4VuQyJ7agMbCJOEj8ERwKQ/Screen-Shot-2020-08-05-at-11.46.38-AM.png"></a></div><p>As you can see below, some of the time axes aren't monotonic and have duplicate time values:</p>
@@ -157,19 +157,19 @@ I have used this before and it worked, and now it doesn't. any tips?</p>
 
 
 <a name="14981"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14981" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14981">(Aug 05 2020 at 17:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14981" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14981">(Aug 05 2020 at 17:53)</a>:</h4>
 <p>I will get back to you once I have a working solution</p>
 
 
 
 <a name="14982"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14982" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14982">(Aug 05 2020 at 17:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14982" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14982">(Aug 05 2020 at 17:55)</a>:</h4>
 <p><span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> how about adding a <code>.debug_catalog</code> function that prints these diagnostics to screen?</p>
 
 
 
 <a name="14983"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14983" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14983">(Aug 05 2020 at 17:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14983" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14983">(Aug 05 2020 at 17:56)</a>:</h4>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="13">Anderson Banihirwe</span> how about adding a <code>.debug_catalog</code> function that prints these diagnostics to screen?</p>
 </blockquote>
@@ -178,25 +178,25 @@ I have used this before and it worked, and now it doesn't. any tips?</p>
 
 
 <a name="14984"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14984" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14984">(Aug 05 2020 at 17:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14984" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14984">(Aug 05 2020 at 17:57)</a>:</h4>
 <p>I've been working on some utilities that will allow us to expose some debugging information to the user</p>
 
 
 
 <a name="14985"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14985">(Aug 05 2020 at 17:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14985">(Aug 05 2020 at 17:58)</a>:</h4>
 <p>E.g.. Turning <code>aggregations</code> off on the fly</p>
 
 
 
 <a name="14986"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14986" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14986">(Aug 05 2020 at 18:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14986" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14986">(Aug 05 2020 at 18:00)</a>:</h4>
 <p>I think the next step is to catch some of these recurring errors (duplicated time axis, coordinates mismatches, etc) and provide the user with some suggestions on how to address them.</p>
 
 
 
 <a name="14987"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14987" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14987">(Aug 05 2020 at 18:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14987" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14987">(Aug 05 2020 at 18:44)</a>:</h4>
 <p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, I think I now know where the time axis duplication is coming from: </p>
 <p><a href="../../../user_uploads/2/de/nBIeDbY-huIk0lCnW8MSEzMY/Screen-Shot-2020-08-05-at-12.32.15-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-12.32.15-PM.png">Screen-Shot-2020-08-05-at-12.32.15-PM.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/de/nBIeDbY-huIk0lCnW8MSEzMY/Screen-Shot-2020-08-05-at-12.32.15-PM.png" target="_blank" title="Screen-Shot-2020-08-05-at-12.32.15-PM.png"><img src="../../../user_uploads/2/de/nBIeDbY-huIk0lCnW8MSEzMY/Screen-Shot-2020-08-05-at-12.32.15-PM.png"></a></div><p>Notice how for these two files, their time axes are overlapping:</p>
@@ -209,7 +209,7 @@ File2: <code>1750-01 ---&gt; 1799-12</code> </p>
 
 
 <a name="14994"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14994" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14994">(Aug 05 2020 at 19:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14994" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14994">(Aug 05 2020 at 19:37)</a>:</h4>
 <p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span>, I have two recommendations:</p>
 <ul>
 <li>
@@ -235,7 +235,7 @@ File2: <code>1750-01 ---&gt; 1799-12</code> </p>
 
 
 <a name="14995"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14995" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14995">(Aug 05 2020 at 19:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14995" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14995">(Aug 05 2020 at 19:37)</a>:</h4>
 <p>Note: </p>
 <ul>
 <li>for option 2) to work, you will need intake-esm <code>v2020.08.15</code> (which hasn't been released yet) and later or you can use the master branch of intake-esm (<code>python -m pip install git+https://github.com/intake/intake-esm.git</code>)</li>
@@ -245,19 +245,19 @@ File2: <code>1750-01 ---&gt; 1799-12</code> </p>
 
 
 <a name="14996"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14996" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14996">(Aug 05 2020 at 19:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/14996" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#14996">(Aug 05 2020 at 19:37)</a>:</h4>
 <p>Thank you <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> I will try that</p>
 
 
 
 <a name="15136"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15136">(Aug 07 2020 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15136">(Aug 07 2020 at 19:08)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , it worked.  What I actually want to find out, though, is which variables there are for which model (I am okay with specifying the experiment, I can go through the ones that interest me iteratively). Is there a clever way to do that?</p>
 
 
 
 <a name="15307"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15307" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15307">(Aug 11 2020 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15307" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15307">(Aug 11 2020 at 17:49)</a>:</h4>
 <blockquote>
 <p>What I actually want to find out, though, is which variables there are for which model (I am okay with specifying the experiment, I can go through the ones that interest me iteratively). Is there a clever way to do that?</p>
 </blockquote>
@@ -324,19 +324,19 @@ File2: <code>1750-01 ---&gt; 1799-12</code> </p>
 
 
 <a name="15311"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15311" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15311">(Aug 11 2020 at 17:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15311" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15311">(Aug 11 2020 at 17:51)</a>:</h4>
 <p>Let me know if this accomplishes what you want</p>
 
 
 
 <a name="15312"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15312" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15312">(Aug 11 2020 at 17:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15312" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15312">(Aug 11 2020 at 17:53)</a>:</h4>
 <p>Thanks Anderson I will try it -- at first glance it seems to be exactly what I was looking for!</p>
 
 
 
 <a name="15313"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15313" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15313">(Aug 11 2020 at 18:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/intake_esm%20to_dask%28%29%20error/near/15313" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/intake_esm.20to_dask.28.29.20error.html#15313">(Aug 11 2020 at 18:01)</a>:</h4>
 <p>Great! </p>
 <p>By the way, when using the <code>search()</code> method, you may find the <code>require_all_on</code> argument to be useful in some cases:  <a href="https://intake-esm.readthedocs.io/en/latest/notebooks/tutorial.html#Enhanced-search:-enforce-query-criteria-via-require_all_on-argument" target="_blank" title="https://intake-esm.readthedocs.io/en/latest/notebooks/tutorial.html#Enhanced-search:-enforce-query-criteria-via-require_all_on-argument">https://intake-esm.readthedocs.io/en/latest/notebooks/tutorial.html#Enhanced-search:-enforce-query-criteria-via-require_all_on-argument</a></p>
 

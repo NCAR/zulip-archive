@@ -1,21 +1,21 @@
 <html>
 <head><meta charset="utf-8"><title>MOM6 Regional Experiments · ocean-cdr · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/index.html">ocean-cdr</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html">MOM6 Regional Experiments</a></h3>
+<h2>Stream: <a href="../../..//stream/59-ocean-cdr/index.html">ocean-cdr</a></h2>
+<h3>Topic: <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html">MOM6 Regional Experiments</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="55970"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/55970" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#55970">(Jun 02 2022 at 19:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/55970" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#55970">(Jun 02 2022 at 19:14)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, can you please point <span class="user-mention" data-user-id="213">@SBachman</span> to a recent MOM6 caseroot with MARBL? He's trying to compile with MARBL on in a regional configuration.</p>
 
 
 
 <a name="55978"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/55978" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#55978">(Jun 02 2022 at 21:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/55978" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#55978">(Jun 02 2022 at 21:15)</a>:</h4>
 <p>Chiming in for <span class="user-mention" data-user-id="10">@Michael Levy</span>, as he is out of the office.<br>
 CASEROOT=/glade/work/mlevy/codes/CESM/cesm2_3_beta08+mom6_marbl/long_runs/g.e23b08.TL319_t061.G1850MOMMARBL_JRA.002<br>
 MOM code, with MARBL, is at<br>
@@ -27,25 +27,25 @@ I'm not sure if Mike has built standalone MOM+MARBL.</p>
 
 
 <a name="56081"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56081" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56081">(Jun 06 2022 at 15:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56081" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56081">(Jun 06 2022 at 15:23)</a>:</h4>
 <p>Thanks for providing the info, Keith! I have not built standalone MOM+MARBL - one of my lower-priority tasks is to figure out how to point the stand-alone build system to <code>$MOM_ROOT/pkg/MARBL</code> (actual MARBL code) instead of <code>$MOM_ROOT/config_src/external/MARBL</code> (a template that will allow <code>$MOM_ROOT/src/tracer/MARBL_tracers.F90</code> to build but will abort if <code>USE_MARBL_TRACERS=True</code>)</p>
 
 
 
 <a name="56082"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56082">(Jun 06 2022 at 15:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56082">(Jun 06 2022 at 15:49)</a>:</h4>
 <p>I don't think <span class="user-mention" data-user-id="213">@SBachman</span> is using standalone MOM6...</p>
 
 
 
 <a name="56083"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56083" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56083">(Jun 06 2022 at 15:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56083" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56083">(Jun 06 2022 at 15:58)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> I think you're right, if memory serves he mentioned that he's using CESM+MOM last time we all discussed this. (One of many reasons that standalone MOM+MARBL is such a low priority)</p>
 
 
 
 <a name="56084"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56084" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> SBachman <a href="http://127.0.0.1:4000/html/stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56084">(Jun 06 2022 at 16:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/59-ocean-cdr/topic/MOM6%20Regional%20Experiments/near/56084" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> SBachman <a href="../../..//stream/59-ocean-cdr/topic/MOM6.20Regional.20Experiments.html#56084">(Jun 06 2022 at 16:00)</a>:</h4>
 <p>yes i am using CESM+MOM6</p>
 
 

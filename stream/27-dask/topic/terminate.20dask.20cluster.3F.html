@@ -1,33 +1,33 @@
 <html>
 <head><meta charset="utf-8"><title>terminate dask cluster? · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html">terminate dask cluster?</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html">terminate dask cluster?</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="21769"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21769" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21769">(Nov 19 2020 at 17:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21769" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21769">(Nov 19 2020 at 17:46)</a>:</h4>
 <p>I started a dask cluster that I no longer need. How do I terminate all my dask-worker jobs?</p>
 
 
 
 <a name="21770"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21770" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21770">(Nov 19 2020 at 18:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21770" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21770">(Nov 19 2020 at 18:00)</a>:</h4>
 <p>in the notebook you can do <code>cluster.close()</code> assuming you started with <code>cluster = NCARCluster(...)</code> or something similar</p>
 
 
 
 <a name="21771"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21771" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21771">(Nov 19 2020 at 18:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21771" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21771">(Nov 19 2020 at 18:01)</a>:</h4>
 <p>I think you'll want to do <code>client.close()</code> also to avoid a bunch of error messages (assuming <code>client = distributed.Client(cluster)</code></p>
 
 
 
 <a name="21772"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21772" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21772">(Nov 19 2020 at 18:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21772" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21772">(Nov 19 2020 at 18:05)</a>:</h4>
 <p>If you want to kill the jobs from the command line the following will kill ALL of your dask-workers:</p>
 <div class="codehilite"><pre><span></span>squeue -u $USER | grep dask-wor | awk &#39;{print $1}&#39; | xargs scancel
 </pre></div>
@@ -40,19 +40,19 @@ Replace <code>squeue</code> and <code>scancel</code> with corresponding PBS comm
 
 
 <a name="21773"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21773" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21773">(Nov 19 2020 at 18:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21773" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21773">(Nov 19 2020 at 18:06)</a>:</h4>
 <p>Thanks, that worked to kill the second batch of workers, but I invoked <code>cluster = NCARCluster(...)</code> and <code>client = Client(cluster)</code> twice in the same notebook. The first batch of workers seem to be in limbo and no longer connected to my notebook?</p>
 
 
 
 <a name="21774"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21774" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21774">(Nov 19 2020 at 18:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21774" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21774">(Nov 19 2020 at 18:07)</a>:</h4>
 <p>ah yes i don't know a good notebook-only solution for the two cluster problem. <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> any ideas?</p>
 
 
 
 <a name="21775"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21775" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21775">(Nov 19 2020 at 18:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/21775" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#21775">(Nov 19 2020 at 18:32)</a>:</h4>
 <p>There's a hidden <code>_global_clients</code> object which holds references to clients instantiated in a Python session... You can loop over this object to see which clients have been registered..</p>
 <div class="codehilite"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">distributed.client</span> <span class="kn">import</span> <span class="n">_global_clients</span>
 
@@ -77,7 +77,7 @@ Replace <code>squeue</code> and <code>scancel</code> with corresponding PBS comm
 
 
 <a name="49041"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49041" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49041">(Jan 11 2022 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49041" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49041">(Jan 11 2022 at 17:49)</a>:</h4>
 <p>For reference, note that the wide-format option of qstat is needed to terminate dask workers on cheyenne/PBS:</p>
 <div class="codehilite"><pre><span></span><code>qstat -w -u $USER | grep dask-wor | awk &#39;{print $1}&#39; | xargs qdel
 </code></pre></div>
@@ -85,20 +85,20 @@ Replace <code>squeue</code> and <code>scancel</code> with corresponding PBS comm
 
 
 <a name="49119"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49119" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49119">(Jan 11 2022 at 22:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49119" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49119">(Jan 11 2022 at 22:39)</a>:</h4>
 <p>golf? <span aria-label="grinning" class="emoji emoji-1f600" role="img" title="grinning">:grinning:</span><br>
 <code>qselect -N dask-worker -u $USER | xargs qdel</code></p>
 
 
 
 <a name="49136"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49136">(Jan 12 2022 at 17:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49136" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49136">(Jan 12 2022 at 17:29)</a>:</h4>
 <p>This should be on the ESDS. FAQ!</p>
 
 
 
 <a name="49238"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49238" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49238">(Jan 13 2022 at 19:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49238" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49238">(Jan 13 2022 at 19:18)</a>:</h4>
 <p>The command doesn't seem to work for me: </p>
 <div class="codehilite"><pre><span></span><code>qselect -N dask-worker -u bonnland | xargs qdel
 usage:
@@ -113,13 +113,13 @@ pbs_version = 2021.1.1.20210518090504
 
 
 <a name="49266"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49266" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49266">(Jan 13 2022 at 21:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49266" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49266">(Jan 13 2022 at 21:39)</a>:</h4>
 <p>are you getting output from <code>qselect</code>? If not, which host are you on?</p>
 
 
 
 <a name="49267"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49267" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49267">(Jan 13 2022 at 21:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49267" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49267">(Jan 13 2022 at 21:41)</a>:</h4>
 <p>Thanks Jared, hostname is crhtc53 (via execcasper) and output from qselect looks like this:</p>
 <div class="codehilite"><pre><span></span><code>1921640.casper-pbs
 1921641.casper-pbs
@@ -137,20 +137,20 @@ pbs_version = 2021.1.1.20210518090504
 
 
 <a name="49270"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49270" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49270">(Jan 13 2022 at 22:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49270" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49270">(Jan 13 2022 at 22:01)</a>:</h4>
 <p>odd, if you're getting newline delimited output, running into <code>xargs qdel</code> should be fine. What is interesting is that ': 123'  ouptut. I'm trying to even generate that output.</p>
 
 
 
 <a name="49427"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49427" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49427">(Jan 19 2022 at 21:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49427" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49427">(Jan 19 2022 at 21:34)</a>:</h4>
 <p>Hi Jared, </p>
 <p>the dask terminate invocation is working for me now.   It's possible it wasn't working because I invoked from a Bash shell inside of JupyterHub.   If I login directly to Casper instead using Terminal, the command seems to work.</p>
 
 
 
 <a name="49493"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49493" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49493">(Jan 20 2022 at 18:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/terminate%20dask%20cluster%3F/near/49493" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jared Baker <a href="../../..//stream/27-dask/topic/terminate.20dask.20cluster.3F.html#49493">(Jan 20 2022 at 18:56)</a>:</h4>
 <p>Still should have been fine regardless. I mean, as long as you were within the casper domain, should have worked.</p>
 
 

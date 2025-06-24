@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>controlling Zarr metadata · xarray · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html">controlling Zarr metadata</a></h3>
+<h2>Stream: <a href="../../..//stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html">controlling Zarr metadata</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="25754"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25754" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25754">(Feb 23 2021 at 20:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25754" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25754">(Feb 23 2021 at 20:00)</a>:</h4>
 <p>I'm using xarray 0.16.2 and zarr 2.6.1.</p>
 <p>I am trying to save Zarr stores created from merging together Xarray datasets created from separate NetCDF files, using intake-esm's <code>to_dataset_dict()</code> function.   The default behavior of the merge operation seems to be to preserve metadata that is identical across all source datasets.   However, I'm trying to control the value of a metadata attribute that has conflicting values across the source datasets, like this:</p>
 <div class="codehilite"><pre><span></span>        del ds[&#39;time&#39;].attrs[&#39;calendar&#39;]
@@ -24,55 +24,55 @@
 
 
 <a name="25758"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25758" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25758">(Feb 23 2021 at 20:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25758" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25758">(Feb 23 2021 at 20:10)</a>:</h4>
 <p>Is there a way to control such metadata parameters that I might be missing?   Thanks for any help.</p>
 
 
 
 <a name="25761"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25761" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25761">(Feb 23 2021 at 20:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25761" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25761">(Feb 23 2021 at 20:53)</a>:</h4>
 <p>After some digging into the xarray code,  it appears that XArray datasets with datetime64 time values cannot set or change the "units" and "calendar" attributes.   These apparently help interpret the time axis values in a critical way.   But  the values for "units" and "calendar" do not show up in the list of attributes for ds['time'], so I'm not sure exactly what's going on.</p>
 
 
 
 <a name="25762"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25762" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25762">(Feb 23 2021 at 20:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25762" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25762">(Feb 23 2021 at 20:57)</a>:</h4>
 <p>I think both <code>units</code> and <code>calendar</code> are in <code>ds["time"].encoding</code></p>
 
 
 
 <a name="25763"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25763" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25763">(Feb 23 2021 at 21:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25763" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25763">(Feb 23 2021 at 21:02)</a>:</h4>
 <p>OK, but the error message seems misleading then.   Also, I suspect users won't typically look in <code>ds["time"].encoding </code> to understand what kind of calendar they are using.   Or maybe I'm not aware of the conventions...</p>
 
 
 
 <a name="25764"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25764" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25764">(Feb 23 2021 at 21:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25764" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25764">(Feb 23 2021 at 21:08)</a>:</h4>
 <p>I think the error message is actually pretty informative: "<code>This is probably an encoding field</code>" Though I didn't realize it was refering to <code>da.encoding</code> until I started playing around on my own :) Also, I'm a little confused about how you mention you want to "control the value of a metadata attribute that has conflicting values across the source datasets". Didn't this come up at an Xdev meeting a while back? What do you expect to happen when you create a single dataset from many different datasets using different time axes?</p>
 
 
 
 <a name="25765"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25765" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25765">(Feb 23 2021 at 21:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25765" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25765">(Feb 23 2021 at 21:10)</a>:</h4>
 <p>When properly combined, the merged dataset has time axis values from the union of all datasets.  This is the Gregorian calendar in most cases I have.</p>
 
 
 
 <a name="25766"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25766" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25766">(Feb 23 2021 at 21:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25766" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25766">(Feb 23 2021 at 21:11)</a>:</h4>
 <p>Thanks for your note about the message.   I take it that <code>ds['time'].attrs</code> is not the conventional home for "units" and "calendar", which is news to me.</p>
 
 
 
 <a name="25767"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25767" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25767">(Feb 23 2021 at 21:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25767" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25767">(Feb 23 2021 at 21:14)</a>:</h4>
 <p>It must be time-specific, maybe when it recognizes that it is reading a <code>datetime</code> or <code>cftime</code> object? I know <code>units</code> is typically in <code>da.attrs</code> for other fields</p>
 
 
 
 <a name="25769"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25769" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25769">(Feb 23 2021 at 21:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/controlling%20Zarr%20metadata/near/25769" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/42-xarray/topic/controlling.20Zarr.20metadata.html#25769">(Feb 23 2021 at 21:40)</a>:</h4>
 <p>Yes, I can set attributes for any other coordinate or variable other than the time dimension, which I know now I should just leave alone.   Thanks for your insights...</p>
 
 

@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>selecting nearest lat/lon in dataset · general · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html">selecting nearest lat/lon in dataset</a></h3>
+<h2>Stream: <a href="../../..//stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html">selecting nearest lat/lon in dataset</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="93677"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93677" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93677">(Dec 20 2023 at 01:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93677" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93677">(Dec 20 2023 at 01:18)</a>:</h4>
 <p>This is probably really simple, but I am reading in a new dataset, and am unfamiliar with how to extract locations with lat/lon in the way I usually do with model output. I am using xarray.</p>
 <p>My dataset looks like this:</p>
 <div class="codehilite"><pre><span></span><code>xarray.Dataset
@@ -36,31 +36,31 @@ xylar_temps.temperature.where(xylar_temps.lat==-65, xylar_temps.lon==-110).isel(
 
 
 <a name="93682"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93682" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93682">(Dec 20 2023 at 11:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93682" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93682">(Dec 20 2023 at 11:08)</a>:</h4>
 <p>You mentioned you are working on a Cartesian grid, so attempting to select using spherical (lat, lon) coordinates might be causing this unexpected behavior.</p>
 
 
 
 <a name="93683"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93683" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93683">(Dec 20 2023 at 11:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93683" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93683">(Dec 20 2023 at 11:10)</a>:</h4>
 <p>I would start off by converting your <code>lat</code> and <code>lon</code> into their respective <code>x</code> <code>y</code> and <code>z</code> Cartesian representation and see if that gives your expected results when selecting.</p>
 
 
 
 <a name="93684"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93684">(Dec 20 2023 at 11:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93684">(Dec 20 2023 at 11:11)</a>:</h4>
 <p>Do you mind printing out the min &amp; max of your lat / lon coordinates?</p>
 
 
 
 <a name="93688"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93688" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93688">(Dec 20 2023 at 16:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93688" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93688">(Dec 20 2023 at 16:56)</a>:</h4>
 <p>Xoak can also help with this problem (indexing multidimensional coordinates).  There's an example here: <a href="https://pop-tools.readthedocs.io/en/latest/examples/xoak-example.html">https://pop-tools.readthedocs.io/en/latest/examples/xoak-example.html</a></p>
 
 
 
 <a name="93690"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93690" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93690">(Dec 20 2023 at 18:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93690" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93690">(Dec 20 2023 at 18:31)</a>:</h4>
 <p><span class="user-mention" data-user-id="279">@Philip Chmielowiec</span> <br>
 The min/max range for lat is : -90 to  -51.84956701<br>
 for lon, the range is -179.9 to 180.<br>
@@ -70,20 +70,20 @@ for lon, the range is -179.9 to 180.<br>
 
 
 <a name="93691"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93691" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93691">(Dec 20 2023 at 18:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93691" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93691">(Dec 20 2023 at 18:32)</a>:</h4>
 <p>Got it, I've been working with unstructured grids mostly, so sometimes instead of <code>lat</code> <code>lon</code> our coordinates are in terms of <code>x</code> <code>y</code> <code>z</code>, so just wanted to make sure :)</p>
 
 
 
 <a name="93693"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93693" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93693">(Dec 20 2023 at 18:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93693" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93693">(Dec 20 2023 at 18:57)</a>:</h4>
 <p>Hi Mira. What does your code return when this is used:<br>
 <code>temps.temperature.sel(lat=-65, lon=-110, method = 'nearest').isel(z=0)</code></p>
 
 
 
 <a name="93694"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93694" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93694">(Dec 20 2023 at 18:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93694" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93694">(Dec 20 2023 at 18:58)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="234">@Daniel Adriaansen</span> <br>
 I get the following error: <br>
 KeyError: "no index found for coordinate 'lat'"</p>
@@ -91,13 +91,13 @@ KeyError: "no index found for coordinate 'lat'"</p>
 
 
 <a name="93695"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93695" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93695">(Dec 20 2023 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93695" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93695">(Dec 20 2023 at 19:08)</a>:</h4>
 <p>I believe because lat/lon are not dimension coordinates, using <code>sel()</code> will not work in this case. Do your data have a specific projection on the Earth?</p>
 
 
 
 <a name="93696"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93696" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93696">(Dec 20 2023 at 19:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93696" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93696">(Dec 20 2023 at 19:16)</a>:</h4>
 <p>I don't believe they are projected, its a regular grid. <br>
 Basically I want to be able to do the opposite of this, where isntead of selecting an x/y to get a lat/lon, I want to be able to do the opposite:</p>
 <div class="codehilite"><pre><span></span><code>temps.temperature.isel(x=100,y=100, z=0)
@@ -120,13 +120,13 @@ corrected pot. temp
 
 
 <a name="93697"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93697" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93697">(Dec 20 2023 at 19:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93697" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93697">(Dec 20 2023 at 19:27)</a>:</h4>
 <p>OK thanks! If there are two-dimensional latitude/longitude arrays I think it should have some projection unless it is a latitude/longitude projection and instead of 1D lat/lon you have 2D lat/lon for some reason but I've never seen this and I think your dimensions would be lat/lon and not x/y. I'd double check the file header to see if there is grid information in there. Regardless, take a look here: <a href="https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates">https://stackoverflow.com/questions/58758480/xarray-select-nearest-lat-lon-with-multi-dimension-coordinates</a>. There are several approaches mentioned, but the only thing I will caution is that simply taking a minimum difference between the latitude and longitude arrays may not give you the correct result if you do have projected data. I could take a look at a file if you're able to share, or provide header information here.</p>
 
 
 
 <a name="93699"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93699" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93699">(Dec 20 2023 at 19:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93699" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93699">(Dec 20 2023 at 19:54)</a>:</h4>
 <p>Thanks very much, I'll check out the link you provided.  If it helps, the header for the file is :</p>
 <div class="codehilite"><pre><span></span><code>netcdf obs_temperature_1995-2017_8km_x_60m {
 dimensions:
@@ -170,13 +170,13 @@ variables:
 
 
 <a name="93722"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93722" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93722">(Dec 21 2023 at 16:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93722" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93722">(Dec 21 2023 at 16:53)</a>:</h4>
 <p>You're right, I see no grid information in there. Do you have any information about the model or observation dataset that this file came from?</p>
 
 
 
 <a name="93752"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93752" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93752">(Dec 21 2023 at 23:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93752" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93752">(Dec 21 2023 at 23:08)</a>:</h4>
 <p>I believe I figured out a way, with help from the stackoverflow site in the thread above:</p>
 <div class="codehilite"><pre><span></span><code>#  plot the verticies of each point
 temps.temperature.isel(z=0).plot(x=&#39;lon&#39;, y=&#39;lat&#39;)
@@ -200,7 +200,7 @@ temp_at_myLoc
 
 
 <a name="93753"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93753" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="http://127.0.0.1:4000/html/stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93753">(Dec 21 2023 at 23:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/selecting%20nearest%20lat/lon%20in%20dataset/near/93753" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Adriaansen <a href="../../..//stream/3-general/topic/selecting.20nearest.20lat.2Flon.20in.20dataset.html#93753">(Dec 21 2023 at 23:27)</a>:</h4>
 <p>Great! That particular poster has more information in a Jupyter Notebook here: <a href="https://github.com/blaylockbk/pyBKB_v3/blob/master/demo/Nearest_lat-lon_Grid.ipynb">https://github.com/blaylockbk/pyBKB_v3/blob/master/demo/Nearest_lat-lon_Grid.ipynb</a></p>
 
 

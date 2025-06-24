@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>jupyterhub not showing new conda environments · jupyterlab-hub · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html">jupyterhub not showing new conda environments</a></h3>
+<h2>Stream: <a href="../../..//stream/16-jupyterlab-hub/index.html">jupyterlab-hub</a></h2>
+<h3>Topic: <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html">jupyterhub not showing new conda environments</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="49534"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49534" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49534">(Jan 21 2022 at 15:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49534" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49534">(Jan 21 2022 at 15:34)</a>:</h4>
 <p>I'm starting a new suite of notebooks and have created a new conda environment that I intend to use for them.<br>
 However, when I create a new notebook with jupyterhub, and go to change the kernel, the new conda environment is not listed.<br>
 I have this problem with conda and/or mamba created environments.<br>
@@ -21,13 +21,13 @@ Is there something I need to do these days to get jupyterhub to recognize new co
 
 
 <a name="49535"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49535" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49535">(Jan 21 2022 at 15:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49535" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49535">(Jan 21 2022 at 15:36)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>, I think you need to include the <code>nb_conda_kernels</code> package in your kernel environments. I usually just include the <code>jupyterlab</code> package in my environment.yml file, which has also includes this package.</p>
 
 
 
 <a name="49536"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49536" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49536">(Jan 21 2022 at 15:51)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49536" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49536">(Jan 21 2022 at 15:51)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span>,  adding <code>jupyterlab</code> to the environment enabled jhub recognization (though it did not add <code>nb_conda_kernels</code>).</p>
 <p>I was previously thinking, but hadn't mentioned it, that an ESDS blog on minimal packages for conda environments would be useful.<br>
 This gotcha reinforces that thought enough for me to mention it.</p>
@@ -35,25 +35,25 @@ This gotcha reinforces that thought enough for me to mention it.</p>
 
 
 <a name="49537"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49537" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49537">(Jan 21 2022 at 15:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49537" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49537">(Jan 21 2022 at 15:52)</a>:</h4>
 <p>Great idea on the ESDS blog post.</p>
 
 
 
 <a name="49538"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49538" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49538">(Jan 21 2022 at 15:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49538" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49538">(Jan 21 2022 at 15:52)</a>:</h4>
 <p>cc <span class="user-mention" data-user-id="134">@Max Grover</span></p>
 
 
 
 <a name="49540"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49540" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49540">(Jan 21 2022 at 16:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49540" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49540">(Jan 21 2022 at 16:07)</a>:</h4>
 <p>Typically, the package required to use your environment using the hub is <code>ipykernel</code>, which is mentioned within the <a href="https://arc.ucar.edu/knowledge_base/83853599#UsingcondaenvironmentsforPythonaccess-PersonalcondaenvironmentsandJupyterkernels">NCAR HPC documention</a>, and within the video tutorial of how to setup your custom conda environment on NCAR HPC resources displayed on the <a href="https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment">ESDS FAQ page</a>... perhaps including this requirement a bit more explicitly within the text on the FAQ would be better? Open to suggestions.</p>
 
 
 
 <a name="49541"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49541" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49541">(Jan 21 2022 at 16:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49541" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49541">(Jan 21 2022 at 16:26)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span> -- Keith and I had a conversation yesterday about best-practices for spinning up a new environment. It seemed like there were a few options, each with pros and cons:</p>
 <ol>
 <li>Start with an <code>environment.yaml</code> file that contains a large list of recommended packages, and is likely to contain every package you might need (and then some). It's easy, since you probably only need to run <code>conda</code> once (to create the environment)... but the install will likely take a while (especially if you haven't started using <code>mamba</code> yet)</li>
@@ -66,20 +66,20 @@ This gotcha reinforces that thought enough for me to mention it.</p>
 
 
 <a name="49544"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49544" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49544">(Jan 21 2022 at 17:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49544" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49544">(Jan 21 2022 at 17:10)</a>:</h4>
 <p><span class="user-mention" data-user-id="134">@Max Grover</span> , thank you for pointing out where this is documented.</p>
 <p>As a user, I find it challenging that documentation/advice on the python/analysis stack is scattered across so many disparate locations. I don't know what I don't know, and I don't know where to discover it. This is probably a reflection of the stack actually being composed of disparate pieces, so I don't see an easy solution to the disjointed documentation. But it makes it hard to find info on tidbits that span the pieces, like this gotcha that stumped me for a couple of hours.</p>
 
 
 
 <a name="49545"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49545" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49545">(Jan 21 2022 at 17:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49545" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49545">(Jan 21 2022 at 17:46)</a>:</h4>
 <p>A variant on (2) in Mike's post is to add the package to <code>environment.yaml</code> and then call <code>conda env update -f environment.yaml</code> (IIRC). That way the environment and the file stay in sync, it requires some discipline though <span aria-label="smile" class="emoji emoji-1f642" role="img" title="smile">:smile:</span></p>
 
 
 
 <a name="49548"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49548" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49548">(Jan 21 2022 at 17:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49548" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49548">(Jan 21 2022 at 17:55)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="25">Deepak Cherian</span> <a href="#narrow/stream/16-jupyter/topic/jupyterhub.20not.20showing.20new.20conda.20environments/near/49545">said</a>:</p>
 <blockquote>
 <p>A variant on (2) in Mike's post is to add the package to <code>environment.yaml</code> and then call <code>conda env update -f environment.yaml</code> (IIRC). That way the environment and the file stay in sync, it requires some discipline though :)</p>
@@ -89,7 +89,7 @@ This gotcha reinforces that thought enough for me to mention it.</p>
 
 
 <a name="49549"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49549" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="http://127.0.0.1:4000/html/stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49549">(Jan 21 2022 at 18:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/16-jupyterlab-hub/topic/jupyterhub%20not%20showing%20new%20conda%20environments/near/49549" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Max Grover <a href="../../..//stream/16-jupyterlab-hub/topic/jupyterhub.20not.20showing.20new.20conda.20environments.html#49549">(Jan 21 2022 at 18:39)</a>:</h4>
 <p>For now, I updated the FAQ page to reflect this requirement of having <code>ipykernel</code> installed <a href="https://ncar.github.io/esds/faq/#creating-and-accessing-a-new-conda-environment">see the section here</a>, and I agree that a more detailed blog post would also help... <span class="user-mention" data-user-id="10">@Michael Levy</span> we are always open to contributors to the blog <span aria-label="grinning face with smiling eyes" class="emoji emoji-1f601" role="img" title="grinning face with smiling eyes">:grinning_face_with_smiling_eyes:</span> seems like you have a good idea of the structure!</p>
 
 

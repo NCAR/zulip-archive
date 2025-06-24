@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>calculations spill to disk? · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html">calculations spill to disk?</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html">calculations spill to disk?</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="23997"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/23997" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#23997">(Jan 17 2021 at 20:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/23997" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#23997">(Jan 17 2021 at 20:31)</a>:</h4>
 <p>A few of us in the land section have been working on some analysis of the CESM large ensembles. We are using this as a chance to get up to speed with xarray. We've been having issues with xarray/dask, where some calculations seem to be spilling onto disk, creating a bunch of large files a la core-casper30-24189-153776-11, sometimes killing the calculations.</p>
 <p>A given data array is 42 ensemble members * 1032 months * 192 lat * 288 lon, which xarray quotes as 9.6 GB. Per xarray documentation I've been chunking the data by ensemble member and every 2 years in order to achieve chunks of ~1.3e6 elements.<br>
 Yet even with 36 workers from casper (375GB memory), something like calculating annual means seems to 'spill' to disk. It seems like that should be plenty of memory? </p>
@@ -27,7 +27,7 @@ red herring?: when I try similar calculations on cheyenne I am less likely to tr
 
 
 <a name="23998"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/23998" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#23998">(Jan 18 2021 at 17:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/23998" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#23998">(Jan 18 2021 at 17:08)</a>:</h4>
 <p>Hi Daniel, I checked and it completes with <code>dask==2.30.0</code> with bigger chunks/ I used </p>
 <div class="codehilite"><pre><span></span>ds = xr.open_mfdataset(
     files, combine=&quot;nested&quot;, parallel=True, concat_dim=ensdim, chunks={&quot;time&quot;: -1}
@@ -41,13 +41,13 @@ Another trick is to use <code>.mean(skipna=True)</code> then max memory usage �
 
 
 <a name="24001"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24001" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24001">(Jan 19 2021 at 15:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24001" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24001">(Jan 19 2021 at 15:06)</a>:</h4>
 <p>Great- thanks Deepak. This worked for me</p>
 
 
 
 <a name="24082"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24082">(Jan 21 2021 at 16:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24082">(Jan 21 2021 at 16:20)</a>:</h4>
 <p>Oops, actually this is not totally working for me. It worked for CESM1, but not for CESM2. The main difference between them is that CESM2 splits the output across ensemble members, but also into 10-year chunks. I.e. CESM1 is split across 42 files for 42 ensemble members. CESM2 is split across 200 files for 50 ensemble members. </p>
 <p>Similar to before I have a DataArray that is: <br>
 50 ensemble members x 420 months x 192 lat x 288 lon, quoted by xarray as 4.64GB<br>
@@ -62,13 +62,13 @@ Or find it on github: <a href="https://github.com/djk2120/cesm-lens/blob/main/sr
 
 
 <a name="24100"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24100" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24100">(Jan 21 2021 at 21:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24100" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24100">(Jan 21 2021 at 21:12)</a>:</h4>
 <p><span class="user-mention" data-user-id="120">@Daniel Kennedy</span> , can you post here the contents of <code>~/.config/dask/distributed.yaml</code> when you get a moment? There's a chance that adjusting  the worker configurations may help.</p>
 
 
 
 <a name="24101"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24101" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24101">(Jan 21 2021 at 21:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24101" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24101">(Jan 21 2021 at 21:16)</a>:</h4>
 <p>This looks like a pertinent bit:<br>
      # Fractions of worker memory at which we take action to avoid memory blowup<br>
      # Set any of the lower three values to False to turn off the behavior entirely<br>
@@ -81,7 +81,7 @@ Or find it on github: <a href="https://github.com/djk2120/cesm-lens/blob/main/sr
 
 
 <a name="24102"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24102" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24102">(Jan 21 2021 at 21:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24102" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24102">(Jan 21 2021 at 21:19)</a>:</h4>
 <p>Also:<br>
    scheduler:<br>
      allowed-failures: 3     # number of retries before a task is considered bad<br>
@@ -99,7 +99,7 @@ Or find it on github: <a href="https://github.com/djk2120/cesm-lens/blob/main/sr
 
 
 <a name="24103"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24103" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24103">(Jan 21 2021 at 21:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24103" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24103">(Jan 21 2021 at 21:20)</a>:</h4>
 <p>Great! Try these settings</p>
 <div class="codehilite"><pre><span></span><span class="nt">memory</span><span class="p">:</span>
   <span class="nt">target</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span> <span class="c1"># don&#39;t spill to disk</span>
@@ -111,13 +111,13 @@ Or find it on github: <a href="https://github.com/djk2120/cesm-lens/blob/main/sr
 
 
 <a name="24105"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24105" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24105">(Jan 21 2021 at 21:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24105" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24105">(Jan 21 2021 at 21:22)</a>:</h4>
 <p>The scheduler settings look okay</p>
 
 
 
 <a name="24109"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24109" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24109">(Jan 21 2021 at 21:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24109" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24109">(Jan 21 2021 at 21:43)</a>:</h4>
 <p>Hi Anderson,<br>
 That didn't actually work for me- I was still spilling to disk. I thought maybe my kernel wasn't ingesting that information correctly, so I switched how I access my notebook. I was using the 'start-jupyter' approach, and switched to jupyterhub, and that fixed it. Then I changed the spill settings back and it looks like it is still fixed. Not sure what was at fault in my other environment, but switching to jupyterhub seems to have fixed it for me.</p>
 <p>Thanks. And thanks also, Deepak.</p>
@@ -125,7 +125,7 @@ That didn't actually work for me- I was still spilling to disk. I thought maybe 
 
 
 <a name="24110"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24110" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24110">(Jan 21 2021 at 22:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24110" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24110">(Jan 21 2021 at 22:02)</a>:</h4>
 <p>Glad to hear that adjusting the configurations <em>works</em></p>
 <blockquote>
 <p>I was using the 'start-jupyter' approach, and switched to jupyterhub, and that fixed it. </p>
@@ -147,7 +147,7 @@ That didn't actually work for me- I was still spilling to disk. I thought maybe 
 
 
 <a name="24116"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24116" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24116">(Jan 21 2021 at 22:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24116" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24116">(Jan 21 2021 at 22:41)</a>:</h4>
 <p>For both:<br>
 dask.config.PATH  is  /glade/u/home/djk2120/.config/dask</p>
 <p>And the dask version and all the 'distributed.worker' information is the same. (My settings match what you have printed above)</p>
@@ -155,7 +155,7 @@ dask.config.PATH  is  /glade/u/home/djk2120/.config/dask</p>
 
 
 <a name="24124"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24124" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24124">(Jan 21 2021 at 22:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24124" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24124">(Jan 21 2021 at 22:57)</a>:</h4>
 <p>I will note I am using different environments. E.g. h5py for my environment on jupyterhub is 3.1.0 and for ncar_pylib is 2.10.0<br>
 I've attached the rest of the version info, if you're interested to peruse...</p>
 <p><a href="../../../user_uploads/2/af/oz2jZ4skpDxtLabH33NLEIrY/npl_versions.txt" target="_blank" title="npl_versions.txt">npl_versions.txt</a> <a href="../../../user_uploads/2/97/KyZtV5iaF7VU682S4XBZWx4x/myenv_versions.txt" target="_blank" title="myenv_versions.txt">myenv_versions.txt</a></p>
@@ -163,7 +163,7 @@ I've attached the rest of the version info, if you're interested to peruse...</p
 
 
 <a name="24703"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24703" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24703">(Feb 03 2021 at 23:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24703" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24703">(Feb 03 2021 at 23:48)</a>:</h4>
 <p>new question on this thread you can maybe help with?<br>
 I'm trying to read in daily data, do some calculations, and then calculate a cumulative sum for each grid cell...<br>
 The code here was working with 2 ensemble members and ~10 years of data (albeit) slowly <br>
@@ -173,13 +173,13 @@ The code here was working with 2 ensemble members and ~10 years of data (albeit)
 
 
 <a name="24748"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24748" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24748">(Feb 04 2021 at 19:11)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24748" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Haiying Xu <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24748">(Feb 04 2021 at 19:11)</a>:</h4>
 <p><span class="user-mention" data-user-id="67">@Will Wieder</span>  , did you ever use yipsolon.visualize() to check if yipsolon parallel correctly?</p>
 
 
 
 <a name="24804"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24804" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24804">(Feb 05 2021 at 17:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24804" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24804">(Feb 05 2021 at 17:44)</a>:</h4>
 <p><span class="user-mention" data-user-id="67">@Will Wieder</span>, I took a look at your notebook, and with a few adjustments I was able to get the entire notebook to run without a problem. Here's the output of the cell that was failing in your latest run: <a href="../../../user_uploads/2/60/MsRHI38hW5pctve2scYKyBdD/Screen-Shot-2021-02-04-at-9.59.24-PM.png" target="_blank" title="Screen-Shot-2021-02-04-at-9.59.24-PM.png">Screen-Shot-2021-02-04-at-9.59.24-PM.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/60/MsRHI38hW5pctve2scYKyBdD/Screen-Shot-2021-02-04-at-9.59.24-PM.png" target="_blank" title="Screen-Shot-2021-02-04-at-9.59.24-PM.png"><img src="../../../user_uploads/2/60/MsRHI38hW5pctve2scYKyBdD/Screen-Shot-2021-02-04-at-9.59.24-PM.png"></a></div><p>Here's a list the adjustments I made:</p>
 <ul>
@@ -197,7 +197,7 @@ The code here was working with 2 ensemble members and ~10 years of data (albeit)
 
 
 <a name="24805"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24805" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24805">(Feb 05 2021 at 17:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24805" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24805">(Feb 05 2021 at 17:45)</a>:</h4>
 <p>To address the chunking issue, here's the modified version of <code>get_daily()</code> function:</p>
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">get_daily</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="n">fields</span><span class="p">,</span><span class="n">firstyear</span><span class="p">,</span> <span class="n">component</span><span class="p">,</span><span class="n">nens</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">500</span><span class="p">}):</span>
     <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
@@ -246,19 +246,19 @@ The code here was working with 2 ensemble members and ~10 years of data (albeit)
 
 
 <a name="24806"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24806" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24806">(Feb 05 2021 at 17:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24806" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24806">(Feb 05 2021 at 17:47)</a>:</h4>
 <p>Notice the <code>chunks={'time': 500}</code> in the function signature. I propagate this chunking scheme to all existing <code>xr.open_mfdataset()</code> invocations by passing <code>chunks=chunks</code>...</p>
 
 
 
 <a name="24807"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24807" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24807">(Feb 05 2021 at 17:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24807" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24807">(Feb 05 2021 at 17:49)</a>:</h4>
 <p>I hope this helps. When you get a moment, please give it a try and let me know how it goes</p>
 
 
 
 <a name="24829"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24829" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24829">(Feb 05 2021 at 23:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24829" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24829">(Feb 05 2021 at 23:40)</a>:</h4>
 <div class="codehilite"><pre><span></span>    <span class="n">ix</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time.year&#39;</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">firstyear</span>
 
     <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;array.slicing.split_large_chunks&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}):</span>
@@ -271,7 +271,7 @@ The code here was working with 2 ensemble members and ~10 years of data (albeit)
 
 
 <a name="24833"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24833">(Feb 08 2021 at 16:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24833">(Feb 08 2021 at 16:20)</a>:</h4>
 <p>This is working great!<br>
 I have one additional question.  Currently I'm just doing the calculations on a single grid cell to accelerate development of this code,  (see cells 34-35)<br>
 <a href="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb" target="_blank" title="https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb">https://github.com/wwieder/cesm-lens/blob/main/notebooks/lens2_FireRisk.ipynb</a></p>
@@ -281,7 +281,7 @@ Can you suggest an efficient way to do this (using <code>apply_ufunc</code>)?</p
 
 
 <a name="24875"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24875" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24875">(Feb 08 2021 at 21:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24875" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24875">(Feb 08 2021 at 21:55)</a>:</h4>
 <p>Since the data are chunked across the <code>ens</code> dimension, I think <code>xr.map_blocks()</code> is a good candidate (in my opinion, it's clearer than <code>xr.apply_ufunc</code>) for what you are trying to achieve.  </p>
 <ul>
 <li><a href="https://xarray.pydata.org/en/stable/dask.html?highlight=map_blocks#map-blocks" target="_blank" title="https://xarray.pydata.org/en/stable/dask.html?highlight=map_blocks#map-blocks">https://xarray.pydata.org/en/stable/dask.html?highlight=map_blocks#map-blocks</a></li>
@@ -301,13 +301,13 @@ Can you suggest an efficient way to do this (using <code>apply_ufunc</code>)?</p
 
 
 <a name="24876"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24876" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24876">(Feb 08 2021 at 21:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24876" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24876">(Feb 08 2021 at 21:56)</a>:</h4>
 <p><code>.interpolate_na(method="nearest")</code>?</p>
 
 
 
 <a name="24877"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24877" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24877">(Feb 08 2021 at 21:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/calculations%20spill%20to%20disk%3F/near/24877" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/calculations.20spill.20to.20disk.3F.html#24877">(Feb 08 2021 at 21:58)</a>:</h4>
 <blockquote>
 <p>running accumulator (that resets when precipitation &gt; 3 mm)</p>
 </blockquote>

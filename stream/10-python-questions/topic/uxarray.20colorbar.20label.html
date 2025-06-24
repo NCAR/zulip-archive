@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>uxarray colorbar label · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html">uxarray colorbar label</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html">uxarray colorbar label</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="94812"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94812" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94812">(Jan 22 2024 at 22:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94812" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94812">(Jan 22 2024 at 22:17)</a>:</h4>
 <p>I made my first plot using uxarray and mpas data. It looks great, but now  I'm wondering if there is a way to change the name of the label on the colorbar?  I'd like it to show the units instead of the variable name.  Thanks!</p>
 <p>uxds1['acsnow'].sel(Time=6).plot.rasterize( width=900, height=400,title = "ACSNOW t=6", cmap = "GnBu")</p>
 <p><a href="../../../user_uploads/2/ff/OcTaOkmxycX2uVTRSJV8ucfx/acsnow.png">acsnow.png</a></p>
@@ -18,13 +18,13 @@
 
 
 <a name="94816"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94816" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94816">(Jan 22 2024 at 23:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94816" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94816">(Jan 22 2024 at 23:06)</a>:</h4>
 <p>I believe you should be able to do something like <code>uxds1["acsnow"].sel(Time=6).plot.rasterize(clabel='my new colorbar label')</code>, but it looks like you might have hit a rough edge here (I'm getting an unexpected error with this - going to log it now).</p>
 
 
 
 <a name="94817"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94817">(Jan 22 2024 at 23:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Philip Chmielowiec <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94817">(Jan 22 2024 at 23:20)</a>:</h4>
 <p>Hi <span class="user-mention" data-user-id="42">@Allison Baker</span> </p>
 <p>This is definitely a bug. See <a href="https://github.com/UXARRAY/uxarray/issues/671">https://github.com/UXARRAY/uxarray/issues/671</a> for details</p>
 <p>We'll have this patched for the next release.</p>
@@ -32,7 +32,7 @@
 
 
 <a name="94818"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94818" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94818">(Jan 22 2024 at 23:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94818" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94818">(Jan 22 2024 at 23:34)</a>:</h4>
 <p>Thanks for your help.  </p>
 <p>One more uxarray question for the same data.  When I try to use datashade, it seems to ignore the cmap specification, but I don't get an error message.  Am I specifying it correctly?</p>
 <p>uxds1['acsnow'].sel(Time=6).plot.datashade(agg = "mean", plot_height = 500, plot_width = 1000, cmap = 'GnBu)</p>
@@ -40,37 +40,37 @@
 
 
 <a name="94821"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94821" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94821">(Jan 23 2024 at 00:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94821" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94821">(Jan 23 2024 at 00:09)</a>:</h4>
 <p>I can confirm specifying a colormap didn't work for me either even though we should have that support. Will look further into this</p>
 
 
 
 <a name="94822"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94822" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94822">(Jan 23 2024 at 02:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94822" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94822">(Jan 23 2024 at 02:10)</a>:</h4>
 <p>It looks like there's a typo in the signature that causes keyword args to be ignored.  Just put in a quick issue+PR.</p>
 
 
 
 <a name="94823"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94823" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94823">(Jan 23 2024 at 02:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94823" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94823">(Jan 23 2024 at 02:25)</a>:</h4>
 <p>Yes, I can also see that now. I'll put in an issue+PR for this. Thanks a lot for pointing that out!</p>
 
 
 
 <a name="94824"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94824" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94824">(Jan 23 2024 at 02:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94824" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94824">(Jan 23 2024 at 02:45)</a>:</h4>
 <p>Created <a href="https://github.com/UXARRAY/uxarray/pull/675">uxarray PR #675</a> to fix this. I confirmed locally that the PR changes made the <code>cmap</code> of preference in the function call show up in the plot</p>
 
 
 
 <a name="94828"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94828" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94828">(Jan 23 2024 at 16:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94828" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Allison Baker <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94828">(Jan 23 2024 at 16:57)</a>:</h4>
 <p>Thank you all! (Sorry about the typo- wasn't in my actual code)</p>
 
 
 
 <a name="94832"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94832" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94832">(Jan 23 2024 at 17:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/uxarray%20colorbar%20label/near/94832" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Orhan Eroglu <a href="../../..//stream/10-python-questions/topic/uxarray.20colorbar.20label.html#94832">(Jan 23 2024 at 17:50)</a>:</h4>
 <p>Hey Allison, the <a href="https://github.com/UXARRAY/uxarray/pull/675">PR</a> has been merged into the UXarray main branch. If you don't want to wait until February's version (we might also consider a sooner incremental January version depending on the amount of work being merged in the meantime), you can install it from the code into your environment and get the function up for you</p>
 
 

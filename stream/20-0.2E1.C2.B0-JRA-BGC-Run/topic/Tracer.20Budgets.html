@@ -1,28 +1,28 @@
 <html>
 <head><meta charset="utf-8"><title>Tracer Budgets · 0.1° JRA BGC Run · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html">Tracer Budgets</a></h3>
+<h2>Stream: <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/index.html">0.1° JRA BGC Run</a></h2>
+<h3>Topic: <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html">Tracer Budgets</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="16133"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16133">(Aug 26 2020 at 01:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16133" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16133">(Aug 26 2020 at 01:43)</a>:</h4>
 <p>I noticed tracer budgets as an item on the <a href="https://github.com/marbl-ecosys/HiRes-CESM-analysis" target="_blank" title="https://github.com/marbl-ecosys/HiRes-CESM-analysis">Hi-Res-CESM-analysis</a> diagnostics package list and thought to share initial attempts and issues found while working with the 5 year CORE-forced 0.1º runs. </p>
 <p>The main issue so far for demonstrating budget closure is that not all budget terms are available for all tracers. e.g. for O2, all budget terms were available  in the Annual Cycle CORE-forced runs except <code>TEND_O2</code>. <span class="user-mention" data-user-id="14">@Matt Long</span> pointed out that <code>TEND_O2</code> is now saved as output in the current runs in progress, but <code>HDIFE_O2</code> and <code>HDIFN_O2</code> don't seem to be. The latter's contributions are generally small and I concur that they are not a priority given storage constraints, but I  wonder if it is worth or feasible saving a short (~month-long) period with all budget terms output to demonstrate budget closure? or perhaps just for one tracer but for the whole run?</p>
 
 
 
 <a name="16134"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16134" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16134">(Aug 26 2020 at 01:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16134" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16134">(Aug 26 2020 at 01:46)</a>:</h4>
 <p>Here is an <a href="https://gist.github.com/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8" target="_blank" title="https://gist.github.com/Eddebbar/cb30e0e4a3151b2900fb49648e1e50c8">O2 budget notebook</a> adapted to outputs from the 0004 run in progress, showing the O2 budget "visually" closes, with a residual that has the expected spatial patterns and magnitude of <code>HDIFE_O2</code> and <code>HDIFN_O2</code> (based on the CORE-Forced runs). I have computed the budget terms via simple <code>xarray.roll</code> operations as well as using <code>XGCM</code> with the <code>metrics</code> functionality. Besides some minor differences along the edges, they yield similar results. A review and comments/suggestions on the notebook and/or methods are very welcome.</p>
 
 
 
 <a name="16135"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16135" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16135">(Aug 26 2020 at 02:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16135" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16135">(Aug 26 2020 at 02:01)</a>:</h4>
 <p><span class="user-mention" data-user-id="84">@Yassir Eddebbar</span> , thanks for chiming in.<br>
 My rationale for excluding the <code>HDIFE</code> and <code>HDIFN</code> terms for tracers is that because the mixing coefficients are constant in time, these terms can be computed exactly offline from the tracer values. That's the conclusion I came to from inspecting the code.<br>
 Are you saying that when you attempt to close the budget with <code>HDIFE</code> and <code>HDIFN</code> computed using <code>xgcm</code>, that the mismatch is similar to omitting <code>HDIFE</code> and <code>HDIFN</code>. That sounds worrisome. But maybe I'm misunderstanding what you meant.</p>
@@ -30,13 +30,13 @@ Are you saying that when you attempt to close the budget with <code>HDIFE</code>
 
 
 <a name="16163"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16163" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16163">(Aug 26 2020 at 17:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16163" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16163">(Aug 26 2020 at 17:02)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> ,  sorry I should clarify. The <code>HDIFE</code>  and  <code>HDIFN</code>  terms were not included/calculated in XGCM, so the mismatch being similar to omitting them is expected since they were omitted in the budget sum in the notebook, so I don't think this is worrisome.</p>
 
 
 
 <a name="16244"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16244" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="http://127.0.0.1:4000/html/stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16244">(Aug 27 2020 at 15:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/20-0.1%C2%B0%20JRA%20BGC%20Run/topic/Tracer%20Budgets/near/16244" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Yassir Eddebbar <a href="../../..//stream/20-0.2E1.C2.B0-JRA-BGC-Run/topic/Tracer.20Budgets.html#16244">(Aug 27 2020 at 15:33)</a>:</h4>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="84">Yassir Eddebbar</span> , thanks for chiming in.<br>
 My rationale for excluding the <code>HDIFE</code> and <code>HDIFN</code> terms for tracers is that because the mixing coefficients are constant in time, these terms can be computed exactly offline from the tracer values. That's the conclusion I came to from inspecting the code.</p>

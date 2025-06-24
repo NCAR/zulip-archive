@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>MergeError when opening multiple files with dask · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html">MergeError when opening multiple files with dask</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html">MergeError when opening multiple files with dask</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="55991"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/55991" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#55991">(Jun 02 2022 at 23:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/55991" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#55991">(Jun 02 2022 at 23:34)</a>:</h4>
 <p>Hi,</p>
 <p>I have a method that I've used  without issue to open multiple ocean temperature files and sort them.</p>
 <p>The way I read my data in is as follows:</p>
@@ -29,13 +29,13 @@ ValueError: Cannot specify both coords='different' and compat='override'.</p>
 
 
 <a name="56002"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/56002" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#56002">(Jun 03 2022 at 15:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/56002" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#56002">(Jun 03 2022 at 15:19)</a>:</h4>
 <p>For some reason the <code>REGION_MASK</code> variable is different in these files. To pass <code>compat="override"</code> you'll have to pass <code>coords="minimal"</code> too. This will ignore any differences in <code>REGION_MASK</code> and other coordinate variables and just pick values from the first file. By default <code>coords="different"</code>, which means xarray will try to see if the values are different in different files. If so, it will add a new dimension and concatenate them.</p>
 
 
 
 <a name="56014"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/56014" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#56014">(Jun 03 2022 at 16:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/MergeError%20when%20opening%20multiple%20files%20with%20dask/near/56014" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Mira Berdahl <a href="../../..//stream/27-dask/topic/MergeError.20when.20opening.20multiple.20files.20with.20dask.html#56014">(Jun 03 2022 at 16:36)</a>:</h4>
 <p>Looks like this works now -- thanks so much <span class="user-mention" data-user-id="25">@Deepak Cherian</span></p>
 
 

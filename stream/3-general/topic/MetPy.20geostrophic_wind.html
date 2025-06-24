@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>MetPy geostrophic_wind · general · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/3-general/index.html">general</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html">MetPy geostrophic_wind</a></h3>
+<h2>Stream: <a href="../../..//stream/3-general/index.html">general</a></h2>
+<h3>Topic: <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html">MetPy geostrophic_wind</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="74220"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74220" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html#74220">(Feb 14 2023 at 04:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74220" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html#74220">(Feb 14 2023 at 04:31)</a>:</h4>
 <p>I've been trying to use the MetPy function "geostrophic_wind" (see <a href="https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.geostrophic_wind.html">https://unidata.github.io/MetPy/latest/api/generated/metpy.calc.geostrophic_wind.html</a>). I've followed their documentation and it appears the calculation is completed, but when I look at the arrays returned it's all missing values (see attached screenshot). If anyone has familiarity with this function and could provide guidance I'd appreciate some tips about what might be going wrong. Thanks!<br>
 <a href="../../../user_uploads/2/36/8Mn-wMWIGASARQ4tUJnllsIG/Screen-Shot-2023-02-13-at-9.30.38-PM.png">Screen-Shot-2023-02-13-at-9.30.38-PM.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/36/8Mn-wMWIGASARQ4tUJnllsIG/Screen-Shot-2023-02-13-at-9.30.38-PM.png" title="Screen-Shot-2023-02-13-at-9.30.38-PM.png"><img src="../../../user_uploads/2/36/8Mn-wMWIGASARQ4tUJnllsIG/Screen-Shot-2023-02-13-at-9.30.38-PM.png"></a></div>
@@ -17,31 +17,31 @@
 
 
 <a name="74260"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74260" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html#74260">(Feb 14 2023 at 17:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74260" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html#74260">(Feb 14 2023 at 17:04)</a>:</h4>
 <p>Update: I was able to get the function working on some raw CAM output before I'd done some seasonal averaging. So it's something I didn't do properly in assigning metadata I guess. I'll be able to move on from here. :)</p>
 
 
 
 <a name="74263"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74263" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html#74263">(Feb 14 2023 at 17:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74263" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html#74263">(Feb 14 2023 at 17:20)</a>:</h4>
 <p>Are you using MetPy 1.4? Did you use <code>.metpy.parse_cf()</code> at any step? We made some major changes to geographic calculations as part of that release, and it would be great to test a snippet of your data and code to make sure we didn't miss something in testing.</p>
 
 
 
 <a name="74401"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74401" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html#74401">(Feb 16 2023 at 15:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74401" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html#74401">(Feb 16 2023 at 15:38)</a>:</h4>
 <p>It looks like I'm using MetPy1.2. But no, I did not do .metpy.parse_cf() during the process. I'm not super familiar with metpy, so I wasn't aware this is a possibility.</p>
 
 
 
 <a name="74415"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74415" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html#74415">(Feb 16 2023 at 19:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74415" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Drew Camron <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html#74415">(Feb 16 2023 at 19:45)</a>:</h4>
 <p>If you get a chance, upgrade to 1.4 and let me know if it works for you! FWIW, 1.4 is more "physically correct" for geospatial calculations like geostrophic wind</p>
 
 
 
 <a name="74788"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74788" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="http://127.0.0.1:4000/html/stream/3-general/topic/MetPy.20geostrophic_wind.html#74788">(Feb 22 2023 at 03:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/3-general/topic/MetPy%20geostrophic_wind/near/74788" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Alice DuVivier <a href="../../..//stream/3-general/topic/MetPy.20geostrophic_wind.html#74788">(Feb 22 2023 at 03:48)</a>:</h4>
 <p>Ok, will do! It will probably be a little while (a few months), hopefully when I'm doing paper reviews.</p>
 
 

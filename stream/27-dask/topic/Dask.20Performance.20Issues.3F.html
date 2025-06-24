@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Dask Performance Issues? · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html">Dask Performance Issues?</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html">Dask Performance Issues?</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="8007"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8007" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8007">(May 06 2020 at 16:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8007" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8007">(May 06 2020 at 16:57)</a>:</h4>
 <p>Hello, Dask Users!</p>
 <p>I'm writing this to solicit feedback from Dask+Xarray users about any performance issues you have when attempting to do parallel operations with Dask.  If you have any particular issues, please respond to this message with a detailed description of the problem you are having.  If you can provide a "minimal example" of the problem so that others can reproduce the problem, that is even better.  And if someone responds with an issue that <em>you</em> are experiencing, too, then tag their message with a <span aria-label="+1" class="emoji emoji-1f44d" role="img" title="+1">:+1:</span>.</p>
 <p>Thanks for the feedback!</p>
@@ -18,7 +18,7 @@
 
 
 <a name="8012"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8012" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8012">(May 06 2020 at 18:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8012" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8012">(May 06 2020 at 18:10)</a>:</h4>
 <p>I don't know how simple I can make this, but it is reproducible and relatively easy to set up.   </p>
 <p>We have a notebook we use to create Zarr stores from NetCDF files here:  <a href="https://github.com/NCAR/cesm-lens-zarrification/blob/master/notebooks/zarrify.ipynb" target="_blank" title="https://github.com/NCAR/cesm-lens-zarrification/blob/master/notebooks/zarrify.ipynb">https://github.com/NCAR/cesm-lens-zarrification/blob/master/notebooks/zarrify.ipynb</a>. .   In this same folder is a config.yaml file that specifies which LENS variables we wish to work with.   When saving a particularly large Zarr store, for example SALT for the 20C experiment, the Zarr creation step will fail if the task graph is created with 2-4 workers allocated, even if within a minute or two there are &gt; 10 workers available.   The 10 workers must be available when the task graph is first created, or a KilledWorker and failed Zarr save are the result.   </p>
 <p>It would seem that Dask is not redistributing tasks evenly when more workers become available.  I realize that there is probably a subjective choice that must be made around when to redistribute tasks, and of course I don't understand the underlying technical issues that might prevent something like this from being a simple matter.   </p>
@@ -27,43 +27,43 @@
 
 
 <a name="8028"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8028" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8028">(May 06 2020 at 19:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8028" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8028">(May 06 2020 at 19:58)</a>:</h4>
 <p><span class="user-mention" data-user-id="9">@Brian Bonnlander</span> Yeah.  That's odd.</p>
 
 
 
 <a name="8030"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8030" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8030">(May 06 2020 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8030" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8030">(May 06 2020 at 20:03)</a>:</h4>
 <p>Dask version being used is 2.14.0, partly because 2.15.0 seems to cause dask dashboard issues on Casper.   I have seen something in the discussions around recent changes in Dask concurrent futures.  I'm not sure if the problem goes away with newer versions.</p>
 
 
 
 <a name="8032"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8032" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8032">(May 06 2020 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8032" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8032">(May 06 2020 at 20:03)</a>:</h4>
 <p>Ok.  Let's keep an eye on this, then.</p>
 
 
 
 <a name="8036"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8036" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8036">(May 06 2020 at 20:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8036" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8036">(May 06 2020 at 20:05)</a>:</h4>
 <p>And to be clear, the problem I'm having is not minor because the load on Casper is pretty high most of the time.   That means that I have to try creating these stores at strange hours, because 2-4 workers is often all that is available until evening hours.</p>
 
 
 
 <a name="8039"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8039" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8039">(May 06 2020 at 20:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8039" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8039">(May 06 2020 at 20:09)</a>:</h4>
 <p>Understood.</p>
 
 
 
 <a name="8058"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8058" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8058">(May 06 2020 at 20:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8058" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8058">(May 06 2020 at 20:33)</a>:</h4>
 <p><span class="user-mention" data-user-id="9">@Brian Bonnlander</span> Are you rechunking? This smells like a memory management problem which is common in rechunking workloads (see <a href="https://discourse.pangeo.io/t/best-practices-to-go-from-1000s-of-netcdf-files-to-analyses-on-a-hpc-cluster/588" target="_blank" title="https://discourse.pangeo.io/t/best-practices-to-go-from-1000s-of-netcdf-files-to-analyses-on-a-hpc-cluster/588">https://discourse.pangeo.io/t/best-practices-to-go-from-1000s-of-netcdf-files-to-analyses-on-a-hpc-cluster/588</a>)</p>
 
 
 
 <a name="8061"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8061">(May 06 2020 at 20:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20Performance%20Issues%3F/near/8061" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/27-dask/topic/Dask.20Performance.20Issues.3F.html#8061">(May 06 2020 at 20:46)</a>:</h4>
 <p>Yes, there is rechunking as part of the overall graph, and the workers are killed when memory runs out  for one of the original workers.  But it appears that the other workers that are added after the initial graph is created have plenty of memory.   Thanks for the link; I will look at it today when I have a chance.</p>
 
 

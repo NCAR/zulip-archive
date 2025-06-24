@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>workflow · python-dev · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/17-python-dev/index.html">python-dev</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html">workflow</a></h3>
+<h2>Stream: <a href="../../..//stream/17-python-dev/index.html">python-dev</a></h2>
+<h3>Topic: <a href="../../..//stream/17-python-dev/topic/workflow.html">workflow</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="9064"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9064" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9064">(May 20 2020 at 23:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9064" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/17-python-dev/topic/workflow.html#9064">(May 20 2020 at 23:23)</a>:</h4>
 <p>A group of us (<span class="user-mention" data-user-id="14">@Matt Long</span> , <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span> , and I, among others) are looking into the feasibility of having CESM generate an <code>intake-esm</code> catalog with every run. This would allow a CESM diagnostic package to rely on <code>intake-esm</code> to read data into DataSets and abstract away the need to know what data is in what file in the archive.</p>
 <p>This will likely change the <code>intake-esm</code> interface quite a bit - currently, <code>open_esm_datastore()</code> expects a path to a json file as an argument; that file points to a <code>csv</code> file (that actually contains the data such as file paths and variable names) and also tells <code>intake-esm</code> how to interpret said data. We hope to standardize the information in the json file, and eventually update the <code>open_esm_datastore()</code> API such that it expects a path to the csv file and another argument such as <code>spec="cesm"</code> that replaces the need for the json file.</p>
 <p>We are still in early stages of this project, and encourage any feedback, concerns, or assistance you want to offer. I suspect this will be my focus in <a class="stream" data-stream-id="21" href="/#narrow/stream/21-hack-projects">#hack-projects</a> for the next several months</p>
@@ -17,25 +17,25 @@
 
 
 <a name="9065"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9065" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9065">(May 20 2020 at 23:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9065" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9065">(May 20 2020 at 23:25)</a>:</h4>
 <p>Please include <span class="user-mention" data-user-id="37">@Sheri Mickelson</span> in these discussions.</p>
 
 
 
 <a name="9066"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9066" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9066">(May 20 2020 at 23:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9066" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9066">(May 20 2020 at 23:28)</a>:</h4>
 <p>In general, I am in favor of this.  Just be sure to keep <code>intake-esm</code> general, and not CESM-specific.  If you can encode the "cesm" <code>spec</code> in a way that makes it easier for <em>other</em> models to add their own <code>spec</code> (or, even better, make the <code>spec</code> a separate package independent of <code>intake-esm</code> or any of its other core packages...so the <code>spec</code> is a plug-in), that's ideal.</p>
 
 
 
 <a name="9068"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9068" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9068">(May 20 2020 at 23:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9068" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/17-python-dev/topic/workflow.html#9068">(May 20 2020 at 23:37)</a>:</h4>
 <p>it should be an <strong>esm</strong> spec.</p>
 
 
 
 <a name="9069"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9069" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9069">(May 20 2020 at 23:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9069" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9069">(May 20 2020 at 23:39)</a>:</h4>
 <blockquote>
 <p>We hope to standardize the information in the json file, and eventually update the open_esm_datastore() API such that it expects a path to the csv file and another argument such as spec="cesm" that replaces the need </p>
 </blockquote>
@@ -49,19 +49,19 @@
 
 
 <a name="9070"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9070" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9070">(May 20 2020 at 23:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9070" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9070">(May 20 2020 at 23:40)</a>:</h4>
 <p>I would recommend investigating this approach before trying out the "spec" plugin approach...</p>
 
 
 
 <a name="9071"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9071" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9071">(May 21 2020 at 00:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9071" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="../../..//stream/17-python-dev/topic/workflow.html#9071">(May 21 2020 at 00:02)</a>:</h4>
 <p>I like the idea of having intake-esm catalog being generated as part of the model run. I would also like to see the CSV file contain more information in order to enhance semantic interoperability and data discovery. Can we find a time for me to do a brief demo of a Notebook that uses an enhanced Intake-ESM CSV file to illustrate at least part of the concept?</p>
 
 
 
 <a name="9073"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9073" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9073">(May 21 2020 at 00:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9073" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9073">(May 21 2020 at 00:33)</a>:</h4>
 <blockquote>
 <p>Can we find a time for me to do a brief demo of a Notebook that uses an enhanced Intake-ESM CSV file to illustrate at least part of the concept? </p>
 </blockquote>
@@ -70,49 +70,49 @@
 
 
 <a name="9080"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9080" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9080">(May 21 2020 at 12:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9080" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="../../..//stream/17-python-dev/topic/workflow.html#9080">(May 21 2020 at 12:18)</a>:</h4>
 <p>The Notebook works in JupyterLab on my laptop, but fails in the Pangeo JupyterHub because of some dependency issues that I haven't had time to debug.</p>
 
 
 
 <a name="9081"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9081" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9081">(May 21 2020 at 13:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9081" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="../../..//stream/17-python-dev/topic/workflow.html#9081">(May 21 2020 at 13:56)</a>:</h4>
 <p>Are you folks having a regularly-scheduled call that I could join to do a brief demo from my laptop, or should I set up a separate event?</p>
 
 
 
 <a name="9082"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9082">(May 21 2020 at 14:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9082" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9082">(May 21 2020 at 14:19)</a>:</h4>
 <p>I don't think there is anything regularly scheduled except for the Friday half-day hacks in the afternoon.  But I'd really like to see this demo, and I don't work on Friday.  So, maybe we could schedule something special?  I'd like the whole Xdev team to join.</p>
 
 
 
 <a name="9089"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9089" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9089">(May 21 2020 at 15:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9089" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="../../..//stream/17-python-dev/topic/workflow.html#9089">(May 21 2020 at 15:09)</a>:</h4>
 <p><span class="user-mention" data-user-id="8">@Kevin Paul</span> Please feel free to look at my Google Calendar and propose a time next week that works for the Xdev group. Note that I am currently riding out the lockdown in Maryland on eastern time zone.</p>
 
 
 
 <a name="9091"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9091" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9091">(May 21 2020 at 15:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9091" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9091">(May 21 2020 at 15:10)</a>:</h4>
 <p>Will do.</p>
 
 
 
 <a name="9094"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9094" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9094">(May 21 2020 at 15:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9094" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9094">(May 21 2020 at 15:12)</a>:</h4>
 <p>Invite sent.  Let me know if that doesn't work.</p>
 
 
 
 <a name="9111"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9111" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9111">(May 21 2020 at 16:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9111" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/17-python-dev/topic/workflow.html#9111">(May 21 2020 at 16:03)</a>:</h4>
 <p>Is the proposed interface a reformulation of what's already specified in existing catalog structures,  because if so then it would be straightforward to port other catalogs, like CMIP6, to this format also.   It would be a good test of the interface's generality.</p>
 
 
 
 <a name="9175"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9175">(May 21 2020 at 17:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9175">(May 21 2020 at 17:08)</a>:</h4>
 <blockquote>
 <p>Is the proposed interface a reformulation of what's already specified in existing catalog structures</p>
 </blockquote>
@@ -121,19 +121,19 @@
 
 
 <a name="9183"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9183" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9183">(May 21 2020 at 17:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9183" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/17-python-dev/topic/workflow.html#9183">(May 21 2020 at 17:12)</a>:</h4>
 <p>Meaning that generality is not a concern right now?</p>
 
 
 
 <a name="9184"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9184" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9184">(May 21 2020 at 17:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9184" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9184">(May 21 2020 at 17:12)</a>:</h4>
 <p>Generality <em>should</em> be a concern.</p>
 
 
 
 <a name="9185"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9185" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9185">(May 21 2020 at 17:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9185" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9185">(May 21 2020 at 17:13)</a>:</h4>
 <blockquote>
 <p>Meaning that generality is not a concern right now?</p>
 </blockquote>
@@ -142,19 +142,19 @@
 
 
 <a name="9187"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9187" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9187">(May 21 2020 at 17:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9187" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9187">(May 21 2020 at 17:14)</a>:</h4>
 <p>The <em>code</em> that we publish and other people install should be <em>general</em>.  If it can be used to generate specific catalogs for something like a CESM run, then that's great.</p>
 
 
 
 <a name="9188"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9188" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9188">(May 21 2020 at 17:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9188" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Bonnlander <a href="../../..//stream/17-python-dev/topic/workflow.html#9188">(May 21 2020 at 17:14)</a>:</h4>
 <p>I was thinking catalog usage; maybe that is not correct?</p>
 
 
 
 <a name="9404"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9404" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9404">(May 22 2020 at 17:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9404" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9404">(May 22 2020 at 17:07)</a>:</h4>
 <p>I’ve been thinking more about this, and I grow increasingly concerned about developing technology to deal with CESM issues. In my mind, many of the problems people have with ESM data stems from non-standardization, and the “need” to make modifications to intake-ESM to accommodate CESM needs, is one of those issues. I believe that we should <em>not</em> be spending time developing solutions to make the tools work with CESM data, but spending more time making CESM data “standardized.”</p>
 <p>Now, I know that most CESM developers say that CESM is standardized because it is CF compliant. But CF is not a standard. It is a set of conventions. The only thing we have close to a standard for ESM data is CMIP. So, I think we should be spending our effort getting CESM to output CMIP-compliant data. </p>
 <p>My $0.02.</p>
@@ -162,7 +162,7 @@
 
 
 <a name="9407"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9407" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9407">(May 22 2020 at 17:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9407" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/17-python-dev/topic/workflow.html#9407">(May 22 2020 at 17:40)</a>:</h4>
 <p><span class="user-mention" data-user-id="8">@Kevin Paul</span>, thanks for your perspective. </p>
 <p>I take exception to your statement </p>
 <blockquote>
@@ -173,7 +173,7 @@
 
 
 <a name="9411"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9411" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9411">(May 22 2020 at 18:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9411" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9411">(May 22 2020 at 18:17)</a>:</h4>
 <p>I didn’t mean to offend. And perhaps<br>
 I should not have used the word “issues” because that implies “problems”. </p>
 <p>I believe the shortfalls you are referring to primarily come from not having a fully defined standard. And as you point out, CMIP is not fully defined. Rather, it is the closest thing we have. I think we should be involved in fully defining that standard. And perhaps modifications to CESM could lead the way. However, it is generally believed that property defined standards, and rigid conformance to those standards, reduces the pitfalls to which you allude. </p>
@@ -182,7 +182,7 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9412"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9412" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9412">(May 22 2020 at 18:21)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9412" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9412">(May 22 2020 at 18:21)</a>:</h4>
 <blockquote>
 <p>I believe that we should not be spending time developing solutions to make the tools work with CESM data, but spending more time making CESM data “standardized.”</p>
 </blockquote>
@@ -191,14 +191,14 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9413"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9413" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9413">(May 22 2020 at 18:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9413" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9413">(May 22 2020 at 18:25)</a>:</h4>
 <p>Yes. I believe <span class="user-mention" data-user-id="13">@Anderson Banihirwe</span>’s point is that we might need to work on both sides of the problem: both developing general tools that operate on standardized data and modifying the model output to better conform to those standards. </p>
 <p>In many ways this is the same issue as deciding what new features should go into the upstream codebase vs into a dependency or new package. In this case, the upstream codebase is CESM.</p>
 
 
 
 <a name="9414"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9414" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9414">(May 22 2020 at 18:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9414" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9414">(May 22 2020 at 18:38)</a>:</h4>
 <blockquote>
 <p>In many ways this is the same issue as deciding what new features should go into the upstream codebase vs into a dependency or new package. In this case, the upstream codebase is CESM. </p>
 </blockquote>
@@ -207,7 +207,7 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9422"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9422" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9422">(May 22 2020 at 18:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9422" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/17-python-dev/topic/workflow.html#9422">(May 22 2020 at 18:53)</a>:</h4>
 <blockquote>
 <p>we might need to work on both sides of the problem: both developing general tools that operate on standardized data and modifying the model output to better conform to those standards</p>
 </blockquote>
@@ -224,7 +224,7 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9428"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9428" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9428">(May 22 2020 at 19:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9428" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9428">(May 22 2020 at 19:02)</a>:</h4>
 <blockquote>
 <p>Intake-esm should have a relatively narrow focus, which is to bridge the gap between the vagaries of file systems and files, enabling a semantic API to getting an <code>xarray.Dataset</code> from collections of files. That's it.</p>
 </blockquote>
@@ -246,7 +246,7 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9429"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9429" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9429">(May 22 2020 at 19:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9429" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9429">(May 22 2020 at 19:02)</a>:</h4>
 <blockquote>
 <p>@Michael Levy started this thread with a very simple objective: get CESM to write intake-esm catalog files. No changes to the model's output data is needed to accomplish this. We just need generate a table of the model output. </p>
 </blockquote>
@@ -255,19 +255,19 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9431"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9431" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9431">(May 22 2020 at 19:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9431" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9431">(May 22 2020 at 19:03)</a>:</h4>
 <p>...Well, and keep in mind that we might need to actually develop some standards along the way.  <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span></p>
 
 
 
 <a name="9433"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9433">(May 22 2020 at 19:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/17-python-dev/topic/workflow.html#9433">(May 22 2020 at 19:04)</a>:</h4>
 <p>I'll jump into the current conversation in a minute, but first an commercial break: <a class="stream-topic" data-stream-id="21" href="/#narrow/stream/21-hack-projects/topic/generating.20intake.20catalog.20for.20CESM.20output">#hack-projects &gt; generating intake catalog for CESM output</a></p>
 
 
 
 <a name="9434"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9434" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9434">(May 22 2020 at 19:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9434" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/17-python-dev/topic/workflow.html#9434">(May 22 2020 at 19:05)</a>:</h4>
 <blockquote>
 <p>...Well, and keep in mind that we might need to actually develop some standards along the way.  <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span></p>
 </blockquote>
@@ -279,37 +279,37 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9436"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9436" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9436">(May 22 2020 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9436" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/17-python-dev/topic/workflow.html#9436">(May 22 2020 at 19:08)</a>:</h4>
 <p>I'll let you have the last word on standards, I'll just note that we can't solve all the problems at once. We should have lofty aspirations and, with these in mind, follow the most direct path to extensible solutions.</p>
 
 
 
 <a name="9437"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9437" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9437">(May 22 2020 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9437" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/17-python-dev/topic/workflow.html#9437">(May 22 2020 at 19:08)</a>:</h4>
 <p>Part of me thinks that discussing whether or not we need more information in CESM history files is a little orthogonal to the goal of have the CESM workflow generate the catalog. It would definitely help in generating catalogs after the fact, but for the proposed idea of either updating the timeseries generation step in CESM postprocessing or the short term archiver, both of those tools will have access to the XML files in <code>$CASEROOT</code> that already contain the information we'd want to put in history files.</p>
 
 
 
 <a name="9439"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9439">(May 22 2020 at 19:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/17-python-dev/topic/workflow.html#9439">(May 22 2020 at 19:08)</a>:</h4>
 <p>I completely agree.</p>
 
 
 
 <a name="9443"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9443" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9443">(May 22 2020 at 19:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9443" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9443">(May 22 2020 at 19:10)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>:  Ah!  So this is a proposal to add/amend the CESM post-processing code?  (I.e., this <em>is</em> actually changing CESM codebase?)</p>
 
 
 
 <a name="9449"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9449" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9449">(May 22 2020 at 19:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9449" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/17-python-dev/topic/workflow.html#9449">(May 22 2020 at 19:14)</a>:</h4>
 <p><span class="user-mention" data-user-id="8">@Kevin Paul</span>, the object is to get the model to write intake catalog files. By hook or by crook. I would suggest that this is a relatively autonomous tool that is called by post-processing hooks in the run infrastructure.</p>
 
 
 
 <a name="9450"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9450" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9450">(May 22 2020 at 19:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9450" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/17-python-dev/topic/workflow.html#9450">(May 22 2020 at 19:14)</a>:</h4>
 <p>And if the goal is to distribute the catalog with the archive (and introduce a mechanism for combining catalogs for ensembles), then I think the only use for generating a catalog from CESM output will be to catalog old runs, which won't have the proposed metadata anyway.</p>
 <blockquote>
 <p>Ah! So this is a proposal to add/amend the CESM post-processing code? (I.e., this is actually changing CESM codebase?)</p>
@@ -319,31 +319,31 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="9453"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9453" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9453">(May 22 2020 at 19:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9453" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9453">(May 22 2020 at 19:16)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> <span class="user-mention" data-user-id="14">@Matt Long</span> I think I'm getting it.  And no worries about communication.  That's the beauty of Zulip!  What you are proposing sounds laudable.  ...I have no idea how to do it.  <span aria-label="smiley" class="emoji emoji-1f603" role="img" title="smiley">:smiley:</span>  I'll leave that to the experts.</p>
 
 
 
 <a name="9454"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9454" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9454">(May 22 2020 at 19:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9454" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/17-python-dev/topic/workflow.html#9454">(May 22 2020 at 19:16)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> makes a good point -- my "Yes!" response is more based on a blueprint that mostly exists in my head and will likely change, but CESM will either generate the catalog itself or call an independent tool that is CESM-aware and can pull data out of the case root.</p>
 
 
 
 <a name="9456"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9456" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9456">(May 22 2020 at 19:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9456" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/17-python-dev/topic/workflow.html#9456">(May 22 2020 at 19:17)</a>:</h4>
 <p>but I think everyone here agrees that <code>intake-esm</code> / <code>intake-esm-datastore</code> will not be updated to generate these catalogs... there might be suggestions on API improvements resulting from the project, but they will rightfully remain model-agnostic</p>
 
 
 
 <a name="9458"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9458" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9458">(May 22 2020 at 19:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9458" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/17-python-dev/topic/workflow.html#9458">(May 22 2020 at 19:24)</a>:</h4>
 <p>I think I'm finally getting it. <span aria-label="smile" class="emoji emoji-263a" role="img" title="smile">:smile:</span></p>
 
 
 
 <a name="9502"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9502" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#9502">(May 22 2020 at 21:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/9502" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Jeff de La Beaujardiere <a href="../../..//stream/17-python-dev/topic/workflow.html#9502">(May 22 2020 at 21:14)</a>:</h4>
 <blockquote>
 <p>Now, I know that most CESM developers say that CESM is standardized because it is CF compliant. But CF is not a standard. It is a set of conventions. The only thing we have close to a standard for ESM data is CMIP. So, I think we should be spending our effort getting CESM to output CMIP-compliant data. </p>
 </blockquote>
@@ -374,7 +374,7 @@ I should not have used the word “issues” because that implies “problems”
 
 
 <a name="11475"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/11475" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/17-python-dev/topic/workflow.html#11475">(Jun 16 2020 at 13:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/17-python-dev/topic/workflow/near/11475" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/17-python-dev/topic/workflow.html#11475">(Jun 16 2020 at 13:29)</a>:</h4>
 <p><span class="user-mention" data-user-id="59">@Jeff de La Beaujardiere</span> , delayed response here...<br>
 Regarding fields having different short names but the same long name, it's not clear what behavior you would like to see.<br>
 Do you want 1) different long names, or 2) same short names? I see pro and cons to either alternative.</p>

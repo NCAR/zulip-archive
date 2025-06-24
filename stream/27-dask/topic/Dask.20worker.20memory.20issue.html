@@ -1,46 +1,46 @@
 <html>
 <head><meta charset="utf-8"><title>Dask worker memory issue · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html">Dask worker memory issue</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html">Dask worker memory issue</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="55976"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55976" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55976">(Jun 02 2022 at 19:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55976" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55976">(Jun 02 2022 at 19:37)</a>:</h4>
 <p>Hey, I am trying to calculate an ensemble mean for CESM2 data which is 1.9TB in size and the final mean is around 50GB. I am using dask to read the data through intake function. I tried different ways and combination of chunks, number of workers, but some of the workers run out of memory and then the entire process freezes. Any suggestions to overcome this?</p>
 <p>The data has 40 ensemble members and years from 1850-2015 at 6 hourly interval.</p>
 
 
 
 <a name="55977"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55977" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55977">(Jun 02 2022 at 21:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55977" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55977">(Jun 02 2022 at 21:12)</a>:</h4>
 <p>You'll have to "batch" it. Dask is bad about optimizing for memory and will tend to execute more "read-data" tasks than "reduce-data" tasks unfortunately. Are you doing this for multiple variables at the same time? If so, the easiest would be to just loop through the variables and compute them one at a time.</p>
 
 
 
 <a name="55979"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55979" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55979">(Jun 02 2022 at 21:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55979" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55979">(Jun 02 2022 at 21:24)</a>:</h4>
 <p>I am just doing it for one variable. I am rechunking it so that all the ensemble members are in one chunk, also each chunk is around 85MB in memory. How do I batch it?</p>
 
 
 
 <a name="55981"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55981" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55981">(Jun 02 2022 at 22:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55981" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55981">(Jun 02 2022 at 22:31)</a>:</h4>
 <p>Can you not calculate it without rechunking?</p>
 
 
 
 <a name="55982"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55982" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55982">(Jun 02 2022 at 22:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55982" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55982">(Jun 02 2022 at 22:46)</a>:</h4>
 <p>It can be done without rechunking but then each chunk would be larger. Also, I thought it would be better to keep all the members in one chunk across which the mean is to be taken. Let me try it without rechunking and see. Thanks for the help.</p>
 
 
 
 <a name="55983"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55983" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55983">(Jun 02 2022 at 22:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55983" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55983">(Jun 02 2022 at 22:49)</a>:</h4>
 <blockquote>
 <p>It can be done without rechunking but then each chunk would be larger</p>
 </blockquote>
@@ -49,19 +49,19 @@
 
 
 <a name="55984"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55984" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55984">(Jun 02 2022 at 22:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55984" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55984">(Jun 02 2022 at 22:59)</a>:</h4>
 <p>I thought of that. The thing is I am reading in files through the intake function, and the way the instruction I am following the files are read in and then concatenated through xr.concat. Now the concat function does not give an option to chunk it while reading in (or does it?).</p>
 
 
 
 <a name="55985"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55985">(Jun 02 2022 at 23:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55985" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55985">(Jun 02 2022 at 23:09)</a>:</h4>
 <p>pass something like <code>chunks={"nlat": 100, "nlon": 100}</code> in <code>cdf_kwargs</code> or <code>zarr_kwargs</code> to chunk along those dimensions</p>
 
 
 
 <a name="55986"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55986" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55986">(Jun 02 2022 at 23:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55986" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55986">(Jun 02 2022 at 23:17)</a>:</h4>
 <p>That could be helpful and I am sorry but I am confused a little bit. I don't see any syntax regarding chunks in xr.concat. Here is a screenshot if it helps:</p>
 <p><a href="../../../user_uploads/2/cc/E1Qg2WfaWbvXOv63eAFqC8NJ/image.png">image.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/cc/E1Qg2WfaWbvXOv63eAFqC8NJ/image.png" title="image.png"><img src="../../../user_uploads/2/cc/E1Qg2WfaWbvXOv63eAFqC8NJ/image.png"></a></div>
@@ -69,13 +69,13 @@
 
 
 <a name="55987"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55987" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55987">(Jun 02 2022 at 23:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55987" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55987">(Jun 02 2022 at 23:19)</a>:</h4>
 <p>Thanks thats helpful. Can you show me what one <code>ds</code> in <code>dsets</code> looks like. You'll have to pass <code>chunks</code> in <code>to_dataset_dict()</code> not to concat. That will set chunks at read time</p>
 
 
 
 <a name="55989"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55989" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55989">(Jun 02 2022 at 23:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/55989" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#55989">(Jun 02 2022 at 23:32)</a>:</h4>
 <p><a href="../../../user_uploads/2/15/6Mn__J2b771iZP23uERjyhex/image.png">image.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/15/6Mn__J2b771iZP23uERjyhex/image.png" title="image.png"><img src="../../../user_uploads/2/15/6Mn__J2b771iZP23uERjyhex/image.png"></a></div><p>This is how the dsets look.  I tried doing the chunks in the <code>to_dataset_dict</code> but it shows the same error and the reason is that the <code>to_dataset_dict</code> command is an esm command and not xarray.</p>
 <p><a href="http://">Uploading image.png…</a></p>
@@ -84,44 +84,44 @@
 
 
 <a name="56001"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56001" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56001">(Jun 03 2022 at 15:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56001" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56001">(Jun 03 2022 at 15:17)</a>:</h4>
 <p>Ah I forgot to mention that you'll need <code>to_dataset_dict(cdf_kwargs={"chunks": ...})</code>. That said this seems to be chunked OK (128MiB). Along which dimensions are you calculating the mean?</p>
 
 
 
 <a name="56016"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56016" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56016">(Jun 03 2022 at 18:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56016" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56016">(Jun 03 2022 at 18:12)</a>:</h4>
 <p>That makes sense and I might try that. I tried sub selecting certain longitudes beforehand and that sped up the process for sure. What happens is that near the end of the entire process, even though the memory of workers are at 20% (80% remaining) it would just freeze. </p>
 <p>I am calculating the mean along ensemble members. But the data is 6 hourly. I know you are busy but I can meet you on zoom or at NCAR if that would be more convenient. Once again thank you so much for taking out time to help :).</p>
 
 
 
 <a name="56018"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56018" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56018">(Jun 03 2022 at 18:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56018" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56018">(Jun 03 2022 at 18:50)</a>:</h4>
 <p>Are you using <code>.compute</code> or <code>.load</code>. If so, the 'freeze' might be that it's sending 50GB of data back to your "head node" and then stitching it together to create an array. Instead you could call <code>to_zarr</code> which would write in parallel as each chunk is done.</p>
 
 
 
 <a name="56023"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56023" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56023">(Jun 03 2022 at 19:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56023" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56023">(Jun 03 2022 at 19:38)</a>:</h4>
 <p>The final step is saving the file as netcdf on scratch directory and that means it would be invoking <code>.load</code>. I used the <code>cdf_kwargs</code> and it worked. A quick question, where do I put the <code>to_zarr</code> command? I have never used it. Thanks, Deepak.</p>
 
 
 
 <a name="56024"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56024" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56024">(Jun 03 2022 at 19:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56024" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56024">(Jun 03 2022 at 19:40)</a>:</h4>
 <p>Replace <code>to_netcdf</code> with <code>to_zarr</code> (and change the extension). If you do need a netCDF file, you can convert it later. parallel writes with <code>zarr</code> work a lot better with dask+distributed in my experience.</p>
 
 
 
 <a name="56025"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56025" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56025">(Jun 03 2022 at 19:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56025" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56025">(Jun 03 2022 at 19:40)</a>:</h4>
 <p>Awesome. That might just work. I will try it.</p>
 
 
 
 <a name="56027"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56027" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56027">(Jun 03 2022 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56027" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56027">(Jun 03 2022 at 20:03)</a>:</h4>
 <p><code>vivt_ds.to_zarr('/glade/scratch/rudradutt/AR_CESM2/hist_sim/trial.zarr')</code> This is what I wrote. And yet it again froze near the end. It nearly made it and then froze. This is so strange. I have never ran into issues like this. </p>
 <p><a href="../../../user_uploads/2/6/qeQICpbpav1xIUFl-jU33C7Y/image.png">image.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/6/qeQICpbpav1xIUFl-jU33C7Y/image.png" title="image.png"><img src="../../../user_uploads/2/6/qeQICpbpav1xIUFl-jU33C7Y/image.png"></a></div>
@@ -129,13 +129,13 @@
 
 
 <a name="56028"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56028" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56028">(Jun 03 2022 at 20:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56028" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56028">(Jun 03 2022 at 20:04)</a>:</h4>
 <p>ah really close. Can your print out <code>xarray.show_versions()</code></p>
 
 
 
 <a name="56029"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56029" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56029">(Jun 03 2022 at 20:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56029" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56029">(Jun 03 2022 at 20:05)</a>:</h4>
 <p>Yeah sure. It is the v2022.3.0. It is the only one in which the esm-intake function was compatible. </p>
 <p><a href="../../../user_uploads/2/5c/y60llYFrfTF78-LRvjMSG_f5/image.png">image.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/5c/y60llYFrfTF78-LRvjMSG_f5/image.png" title="image.png"><img src="../../../user_uploads/2/5c/y60llYFrfTF78-LRvjMSG_f5/image.png"></a></div>
@@ -143,45 +143,45 @@
 
 
 <a name="56030"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56030" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56030">(Jun 03 2022 at 20:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56030" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56030">(Jun 03 2022 at 20:05)</a>:</h4>
 <p>what about dask and distributed. I think that's where the issue lies</p>
 
 
 
 <a name="56031"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56031" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56031">(Jun 03 2022 at 20:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56031" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56031">(Jun 03 2022 at 20:07)</a>:</h4>
 <p>dask is 2022.05.1<br>
 distributed is 2022.5.1</p>
 
 
 
 <a name="56033"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56033" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56033">(Jun 03 2022 at 20:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56033" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56033">(Jun 03 2022 at 20:09)</a>:</h4>
 <p>Here's a report of a similar "deadlock": <a href="https://github.com/dask/distributed/issues/6493">https://github.com/dask/distributed/issues/6493</a></p>
 <p>Maybe try upgrading on downgrading. Sorry I don't have any better solutions.</p>
 
 
 
 <a name="56034"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56034" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56034">(Jun 03 2022 at 20:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56034" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56034">(Jun 03 2022 at 20:09)</a>:</h4>
 <p>I will try that. And you have been huge help Deepak! Thank you so much.</p>
 
 
 
 <a name="56046"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56046" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56046">(Jun 03 2022 at 22:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56046" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56046">(Jun 03 2022 at 22:22)</a>:</h4>
 <p>Huh. This was the most annoying thing. It was just an issue with the version of Dask. I am sorry for all the hassle. But thank you so much for all the help and tips, Deepak.</p>
 
 
 
 <a name="56048"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56048" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56048">(Jun 03 2022 at 22:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56048" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56048">(Jun 03 2022 at 22:23)</a>:</h4>
 <p>Ah too bad. So to conclude, needed latest dask/distributed and used <code>to_zarr</code> instead of <code>to_netcdf</code> to write output in parallel</p>
 
 
 
 <a name="56050"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56050" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56050">(Jun 03 2022 at 22:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Dask%20worker%20memory%20issue/near/56050" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rudradutt Thaker <a href="../../..//stream/27-dask/topic/Dask.20worker.20memory.20issue.html#56050">(Jun 03 2022 at 22:27)</a>:</h4>
 <p>Yeah. Phew!! And <code>to_netcdf</code> also works perfectly fine.</p>
 
 

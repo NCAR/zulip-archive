@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Sparse PFT-level output in Python · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html">Sparse PFT-level output in Python</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html">Sparse PFT-level output in Python</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="105229"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105229" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105229">(Jan 03 2025 at 15:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105229" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="../../..//stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105229">(Jan 03 2025 at 15:09)</a>:</h4>
 <p>Hi all,</p>
 <p>I've previously used <a href="https://ncar.github.io/esds/posts/2022/sparse-PFT-gridding/#wrapping-sparse-arrays-in-xarray">this nifty bit of code</a> by <span class="user-mention" data-user-id="25">@Deepak Cherian</span> and <span class="user-mention" data-user-id="47">@Katie Dagon</span> to process 1D output from CLM5 (i.e. carbon variables at PFT level). I last did this a couple of years ago and am now having problems when I return to it. I can read in an input file and process it into an xarray with no issues. However, attempting to do fairly basic processing immediately kills my Jupyter notebook (which has 16GB of memory). This happens if, for example, I attempt to take the global sum of some variable and then either plot the output as a timeseries or dump the values as a numpy array.</p>
 <p>Illustrative example below, which takes as input a file containing PFT-level CLM5 output on a 1deg global grid covering 2025-2100 and using the functions defined in the link:</p>
@@ -26,25 +26,25 @@ print(out.values)
 
 
 <a name="105230"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105230" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105230">(Jan 03 2025 at 18:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105230" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Katelyn FitzGerald <a href="../../..//stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105230">(Jan 03 2025 at 18:42)</a>:</h4>
 <p>I wonder if some of the operations you're doing are converting large arrays to non-sparse array types.  Have you tested out the analysis operations you're interested in on a smaller subset to see if the resulting arrays are still sparse array types?  You should be able to see the array type in the description of the Xarray DataArray in your notebook.</p>
 
 
 
 <a name="105241"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105241" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105241">(Jan 07 2025 at 18:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105241" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Will Wieder <a href="../../..//stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105241">(Jan 07 2025 at 18:17)</a>:</h4>
 <p><span class="user-mention" data-user-id="302">@James King</span> I've also noticed that the pft regridding is a bit of a memory hog (and I'm only looking at a decade of data, not 75 years).  I can't remember if the script is friendly with dask, but I'd recommend throwing more memory at the problem, either for asking for more when you log onto jupyter hub or by using dask workers?</p>
 
 
 
 <a name="105260"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105260" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105260">(Jan 10 2025 at 09:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105260" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="../../..//stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105260">(Jan 10 2025 at 09:50)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="339">@Katelyn FitzGerald</span> and <span class="user-mention" data-user-id="67">@Will Wieder</span>  - alas I'm working on a non-NCAR system which doesn't allow me to request any more memory than that for a Jupyter notebook! Testing on a smaller subset of data sounds wise, this is probably a case of me being impatient to produce some nice plots...</p>
 
 
 
 <a name="105261"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105261" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105261">(Jan 10 2025 at 15:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/Sparse%20PFT-level%20output%20in%20Python/near/105261" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> James King <a href="../../..//stream/10-python-questions/topic/Sparse.20PFT-level.20output.20in.20Python.html#105261">(Jan 10 2025 at 15:03)</a>:</h4>
 <p>And yes, the script makes use of dask</p>
 
 

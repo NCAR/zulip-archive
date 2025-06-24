@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>sparse matrix fill_value for PFT regridding · xarray · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/42-xarray/index.html">xarray</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html">sparse matrix fill_value for PFT regridding</a></h3>
+<h2>Stream: <a href="../../..//stream/42-xarray/index.html">xarray</a></h2>
+<h3>Topic: <a href="../../..//stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html">sparse matrix fill_value for PFT regridding</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="44469"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/44469" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#44469">(Oct 06 2021 at 18:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/44469" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#44469">(Oct 06 2021 at 18:40)</a>:</h4>
 <p><span class="user-mention" data-user-id="25">@Deepak Cherian</span> provided some nice functions to regrid CLM output from [time,PFT] to [time, lat , lon , pft], using the python package sparse.</p>
 <p>The solution is working well, except that I can't figure out how to impose a fill_value. I.e. for gridcells that are unpopulated in the sparse matrix, I would like to use fill_value in the dense matrix. I tried passing fill_value to sparse.COO, but that didn't seem to work.</p>
 <p>Notebook for testing:<br>
@@ -18,7 +18,7 @@
 
 
 <a name="44470"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/44470" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#44470">(Oct 06 2021 at 18:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/44470" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#44470">(Oct 06 2021 at 18:44)</a>:</h4>
 <p>One approach I have used in regridding application is to remap a field of ones, putting zeroes in where there are missing data, then renormalizing by the sum of the remapped ones:<br>
 <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/96f2a565300ba9d43b373c6ba8537e20d30e4ca1/notebooks/regrid_tools/core.py#L293">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/96f2a565300ba9d43b373c6ba8537e20d30e4ca1/notebooks/regrid_tools/core.py#L293</a></p>
 <p>Something like this might work for your application.</p>
@@ -26,13 +26,13 @@
 
 
 <a name="44471"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/44471" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#44471">(Oct 06 2021 at 18:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/44471" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#44471">(Oct 06 2021 at 18:46)</a>:</h4>
 <p>That makes sense. Thanks. I think that will work for me.</p>
 
 
 
 <a name="45957"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/45957" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#45957">(Oct 29 2021 at 16:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/42-xarray/topic/sparse%20matrix%20fill_value%20for%20PFT%20regridding/near/45957" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/42-xarray/topic/sparse.20matrix.20fill_value.20for.20PFT.20regridding.html#45957">(Oct 29 2021 at 16:16)</a>:</h4>
 <p><span class="user-mention" data-user-id="120">@Daniel Kennedy</span> I can't see why this doesn't work, you should be able to set <code>np.nan</code> as the <code>fill_value</code>. I think that's what you want for plotting purposes anyway.</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">sparse</span>

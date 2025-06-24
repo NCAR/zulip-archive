@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>controlling-dask-workers-memory-saturation · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/controlling-dask-workers-memory-saturation.html">controlling-dask-workers-memory-saturation</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/controlling-dask-workers-memory-saturation.html">controlling-dask-workers-memory-saturation</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="65831"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/65831" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#65831">(Oct 07 2022 at 19:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/65831" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#65831">(Oct 07 2022 at 19:57)</a>:</h4>
 <p><code>distributed&gt;=2022.9.2</code> introduced a new feature for controlling memory saturation. Folks who have been experiencing KilledWorker / memory saturation issues with Dask for embarrassingly parallel computations may find this useful.</p>
 <p><a href="https://github.com/dask/distributed/discussions/7128">Share your experiences with worker-saturation config to reduce memory usage</a></p>
 <p>Tl;dr</p>
@@ -25,7 +25,7 @@
 
 
 <a name="66154"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/66154" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#66154">(Oct 12 2022 at 19:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/66154" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#66154">(Oct 12 2022 at 19:38)</a>:</h4>
 <p><span class="user-mention" data-user-id="45">@Isla Simpson</span> This is your TEM diags calculation (only 1 year, random data as input):<br>
 <a href="../../../user_uploads/2/61/3Kl5_LBN5MdiuqtrsKmMNHWy/image.png">image.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/61/3Kl5_LBN5MdiuqtrsKmMNHWy/image.png" title="image.png"><img src="../../../user_uploads/2/61/3Kl5_LBN5MdiuqtrsKmMNHWy/image.png"></a></div><p>ridiculous improvements! You probably don't have to for-loop-over-files any more!</p>
@@ -33,19 +33,19 @@
 
 
 <a name="66242"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/66242" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#66242">(Oct 12 2022 at 21:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/66242" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Isla Simpson <a href="../../..//stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#66242">(Oct 12 2022 at 21:22)</a>:</h4>
 <p>Excellent!  So it's just that one line needs to be added in?  That's great!</p>
 
 
 
 <a name="66283"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/66283" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#66283">(Oct 13 2022 at 18:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/66283" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#66283">(Oct 13 2022 at 18:55)</a>:</h4>
 <p>Looks like it'll be the default in the next release</p>
 
 
 
 <a name="68522"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/68522" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#68522">(Nov 16 2022 at 19:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/controlling-dask-workers-memory-saturation/near/68522" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/controlling-dask-workers-memory-saturation.html#68522">(Nov 16 2022 at 19:02)</a>:</h4>
 <p>This setting is now the default in v2022.11.0: <a href="https://www.coiled.io/blog/reducing-dask-memory-usage">https://www.coiled.io/blog/reducing-dask-memory-usage</a></p>
 
 

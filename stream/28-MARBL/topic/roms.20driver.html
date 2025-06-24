@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>roms driver · MARBL · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/28-MARBL/index.html">MARBL</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html">roms driver</a></h3>
+<h2>Stream: <a href="../../..//stream/28-MARBL/index.html">MARBL</a></h2>
+<h3>Topic: <a href="../../..//stream/28-MARBL/topic/roms.20driver.html">roms driver</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="93009"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93009" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#93009">(Dec 05 2023 at 23:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93009" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#93009">(Dec 05 2023 at 23:57)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> <span class="user-mention" data-user-id="10">@Michael Levy</span> <br>
 as an update <a href="../../../user_uploads/2/3b/JcFrkXmYfN4BeaRjioPIDicR/log_20231205.txt">log_20231205.txt</a>  here is output from ROMS with print statements on the MARBL end showing the various contributions to <code>Jint_Ntot</code> and print statements on the ROMS end showing the tracer and interior tendencies values at each level (for NO3,NH4,DON,DONR) before and after the call to <code>interior_tendency_compute</code></p>
 <p>The <code>Jint_Ntot</code> contributions are :</p>
@@ -29,13 +29,13 @@ PON_sed_loss=0.4047631781123396E-009
 
 
 <a name="93034"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93034" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#93034">(Dec 06 2023 at 04:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93034" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#93034">(Dec 06 2023 at 04:24)</a>:</h4>
 <p><span class="user-mention" data-user-id="184">@Dafydd Stephenson</span> is this the same column that had a bunch of zeros before, and now you've gotten non-zero values but they still violate the threshold criteria?</p>
 
 
 
 <a name="93232"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93232" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#93232">(Dec 07 2023 at 20:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93232" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#93232">(Dec 07 2023 at 20:49)</a>:</h4>
 <p><span class="user-mention" data-user-id="184">@Dafydd Stephenson</span> , what MARBL code base are you running with?<br>
 If it has mods from MARBL repo, has the MARBL test suite been run on the code base?<br>
 I'm asking to help separate between MARBL code issues and ROMS/MARBL driver issues.</p>
@@ -43,13 +43,13 @@ I'm asking to help separate between MARBL code issues and ROMS/MARBL driver issu
 
 
 <a name="93233"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93233" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#93233">(Dec 07 2023 at 20:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93233" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#93233">(Dec 07 2023 at 20:52)</a>:</h4>
 <p>Hi Keith, sorry I didn't post an update straight away but I found out late yesterday that indeed the issue stemmed from being on the wrong MARBL branch. Good catch! Will be pushing a first version of the driver in this example configuration to GitHub today or tomorrow</p>
 
 
 
 <a name="93234"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93234" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#93234">(Dec 07 2023 at 20:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/93234" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#93234">(Dec 07 2023 at 20:58)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="10">Michael Levy</span> <a href="#narrow/stream/28-MARBL/topic/roms.20driver/near/93034">said</a>:</p>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="184">Dafydd Stephenson</span> is this the same column that had a bunch of zeros before, and now you've gotten non-zero values but they still violate the threshold criteria?</p>
@@ -59,7 +59,7 @@ I'm asking to help separate between MARBL code issues and ROMS/MARBL driver issu
 
 
 <a name="95095"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95095" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95095">(Jan 26 2024 at 00:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95095" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95095">(Jan 26 2024 at 00:05)</a>:</h4>
 <p>I've updated the driver to include MARBL saved state i/o (was previously just populating the <code>saved_state</code> components of the MARBL instance with 0) but this is causing a crash out in <code>marbl_co2calc_mod/drtsafe</code>:<br>
 (There are a lot more WARNINGs before this but they're effectively the same thing at different levels). The model runs for about 11 model days before the warnings start.</p>
 <div class="codehilite"><pre><span></span><code> Task 7) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) it = 4
@@ -93,7 +93,7 @@ I'm asking to help separate between MARBL code issues and ROMS/MARBL driver issu
 
 
 <a name="95251"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95251" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95251">(Jan 29 2024 at 22:57)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95251" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95251">(Jan 29 2024 at 22:57)</a>:</h4>
 <p>Some other things I've noticed are:</p>
 <ul>
 <li>If I start from cold the error sometimes occurs, but sometimes doesn't (this is particularly alarming)</li>
@@ -106,7 +106,7 @@ I'm asking to help separate between MARBL code issues and ROMS/MARBL driver issu
 
 
 <a name="95253"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95253" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95253">(Jan 29 2024 at 22:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95253" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95253">(Jan 29 2024 at 22:59)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="184">Dafydd Stephenson</span> <a href="#narrow/stream/28-MARBL/topic/roms.20driver/near/95251">said</a>:</p>
 <blockquote>
 <p>Digging further again, I've removed the variables from the restart files (ROMS behaviour is then to initialise them to 0). This leads to an abort during the first call to <code>interior_tendency_compute</code>.</p>
@@ -123,38 +123,38 @@ I'm asking to help separate between MARBL code issues and ROMS/MARBL driver issu
 
 
 <a name="95254"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95254" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95254">(Jan 29 2024 at 23:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95254" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95254">(Jan 29 2024 at 23:02)</a>:</h4>
 <p>Yes, that's exactly it.  I'll go back to getting a full dump of the values because I can't think of anything else that tracks with this behaviour</p>
 
 
 
 <a name="95255"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95255" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95255">(Jan 29 2024 at 23:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95255" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95255">(Jan 29 2024 at 23:03)</a>:</h4>
 <p>In <code>step3d_t_ISO.F</code>, you are passing <code>marbldrv_column_physics</code> <code>marbl_saved_state_2d(istr:iend,jstr:jend,:)</code> and <code>marbl_saved_state_3d(istr:iend,jstr:jend,:,:)</code>, so your <code>(i,j)</code> dimensions will be remapped to <code>(1:iend-istr+1, 1:jend-jstr+1)</code>. In <code>marbldrv_column_physics</code> you are looping from <code>istr</code> and <code>jstr</code> to <code>iend</code> and <code>jend</code>, so the last <code>(istr-1)</code> and <code>(jstr-1)</code> items are out of the bounds of the array. Try passing <code>marbl_saved_state_2d(:,:,:)</code> and <code>marbl_saved_state_3d(:,:,:,:)</code> instead</p>
 
 
 
 <a name="95315"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95315" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95315">(Jan 30 2024 at 23:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95315" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95315">(Jan 30 2024 at 23:56)</a>:</h4>
 <p>I now remember why the call is written like this: arrays are defined to be padded around the outside. In this example, indices -1 and 0 point to the first two rows and columns of the array, so passing the full array remaps these to row/column 1 and 2. Dumping the values shows the ones in the restart file are correctly passed into MARBL in the right places. I don't think this exact format for the call to MARBL is ideal, but it is functional in the simple configuration where istr=jstr=1,iend=jend=4, and each CPU is working with a local ~4x4 subset of the global array (sometimes with some additional padding (rows/columns &lt;1 or &gt;4) that we don't want to show to MARBL). </p>
 <p>However, I've found a bug in the ROMS source code that initialises variables absent in the restart file to 0 _only in a single layer_ which explains why removing saved state from the restart file led to a rapid corruption with junk values in that particular case. I have now patched this and can confirm that whether or not the saved_state values are in the restart file, the model errors out at the same point in time.</p>
 
 
 
 <a name="95386"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95386" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95386">(Feb 01 2024 at 21:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95386" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95386">(Feb 01 2024 at 21:45)</a>:</h4>
 <p>OK, this turned out to be triggered independently by the above mentioned bug in ROMS (now patched) <strong>and</strong> a physics problem with the test configuration (now fixed). It now runs without the issue.</p>
 
 
 
 <a name="95387"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95387" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95387">(Feb 01 2024 at 21:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95387" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95387">(Feb 01 2024 at 21:54)</a>:</h4>
 <p>awesome, glad you got it up and running! I'm a little surprised that passing the subarrays kept the subarray index, but then I had no idea what else to suggest :)</p>
 
 
 
 <a name="95388"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95388" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="http://127.0.0.1:4000/html/stream/28-MARBL/topic/roms.20driver.html#95388">(Feb 01 2024 at 22:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/28-MARBL/topic/roms%20driver/near/95388" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dafydd Stephenson <a href="../../..//stream/28-MARBL/topic/roms.20driver.html#95388">(Feb 01 2024 at 22:00)</a>:</h4>
 <p>It happens that the indices coincide with the size of the subarray but this formulation at best ugly and at worst asking for trouble... I think it'd be better to pass the subarray and then loop over its full shape (not an easy change to make currently, but definitely due at some point). Thanks for your help!</p>
 
 

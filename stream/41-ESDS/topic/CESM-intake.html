@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>CESM-intake · ESDS · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/index.html">ESDS</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CESM-intake.html">CESM-intake</a></h3>
+<h2>Stream: <a href="../../..//stream/41-ESDS/index.html">ESDS</a></h2>
+<h3>Topic: <a href="../../..//stream/41-ESDS/topic/CESM-intake.html">CESM-intake</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="52062"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52062" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CESM-intake.html#52062">(Mar 14 2022 at 15:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52062" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="../../..//stream/41-ESDS/topic/CESM-intake.html#52062">(Mar 14 2022 at 15:40)</a>:</h4>
 <p>Trying to use intake for pretty much the first time and getting the error below. I think I have pretty much reproduced this example <a href="https://ncar.github.io/esds/posts/2021/kay-et-al-cesm2-le/?highlight=intake%20cesm">https://ncar.github.io/esds/posts/2021/kay-et-al-cesm2-le/?highlight=intake%20cesm</a> but am getting the following error message.<br>
 Is it package incompatibility as I have just installed intake.</p>
 <p>Cheers<br>
@@ -39,25 +39,25 @@ Rich</p>
 
 
 <a name="52063"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52063" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CESM-intake.html#52063">(Mar 14 2022 at 15:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52063" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/41-ESDS/topic/CESM-intake.html#52063">(Mar 14 2022 at 15:42)</a>:</h4>
 <p>It’s looks like it is saying it can’t find <code>intake-esm</code> in your Python environment.</p>
 
 
 
 <a name="52069"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52069" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CESM-intake.html#52069">(Mar 14 2022 at 16:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52069" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/41-ESDS/topic/CESM-intake.html#52069">(Mar 14 2022 at 16:26)</a>:</h4>
 <p><span class="user-mention" data-user-id="137">@Rich Neale</span> -- to expand on <span class="user-mention" data-user-id="8">@Kevin Paul</span>'s comment, you need to install both <code>intake</code> and <code>intake-esm</code> in your environment. Even though there is no direct <code>import</code> statement to use it, without <code>intake-esm</code> installed the <code>intake.open_esm_datastore()</code> function won't be available</p>
 
 
 
 <a name="52070"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52070" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CESM-intake.html#52070">(Mar 14 2022 at 16:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52070" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kevin Paul <a href="../../..//stream/41-ESDS/topic/CESM-intake.html#52070">(Mar 14 2022 at 16:26)</a>:</h4>
 <p>(Thanks, <span class="user-mention" data-user-id="10">@Michael Levy</span>!)</p>
 
 
 
 <a name="52071"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52071" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="http://127.0.0.1:4000/html/stream/41-ESDS/topic/CESM-intake.html#52071">(Mar 14 2022 at 16:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/41-ESDS/topic/CESM-intake/near/52071" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Rich Neale <a href="../../..//stream/41-ESDS/topic/CESM-intake.html#52071">(Mar 14 2022 at 16:44)</a>:</h4>
 <p>Oh great, missed that, thanks both!</p>
 
 

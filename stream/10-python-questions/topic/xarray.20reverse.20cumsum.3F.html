@@ -1,21 +1,21 @@
 <html>
 <head><meta charset="utf-8"><title>xarray reverse cumsum? · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html">xarray reverse cumsum?</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html">xarray reverse cumsum?</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="53712"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53712" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53712">(Apr 18 2022 at 14:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53712" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53712">(Apr 18 2022 at 14:58)</a>:</h4>
 <p>Is there a simply way to perform a reverse cumulative sum with xarray?  For example, if I have an xarray dataarray foo with a 'depth' coordinate/dimension, then foo.cumsum('depth') will give me the top-down cumulative sum, but I want the bottom-up sum. I know how to reverse the dimension using "::-1" on the underlying numpy array, but I want to avoid hardcoding knowledge of the dimension location.</p>
 
 
 
 <a name="53713"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53713" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53713">(Apr 18 2022 at 15:08)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53713" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53713">(Apr 18 2022 at 15:08)</a>:</h4>
 <p>One clunky method is the following (is the best available method?):</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">foo_cumsum</span> <span class="o">=</span> <span class="n">foo</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s1">'depth'</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </code></pre></div>
@@ -23,20 +23,20 @@
 
 
 <a name="53718"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53718" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53718">(Apr 18 2022 at 15:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53718" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53718">(Apr 18 2022 at 15:22)</a>:</h4>
 <p>yes.</p>
 <p>we could add a flag to cf_xarray. that lets you specify order. This would only work if <code>depth</code> has <code>attrs["positive"]</code> set to either <code>up</code> or <code>down</code></p>
 
 
 
 <a name="53719"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53719" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53719">(Apr 18 2022 at 15:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53719" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53719">(Apr 18 2022 at 15:22)</a>:</h4>
 <p>There's similar discussion at xgcm: <a href="https://github.com/xgcm/xgcm/issues/337">https://github.com/xgcm/xgcm/issues/337</a></p>
 
 
 
 <a name="53789"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53789" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53789">(Apr 19 2022 at 12:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53789" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53789">(Apr 19 2022 at 12:28)</a>:</h4>
 <p>I think you can probably reverse the coordinate by specifying a "-1" stride in the indexing:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">foo_cumsum</span> <span class="o">=</span> <span class="n">foo</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="s1">'depth'</span><span class="p">)</span>
 </code></pre></div>
@@ -45,7 +45,7 @@
 
 
 <a name="53796"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53796" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53796">(Apr 19 2022 at 16:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xarray%20reverse%20cumsum%3F/near/53796" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/10-python-questions/topic/xarray.20reverse.20cumsum.3F.html#53796">(Apr 19 2022 at 16:23)</a>:</h4>
 <p>Thanks both. Matt, yes but it's desirable not to have to hard-code assumptions about array dimensionality. Deepak, fixes using cf_xarray or xgcm are possible, but I would think this should be considered as an option for the cumsum method of xarray.</p>
 
 

@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>Observed Dask issues on Casper? · dask · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/27-dask/index.html">dask</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html">Observed Dask issues on Casper?</a></h3>
+<h2>Stream: <a href="../../..//stream/27-dask/index.html">dask</a></h2>
+<h3>Topic: <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html">Observed Dask issues on Casper?</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="82809"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82809" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82809">(Jun 15 2023 at 21:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82809" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82809">(Jun 15 2023 at 21:22)</a>:</h4>
 <p>Hello all - I'm following up on a report from <span class="user-mention" data-user-id="311">@Elena Romashkova</span> that there has been flaky/unstable behavior observed by her colleagues on Casper recently (perhaps specific to Dask workflows - which is why I am posting it here). If you have been noticing this too, it'd be helpful  to us in HPCD if you can share any descriptions of what you have seen. For example:</p>
 <p>- What sorts of failures or weird behavior are you seeing now that you didn't see (or saw less) before?<br>
    - How long have you noticed the problem?<br>
@@ -20,7 +20,7 @@
 
 
 <a name="82810"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82810" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82810">(Jun 15 2023 at 21:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82810" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82810">(Jun 15 2023 at 21:23)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="141">Brian Vanderwende</span> <a href="#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/82809">said</a>:</p>
 <blockquote>
 <p>Hello all - I'm following up on a report from <span class="user-mention silent" data-user-id="311">Elena Romashkova</span> that there has been flaky/unstable behavior observed by her colleagues on Casper recently (perhaps specific to Dask workflows - which is why I am posting it here). If you have been noticing this too, it'd be helpful  to us in HPCD if you can share any descriptions of what you have seen. For example:</p>
@@ -35,7 +35,7 @@
 
 
 <a name="82812"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82812" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82812">(Jun 15 2023 at 22:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82812" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82812">(Jun 15 2023 at 22:13)</a>:</h4>
 <p><span class="user-mention" data-user-id="141">@Brian Vanderwende</span>  This is the same notebook tripping <span class="user-mention" data-user-id="311">@Elena Romashkova</span> up, but I figured I'd write up the details for others to see.</p>
 <p>Back in January, I was able to run a notebook that requested 72 workers (each worker was a single core with 20 GB of memory). Tuesday afternoon I tried to run the same notebook in the same environment, and got unexpected behavior spinning up the cluster:</p>
 <ol>
@@ -53,20 +53,20 @@
 
 
 <a name="82814"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82814" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82814">(Jun 15 2023 at 22:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82814" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82814">(Jun 15 2023 at 22:47)</a>:</h4>
 <p>During one of Elena's experiments with fixing this, she passed <code>interface="mgt"</code> (I think) to <code>PBSCluster</code>. Debugging with that, we concluded that the dask workers couldn't talk to the scheduler and would give up with <code>TimeoutError</code>. Changing to <code>interface="ib0"</code> fixed it at that point, and seemed to decrease frequency of errors in the next couple of weeks.</p>
 <p>When looking at Mike's notebooks, I saw the same <code>TimeoutError</code>. Is it possible that it's an intermittent network issue?</p>
 
 
 
 <a name="82862"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82862" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82862">(Jun 16 2023 at 16:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82862" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82862">(Jun 16 2023 at 16:34)</a>:</h4>
 <p>I am also experiencing lots of flaky notebook behaviour, and I have <code>interface='ib0'</code> specified. I have started to play with <code>cluster.scale()</code> instead of <code>cluster.adapt()</code> and that seemed to help for a while, but yesterday it got stuck on one of my calculations again that really shouldn't have been an issue</p>
 
 
 
 <a name="82871"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82871" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82871">(Jun 16 2023 at 17:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82871" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82871">(Jun 16 2023 at 17:05)</a>:</h4>
 <p>And just now I am getting another error I have seen often recently:<br>
 OSError: [Errno -51] NetCDF: Unknown file format: b'/glade/campaign/cgd/oce/projects/FOSI_BGC/HR/g.e22.TL319_t13.G1850ECOIAF_JRA_HR.4p2z.001/ocn/proc/tseries/day_1/g.e22.TL319_t13.G1850ECOIAF_JRA_HR.4p2z.001.pop.h.nday1.SST.19700102-19710101.nc'<br>
 even though the file is there and also this cell ran without problems yesterday.<br>
@@ -75,31 +75,31 @@ even though the file is there and also this cell ran without problems yesterday.
 
 
 <a name="82884"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82884" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82884">(Jun 16 2023 at 17:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82884" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82884">(Jun 16 2023 at 17:54)</a>:</h4>
 <p>Similarly currently I am trying to take a mean over some data and plot it, this has worked just a couple of minutes ago, but now it is not doing anything, and I don't even see any workers queueing, plus casper doesn't look that full. (I just keep adding to this thread with things as they come up, is this helpful or should I send an email to the helpdesk?)</p>
 
 
 
 <a name="82885"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82885" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82885">(Jun 16 2023 at 17:55)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82885" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82885">(Jun 16 2023 at 17:55)</a>:</h4>
 <p>I say keep posting here as you are not the only one encountering odd behavior!</p>
 
 
 
 <a name="82886"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82886" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82886">(Jun 16 2023 at 17:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82886" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82886">(Jun 16 2023 at 17:58)</a>:</h4>
 <p>And just to clarify what's happening right now: I have processes waiting that I can see on the dashboard, but no workers are being submitted or started. Usually at this point I expect to be able to see the queueing workers but there are none. qstat only shows my login.</p>
 
 
 
 <a name="82903"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82903" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82903">(Jun 16 2023 at 18:56)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82903" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82903">(Jun 16 2023 at 18:56)</a>:</h4>
 <p>it's still exactly the same as I left it before lunch. any advice on what to do?</p>
 
 
 
 <a name="82964"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82964" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Nish Etige <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82964">(Jun 16 2023 at 20:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82964" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Nish Etige <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82964">(Jun 16 2023 at 20:52)</a>:</h4>
 <p>I am having trouble plotting a map using data in a dask array. </p>
 <p><a href="../../../user_uploads/2/5e/w6ZPul9sEc-F0cimQS9ChU-8/image.png">image.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/5e/w6ZPul9sEc-F0cimQS9ChU-8/image.png" title="image.png"><img src="../../../user_uploads/2/5e/w6ZPul9sEc-F0cimQS9ChU-8/image.png"></a></div><div class="codehilite"><pre><span></span><code>plot_data = dataset.SST.isel(time = 200, z_t = 0)
@@ -209,7 +209,7 @@ UnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode bytes in position 6-7
 
 
 <a name="82965"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82965" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82965">(Jun 16 2023 at 21:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/82965" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#82965">(Jun 16 2023 at 21:12)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="27">Anna-Lena Deppenmeier</span> <a href="#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/82903">said</a>:</p>
 <blockquote>
 <p>it's still exactly the same as I left it before lunch. any advice on what to do?</p>
@@ -219,7 +219,7 @@ UnicodeDecodeError: &#39;utf-8&#39; codec can&#39;t decode bytes in position 6-7
 
 
 <a name="83096"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/83096" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#83096">(Jun 20 2023 at 22:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/83096" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Daniel Kennedy <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#83096">(Jun 20 2023 at 22:14)</a>:</h4>
 <p>Chiming in to say that I have also been experiencing this issue. <br>
 My typical ask is:</p>
 <div class="codehilite"><pre><span></span><code>m=&#39;10GB&#39;
@@ -240,7 +240,7 @@ cluster.scale(30)
 
 
 <a name="84159"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84159" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84159">(Jun 27 2023 at 18:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84159" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84159">(Jun 27 2023 at 18:29)</a>:</h4>
 <p>Thanks all. I've been discussing these issues with the system engineers over the past week and their initial suspicion is that slowness in the PBS server is affecting workflows that are sensitive to PBS, which could certainly impact PBSClusters. I'm not fully convinced that the OSError messages are a side-effect of this, since in some cases it seems to be happening after workers initialize but then they have trouble communicating, but since better PBS performance is a win all-around it does seem like a good starting point.</p>
 <p>To that end - a change was made in Casper's PBS server today that should improve performance of certain operations dramatically. While these operations aren't ones typically done by Dask workflows (except perhaps the very largest clusters), it should improve performance of the scheduler all around, and this should help both Dask and JupyterHub. Our synthetic tests have shown up to 100x speedup for certain qsub patterns.</p>
 <p>But we'd like some real-world data points. This change was made in the past 30 minutes. As you use Dask and JuptyerHub over the coming days, please note performance and reliability. If you see any improvements, we'd love to hear it, but if you keep seeing the same issues that's very useful to know too.</p>
@@ -249,13 +249,13 @@ cluster.scale(30)
 
 
 <a name="84229"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84229" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84229">(Jun 27 2023 at 20:03)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84229" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Kristen Krumhardt <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84229">(Jun 27 2023 at 20:03)</a>:</h4>
 <p>I was just finally able to run the fish model FEISTY on the high resolution CESM ocean model output, which we haven't been able to do for the past ~month (I was finally able to grab all 72 requested dask workers at the same time), so I think this new change is working great!</p>
 
 
 
 <a name="84233"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84233" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84233">(Jun 27 2023 at 20:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84233" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84233">(Jun 27 2023 at 20:18)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="28">Kristen Krumhardt</span> <a href="#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84229">said</a>:</p>
 <blockquote>
 <p>I was just finally able to run the fish model FEISTY on the high resolution CESM ocean model output, which we haven't been able to do for the past ~month (I was finally able to grab all 72 requested dask workers at the same time), so I think this new change is working great!</p>
@@ -265,19 +265,19 @@ cluster.scale(30)
 
 
 <a name="84243"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84243" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84243">(Jun 27 2023 at 22:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84243" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84243">(Jun 27 2023 at 22:17)</a>:</h4>
 <p>Hi all, <span class="user-mention" data-user-id="141">@Brian Vanderwende</span> thanks for this, I have noticed some improvements too! I still have an issue which I think is related to what <span class="user-mention" data-user-id="71">@Negin Sobhani</span> and I have been discussing, sometimes I try to calculate something, I can see the processes appear and be processed in the dashboard, but then in the end the cell hangs and the notebook gets stuck in this stage =/ I tried seeing if I can execute any other cell but it really is stuck.</p>
 
 
 
 <a name="84244"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84244" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84244">(Jun 27 2023 at 22:17)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84244" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84244">(Jun 27 2023 at 22:17)</a>:</h4>
 <p>Can provide an example if that is helpful.</p>
 
 
 
 <a name="84399"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84399" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84399">(Jun 28 2023 at 17:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84399" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84399">(Jun 28 2023 at 17:54)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="27">Anna-Lena Deppenmeier</span> <a href="#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84243">said</a>:</p>
 <blockquote>
 <p>Hi all, <span class="user-mention silent" data-user-id="141">Brian Vanderwende</span> thanks for this, I have noticed some improvements too! I still have an issue which I think is related to what <span class="user-mention silent" data-user-id="71">Negin Sobhani</span> and I have been discussing, sometimes I try to calculate something, I can see the processes appear and be processed in the dashboard, but then in the end the cell hangs and the notebook gets stuck in this stage =/ I tried seeing if I can execute any other cell but it really is stuck.</p>
@@ -287,7 +287,7 @@ cluster.scale(30)
 
 
 <a name="84408"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84408" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84408">(Jun 28 2023 at 18:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84408" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Deepak Cherian <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84408">(Jun 28 2023 at 18:09)</a>:</h4>
 <blockquote>
 <p>hen the cell stays "thinking" for hours until I interrupt the kernel</p>
 </blockquote>
@@ -296,25 +296,25 @@ cluster.scale(30)
 
 
 <a name="84412"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84412" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84412">(Jun 28 2023 at 18:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84412" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84412">(Jun 28 2023 at 18:16)</a>:</h4>
 <p>I am not sure about your question but it is the ds.load() cell that initiates the processing but even when the dashboard shows processing is complete, the cell never stops 'thinking.' Thank you for trying to assist, Deepak!</p>
 
 
 
 <a name="84423"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84423" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84423">(Jun 28 2023 at 19:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84423" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84423">(Jun 28 2023 at 19:49)</a>:</h4>
 <p><span class="user-mention" data-user-id="199">@Holly Olivarez</span>  - thanks for the report. Would you be willing to provide a sample notebook and execution instructions (mainly the characteristics of the server running the notebook along with the kernel used) that demonstrate your cell stalls? I'd like to investigate whether it shares any commonalities with the issue that Anna-Lena and Negin are troubleshooting.</p>
 
 
 
 <a name="84430"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84430">(Jun 28 2023 at 20:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84430">(Jun 28 2023 at 20:14)</a>:</h4>
 <p><span class="user-mention" data-user-id="141">@Brian Vanderwende</span>  Yes, absolutely! Thank you for the offer. I'll get working on a sample notebook asap and send you the path once it's finished.</p>
 
 
 
 <a name="84433"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84433">(Jun 28 2023 at 20:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84433" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84433">(Jun 28 2023 at 20:37)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="199">Holly Olivarez</span> <a href="#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84430">said</a>:</p>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="141">Brian Vanderwende</span>  Yes, absolutely! Thank you for the offer. I'll get working on a sample notebook asap and send you the path once it's finished.</p>
@@ -325,55 +325,55 @@ cluster.scale(30)
 
 
 <a name="84434"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84434" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84434">(Jun 28 2023 at 20:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84434" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84434">(Jun 28 2023 at 20:38)</a>:</h4>
 <p>Perfect - thanks. I'll let you know what we find.</p>
 
 
 
 <a name="84435"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84435" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84435">(Jun 28 2023 at 20:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84435" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84435">(Jun 28 2023 at 20:40)</a>:</h4>
 <p>One other thing - what Python language kernel/environment should I use to run it? Do you have a custom environment or do you use our NPL (or something else?). And how much memory do you typically request for the main server you start up (if it's a login server, you'd get 4 GB)?</p>
 
 
 
 <a name="84437"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84437" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84437">(Jun 28 2023 at 20:43)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84437" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84437">(Jun 28 2023 at 20:43)</a>:</h4>
 <p>I use a custom environment and I typically get 4 GB of memory. How can I share the custom environment with you?</p>
 
 
 
 <a name="84438"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84438">(Jun 28 2023 at 20:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84438" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84438">(Jun 28 2023 at 20:44)</a>:</h4>
 <p>If you point me to the path of the environment, I can make a kernel to use it in the Hub. Thanks!</p>
 
 
 
 <a name="84439"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84439">(Jun 28 2023 at 20:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84439" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84439">(Jun 28 2023 at 20:46)</a>:</h4>
 <p>Great! Here is the path of the environment: /glade/u/home/olivarez/.conda/envs/pinatubo-LENS</p>
 
 
 
 <a name="84498"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84498" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84498">(Jun 28 2023 at 23:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84498" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anna-Lena Deppenmeier <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84498">(Jun 28 2023 at 23:45)</a>:</h4>
 <p>Hi, just to also chime in that I am having this problem once again. I created a short notebook here <code>/glade/u/home/deppenme/NOTEBOOKS/RossSea/HeatFluxThroughMixedLayer.ipynb</code> i am using environment <code>/glade/u/home/deppenme/analysis6_versions.yml</code> any help would be appreciated!</p>
 
 
 
 <a name="84527"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84527">(Jun 29 2023 at 16:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84527" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84527">(Jun 29 2023 at 16:26)</a>:</h4>
 <p><span class="user-mention" data-user-id="27">@Anna-Lena Deppenmeier</span> - thanks for the heads up. Is this the problem you are working on with Negin or a separate issue?</p>
 
 
 
 <a name="84528"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84528">(Jun 29 2023 at 16:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84528">(Jun 29 2023 at 16:27)</a>:</h4>
 <p><span class="user-mention" data-user-id="199">@Holly Olivarez</span> - I do believe I see the issue with your notebook, but I'm doing just a bit of testing so that I can give you a good recommendation for how to configure your cluster and make any necessary changes to the notebook.</p>
 
 
 
 <a name="84549"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84549" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84549">(Jun 29 2023 at 19:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84549" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Brian Vanderwende <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84549">(Jun 29 2023 at 19:46)</a>:</h4>
 <p><span class="user-mention" data-user-id="199">@Holly Olivarez</span> ... so from my testing, I believe the reason you are seeing workers complete but the cell stall during this load operation is indeed because the load is trying to bring all of these data into the memory of notebook server. For a login server, you only get 4 GB, but even if I requested a 200 GB batch server, it was not enough to fit even the first dataset. However, if you are simply trying to do this concatenate the datasets and save to a monolithic netcdf file, you shouldn't need to load the data into the notebook environment. If I comment those load lines out, the workers will directly read in and write data and your memory footprint exists entirely with the workers.</p>
 <p>Now, it's still a very large dataset and the load - concatenate - save step when you run <code>to_netcdf</code> will take a very long time. I think there may be some chunking changes that could help there, but I haven't drilled down that far yet. On the cluster config side of things, I'd suggest using 1 worker per job and asking for 4 GB of memory per worker, rather than packing the workers 9-per-node as you are currently doing. Having workers spread across more nodes could help with I/O operations, and in general you'll see better job queue times with more, smaller, jobs.</p>
 <p>If you want to see the changes I've made, my copy is at <code>/glade/scratch/vanderwb/tickets/holly-dask/olivarez_sample_nb_cmip6.ipynb</code>. I shrunk things down to 40 workers as I don't think this operation will scale super well, but you could scale that back up to 90 if you like.</p>
@@ -381,7 +381,7 @@ cluster.scale(30)
 
 
 <a name="84617"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84617" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="http://127.0.0.1:4000/html/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84617">(Jun 29 2023 at 21:59)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/27-dask/topic/Observed%20Dask%20issues%20on%20Casper%3F/near/84617" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Holly Olivarez <a href="../../..//stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F.html#84617">(Jun 29 2023 at 21:59)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="141">Brian Vanderwende</span> <a href="#narrow/stream/27-dask/topic/Observed.20Dask.20issues.20on.20Casper.3F/near/84549">said</a>:</p>
 <blockquote>
 <p><span class="user-mention silent" data-user-id="199">Holly Olivarez</span> ... so from my testing, I believe the reason you are seeing workers complete but the cell stall during this load operation is indeed because the load is trying to bring all of these data into the memory of notebook server. For a login server, you only get 4 GB, but even if I requested a 200 GB batch server, it was not enough to fit even the first dataset. However, if you are simply trying to do this concatenate the datasets and save to a monolithic netcdf file, you shouldn't need to load the data into the notebook environment. If I comment those load lines out, the workers will directly read in and write data and your memory footprint exists entirely with the workers.</p>

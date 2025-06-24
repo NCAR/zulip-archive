@@ -1,0 +1,320 @@
+###
+# Run feisty in offline mode (cap fish ingestion of zooplankton using mortality term).
+loffline: True
+
+###
+# This section defines aspects of the model structure, including the size classes and names of the model functional types.
+model_settings:
+  ###
+  # Specify the names and bounds for the model size classes [grams].
+  #
+  # Example:
+  #
+  # .. code-block:: yaml
+  #
+  #    size_class_bounds:
+  #      small: [0.001, 0.5]
+  #      medium: [0.5, 250.]
+  #      large: [250., 125000.]
+  size_class_bounds:
+    small: [0.001, 0.5]
+    medium: [0.5, 250.]
+    large: [250., 125000.]
+  ###
+  # Specify the list of functional types included in the model.
+  # (Zooplankton are listed here, but are really a forcing, not a prognostic component.)
+  functional_type_keys:
+    - zooplankton
+    - forage
+    - piscivore
+    - demersal
+    - benthic_prey
+  ###
+  # List the functional types that engage in pelagic-demersal coupling
+  # (if enabled in ``fish`` structure below.)
+  pelagic_demersal_coupling_type_keys:
+    - piscivore
+    - demersal
+  ###
+  # Specify the "zooplankton" functional types.
+  zooplankton_functional_type_keys:
+    - zooplankton
+  ###
+  # Specify the functional types that inhabit the pelagic zone.
+  pelagic_functional_type_keys:
+    - forage
+    - piscivore
+  ###
+  # Specify the "demersal" functional types.
+  demersal_functional_type_keys:
+    - demersal
+    - benthic_prey
+  ###
+  # When computing pelagic-demersal coupling, apply prey preference-weighting to prey
+  # biomass sums.
+  pelagic_demersal_coupling_apply_pref_type_keys:
+    - demersal
+  ###
+  # Benthic-pelagic coupling cutoff [meters].
+  benthic_pelagic_depth_cutoff: 200.
+
+###
+# Define the zooplankton groups used to force FEISTY. List of dictionaries with fields including:
+#
+# - name
+zooplankton:
+  defaults: {}
+  members:
+    - name: Zoo
+
+###
+# Define the fish that are simulated by FEISTY.
+# List of dictionaries specify fish parameters.
+#
+# | **name**: The name of the fish.
+# | **size_class**: The size class (must be in ``size_class_bounds`` above).
+# | **functional_type**: The functional type (must be in ``functional_type_keys`` above).
+# | **t_frac_pelagic_static**:
+# | **pelagic_demersal_coupling**: Does this group do pelagic-demersal coupling (boolean).
+# | **harvest_selectivity**: Proportion of biomass subject to fishing rate (fraction).
+# | **energy_frac_somatic_growth**: Fraction of available energy routed to growth (fraction).
+#
+# Example:
+#
+# .. code-block:: yaml
+#
+#   - name: Sf
+#     size_class: small
+#     functional_type: forage
+#     t_frac_pelagic_static: 1.
+#     pelagic_demersal_coupling: false
+#     harvest_selectivity: 0.
+#     energy_frac_somatic_growth: 1.
+#
+fish:
+  defaults:
+    k_metabolism: 0.0855
+    a_metabolism: 4.0
+    b_metabolism: 0.175
+    k_encounter: 0.063
+    a_encounter: 70.0
+    b_encounter: 0.2
+    k_consumption: 0.063
+    a_consumption: 20.0
+    b_consumption: 0.25
+    mortality_type: constant
+    mortality_coeff_per_yr: 0.1
+    assim_efficiency: 0.7
+    #school_pred_avoid: 0.5
+    #generalist_reduct: 0.75
+  members:
+    - name: Sf
+      size_class: small
+      functional_type: forage
+      t_frac_pelagic_static: 1.
+      pelagic_demersal_coupling: false
+      harvest_selectivity: 0.
+      energy_frac_somatic_growth: 1.
+
+    - name: Sp
+      size_class: small
+      functional_type: piscivore
+      t_frac_pelagic_static: 1.
+      pelagic_demersal_coupling: false
+      harvest_selectivity: 0.
+      energy_frac_somatic_growth: 1.
+
+    - name: Sd
+      size_class: small
+      functional_type: demersal
+      t_frac_pelagic_static: 1.
+      pelagic_demersal_coupling: false
+      harvest_selectivity: 0.
+      energy_frac_somatic_growth: 1.
+
+    # medium
+    - name: Mf
+      size_class: medium
+      functional_type: forage
+      t_frac_pelagic_static: 1.
+      pelagic_demersal_coupling: false
+      harvest_selectivity: 1.
+      energy_frac_somatic_growth: 0.5
+
+    - name: Mp
+      size_class: medium
+      functional_type: piscivore
+      t_frac_pelagic_static: 1.
+      pelagic_demersal_coupling: false
+      harvest_selectivity: 0.1
+      energy_frac_somatic_growth: 1.
+
+    - name: Md
+      size_class: medium
+      functional_type: demersal
+      t_frac_pelagic_static: 0.
+      pelagic_demersal_coupling: false
+      harvest_selectivity: 0.1
+      energy_frac_somatic_growth: 1.
+
+    # large
+    - name: Lp
+      size_class: large
+      functional_type: piscivore
+      t_frac_pelagic_static: 1.
+      pelagic_demersal_coupling: true
+      harvest_selectivity: 1.
+      energy_frac_somatic_growth: 0.5
+
+    - name: Ld
+      size_class: large
+      functional_type: demersal
+      t_frac_pelagic_static: 0.
+      pelagic_demersal_coupling: true
+      harvest_selectivity: 1.
+      energy_frac_somatic_growth: 0.5
+
+###
+# Define the benthic prey simulated by FEISTY.
+benthic_prey:
+  defaults:
+    benthic_efficiency: 0.075 # transfer efficiency of detritus to benthic prey
+    carrying_capacity: 0.
+  members:
+    - name: benthic_prey
+
+###
+# Build a food web of predator-prey relationships as a list.
+# Here is an example entry:
+#
+# .. code-block:: yaml
+#
+#    - predator: Sf
+#      prey: Zoo
+#      preference: 1.
+food_web:
+  # small forage
+  - predator: Sf
+    prey: Zoo
+    preference: 1.
+
+  # small piscivore
+  - predator: Sp
+    prey: Zoo
+    preference: 1.
+
+  # small demersal
+  - predator: Sd
+    prey: Zoo
+    preference: 1.
+
+  # medium forage
+  - predator: Mf
+    prey: Zoo
+    preference: 0.45
+
+  - predator: Mf
+    prey: Sf
+    preference: 1.
+
+  - predator: Mf
+    prey: Sp
+    preference: 1.
+
+  - predator: Mf
+    prey: Sd
+    preference: 1.
+
+  # medium piscivore
+  - predator: Mp
+    prey: Zoo
+    preference: 0.45
+
+  - predator: Mp
+    prey: Sf
+    preference: 1.
+
+  - predator: Mp
+    prey: Sp
+    preference: 1.
+
+  - predator: Mp
+    prey: Sd
+    preference: 1.
+
+  - predator: Md
+    prey: benthic_prey
+    preference: 1.
+
+  # large piscivore
+  - predator: Lp
+    prey: Mf
+    preference: 0.5 #should be A (school_avoid)
+
+  - predator: Lp
+    prey: Mp
+    preference: 1.
+
+  - predator: Lp
+    prey: Md
+    preference: 1.
+
+  # large demersal
+  - predator: Ld
+    prey: Mf
+    preference: 0.375 #should be A*D = (school_avoid * generalist_reduct)
+
+  - predator: Ld
+    prey: Mp
+    preference: 0.75 #should be D (generalist_reduct)
+
+  - predator: Ld
+    prey: Md
+    preference: 1.
+
+  - predator: Ld
+    prey: benthic_prey
+    preference: 1.
+
+###
+# Specify how growth and reproduction is routed among model constituents.
+reproduction_routing:
+  # larval recruitment
+  - from: Mf
+    to: Sf
+    efficiency: 0.01
+    is_larval: true
+
+  - from: Lp
+    to: Sp
+    efficiency: 0.01
+    is_larval: true
+
+  - from: Ld
+    to: Sd
+    efficiency: 0.01
+    is_larval: true
+
+  # small fishes growing
+  - from: Sf
+    to: Mf
+
+  - from: Sp
+    to: Mp
+
+  - from: Sd
+    to: Md
+
+  # medium fishes growing
+  - from: Mp
+    to: Lp
+
+  - from: Md
+    to: Ld
+
+###
+# Parameterize fishing.
+fishing:
+  ###
+  # Biomass harvest by fishing.
+  fishing_rate_per_year: 0.3

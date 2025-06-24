@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>MARBL driver for MOM6 · MOM6-dev · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/index.html">MOM6-dev</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html">MARBL driver for MOM6</a></h3>
+<h2>Stream: <a href="../../..//stream/9-MOM6-dev/index.html">MOM6-dev</a></h2>
+<h3>Topic: <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html">MARBL driver for MOM6</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="7998"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/7998" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#7998">(May 05 2020 at 23:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/7998" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#7998">(May 05 2020 at 23:20)</a>:</h4>
 <p>I'm going to use this topic to track my progress with the MARBL driver. Current status:</p>
 <ol>
 <li>All development is going in via CESM, current branch is based off <code>cesm2_2_alpha04c</code></li>
@@ -25,7 +25,7 @@
 
 
 <a name="8020"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8020" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8020">(May 06 2020 at 19:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8020" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8020">(May 06 2020 at 19:47)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>  I am not sure what you are trying to do exactly but we can configure <code>post_data()</code> to send a single column of a 3D field. The code below could be an example:</p>
 <div class="codehilite"><pre><span></span>CS%id_carbon = register_diag_field(&#39;ocean_model&#39;, &#39;carbon&#39;, CS%diag% axesZL, CS%Time, &amp;
      &#39;carbon concentration&#39;, &#39;units&#39;) ! Note: if axesZL  (a 1-D z-space axis at layer centers) does not work, try axesNull
@@ -41,13 +41,13 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="8021"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8021" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8021">(May 06 2020 at 19:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8021" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8021">(May 06 2020 at 19:49)</a>:</h4>
 <p><span class="user-mention" data-user-id="15">@Gustavo M Marques</span> -- I'll call you in a few minutes, just wrapping something up. I don't think I was very clear -- I want to register a full 3D field (so <code>diag%axesTL</code>), but post the data one column at a time. Basically, the MARBL driver is going to be computing a single column at a time, and I'd like to post the diagnostics immediately after computing rather than copying them to a buffer and then posting the entire buffer once every column has been computed</p>
 
 
 
 <a name="8609"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8609" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8609">(May 16 2020 at 16:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8609" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8609">(May 16 2020 at 16:34)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span>, <span class="user-mention" data-user-id="15">@Gustavo M Marques</span>,  and <span class="user-mention" data-user-id="83">@Andrew Shao</span> : I'm running into an issue that might be purely MARBL, or might be MARBL reacting to something MOM is doing... if any of you have thoughts on how to proceed, I'd appreciate it.</p>
 <p><strong>Background:</strong> I've been testing the MARBL driver by running for a month -- this has let me add output to the monthly history file for investigation, and the runs are taking ~20 minutes so it's not a terribly long wait to look at results. I recently added in a call to MARBL's <code>surface_flux_compute()</code> routine, and in <code>/glade/work/mlevy/codes/CESM/cesm2_2_alpha04c+mom6_marbl/cases/C1850MOMECO.008</code> I was able to run for a month setting tracer values at the surface to 0 and all surface forcing inputs to 1.</p>
 <p><strong>Issue:</strong> In <code>/glade/work/mlevy/codes/CESM/cesm2_2_alpha04c+mom6_marbl/cases/C1850MOMECO.009</code>, I set tracer values at the surface to the actual tracer values MOM is passively advecting around (<code>marbl_instances%tracers_at_surface(1,m) = CS%tr(i,j,1,m)</code>) and now the run crashes during day 7 of the run (at least the coupler gets to midnight on Jan 7, but not midnight on Jan 8). After talking with Gustavo yesterday, I ran with <code>DEBUG=TRUE</code> in <code>/glade/work/mlevy/codes/CESM/cesm2_2_alpha04c+mom6_marbl/cases/C1850MOMECO.009_debug/</code>, but that run seems to pick up unrelated issues (the surface forcing inputs are all 1 instead of 0 because the debug run was flagging some divide-by-zeros that I think came from having atmospheric pressure = 0)</p>
@@ -57,7 +57,7 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="8610"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8610" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8610">(May 16 2020 at 17:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8610" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8610">(May 16 2020 at 17:29)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span> , I wouldn't be surprised if provided all surface forcing inputs to 1 causes problems.</p>
 <p>I suggest working on the plumbing for forcing inputs, and diagnostic output that of the forcing fields being sent to MARBL, before proceeding with invoking the surface flux computation routine. I can easily see debugging 009 taking a long time. That might not be a good use of time if it boils down to garbage in, garbage out.</p>
 <p>I can see the utility in having checks in MARBL for reasonable forcing inputs. But I don't think that test dev runs in MOM dev is a good platform for coming up with plausible bounds for these checks. Perhaps a time-evolving single column model of MARBL, when it is available, would be a good tool to explore that, as a completely different project.</p>
@@ -65,13 +65,13 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="8714"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8714" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8714">(May 19 2020 at 14:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/8714" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#8714">(May 19 2020 at 14:47)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, let me know if you would like discuss this via telecom. I can help you change the output frequency so we can see how the added tracers look like.</p>
 
 
 
 <a name="11209"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/11209" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#11209">(Jun 11 2020 at 21:19)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/11209" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#11209">(Jun 11 2020 at 21:19)</a>:</h4>
 <p>it's been almost a month since the last update, and I wish I had more to say... but I inadvertently "fixed" the issue with the surface tracers. I say inadvertently because I'm not sure exactly what fixed it: I updated <code>diag_table</code>, first because I wanted to separate the BGC variables to get more frequent output and then a second time because I realized I was accidentally duplicating a key in the YAML file that generated the table, populated <code>T</code> and <code>S</code> from MOM's state, and removed some un-necessary computation I had copied from the <code>dye_tracer</code>module; the combination of the last two seems to have done the trick. So for surface forcings I'm using</p>
 <div class="codehilite"><pre><span></span>      if (CS%u10_sqr_ind &gt; 0) marbl_instances%surface_flux_forcings(CS%u10_sqr_ind)%field_0d(1) = 2.5e5
       if (CS%sss_ind &gt; 0) marbl_instances%surface_flux_forcings(CS%sss_ind)%field_0d(1) = tv%S(i,j,1)
@@ -97,50 +97,50 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="11996"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/11996" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#11996">(Jun 18 2020 at 22:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/11996" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#11996">(Jun 18 2020 at 22:13)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>  Just FYI, GFDL is experimenting with a new way of supporting external code that might be useful for bringing MARBL<br>
 <a href="https://github.com/NOAA-GFDL/MOM6/pull/1133" target="_blank" title="https://github.com/NOAA-GFDL/MOM6/pull/1133">https://github.com/NOAA-GFDL/MOM6/pull/1133</a></p>
 
 
 
 <a name="12296"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/12296" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#12296">(Jun 23 2020 at 18:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/12296" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#12296">(Jun 23 2020 at 18:10)</a>:</h4>
 <p>Ahh sorry, I completely missed this thread (forgot to reload the Zulip app). Glad to hear that is seems to have been resolved. With regard to the GFDL PR, it's basically Alistair going back to the idea of dummy interfaces for all external (including tracer) packages.</p>
 
 
 
 <a name="13273"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/13273" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#13273">(Jul 01 2020 at 11:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/13273" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#13273">(Jul 01 2020 at 11:32)</a>:</h4>
 <p>FYI, I poked around the <code>MOM_OCMIP2_CFC.F90</code> code a bit and it does appear that cfc fluxes are computed in the FMS coupler, not in MOM6. So they don't end up needing to plumb state variables from the atmosphere and sea ice models down into <code>MOM_OCMIP2_CFC.F90</code>, like we are planning to do for MARBL computed surface fluxes.</p>
 
 
 
 <a name="17630"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17630" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17630">(Sep 21 2020 at 14:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17630" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17630">(Sep 21 2020 at 14:41)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> I'm trying to test my code that adds surface flux saved state to the restart file, but having trouble getting expected test failures. Basically, I want to add a variable to the history file, run an ERS test without adding saved state to the restart, and fail the <code>COMPARE_base_rest</code> stage. Then I want to write fields to restart and see that stage of the test pass. Surface PH seemed like a good candidate, since the fields in the restart file are <code>PH_SURF</code> and <code>PH_SURF_ALT_CO2</code>, but even with the <code>PH</code> diagnostic in history file I'm seeing the <code>COMPARE_base_rest</code> pass regardless of whether I write anything into the restart file. Is there a better diagnostic variable to see the effect of saving saved state?</p>
 
 
 
 <a name="17631"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17631" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17631">(Sep 21 2020 at 14:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17631" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17631">(Sep 21 2020 at 14:44)</a>:</h4>
 <p>It seems a little tricky because MOM isn't applying any of the <code>intent(out)</code> variables from MARBL to the tracer state... so I need a value that MARBL outputs as a diagnostic (in POP, I think keeping saved state out of the restarts feeds back to tracer values pretty quickly and then the list of variables that fail the <code>COMPARE_base_rest</code> is large)</p>
 
 
 
 <a name="17633"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17633" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17633">(Sep 21 2020 at 15:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17633" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17633">(Sep 21 2020 at 15:18)</a>:</h4>
 <p>lets talk on zoom</p>
 
 
 
 <a name="17663"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17663" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17663">(Sep 21 2020 at 21:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17663" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17663">(Sep 21 2020 at 21:07)</a>:</h4>
 <p>Update: I've added <code>STF</code> to the <code>tracer_vertdiff()</code> call via the optional <code>sfc_flux</code> argument; now I'm getting failures in the <code>COMPARE_base_rest</code> for <code>PH</code> whether I add saved state to the restart file or not... I suspect that I am writing the correct values to the restart file but not reading them in upon restart. I'll look a little more this afternoon then add it to the list of things to ask <span class="user-mention" data-user-id="83">@Andrew Shao</span> about if it remains an issue</p>
 
 
 
 <a name="17807"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17807" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17807">(Sep 23 2020 at 15:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/17807" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#17807">(Sep 23 2020 at 15:36)</a>:</h4>
 <p>It turned out my restart issues were due to registering restart fields too late in the initialization process; I've filed and <a href="https://github.com/NOAA-GFDL/MOM6/issues/1214" target="_blank" title="https://github.com/NOAA-GFDL/MOM6/issues/1214">issue ticket</a> with GFDL asking for an error message in this situation, as I only figured it out because I wondered "what if I register the saved state restarts earlier in the code". My branch now passes ERS tests, hooray!</p>
 <p>I'm also putting the finishing touches on getting dust flux and iron flux from the coupler -- once this is done, the to-do list for computing surface fluxes will be pretty short:</p>
 <ol>
@@ -155,7 +155,7 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="21456"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21456" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21456">(Nov 13 2020 at 18:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21456" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21456">(Nov 13 2020 at 18:14)</a>:</h4>
 <p><span class="user-mention" data-user-id="83">@Andrew Shao</span> (or <span class="user-mention" data-user-id="15">@Gustavo M Marques</span> ) -- MARBL needs to know pressure in each column; POP has a function in <code>state_mod.F90</code> that converts from depth (m) -&gt; pressure (bars) using the Levitus 1994 formula:</p>
 <div class="codehilite"><pre><span></span><span class="c">!-----------------------------------------------------------------------</span>
 <span class="c">!</span>
@@ -173,7 +173,7 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="21459"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21459" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21459">(Nov 13 2020 at 18:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21459" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21459">(Nov 13 2020 at 18:45)</a>:</h4>
 <p>Pressure will have to be calculated within the MARBL driver. For consistency with everything else it's essentially:</p>
 <div class="codehilite"><pre><span></span><span class="n">P</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">GV</span><span class="p">%</span><span class="n">h_kg_m2</span>
 <span class="k">do </span><span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">nk</span>
@@ -184,13 +184,13 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="21460"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21460" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21460">(Nov 13 2020 at 18:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21460" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21460">(Nov 13 2020 at 18:47)</a>:</h4>
 <p>That expression is valid for both Boussinesq (where depth is the 'correct' vertical, Cartesian coordinate) and non_Boussinesq modes (where pressure is the 'correct' one)</p>
 
 
 
 <a name="21461"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21461" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21461">(Nov 13 2020 at 18:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21461" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21461">(Nov 13 2020 at 18:48)</a>:</h4>
 <p>Cool, I'll add the function in <code>MARBL_tracers.F90</code>; as a temporary solution I just computed it in <code>MARBL_tracers_column_physics()</code>:</p>
 <div class="codehilite"><pre><span></span>      <span class="c">!        TODO: In POP, pressure comes from a function in state_mod.F90; I don&#39;t see a similar function here</span>
       <span class="c">!              This formulation is from Levitus 1994, and I think it belongs in MOM_EOS.F90?</span>
@@ -202,13 +202,13 @@ if (CS%id_carbon &gt; 0) call post_data(CS%id_carbon, carbon(i,j,:), CS%diag)
 
 
 <a name="21462"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21462" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21462">(Nov 13 2020 at 18:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21462" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21462">(Nov 13 2020 at 18:48)</a>:</h4>
 <p>Within a layer, pressure will vary linearly in both cases</p>
 
 
 
 <a name="21513"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21513" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21513">(Nov 13 2020 at 20:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21513" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21513">(Nov 13 2020 at 20:52)</a>:</h4>
 <p>Looking in <code>src/core/MOM_verticalGrid.F90</code>, I would have guessed we should be converting with <code>H_to_Pa</code>, and then convert from <code>Pa</code> to <code>bars</code>. Am I misunderstanding?</p>
 <p>Also, it looks like your code computes pressure at the bottom each model layer.<br>
 If so, and assuming you meant <code>H_to_Pa</code>, would the following be appropriate for layer-averaged pressure?</p>
@@ -224,25 +224,25 @@ enddo
 
 
 <a name="21515"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21515" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21515">(Nov 13 2020 at 21:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21515" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21515">(Nov 13 2020 at 21:26)</a>:</h4>
 <p>Nice catch Keith, yes it should be <code>H_to_Pa</code> and yes your code is what you would want if you wanted the layer-averaged pressure</p>
 
 
 
 <a name="21516"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21516" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21516">(Nov 13 2020 at 21:26)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21516" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21516">(Nov 13 2020 at 21:26)</a>:</h4>
 <p>(I dunno, why my brain thought it was H_to_kg_m2; i must have been staring at another block and went on autopilot :))</p>
 
 
 
 <a name="21518"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21518" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21518">(Nov 13 2020 at 21:33)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21518" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21518">(Nov 13 2020 at 21:33)</a>:</h4>
 <p>great, thanks guys! I'll update that computation next; I was just putting in the workaround we talked about where I'll tell MARBL <code>kmt</code> is the bottom-most thick layer to avoid accumulating sediment in a vanishing layer. (Prior to putting the tweak in, the model was crashing with co2calc errors pretty much immediately)</p>
 
 
 
 <a name="21520"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21520" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21520">(Nov 13 2020 at 21:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21520" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21520">(Nov 13 2020 at 21:35)</a>:</h4>
 <p>It looked like the vanishing layers were all 1 mm thick, so I just put in the following kludge that ignores any layers on the bottom less than 1 cm thick:</p>
 <div class="codehilite"><pre><span></span>        <span class="c">! TODO: better way of handling vanishing layers</span>
         <span class="c">!       (this is a z* workaround for layers that have vanished at bottom of ocean)</span>
@@ -255,25 +255,25 @@ enddo
 
 
 <a name="21521"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21521" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21521">(Nov 13 2020 at 21:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21521" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21521">(Nov 13 2020 at 21:35)</a>:</h4>
 <p>that line appears in a loop <code>do k = GV%ke, 1, -1</code>, which is handy for figuring out the smallest <code>k</code> I can ignore</p>
 
 
 
 <a name="21522"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21522" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21522">(Nov 13 2020 at 21:44)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21522" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Andrew Shao <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21522">(Nov 13 2020 at 21:44)</a>:</h4>
 <p>Do you know which of the tracers was causing <code>co2calc </code>to blowup?</p>
 
 
 
 <a name="21523"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21523" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21523">(Nov 13 2020 at 21:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21523" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21523">(Nov 13 2020 at 21:58)</a>:</h4>
 <p>I think it was <code>dic</code> or <code>dic_alt_co2</code>, but I'm not 100% sure. I'm adding some location information to the log, and then I'll copy / paste the error (which is triggered on day 5 or 6 even with the KMT kludge)</p>
 
 
 
 <a name="21524"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21524" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21524">(Nov 13 2020 at 22:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21524" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21524">(Nov 13 2020 at 22:22)</a>:</h4>
 <p>So this is the error message MARBL is reporting:</p>
 <div class="codehilite"><pre><span></span>652:WARNING from PE   580: (Task 580) MARBL WARNING (marbl_interior_tendency_mod:compute_carbonate_chemistry): Warning reported from marbl_co2calc_interior() with dic_alt_co2
 652:WARNING from PE   580: (Task 580) Message from (lon, lat) (-233.351,  29.892). Level: 18
@@ -311,44 +311,44 @@ enddo
 
 
 <a name="21526"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21526" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21526">(Nov 13 2020 at 22:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21526" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21526">(Nov 13 2020 at 22:25)</a>:</h4>
 <p>in POP, these errors typically indicate a CFL violation. Given where the development of the MOM driver is, I'm guessing the range of potential issues is significantly larger :) <span class="user-mention" data-user-id="31">@Keith Lindsay</span> do the <code>dic</code>, <code>ta</code>, etc values printed out above hint at any potential forcing issues?</p>
 
 
 
 <a name="21528"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21528">(Nov 13 2020 at 22:29)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21528" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21528">(Nov 13 2020 at 22:29)</a>:</h4>
 <p>The values don't strike me as being crazy. Could you try running with <code>max_bracket_grow_it = 4</code> in MARBL's <code>marbl_co2calc_mod.F90</code>?</p>
 
 
 
 <a name="21529"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21529" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21529">(Nov 13 2020 at 23:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21529" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21529">(Nov 13 2020 at 23:02)</a>:</h4>
 <p>increasing <code>max_bracket_grow_it</code> from 3 to 4 let me run a full month. Does this need to be a permanent change in MARBL? Looking through the changes I've made in the MOM driver, the only real issue I can see is that I haven't read in FESEDFLUX yet.</p>
 
 
 
 <a name="21530"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21530" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21530">(Nov 14 2020 at 02:31)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/21530" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#21530">(Nov 14 2020 at 02:31)</a>:</h4>
 <p>I do suggest increasing <code>max_bracket_grow_it</code> in MARBL. There have been a few cases where increasing it has enabled some users to run.</p>
 
 
 
 <a name="22316"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22316" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22316">(Dec 01 2020 at 23:40)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22316" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22316">(Dec 01 2020 at 23:40)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> for <code>FESEDFLUX</code>, the MOM scrip grid file is <code>/glade/p/cesmdata/cseg/mapping/grids/tx0.66v1_SCRIP_190314.nc</code>. The tracer initial conditions file I showed you is <code>/glade/work/mlevy/cesm_inputdata/ecosys_jan_IC_omip_MOM_tx0.66v1_c190925.nc</code> and the vertical dimension / coordinate in that file is named <code>DEPTH</code></p>
 
 
 
 <a name="22388"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22388" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22388">(Dec 03 2020 at 16:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22388" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22388">(Dec 03 2020 at 16:01)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="10">@Michael Levy</span>. I am looking into this. First thing I realized is that I had pulled out the Fe sedflux forcing generation into it's own repo:<br>
 <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux">https://github.com/marbl-ecosys/forcing-Fe-sedflux</a></p>
 
 
 
 <a name="22508"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22508" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22508">(Dec 04 2020 at 17:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22508" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22508">(Dec 04 2020 at 17:18)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, I have created two temporary <code>FESEDFLUX</code> forcing files for you:</p>
 <ol>
 <li>/glade/work/mclong/cesm_inputdata/fesedflux_total_reduce_oxic_tx0.66v1.c201204.nc</li>
@@ -369,19 +369,19 @@ enddo
 
 
 <a name="22509"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22509" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22509">(Dec 04 2020 at 17:39)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22509" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22509">(Dec 04 2020 at 17:39)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="14">@Matt Long</span>! So to start out I want to read <code>FESEDFLUXIN</code> from both files, convert from <code>umol / m^2 / d</code> -&gt; <code>nmol / cm^2 / s</code>, and then sum the two fields to provide a single forcing field... but in the future we might read <code>FESEDFLUXIN_oxic</code> and <code>FESEDFLUXIN_reduce</code> separately so it'll be good to have those fields in the forcing file?</p>
 
 
 
 <a name="22510"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22510" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22510">(Dec 04 2020 at 17:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22510" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22510">(Dec 04 2020 at 17:41)</a>:</h4>
 <p>(It looks like POP modifies the fevent file to add all values below the ocean floor to the KMT level; I'm not entirely clear on how that would map to z* but initially I'll just focus on getting the fields read and remapped)</p>
 
 
 
 <a name="22511"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22511" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22511">(Dec 04 2020 at 17:58)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22511" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22511">(Dec 04 2020 at 17:58)</a>:</h4>
 <blockquote>
 <p>Convert from <code>umol / m^2 / d</code> -&gt; <code>nmol / cm^2 / s</code></p>
 </blockquote>
@@ -399,48 +399,48 @@ enddo
 
 
 <a name="22512"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22512" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22512">(Dec 04 2020 at 18:23)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22512" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22512">(Dec 04 2020 at 18:23)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, btw this is the notebook that created those files:<br>
 <a href="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb" target="_blank" title="https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb">https://github.com/marbl-ecosys/forcing-Fe-sedflux/blob/mom6-dev/notebooks/preliminary_MOM6_forcing.ipynb</a></p>
 
 
 
 <a name="22969"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22969" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22969">(Dec 11 2020 at 19:20)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/22969" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#22969">(Dec 11 2020 at 19:20)</a>:</h4>
 <p>FYI, there is a <a href="https://github.com/NOAA-GFDL/MOM6/pull/1268" target="_blank" title="https://github.com/NOAA-GFDL/MOM6/pull/1268">PR</a> in the <a href="https://github.com/NOAA-GFDL/MOM6" target="_blank" title="https://github.com/NOAA-GFDL/MOM6">NOAA-GFDL/MOM6 repo</a> that, among other things, changes the API of <code>tracer_Z_init</code>. I'm not sure when the PR is projected to be merged. It looks like it will be straightforward to update the MARBL driver when that update eventually gets to the NCAR MOM6 repo.</p>
 <p>It might be prudent to follow that NOAA-GFDL/MOM6 repo in order to be aware of MOM6 changes in the works.</p>
 
 
 
 <a name="23276"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23276" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23276">(Dec 18 2020 at 15:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23276" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23276">(Dec 18 2020 at 15:45)</a>:</h4>
 <p><span class="user-mention" data-user-id="83">@Andrew Shao</span> and I were code up a rough implementation of mapping FESEDFLUX from the WOA z-grid to the MOM grid; we had a couple of mis-steps along the way, and I needed to bump <code>max_bracket_grow_it</code> from 4 to 5, but I now have a MOM history file where the <code>FESEDFLUX</code> field has some non-zero values: <code>/glade/scratch/mlevy/C1850MOMECO.041/run/C1850MOMECO.041.mom6.hm_bgc_0001_01.nc</code></p>
 <p>For the conservation property, I need to verify that the column sum on the MOM grid matches the column sum in the obs right?</p>
 
 
 
 <a name="23297"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23297" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23297">(Dec 18 2020 at 18:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23297" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23297">(Dec 18 2020 at 18:36)</a>:</h4>
 <p>Yes, those are the correct quantities to compare to check conservation.</p>
 
 
 
 <a name="23398"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23398" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23398">(Dec 23 2020 at 18:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23398" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23398">(Dec 23 2020 at 18:50)</a>:</h4>
 <p>Regarding reading time-varying ndep from a file,  CDEPS (yet another repo to follow) has a <a href="https://github.com/ESCOMP/CDEPS/issues/36" target="_blank" title="https://github.com/ESCOMP/CDEPS/issues/36">PR</a> to pass ndep from datm. If that PR gets addressed sooner rather than later, then the ability to read time-varying ndep from a file could have its priority lowered.</p>
 <p>In the mean time, it might make sense to read ndep from an annual mean file instead of effectively using a perpetual January mean.</p>
 
 
 
 <a name="23817"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23817">(Jan 08 2021 at 23:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23817" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23817">(Jan 08 2021 at 23:35)</a>:</h4>
 <p>Just to follow up on reading nitrogen deposition from a climatology -- I followed <span class="user-mention" data-user-id="15">@Gustavo M Marques</span>'s advice, and used <code>time_interp_external()</code> to read the data. I needed to clean up the forcing file a little bit. Some was trivial, like adding the <code>axis</code> attribute to coordinate variables, but I also needed to use 1D arrays for <code>LAT</code> and <code>LON</code> instead of the 2D arrays that come from the displaced pole grid. I'm not sure of the best way to verify that the deposition fields are being interpolated correctly, but maybe on Monday I'll run a full year and make sure <code>NHx_FLUX</code> and <code>NOy_FLUX</code> vary from month to month in a similar manner to the forcing fields.</p>
 <p>I think this was the last hurdle to actually running MARBL + MOM with the default MOM tunings; next week I'll start work on making it easier to control the BGC output. Once we can get more output from MARBL into netCDF files, does it make sense to look at a multi-year C or G case to verify the model can run that long and the output looks reasonable? I can launch a run and then work on getting <code>user_nl_marbl</code> set so we can try to tune the model.</p>
 
 
 
 <a name="23956"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23956" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23956">(Jan 15 2021 at 04:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23956" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23956">(Jan 15 2021 at 04:46)</a>:</h4>
 <p>Following up on the current implementation to read NDEP forcing (via <code>time_interp_external()</code>): I ran for three years in <code>/glade/scratch/mlevy/C1850MOMECO.044/run</code> and have confirmed that</p>
 <ol>
 <li><code>NOx_FLUX</code> changes from month to month within a given year (e.g. <code>0001-01</code> is different than <code>0001-08</code>)</li>
@@ -450,13 +450,13 @@ enddo
 
 
 <a name="23957"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23957" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23957">(Jan 15 2021 at 04:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/23957" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#23957">(Jan 15 2021 at 04:47)</a>:</h4>
 <p>My conclusion from the above is that <code>time_interp_external()</code> is reading climatological data exactly the way we expect it to</p>
 
 
 
 <a name="28296"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28296" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28296">(Apr 01 2021 at 20:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28296" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28296">(Apr 01 2021 at 20:35)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, here are two riverine nutrient forcing data files for MOM<br>
 In this directory:<br>
 /glade/work/mclong/cesm_inputdata</p>
@@ -468,19 +468,19 @@ In this directory:<br>
 
 
 <a name="28297"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28297" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28297">(Apr 01 2021 at 20:36)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28297" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28297">(Apr 01 2021 at 20:36)</a>:</h4>
 <p>Awesome, thanks! I should be able to test them out tomorrow and let you know how things look</p>
 
 
 
 <a name="28298"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28298" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28298">(Apr 01 2021 at 20:37)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28298" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28298">(Apr 01 2021 at 20:37)</a>:</h4>
 <p>Let me know if you see any anomalies. For the time-being, I included a field called <code>TAREA</code> as my code is setup to integrate using that variable (in cm^2). Would be good to fix this—as well as the fake 1D coordinate issue we discussed.</p>
 
 
 
 <a name="28427"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28427" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28427">(Apr 02 2021 at 21:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28427" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28427">(Apr 02 2021 at 21:45)</a>:</h4>
 <p><span class="user-mention" data-user-id="14">@Matt Long</span> the file you created includes <code>LAT</code> and <code>LON</code> dimensions, but also has <code>nlat</code> and <code>nlon</code> (used by the variables we want to read). With some selective editing:</p>
 <div class="codehilite"><pre><span></span>$ ncdump -h /glade/work/mclong/cesm_inputdata/riv_nut.gnews_gnm.rx1_to_tx0.66v1_nnsm_e1000r300_190315.20210401.nc
 netcdf riv_nut.gnews_gnm.rx1_to_tx0.66v1_nnsm_e1000r300_190315.20210401 {
@@ -518,25 +518,25 @@ nco_err_exit(): ERROR NCO will now exit with system call exit(EXIT_FAILURE)
 
 
 <a name="28428"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28428" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28428">(Apr 02 2021 at 21:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28428" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28428">(Apr 02 2021 at 21:46)</a>:</h4>
 <p>yes, I can fix this</p>
 
 
 
 <a name="28429"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28429" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28429">(Apr 02 2021 at 21:49)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28429" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28429">(Apr 02 2021 at 21:49)</a>:</h4>
 <p>Thanks! I also needed to add a couple attributes to the <code>time</code> variable: <code>axis = "T"</code> and <code>cartesian_axis = "T"</code> -- if you're regenerating the files anyway, could we add those two, uh, too?</p>
 
 
 
 <a name="28430"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28430">(Apr 02 2021 at 21:50)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28430" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28430">(Apr 02 2021 at 21:50)</a>:</h4>
 <p>yep, sorry I missed those</p>
 
 
 
 <a name="28460"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28460" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28460">(Apr 03 2021 at 16:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28460" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28460">(Apr 03 2021 at 16:52)</a>:</h4>
 <p>River fluxes: I wrote a quick python function to generate the output I thought I needed:</p>
 <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">generate_updated_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">inputdir</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">,</span> <span class="n">varlist</span><span class="p">):</span>
     <span class="n">ds_in</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inputdir</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -582,7 +582,7 @@ POP run: <code>/glade/scratch/mlevy/C1850ECO.pop_defaults/run</code></p>
 
 
 <a name="28517"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28517" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28517">(Apr 05 2021 at 18:52)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/28517" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#28517">(Apr 05 2021 at 18:52)</a>:</h4>
 <p>New files here /glade/work/mclong/cesm_inputdata</p>
 <ul>
 <li><a href="http://riv_nut.gnews_gnm.JRA025m_to_tx0.66v1_nnsm_e333r100_190910.20210405.nc" target="_blank" title="http://riv_nut.gnews_gnm.JRA025m_to_tx0.66v1_nnsm_e333r100_190910.20210405.nc">riv_nut.gnews_gnm.JRA025m_to_tx0.66v1_nnsm_e333r100_190910.20210405.nc</a></li>
@@ -593,13 +593,13 @@ POP run: <code>/glade/scratch/mlevy/C1850ECO.pop_defaults/run</code></p>
 
 
 <a name="30193"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30193" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30193">(Apr 23 2021 at 19:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30193" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30193">(Apr 23 2021 at 19:48)</a>:</h4>
 <p><span class="user-mention" data-user-id="15">@Gustavo M Marques</span> or <span class="user-mention" data-user-id="98">@Alper Altuntas</span> -- it looks like something has changed with the Workflows portion of <a href="https://github.com/NCAR/MOM6" target="_blank" title="https://github.com/NCAR/MOM6">https://github.com/NCAR/MOM6</a> -- <a href="https://github.com/NCAR/MOM6/pull/157" target="_blank" title="https://github.com/NCAR/MOM6/pull/157">my PR</a> says "First-time contributors need a maintainer to approve running workflows" even though the workflow ran automatically for the previous two commits.</p>
 
 
 
 <a name="30200"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30200" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30200">(Apr 23 2021 at 20:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30200" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30200">(Apr 23 2021 at 20:04)</a>:</h4>
 <p>Also, when I run the <a href="https://github.com/mnlevy1981/MOM6/runs/2422744825" target="_blank" title="https://github.com/mnlevy1981/MOM6/runs/2422744825">Expression Verification</a> test, I'm getting a lot of failures like</p>
 <div class="codehilite"><pre><span></span>work/tc1.b/symmetric/chksum_diag work/tc1.b/dim.z/chksum_diag differ: byte 103194, line 1245
 1245,1248c1245,1248
@@ -631,33 +631,33 @@ FAIL: Diagnostics tc1.b.dim.z.diag have changed.
 
 
 <a name="30201"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30201" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30201">(Apr 23 2021 at 20:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30201" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30201">(Apr 23 2021 at 20:06)</a>:</h4>
 <p>The change came in when we merged the main branch.  MOM6 used to be tested via Travis and now this is done via Github actions. Should I click on "Approve and run"?</p>
 
 
 
 <a name="30203"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30203" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30203">(Apr 23 2021 at 20:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30203" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30203">(Apr 23 2021 at 20:13)</a>:</h4>
 <p>I clicked on "Approve and run" and the tests are now running. <br>
 On your section question, perhaps your baseline is out of date.  Maybe merging ned/ncar will fix these failures.</p>
 
 
 
 <a name="30208"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30208" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30208">(Apr 23 2021 at 21:35)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/30208" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#30208">(Apr 23 2021 at 21:35)</a>:</h4>
 <p><span class="user-mention" data-user-id="15">@Gustavo M Marques</span> actually, it looks like it's probably a bug on my end -- <code>_zint</code> and <code>_zint_100m</code> are new diagnostics I introduced to the tracer package, and I suspect I'm not doing the unit conversion correctly (but at least it's being caught by the testing!)</p>
 
 
 
 <a name="32684"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/32684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#32684">(May 26 2021 at 18:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/32684" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Gustavo M Marques <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#32684">(May 26 2021 at 18:24)</a>:</h4>
 <p><span class="user-mention" data-user-id="10">@Michael Levy</span>, <span class="user-mention" data-user-id="14">@Matt Long</span> , <span class="user-mention" data-user-id="31">@Keith Lindsay</span> <br>
 <a href="https://github.com/NOAA-GFDL/MOM6/blob/350809a205bd914e176fd115385c9d409174b97d/src/parameterizations/vertical/MOM_geothermal.F90" target="_blank" title="https://github.com/NOAA-GFDL/MOM6/blob/350809a205bd914e176fd115385c9d409174b97d/src/parameterizations/vertical/MOM_geothermal.F90">Here</a> is the geothermal module for MOM6.</p>
 
 
 
 <a name="36882"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36882" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36882">(Jul 10 2021 at 05:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36882" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36882">(Jul 10 2021 at 05:10)</a>:</h4>
 <p>I'm trying to remove what we've been calling the "KMT kludge" -- to avoid issues with vanishing layers at the bottom of the column, we had told MARBL that the number of columns is the index of the deepest layer that is more than 1 cm thick (so if layers 64 and 65 were extremely thin, we told MARBL that <code>kmt = 63</code>). This was necessary because we were converting a bottom flux (sinking matter hitting the sea floor and being remineralized) to a tendency by simply dividing by dz in the bottom layer. We now have a better scheme for that computation based on a pre-computed vertical diffusion profile so I tried to run with every column (using <code>kmt = GV%ke</code>) but got the typical <code>marbl_co2calc_mod.F90</code> error that I usually associate with a CFL violation:</p>
 <div class="codehilite"><pre><span></span>284:WARNING from PE   212: (Task 212) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) it = 4
 284:WARNING from PE   212: (Task 212) MARBL WARNING (marbl_co2calc_mod:drtsafe): (marbl_co2calc_mod:drtsafe) x1,f =  0.7752463E-008-0.2265376E-004
@@ -677,19 +677,19 @@ On your section question, perhaps your baseline is out of date.  Maybe merging n
 
 
 <a name="36883"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36883" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36883">(Jul 10 2021 at 05:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36883" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36883">(Jul 10 2021 at 05:24)</a>:</h4>
 <p>9333054 is running with the increased <code>max_bracket_grow_it</code>, and it's gotten through a few days already (9332129 aborted in the first day) so it may have just taken an extra iteration or two in a thin layer to get past this. <span aria-label="fingers crossed" class="emoji emoji-1f91e" role="img" title="fingers crossed">:fingers_crossed:</span></p>
 
 
 
 <a name="36884"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36884" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36884">(Jul 10 2021 at 14:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36884" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36884">(Jul 10 2021 at 14:34)</a>:</h4>
 <p>This is encouraging. A class of things, but not the only things, to look at are the BGC values in the thin layers, to see if they have values considerably different from the values in adjacent non-thin layers. Could you do a multi-month run with BGC 3D variables on the "ocean_model" vertical axis, instead of "ocean_model_z".</p>
 
 
 
 <a name="36885"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36885" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36885">(Jul 10 2021 at 16:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/36885" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#36885">(Jul 10 2021 at 16:25)</a>:</h4>
 <blockquote>
 <p>This is encouraging. A class of things, but not the only things, to look at are the BGC values in the thin layers, to see if they have values considerably different from the values in adjacent non-thin layers. Could you do a multi-month run with BGC 3D variables on the "ocean_model" vertical axis, instead of "ocean_model_z".</p>
 </blockquote>
@@ -698,20 +698,20 @@ On your section question, perhaps your baseline is out of date.  Maybe merging n
 
 
 <a name="38585"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/38585" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#38585">(Jul 26 2021 at 03:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/38585" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#38585">(Jul 26 2021 at 03:14)</a>:</h4>
 <p>I squeezed in a few more runs before the NWSC shutdown this week; <code>/glade/scratch/mlevy/C1850MOMECO.085/run</code> has 6 months of output, with monthly 3D variables output both on the model grid and regridded to the standard vertical grid (<code>mom6.hm_bgc_monthly_z_YYYY_MM.nc</code> and <code>mom6.h_bgc_monthly_z_YYYY_MM.nc</code>, respectively). This code does not have the KMT kludge in it, and also updates the default value of <code>MIX_BOUNDARY_TRACER_ALE</code> to force a minimum diffusivity in vanishing layers at the bottom of columns... so the weights we pass to MARBL are reasonable.</p>
 <p>The bad news is that I can't get MOM+MARBL running on izumi, so I don't think there's much I can do while cheyenne is down. I'll poke through my logs on izumi and see if I can figure out what the problem is, but even after increasing <code>NTASKS_OCN</code> (the default PE layout was only running MOM on 144 cores) I couldn't get through a model day. <span class="user-mention" data-user-id="31">@Keith Lindsay</span> -- given the improvement we saw by updating <code>MIX_BOUNDARY_TRACER_ALE</code>, can I merge <a href="https://github.com/marbl-ecosys/MARBL/pull/381" target="_blank" title="https://github.com/marbl-ecosys/MARBL/pull/381">#381</a> into MARBL?</p>
 
 
 
 <a name="38586"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/38586" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#38586">(Jul 26 2021 at 03:38)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/38586" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#38586">(Jul 26 2021 at 03:38)</a>:</h4>
 <p>Some plots looking at the effect of changing <code>MIX_BOUNDARY_TRACER_ALE</code> are in <a href="https://github.com/mnlevy1981/MARBL-notebooks/blob/master/MOM6_MIX_BOUNDARY_TRACER_ALE.ipynb" target="_blank" title="https://github.com/mnlevy1981/MARBL-notebooks/blob/master/MOM6_MIX_BOUNDARY_TRACER_ALE.ipynb">a notebook on github</a></p>
 
 
 
 <a name="46269"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46269" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46269">(Nov 04 2021 at 16:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46269" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46269">(Nov 04 2021 at 16:06)</a>:</h4>
 <p>Continuing the investigation into differences in the <code>Fe</code> tracer between MOM and POP, I ran without any river fluxes and without iron sediment flux... still seeing a big difference in iron at the surface, especially in the tropics (this is an average over a one-year run, hastily done without weighting by days per month):</p>
 <p><a href="../../../user_uploads/2/1f/JSVkFfwpPs7GU6bOStMiRFRG/Fe-zonal-mean.png">Fe-zonal-mean.png</a></p>
 <p>Looking at maps of surface values, the west coast of Africa stands out as a big difference. POP has <code>z_t</code> in the title, MOM has <code>z_pop_l</code>:</p>
@@ -726,13 +726,13 @@ On your section question, perhaps your baseline is out of date.  Maybe merging n
 
 
 <a name="46286"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46286" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46286">(Nov 04 2021 at 18:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46286" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46286">(Nov 04 2021 at 18:05)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="10">@Michael Levy</span>—this makes sense.  I presume you can track down where these differences arise in the driver setup/configuration.  We typically run with <code>driver_derived</code> forcing and there are multiple places in POP involved in the <code>IRON_FLUX</code> computation.</p>
 
 
 
 <a name="46309"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46309" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46309">(Nov 04 2021 at 19:54)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46309" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46309">(Nov 04 2021 at 19:54)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="14">Matt Long</span> <a href="#narrow/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6/near/46286">said</a>:</p>
 <blockquote>
 <p>Thanks <span class="user-mention silent" data-user-id="10">Michael Levy</span>—this makes sense.  I presume you can track down where these differences arise in the driver setup/configuration.  We typically run with <code>driver_derived</code> forcing and there are multiple places in POP involved in the <code>IRON_FLUX</code> computation.</p>
@@ -752,7 +752,7 @@ On your section question, perhaps your baseline is out of date.  Maybe merging n
 
 
 <a name="46320"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46320" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46320">(Nov 04 2021 at 21:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46320" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46320">(Nov 04 2021 at 21:53)</a>:</h4>
 <p>Adding the following to <code>user_nl_mom</code>:</p>
 <div class="codehilite"><pre><span></span><code>! G-compset default values
 DUST_RATIO_THRES = 69.00594
@@ -767,13 +767,13 @@ FE_BIOAVAIL_FRAC_OFFSET = 0.0146756
 
 
 <a name="46323"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46323" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46323">(Nov 04 2021 at 22:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46323" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46323">(Nov 04 2021 at 22:02)</a>:</h4>
 <p>That's a great improvement! Do you have a sense of what might explain the Arctic discrepancy?</p>
 
 
 
 <a name="46324"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46324" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46324">(Nov 04 2021 at 22:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46324" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46324">(Nov 04 2021 at 22:13)</a>:</h4>
 <blockquote>
 <p>Do you have a sense of what might explain the Arctic discrepancy?</p>
 </blockquote>
@@ -782,19 +782,19 @@ FE_BIOAVAIL_FRAC_OFFSET = 0.0146756
 
 
 <a name="46325"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46325" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46325">(Nov 04 2021 at 22:14)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46325" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46325">(Nov 04 2021 at 22:14)</a>:</h4>
 <p>I was wondering whether there is differing Fe treatment in ice—but these are C cases, right?</p>
 
 
 
 <a name="46326"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46326" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46326">(Nov 04 2021 at 22:15)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46326" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46326">(Nov 04 2021 at 22:15)</a>:</h4>
 <p>the seasonality would't make sense either, as the SH went thru winter in the 7 mon integration</p>
 
 
 
 <a name="46330"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46330" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46330">(Nov 05 2021 at 14:02)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46330" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46330">(Nov 05 2021 at 14:02)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="14">Matt Long</span> <a href="#narrow/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6/near/46325">said</a>:</p>
 <blockquote>
 <p>I was wondering whether there is differing Fe treatment in ice—but these are C cases, right?</p>
@@ -804,13 +804,13 @@ FE_BIOAVAIL_FRAC_OFFSET = 0.0146756
 
 
 <a name="46331"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46331" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46331">(Nov 05 2021 at 14:42)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46331" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46331">(Nov 05 2021 at 14:42)</a>:</h4>
 <p>hmm... MCOG has the most substantial impact on spring productivity, which consumes Fe—so indeed, I'd expect that to generate diffs.  In coupled configurations, dust fluxes deposited on ice are retained, then subsequently released from the ice to the ocean. I can't remember how this works in G cases. You could consider looking directly at the respective coupler history files.</p>
 
 
 
 <a name="46332"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46332" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46332">(Nov 05 2021 at 15:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46332" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46332">(Nov 05 2021 at 15:13)</a>:</h4>
 <p>I'm almost done with re-running POP without MCOG, but here's the Fe zonal mean comparison after 8 months:</p>
 <p><a href="../../../user_uploads/2/45/ZL4syvzu26VI9q5DJYVOoxJC/Fe-8-month-zonal-mean-no-mcog.png">Fe-8-month-zonal-mean-no-mcog.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/45/ZL4syvzu26VI9q5DJYVOoxJC/Fe-8-month-zonal-mean-no-mcog.png" title="Fe-8-month-zonal-mean-no-mcog.png"><img src="../../../user_uploads/2/45/ZL4syvzu26VI9q5DJYVOoxJC/Fe-8-month-zonal-mean-no-mcog.png"></a></div><p>That's definitely much closer than before, though there is still some separation between the two</p>
@@ -818,13 +818,13 @@ FE_BIOAVAIL_FRAC_OFFSET = 0.0146756
 
 
 <a name="46335"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46335" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46335">(Nov 05 2021 at 15:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46335" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46335">(Nov 05 2021 at 15:25)</a>:</h4>
 <p>that does look better. Worth checking the forcing fields. Does the global integral of <code>IRON_FLUX</code> match?  Could put on a common grid to look at diffs: if the sea ice zone pops out, we'll know there's a problem there.</p>
 
 
 
 <a name="46337"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46337" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46337">(Nov 05 2021 at 15:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46337" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46337">(Nov 05 2021 at 15:46)</a>:</h4>
 <p>For the global integrals, I multiplied <code>da*dz*area</code> (where <code>dz</code> was in units <code>m</code> and <code>area</code> in <code>m^2</code>), took the mean over <code>time</code>, and then summed over the remaining dimensions. I multiplied by <code>mmol_Fe_to_Tg = 55.845e-15 </code> for unit conversion; do</p>
 <div class="codehilite"><pre><span></span><code>MOM global sum of Fe: 58.43 Tg
 POP global sum of Fe: 59.76 Tg
@@ -834,7 +834,7 @@ POP global sum of Fe: 59.76 Tg
 
 
 <a name="46338"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46338" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46338">(Nov 05 2021 at 16:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46338" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46338">(Nov 05 2021 at 16:01)</a>:</h4>
 <p>A couple more variables of interest are the dust and black carbon fluxes coming in from CICE -- these are all in <code>g/cm^2/s</code> (I converted the MOM output from <code>kg/m^2/s</code>).</p>
 <p><a href="../../../user_uploads/2/70/T89aKiB9tLvy5jshLG8U7lXr/SEAICE_DUST_FLUX_CPL-zonal-mean.png">SEAICE_DUST_FLUX_CPL-zonal-mean.png</a> <br>
 <a href="../../../user_uploads/2/36/6yI8GBqV7zust6MmgY3x6XP4/SEAICE_BLACK_CARBON_FLUX_CPL-zonal-mean.png">SEAICE_BLACK_CARBON_FLUX_CPL-zonal-mean.png</a> </p>
@@ -843,7 +843,7 @@ POP global sum of Fe: 59.76 Tg
 
 
 <a name="46339"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46339" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46339">(Nov 05 2021 at 16:09)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46339" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46339">(Nov 05 2021 at 16:09)</a>:</h4>
 <p>The iron fluxes are also a little different (intuitively these numbers look so small that I think I have to have messed up the unit conversion... but whatever I did wrong, I did wrong with both models)</p>
 <div class="codehilite"><pre><span></span><code>MOM global sum of IRON_FLUX: 16.95 kg
 POP global sum of IRON_FLUX: 17.06 kg
@@ -852,13 +852,13 @@ POP global sum of IRON_FLUX: 17.06 kg
 
 
 <a name="46340"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46340" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46340">(Nov 05 2021 at 16:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46340" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46340">(Nov 05 2021 at 16:10)</a>:</h4>
 <p>I would expect small differences as the grids are different. Those look close enough to me.</p>
 
 
 
 <a name="46341"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46341" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46341">(Nov 05 2021 at 16:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46341" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46341">(Nov 05 2021 at 16:12)</a>:</h4>
 <p>The last thing I checked was ice fraction... interestingly enough, there are noticeable differences in the southern hemisphere but the northern hemisphere looks pretty close:</p>
 <p><a href="../../../user_uploads/2/4/exuSn-j_fwgFOsjgYaPhA7Rd/ECOSYS_IFRAC-zonal-mean.png">ECOSYS_IFRAC-zonal-mean.png</a> </p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/4/exuSn-j_fwgFOsjgYaPhA7Rd/ECOSYS_IFRAC-zonal-mean.png" title="ECOSYS_IFRAC-zonal-mean.png"><img src="../../../user_uploads/2/4/exuSn-j_fwgFOsjgYaPhA7Rd/ECOSYS_IFRAC-zonal-mean.png"></a></div><p>I'll continue with the plan of adding rivers back in, and making sure things still look close before putting the sediment flux back in as well</p>
@@ -866,13 +866,13 @@ POP global sum of IRON_FLUX: 17.06 kg
 
 
 <a name="46342"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46342" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46342">(Nov 05 2021 at 16:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46342" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46342">(Nov 05 2021 at 16:13)</a>:</h4>
 <p>difference in sea ice is not surprising—I think we saw substantial differences in Southern Ocean tracers indicating that the models have quite different representations of circulation in that region.</p>
 
 
 
 <a name="46630"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46630" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46630">(Nov 10 2021 at 14:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46630" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46630">(Nov 10 2021 at 14:47)</a>:</h4>
 <p>Using <code>FESEDFLUX</code> forcings that I generated by mapping <code>sedfrac</code>, <code>POC</code>, <code>UVEL</code>, and <code>VVEL</code> directly to the MOM grid (rather than computing sediment flux on the POP grid and mapping to MOM after the fact), iron is looking much better! This is with river fluxes back in the run as well as the sediment flux, so basically out-of-the-box (I still need to figure out how to hard-code the right parameter set for the <code>GMOM</code> cases):</p>
 <p><a href="../../../user_uploads/2/c9/VfKcOjyQgX9TJU7rHXbaD1-0/yet-another-Fe-zonal-mean.png">yet-another-Fe-zonal-mean.png</a> <br>
 <a href="../../../user_uploads/2/4b/_mVehrJ5pyfMUIFZDZ3z4gyk/zonal-mean-of-FESEDFLUX.png">zonal-mean-of-FESEDFLUX.png</a> </p>
@@ -883,7 +883,7 @@ POP global sum of IRON_FLUX: 17.06 kg
 
 
 <a name="46791"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46791" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46791">(Nov 10 2021 at 23:07)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46791" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46791">(Nov 10 2021 at 23:07)</a>:</h4>
 <p><span class="user-mention" data-user-id="31">@Keith Lindsay</span> I looked back on my notes from the plots you shared on Oct 26 (at the ocean BGC group meeting), and I had written down</p>
 <blockquote>
 <p>ALK: big differences at 60 S in year 1 at surface! sizeable surface differences in year 20.</p>
@@ -894,7 +894,7 @@ POP global sum of IRON_FLUX: 17.06 kg
 
 
 <a name="46831"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46831" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46831">(Nov 11 2021 at 16:48)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46831" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46831">(Nov 11 2021 at 16:48)</a>:</h4>
 <p>I saw the diff in year 1, but it was less in year 20. Here it is, zooming in on the southern hemisphere:<br>
 <a href="../../../user_uploads/2/c/QWZOZ_0G2gvaesm4Im9sfVFw/pop_mom.003_alk_surf_0001.png">pop_mom.003_alk_surf_0001.png</a> <br>
 I'm now suspecting that this is from the sea ice initial condition.<br>
@@ -905,19 +905,19 @@ When it melts, we're diluting ALK and DIC. I see a similar signal in DIC, though
 
 
 <a name="46833"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46833">(Nov 11 2021 at 17:01)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46833" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46833">(Nov 11 2021 at 17:01)</a>:</h4>
 <p>that makes a lot of sense</p>
 
 
 
 <a name="46835"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46835" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46835">(Nov 11 2021 at 17:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/46835" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#46835">(Nov 11 2021 at 17:27)</a>:</h4>
 <p>Thanks <span class="user-mention" data-user-id="31">@Keith Lindsay</span>! Zooming in, I do see a similar separation between roughly 65 S and 55 S in my plots. This sounds like something beyond the scope of fixes we can make, but I can chat with Dave B and see if there's a timeline for improving the initial state / anything easy we can do in the meantime. Maybe I could convert the ice state at year 20 from one of our runs to a new initial condition file? I assume that wouldn't be completely spun up to equilibrium, but it might be better than what we have now</p>
 
 
 
 <a name="47037"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47037" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47037">(Nov 15 2021 at 20:45)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47037" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47037">(Nov 15 2021 at 20:45)</a>:</h4>
 <p><code>mom_oob.004</code> has run for 20 years, and output is in <code>/glade/scratch/mlevy/archive/mom_oob.004/</code>. Looking at Fe output, there is a clear improvement over <code>mom_oob.003</code> but still some differences when compared with POP. Things look pretty good after a single year (these plots are all annual means):</p>
 <p><a href="../../../user_uploads/2/98/cmc9z6qsUYa_EYpm3L4B_VTn/fe-zonal-mean-0001-003-and-004.png">fe-zonal-mean-0001-003-and-004.png</a></p>
 <div class="message_inline_image"><a href="../../../user_uploads/2/98/cmc9z6qsUYa_EYpm3L4B_VTn/fe-zonal-mean-0001-003-and-004.png" title="fe-zonal-mean-0001-003-and-004.png"><img src="../../../user_uploads/2/98/cmc9z6qsUYa_EYpm3L4B_VTn/fe-zonal-mean-0001-003-and-004.png"></a></div><p>The average over five years show huge increases in iron in the arctic / subarctic for 003, but now a loss of iron there (relative to both the POP output and the year 1 output) for 004 (second plot is just the pop case and MOM 004 to get back to reasonable y-axis values):</p>
@@ -940,13 +940,13 @@ Update FESEDFLUX files (map sedfrac, POC, UVEL, and VVEL to MOM grid and then co
 
 
 <a name="47048"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47048" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47048">(Nov 15 2021 at 21:32)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47048" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47048">(Nov 15 2021 at 21:32)</a>:</h4>
 <p>I'll take a look at 004 before tomorrow's meeting.</p>
 
 
 
 <a name="47059"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47059" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47059">(Nov 15 2021 at 23:06)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47059" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47059">(Nov 15 2021 at 23:06)</a>:</h4>
 <blockquote>
 <p>I'll take a look at 004 before tomorrow's meeting.</p>
 </blockquote>
@@ -955,19 +955,19 @@ Update FESEDFLUX files (map sedfrac, POC, UVEL, and VVEL to MOM grid and then co
 
 
 <a name="47092"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47092" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47092">(Nov 16 2021 at 18:22)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47092" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47092">(Nov 16 2021 at 18:22)</a>:</h4>
 <p>A minor detail, but the plots I described as "year 5" <a href="#narrow/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6/near/47037">yesterday</a> are actually from year 6... I was using <code>range(60,72)</code> rather than <code>range(48,60)</code></p>
 
 
 
 <a name="47093"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47093" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47093">(Nov 16 2021 at 18:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47093" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47093">(Nov 16 2021 at 18:24)</a>:</h4>
 <p>A major detail is that they are a one-year average from year 6, not "[t]he average over five years" (I meant "the average over year 0005" when I thought that was the year I was averaging over; I get it closer to correct later in the post when I mention "[n]one of the three runs show much difference between year 5 and year 20")</p>
 
 
 
 <a name="47172"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47172" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47172">(Nov 17 2021 at 21:53)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47172" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47172">(Nov 17 2021 at 21:53)</a>:</h4>
 <p>Just as <span class="user-mention" data-user-id="31">@Keith Lindsay</span> expected, changing the CICE initial condition (I used the restart written at the end of year 20 of <code>mom_oob.004</code>) had a huge effect on salinity and DIC in the first year:</p>
 <p><a href="../../../user_uploads/2/7/KzH72cBv2Cxk16dMmyH80k8E/salinity-zonal-mean-year-1.png">salinity-zonal-mean-year-1.png</a> <br>
 <a href="../../../user_uploads/2/73/hFp6YA3A0zsFE3pUyF-tHyi6/DIC-zonal-mean-year-1.png">DIC-zonal-mean-year-1.png</a> </p>
@@ -978,7 +978,7 @@ Update FESEDFLUX files (map sedfrac, POC, UVEL, and VVEL to MOM grid and then co
 
 
 <a name="47175"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47175">(Nov 17 2021 at 22:24)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47175" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47175">(Nov 17 2021 at 22:24)</a>:</h4>
 <p>In my opinion, we don't need to run a new experiment with every incremental update. I suggest that we spend more time examining this experiment and looking for issues to correct before starting a new experiment. So I propose working on including the KPP nonlocal term in passive tracers.</p>
 <p>Regarding the scaled salt fluxes, I think it separates into salt fluxes from the CICE model and salt fluxes from salinity restoring.</p>
 <p>On the 1st category of salt fluxes, I spoke <span class="user-mention" data-user-id="115">@Marika Holland</span> about including DIC and ALK tracers in the sea ice model. She thinks this definitely doable. It seems to us like it would be similar to the inclusion of nutrients in CICE, something that E3SM has experience with, while we don't have in-house experience with it. So this might take some time to implement. I'll try to chat w/ Elizabeth Hunke about this at lunch tomorrow. She is in Boulder for the CICE hackathon. The best person to chat with about this is probably Nicole Jeffery at LANL.</p>
@@ -988,13 +988,13 @@ Update FESEDFLUX files (map sedfrac, POC, UVEL, and VVEL to MOM grid and then co
 
 
 <a name="47191"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47191" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47191">(Nov 17 2021 at 23:04)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47191" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Matt Long <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47191">(Nov 17 2021 at 23:04)</a>:</h4>
 <p>Sounds great, <span class="user-mention" data-user-id="31">@Keith Lindsay</span> !</p>
 
 
 
 <a name="47972"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47972" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47972">(Dec 08 2021 at 18:25)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/47972" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#47972">(Dec 08 2021 at 18:25)</a>:</h4>
 <p>It does look like there's a unit issue in the river flux file that I'll try to sort out this afternoon or tomorrow:</p>
 <div class="codehilite"><pre><span></span><code>Global integral of DON_RIV_FLUX from POP output: 9.461e+12 mmol/m^3 cm/s
 Global integral of don_riv_flux from POP forcing: 1.051e+13 nmol/cm^2/s
@@ -1007,7 +1007,7 @@ Global integral of don_riv_flux from MOM forcing: 1.050e+07 mmol/m^2/s
 
 
 <a name="48000"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/48000" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#48000">(Dec 08 2021 at 20:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/48000" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#48000">(Dec 08 2021 at 20:00)</a>:</h4>
 <p><span class="user-mention silent" data-user-id="10">Michael Levy</span> <a href="#narrow/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6/near/47972">said</a>:</p>
 <blockquote>
 <p>It does look like there's a unit issue in the river flux file that I'll try to sort out this afternoon or tomorrow:</p>
@@ -1024,7 +1024,7 @@ Global integral of don_riv_flux from MOM forcing: 1.050e+07 mmol/m^2/s
 
 
 <a name="53795"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/53795" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#53795">(Apr 19 2022 at 15:46)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/53795" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#53795">(Apr 19 2022 at 15:46)</a>:</h4>
 <p>I updated my MARBL driver sandbox to <code>cesm2_3_beta08</code>, got the NUOPC driver working (I think - at the very least, it is running without crashing), and then updated the MARBL driver to use the KPP nonlocal terms from <a href="https://github.com/NCAR/MOM6/pull/202">NCAR/MOM6#202</a>. I ran into issues with the JRA repeated-year forcing, so I'm running with JRA interannual forcing.</p>
 <p>POP baseline is archived in <code>/glade/scratch/mlevy/archive/g.e23b08.TL319_g17.G1850POPECO_JRA.no_mcog</code> -- I ran for 24 years, though the MOM companion is only set up to run for 20... running POP in 6 year chunks let me spit out restart files every 3 years</p>
 <p>My first attempt at running the MOM case didn't provide output on the POP vertical grid and had the wrong default values for a few MARBL parameters (POP uses different defaults for G compsets than C/B for <code>DUST_RATIO_THRES</code>, <code>DUST_RATIO_TO_FE_BIOAVAIL_FRAC</code>, and <code>FE_BIOAVAIL_FRAC_OFFSET</code> but the updated values don't get added to <code>MOM_override</code> yet), so my second attempt is still running.</p>
@@ -1036,7 +1036,7 @@ Global integral of don_riv_flux from MOM forcing: 1.050e+07 mmol/m^2/s
 
 
 <a name="54015"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/54015" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#54015">(Apr 22 2022 at 03:34)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/54015" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#54015">(Apr 22 2022 at 03:34)</a>:</h4>
 <p>The 20-year MOM run finished... so there is now output for an updated MOM vs POP comparison</p>
 <ul>
 <li>POP (24 years): <code>/glade/scratch/mlevy/archive/g.e23b08.TL319_g17.G1850POPECO_JRA.no_mcog</code></li>
@@ -1046,7 +1046,7 @@ Global integral of don_riv_flux from MOM forcing: 1.050e+07 mmol/m^2/s
 
 
 <a name="54050"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/54050" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#54050">(Apr 22 2022 at 23:41)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/54050" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#54050">(Apr 22 2022 at 23:41)</a>:</h4>
 <p>The diagnostic <code>DUST_FLUX_IN</code> is O(10) larger in MOM than in POP. I'm suspicious about the conversion of dust flux from kg/m^2/s to MARBL's CGS units. The MOM MARBL driver is multiplying by <code>kg_m2_s_conversion= kg_m2s_to_RZ_T</code>. I think this is just taking care of dimension scaling, but it doesn't take care of MKS-&gt;CGS. I think we need to also be multiplying by 0.1.</p>
 <p>I think the scaling of <code>IRON_FLUX</code> is correct.</p>
 <p>The impact on <code>Fe</code> is complicated. Increased dust flux enhances scavenging, which I see in the output. However, the remineralization of dust also adds Fe to the system.</p>
@@ -1056,7 +1056,7 @@ Global integral of don_riv_flux from MOM forcing: 1.050e+07 mmol/m^2/s
 
 
 <a name="68132"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/68132" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#68132">(Nov 08 2022 at 18:05)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/68132" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#68132">(Nov 08 2022 at 18:05)</a>:</h4>
 <p>MARBL-MOM6 expr 006, through year 4, looks improved compared to 005. Here are maps of Arctic Fe over the top 10m in 004, 005, 006, and POP, all with MCOG:<br>
 <a href="../../../user_uploads/2/1d/P13vVeBElrNLDb3VOIS2R_WE/image.png">image.png</a><br>
 Global sinking Fe flux at 100m is now lower in 006 than POP, while previous MOM experiment were higher than in POP.<br>
@@ -1067,7 +1067,7 @@ I'll need to dig in more.</p>
 
 
 <a name="68140"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/68140" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="http://127.0.0.1:4000/html/stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#68140">(Nov 08 2022 at 18:27)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/9-MOM6-dev/topic/MARBL%20driver%20for%20MOM6/near/68140" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Keith Lindsay <a href="../../..//stream/9-MOM6-dev/topic/MARBL.20driver.20for.20MOM6.html#68140">(Nov 08 2022 at 18:27)</a>:</h4>
 <p>The left column is tracer concentration. The right column is tracer concentration normalized to salinity=35.</p>
 
 

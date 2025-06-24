@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>CUPiD: how to turn off most diagnostics · CESM-diagnostics · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html">CUPiD: how to turn off most diagnostics</a></h3>
+<h2>Stream: <a href="../../..//stream/63-CESM-diagnostics/index.html">CESM-diagnostics</a></h2>
+<h3>Topic: <a href="../../..//stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html">CUPiD: how to turn off most diagnostics</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="97720"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97720" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dani Coleman <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97720">(Apr 11 2024 at 21:28)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97720" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Dani Coleman <a href="../../..//stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97720">(Apr 11 2024 at 21:28)</a>:</h4>
 <p>Hopefully this is an easy question for someone to answer! I'm trying to run just the timeseries generation in CUPiD, and just for atm files (for testing). I naively thought that commenting out everything else in examples/coupled_model/config.yml<br>
 would work but I get an error referencing the ocean_surface</p>
 <blockquote>
@@ -24,19 +24,19 @@ ploomber.exceptions.TaskBuildError: Error building task "ocean_surface"</p>
 
 
 <a name="97761"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97761" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Teagan King <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97761">(Apr 12 2024 at 20:18)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97761" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Teagan King <a href="../../..//stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97761">(Apr 12 2024 at 20:18)</a>:</h4>
 <p>Hi Dani, Just as a first check, were you running with the <code>--time-series</code> (or <code>-ts</code>) flag? If so, the timeseries generation should occur <em>before</em> running through any notebooks. For the time being, if you wanted to run timeseries for just one component, you could also update the list of components which timeseries are run for in <a href="https://github.com/NCAR/CUPiD/blob/bf65cdd79ad0c4e6b9a1396a4dee2465f9b3bc40/cupid/run.py#L54"><code>run.py</code></a>. The notebooks shouldn't be executing until after that point (see <a href="https://github.com/NCAR/CUPiD/blob/bf65cdd79ad0c4e6b9a1396a4dee2465f9b3bc40/cupid/run.py#L75">here</a>). One other note-- <a href="https://github.com/NCAR/CUPiD/pull/88">Lev's PR</a> is going to be changing how we call notebooks (and possibly timeseries generation) for either all or a single component.</p>
 
 
 
 <a name="97773"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97773" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97773">(Apr 12 2024 at 21:13)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97773" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Michael Levy <a href="../../..//stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97773">(Apr 12 2024 at 21:13)</a>:</h4>
 <p>I was wondering if this issue is tied to <a href="https://github.com/NCAR/CUPiD/issues/36">https://github.com/NCAR/CUPiD/issues/36</a> -- <span class="user-mention" data-user-id="311">@Lev Romashkov</span> would know more, but I thought there were sometimes conflicts in <code>cupid-run</code> due to mismatches between the jupyter book settings and the <code>compute_notebook</code> section of config.</p>
 
 
 
 <a name="97781"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97781" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="http://127.0.0.1:4000/html/stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97781">(Apr 13 2024 at 19:47)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/63-CESM-diagnostics/topic/CUPiD%3A%20how%20to%20turn%20off%20most%20diagnostics/near/97781" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Lev Romashkov <a href="../../..//stream/63-CESM-diagnostics/topic/CUPiD.3A.20how.20to.20turn.20off.20most.20diagnostics.html#97781">(Apr 13 2024 at 19:47)</a>:</h4>
 <p>No pressure to respond over the weekend of course, but I'll give my two cents for now - since Ploomber is throwing the issue I don't think it's the jupyter book stuff referenced in that issue causing the problem, but I don't know for sure without more info. Dani, could you DM me your version of the config.yml file whenever you get around to it?</p>
 
 

@@ -1,15 +1,15 @@
 <html>
 <head><meta charset="utf-8"><title>xr.mean() mysteriously drops a dataset variable · python-questions · Zulip Chat Archive</title></head>
-<h2>Stream: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/index.html">python-questions</a></h2>
-<h3>Topic: <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html">xr.mean() mysteriously drops a dataset variable</a></h3>
+<h2>Stream: <a href="../../..//stream/10-python-questions/index.html">python-questions</a></h2>
+<h3>Topic: <a href="../../..//stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html">xr.mean() mysteriously drops a dataset variable</a></h3>
 
 <hr>
 
 
-<head><link href="http://127.0.0.1:4000/style.css" rel="stylesheet"></head>
+<head><link href="../../../style.css" rel="stylesheet"></head>
 
 <a name="45605"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45605" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45605">(Oct 25 2021 at 18:12)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45605" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45605">(Oct 25 2021 at 18:12)</a>:</h4>
 <p>I have a dataset with two variables that have an 'L' dimension, and I want to take the mean over a slice of 'L'.  One of these variables ("time") is an array of cftime objects. Here, "time" is a variable, not a coordinate, because this is an initialized prediction dataset. When I apply the 'mean' method, the "time" variable gets dropped from the dataset for some reason:</p>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">hrdp_ds</span><span class="p">[[</span><span class="s1">'TEMP'</span><span class="p">,</span><span class="s1">'time'</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">'L'</span><span class="p">)</span>
 </code></pre></div>
@@ -22,7 +22,7 @@
 
 
 <a name="45608"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45608" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45608">(Oct 25 2021 at 20:10)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45608" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45608">(Oct 25 2021 at 20:10)</a>:</h4>
 <blockquote>
 <p>When I apply the 'mean' method, the "time" variable gets dropped from the dataset for some reason:</p>
 </blockquote>
@@ -32,13 +32,13 @@
 
 
 <a name="45610"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45610" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45610">(Oct 25 2021 at 20:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45610" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45610">(Oct 25 2021 at 20:16)</a>:</h4>
 <p>Note that this happens when invoking <code>reduce</code> methods on <code>xr.Dataset</code>. You should be able to get the mean for the <code>time</code> dataarray:</p>
 
 
 
 <a name="45611"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45611" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45611">(Oct 25 2021 at 20:16)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45611" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Anderson Banihirwe <a href="../../..//stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45611">(Oct 25 2021 at 20:16)</a>:</h4>
 <div class="codehilite" data-code-language="Python"><pre><span></span><code><span class="n">temp_ds</span> <span class="o">=</span> <span class="n">hrdp_ds</span><span class="p">[[</span><span class="s1">'TEMP'</span><span class="p">,</span> <span class="s1">'time'</span><span class="p">]]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">temp_ds</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">'L'</span><span class="p">)</span>
 <span class="n">result</span><span class="p">[</span><span class="s1">'time'</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">'L'</span><span class="p">)</span>
@@ -47,7 +47,7 @@
 
 
 <a name="45612"></a>
-<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45612" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="http://127.0.0.1:4000/html/stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45612">(Oct 25 2021 at 21:00)</a>:</h4>
+<h4><a href="https://zulip2.cloud.ucar.edu#narrow/stream/10-python-questions/topic/xr.mean%28%29%20mysteriously%20drops%20a%20dataset%20variable/near/45612" class="zl"><img src="../../../assets/img/zulip.svg" alt="view this post on Zulip" style="width:20px;height:20px;"></a> Stephen Yeager <a href="../../..//stream/10-python-questions/topic/xr.2Emean.28.29.20mysteriously.20drops.20a.20dataset.20variable.html#45612">(Oct 25 2021 at 21:00)</a>:</h4>
 <p>Thanks. I think this would be useful information to include here: <a href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.mean.html?highlight=mean">http://xarray.pydata.org/en/stable/generated/xarray.Dataset.mean.html?highlight=mean</a></p>
 
 
